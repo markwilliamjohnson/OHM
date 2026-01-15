@@ -1,0 +1,1170 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Global OH Constellations Explorer</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#0f172a;
+      --panel2:#111827;
+      --card:#0b1220;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:rgba(255,255,255,.12);
+      --accent:#60a5fa;
+      --accent2:#34d399;
+      --warn:#f59e0b;
+      --danger:#fb7185;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(96,165,250,.18), transparent 60%),
+                  radial-gradient(1000px 700px at 80% 30%, rgba(52,211,153,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    header{
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(17,24,39,.9), rgba(17,24,39,.65));
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(8px);
+    }
+    header .row{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+      max-width: 1400px; margin:0 auto;
+    }
+    h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:4px;
+      max-width: 860px;
+      line-height:1.35;
+    }
+    .kbd{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--line);
+      padding:4px 8px; border-radius:999px;
+      background: rgba(255,255,255,.04);
+      white-space:nowrap;
+    }
+
+    .layout{
+      max-width:1400px;
+      margin:0 auto;
+      padding:14px;
+      display:grid;
+      grid-template-columns: 1.25fr .85fr;
+      gap:14px;
+    }
+
+    .graphPanel{
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      min-height: 70vh;
+      position:relative;
+    }
+    .toolbar{
+      position:absolute;
+      top:10px; left:10px; right:10px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      z-index:5;
+      pointer-events:none;
+    }
+    .toolbar > *{ pointer-events:auto; }
+    .toolGroup{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .input{
+      display:flex; gap:8px; align-items:center;
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      padding:8px 10px;
+      border-radius:12px;
+      min-width: 240px;
+    }
+    .input input{
+      border:none; outline:none; background:transparent; color:var(--text);
+      width: 100%;
+      font-size:13px;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:12px;
+      font-size:13px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,.10); }
+    .btn.primary{ border-color: rgba(96,165,250,.45); background: rgba(96,165,250,.16); }
+    .btn.primary:hover{ background: rgba(96,165,250,.22); }
+    .btn.good{ border-color: rgba(52,211,153,.45); background: rgba(52,211,153,.14); }
+    .btn.warn{ border-color: rgba(245,158,11,.45); background: rgba(245,158,11,.12); }
+    .btn.danger{ border-color: rgba(251,113,133,.45); background: rgba(251,113,133,.12); }
+
+    .legend{
+      position:absolute; bottom:10px; left:10px;
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.25);
+      font-size:12px; color:var(--muted);
+      z-index:5;
+    }
+    .dot{ width:10px; height:10px; border-radius:999px; display:inline-block; margin-right:6px; }
+    .d1{ background: var(--accent); }
+    .d2{ background: var(--accent2); }
+    .d3{ background: var(--warn); }
+    .d4{ background: var(--danger); }
+
+    svg{ width:100%; height:100%; display:block; }
+    .rightPanel{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      padding:14px;
+    }
+    .card h2{
+      margin:0 0 8px 0;
+      font-size:14px;
+      color:#fff;
+    }
+    .muted{ color:var(--muted); font-size:13px; line-height:1.4; }
+    .chips{
+      display:flex; flex-wrap:wrap; gap:8px;
+      margin-top:10px;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      font-size:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip:hover{ background: rgba(255,255,255,.09); }
+    .chip .x{
+      opacity:.7;
+      font-weight:700;
+    }
+
+    .sectionTitle{
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      margin-bottom:8px;
+    }
+    .small{
+      font-size:12px; color:var(--muted);
+    }
+    textarea{
+      width:100%;
+      min-height: 220px;
+      resize: vertical;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.2);
+      color:var(--text);
+      padding:10px 12px;
+      font-size:12.5px;
+      line-height:1.35;
+      outline:none;
+    }
+    .twoCols{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .list{
+      display:flex; flex-direction:column; gap:8px;
+      max-height: 220px;
+      overflow:auto;
+      padding-right:6px;
+    }
+    .item{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(255,255,255,.04);
+      cursor:pointer;
+      user-select:none;
+    }
+    .item:hover{ background: rgba(255,255,255,.08); }
+    .item .name{ font-size:13px; color:#fff; }
+    .item .desc{ font-size:12px; color:var(--muted); line-height:1.3; }
+    .badge{
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color:var(--muted);
+      background: rgba(0,0,0,.18);
+      white-space:nowrap;
+      margin-left:auto;
+    }
+    .hint{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.15);
+      font-size:12.5px;
+      color:var(--muted);
+      line-height:1.4;
+    }
+
+    /* Node/link styles (D3) */
+    .link { stroke: rgba(255,255,255,.16); stroke-width: 1.6; }
+    .link.strong { stroke: rgba(96,165,250,.55); stroke-width: 2.3; }
+    .link.highlight { stroke: rgba(52,211,153,.65); stroke-width: 2.8; }
+    .node circle { stroke: rgba(255,255,255,.28); stroke-width: 1.2; }
+    .node text { fill: rgba(255,255,255,.85); font-size: 11.5px; pointer-events:none; }
+    .node.dim { opacity: .18; }
+    .link.dim { opacity: .12; }
+
+    .node.selected circle { stroke: rgba(52,211,153,.9); stroke-width: 2.6; }
+    .node.focus circle { stroke: rgba(96,165,250,.95); stroke-width: 2.8; }
+
+    .toast{
+      position:fixed; bottom:16px; right:16px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.35);
+      color:var(--text);
+      font-size:13px;
+      opacity:0;
+      transform: translateY(10px);
+      transition: .18s ease;
+      pointer-events:none;
+      z-index:99;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px){
+      .layout{ grid-template-columns: 1fr; }
+      .graphPanel{ min-height: 60vh; }
+      .input{ min-width: 180px; }
+      .twoCols{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="row">
+    <div>
+      <h1>Global Occupational Health — Constellations Explorer</h1>
+      <div class="sub">
+        Explore concepts from the provided learning content as an interactive “constellation”.
+        Click a node to see meaning + relationships. <span class="kbd">Shift+Click</span> or <span class="kbd">Ctrl/Cmd+Click</span> to add/remove highlights.
+        Use “Generate AI Prompt” to create a case-study request connecting highlighted concepts.
+      </div>
+    </div>
+    <div class="kbd">Drag nodes • Scroll/Pinch to zoom • Double-click background to clear focus</div>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="graphPanel" aria-label="Graph Explorer">
+    <div class="toolbar">
+      <div class="toolGroup">
+        <div class="input" title="Search nodes by name">
+          <span style="opacity:.8">🔎</span>
+          <input id="search" placeholder="Search concepts (e.g., governance, EDI, KPIs)..." />
+        </div>
+        <button class="btn" id="fitBtn" title="Fit graph into view">Fit</button>
+        <button class="btn" id="reheatBtn" title="Re-run layout (shake loose)">Re-layout</button>
+        <button class="btn danger" id="clearBtn" title="Clear highlights">Clear highlights</button>
+      </div>
+
+      <div class="toolGroup">
+        <button class="btn primary" id="genPromptBtn" title="Build an AI prompt from highlighted concepts">Generate AI Prompt</button>
+        <button class="btn good" id="copyPromptBtn" title="Copy the AI prompt to clipboard">Copy Prompt</button>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><span class="dot d1"></span>Strategy & governance</span>
+      <span><span class="dot d2"></span>Leadership & culture</span>
+      <span><span class="dot d3"></span>Delivery & measurement</span>
+      <span><span class="dot d4"></span>Capability & people</span>
+    </div>
+
+    <svg id="svg" role="img" aria-label="Concept constellation graph"></svg>
+  </section>
+
+  <aside class="rightPanel">
+    <section class="card">
+      <div class="sectionTitle">
+        <h2>Focused concept</h2>
+        <span class="small" id="focusMeta">Click a node</span>
+      </div>
+      <div id="focusTitle" style="font-size:16px; font-weight:700; margin-bottom:6px;">—</div>
+      <div id="focusDesc" class="muted">—</div>
+      <div style="margin-top:10px;">
+        <div class="small" style="margin-bottom:6px;">Direct connections</div>
+        <div id="focusLinks" class="chips"></div>
+      </div>
+      <div class="hint">
+        Tip: If you highlight multiple nodes, the app will summarise how they connect and create a ready-to-paste AI prompt
+        asking for a realistic global OH case study (with tensions, trade-offs, and what “good” looks like).
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="sectionTitle">
+        <h2>Highlighted set</h2>
+        <span class="small"><span id="selCount">0</span> selected</span>
+      </div>
+
+      <div id="selectedChips" class="chips"></div>
+
+      <div class="twoCols">
+        <div>
+          <div class="small" style="margin-bottom:6px;">Suggested “bridge” concepts</div>
+          <div id="bridgeList" class="list"></div>
+        </div>
+        <div>
+          <div class="small" style="margin-bottom:6px;">Connections summary</div>
+          <div id="summaryBox" class="muted" style="border:1px solid var(--line); border-radius:14px; padding:10px 12px; background: rgba(0,0,0,.18); min-height: 220px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="sectionTitle">
+        <h2>AI Prompt (copy/paste)</h2>
+        <span class="small" id="promptMeta">Highlight concepts → Generate</span>
+      </div>
+      <textarea id="promptOut" placeholder="Your AI prompt will appear here..."></textarea>
+    </section>
+  </aside>
+</main>
+
+<div class="toast" id="toast">Copied</div>
+
+<!-- D3 for force-directed graph -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+/**
+ * Global OH Constellations Explorer
+ * - Built from the provided HTML content (concepts + meanings + relationships).
+ * - Interaction:
+ *    Click node: focus
+ *    Shift/Ctrl/Cmd + click: toggle highlight
+ *    Drag nodes
+ *    Zoom/pan
+ * - Highlight set:
+ *    Shows a connection summary and suggests bridge concepts.
+ *    Generates an AI prompt for a case study linking highlighted concepts.
+ */
+
+const Concepts = (() => {
+  // Category palette (also used for legend)
+  const categories = {
+    "Strategy & governance": { key: "strategy", color: "#60a5fa" },
+    "Leadership & culture":  { key: "leadership", color: "#34d399" },
+    "Delivery & measurement":{ key: "delivery", color: "#f59e0b" },
+    "Capability & people":   { key: "capability", color: "#fb7185" },
+  };
+
+  // Nodes: extracted and normalized from the content you provided.
+  const nodes = [
+    // Strategy & governance
+    { id:"Programme approach", cat:"Strategy & governance",
+      desc:"An operating model that links strategy, standards, delivery, and learning across sites—turning OH from local activities into a scalable programme aligned to corporate priorities." },
+    { id:"Global principles & minimum requirements", cat:"Strategy & governance",
+      desc:"Define what ‘good’ looks like globally (principles + minimums), while allowing compliant local implementation options (the ‘how’)." },
+    { id:"Local adaptation mechanism", cat:"Strategy & governance",
+      desc:"A structured way for sites to implement global intent while meeting local legal, cultural, and capability realities." },
+    { id:"Decision rights & escalation", cat:"Strategy & governance",
+      desc:"Who decides what, by when, and how issues escalate—critical when leadership is remote and programmes span functions and geographies." },
+    { id:"Governance cadence", cat:"Strategy & governance",
+      desc:"Rhythm of oversight (e.g., monthly ops, quarterly governance, annual planning) to keep delivery consistent and learning visible." },
+    { id:"Stakeholder alignment", cat:"Strategy & governance",
+      desc:"Aligning HR, HSE, Legal, Operations, unions/works councils, clinicians, and vendors—avoiding contradictory demands on OH." },
+    { id:"Legal systems & privacy constraints", cat:"Strategy & governance",
+      desc:"Different legal rules (e.g., what managers can access) can break a one-size global standard and erode trust if mishandled." },
+    { id:"One-size-fits-all risk", cat:"Strategy & governance",
+      desc:"The failure mode where a single global procedure ignores local law, hazards, services, or culture—causing stalls, frustration, and non-compliance." },
+    { id:"Change management & communications", cat:"Strategy & governance",
+      desc:"Planned transition support, comms, and engagement so standards are actually adopted, not just issued." },
+    { id:"Emerging issues & future scanning", cat:"Strategy & governance",
+      desc:"Predictive planning: scanning for new risks, regulations, and trends so programme design stays ahead of change." },
+
+    // Leadership & culture
+    { id:"Leadership at a distance", cat:"Leadership & culture",
+      desc:"Influencing and delivering across time zones with fewer informal conversations—requires clarity, structure, trust, and follow-through." },
+    { id:"Clarity", cat:"Leadership & culture",
+      desc:"Clear expectations, roles, and ‘why’—the antidote to ambiguity in global programmes." },
+    { id:"Trust", cat:"Leadership & culture",
+      desc:"Fragile in global settings; can be harmed by punitive metrics, tone-deaf requests, or ignoring local reality." },
+    { id:"Cultural intelligence", cat:"Leadership & culture",
+      desc:"Understanding how communication norms differ (direct vs indirect, hierarchy vs debate) and adapting without losing intent." },
+    { id:"Followership", cat:"Leadership & culture",
+      desc:"People choosing to follow; stronger when locals feel ‘built with’ rather than ‘done to’. Includes speaking up and making risks visible early." },
+
+    // Delivery & measurement
+    { id:"Service model (in-house vs vendor)", cat:"Delivery & measurement",
+      desc:"Defines ownership of quality, governance, escalation, and change control when OH is delivered internally or via providers." },
+    { id:"Standardisation vs flexibility", cat:"Delivery & measurement",
+      desc:"Balancing consistency (standards) with local compliance and feasibility (flexible delivery options)." },
+    { id:"Measurement (MI) & dashboards", cat:"Delivery & measurement",
+      desc:"Make performance visible using meaningful information—prefer trends and learning, not blame or activity-counts." },
+    { id:"KPI design (controllable measures)", cat:"Delivery & measurement",
+      desc:"Avoid ‘KPI disasters’ by measuring what the system can control (e.g., offer within X days; report within Y hours of consult; referral quality checklists)." },
+    { id:"Metric overload", cat:"Delivery & measurement",
+      desc:"Too many KPIs; reporting becomes the job—reducing time for risk reduction and capability building." },
+    { id:"Over-standardisation", cat:"Delivery & measurement",
+      desc:"Forcing a model that doesn’t fit local hazards/services or breaks privacy/clinical norms." },
+    { id:"Under-specification", cat:"Delivery & measurement",
+      desc:"Vague global principles without measurable expectations—creates drift and inconsistent delivery." },
+    { id:"Triage & operational protocols", cat:"Delivery & measurement",
+      desc:"Practical flow controls (triage, no-show handling, referral quality) to protect capacity and quality when demand rises." },
+
+    // Capability & people
+    { id:"Capability & resources variability", cat:"Capability & people",
+      desc:"Sites differ in OH maturity, staffing, and infrastructure; programmes must account for this to avoid unrealistic standards." },
+    { id:"Belbin role-thinking", cat:"Capability & people",
+      desc:"Team role lens to recognise strengths, gaps, and sources of friction—especially useful in virtual teams." },
+    { id:"Delivery excellence / operational ownership", cat:"Capability & people",
+      desc:"Clear operational ownership (often ‘implementer/monitor-evaluator’ strengths) to embed standards, improve data quality, and maintain cadence." },
+    { id:"Training & accreditation", cat:"Capability & people",
+      desc:"Define minimum competencies globally (case management, exposure basics, ethics/confidentiality) and build local pathways (CPD, supervised practice)." },
+    { id:"Coaching", cat:"Capability & people",
+      desc:"Shorter-term, role-focused performance support with goals and feedback." },
+    { id:"Mentoring", cat:"Capability & people",
+      desc:"Longer-term development and career support; builds capability pipeline and retention." },
+    { id:"Talent value proposition", cat:"Capability & people",
+      desc:"Role clarity, development pathways, flexibility, supervision—helps recruit and retain OH talent globally." },
+    { id:"EDI lens", cat:"Capability & people",
+      desc:"Equality, Diversity & Inclusion considerations: time zones, holidays, language access, hierarchy cultures, disability accommodations, safe feedback routes." }
+  ];
+
+  // Links: relationships implied in your content (directionless for exploration).
+  const links = [
+    // Programme approach core
+    ["Programme approach","Global principles & minimum requirements","sets the backbone for"],
+    ["Global principles & minimum requirements","Local adaptation mechanism","requires"],
+    ["Programme approach","Governance cadence","needs"],
+    ["Programme approach","Decision rights & escalation","depends on"],
+    ["Programme approach","Stakeholder alignment","must include"],
+    ["Programme approach","Emerging issues & future scanning","should incorporate"],
+
+    // Global strategy challenges
+    ["One-size-fits-all risk","Legal systems & privacy constraints","collides with"],
+    ["Over-standardisation","Legal systems & privacy constraints","can break"],
+    ["Over-standardisation","One-size-fits-all risk","drives"],
+    ["Standardisation vs flexibility","Global principles & minimum requirements","is implemented via"],
+    ["Standardisation vs flexibility","Local adaptation mechanism","is enabled by"],
+
+    // Distance leadership playbook
+    ["Leadership at a distance","Clarity","requires"],
+    ["Leadership at a distance","Trust","requires"],
+    ["Leadership at a distance","Governance cadence","is strengthened by"],
+    ["Leadership at a distance","Measurement (MI) & dashboards","is supported by"],
+    ["Leadership at a distance","Decision rights & escalation","needs"],
+    ["Leadership at a distance","Cultural intelligence","depends on"],
+
+    // Followership & culture
+    ["Followership","Trust","is shaped by"],
+    ["Followership","Stakeholder alignment","improves"],
+    ["Cultural intelligence","EDI lens","is informed by"],
+
+    // Pitfalls
+    ["Metric overload","Measurement (MI) & dashboards","undermines"],
+    ["Under-specification","Measurement (MI) & dashboards","makes weak"],
+    ["Over-standardisation","Trust","erodes"],
+    ["Ignoring local reality","Trust","erodes"], // pseudo-node? We'll map as an alias by connecting to variability node below
+    ["Ignoring local reality","Capability & resources variability","shows up as"],
+
+    // We referenced a pseudo-node; instead, map it to an existing concept via an alias handle below.
+
+    // Service delivery and stakeholders
+    ["Service model (in-house vs vendor)","Stakeholder alignment","affects"],
+    ["Service model (in-house vs vendor)","Decision rights & escalation","defines"],
+    ["Service model (in-house vs vendor)","Change management & communications","requires"],
+
+    // Measurement / KPI case
+    ["KPI design (controllable measures)","Measurement (MI) & dashboards","improves"],
+    ["KPI design (controllable measures)","Trust","protects (less punitive)"],
+    ["Metric overload","Trust","can erode (punitive feel)"],
+
+    // Capability building
+    ["Capability & resources variability","Local adaptation mechanism","necessitates"],
+    ["Training & accreditation","Capability & resources variability","reduces over time"],
+    ["Coaching","Training & accreditation","complements"],
+    ["Mentoring","Training & accreditation","supports"],
+    ["Talent value proposition","Training & accreditation","enables"],
+    ["Delivery excellence / operational ownership","Governance cadence","runs"],
+    ["Delivery excellence / operational ownership","Measurement (MI) & dashboards","maintains"],
+    ["Belbin role-thinking","Delivery excellence / operational ownership","helps identify need for"],
+    ["Triage & operational protocols","Capability & resources variability","responds to"],
+    ["Triage & operational protocols","KPI design (controllable measures)","supports"],
+
+    // EDI specifics
+    ["EDI lens","Leadership at a distance","reduces friction in"],
+    ["EDI lens","Followership","supports"],
+    ["EDI lens","Change management & communications","should shape"],
+  ];
+
+  // Replace pseudo-node "Ignoring local reality" with a real node reference:
+  const aliasMap = { "Ignoring local reality": "Capability & resources variability" };
+
+  const normalizedLinks = links.map(([a,b,why]) => [
+    aliasMap[a] || a,
+    aliasMap[b] || b,
+    why
+  ]).filter(([a,b]) => a !== b);
+
+  return { nodes, links: normalizedLinks, categories };
+})();
+
+/* ----------------------------- App State ----------------------------- */
+const state = {
+  focus: null,             // focused node id
+  selected: new Set(),     // highlighted node ids
+  search: "",
+};
+
+/* ----------------------------- Utilities ----------------------------- */
+const $ = (sel) => document.querySelector(sel);
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 1200);
+}
+function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+function uniq(arr){ return [...new Set(arr)]; }
+
+/* --------------------------- Build Graph Data ------------------------ */
+const nodeById = new Map(Concepts.nodes.map(n => [n.id, n]));
+const nodes = Concepts.nodes.map(n => ({...n}));
+const links = Concepts.links.map(([s,t,why]) => ({ source:s, target:t, why }));
+
+// Add lightweight "strength" based on type of relationship words
+function linkStrength(why){
+  const w = (why||"").toLowerCase();
+  if (w.includes("requires") || w.includes("depends") || w.includes("defines")) return 0.16;
+  if (w.includes("undermines") || w.includes("erodes") || w.includes("break")) return 0.18;
+  if (w.includes("supports") || w.includes("improves") || w.includes("enables")) return 0.14;
+  return 0.12;
+}
+
+// Graph adjacency
+const adjacency = new Map();
+function addAdj(a,b,why){
+  if(!adjacency.has(a)) adjacency.set(a, []);
+  adjacency.get(a).push({ id:b, why });
+}
+links.forEach(l => { addAdj(l.source, l.target, l.why); addAdj(l.target, l.source, l.why); });
+
+/* ----------------------------- D3 Setup ------------------------------ */
+const svg = d3.select("#svg");
+const g = svg.append("g");
+
+const linkG = g.append("g").attr("class","links");
+const nodeG = g.append("g").attr("class","nodes");
+
+const zoom = d3.zoom()
+  .scaleExtent([0.35, 2.6])
+  .on("zoom", (event) => g.attr("transform", event.transform));
+
+svg.call(zoom);
+
+// Resize handling
+function getSize(){
+  const rect = svg.node().getBoundingClientRect();
+  return { w: rect.width, h: rect.height };
+}
+function setViewBox(){
+  const { w, h } = getSize();
+  svg.attr("viewBox", [0,0,w,h]);
+}
+setViewBox();
+window.addEventListener("resize", () => { setViewBox(); simulation.alpha(0.7).restart(); });
+
+// Force simulation
+const simulation = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(d => d.id).distance(92).strength(d=>linkStrength(d.why)))
+  .force("charge", d3.forceManyBody().strength(-260))
+  .force("center", d3.forceCenter(getSize().w/2, getSize().h/2))
+  .force("collide", d3.forceCollide().radius(d => 18 + Math.min(40, d.id.length*0.9)))
+  .on("tick", ticked);
+
+const colorFor = (cat) => Concepts.categories[cat]?.color || "#93c5fd";
+
+/* ------------------------------ Render ------------------------------- */
+const linkSel = linkG.selectAll("line")
+  .data(links)
+  .enter()
+  .append("line")
+  .attr("class","link");
+
+const nodeSel = nodeG.selectAll("g")
+  .data(nodes)
+  .enter()
+  .append("g")
+  .attr("class","node")
+  .call(d3.drag()
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended)
+  );
+
+nodeSel.append("circle")
+  .attr("r", d => 10 + clamp(d.id.length * 0.18, 0, 9))
+  .attr("fill", d => colorFor(d.cat));
+
+nodeSel.append("text")
+  .attr("x", 14)
+  .attr("y", 4)
+  .text(d => d.id);
+
+nodeSel.on("click", (event, d) => {
+  event.stopPropagation();
+  const multi = event.shiftKey || event.ctrlKey || event.metaKey;
+  if (multi) {
+    toggleSelected(d.id);
+  } else {
+    setFocus(d.id);
+  }
+});
+
+svg.on("dblclick", () => {
+  // clear focus (keep selections)
+  setFocus(null);
+});
+
+/* ------------------------------- Tick ------------------------------- */
+function ticked(){
+  linkSel
+    .attr("x1", d => d.source.x)
+    .attr("y1", d => d.source.y)
+    .attr("x2", d => d.target.x)
+    .attr("y2", d => d.target.y);
+
+  nodeSel.attr("transform", d => `translate(${d.x},${d.y})`);
+}
+
+/* ------------------------------ Drag ------------------------------- */
+function dragstarted(event, d){
+  if (!event.active) simulation.alphaTarget(0.25).restart();
+  d.fx = d.x; d.fy = d.y;
+}
+function dragged(event, d){
+  d.fx = event.x; d.fy = event.y;
+}
+function dragended(event, d){
+  if (!event.active) simulation.alphaTarget(0);
+  d.fx = null; d.fy = null;
+}
+
+/* --------------------------- UI + State ----------------------------- */
+function setFocus(id){
+  state.focus = id;
+  renderPanels();
+  updateStyles();
+}
+
+function toggleSelected(id){
+  if (state.selected.has(id)) state.selected.delete(id);
+  else state.selected.add(id);
+  renderPanels();
+  updateStyles();
+}
+
+function clearSelected(){
+  state.selected.clear();
+  renderPanels();
+  updateStyles();
+}
+
+function updateStyles(){
+  const focus = state.focus;
+  const selected = state.selected;
+  const q = state.search.trim().toLowerCase();
+
+  const visibleBySearch = (id) => !q || id.toLowerCase().includes(q);
+
+  // Determine set of "active" nodes to emphasize:
+  // - focus and its neighbors
+  // - selected nodes and neighbors
+  const active = new Set();
+  function addNeighbors(id){
+    active.add(id);
+    (adjacency.get(id)||[]).forEach(n => active.add(n.id));
+  }
+  if (focus) addNeighbors(focus);
+  selected.forEach(addNeighbors);
+
+  const hasAnyHighlight = !!focus || selected.size>0 || !!q;
+
+  nodeSel.classed("focus", d => d.id === focus);
+  nodeSel.classed("selected", d => selected.has(d.id));
+
+  nodeSel.classed("dim", d => {
+    if (!hasAnyHighlight) return false;
+    const okSearch = visibleBySearch(d.id);
+    if (!okSearch) return true;
+    if (active.size === 0) return false;
+    return !active.has(d.id);
+  });
+
+  // link emphasis
+  linkSel
+    .classed("strong", d => focus && (d.source.id === focus || d.target.id === focus))
+    .classed("highlight", d => selected.size>0 && (selected.has(d.source.id) || selected.has(d.target.id)))
+    .classed("dim", d => {
+      if (!hasAnyHighlight) return false;
+      const okSearch = visibleBySearch(d.source.id) && visibleBySearch(d.target.id);
+      if (!okSearch) return true;
+      if (active.size === 0) return false;
+      return !(active.has(d.source.id) && active.has(d.target.id));
+    });
+}
+
+function renderPanels(){
+  renderFocusPanel();
+  renderSelectedPanel();
+}
+
+function renderFocusPanel(){
+  const focusId = state.focus;
+  const meta = $("#focusMeta");
+  const title = $("#focusTitle");
+  const desc  = $("#focusDesc");
+  const linksWrap = $("#focusLinks");
+  linksWrap.innerHTML = "";
+
+  if (!focusId){
+    meta.textContent = "Click a node";
+    title.textContent = "—";
+    desc.textContent  = "—";
+    return;
+  }
+
+  const n = nodeById.get(focusId);
+  meta.textContent = n.cat;
+  title.textContent = n.id;
+  desc.textContent = n.desc;
+
+  const neighbors = (adjacency.get(focusId)||[])
+    .slice()
+    .sort((a,b)=> a.id.localeCompare(b.id));
+
+  neighbors.forEach(({id, why}) => {
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.title = why ? `Relationship: ${why}` : "Connected";
+    chip.innerHTML = `<span>${id}</span><span class="x" style="opacity:.65">↗</span>`;
+    chip.onclick = (e) => { e.stopPropagation(); setFocus(id); };
+    linksWrap.appendChild(chip);
+  });
+}
+
+function renderSelectedPanel(){
+  $("#selCount").textContent = state.selected.size.toString();
+
+  const chips = $("#selectedChips");
+  chips.innerHTML = "";
+
+  [...state.selected].sort().forEach(id => {
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.innerHTML = `<span>${id}</span><span class="x">×</span>`;
+    chip.onclick = () => toggleSelected(id);
+    chips.appendChild(chip);
+  });
+
+  // Compute summary + bridges
+  const summary = buildSelectionSummary([...state.selected]);
+  $("#summaryBox").textContent = summary.text;
+
+  const bridges = $("#bridgeList");
+  bridges.innerHTML = "";
+  summary.bridges.slice(0,8).forEach(b => {
+    const n = nodeById.get(b.id);
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <div>
+        <div class="name">${b.id}</div>
+        <div class="desc">${n?.desc || ""}</div>
+      </div>
+      <div class="badge">bridge score ${b.score}</div>
+    `;
+    div.onclick = () => {
+      // single click -> focus; Shift/Ctrl -> toggle selected
+      setFocus(b.id);
+    };
+    bridges.appendChild(div);
+  });
+
+  // Update prompt meta hint
+  $("#promptMeta").textContent = state.selected.size
+    ? "Ready — click “Generate AI Prompt”"
+    : "Highlight concepts → Generate";
+}
+
+function buildSelectionSummary(selectedIds){
+  if (selectedIds.length === 0){
+    return {
+      text: "No highlighted concepts yet. Shift/Ctrl/Cmd+Click nodes in the graph to build a set. The app will then summarise how they connect, and suggest bridge concepts that can ‘join the dots’.",
+      bridges: []
+    };
+  }
+  if (selectedIds.length === 1){
+    const id = selectedIds[0];
+    const n = nodeById.get(id);
+    const neigh = (adjacency.get(id)||[]).map(x => x.id);
+    return {
+      text:
+        `You highlighted 1 concept: ${id}.\n\n` +
+        `Meaning:\n- ${n?.desc || ""}\n\n` +
+        `Next, add 2–5 more concepts to explore trade-offs (e.g., governance cadence, EDI lens, KPI design, local adaptation mechanism).`,
+      bridges: scoreBridges(selectedIds)
+    };
+  }
+
+  // Determine internal connections between selected nodes
+  const selSet = new Set(selectedIds);
+  const edges = [];
+  selectedIds.forEach(a => {
+    (adjacency.get(a)||[]).forEach(({id:b, why}) => {
+      if (selSet.has(b)){
+        const key = [a,b].sort().join("||");
+        edges.push({ key, a, b, why });
+      }
+    });
+  });
+  const uniqueEdges = new Map();
+  edges.forEach(e => { if (!uniqueEdges.has(e.key)) uniqueEdges.set(e.key, e); });
+  const connectedPairs = [...uniqueEdges.values()];
+
+  // Connected components among selected
+  const comps = connectedComponents(selectedIds, (x)=> (adjacency.get(x)||[]).map(n=>n.id).filter(id=>selSet.has(id)));
+
+  const bridgeCandidates = scoreBridges(selectedIds);
+
+  // Summarise tensions based on included nodes
+  const tensions = inferTensions(selSet);
+
+  const lines = [];
+  lines.push(`You highlighted ${selectedIds.length} concepts.`);
+  lines.push("");
+  lines.push("Core meanings (one-liners):");
+  selectedIds.slice().sort().forEach(id => {
+    const d = nodeById.get(id)?.desc || "";
+    lines.push(`- ${id}: ${d}`);
+  });
+
+  lines.push("");
+  lines.push(`Connections inside the highlighted set: ${connectedPairs.length ? "" : "none detected directly (you may need a bridge concept)."}`
+  );
+
+  connectedPairs
+    .slice()
+    .sort((x,y)=> (x.a+x.b).localeCompare(y.a+y.b))
+    .slice(0,12)
+    .forEach(e => {
+      lines.push(`- ${e.a} ↔ ${e.b}${e.why ? ` (${e.why})` : ""}`);
+    });
+
+  lines.push("");
+  lines.push(`Structure: ${comps.length} cluster(s) in your selection.`);
+  comps.forEach((c, i) => {
+    lines.push(`- Cluster ${i+1}: ${c.join(", ")}`);
+  });
+
+  if (tensions.length){
+    lines.push("");
+    lines.push("Likely challenges / trade-offs to explore:");
+    tensions.forEach(t => lines.push(`- ${t}`));
+  }
+
+  if (bridgeCandidates.length){
+    lines.push("");
+    lines.push("Bridge concepts (to improve coherence):");
+    bridgeCandidates.slice(0,5).forEach(b => lines.push(`- ${b.id} (connects to ${b.score} of your selected concepts)`));
+  }
+
+  return { text: lines.join("\n"), bridges: bridgeCandidates };
+}
+
+function connectedComponents(nodesList, neighborFn){
+  const unvisited = new Set(nodesList);
+  const comps = [];
+  while(unvisited.size){
+    const start = unvisited.values().next().value;
+    const q = [start];
+    unvisited.delete(start);
+    const comp = [start];
+    while(q.length){
+      const x = q.shift();
+      neighborFn(x).forEach(y => {
+        if (unvisited.has(y)){
+          unvisited.delete(y);
+          q.push(y);
+          comp.push(y);
+        }
+      });
+    }
+    comps.push(comp.sort());
+  }
+  // Larger comps first
+  comps.sort((a,b)=> b.length - a.length);
+  return comps;
+}
+
+function scoreBridges(selectedIds){
+  const selSet = new Set(selectedIds);
+  const scores = new Map();
+
+  // For each non-selected node, score how many selected nodes it connects to.
+  nodes.forEach(n => {
+    if (selSet.has(n.id)) return;
+    const neigh = (adjacency.get(n.id)||[]).map(x=>x.id);
+    const count = neigh.filter(id => selSet.has(id)).length;
+    if (count >= 2) scores.set(n.id, count);
+  });
+
+  const ranked = [...scores.entries()]
+    .map(([id,score]) => ({id,score}))
+    .sort((a,b)=> b.score - a.score || a.id.localeCompare(b.id));
+
+  return ranked;
+}
+
+function inferTensions(selSet){
+  const has = (x)=> selSet.has(x);
+
+  const tensions = [];
+
+  // Common patterns from the content
+  if ((has("Over-standardisation") || has("One-size-fits-all risk")) && (has("Legal systems & privacy constraints") || has("EDI lens") || has("Capability & resources variability"))){
+    tensions.push("How to avoid a ‘one-size-fits-all’ global standard while still maintaining consistency and defensibility.");
+  }
+  if (has("Metric overload") || has("KPI design (controllable measures)") || has("Measurement (MI) & dashboards")){
+    tensions.push("How to measure what matters (risk reduction, capability) without creating punitive or unmanageable reporting burden.");
+  }
+  if (has("Leadership at a distance") && (has("Trust") || has("Followership") || has("Cultural intelligence"))){
+    tensions.push("How remote leadership builds trust and followership across cultures/time zones when informal contact is limited.");
+  }
+  if (has("Service model (in-house vs vendor)") && (has("Decision rights & escalation") || has("Stakeholder alignment"))){
+    tensions.push("Who owns quality, governance, and change control in vendor vs in-house delivery—and how escalation works in practice.");
+  }
+  if (has("Capability & resources variability") && (has("Training & accreditation") || has("Triage & operational protocols") || has("Delivery excellence / operational ownership"))){
+    tensions.push("How the programme handles uneven site maturity: short-term flow controls vs long-term capability building.");
+  }
+  if (has("Global principles & minimum requirements") && (has("Local adaptation mechanism") || has("Legal systems & privacy constraints"))){
+    tensions.push("Translating global ‘minimum requirements’ into compliant local procedures without drifting away from global intent.");
+  }
+
+  return uniq(tensions);
+}
+
+/* ---------------------------- Prompt Builder ------------------------- */
+function generatePromptFromSelection(){
+  const selected = [...state.selected];
+  if (selected.length === 0){
+    $("#promptOut").value = "";
+    $("#promptMeta").textContent = "Select at least 2 concepts to generate a richer case study prompt.";
+    toast("Highlight a few concepts first");
+    return;
+  }
+
+  const selSet = new Set(selected);
+  const bridges = scoreBridges(selected).slice(0,3).map(b=>b.id);
+  const tensions = inferTensions(selSet);
+
+  // Collect direct relationships among selected (and via bridges)
+  const relLines = [];
+  const allForRel = new Set([...selected, ...bridges]);
+  const seen = new Set();
+  allForRel.forEach(a => {
+    (adjacency.get(a)||[]).forEach(({id:b, why}) => {
+      if (!allForRel.has(b)) return;
+      const key = [a,b].sort().join("||");
+      if (seen.has(key)) return;
+      seen.add(key);
+      relLines.push(`- ${a} ↔ ${b}${why ? ` (${why})` : ""}`);
+    });
+  });
+
+  const briefDefs = selected.slice().sort().map(id => {
+    const n = nodeById.get(id);
+    return `- ${id}: ${n?.desc || ""}`;
+  });
+
+  const caseStudyAsk = [
+    "Write a realistic case study (global corporate Occupational Health programme) that links the highlighted concepts.",
+    "Make it feel plausible: locations, stakeholder roles, constraints (legal/privacy, capability differences), and a timeline of decisions.",
+    "Show what goes wrong first (failure mode), then a better approach (recovery plan) aligned to the concepts."
+  ];
+
+  const challengesAsk = [
+    "Explicitly identify the key challenges / tensions, trade-offs, and where decisions are difficult.",
+    "Include at least 5 ‘decision points’ with options, consequences, and recommended choice.",
+    "Explain what ‘good’ looks like: minimum requirements + local adaptation; governance cadence; decision rights; meaningful MI."
+  ];
+
+  const outputsAsk = [
+    "Output sections:",
+    "1) Context (organisation, sites, hazards, service model in-house vs vendor)",
+    "2) The initial approach and why it fails",
+    "3) Diagnosis mapped to each concept",
+    "4) Redesigned approach (principles + minimums + local options)",
+    "5) Measurement plan (leading/lagging indicators; avoid metric overload; controllable KPIs)",
+    "6) Leadership approach at a distance (clarity, trust, cultural intelligence, followership)",
+    "7) Implementation plan (change management; comms; training/coaching/mentoring; talent plan)",
+    "8) Risks and mitigations (privacy, compliance, trust erosion)"
+  ];
+
+  const prompt = [
+`You are an expert in global Occupational Health programme leadership and organisational change.`,
+`Create a case study and explanation that integrates the following highlighted concepts:`,
+...selected.slice().sort().map(x => `- ${x}`),
+bridges.length ? `` : null,
+bridges.length ? `Optional bridge concepts that may help connect the narrative:` : null,
+...bridges.map(x => `- ${x}`),
+``,
+`For each highlighted concept, include a short explanation of its meaning in this context:`,
+...briefDefs,
+``,
+`Relationships to consider (use as needed):`,
+...(relLines.length ? relLines.slice(0,18) : ["- (No direct relationships found; introduce bridging logic explicitly.)"]),
+``,
+`Case study requirements:`,
+...caseStudyAsk.map(x => `- ${x}`),
+``,
+`Challenges & trade-offs:`,
+...(tensions.length ? tensions.map(x => `- ${x}`) : challengesAsk.map(x => `- ${x}`)),
+``,
+`Deliverables:`,
+...outputsAsk.map(x => `- ${x}`),
+``,
+`Style: concise but concrete. Use plain language. Make the logic explicit: how the concepts connect, where the friction occurs, and what actions resolve it.`
+  ].filter(Boolean).join("\n");
+
+  $("#promptOut").value = prompt;
+  $("#promptMeta").textContent = `Generated from ${selected.length} highlighted concept(s)` + (bridges.length ? ` (+ ${bridges.length} bridges)` : "");
+}
+
+/* ------------------------------ Controls ---------------------------- */
+$("#search").addEventListener("input", (e) => {
+  state.search = e.target.value || "";
+  updateStyles();
+});
+
+$("#clearBtn").addEventListener("click", () => clearSelected());
+
+$("#reheatBtn").addEventListener("click", () => {
+  simulation.alpha(0.9).restart();
+});
+
+$("#fitBtn").addEventListener("click", () => fitToView());
+
+$("#genPromptBtn").addEventListener("click", () => generatePromptFromSelection());
+
+$("#copyPromptBtn").addEventListener("click", async () => {
+  const text = $("#promptOut").value.trim();
+  if (!text){
+    toast("Nothing to copy");
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(text);
+    toast("Copied prompt");
+  }catch{
+    // Fallback
+    $("#promptOut").select();
+    document.execCommand("copy");
+    toast("Copied prompt");
+  }
+});
+
+/* ------------------------------ Fit View ---------------------------- */
+function fitToView(){
+  const { w, h } = getSize();
+  const padding = 40;
+
+  const xs = nodes.map(n=>n.x).filter(Number.isFinite);
+  const ys = nodes.map(n=>n.y).filter(Number.isFinite);
+
+  if (!xs.length || !ys.length){
+    svg.transition().duration(350).call(zoom.transform, d3.zoomIdentity);
+    return;
+  }
+
+  const minX = Math.min(...xs), maxX = Math.max(...xs);
+  const minY = Math.min(...ys), maxY = Math.max(...ys);
+
+  const dx = (maxX - minX) || 1;
+  const dy = (maxY - minY) || 1;
+
+  const scale = Math.min(2.2, Math.max(0.4, 0.92 / Math.max(dx / (w - padding*2), dy / (h - padding*2))));
+  const tx = (w/2) - scale * (minX + dx/2);
+  const ty = (h/2) - scale * (minY + dy/2);
+
+  const transform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+  svg.transition().duration(450).call(zoom.transform, transform);
+}
+
+/* ---------------------------- Initial Render ------------------------- */
+renderPanels();
+updateStyles();
+
+// Kick a gentle fit after layout starts
+setTimeout(()=>fitToView(), 450);
+
+/* ---------------------------- Extra UX ------------------------------ */
+// Clicking on empty panel area clears focus (but keeps selection)
+document.addEventListener("click", (e) => {
+  // if click happens outside the SVG nodes (background), do nothing special
+});
+
+// Keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape"){
+    setFocus(null);
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k"){
+    e.preventDefault();
+    $("#search").focus();
+  }
+});
+
+/* ---------------------- Small quality: treat some links as stronger ---------------------- */
+// Upgrade a few known "backbone" links visually by tagging as 'strong' in CSS via updateStyles.
+// (Handled by .strong on focus, and base style otherwise.)
+</script>
+</body>
+</html>
