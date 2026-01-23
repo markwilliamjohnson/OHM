@@ -1,0 +1,1349 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OH Wisdom → Super-Concepts → Systems Lattice</title>
+  <style>
+    :root{
+      --bg:#f7fafc;
+      --text:#0f172a;
+      --muted:#475569;
+      --muted2:#64748b;
+      --border:rgba(15,23,42,.12);
+      --shadow: 0 14px 34px rgba(15,23,42,.10);
+      --radius:16px;
+
+      --edge:rgba(30,41,59,.18);
+      --edgeHi:rgba(2,132,199,.85);
+
+      --lvl0:#fff7ed;
+      --lvl1:#eff6ff;
+      --lvl2:#f5f3ff;
+      --lvl3:#ecfeff;
+      --lvl4:#f0fdf4;
+      --lvl5:#f8fafc;
+      --lvl6:#fff1f2;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(900px 520px at 10% 10%, rgba(56,189,248,.20), transparent 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(34,197,94,.18), transparent 55%),
+        radial-gradient(900px 520px at 60% 100%, rgba(168,85,247,.14), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      overflow:hidden;
+    }
+
+    header{
+      padding:12px 14px;
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--border);
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      position:sticky; top:0; z-index:20;
+    }
+    header .title{display:flex; flex-direction:column; gap:2px; min-width:260px}
+    header h1{margin:0; font-size:16px; letter-spacing:.2px}
+    header .sub{font-size:12px; color:var(--muted2); line-height:1.35}
+    header .toolbar{
+      display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;
+      justify-content:flex-end; flex:1;
+    }
+    .ctl{display:flex; flex-direction:column; gap:5px; min-width:220px}
+    .ctl label{font-size:11px; color:var(--muted2); font-weight:800}
+    input[type="text"], textarea, select{
+      width:100%;
+      background:#fff;
+      border:1px solid var(--border);
+      color:var(--text);
+      border-radius:12px;
+      padding:9px 10px;
+      outline:none;
+      font-size:13px;
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
+    }
+    textarea{min-height:110px; resize:vertical}
+    select{cursor:pointer}
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      color:var(--text);
+      background: rgba(15,23,42,.03);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:12px;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{background: rgba(15,23,42,.06); border-color:rgba(15,23,42,.18)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{background: rgba(2,132,199,.12); border-color: rgba(2,132,199,.28)}
+    .btn.primary:hover{background: rgba(2,132,199,.16)}
+    .btn.danger{background: rgba(225,29,72,.10); border-color: rgba(225,29,72,.22)}
+    .btn:disabled{opacity:.55; cursor:not-allowed}
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:11px; padding:2px 6px; border-radius:8px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+
+    .layout{
+      height: calc(100vh - 74px);
+      display:grid;
+      grid-template-columns: 1fr 410px;
+      gap:12px;
+      padding:12px;
+      min-height:0;
+    }
+    .stage{
+      position:relative;
+      overflow:auto;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,.78);
+      min-height:0;
+    }
+    .stageInner{
+      position:relative;
+      min-width:1100px;
+      padding:16px 16px 24px;
+    }
+
+    .howto{
+      border:1px solid rgba(2,132,199,.18);
+      background: rgba(2,132,199,.06);
+      border-radius: 16px;
+      padding:12px 12px 10px;
+      margin-bottom:12px;
+    }
+    .howto h2{margin:0 0 6px; font-size:13px}
+    .howto .grid{
+      display:grid; gap:8px;
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+    }
+    .howto .step{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.92);
+      border-radius: 14px;
+      padding:10px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+    @media (max-width: 1180px){
+      body{overflow:auto}
+      .layout{grid-template-columns: 1fr; height:auto}
+      .howto .grid{grid-template-columns: 1fr}
+    }
+
+    .level{
+      margin-top:12px;
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.90);
+    }
+    .level:first-child{margin-top:0}
+    .levelHeader{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; margin-bottom:10px;
+    }
+    .levelHeader .lhTitle{
+      display:flex; align-items:center; gap:10px;
+      font-weight:950; letter-spacing:.2px; font-size:13px;
+    }
+    .badge{
+      font-size:11px; padding:5px 9px; border-radius:999px;
+      background: rgba(15,23,42,.04);
+      border:1px solid var(--border);
+      color: var(--muted2);
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .lhHint{font-size:12px; color:var(--muted2)}
+    .row{display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start;}
+
+    .node{
+      position:relative;
+      border-radius:999px;
+      padding:9px 12px;
+      border:1px solid rgba(15,23,42,.14);
+      background: rgba(255,255,255,.92);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease, box-shadow .12s ease, opacity .12s ease;
+      font-size:12px;
+      line-height:1;
+      white-space:nowrap;
+      touch-action: manipulation;
+    }
+    .node:hover{background: #fff; border-color:rgba(15,23,42,.22)}
+    .node:active{transform: translateY(1px)}
+    .node .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(2,132,199,.9);
+      box-shadow: 0 0 0 3px rgba(2,132,199,.12);
+    }
+    .node[data-kind="standard"] .dot{background: rgba(22,163,74,.9); box-shadow: 0 0 0 3px rgba(22,163,74,.12)}
+    .node[data-kind="case"] .dot{background: rgba(234,88,12,.9); box-shadow: 0 0 0 3px rgba(234,88,12,.12)}
+    .node[data-kind="risk"] .dot{background: rgba(225,29,72,.88); box-shadow: 0 0 0 3px rgba(225,29,72,.12)}
+    .node[data-kind="wisdom"] .dot{background: rgba(124,45,18,.90); box-shadow: 0 0 0 3px rgba(124,45,18,.12)}
+
+    .node[data-level="0"]{background: var(--lvl0); border-color: rgba(234,88,12,.22)}
+    .node[data-level="1"]{background: var(--lvl1); border-color: rgba(37,99,235,.22)}
+    .node[data-level="2"]{background: var(--lvl2); border-color: rgba(124,58,237,.20)}
+    .node[data-level="3"]{background: var(--lvl3); border-color: rgba(6,182,212,.22)}
+    .node[data-level="4"]{background: var(--lvl4); border-color: rgba(22,163,74,.22)}
+    .node[data-level="5"]{background: var(--lvl5); border-color: rgba(15,23,42,.14)}
+    .node[data-level="6"]{background: var(--lvl6); border-color: rgba(225,29,72,.18)}
+
+    .node .tag{
+      font-size:10px; padding:3px 7px; border-radius:999px;
+      border:1px solid rgba(15,23,42,.14);
+      background: rgba(255,255,255,.55);
+      color: var(--muted2);
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .node.selected{
+      border-color: rgba(2,132,199,.75);
+      box-shadow: 0 0 0 5px rgba(2,132,199,.14);
+    }
+    .node.related{
+      border-color: rgba(15,23,42,.35);
+      box-shadow: 0 0 0 4px rgba(15,23,42,.06);
+    }
+    .node.dim{opacity:.35}
+
+    svg#edges{
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      overflow:visible;
+    }
+    .edge{stroke: var(--edge); stroke-width: 2; fill:none}
+    .edge.hi{
+      stroke: var(--edgeHi);
+      stroke-width: 2.6;
+      filter: drop-shadow(0 1px 0 rgba(2,132,199,.10));
+    }
+    .edge.dim{opacity:.20}
+
+    .panel{
+      background: rgba(255,255,255,.88);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+      min-height:0;
+    }
+    .phead{
+      padding:12px;
+      border-bottom:1px solid var(--border);
+      background: rgba(15,23,42,.02);
+    }
+    .phead .ph{font-weight:950; font-size:13px}
+    .pbody{padding:12px; overflow:auto; min-height:0}
+
+    .hint{font-size:12px; color:var(--muted2); line-height:1.45}
+
+    .actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+
+    .card{
+      background: rgba(255,255,255,.96);
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding:12px;
+    }
+    .card h3{margin:0 0 6px; font-size:13px}
+    .card p, .card li{color: rgba(15,23,42,.92); font-size:12.5px; line-height:1.45}
+    .card ul{margin:8px 0 0 18px}
+    .metaLine{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .pill{
+      font-size:11px; padding:5px 9px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color:var(--muted2);
+      font-weight:850;
+    }
+
+    .path{margin-top:10px; display:flex; flex-direction:column; gap:8px;}
+    .pathStep{
+      display:flex; gap:8px; align-items:flex-start;
+      padding:10px; border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.02);
+      cursor:pointer; user-select:none;
+    }
+    .pathStep:hover{background: rgba(15,23,42,.04)}
+    .pathStep .n{
+      width:22px; height:22px; border-radius:999px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(2,132,199,.12);
+      border:1px solid rgba(2,132,199,.24);
+      color: rgba(2,132,199,.95);
+      font-weight:950; font-size:12px;
+      flex:0 0 auto;
+    }
+    .pathStep .t{font-weight:950; font-size:12px}
+    .pathStep .d{font-size:12px; color:var(--muted2); margin-top:2px; line-height:1.35}
+
+    .chips{display:flex; gap:6px; flex-wrap:wrap;}
+    .chip{
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color:var(--text);
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      user-select:none;
+      font-weight:850;
+    }
+    .chip.active{border-color: rgba(2,132,199,.35); background: rgba(2,132,199,.10)}
+    .chip .x{margin-left:6px; color:var(--muted2); font-weight:950}
+
+    details summary{cursor:pointer; font-weight:900; color:var(--text); font-size:12.5px}
+    details .detailsBody{margin-top:10px}
+
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(255,255,255,.95);
+      border:1px solid var(--border);
+      padding:10px 12px; border-radius: 14px;
+      box-shadow: var(--shadow);
+      font-size:12px;
+      color: var(--text);
+      opacity:0; pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index:40;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="title">
+    <h1>Occupational Health — Wisdom → Super-Concepts → Systems Constraint Lattice</h1>
+    <div class="sub">Tap a lozenge to explore. Multi-select: <span class="kbd">Shift+Click</span> (desktop) or <span class="kbd">Long-press</span> (mobile).</div>
+  </div>
+
+  <div class="toolbar">
+    <div class="ctl">
+      <label for="search">Search</label>
+      <input id="search" type="text" placeholder="e.g., listening, entropy, outsourcing, HACCP, audit, near-miss…" autocomplete="off"/>
+    </div>
+    <div class="ctl" style="min-width:190px">
+      <label for="filterKind">Filter</label>
+      <select id="filterKind">
+        <option value="all">All</option>
+        <option value="wisdom">Management wisdom</option>
+        <option value="concept">Concepts</option>
+        <option value="standard">Standards / frameworks</option>
+        <option value="case">Case studies</option>
+        <option value="risk">Challenges / pathologies</option>
+      </select>
+    </div>
+    <button class="btn danger" id="btnClear" title="Clear selection (Esc)">Clear <span class="kbd">Esc</span></button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="stage" id="stage">
+    <div class="stageInner" id="stageInner">
+      <svg id="edges" aria-hidden="true"></svg>
+
+      <div class="howto">
+        <h2>How to use this map</h2>
+        <div class="grid">
+          <div class="step"><b>1)</b> Tap a lozenge to open details and highlight related links.</div>
+          <div class="step"><b>2)</b> Build a set: <span class="kbd">Shift+Click</span> (desktop) or <span class="kbd">Long-press</span> (mobile) to add/remove lozenges.</div>
+          <div class="step"><b>3)</b> Use the right panel to <b>Trace to top</b> and <b>Generate prompt</b> for a narrative case-study connecting the chain.</div>
+        </div>
+      </div>
+
+      <div id="levels"></div>
+    </div>
+  </main>
+
+  <aside class="panel">
+    <div class="phead">
+      <div class="ph">Detail & actions</div>
+      <div class="actions">
+        <button class="btn" id="btnTrace" title="Trace selected node up to management wisdom">Trace to top</button>
+        <button class="btn primary" id="btnPrompt" title="Generate an AI prompt from selected nodes">Generate prompt</button>
+        <button class="btn" id="btnCopyPrompt" title="Copy the generated prompt">Copy</button>
+      </div>
+      <div class="hint" style="margin-top:8px">Tip: include a <b>case</b> (orange) or <b>challenge/pathology</b> (red) plus supporting concepts.</div>
+    </div>
+    <div class="pbody">
+      <div id="detailEmpty" class="hint">Tap a lozenge to see meaning, connections, and a trace.</div>
+
+      <div id="detail" style="display:none">
+        <div class="card">
+          <h3 id="dTitle"></h3>
+          <div class="metaLine" id="dMeta"></div>
+
+          <div style="margin-top:10px; font-size:12px; color:var(--muted2); font-weight:900">Meaning</div>
+          <div id="dBody" style="margin-top:6px; font-size:12.5px; color:rgba(15,23,42,.92); line-height:1.48"></div>
+
+          <div style="margin-top:12px; font-size:12px; color:var(--muted2); font-weight:900">Connections (tap to jump)</div>
+          <ul id="dConnections" style="margin:8px 0 0 18px; font-size:12.5px; color:rgba(15,23,42,.90); line-height:1.45"></ul>
+
+          <div style="margin-top:12px">
+            <div class="hint"><b>Selected for prompt</b></div>
+            <div class="chips" id="selectedChips" style="margin-top:8px"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:10px">
+          <h3>Trace to management wisdom</h3>
+          <div class="hint">A constraint path: upstream shaping concepts → down to your selected node.</div>
+          <div class="path" id="path"></div>
+        </div>
+
+        <div class="card" style="margin-top:10px">
+          <h3>Generated prompt</h3>
+          <div class="hint" style="margin-top:6px">Your context (optional): paste a real situation from your work to tailor the story.</div>
+          <textarea id="userContext" placeholder="e.g., I manage OH for a multi-site organisation... We outsourced OH last year... Audit scores were high but incidents rose..." style="margin-top:8px"></textarea>
+          <div class="hint" style="margin-top:10px">AI prompt (generated from your selections + context)</div>
+          <textarea id="promptOut" placeholder="Tap “Generate prompt” above…" style="margin-top:6px"></textarea>
+        </div>
+
+        <details style="margin-top:10px">
+          <summary>Advanced: Export / import map JSON</summary>
+          <div class="detailsBody card">
+            <div class="hint">Use this to expand the lattice later with more document fragments.</div>
+            <textarea id="jsonIO" placeholder='{"levels":[...],"nodes":[...],"edges":[...]}' style="margin-top:10px"></textarea>
+            <div class="actions" style="margin-top:8px">
+              <button class="btn" id="btnLoadJson">Load JSON</button>
+              <button class="btn" id="btnDumpJson">Export JSON</button>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = {
+  levels: [
+    {id:0, title:"Management wisdom", hint:"Judgement-in-context: ethical, proportionate action under pressure"},
+    {id:1, title:"Super-concepts", hint:"Big shaping ideas: why systems behave as they do"},
+    {id:2, title:"Systems concepts", hint:"Core systems lenses and deep constraints"},
+    {id:3, title:"System patterns", hint:"How systems behave (feedback, drift, work-as-done, coupling)"},
+    {id:4, title:"OH management capabilities", hint:"Capabilities needed for a robust OH service"},
+    {id:5, title:"Standards & improvement models", hint:"Formal frameworks and structured improvement"},
+    {id:6, title:"Cases, challenges & pathologies", hint:"Concrete situations to trace back to roots"}
+  ],
+  nodes: [
+    { id:"wis_listening", label:"Listening (serious attention)", level:0, kind:"wisdom", tags:["wisdom"], summary:"Listen for what isn’t in the dashboard: stories, tone, workarounds.", bodyHtml:`<p>Wise OH management listens beyond metrics: worker stories, near-miss narratives, complaint themes, and “unease”. Listening is a sensing practice that increases the system’s ability to self-regulate.</p><ul><li>Practice: short listening sessions + floor observation on peak days.</li></ul>`},
+    { id:"wis_grace", label:"Grace (non-blame + dignity)", level:0, kind:"wisdom", tags:["wisdom"], summary:"Protect dignity; reduce shame; keep reporting safe.", bodyHtml:`<p>Grace means assuming people are trying to make the system work. Replace blame with curiosity about pressures, friction, and constraints. This preserves trust and keeps weak signals flowing.</p>`},
+    { id:"wis_holism", label:"Holism (whole-system view)", level:0, kind:"wisdom", tags:["wisdom"], summary:"Don’t optimise one metric at the expense of health.", bodyHtml:`<p>Holism means seeing outcomes as emergent from interactions: people + tasks + tools + environment + rules/metrics + culture + external constraints.</p>`},
+    { id:"wis_ecology", label:"Organisational ecology", level:0, kind:"wisdom", tags:["wisdom"], summary:"Systems have niches, diversity, interdependence and carrying capacity.", bodyHtml:`<p>An ecological lens asks: what “species” (roles) are missing? What resources constrain viability? What diversity provides resilience? What happens when keystone roles disappear (e.g., experienced supervisors)?</p>`},
+    { id:"wis_embodiment", label:"Embodiment (body as system data)", level:0, kind:"wisdom", tags:["wisdom"], summary:"Fatigue, tension, moral discomfort are signals—not “soft stuff”.", bodyHtml:`<p>Embodied knowledge is real system sensing. Wise practice treats fatigue, overload, and discomfort as early warnings about work design and pressure, not personal weakness.</p>`},
+    { id:"wis_proportion", label:"Proportion & timing", level:0, kind:"wisdom", tags:["wisdom"], summary:"Right-sized action; don’t flood the system with rules.", bodyHtml:`<p>Wise judgement chooses interventions that fit context and capacity. Over-control can increase workload and reduce compliance. Under-control lets drift grow.</p>`},
+    { id:"wis_ethics", label:"Ethics & fairness", level:0, kind:"wisdom", tags:["wisdom"], summary:"Consent, confidentiality, dignity, and justice are design constraints.", bodyHtml:`<p>Ethics are not a “nice extra”—they are a structural constraint that stabilises trust, learning, and legitimacy.</p>`},
+    { id:"wis_reflection", label:"Reflection & sensemaking", level:0, kind:"wisdom", tags:["wisdom"], summary:"Turn information into understanding before acting.", bodyHtml:`<p>Reflection converts data into meaning: check assumptions, look for pressures and adaptations, and avoid “compliance answers” that blame individuals.</p>`},
+    { id:"wis_safe2fail", label:"Safe-to-fail experiments", level:0, kind:"wisdom", tags:["wisdom"], summary:"Test → learn → adapt in short cycles; prevent backfire.", bodyHtml:`<p>In complex systems you rarely “implement and finish”. You run small, ethical experiments with leading + lagging measures and explicit backfire checks.</p>`},
+
+    { id:"ikww", label:"Information → Knowledge → Wisdom ladder", level:1, kind:"concept", tags:["meta"], summary:"More data ≠ better decisions; interpretation and judgement matter.", bodyHtml:`<p>Information is facts and documents. Knowledge is interpretation and patterns. Wisdom is good judgement in context: proportion, ethics, timing, and consequences.</p>`},
+    { id:"sociotech", label:"Sociotechnical systems", level:1, kind:"concept", tags:["super"], summary:"Technical and social elements are inseparable.", bodyHtml:`<p>OH outcomes are produced by interactions among tools/tech, procedures, rosters, procurement, buildings, and social dynamics like power, trust, identity, and informal workarounds.</p>`},
+    { id:"wai_wad", label:"Work-as-imagined vs work-as-done", level:1, kind:"concept", tags:["super"], summary:"Policies are simplified models; real work adapts under constraint.", bodyHtml:`<p>The gap is often the system trying to survive: people adapt to keep work moving. Wise interventions reduce friction and redesign conditions—not just remind people.</p>`},
+    { id:"types_prob", label:"Problem types: simple / complicated / complex", level:1, kind:"concept", tags:["super"], summary:"Intervention choice should match problem type.", bodyHtml:`<p>Simple: repeatable fix. Complicated: expert engineered. Complex: adaptive/evolving; needs learning loops and safe-to-fail changes.</p>`},
+    { id:"pressures_adapt", label:"Pressures → adaptations → outcomes", level:1, kind:"concept", tags:["super"], summary:"People adapt to pressure; adaptations shape risk.", bodyHtml:`<p>Map system pressures (scarcity, time, targets, contracts) and the adaptations people use (workarounds, skipping breaks, staging in hoods). These often explain why controls fail.</p>`},
+    { id:"weak_signals", label:"Weak signals & “unease”", level:1, kind:"concept", tags:["super"], summary:"Small complaints and tone shifts can be early warnings.", bodyHtml:`<p>Examples: repeated glove size issues, narratives mentioning “no time”, silence (fewer reports because nothing changes). Treat these as signals to investigate work-as-done.</p>`},
+    { id:"tech_more_data", label:"Technology: more data ≠ better decisions", level:1, kind:"concept", tags:["super"], summary:"Without interpretive capacity and ethics, data amplifies noise.", bodyHtml:`<p>Before adopting OH tech: clarify purpose, consent & dignity, interpretation ownership, feedback loop, unintended consequences.</p>`},
+    { id:"seci", label:"SECI learning cycle", level:1, kind:"concept", tags:["learning"], summary:"Tacit ↔ explicit knowledge conversion (socialise, externalise, combine, internalise).", bodyHtml:`<p>Use SECI to turn experience into safer systems: observe work, create shared artefacts, update systems, practise until it becomes habit.</p>`},
+    { id:"friction_audit", label:"Friction audit", level:1, kind:"concept", tags:["super"], summary:"Find where controls clash with real work (physical/workflow/social/system).", bodyHtml:`<p>Pick one control (PPE, LEV, break policy, reporting tool). Identify friction and redesign to remove it.</p>`},
+    { id:"ecology_niches", label:"Ecology: niches, diversity, carrying capacity", level:1, kind:"concept", tags:["super"], summary:"Resource limits and missing roles reshape outcomes.", bodyHtml:`<p>Ask: what resources are scarce (time, attention, maintenance)? Which roles are keystone? What diversity provides resilience?</p>`},
+
+    { id:"complexity", label:"Complexity", level:2, kind:"concept", tags:["systems"], summary:"Many interacting parts + uncertain cause/effect.", bodyHtml:`<p>Complexity grows with many interacting actors and delayed or indirect effects. Don’t “solve” by blaming individuals—design feedback and governance that works under change.</p>`},
+    { id:"variety", label:"Variety", level:2, kind:"concept", tags:["systems"], summary:"The range of situations you must handle.", bodyHtml:`<p>If system response variety is lower than environmental variety, errors and dissatisfaction rise. Increase capability variety or reduce environmental variety via good design.</p>`},
+    { id:"information", label:"Information", level:2, kind:"concept", tags:["systems"], summary:"Signals that enable decisions and coordination.", bodyHtml:`<p>Information flows coordinate action; poor information design creates breaches, rework, and hidden risk.</p>`},
+    { id:"entropy", label:"Entropy / drift", level:2, kind:"concept", tags:["systems"], summary:"Processes degrade unless actively maintained.", bodyHtml:`<p>Process drift: templates stale, roles blur, temporary workarounds become normal, and risk quietly grows unless countered.</p>`},
+    { id:"feedback", label:"Feedback loops", level:2, kind:"concept", tags:["systems"], summary:"Measure → learn → adapt.", bodyHtml:`<p>Good feedback loops keep you out of “surprise failure.” Use leading indicators, audit-reaudit, complaints learning, near-miss narratives.</p>`},
+    { id:"boundaries", label:"System boundaries", level:2, kind:"concept", tags:["systems"], summary:"What’s inside vs outside the system.", bodyHtml:`<p>Boundary choices decide who is included in care and accountability: employees vs contractors, domestic vs overseas sites, primary provider vs subcontractors.</p>`},
+    { id:"flow", label:"Flow (resources/time/data)", level:2, kind:"concept", tags:["systems"], summary:"Throughput, bottlenecks, and capacity constraints.", bodyHtml:`<p>Think of flow broadly: people, time, attention, data, money. Bottlenecks show up as waiting lists, rushed assessments, delayed corrective actions.</p>`},
+    { id:"scale", label:"Scale & distribution", level:2, kind:"concept", tags:["systems"], summary:"What changes when systems get bigger or more distributed.", bodyHtml:`<p>At scale, interfaces multiply; central policy can fail locally and local workarounds fragment governance.</p>`},
+    { id:"time_delays", label:"Delays & accumulation", level:2, kind:"concept", tags:["systems"], summary:"Effects lag causes; harm accumulates invisibly.", bodyHtml:`<p>Exposure → disease; stressors → absence; drift → incidents. Delays cause misattribution and “fixes” that don’t work.</p>`},
+    { id:"coupling", label:"Coupling & cascades", level:2, kind:"concept", tags:["systems"], summary:"Tight coupling lets small failures propagate.", bodyHtml:`<p>Portals, SLAs, report routing, subcontracting: tight coupling amplifies small errors into bigger incidents and rework cascades.</p>`},
+    { id:"resilience", label:"Resilience & slack", level:2, kind:"concept", tags:["systems"], summary:"Capacity to absorb spikes without unsafe adaptation.", bodyHtml:`<p>Resilience comes from margin: spare capacity, flexible capability, and adaptive coordination—not just procedures.</p>`},
+    { id:"learning_memory", label:"Learning & institutional memory", level:2, kind:"concept", tags:["systems"], summary:"What the organisation remembers shapes outcomes.", bodyHtml:`<p>Turnover and restructuring erode “why we do it this way.” Without memory, drift accelerates and old failures repeat.</p>`},
+    { id:"emergence", label:"Emergence", level:2, kind:"concept", tags:["systems"], summary:"Outcomes arise from interactions, not parts.", bodyHtml:`<p>Safety, culture, and service quality are emergent; you manage them by shaping interactions and constraints.</p>`},
+    { id:"purpose_conflict", label:"Purpose & value conflicts", level:2, kind:"concept", tags:["systems"], summary:"OH is multi-purpose: care, risk control, fairness, compliance, productivity.", bodyHtml:`<p>Purpose conflicts drive downstream pathologies: speed vs consent; throughput vs recovery; cost vs competence; compliance vs learning.</p>`},
+    { id:"power_incentives", label:"Power & incentives", level:2, kind:"concept", tags:["systems"], summary:"Commissioning and KPIs reshape behaviour.", bodyHtml:`<p>Many “quality” problems are incentive problems: the system optimises what hurts most (targets, costs, reputational risk), sometimes at the expense of health.</p>`},
+    { id:"trust_legit", label:"Trust & legitimacy", level:2, kind:"concept", tags:["systems"], summary:"Without trust, signals disappear and learning collapses.", bodyHtml:`<p>Confidentiality, dignity and procedural fairness preserve trust and therefore sensing capacity.</p>`},
+    { id:"uncertainty", label:"Uncertainty & model limits", level:2, kind:"concept", tags:["systems"], summary:"Prognosis and work capacity are uncertain; false certainty creates brittleness.", bodyHtml:`<p>Express uncertainty honestly (ranges, conditions). Design policies that tolerate variation and revise with feedback.</p>`},
+    { id:"constraints_safety", label:"Safety as constraint control", level:2, kind:"concept", tags:["systems"], summary:"Safety is maintaining constraints, not just preventing component failures.", bodyHtml:`<p>Design constraints that keep outcomes within viable bounds under pressure (work-as-done). This fits naturally with a constraint lattice.</p>`},
+
+    { id:"control", label:"Control & constraints", level:3, kind:"concept", tags:["patterns"], summary:"Rules and controls that shape behaviour under real conditions.", bodyHtml:`<p>Controls range from elimination/design to training and PPE. The point is to constrain unsafe outcomes reliably under real conditions.</p>`},
+    { id:"interfaces", label:"Interfaces & handoffs", level:3, kind:"concept", tags:["patterns"], summary:"Where errors and misalignment cluster.", bodyHtml:`<p>Interfaces (portals, referral forms, report delivery, dashboards) are common failure points: wrong recipients, missing fields, ambiguous requests.</p>`},
+    { id:"governanceInfo", label:"Information governance", level:3, kind:"concept", tags:["patterns"], summary:"Confidentiality, consent, security, retention.", bodyHtml:`<p>Information governance includes informed consent pathways, access control, secure storage, backups, and safe aggregation.</p>`},
+    { id:"supplyChains", label:"Supply chains & accountability", level:3, kind:"concept", tags:["patterns"], summary:"Outsourcing creates chains; accountability must stay clear.", bodyHtml:`<p>Subcontracting can create chains. Quality assurance and accountability must be explicit—otherwise oversight and learning fail.</p>`},
+    { id:"measurementVar", label:"Measurement & variation", level:3, kind:"concept", tags:["patterns"], summary:"Distinguish noise vs signals; avoid punishing reporting.", bodyHtml:`<p>Choose indicators that reveal drift (run/control charts) and avoid metrics that punish honest reporting.</p>`},
+    { id:"processDrift", label:"Normalization of deviance", level:3, kind:"risk", tags:["pathology"], summary:"Workarounds become ‘normal’ under pressure.", bodyHtml:`<p>Under production pressure, unsafe shortcuts become routine unless the system detects and corrects them.</p>`},
+    { id:"weakSignalsLoop", label:"Early warning loop", level:3, kind:"concept", tags:["patterns"], summary:"Capture weak signals → interpret → act → learn.", bodyHtml:`<p>Design escalation signals that cut through noise: near-miss narratives, recurring complaints, unusual workload patterns, “unease”.</p>`},
+    { id:"audit_as_feedback", label:"Audit as feedback (not ritual)", level:3, kind:"concept", tags:["patterns"], summary:"Audit is valuable only if it increases sensing and regulation.", bodyHtml:`<p>Audit becomes noise when treated as a ritual of compliance rather than a learning loop. Wise audit strengthens learning loops and adapts the system.</p>`},
+    { id:"work_design", label:"Work design & friction", level:3, kind:"concept", tags:["patterns"], summary:"Controls fail when they clash with real work; remove friction.", bodyHtml:`<p>Look for physical, workflow, social, and system friction that pushes unsafe adaptation.</p>`},
+
+    { id:"relationships", label:"Multi-party relationship", level:4, kind:"concept", tags:["OH"], summary:"Employee–Employer–OH provider + others.", bodyHtml:`<p>OH operates in multiple simultaneous relationships and must manage consent, contract expectations, and trust.</p>`},
+    { id:"commissioning", label:"Commissioning & scope clarity", level:4, kind:"concept", tags:["OH"], summary:"What is included/excluded; referral pathways.", bodyHtml:`<p>Clarity about inclusions/exclusions and referral pathways prevents dissatisfaction and risk. Specify QA and oversight when subcontracting.</p>`},
+    { id:"consent", label:"Consent & confidentiality", level:4, kind:"concept", tags:["OH"], summary:"Work-focused advice + consent for clinical detail.", bodyHtml:`<p>Employees must be informed about what is being asked, why, who will receive information, and their rights. Provide functional advice; disclose identifiable medical detail only with informed consent.</p>`},
+    { id:"reports", label:"High-value OH reports", level:4, kind:"concept", tags:["OH"], summary:"Clear, justifiable, concise; avoid false precision.", bodyHtml:`<ul><li>Answer the question asked</li><li>Functional implications + options</li><li>Adjustments and rehab options</li><li>Timescales as ranges where appropriate</li><li>Secure handling + consent pathway</li></ul>`},
+    { id:"audit", label:"Audit & improvement loop", level:4, kind:"concept", tags:["quality"], summary:"Pick topic → standard → measure → act → re-audit.", bodyHtml:`<ol><li>Pick a topic (risk/volume/cost/variation/complaints)</li><li>Define criteria + standard</li><li>Collect data</li><li>Feedback + actions</li><li>Implement change</li><li>Re-audit</li></ol>`},
+    { id:"indicators", label:"Indicators (leading/lagging)", level:4, kind:"concept", tags:["quality"], summary:"Indicators that support prevention and learning.", bodyHtml:`<p>Use both leading (break reliability, glove availability) and lagging (dermatitis cases, absence) indicators. Avoid punishment signals that suppress reporting.</p>`},
+    { id:"staffGov", label:"Staff governance & competence", level:4, kind:"concept", tags:["OH"], summary:"SOPs, supervision, CPD, audit, confidentiality training.", bodyHtml:`<p>Competence and supervision are reliability controls—especially across outsourcing chains.</p>`},
+    { id:"surveillance", label:"Health surveillance design", level:4, kind:"concept", tags:["OH"], summary:"Hazard → method → competence → action triggers.", bodyHtml:`<p>Surveillance must match hazard and method; ensure competence, calibration, and follow-up triggers.</p>`},
+
+    { id:"haccp", label:"HACCP (7 principles)", level:4, kind:"concept", tags:["food"], summary:"Hazards → CCPs → limits → monitoring → corrective actions → verification → records.", bodyHtml:`<p>HACCP is a practical system for preventing food-borne harm by identifying critical control points and defining monitoring and corrective actions.</p>`},
+    { id:"danger_zone", label:"Danger zone (5°C–63°C) control", level:4, kind:"concept", tags:["food","flow"], summary:"Time–temperature control is a key outbreak prevention lever.", bodyHtml:`<p>Audit the real process: delivery → storage → prep → processing → transport → service. Focus on cooling, holding, reheating and high-risk foods.</p>`},
+    { id:"contamination", label:"Contamination & allergen controls", level:4, kind:"concept", tags:["food"], summary:"Separation, hygiene, cleaning, pest control; prevent cross-contamination.", bodyHtml:`<p>Map contamination routes: people, surfaces, equipment, pests, storage. Build controls that still work on busy days.</p>`},
+    { id:"food_ratings", label:"Food hygiene ratings as public signal", level:4, kind:"concept", tags:["food","signal"], summary:"External transparency that pressures improvement.", bodyHtml:`<p>Public ratings create strong incentives; ensure incentives don’t become “paperwork theatre” that ignores work-as-done.</p>`},
+    { id:"acc_triangle", label:"Accident triangle / near-miss logic", level:4, kind:"concept", tags:["safety"], summary:"Near-misses and minor events are early warnings.", bodyHtml:`<p>Investigate near-miss narratives proactively; treat them as system signals, not personal failures.</p>`},
+    { id:"riddor", label:"RIDDOR-style reporting & under-reporting", level:4, kind:"concept", tags:["safety"], summary:"Definitions matter; under-reporting kills learning.", bodyHtml:`<p>Reporting systems must protect dignity and avoid punishment. Otherwise signals vanish and risk grows silently.</p>`},
+    { id:"metrics_safety", label:"Safety metrics (incidence/frequency/lost-day)", level:4, kind:"concept", tags:["safety","measurement"], summary:"Rates depend on denominators; look for variation and drift.", bodyHtml:`<p>Use measures as learning tools, not as weapons. Combine with narratives and observation.</p>`},
+    { id:"cost_iceberg", label:"Cost iceberg (direct/indirect)", level:4, kind:"concept", tags:["safety","economics"], summary:"Many costs are hidden: downtime, rework, morale, reputation.", bodyHtml:`<p>Costs are feedback signals. Don’t let accounting visibility distort what gets fixed.</p>`},
+    { id:"rca", label:"Immediate vs root causes", level:4, kind:"concept", tags:["safety"], summary:"Unsafe act/condition vs systemic drivers.", bodyHtml:`<p>Root causes often sit in procurement, maintenance, staffing, supervision, KPI conflicts and normalised deviance.</p>`},
+    { id:"audit_tools7", label:"Seven quality tools", level:4, kind:"concept", tags:["audit"], summary:"Flowchart, check sheet, run/control chart, histogram, Pareto, fishbone, scatter.", bodyHtml:`<p>Choose tools that turn data into learning: e.g., Pareto for main failure modes, fishbone for causes, control charts for drift.</p>`},
+
+    { id:"seqohs", label:"SEQOHS (UK OH service standard)", level:5, kind:"standard", tags:["standard"], summary:"Quality and governance domains for OH services.", bodyHtml:`<p>Domains include business probity, information governance, people/competence, facilities/equipment, purchaser relationships, worker relationships.</p>`},
+    { id:"iso45001", label:"ISO 45001 (OHSMS)", level:5, kind:"standard", tags:["standard"], summary:"Framework for occupational health & safety management systems.", bodyHtml:`<p>Supports structured management of safety and health responsibilities with continual improvement.</p>`},
+    { id:"hsg65", label:"HSG65 (HSE guidance)", level:5, kind:"standard", tags:["standard"], summary:"Plan–Do–Check–Act safety management guidance.", bodyHtml:`<p>Policy, organisation, planning, implementing, monitoring, audit & review.</p>`},
+    { id:"iso9001", label:"ISO 9001 (QMS)", level:5, kind:"standard", tags:["standard"], summary:"Audit-able quality management system standard.", bodyHtml:`<p>Widely adopted; structures auditing against defined processes.</p>`},
+    { id:"efqm", label:"EFQM Excellence (RADAR)", level:5, kind:"standard", tags:["model"], summary:"Results–Approach–Deploy–Assess–Refine.", bodyHtml:`<p>Self-assessment model useful for benchmarking and improvement.</p>`},
+    { id:"tqm", label:"Total Quality Management (TQM)", level:5, kind:"standard", tags:["model"], summary:"Organisation-wide continuous improvement.", bodyHtml:`<p>Staff involvement + continuous improvement + process focus.</p>`},
+    { id:"dmaic", label:"Six Sigma (DMAIC)", level:5, kind:"standard", tags:["model"], summary:"Define–Measure–Analyse–Improve–Control.", bodyHtml:`<p>Structured method for reducing defects and variation.</p>`},
+    { id:"belbin", label:"Team roles (e.g., Belbin)", level:5, kind:"standard", tags:["model"], summary:"Role balance affects service reliability and coordination.", bodyHtml:`<p>Use team-role lenses to check whether coordination, finishing, specialist knowledge and implementation are sufficiently covered.</p>`},
+
+    { id:"challenge_outsourcing", label:"Challenge: Outsourcing OH", level:6, kind:"risk", tags:["risk"], summary:"Supply chains + accountability + QA must be explicit.", bodyHtml:`<p>Outsourcing can help where internal demand is small/diverse, but commissioning employers remain responsible for duty of care. Contracts must specify QA, supervision, audit, and accountability across subcontractors.</p>`},
+    { id:"case_subcontractor_failure", label:"Case: Subcontractor quality failure", level:6, kind:"case", tags:["case"], summary:"Missed report elements → complaints and risk.", bodyHtml:`<p>A subcontracted clinician repeatedly misses required elements in reports, creating complaints and risk. Design contract oversight, supervision, audit and remediation without breaking continuity.</p>`},
+    { id:"case_wrong_report", label:"Case: Report sent to wrong person", level:6, kind:"case", tags:["case"], summary:"Data breach at an interface; root cause + prevention.", bodyHtml:`<p>A worker receives another employee’s OH report by mistake. Investigate the interface failure, fix verification and secure delivery, and improve governance.</p>`},
+    { id:"case_employer_owns", label:"Case: “We pay, so we own the report”", level:6, kind:"case", tags:["case"], summary:"Manager demands full disclosure of what employee said.", bodyHtml:`<p>Respond with confidentiality principles: provide work-focused functional advice; obtain informed consent for medical details.</p>`},
+    { id:"risk_underreporting", label:"Pathology: under-reporting & weak signals", level:6, kind:"risk", tags:["risk"], summary:"When reporting is punished, learning collapses.", bodyHtml:`<p>Under-reporting stems from fear, blame, lack of recognition and low trust. Signals vanish, risk grows silently.</p>`},
+    { id:"risk_restructure_memory", label:"Pathology: restructuring erodes safety memory", level:6, kind:"risk", tags:["risk"], summary:"Roles blur; permits/reporting/training degrade.", bodyHtml:`<p>Restructuring can unintentionally harm safety by removing clear responsibilities, reducing inspection/training, and eroding “why” memory.</p>`},
+    { id:"case_dermatitis_audit", label:"Case: Audit scores rose; dermatitis got worse", level:6, kind:"case", tags:["case"], summary:"Compliance theatre vs work-as-done reality.", bodyHtml:`<p>A new cleaning chemical arrives with SDS, training and gloves. Audit shows “good compliance”. Dermatitis rises. Wise analysis looks for pressure, stock-outs, onboarding gaps, KPI conflicts and friction—and redesigns the system.</p>`},
+    { id:"case_lev_spikes", label:"Case: LEV passes; exposures persist on busy days", level:6, kind:"case", tags:["case"], summary:"Work-as-imagined vs work-as-done mismatch.", bodyHtml:`<p>LEV meets tests, but exposure spikes occur on high-throughput days. Fix friction: staging, tools, maintenance SLAs, KPI alignment and leading indicators under load.</p>`},
+    { id:"case_food_cooling", label:"Case: Cooling failure in a busy kitchen", level:6, kind:"case", tags:["case","food"], summary:"Danger zone time accumulates during surges.", bodyHtml:`<p>Food spends too long between 5°C and 63°C during demand surges. Trace flow bottlenecks, redesign cooling workflow, add verification and “safe-to-fail” checks.</p>`}
+  ],
+  edges: [
+    {from:"wis_listening", to:"weak_signals", why:"Listening increases detection of weak signals and early warnings."},
+    {from:"wis_embodiment", to:"weak_signals", why:"Embodied unease and fatigue are system signals worth attending to."},
+    {from:"wis_holism", to:"sociotech", why:"Holism aligns with a sociotechnical view of work."},
+    {from:"wis_reflection", to:"ikww", why:"Reflection converts information into understanding and wise action."},
+    {from:"wis_safe2fail", to:"types_prob", why:"Safe-to-fail cycles fit complex problems better than big rollouts."},
+    {from:"wis_grace", to:"weak_signals", why:"Non-blame climates keep reporting safe and signals flowing."},
+    {from:"wis_ethics", to:"tech_more_data", why:"Ethical judgement constrains how monitoring and data are used."},
+    {from:"wis_ecology", to:"ecology_niches", why:"Ecological thinking highlights roles, resources and resilience in organisations."},
+    {from:"wis_proportion", to:"types_prob", why:"Proportionate action depends on recognising problem type and capacity."},
+
+    {from:"ikww", to:"information", why:"Information is the base; but must be interpreted and judged."},
+    {from:"ikww", to:"uncertainty", why:"Wisdom includes acknowledging uncertainty and avoiding false precision."},
+    {from:"sociotech", to:"emergence", why:"Sociotechnical interactions produce emergent outcomes like safety and culture."},
+    {from:"wai_wad", to:"entropy", why:"Workarounds become normal; drift grows unless countered."},
+    {from:"wai_wad", to:"constraints_safety", why:"Safety depends on constraints that work for work-as-done."},
+    {from:"types_prob", to:"complexity", why:"Complex problems have shifting interactions and require learning loops."},
+    {from:"pressures_adapt", to:"flow", why:"Pressure often comes from bottlenecks, throughput and resource flow."},
+    {from:"pressures_adapt", to:"power_incentives", why:"Targets and incentives shape what adaptations occur."},
+    {from:"weak_signals", to:"feedback", why:"Weak signals are inputs to feedback loops."},
+    {from:"tech_more_data", to:"information", why:"Tech increases information; value depends on interpretation and governance."},
+    {from:"tech_more_data", to:"trust_legit", why:"Monitoring without dignity and consent destroys trust and learning."},
+    {from:"seci", to:"learning_memory", why:"SECI explains how organisations renew memory and competence."},
+    {from:"friction_audit", to:"constraints_safety", why:"Reducing friction helps controls hold under pressure."},
+    {from:"ecology_niches", to:"resilience", why:"Diversity and keystone roles influence resilience and capacity."},
+    {from:"ecology_niches", to:"scale", why:"At scale, ecology shifts: new interfaces and resource constraints appear."},
+
+    {from:"complexity", to:"interfaces", why:"More actors and handoffs → more interface failure modes."},
+    {from:"information", to:"interfaces", why:"Information structure determines handoff reliability."},
+    {from:"information", to:"governanceInfo", why:"Sensitive information needs consent + security constraints."},
+    {from:"entropy", to:"processDrift", why:"Without maintenance, drift becomes normalised deviance."},
+    {from:"feedback", to:"measurementVar", why:"Feedback needs measurement; measurement must preserve learning."},
+    {from:"feedback", to:"audit_as_feedback", why:"Audit is a formal feedback mechanism when used for learning."},
+    {from:"boundaries", to:"supplyChains", why:"Boundary choices define accountability across outsourcing."},
+    {from:"scale", to:"supplyChains", why:"More sites/providers → accountability and oversight become harder."},
+    {from:"flow", to:"work_design", why:"Throughput pressure increases friction and pushes unsafe adaptations."},
+    {from:"time_delays", to:"audit_as_feedback", why:"Delays mean you need leading indicators and frequent learning loops."},
+    {from:"coupling", to:"interfaces", why:"Tight coupling makes handoff failures propagate quickly."},
+    {from:"learning_memory", to:"weakSignalsLoop", why:"Learning systems institutionalise weak signals and prevent repeat failures."},
+    {from:"trust_legit", to:"weakSignalsLoop", why:"Trust is required for honest reporting of weak signals."},
+    {from:"purpose_conflict", to:"audit_as_feedback", why:"If audit is used as punishment, it becomes ritual and noise."},
+    {from:"power_incentives", to:"measurementVar", why:"Metrics can create perverse incentives and under-reporting."},
+    {from:"constraints_safety", to:"control", why:"Safety is implemented through constraint-based controls that hold under load."},
+
+    {from:"interfaces", to:"reports", why:"Report delivery is a critical interface; design prevents mis-send and ambiguity."},
+    {from:"governanceInfo", to:"consent", why:"Consent/confidentiality are how governance is enacted day-to-day."},
+    {from:"supplyChains", to:"commissioning", why:"Contracts set QA and accountability across chains."},
+    {from:"audit_as_feedback", to:"audit", why:"Audit loops translate feedback into system change and re-audit."},
+    {from:"measurementVar", to:"indicators", why:"Indicators translate variation into actionable signals."},
+    {from:"control", to:"surveillance", why:"Surveillance detects harm early and supports control reliability."},
+    {from:"control", to:"staffGov", why:"Competence and SOPs are ‘human system’ controls for reliability."},
+    {from:"sociotech", to:"relationships", why:"OH is embedded in social + technical relationships and incentives."},
+    {from:"work_design", to:"danger_zone", why:"Food safety failures often arise from flow pressure and friction in real work."},
+    {from:"weakSignalsLoop", to:"acc_triangle", why:"Near-miss narratives are early warnings that need interpretation and action."},
+    {from:"measurementVar", to:"riddor", why:"Punitive reporting regimes create under-reporting; design matters."},
+    {from:"feedback", to:"audit_tools7", why:"Quality tools help convert data into learning and action."},
+    {from:"flow", to:"danger_zone", why:"Time–temperature control is a flow constraint with bottlenecks and surges."},
+    {from:"constraints_safety", to:"haccp", why:"HACCP is a constraint-based control system with monitoring and corrective action."},
+
+    {from:"commissioning", to:"seqohs", why:"SEQOHS constrains purchaser relationships and probity (including outsourced work)."},
+    {from:"consent", to:"seqohs", why:"SEQOHS information governance and worker relationships constrain consent practice."},
+    {from:"staffGov", to:"seqohs", why:"SEQOHS people domain aligns competence, supervision and CPD."},
+    {from:"surveillance", to:"iso45001", why:"OHSMS expects hazard control and monitoring."},
+    {from:"control", to:"hsg65", why:"HSG65 expresses policy/organisation/planning/monitoring/audit."},
+    {from:"audit", to:"iso9001", why:"QMS structures auditing against defined processes."},
+    {from:"audit", to:"tqm", why:"TQM embeds continuous improvement across the organisation."},
+    {from:"audit", to:"dmaic", why:"DMAIC provides structured improvement (define-measure-analyse-improve-control)."},
+    {from:"relationships", to:"belbin", why:"Team-role balance affects coordination, quality and stakeholder alignment."},
+
+    {from:"commissioning", to:"challenge_outsourcing", why:"Outsourcing needs explicit scope, QA, and accountability terms."},
+    {from:"supplyChains", to:"challenge_outsourcing", why:"Outsourcing creates chains; oversight must be designed."},
+    {from:"challenge_outsourcing", to:"case_subcontractor_failure", why:"Subcontractor quality failure is a common chain breakdown mode."},
+    {from:"interfaces", to:"case_wrong_report", why:"Handoff failure can cause data breach; fix interface design."},
+    {from:"consent", to:"case_employer_owns", why:"Confidentiality + consent resolve the “we pay so we own it” bind."},
+    {from:"measurementVar", to:"risk_underreporting", why:"Punitive metrics suppress reporting; signals disappear."},
+    {from:"learning_memory", to:"risk_restructure_memory", why:"Restructures erode institutional memory and role clarity."},
+    {from:"audit_as_feedback", to:"case_dermatitis_audit", why:"Audit must detect drift and pressure, not just paperwork compliance."},
+    {from:"wai_wad", to:"case_lev_spikes", why:"Exposure spikes reveal work-as-done mismatch under high throughput."},
+    {from:"danger_zone", to:"case_food_cooling", why:"Cooling/holding failures emerge from surge pressure and weak verification."},
+
+    {from:"wis_listening", to:"case_dermatitis_audit", why:"Listening finds friction and supply/staffing realities that audits miss."},
+    {from:"wis_safe2fail", to:"case_food_cooling", why:"Pilot small workflow changes with measures to prevent backfire."},
+    {from:"wis_grace", to:"risk_underreporting", why:"Non-blame climates reduce fear and restore reporting signals."}
+  ]
+};
+
+let data = structuredClone(DATA);
+
+const el = (q, root=document) => root.querySelector(q);
+const els = (q, root=document) => Array.from(root.querySelectorAll(q));
+
+const levelsEl = el("#levels");
+const edgesSvg = el("#edges");
+const stageInner = el("#stageInner");
+
+const searchEl = el("#search");
+const filterKindEl = el("#filterKind");
+const btnClear = el("#btnClear");
+const btnTrace = el("#btnTrace");
+const btnPrompt = el("#btnPrompt");
+const btnCopyPrompt = el("#btnCopyPrompt");
+
+const jsonIO = el("#jsonIO");
+const btnLoadJson = el("#btnLoadJson");
+const btnDumpJson = el("#btnDumpJson");
+
+const detailEmpty = el("#detailEmpty");
+const detail = el("#detail");
+const dTitle = el("#dTitle");
+const dMeta = el("#dMeta");
+const dBody = el("#dBody");
+const dConnections = el("#dConnections");
+const pathEl = el("#path");
+const selectedChipsEl = el("#selectedChips");
+const userContext = el("#userContext");
+const promptOut = el("#promptOut");
+const toastEl = el("#toast");
+
+let selected = new Set();
+let primary = null;
+let currentPath = [];
+let currentPaths = new Map(); // id -> path array for traced selections
+let edgeIndex = null;
+
+/* Long-press multi-select for mobile */
+let lpTimer = null;
+let lpTargetId = null;
+let lpFired = false;
+const LONGPRESS_MS = 480;
+
+// persist context
+try{
+  const savedCtx = localStorage.getItem("oh_lattice_userContext");
+  if(savedCtx && userContext) userContext.value = savedCtx;
+  userContext?.addEventListener("input", ()=> localStorage.setItem("oh_lattice_userContext", userContext.value || ""));
+}catch(_){}
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  setTimeout(()=>toastEl.classList.remove("show"), 1300);
+}
+
+function ensureConnectivity(){
+  // Add missing edges for nodes that would otherwise be isolated.
+  // This keeps the lattice navigable even as the content grows.
+  const degree = new Map();
+  for(const n of data.nodes) degree.set(n.id, 0);
+  for(const e of data.edges){
+    degree.set(e.from, (degree.get(e.from)||0)+1);
+    degree.set(e.to, (degree.get(e.to)||0)+1);
+  }
+  const add = (from,to,why)=>{
+    const key = `${from}→${to}`;
+    for(const e of data.edges){ if(`${e.from}→${e.to}`===key) return; }
+    data.edges.push({from, to, why});
+  };
+  // Targeted fixes (content-specific)
+  if(degree.get('variety')===0){
+    add('complexity','variety','Complex systems present many possible states; “variety” names that diversity of situations and responses.');
+    add('variety','viability','Viability depends on having enough response options to keep the system within safe bounds.');
+    add('variety','information','Information reduces uncertainty by selecting what matters from variety.');
+  }
+  if(degree.get('contamination')===0){
+    add('haccp','contamination','HACCP is the core method for preventing contamination and controlling allergens.');
+    add('contamination','audit','Audits test whether contamination controls work under real conditions (not only on paper).');
+  }
+  if(degree.get('food_ratings')===0){
+    add('audit','food_ratings','Food hygiene ratings act as a public-facing outcome/score of hygiene performance.');
+    add('food_ratings','weak_signals','A drop in ratings is a strong signal that may lag behind weaker early signals in work-as-done.');
+  }
+  if(degree.get('metrics_safety')===0){
+    add('governanceInfo','metrics_safety','Metrics are governed information: definitions, collection, interpretation and use.');
+    add('metrics_safety','audit_as_feedback','Metrics improve only when used as feedback for learning, not a compliance ritual.');
+    add('acc_triangle','metrics_safety','Near-miss logic complements frequency/incident metrics: narratives reveal patterns before harm.');
+  }
+  if(degree.get('cost_iceberg')===0){
+    add('metrics_safety','cost_iceberg','Safety and OH outcomes create direct and indirect costs; the iceberg model reveals hidden system costs.');
+    add('resilience','cost_iceberg','Slack/resilience costs money, but prevents far larger hidden costs from failure and recovery.');
+  }
+  if(degree.get('rca')===0){
+    add('wai_wad','rca','Root cause thinking must account for work-as-done adaptations, not only work-as-imagined procedures.');
+    add('sociotech','rca','Accidents arise from interacting sociotechnical factors; root causes are often system causes.');
+    add('rca','audit','RCA outputs should feed the improvement loop (change the system, then re-check).');
+  }
+  if(degree.get('efqm')===0){
+    add('efqm','audit','EFQM/RADAR provides a structure for assessing results and refining approaches (audit → improve).');
+    add('audit','efqm','Audit evidence can be organised into EFQM/RADAR to drive systematic improvement.');
+  }
+}
+
+function buildEdgeIndex(){
+  edgeIndex = { out:new Map(), into:new Map(), map:new Map() };
+  for(const e of data.edges){
+    if(!edgeIndex.out.has(e.from)) edgeIndex.out.set(e.from, []);
+    if(!edgeIndex.into.has(e.to)) edgeIndex.into.set(e.to, []);
+    edgeIndex.out.get(e.from).push(e);
+    edgeIndex.into.get(e.to).push(e);
+    edgeIndex.map.set(`${e.from}→${e.to}`, e);
+  }
+}
+
+function getNode(id){ return data.nodes.find(n=>n.id===id); }
+
+function kindTag(kind){
+  if(kind==="wisdom") return "WISDOM";
+  if(kind==="standard") return "STANDARD";
+  if(kind==="case") return "CASE";
+  if(kind==="risk") return "RISK";
+  return "CONCEPT";
+}
+
+function cssEscape(s){
+  return (window.CSS && CSS.escape) ? CSS.escape(s) : s.replace(/"/g,'\\"');
+}
+
+function stripHtml(html){
+  const d = document.createElement("div");
+  d.innerHTML = html;
+  return d.textContent || d.innerText || "";
+}
+
+function render(){
+  ensureConnectivity();
+  buildEdgeIndex();
+  levelsEl.innerHTML = "";
+  edgesSvg.innerHTML = "";
+
+  for(const lvl of data.levels){
+    const wrap = document.createElement("section");
+    wrap.className = "level";
+    wrap.dataset.level = lvl.id;
+    wrap.innerHTML = `
+      <div class="levelHeader">
+        <div class="lhTitle">
+          <span class="badge">Level ${lvl.id}</span>
+          <span>${lvl.title}</span>
+        </div>
+        <div class="lhHint">${lvl.hint}</div>
+      </div>
+      <div class="row" id="row-${lvl.id}"></div>
+    `;
+    levelsEl.appendChild(wrap);
+  }
+
+  const byLevel = new Map();
+  for(const n of data.nodes){
+    if(!byLevel.has(n.level)) byLevel.set(n.level, []);
+    byLevel.get(n.level).push(n);
+  }
+  for(const [lvl, arr] of byLevel){
+    arr.sort((a,b)=> (a.kind.localeCompare(b.kind) || a.label.localeCompare(b.label)));
+    const row = el(`#row-${lvl}`);
+    if(!row) continue;
+
+    for(const n of arr){
+      const nodeEl = document.createElement("div");
+      nodeEl.className = "node";
+      nodeEl.dataset.id = n.id;
+      nodeEl.dataset.kind = n.kind;
+      nodeEl.dataset.level = String(n.level);
+      nodeEl.innerHTML = `
+        <span class="dot"></span>
+        <span class="label">${n.label}</span>
+        <span class="tag">${kindTag(n.kind)}</span>
+      `;
+
+      // Desktop/pen pointerdown: capture modifier state reliably and prevent double-fire
+      nodeEl.addEventListener("pointerdown", (ev)=>{
+        if(ev.pointerType === "touch") return; // touch handled by long-press
+        const multi = ev.shiftKey || ev.ctrlKey || ev.metaKey;
+        // Use pointerdown selection to avoid click losing modifier state.
+        selectNode(n.id, {multi});
+        nodeEl.dataset.skipClick = "1";
+      });
+
+nodeEl.addEventListener("click", (ev) => {
+        if(nodeEl.dataset.skipClick==="1"){ nodeEl.dataset.skipClick="0"; return; }
+        if(lpFired){ lpFired = false; return; }
+        const multi = ev.shiftKey || ev.ctrlKey || ev.metaKey;
+        selectNode(n.id, {multi});
+      });
+
+      nodeEl.addEventListener("pointerdown", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        try{ nodeEl.setPointerCapture(ev.pointerId); }catch(_){}
+        lpTargetId = n.id;
+        lpFired = false;
+        const startX = ev.clientX, startY = ev.clientY;
+        nodeEl.dataset.lpStartX = String(startX);
+        nodeEl.dataset.lpStartY = String(startY);
+
+        clearTimeout(lpTimer);
+        lpTimer = setTimeout(()=>{
+          lpFired = true;
+          selectNode(lpTargetId, {multi:true});
+          toast("Multi-select: toggled");
+        }, LONGPRESS_MS);
+      });
+
+      nodeEl.addEventListener("pointermove", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        if(!lpTimer) return;
+        const sx = Number(nodeEl.dataset.lpStartX || "0");
+        const sy = Number(nodeEl.dataset.lpStartY || "0");
+        const dx = ev.clientX - sx;
+        const dy = ev.clientY - sy;
+        const dist = Math.hypot(dx, dy);
+        if(dist > 10){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+      });
+
+      nodeEl.addEventListener("pointerup", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        if(lpTimer){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+        // If long-press fired, swallow the subsequent click where possible
+        if(lpFired){
+          ev.preventDefault();
+        }
+      });
+
+      nodeEl.addEventListener("pointercancel", ()=>{
+        if(lpTimer){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+      });
+
+      row.appendChild(nodeEl);
+    }
+  }
+
+  requestAnimationFrame(()=>{
+    drawEdges();
+    applyFilter();
+    applySelectionStyles();
+    renderSelectedChips();
+    renderDetail();
+  });
+}
+
+function drawEdges(){
+  edgesSvg.innerHTML = "";
+  const rect = stageInner.getBoundingClientRect();
+  edgesSvg.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+
+  const centers = new Map();
+  for(const nodeEl of els(".node", stageInner)){
+    const r = nodeEl.getBoundingClientRect();
+    const cx = (r.left - rect.left) + r.width/2;
+    const cy = (r.top - rect.top) + r.height/2;
+    centers.set(nodeEl.dataset.id, {cx, cy});
+  }
+
+  for(const e of data.edges){
+    const a = centers.get(e.from);
+    const b = centers.get(e.to);
+    if(!a || !b) continue;
+
+    const dx = (b.cx - a.cx);
+    const dy = (b.cy - a.cy);
+    const bend = Math.max(42, Math.abs(dy)*0.35);
+    const c1x = a.cx + dx*0.15;
+    const c1y = a.cy + (dy>=0 ? bend : -bend);
+    const c2x = b.cx - dx*0.15;
+    const c2y = b.cy - (dy>=0 ? bend : -bend);
+
+    const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d", `M ${a.cx} ${a.cy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${b.cx} ${b.cy}`);
+    p.setAttribute("class", "edge");
+    p.dataset.from = e.from;
+    p.dataset.to = e.to;
+    edgesSvg.appendChild(p);
+  }
+}
+
+function applyFilter(){
+  const q = (searchEl.value || "").trim().toLowerCase();
+  const kind = filterKindEl.value;
+
+  const matches = (n) => {
+    const txt = `${n.label} ${(n.summary||"")} ${(n.tags||[]).join(" ")} ${(stripHtml(n.bodyHtml||""))}`.toLowerCase();
+    const okQ = !q || txt.includes(q);
+    const okKind = (kind==="all") || n.kind===kind;
+    return okQ && okKind;
+  };
+
+  const matched = new Set(data.nodes.filter(matches).map(n=>n.id));
+
+  for(const nodeEl of els(".node", stageInner)){
+    const id = nodeEl.dataset.id;
+    const isMatch = matched.has(id);
+    nodeEl.classList.toggle("dim", !isMatch && q.length>0);
+    nodeEl.style.display = ((kind==="all" || nodeEl.dataset.kind===kind) ? "" : "none");
+  }
+
+  for(const p of els(".edge", edgesSvg)){
+    const a = el(`.node[data-id="${cssEscape(p.dataset.from)}"]`, stageInner);
+    const b = el(`.node[data-id="${cssEscape(p.dataset.to)}"]`, stageInner);
+    const hidden = (!a || !b || a.style.display==="none" || b.style.display==="none");
+    p.classList.toggle("dim", hidden);
+  }
+}
+
+function selectNode(id, {multi=false}={}){
+  if(!multi){
+    selected.clear();
+    selected.add(id);
+  }else{
+    if(selected.has(id)) selected.delete(id);
+    else selected.add(id);
+  }
+  primary = selected.size ? (selected.has(id) ? id : selected.values().next().value) : null;
+  currentPath = [];
+  currentPaths.clear();
+  applySelectionStyles();
+  renderSelectedChips();
+  renderDetail();
+  highlightRelated();
+  highlightEdges();
+}
+
+function clearSelection(){
+  selected.clear();
+  primary = null;
+  currentPath = [];
+  currentPaths.clear();
+  applySelectionStyles();
+  renderSelectedChips();
+  renderDetail();
+  highlightEdges();
+}
+
+function applySelectionStyles(){
+  for(const nodeEl of els(".node", stageInner)){
+    nodeEl.classList.toggle("selected", selected.has(nodeEl.dataset.id));
+  }
+}
+
+function highlightRelated(){
+  for(const nodeEl of els(".node", stageInner)) nodeEl.classList.remove("related");
+  if(!primary || !edgeIndex) return;
+
+  const rel = new Set();
+  for(const e of (edgeIndex.out.get(primary)||[])) rel.add(e.to);
+  for(const e of (edgeIndex.into.get(primary)||[])) rel.add(e.from);
+
+  for(const id of rel){
+    const nodeEl = el(`.node[data-id="${cssEscape(id)}"]`, stageInner);
+    if(nodeEl) nodeEl.classList.add("related");
+  }
+}
+
+function highlightEdges(){
+  const hi = new Set();
+
+  // Highlight adjacency for ALL selected nodes (not only primary)
+  if(edgeIndex && selected && selected.size){
+    for(const sid of selected){
+      for(const e of (edgeIndex.out.get(sid)||[])) hi.add(`${e.from}→${e.to}`);
+      for(const e of (edgeIndex.into.get(sid)||[])) hi.add(`${e.from}→${e.to}`);
+    }
+  }
+
+  // Highlight all traced paths (Trace to top) across all selected nodes
+  if(currentPaths && currentPaths.size){
+    for(const path of currentPaths.values()){
+      if(!path || path.length<2) continue;
+      for(let i=0;i<path.length-1;i++){
+        hi.add(`${path[i]}→${path[i+1]}`);
+      }
+    }
+  }else if(currentPath && currentPath.length>1){
+    // Backward compatibility (single path)
+    for(let i=0;i<currentPath.length-1;i++){
+      hi.add(`${currentPath[i]}→${currentPath[i+1]}`);
+    }
+  }
+
+  for(const p of els(".edge", edgesSvg)){
+    const key = `${p.dataset.from}→${p.dataset.to}`;
+    const shouldHi = hi.has(key);
+    p.classList.toggle("hi", shouldHi);
+    p.classList.toggle("dim", (selected.size>0 || currentPaths.size>0 || (currentPath && currentPath.length>1)) && !shouldHi);
+  }
+}
+
+function renderSelectedChips(){
+  selectedChipsEl.innerHTML = "";
+  const arr = Array.from(selected).map(getNode).filter(Boolean);
+  if(arr.length===0){
+    const chip = document.createElement("div");
+    chip.className="hint";
+    chip.textContent = "Multi-select: Shift+Click (desktop) or Long-press (mobile).";
+    selectedChipsEl.appendChild(chip);
+    return;
+  }
+  for(const n of arr){
+    const c = document.createElement("div");
+    c.className = "chip active";
+    c.innerHTML = `${n.label}<span class="x">×</span>`;
+    c.onclick = () => {
+      selected.delete(n.id);
+      primary = selected.size ? selected.values().next().value : null;
+      currentPath = [];
+  currentPaths.clear();
+      applySelectionStyles();
+      renderSelectedChips();
+      renderDetail();
+      highlightRelated();
+      highlightEdges();
+    };
+    selectedChipsEl.appendChild(c);
+  }
+}
+
+function renderDetail(){
+  if(!primary){
+    detailEmpty.style.display = "";
+    detail.style.display = "none";
+    btnTrace.disabled = true;
+    btnPrompt.disabled = true;
+    btnCopyPrompt.disabled = true;
+    return;
+  }
+  const n = getNode(primary);
+  if(!n){
+    detailEmpty.style.display = "";
+    detail.style.display = "none";
+    btnTrace.disabled = true;
+    btnPrompt.disabled = true;
+    btnCopyPrompt.disabled = true;
+    return;
+  }
+  detailEmpty.style.display = "none";
+  detail.style.display = "";
+  btnTrace.disabled = false;
+  btnPrompt.disabled = false;
+  btnCopyPrompt.disabled = (promptOut.value.trim().length===0);
+
+  dTitle.textContent = n.label;
+
+  dMeta.innerHTML = "";
+  const pill1 = document.createElement("div");
+  pill1.className = "pill";
+  pill1.textContent = `Level ${n.level} • ${kindTag(n.kind)}`;
+  dMeta.appendChild(pill1);
+
+  if(n.tags && n.tags.length){
+    for(const tag of n.tags){
+      const p = document.createElement("div");
+      p.className="pill";
+      p.textContent = tag;
+      dMeta.appendChild(p);
+    }
+  }
+  if(n.summary){
+    const p = document.createElement("div");
+    p.className="pill";
+    p.textContent = n.summary;
+    dMeta.appendChild(p);
+  }
+
+  dBody.innerHTML = n.bodyHtml || "<p>(No detail yet.)</p>";
+
+  dConnections.innerHTML = "";
+  const conn = [];
+  for(const e of (edgeIndex.out.get(primary)||[])){
+    const toN = getNode(e.to);
+    if(toN) conn.push({type:"down", other:toN, why:e.why});
+  }
+  for(const e of (edgeIndex.into.get(primary)||[])){
+    const fromN = getNode(e.from);
+    if(fromN) conn.push({type:"up", other:fromN, why:e.why});
+  }
+  conn.sort((a,b)=> (a.type.localeCompare(b.type) || a.other.level - b.other.level || a.other.label.localeCompare(b.other.label)));
+  for(const c of conn){
+    const li = document.createElement("li");
+    li.innerHTML = `<b>${c.type==="up" ? "Upstream" : "Downstream"}:</b> <span style="color:#0284c7; font-weight:950">${c.other.label}</span><br/><span style="color:var(--muted2)">${c.why}</span>`;
+    li.style.marginBottom = "8px";
+    li.onclick = () => { selectNode(c.other.id, {multi:false}); scrollToNode(c.other.id); };
+    li.style.cursor = "pointer";
+    dConnections.appendChild(li);
+  }
+
+  if(!currentPath.length) renderPath([]);
+}
+
+function findTopRoots(){
+  return data.nodes.filter(n=>n.level===0).map(n=>n.id);
+}
+
+function traceToTop(targetId){
+  if(!edgeIndex) buildEdgeIndex();
+  const roots = new Set(findTopRoots());
+  if(roots.has(targetId)) return [targetId];
+
+  const q = [targetId];
+  const prev = new Map();
+  const seen = new Set([targetId]);
+  let foundRoot = null;
+
+  while(q.length){
+    const cur = q.shift();
+    const incoming = edgeIndex.into.get(cur) || [];
+    for(const e of incoming){
+      const up = e.from;
+      if(seen.has(up)) continue;
+      seen.add(up);
+      prev.set(up, cur);
+      if(roots.has(up)){ foundRoot = up; q.length = 0; break; }
+      q.push(up);
+    }
+  }
+  if(!foundRoot) return [targetId];
+
+  const path = [foundRoot];
+  let cur = foundRoot;
+  while(cur !== targetId){
+    const next = prev.get(cur);
+    if(!next) break;
+    path.push(next);
+    cur = next;
+  }
+  return path;
+}
+
+function renderPath(path){
+  pathEl.innerHTML = "";
+  if(!primary) return;
+
+  if(path.length===0){
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = "Tap “Trace to top” to generate a step-by-step constraint path.";
+    pathEl.appendChild(hint);
+    return;
+  }
+
+  currentPath = path;
+  highlightEdges();
+
+  for(let i=0;i<path.length;i++){
+    const id = path[i];
+    const n = getNode(id);
+    if(!n) continue;
+
+    let expl = "";
+    if(i < path.length-1){
+      const e = edgeIndex.map.get(`${id}→${path[i+1]}`);
+      if(e) expl = e.why;
+    }else{
+      expl = "Selected concept.";
+    }
+
+    const step = document.createElement("div");
+    step.className="pathStep";
+    step.innerHTML = `
+      <div class="n">${i+1}</div>
+      <div>
+        <div class="t">${n.label}</div>
+        <div class="d">${expl}</div>
+      </div>
+    `;
+    step.onclick = () => { selectNode(id, {multi:false}); scrollToNode(id); };
+    pathEl.appendChild(step);
+  }
+}
+
+function scrollToNode(id){
+  const nodeEl = el(`.node[data-id="${cssEscape(id)}"]`, stageInner);
+  if(!nodeEl) return;
+  nodeEl.scrollIntoView({behavior:"smooth", block:"center", inline:"center"});
+}
+
+function generatePrompt(){
+  const selectedNodes = Array.from(selected).map(getNode).filter(Boolean);
+  const ctx = (userContext?.value || "").trim();
+  if(selectedNodes.length===0){ toast("Select at least one node."); return ""; }
+
+  const cases = selectedNodes.filter(n=>n.kind==="case");
+  const risks = selectedNodes.filter(n=>n.kind==="risk");
+  const primaryCase = cases[0] || risks[0] || selectedNodes.find(n=>n.level===6) || selectedNodes[0];
+
+  const path = traceToTop(primaryCase.id);
+
+  const picked = new Map();
+  for(const id of path){ const n = getNode(id); if(n) picked.set(n.id, n); }
+  for(const n of selectedNodes) picked.set(n.id, n);
+
+  const bullet = (arr) => arr.map(x=>`- ${x}`).join("\n");
+  const nodesList = Array.from(picked.values());
+
+  return [
+`You are a systems-thinking occupational health specialist and a careful storyteller.`,
+`Write a clear, vivid narrative case-study that starts with the concrete situation: "${primaryCase.label}".`,
+`Your job is to show—step by step—how upstream super-concepts and management wisdom shape the situation, and how wiser system design improves outcomes.`,
+ctx ? `\nUser context to incorporate (treat as true for the scenario):\n${ctx}` : ``,
+``,
+`Requirements:`,
+bullet([
+  `Use realistic stakeholders, pressures, incentives, and trade-offs.`,
+  `Explicitly weave in at least 8 nodes from the concept list below (name them and show how they appear).`,
+  `Show at least 3 “system moves” (changes to interfaces, feedback, governance, work design, contracts, procurement, rostering, etc.) that improve outcomes.`,
+  `Make at least 2 “wisdom moves” (listening, dignity/non-blame, proportion, ethical judgement, reflection, safe-to-fail experimentation).`,
+  `Keep confidentiality and consent principles intact when relevant.`,
+  `End with: (a) 5 bullet lessons, (b) 3 practical next actions, (c) 2 backfire risks and how to monitor them.`
+]),
+``,
+`Concept map nodes (pick the most relevant and connect them causally):`,
+bullet(nodesList.map(n=>`${n.label} (Level ${n.level}, ${kindTag(n.kind)}): ${n.summary || ""}`.trim())),
+``,
+`Constraint path to emphasise (top → selected):`,
+bullet(path.map((id,i)=>`${i+1}. ${getNode(id)?.label || id}`)),
+``,
+`Tone: practical, respectful, plain-language. Explain technical terms briefly and avoid jargon where possible.`
+  ].join("\n");
+}
+
+function copyToClipboard(text){
+  navigator.clipboard.writeText(text).then(()=>toast("Copied.")).catch(()=>toast("Could not copy (browser permissions)."));
+}
+
+btnClear.onclick = () => { clearSelection(); promptOut.value=""; btnCopyPrompt.disabled=true; };
+
+btnTrace.onclick = () => {
+  if(!primary){ toast("Select a node first."); return; }
+
+  // Compute and store trace paths for every selected node
+  currentPaths.clear();
+  for(const sid of selected){
+    const p = traceToTop(sid);
+    currentPaths.set(sid, p);
+  }
+
+  // Render the primary path in the panel (keeps UI clean),
+  // but edge highlighting will reflect ALL traced paths.
+  const primaryPath = currentPaths.get(primary) || traceToTop(primary);
+  renderPath(primaryPath);
+
+  highlightRelated();
+  highlightEdges();
+  toast(`Traced ${selected.size} selection${selected.size===1?"":"s"}.`);
+};
+
+btnPrompt.onclick = () => {
+  const p = generatePrompt();
+  if(!p) return;
+  promptOut.value = p;
+  btnCopyPrompt.disabled = false;
+  toast("Prompt generated.");
+};
+
+btnCopyPrompt.onclick = () => {
+  const txt = promptOut.value.trim();
+  if(!txt){ toast("Generate a prompt first."); return; }
+  copyToClipboard(txt);
+};
+
+searchEl.addEventListener("input", applyFilter);
+filterKindEl.addEventListener("change", ()=>{ applyFilter(); drawEdges(); highlightEdges(); });
+
+window.addEventListener("resize", ()=>{ drawEdges(); highlightEdges(); });
+
+document.addEventListener("keydown", (ev)=>{ if(ev.key==="Escape") clearSelection(); });
+
+btnLoadJson?.addEventListener("click", () => {
+  const txt = (jsonIO.value || "").trim();
+  if(!txt){ toast("Paste JSON first."); return; }
+  try{
+    const obj = JSON.parse(txt);
+    if(!obj.nodes || !obj.edges) throw new Error("JSON must include nodes and edges.");
+    data = {
+      levels: Array.isArray(obj.levels) ? obj.levels : data.levels,
+      nodes: obj.nodes,
+      edges: obj.edges
+    };
+    clearSelection();
+    promptOut.value="";
+    btnCopyPrompt.disabled=true;
+    render();
+    toast("Map loaded.");
+  }catch(e){ toast("Invalid JSON: " + e.message); }
+});
+
+btnDumpJson?.addEventListener("click", () => {
+  jsonIO.value = JSON.stringify({levels:data.levels, nodes:data.nodes, edges:data.edges}, null, 2);
+  toast("Exported.");
+});
+
+render();
+</script>
+</body>
+</html>
