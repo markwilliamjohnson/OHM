@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SEP Goguen Institution Sandbox (No React)</title>
+  <style>
+    :root { --bg:#0b1020; --panel:#111a33; --ink:#e8eeff; --muted:#b7c2ee; --bad:#ff5a7a; --ok:#5affb0; --warn:#ffd36b; --line:#2a3a77; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--ink); }
+    header { padding:18px 18px 10px; border-bottom:1px solid var(--line); }
+    header h1 { margin:0; font-size:18px; letter-spacing:.2px; }
+    header p { margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.4; max-width:1000px; }
+    .grid { display:grid; grid-template-columns: 380px 1fr; gap:14px; padding:14px; }
+    @media (max-width: 980px){ .grid{ grid-template-columns:1fr; } }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
+    .card h2 { margin:0 0 8px; font-size:14px; color:var(--muted); font-weight:650; letter-spacing:.3px; text-transform:uppercase; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:10px 0; }
+    .row label { font-size:13px; color:var(--ink); }
+    .row .v { color:var(--muted); font-variant-numeric: tabular-nums; font-size:12px; }
+    input[type="range"] { width: 190px; }
+    .pill { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid var(--line); background: rgba(255,255,255,.04); font-size:12px; color:var(--muted); }
+    .btns { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    button { cursor:pointer; background: rgba(255,255,255,.06); border:1px solid var(--line); color:var(--ink); padding:8px 10px; border-radius:10px; font-size:12px; }
+    button:hover { background: rgba(255,255,255,.10); }
+    button:active { transform: translateY(1px); }
+    .split { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    @media (max-width: 980px){ .split{ grid-template-columns:1fr; } }
+
+    .status { display:flex; gap:10px; flex-wrap:wrap; margin: 8px 0 2px; }
+    .badge { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:12px; border:1px solid var(--line); font-size:12px; }
+    .dot { width:9px; height:9px; border-radius:99px; display:inline-block; background:var(--muted); }
+    .ok .dot{ background:var(--ok); }
+    .bad .dot{ background:var(--bad); }
+    .warn .dot{ background:var(--warn); }
+
+    .list { margin:8px 0 0; padding:0; list-style:none; }
+    .list li { padding:8px 8px; border:1px solid rgba(255,255,255,.06); border-radius:12px; margin:8px 0; }
+    .list b { display:block; font-size:13px; margin-bottom:4px; }
+    .list small { color:var(--muted); line-height:1.35; display:block; }
+    .k { color:var(--muted); font-size:12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    canvas { width:100%; height:220px; background: rgba(0,0,0,.25); border-radius:12px; border:1px solid rgba(255,255,255,.08); }
+    .two { display:grid; grid-template-columns: 1.2fr .8fr; gap:12px; }
+    @media (max-width: 980px){ .two{ grid-template-columns:1fr; } }
+    .note { color:var(--muted); font-size:12px; line-height:1.45; }
+    .hr { height:1px; background: rgba(255,255,255,.08); margin:10px 0; }
+    .mini { font-size:11px; color:var(--muted); }
+    .callout { border-left: 4px solid rgba(255,255,255,.18); padding:8px 10px; border-radius:10px; background: rgba(255,255,255,.04); }
+    .danger { border-left-color: var(--bad); }
+    .success { border-left-color: var(--ok); }
+    .warnc { border-left-color: var(--warn); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SEP Goguen Institution Sandbox</h1>
+    <p>
+      An interactive toy model of the Goguen institution extracted from the SEP People & Structures evaluation.
+      You can tune parameters (consultation, governance, training, tech readiness, etc.) and watch when the institution’s
+      axioms are satisfied (<span class="mono">M ⊨ Sen(Σ)</span>) or violated. The simulation teaches <i>why</i> pathologies emerge:
+      broken feedback loops, process–technology mismatch, churn/knowledge loss, and workload spirals.
+    </p>
+  </header>
+
+  <div class="grid">
+    <!-- LEFT: Controls -->
+    <section class="card">
+      <h2>Parameters (institution “design + implementation”)</h2>
+
+      <div class="row">
+        <label>Consultation quality</label>
+        <input id="pConsult" type="range" min="0" max="100" value="35" />
+        <span class="v" id="vConsult">0.35</span>
+      </div>
+
+      <div class="row">
+        <label>Training coverage & quality</label>
+        <input id="pTraining" type="range" min="0" max="100" value="30" />
+        <span class="v" id="vTraining">0.30</span>
+      </div>
+
+      <div class="row">
+        <label>Process clarity (mapping + handoffs)</label>
+        <input id="pProcess" type="range" min="0" max="100" value="40" />
+        <span class="v" id="vProcess">0.40</span>
+      </div>
+
+      <div class="row">
+        <label>Tech readiness (tools live when structure changes)</label>
+        <input id="pTech" type="range" min="0" max="100" value="25" />
+        <span class="v" id="vTech">0.25</span>
+      </div>
+
+      <div class="row">
+        <label>Governance effectiveness (real grip + deliberation)</label>
+        <input id="pGov" type="range" min="0" max="100" value="30" />
+        <span class="v" id="vGov">0.30</span>
+      </div>
+
+      <div class="row">
+        <label>Resourcing adequacy (headcount + skill mix)</label>
+        <input id="pResource" type="range" min="0" max="100" value="35" />
+        <span class="v" id="vResource">0.35</span>
+      </div>
+
+      <div class="row">
+        <label>Academic–PS connectivity (named contacts + trust)</label>
+        <input id="pConn" type="range" min="0" max="100" value="30" />
+        <span class="v" id="vConn">0.30</span>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Dynamics knobs (how problems propagate)</h2>
+      <div class="row">
+        <label>Change pace (rollout shock)</label>
+        <input id="pPace" type="range" min="0" max="100" value="70" />
+        <span class="v" id="vPace">0.70</span>
+      </div>
+
+      <div class="row">
+        <label>Cost pressure (savings over quality)</label>
+        <input id="pCost" type="range" min="0" max="100" value="65" />
+        <span class="v" id="vCost">0.65</span>
+      </div>
+
+      <div class="row">
+        <label>Complexity (coupled work packages)</label>
+        <input id="pComplex" type="range" min="0" max="100" value="75" />
+        <span class="v" id="vComplex">0.75</span>
+      </div>
+
+      <div class="btns">
+        <button id="bReset">Reset to “Reported Pathology”</button>
+        <button id="bGood">Preset: “Healthy Change”</button>
+        <button id="bGovernanceFix">Preset: “Governance Only”</button>
+        <button id="bTechFirst">Preset: “Tech First”</button>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Simulation</h2>
+      <div class="row">
+        <span class="pill"><span class="dot"></span><span>Step = 1 month</span></span>
+        <span class="pill"><span class="dot"></span><span id="simMonth">Month 0</span></span>
+      </div>
+      <div class="btns">
+        <button id="bStep">Step</button>
+        <button id="bRun">Run 24 months</button>
+        <button id="bStop" disabled>Stop</button>
+        <button id="bClear">Clear history</button>
+      </div>
+
+      <p class="note">
+        The simulation evolves: workload → churn → knowledge loss → slower service → worse student satisfaction.
+        Governance and consultation affect whether red risks stop rollout or get “signed off anyway”.
+      </p>
+    </section>
+
+    <!-- RIGHT: Outputs -->
+    <section class="card">
+      <div class="two">
+        <div>
+          <h2>Institution Satisfaction</h2>
+          <div class="status" id="axiomBadges"></div>
+
+          <div class="hr"></div>
+
+          <h2>Pathologies detected</h2>
+          <ul class="list" id="pathList"></ul>
+
+          <div class="hr"></div>
+
+          <h2>Teach me: what’s happening?</h2>
+          <div class="callout warnc" id="teachingBox">
+            <div class="mini mono">Tip:</div>
+            <div id="teachText" class="note"></div>
+          </div>
+        </div>
+
+        <div>
+          <h2>System dynamics</h2>
+          <canvas id="chart" width="720" height="260"></canvas>
+          <div class="mini">
+            Lines: Workload (W), Turnover (T), Knowledge (K), Student satisfaction (S), Service latency (L).
+          </div>
+
+          <div class="hr"></div>
+
+          <h2>Current state (model M)</h2>
+          <div class="callout" id="stateBox">
+            <div class="k mono" id="stateText"></div>
+          </div>
+
+          <div class="hr"></div>
+
+          <h2>What counts as “success” here?</h2>
+          <p class="note">
+            The institution has axioms: Consultation, Training, Clear processes, Tech readiness, Governance grip,
+            Resourcing, Academic–PS connectivity, Student satisfaction. When enough are met, <span class="mono">M ⊨ Sen(Σ)</span>.
+            Otherwise, you’ll see which axioms fail and which pathologies they trigger.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script>
+(() => {
+  // ---------- Helpers ----------
+  const clamp01 = x => Math.max(0, Math.min(1, x));
+  const lerp = (a,b,t) => a + (b-a)*t;
+  const fmt = x => (Math.round(x*100)/100).toFixed(2);
+
+  function sigmoid(x){ return 1/(1+Math.exp(-x)); }
+
+  // ---------- Parameter State ----------
+  const P = {
+    consult: .35,
+    training: .30,
+    process: .40,
+    tech: .25,
+    gov: .30,
+    resource: .35,
+    conn: .30,
+    pace: .70,
+    cost: .65,
+    complex: .75
+  };
+
+  // ---------- Dynamic State (Model M over time) ----------
+  // Interpretable scalars 0..1
+  const M = {
+    month: 0,
+    workload: 0.55,       // W: perceived workload stress
+    turnover: 0.35,       // T: churn probability / intensity
+    knowledge: 0.55,      // K: institutional knowledge retained
+    latency: 0.55,        // L: enquiry/service latency
+    studentSat: 0.45,     // S: student satisfaction
+    trust: 0.40,          // academic-PS trust / relationship health
+    qa: 0.45              // quality assurance strength
+  };
+
+  const history = [];
+
+  // ---------- Institution Axioms (Sentences) ----------
+  // Each axiom is satisfied if "enough" conditions hold.
+  // We keep them as functions over (P,M) to show dynamics.
+  const AXIOMS = [
+    {
+      key: "Consulted(Staff)",
+      desc: "Consultation is meaningful (not tick-box) and influences design decisions.",
+      sat: () => P.consult >= 0.65 && P.gov >= 0.45
+    },
+    {
+      key: "AdequatelyTrained(PSStaff)",
+      desc: "Staff moved into roles receive consistent training/handovers (not ad-hoc).",
+      sat: () => P.training >= 0.65 && P.process >= 0.55
+    },
+    {
+      key: "ClearProcess(Process)",
+      desc: "End-to-end processes and handoffs are mapped and workable in practice.",
+      sat: () => P.process >= 0.65 && P.complex <= 0.60
+    },
+    {
+      key: "TechReady(System)",
+      desc: "Tools (e.g., case tracking) go live in time to support new structures.",
+      sat: () => P.tech >= 0.65
+    },
+    {
+      key: "EffectiveGovernance(G)",
+      desc: "Governance is deliberative, has grip, and can stop/reshape rollout on red risks.",
+      sat: () => P.gov >= 0.70
+    },
+    {
+      key: "SufficientResourcing(Team)",
+      desc: "Teams have adequate staffing/skills; workload is sustainable.",
+      sat: () => P.resource >= 0.65 && M.workload <= 0.55
+    },
+    {
+      key: "Connected(Academic,PS)",
+      desc: "Academics and PS have stable relationships, named contacts, and trust.",
+      sat: () => P.conn >= 0.60 && M.trust >= 0.55
+    },
+    {
+      key: "Satisfied(Student)",
+      desc: "Students receive timely, trackable responses; experience is coherent.",
+      sat: () => M.studentSat >= 0.60 && M.latency <= 0.55
+    }
+  ];
+
+  // Institution succeeds if most axioms hold; you can tweak this.
+  function institutionHolds() {
+    const sats = AXIOMS.map(a => a.sat());
+    const count = sats.filter(Boolean).length;
+    // In the report, multiple axioms were violated; we require a strong majority for “success”
+    return count >= 6;
+  }
+
+  // ---------- Pathology Detectors ----------
+  function pathologies() {
+    const list = [];
+
+    // 1) Governance-as-signoff (broken feedback loop)
+    const signoff = (P.gov < 0.45) && (P.pace > 0.55 || P.cost > 0.55);
+    if (signoff) list.push({
+      title: "Governance becomes ‘sign-off theatre’",
+      why: "When governance grip is weak but rollout pace/cost pressure is high, red risks don’t stop rollout—issues are ‘brushed over’ and the feedback loop breaks.",
+      triggeredBy: ["Low Governance", "High Pace/Cost pressure"]
+    });
+
+    // 2) Structure before tech
+    const mismatch = (P.tech < 0.45) && (P.process < 0.55);
+    if (mismatch) list.push({
+      title: "Process–technology mismatch (structure before tools)",
+      why: "Without supporting tech and clear processes, teams rely on workarounds, shared inboxes, manual tracking, and errors → workload spikes.",
+      triggeredBy: ["Low Tech readiness", "Low Process clarity"]
+    });
+
+    // 3) Workload → churn → knowledge spiral
+    const spiral = (M.workload > 0.65) && (M.turnover > 0.45) && (M.knowledge < 0.55);
+    if (spiral) list.push({
+      title: "Workload–churn–knowledge death spiral",
+      why: "High workload raises turnover; turnover drains knowledge; lower knowledge increases rework and delays; workload rises further.",
+      triggeredBy: ["High Workload", "High Turnover", "Low Knowledge"]
+    });
+
+    // 4) “Them and us” culture
+    const wedge = (P.conn < 0.45) && (M.trust < 0.50);
+    if (wedge) list.push({
+      title: "Academic–PS wedge (‘them and us’)",
+      why: "Low connectivity and declining trust produce escalation, duplication of effort, and avoidance (e.g., generic inbox frustration).",
+      triggeredBy: ["Low Connectivity", "Low Trust"]
+    });
+
+    // 5) Quality sacrificed to time/cost
+    const qualitySac = (P.cost > 0.65) && (P.gov < 0.55 || P.process < 0.55);
+    if (qualitySac) list.push({
+      title: "Quality assurance sacrificed to cost/time targets",
+      why: "High cost pressure without strong governance or clear processes tends to trade quality for milestone completion; errors propagate to students.",
+      triggeredBy: ["High Cost pressure", "Weak Governance/Process"]
+    });
+
+    // 6) Training gaps + role mismatch
+    const roleMismatch = (P.training < 0.45) && (P.complex > 0.60);
+    if (roleMismatch) list.push({
+      title: "Role mismatch + insufficient training",
+      why: "Generic roles under high complexity need strong training; otherwise new staff can’t handle specialist cases → escalation and delays.",
+      triggeredBy: ["Low Training", "High Complexity"]
+    });
+
+    // 7) Student-facing latency pathology
+    const latencyPain = (M.latency > 0.65) && (P.tech < 0.55);
+    if (latencyPain) list.push({
+      title: "Students can’t track progress; response times drag",
+      why: "High latency plus low case-tracking tooling leads to ‘no news is good news’ dynamics and repeated chasing.",
+      triggeredBy: ["High Latency", "Low Tech readiness"]
+    });
+
+    if (list.length === 0) {
+      list.push({
+        title: "No major pathologies detected",
+        why: "Your current settings avoid the common SEP failure modes. Try raising complexity/pacing or lowering governance/training to see how failures emerge.",
+        triggeredBy: ["—"]
+      });
+    }
+    return list;
+  }
+
+  // ---------- Teaching Tips ----------
+  function teachingTip() {
+    // Choose one primary driver to explain, based on what’s most “off”.
+    const gaps = [
+      {k:"Governance", v: 1 - P.gov, msg:"Governance is the control surface: if it cannot stop/reshape rollout on red risks, every other mitigation becomes optional."},
+      {k:"Tech readiness", v: 1 - P.tech, msg:"If structures change before tooling, staff invent manual workarounds. Workarounds create invisible queues and explode workload."},
+      {k:"Training", v: 1 - P.training, msg:"Training is how capacity becomes real. Without it, headcount looks fine on paper, but effective capacity is low."},
+      {k:"Process clarity", v: 1 - P.process, msg:"Clear handoffs prevent ‘lost cases’. When process maps are incomplete, work bounces between teams and rework dominates."},
+      {k:"Resourcing", v: 1 - P.resource, msg:"Resourcing shortfalls don’t just slow work; they accelerate churn, which drains knowledge and further reduces capacity."},
+      {k:"Connectivity", v: 1 - P.conn, msg:"Connectivity is the relationship fabric. Remove named contacts and trust collapses → academics ‘step into’ admin to keep things moving."},
+      {k:"Cost pressure", v: P.cost, msg:"Cost pressure becomes toxic when governance is weak: it pushes decisions toward ‘deliver anyway’ and away from quality assurance."},
+      {k:"Pace", v: P.pace, msg:"Fast rollouts amplify every weakness. If you must go fast, you need unusually strong governance, training, and tech readiness."},
+      {k:"Complexity", v: P.complex, msg:"High complexity increases coupling: failure in one work package spills into others. Incremental pilots reduce this coupling."}
+    ];
+    gaps.sort((a,b)=>b.v-a.v);
+    return gaps[0].msg;
+  }
+
+  // ---------- Dynamics Update ----------
+  // This is a toy system dynamics model, designed for teaching, not prediction.
+  function step() {
+    // Latent “implementation risk”:
+    // - Increases with pace, complexity, cost pressure
+    // - Decreases with governance, consultation, process clarity
+    const implRisk = clamp01(
+      0.35*P.pace +
+      0.30*P.complex +
+      0.25*P.cost +
+      0.15*(1-P.gov) +
+      0.12*(1-P.process) +
+      0.10*(1-P.consult)
+    );
+
+    // Effective capacity:
+    // - Increases with resourcing, training, process clarity, tech readiness
+    // - Decreases with complexity and churn
+    const effCap = clamp01(
+      0.32*P.resource +
+      0.22*P.training +
+      0.18*P.process +
+      0.18*P.tech +
+      0.10*(1-P.complex) -
+      0.12*M.turnover
+    );
+
+    // Workload rises when demand > capacity; demand proxies with pace/complexity and low tech/process.
+    const demand = clamp01(
+      0.30*P.pace +
+      0.25*P.complex +
+      0.20*(1-P.tech) +
+      0.15*(1-P.process) +
+      0.10*(1-P.training)
+    );
+
+    // Workload update: pulled toward (demand - capacity) and amplified by implementation risk
+    const targetWork = clamp01(0.45 + 0.80*(demand - effCap) + 0.35*implRisk);
+    M.workload = clamp01(lerp(M.workload, targetWork, 0.45));
+
+    // Turnover increases with workload, low wellbeing drivers (training/consultation), and weak governance safety.
+    const targetTurn = clamp01(
+      0.10 +
+      0.70*sigmoid((M.workload-0.55)*6) +
+      0.20*(1-P.training) +
+      0.10*(1-P.consult) +
+      0.10*(1-P.gov)
+    );
+    M.turnover = clamp01(lerp(M.turnover, targetTurn, 0.35));
+
+    // Knowledge declines with turnover, improves slowly with training + stability.
+    const knowledgeGain = clamp01(0.08*P.training + 0.05*(1-M.turnover));
+    const knowledgeLoss = clamp01(0.18*M.turnover + 0.08*implRisk);
+    const targetKnow = clamp01(M.knowledge + knowledgeGain - knowledgeLoss);
+    M.knowledge = clamp01(lerp(M.knowledge, targetKnow, 0.55));
+
+    // Latency increases with workload and low tech/process/knowledge
+    const targetLat = clamp01(
+      0.20 +
+      0.45*M.workload +
+      0.18*(1-P.tech) +
+      0.10*(1-P.process) +
+      0.12*(1-M.knowledge)
+    );
+    M.latency = clamp01(lerp(M.latency, targetLat, 0.40));
+
+    // Trust evolves with connectivity, consultation, and service reliability (latency/workload)
+    const trustTarget = clamp01(
+      0.25 +
+      0.35*P.conn +
+      0.20*P.consult +
+      0.10*P.gov +
+      0.10*(1-M.latency) +
+      0.05*(1-M.workload)
+    );
+    M.trust = clamp01(lerp(M.trust, trustTarget, 0.25));
+
+    // QA suffers under cost pressure + weak governance + high workload; improves with process clarity and governance
+    const qaTarget = clamp01(
+      0.25 +
+      0.25*P.process +
+      0.25*P.gov +
+      0.10*P.tech -
+      0.25*P.cost -
+      0.20*M.workload
+    );
+    M.qa = clamp01(lerp(M.qa, qaTarget, 0.30));
+
+    // Student satisfaction improves with low latency, strong QA, and stable trust/knowledge
+    const satTarget = clamp01(
+      0.20 +
+      0.35*(1-M.latency) +
+      0.20*M.qa +
+      0.10*M.trust +
+      0.10*M.knowledge +
+      0.05*P.tech
+    );
+    M.studentSat = clamp01(lerp(M.studentSat, satTarget, 0.35));
+
+    M.month += 1;
+    pushHistory();
+  }
+
+  function pushHistory(){
+    history.push({
+      m: M.month,
+      W: M.workload,
+      T: M.turnover,
+      K: M.knowledge,
+      L: M.latency,
+      S: M.studentSat
+    });
+    if (history.length > 200) history.shift();
+  }
+
+  // ---------- Rendering ----------
+  const el = id => document.getElementById(id);
+
+  function setSlider(id, key){
+    const r = el(id);
+    r.addEventListener("input", () => {
+      P[key] = clamp01(parseInt(r.value,10)/100);
+      syncUI();
+      renderAll();
+    });
+  }
+
+  function syncUI(){
+    el("pConsult").value = Math.round(P.consult*100);
+    el("pTraining").value = Math.round(P.training*100);
+    el("pProcess").value = Math.round(P.process*100);
+    el("pTech").value = Math.round(P.tech*100);
+    el("pGov").value = Math.round(P.gov*100);
+    el("pResource").value = Math.round(P.resource*100);
+    el("pConn").value = Math.round(P.conn*100);
+    el("pPace").value = Math.round(P.pace*100);
+    el("pCost").value = Math.round(P.cost*100);
+    el("pComplex").value = Math.round(P.complex*100);
+
+    el("vConsult").textContent = fmt(P.consult);
+    el("vTraining").textContent = fmt(P.training);
+    el("vProcess").textContent = fmt(P.process);
+    el("vTech").textContent = fmt(P.tech);
+    el("vGov").textContent = fmt(P.gov);
+    el("vResource").textContent = fmt(P.resource);
+    el("vConn").textContent = fmt(P.conn);
+    el("vPace").textContent = fmt(P.pace);
+    el("vCost").textContent = fmt(P.cost);
+    el("vComplex").textContent = fmt(P.complex);
+
+    el("simMonth").textContent = `Month ${M.month}`;
+  }
+
+  function renderAxioms(){
+    const host = el("axiomBadges");
+    host.innerHTML = "";
+
+    const sats = AXIOMS.map(a => ({...a, ok: a.sat()}));
+    const okCount = sats.filter(x=>x.ok).length;
+    const overallOk = institutionHolds();
+
+    // Overall badge
+    const overall = document.createElement("div");
+    overall.className = "badge " + (overallOk ? "ok" : "bad");
+    overall.innerHTML = `<span class="dot"></span><b class="mono">${overallOk ? "M ⊨ Sen(Σ)" : "M ⊭ Sen(Σ)"}</b>
+      <span class="k">(${okCount}/${AXIOMS.length} axioms satisfied)</span>`;
+    host.appendChild(overall);
+
+    // Individual axioms
+    sats.forEach(a => {
+      const d = document.createElement("div");
+      d.className = "badge " + (a.ok ? "ok" : "bad");
+      d.title = a.desc;
+      d.innerHTML = `<span class="dot"></span><span class="mono">${a.key}</span>`;
+      host.appendChild(d);
+    });
+  }
+
+  function renderPaths(){
+    const list = el("pathList");
+    list.innerHTML = "";
+    const ps = pathologies();
+    ps.forEach(p => {
+      const li = document.createElement("li");
+      const sev = /No major/.test(p.title) ? "success" :
+                  /death spiral|sacrificed|theatre|mismatch/.test(p.title) ? "danger" : "warnc";
+      li.className = "callout " + sev;
+      li.innerHTML = `
+        <b>${p.title}</b>
+        <small>${p.why}</small>
+        <small class="mini">Triggered by: ${p.triggeredBy.join(", ")}</small>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  function renderTeach(){
+    el("teachText").textContent = teachingTip();
+    const overallOk = institutionHolds();
+    el("teachingBox").className = "callout " + (overallOk ? "success" : "warnc");
+  }
+
+  function renderState(){
+    el("stateText").innerHTML = `
+      <div><span class="k">W workload</span>: ${fmt(M.workload)} &nbsp; <span class="k">T turnover</span>: ${fmt(M.turnover)}</div>
+      <div><span class="k">K knowledge</span>: ${fmt(M.knowledge)} &nbsp; <span class="k">L latency</span>: ${fmt(M.latency)}</div>
+      <div><span class="k">Trust</span>: ${fmt(M.trust)} &nbsp; <span class="k">QA</span>: ${fmt(M.qa)} &nbsp; <span class="k">S studentSat</span>: ${fmt(M.studentSat)}</div>
+      <div class="mini">Note: Latency is “how long it takes students/staff to get resolution”. Higher is worse.</div>
+    `;
+  }
+
+  function drawChart(){
+    const c = el("chart");
+    const ctx = c.getContext("2d");
+    const w = c.width, h = c.height;
+
+    ctx.clearRect(0,0,w,h);
+
+    // Grid
+    ctx.globalAlpha = 0.6;
+    ctx.strokeStyle = "rgba(255,255,255,.12)";
+    ctx.lineWidth = 1;
+    for (let i=0;i<=4;i++){
+      const y = (h-20) * (i/4) + 10;
+      ctx.beginPath(); ctx.moveTo(10,y); ctx.lineTo(w-10,y); ctx.stroke();
+    }
+    for (let i=0;i<=8;i++){
+      const x = (w-20) * (i/8) + 10;
+      ctx.beginPath(); ctx.moveTo(x,10); ctx.lineTo(x,h-10); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+
+    // axes labels
+    ctx.fillStyle = "rgba(255,255,255,.55)";
+    ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+    ctx.fillText("0", 12, h-8);
+    ctx.fillText("1", 12, 18);
+
+    const series = [
+      {k:"W", label:"W", arr: history.map(d=>d.W)},
+      {k:"T", label:"T", arr: history.map(d=>d.T)},
+      {k:"K", label:"K", arr: history.map(d=>d.K)},
+      {k:"S", label:"S", arr: history.map(d=>d.S)},
+      {k:"L", label:"L", arr: history.map(d=>d.L)},
+    ];
+
+    // We avoid setting explicit colors per instruction? (That instruction is for python charts; here is HTML canvas.)
+    // Still, keep subtle distinct colors.
+    const colors = ["#9ad0ff","#ff8bb3","#a6ffcf","#ffe28a","#d6c6ff"];
+
+    function plot(arr, color){
+      if (arr.length < 2) return;
+      const n = arr.length;
+      const x0 = 10, x1 = w-10, y0 = h-10, y1 = 10;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let i=0;i<n;i++){
+        const x = lerp(x0,x1, i/(n-1));
+        const y = lerp(y0,y1, arr[i]);
+        if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    }
+
+    series.forEach((s, idx) => plot(s.arr, colors[idx]));
+
+    // Legend
+    let lx = 14, ly = 26;
+    ctx.font = "12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+    series.forEach((s, idx) => {
+      ctx.fillStyle = colors[idx];
+      ctx.fillText(s.label, lx, ly);
+      lx += 18;
+    });
+  }
+
+  function renderAll(){
+    renderAxioms();
+    renderPaths();
+    renderTeach();
+    renderState();
+    drawChart();
+    syncUI();
+  }
+
+  // ---------- Presets ----------
+  function presetReportedPathology(){
+    Object.assign(P, {
+      consult: .35, training: .30, process: .40, tech: .25, gov: .30, resource: .35, conn: .30,
+      pace: .70, cost: .65, complex: .75
+    });
+    // reset model to plausible stressed start
+    Object.assign(M, {
+      month: 0, workload: 0.55, turnover: 0.35, knowledge: 0.55, latency: 0.55, studentSat: 0.45, trust: 0.40, qa: 0.45
+    });
+    history.length = 0;
+    pushHistory();
+    renderAll();
+  }
+
+  function presetHealthyChange(){
+    Object.assign(P, {
+      consult: .78, training: .75, process: .72, tech: .75, gov: .78, resource: .70, conn: .70,
+      pace: .40, cost: .35, complex: .55
+    });
+    Object.assign(M, {
+      month: 0, workload: 0.42, turnover: 0.18, knowledge: 0.70, latency: 0.40, studentSat: 0.65, trust: 0.62, qa: 0.66
+    });
+    history.length = 0;
+    pushHistory();
+    renderAll();
+  }
+
+  function presetGovernanceOnly(){
+    // Improve governance but leave other issues
+    Object.assign(P, { gov: .80, consult:.45 });
+    renderAll();
+  }
+
+  function presetTechFirst(){
+    Object.assign(P, { tech: .80, process:.65, training:.55, pace:.55 });
+    renderAll();
+  }
+
+  // ---------- Simulation Controls ----------
+  let timer = null;
+  function runMonths(n){
+    let i = 0;
+    el("bStop").disabled = false;
+    el("bRun").disabled = true;
+    timer = setInterval(() => {
+      step();
+      renderAll();
+      i++;
+      if (i >= n) stopRun();
+    }, 120);
+  }
+  function stopRun(){
+    if (timer) clearInterval(timer);
+    timer = null;
+    el("bStop").disabled = true;
+    el("bRun").disabled = false;
+  }
+
+  // ---------- Wire up UI ----------
+  setSlider("pConsult","consult");
+  setSlider("pTraining","training");
+  setSlider("pProcess","process");
+  setSlider("pTech","tech");
+  setSlider("pGov","gov");
+  setSlider("pResource","resource");
+  setSlider("pConn","conn");
+  setSlider("pPace","pace");
+  setSlider("pCost","cost");
+  setSlider("pComplex","complex");
+
+  el("bStep").addEventListener("click", () => { step(); renderAll(); });
+  el("bRun").addEventListener("click", () => runMonths(24));
+  el("bStop").addEventListener("click", stopRun);
+  el("bClear").addEventListener("click", () => { history.length = 0; M.month=0; pushHistory(); renderAll(); });
+
+  el("bReset").addEventListener("click", presetReportedPathology);
+  el("bGood").addEventListener("click", presetHealthyChange);
+  el("bGovernanceFix").addEventListener("click", presetGovernanceOnly);
+  el("bTechFirst").addEventListener("click", presetTechFirst);
+
+  // ---------- Start ----------
+  pushHistory();
+  renderAll();
+})();
+</script>
+</body>
+</html>
