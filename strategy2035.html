@@ -1,0 +1,1780 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Manchester 2035 Institution Lab • Real-time Monte Carlo + Stakeholder Quotes + Case Study Prompt</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --ink:#eef3ff;
+      --muted:#b9c6ff;
+      --line:rgba(255,255,255,.10);
+      --shadow:0 18px 46px rgba(0,0,0,.40);
+
+      --c-student:#7cf0ff;
+      --c-people:#a6ff8f;
+      --c-impact:#ffd37b;
+      --c-digital:#d0a8ff;
+      --c-govern:#ff7aa6;
+
+      --good:#5affb0;
+      --warn:#ffd36b;
+      --bad:#ff5a7a;
+
+      --btn-run:#2cffcc;
+      --btn-run-ink:#072118;
+      --btn-run-border:rgba(44,255,204,.55);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--ink);
+      background:
+        radial-gradient(1000px 700px at 15% 0%, rgba(124,240,255,.18), transparent 60%),
+        radial-gradient(900px 700px at 85% 5%, rgba(255,122,166,.16), transparent 60%),
+        radial-gradient(1200px 900px at 50% 100%, rgba(166,255,143,.12), transparent 65%),
+        var(--bg);
+    }
+
+    header{
+      padding:12px 14px 10px;
+      border-bottom:1px solid var(--line);
+      backdrop-filter: blur(7px);
+      position: sticky;
+      top:0;
+      z-index:20;
+      background: rgba(11,18,32,.82);
+    }
+    .head-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .titleblock{ min-width: 260px; }
+    h1{ margin:0; font-size:16px; letter-spacing:.2px; }
+    .sub{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+      max-width: 980px;
+    }
+    .head-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      user-select:none;
+    }
+    .dot{ width:9px; height:9px; border-radius:999px; background: rgba(255,255,255,.35); }
+
+    /* Run button: top, loud, always visible */
+    .runNow{
+      cursor:pointer;
+      border-radius:14px;
+      padding:10px 14px;
+      font-size:13px;
+      font-weight:800;
+      border:1px solid var(--btn-run-border);
+      background: linear-gradient(180deg, rgba(44,255,204,.97), rgba(44,255,204,.70));
+      color: var(--btn-run-ink);
+      box-shadow: 0 14px 30px rgba(44,255,204,.22);
+      display:inline-flex; align-items:center; gap:10px;
+      letter-spacing:.2px;
+    }
+    .runNow:hover{ filter: brightness(1.06); }
+    .runNow:active{ transform: translateY(1px); }
+    .runNow small{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:4px 8px;
+      border-radius:999px;
+      background: rgba(7,33,24,.12);
+      border:1px solid rgba(7,33,24,.18);
+      color: rgba(7,33,24,.85);
+      font-weight:700;
+    }
+    .runNow small .dot{ background: rgba(7,33,24,.40); }
+
+    .wrap{ padding:14px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 500px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 1200px){
+      .grid{ grid-template-columns:1fr; }
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow: var(--shadow);
+      padding:12px;
+    }
+
+    .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+    .tab{
+      cursor:pointer;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size:12px;
+      user-select:none;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .tab .sw{ width:10px; height:10px; border-radius:3px; background: rgba(255,255,255,.25); }
+    .tab.active{
+      background: rgba(255,255,255,.10);
+      color: var(--ink);
+      border-color: rgba(255,255,255,.18);
+    }
+
+    .section{
+      padding:10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      display:none;
+    }
+    .section.active{ display:block; }
+
+    .section h2{
+      margin:0 0 6px;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.35px;
+      color: var(--muted);
+      display:flex; align-items:center; gap:10px;
+    }
+    .swatch{ width:10px; height:10px; border-radius:3px; display:inline-block; }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:10px;
+      align-items:center;
+      margin:10px 0 6px;
+    }
+    .control{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      width:100%;
+    }
+    label{ font-size:13px; }
+    input[type="range"]{ width: 250px; }
+    .val{ font-size:12px; color:var(--muted); font-variant-numeric: tabular-nums; }
+    .explain{
+      margin:0 0 10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px dashed rgba(255,255,255,.14);
+      background: rgba(0,0,0,.14);
+    }
+    .explain b{ color:rgba(255,255,255,.90); font-weight:700; }
+
+    .btns{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    button{
+      cursor:pointer;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.07);
+      color: var(--ink);
+      padding:9px 10px;
+      font-size:12px;
+    }
+    button:hover{ background: rgba(255,255,255,.12); }
+    button:active{ transform: translateY(1px); }
+    button.primary{
+      border-color: rgba(124,240,255,.35);
+      background: rgba(124,240,255,.10);
+    }
+    button.danger{
+      border-color: rgba(255,90,122,.35);
+      background: rgba(255,90,122,.10);
+    }
+    button:disabled{ opacity:.55; cursor:not-allowed; }
+
+    .right{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:14px;
+    }
+    @media (max-width: 1200px){
+      .right{ grid-template-columns: 1fr; }
+    }
+
+    canvas{
+      width:100%;
+      height:280px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
+    }
+    .mini{ margin-top:8px; color:var(--muted); font-size:11px; line-height:1.35; }
+
+    .kpirow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .kpi{
+      flex:1 1 160px;
+      min-width:160px;
+      background: rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:10px;
+    }
+    .kpi .name{ color:var(--muted); font-size:12px; }
+    .kpi .num{ font-size:18px; margin-top:4px; font-variant-numeric: tabular-nums; }
+    .bar{
+      height:8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      overflow:hidden;
+      margin-top:8px;
+    }
+    .bar > div{ height:100%; width:0%; border-radius:999px; }
+
+    .callout{
+      margin-top:10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      padding:10px;
+      border-left:4px solid rgba(255,255,255,.20);
+    }
+    .callout.good{ border-left-color: var(--good); }
+    .callout.warn{ border-left-color: var(--warn); }
+    .callout.bad{ border-left-color: var(--bad); }
+    .callout b{ display:block; font-size:13px; margin-bottom:6px; }
+    .callout p{ margin:0; color:var(--muted); font-size:12px; line-height:1.4; }
+
+    ul.list{ list-style:none; padding:0; margin:10px 0 0; }
+    ul.list li{
+      margin:8px 0;
+      padding:9px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.16);
+    }
+    ul.list b{ display:block; font-size:13px; margin-bottom:4px; }
+    ul.list small{ display:block; color:var(--muted); font-size:12px; line-height:1.35; }
+
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    .hr{ height:1px; background: rgba(255,255,255,.10); margin:10px 0; }
+
+    /* Project builder */
+    .field{ margin:10px 0; }
+    .field label{ display:block; color:var(--muted); font-size:12px; margin-bottom:6px; }
+    .field input, .field textarea, .field select{
+      width:100%;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--ink);
+      padding:10px;
+      font-size:12px;
+      outline:none;
+    }
+    .field textarea{ min-height: 90px; resize: vertical; }
+    .two{
+      display:grid; grid-template-columns:1fr 1fr; gap:10px;
+    }
+    @media (max-width: 1200px){ .two{ grid-template-columns:1fr; } }
+
+    .promptBox{
+      white-space: pre-wrap;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:10px;
+      color: rgba(255,255,255,.90);
+      font-size:12px;
+      line-height:1.35;
+    }
+
+    .quoteBox{
+      white-space: pre-wrap;
+      background: rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:10px;
+      font-size:12px;
+      line-height:1.45;
+      color: rgba(255,255,255,.90);
+    }
+    .quoteTag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size:11px;
+      margin-right:6px;
+      margin-bottom:6px;
+    }
+    .footer{
+      padding:0 14px 18px;
+      color: var(--muted);
+      font-size:11px;
+      line-height:1.45;
+      opacity:.95;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="head-top">
+    <div class="titleblock">
+      <h1>Manchester 2035 Institution Lab</h1>
+      <div class="sub">
+        Move sliders to change the *institution conditions* and watch distributions update in real time (small Monte Carlo).
+        Use <b>Run full simulation</b> for a higher-fidelity distribution. The “Quotes” panel generates plausible stakeholder comments
+        consistent with the current settings (students, frontline staff, PMO, committee chairs).
+      </div>
+    </div>
+
+    <div class="head-actions">
+      <button class="runNow" id="runBigBtn" title="Run a higher-fidelity Monte Carlo simulation">
+        ▶ Run full simulation
+        <small><span class="dot"></span><span id="runInfo" class="mono">N=2000 • T=24</span></small>
+      </button>
+
+      <span class="pill"><span class="dot" id="statusDot"></span><span id="statusText">Real-time mode</span></span>
+      <span class="pill"><span class="dot" style="background:var(--c-student)"></span>Student</span>
+      <span class="pill"><span class="dot" style="background:var(--c-people)"></span>People</span>
+      <span class="pill"><span class="dot" style="background:var(--c-digital)"></span>Digital</span>
+      <span class="pill"><span class="dot" style="background:var(--c-govern)"></span>Governance</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- LEFT: Controls -->
+    <section class="card">
+      <div class="tabs" id="tabs">
+        <div class="tab active" data-tab="student"><span class="sw" style="background:var(--c-student)"></span>Student</div>
+        <div class="tab" data-tab="people"><span class="sw" style="background:var(--c-people)"></span>People</div>
+        <div class="tab" data-tab="digital"><span class="sw" style="background:var(--c-digital)"></span>Digital</div>
+        <div class="tab" data-tab="govern"><span class="sw" style="background:var(--c-govern)"></span>Governance</div>
+        <div class="tab" data-tab="stress"><span class="sw" style="background:var(--c-impact)"></span>Stressors</div>
+        <div class="tab" data-tab="sim"><span class="sw" style="background:rgba(255,255,255,.35)"></span>Simulation</div>
+        <div class="tab" data-tab="project"><span class="sw" style="background:rgba(255,255,255,.35)"></span>Project prompt</div>
+      </div>
+
+      <!-- STUDENT -->
+      <div class="section active" id="sec-student">
+        <h2><span class="swatch" style="background:var(--c-student)"></span>Student experience mechanisms</h2>
+
+        <div class="explain">
+          <b>What these sliders represent:</b> how cleanly work crosses boundaries (schools ↔ professional services),
+          whether there is a shared understanding of “who does what”, and whether co-creation is genuine or performative.
+          <br><b>Primary effects:</b> latency, trust, perceived quality → student satisfaction distribution.
+        </div>
+
+        <div class="row">
+          <div class="control">
+            <label>Process clarity (handoffs)</label>
+            <input id="procClarity" type="range" min="0" max="100" value="45">
+            <span class="val" id="v_procClarity">0.45</span>
+          </div>
+        </div>
+        <div class="explain" id="e_procClarity"></div>
+
+        <div class="row">
+          <div class="control">
+            <label>Academic–PS connectivity (trust)</label>
+            <input id="connectivity" type="range" min="0" max="100" value="40">
+            <span class="val" id="v_connectivity">0.40</span>
+          </div>
+        </div>
+        <div class="explain" id="e_connectivity"></div>
+
+        <div class="row">
+          <div class="control">
+            <label>Consultation / co-creation quality</label>
+            <input id="consult" type="range" min="0" max="100" value="40">
+            <span class="val" id="v_consult">0.40</span>
+          </div>
+        </div>
+        <div class="explain" id="e_consult"></div>
+      </div>
+
+      <!-- PEOPLE -->
+      <div class="section" id="sec-people">
+        <h2><span class="swatch" style="background:var(--c-people)"></span>People & culture capability</h2>
+
+        <div class="explain">
+          <b>What these sliders represent:</b> whether delivery is staffed with real capacity (not “voluntary extra work”),
+          whether knowledge transfers happen, and whether staff can raise issues without consequences.
+          <br><b>Primary effects:</b> churn & knowledge loss → rework → workload → wellbeing and reliability.
+        </div>
+
+        <div class="row"><div class="control">
+          <label>Resourcing adequacy</label>
+          <input id="resourcing" type="range" min="0" max="100" value="45">
+          <span class="val" id="v_resourcing">0.45</span>
+        </div></div>
+        <div class="explain" id="e_resourcing"></div>
+
+        <div class="row"><div class="control">
+          <label>Training & handover quality</label>
+          <input id="training" type="range" min="0" max="100" value="40">
+          <span class="val" id="v_training">0.40</span>
+        </div></div>
+        <div class="explain" id="e_training"></div>
+
+        <div class="row"><div class="control">
+          <label>Workload protection (backfill)</label>
+          <input id="wlProtect" type="range" min="0" max="100" value="35">
+          <span class="val" id="v_wlProtect">0.35</span>
+        </div></div>
+        <div class="explain" id="e_wlProtect"></div>
+
+        <div class="row"><div class="control">
+          <label>Psychological safety</label>
+          <input id="psySafety" type="range" min="0" max="100" value="45">
+          <span class="val" id="v_psySafety">0.45</span>
+        </div></div>
+        <div class="explain" id="e_psySafety"></div>
+      </div>
+
+      <!-- DIGITAL -->
+      <div class="section" id="sec-digital">
+        <h2><span class="swatch" style="background:var(--c-digital)"></span>Digital & data coherence</h2>
+
+        <div class="explain">
+          <b>What these sliders represent:</b> whether the tools and data actually support the intended process (not just a PowerPoint),
+          and whether integration is real or “manual swivel-chair”.
+          <br><b>Primary effects:</b> workarounds → latency and error → student satisfaction and reliability.
+        </div>
+
+        <div class="row"><div class="control">
+          <label>Tech readiness (tools live on time)</label>
+          <input id="techReady" type="range" min="0" max="100" value="35">
+          <span class="val" id="v_techReady">0.35</span>
+        </div></div>
+        <div class="explain" id="e_techReady"></div>
+
+        <div class="row"><div class="control">
+          <label>Data coherence (records integrate)</label>
+          <input id="dataCoherence" type="range" min="0" max="100" value="40">
+          <span class="val" id="v_dataCoherence">0.40</span>
+        </div></div>
+        <div class="explain" id="e_dataCoherence"></div>
+      </div>
+
+      <!-- GOVERNANCE -->
+      <div class="section" id="sec-govern">
+        <h2><span class="swatch" style="background:var(--c-govern)"></span>Governance & delivery health</h2>
+
+        <div class="explain">
+          <b>What these sliders represent:</b> whether governance produces decisions and risk control, or produces meetings and paper.
+          Depth is not “bad” by itself — it becomes pathological when grip, feedback, and decision rights are weak.
+          <br><b>Primary effects:</b> committee proliferation and “rubber-stamp gates” → reliability, wellbeing, and trust.
+        </div>
+
+        <div class="row"><div class="control">
+          <label>Governance grip (effectiveness)</label>
+          <input id="govGrip" type="range" min="0" max="100" value="40">
+          <span class="val" id="v_govGrip">0.40</span>
+        </div></div>
+        <div class="explain" id="e_govGrip"></div>
+
+        <div class="row"><div class="control">
+          <label>Governance depth (layers)</label>
+          <input id="govDepth" type="range" min="0" max="100" value="65">
+          <span class="val" id="v_govDepth">0.65</span>
+        </div></div>
+        <div class="explain" id="e_govDepth"></div>
+
+        <div class="row"><div class="control">
+          <label>Decision clarity (rights & ownership)</label>
+          <input id="decClarity" type="range" min="0" max="100" value="45">
+          <span class="val" id="v_decClarity">0.45</span>
+        </div></div>
+        <div class="explain" id="e_decClarity"></div>
+
+        <div class="row"><div class="control">
+          <label>Feedback loop closes (act on signals)</label>
+          <input id="fbLoop" type="range" min="0" max="100" value="35">
+          <span class="val" id="v_fbLoop">0.35</span>
+        </div></div>
+        <div class="explain" id="e_fbLoop"></div>
+
+        <div class="row"><div class="control">
+          <label>Risk integrity (red risks block gates)</label>
+          <input id="riskIntegrity" type="range" min="0" max="100" value="35">
+          <span class="val" id="v_riskIntegrity">0.35</span>
+        </div></div>
+        <div class="explain" id="e_riskIntegrity"></div>
+      </div>
+
+      <!-- STRESSORS -->
+      <div class="section" id="sec-stress">
+        <h2><span class="swatch" style="background:var(--c-impact)"></span>Change environment (stressors)</h2>
+
+        <div class="explain">
+          <b>What these sliders represent:</b> external and internal pressure that pushes delivery into brittle territory:
+          high coupling, rushed timelines, and cost-cutting bias.
+          <br><b>Primary effects:</b> amplifies every weakness; increases backlog, rework, and burn-out.
+        </div>
+
+        <div class="row"><div class="control">
+          <label>Complexity (coupling)</label>
+          <input id="complexity" type="range" min="0" max="100" value="70">
+          <span class="val" id="v_complexity">0.70</span>
+        </div></div>
+        <div class="explain" id="e_complexity"></div>
+
+        <div class="row"><div class="control">
+          <label>Change pace (shock)</label>
+          <input id="pace" type="range" min="0" max="100" value="65">
+          <span class="val" id="v_pace">0.65</span>
+        </div></div>
+        <div class="explain" id="e_pace"></div>
+
+        <div class="row"><div class="control">
+          <label>Cost pressure (savings bias)</label>
+          <input id="cost" type="range" min="0" max="100" value="60">
+          <span class="val" id="v_cost">0.60</span>
+        </div></div>
+        <div class="explain" id="e_cost"></div>
+      </div>
+
+      <!-- SIM -->
+      <div class="section" id="sec-sim">
+        <h2><span class="swatch" style="background:rgba(255,255,255,.35)"></span>Simulation controls</h2>
+
+        <div class="explain">
+          Real-time mode re-simulates automatically when sliders change (small Monte Carlo sample).
+          Full simulation runs in chunks to avoid freezing the page.
+        </div>
+
+        <div class="row"><div class="control">
+          <label>Full-run Monte Carlo N</label>
+          <input id="runs" type="range" min="500" max="20000" step="250" value="2000">
+          <span class="val" id="v_runs">2000</span>
+        </div></div>
+
+        <div class="row"><div class="control">
+          <label>Time horizon (months)</label>
+          <input id="months" type="range" min="6" max="60" step="1" value="24">
+          <span class="val" id="v_months">24</span>
+        </div></div>
+
+        <div class="row"><div class="control">
+          <label>Uncertainty / variability (σ)</label>
+          <input id="sigma" type="range" min="0" max="25" step="1" value="6">
+          <span class="val" id="v_sigma">0.06</span>
+        </div></div>
+
+        <div class="row"><div class="control">
+          <label>Real-time sample N</label>
+          <input id="rtRuns" type="range" min="100" max="2000" step="50" value="400">
+          <span class="val" id="v_rtRuns">400</span>
+        </div></div>
+
+        <div class="btns">
+          <button id="stopBtn" disabled>Stop full run</button>
+          <button id="presetPath">Preset: SEP-like Pathology</button>
+          <button id="presetHealthy" class="primary">Preset: Healthy Delivery</button>
+          <button id="chaosBtn" class="danger">Chaos test</button>
+        </div>
+      </div>
+
+      <!-- PROJECT PROMPT -->
+      <div class="section" id="sec-project">
+        <h2><span class="swatch" style="background:rgba(255,255,255,.35)"></span>Project-to-case-study prompt builder</h2>
+
+        <div class="explain">
+          Enter a strategy project. The app generates a prompt for an AI to write a post-completion evaluation that reflects
+          the current “operating reality” implied by the sliders (SEP-like friction, governance load, capacity, tech readiness, etc.).
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label>Strategy category</label>
+            <select id="projCategory">
+              <option value="Student experience">Student experience</option>
+              <option value="People & culture">People & culture</option>
+              <option value="Digital & data">Digital & data</option>
+              <option value="Governance & delivery">Governance & delivery</option>
+              <option value="Research & societal impact (proxy)">Research & societal impact (proxy)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Project name</label>
+            <input id="projName" placeholder="e.g., Integrated Student Support Case Platform"/>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Task / scope (what the project does)</label>
+          <textarea id="projTask" placeholder="Describe deliverables, process changes, systems, timeline..."></textarea>
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label>Resources (people, budget, time, constraints)</label>
+            <textarea id="projResources" placeholder="e.g., 12 FTE, £1.2m, 9 months, term-time constraint..."></textarea>
+          </div>
+          <div class="field">
+            <label>Rationale / objectives (why this matters)</label>
+            <textarea id="projRationale" placeholder="Strategic objectives, benefits, intended outcomes..."></textarea>
+          </div>
+        </div>
+
+        <div class="btns">
+          <button class="primary" id="genPromptBtn">Generate AI prompt</button>
+          <button id="copyPromptBtn">Copy prompt</button>
+        </div>
+
+        <div class="field">
+          <label>Generated prompt</label>
+          <div class="promptBox mono" id="promptBox">Fill in the project fields and click “Generate AI prompt”.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Outputs -->
+    <section class="card">
+      <div class="right">
+        <div>
+          <h2 style="margin:0 0 8px; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.35px;">
+            Outcome distributions (auto-updating)
+          </h2>
+          <canvas id="distCanvas" width="980" height="520"></canvas>
+          <div class="mini">
+            Real-time updates use “Real-time sample N”. Use the top button for a full run using “Full-run N”.
+          </div>
+
+          <div class="kpirow">
+            <div class="kpi">
+              <div class="name">P( M ⊨ Sen )</div>
+              <div class="num mono" id="k_sat">—</div>
+              <div class="bar"><div id="bar_sat"></div></div>
+            </div>
+            <div class="kpi">
+              <div class="name">Median S</div>
+              <div class="num mono" id="k_s">—</div>
+              <div class="bar"><div id="bar_s"></div></div>
+            </div>
+            <div class="kpi">
+              <div class="name">Median Wb</div>
+              <div class="num mono" id="k_wb">—</div>
+              <div class="bar"><div id="bar_wb"></div></div>
+            </div>
+            <div class="kpi">
+              <div class="name">Median R</div>
+              <div class="num mono" id="k_r">—</div>
+              <div class="bar"><div id="bar_r"></div></div>
+            </div>
+          </div>
+
+          <div class="callout warn" id="insightBox">
+            <b>Hints to improve performance (given current settings)</b>
+            <p id="insightText">Move sliders to see how risks and outcomes shift. Suggestions will adapt to your settings.</p>
+          </div>
+
+          <div class="callout" id="quotesPanel" style="border-left-color: rgba(255,255,255,.22);">
+            <b>Example stakeholder quotes (plausible evaluation excerpts)</b>
+            <div style="margin-top:8px;">
+              <span class="quoteTag">Students</span>
+              <span class="quoteTag">Frontline staff</span>
+              <span class="quoteTag">Programme team</span>
+              <span class="quoteTag">Governance</span>
+            </div>
+            <div class="quoteBox mono" id="quoteBox">Adjust sliders to generate plausible stakeholder quotes…</div>
+          </div>
+        </div>
+
+        <div>
+          <h2 style="margin:0 0 8px; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.35px;">
+            SEP-like pathology risk
+          </h2>
+          <canvas id="riskCanvas" width="720" height="320"></canvas>
+          <div class="mini">
+            These are estimated probabilities of failure modes under the current institution configuration.
+          </div>
+
+          <div class="hr"></div>
+
+          <h2 style="margin:0 0 8px; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.35px;">
+            Institution axiom checklist
+          </h2>
+          <ul class="list" id="axioms"></ul>
+
+          <div class="callout good" id="fixBox">
+            <b>Targeted improvement actions</b>
+            <p id="fixText" class="mono">—</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="footer">
+  Teaching simulation only (not a forecast). Quotes are generated heuristically from current settings to help explain mechanisms.
+</div>
+
+<script>
+(() => {
+  // ---------- Helpers ----------
+  const el = id => document.getElementById(id);
+  const clamp01 = x => Math.max(0, Math.min(1, x));
+  const lerp = (a,b,t) => a + (b-a)*t;
+  const fmt2 = x => (Math.round(x*100)/100).toFixed(2);
+  const pct0 = x => Math.round(x*100);
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // Seeded RNG (mulberry32)
+  function mulberry32(seed){
+    return function(){
+      let t = seed += 0x6D2B79F5;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  // Normal noise (Box-Muller)
+  function randn(rng){
+    let u=0, v=0;
+    while(u===0) u = rng();
+    while(v===0) v = rng();
+    return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+  }
+
+  // ---------- Parameters (0..1) ----------
+  const P = {
+    // Student
+    procClarity: 0.45,
+    connectivity: 0.40,
+    consult: 0.40,
+
+    // People
+    resourcing: 0.45,
+    training: 0.40,
+    wlProtect: 0.35,
+    psySafety: 0.45,
+
+    // Digital
+    techReady: 0.35,
+    dataCoherence: 0.40,
+
+    // Governance
+    govGrip: 0.40,
+    govDepth: 0.65,
+    decClarity: 0.45,
+    fbLoop: 0.35,
+    riskIntegrity: 0.35,
+
+    // Stressors
+    complexity: 0.70,
+    pace: 0.65,
+    cost: 0.60
+  };
+
+  // Slider explanation templates (updated on change)
+  function sliderExplain(key){
+    const v = P[key];
+
+    const lo = v < 0.35, mid = v >= 0.35 && v < 0.65, hi = v >= 0.65;
+    const level = lo ? "LOW" : hi ? "HIGH" : "MEDIUM";
+
+    const txt = {
+      procClarity: lo
+        ? `Level: ${level}. Handoffs are ambiguous, tickets bounce, and “who owns this?” is common. Expect longer queues and duplicated work → lower S and R.`
+        : hi
+          ? `Level: ${level}. Clear intake, triage, ownership, and closure. Fewer bounces, better first-time resolution → lower latency → higher S and R.`
+          : `Level: ${level}. Some clarity exists but edge cases still bounce. Reliability depends heavily on training and tech readiness.`,
+
+      connectivity: lo
+        ? `Level: ${level}. Academic and PS teams operate in parallel; mistrust and escalation are frequent. Expect slow resolution and mixed messaging → lower trust and S.`
+        : hi
+          ? `Level: ${level}. Cross-boundary relationships are strong; “one team” behaviour reduces friction. Issues are solved earlier → higher trust, S, and Wb.`
+          : `Level: ${level}. Collaboration works in pockets. Under stress, handoffs revert to formal escalation.`,
+
+      consult: lo
+        ? `Level: ${level}. Consultation is performative; “we were told after it was decided”. Expect local resistance and workaround culture → lower S and R.`
+        : hi
+          ? `Level: ${level}. Co-creation is genuine; feedback changes decisions. Higher adoption and fewer surprise impacts → higher S and R.`
+          : `Level: ${level}. Some voices are heard, but changes are not consistently reflected in designs. Adoption risk remains.`,
+
+      resourcing: lo
+        ? `Level: ${level}. Delivery relies on over-stretched volunteers; queues grow and morale suffers. Expect lower Wb and R; higher churn.`
+        : hi
+          ? `Level: ${level}. Real capacity exists to do delivery + BAU. Backlogs shrink and stabilisation is possible → higher Wb and R.`
+          : `Level: ${level}. Capacity is adequate for “normal” conditions but breaks under peak demand or major incidents.`,
+
+      training: lo
+        ? `Level: ${level}. Weak handovers; tacit knowledge leaves with staff. Errors and rework rise → longer latency and lower R.`
+        : hi
+          ? `Level: ${level}. Strong training and knowledge capture. New staff ramp quickly → more consistent service and better Wb.`
+          : `Level: ${level}. Training exists but is uneven; success depends on local leaders and protected time.`,
+
+      wlProtect: lo
+        ? `Level: ${level}. No backfill; project work competes with BAU. Expect burnout and churn spikes; reliability degrades.`
+        : hi
+          ? `Level: ${level}. Protected time and backfill reduce overload. Sustained delivery becomes possible → higher Wb and R.`
+          : `Level: ${level}. Some protection exists but is fragile—often removed during busy periods.`,
+
+      psySafety: lo
+        ? `Level: ${level}. People avoid raising risks; “bad news” arrives late. Expect rubber-stamping and hidden issues → lower R.`
+        : hi
+          ? `Level: ${level}. Staff can speak up early. Risks are surfaced and handled; learning is possible → higher R and Wb.`
+          : `Level: ${level}. Safety varies; some teams speak up, others stay quiet. Feedback loop effectiveness becomes crucial.`,
+
+      techReady: lo
+        ? `Level: ${level}. Tools arrive late or unstable. Manual workarounds and duplicate data entry grow → latency and errors rise.`
+        : hi
+          ? `Level: ${level}. Tools are ready and usable; process and system align. Fewer workarounds → higher R and S.`
+          : `Level: ${level}. Core features work, but gaps remain—users invent local fixes.`,
+
+      dataCoherence: lo
+        ? `Level: ${level}. Records don’t line up; users chase “the real version”. Expect rework, misrouting, and student frustration.`
+        : hi
+          ? `Level: ${level}. Integrated records enable “tell us once” workflows. Fewer errors → higher S and R.`
+          : `Level: ${level}. Partial integration; some cases work well, others break at boundaries.`,
+
+      govGrip: lo
+        ? `Level: ${level}. Governance can’t enforce priorities; decisions drift and delivery is reactive. Expect meeting-heavy alignment attempts.`
+        : hi
+          ? `Level: ${level}. Governance makes and enforces decisions, clears blockers, and protects capacity → higher R and lower committee proliferation.`
+          : `Level: ${level}. Some grip exists but contested; projects may stall when trade-offs appear.`,
+
+      govDepth: lo
+        ? `Level: ${level}. Few layers: faster decisions, but risk control may be thin unless riskIntegrity is high.`
+        : hi
+          ? `Level: ${level}. Many layers: can manage complexity if grip/decision clarity are high; otherwise becomes committee proliferation and slow gates.`
+          : `Level: ${level}. Moderate layers: acceptable if roles are clear and meetings are purposeful.`,
+
+      decClarity: lo
+        ? `Level: ${level}. Unclear decision rights; “who owns this?” triggers escalations and repeated meetings → lower R and Wb.`
+        : hi
+          ? `Level: ${level}. Clear ownership and escalation rules. Faster decisions and fewer cycles → higher R.`
+          : `Level: ${level}. Some roles are clear, but cross-cutting issues still bounce.`,
+
+      fbLoop: lo
+        ? `Level: ${level}. Signals are collected but not acted on. Issues accumulate; trust erodes; workarounds become normal.`
+        : hi
+          ? `Level: ${level}. Feedback closes quickly; learning happens. Backlog stays controlled → higher R and S.`
+          : `Level: ${level}. Some issues are fixed; systemic ones linger, causing repeat incidents.`,
+
+      riskIntegrity: lo
+        ? `Level: ${level}. Red risks don’t stop rollouts; gates become rubber stamps. Defects enter production → longer stabilisation and reputational harm.`
+        : hi
+          ? `Level: ${level}. “Stop rules” work. Risk is used to protect users and delivery quality → fewer painful go-lives.`
+          : `Level: ${level}. Some risks block, but political pressure can override at the worst times.`,
+
+      complexity: lo
+        ? `Level: ${level}. Work is loosely coupled; you can iterate and learn.`
+        : hi
+          ? `Level: ${level}. Highly coupled work: small changes ripple across units and systems. Weak process/tech/governance gets amplified.`
+          : `Level: ${level}. Mixed coupling; some projects are safe, others are brittle.`,
+
+      pace: lo
+        ? `Level: ${level}. More time for pilots and stabilisation; learning is cheaper.`
+        : hi
+          ? `Level: ${level}. Rushed timelines: defects are pushed downstream into BAU. Requires unusually strong grip, capability and tech readiness.`
+          : `Level: ${level}. Moderate pace; bottlenecks still appear around term-time and peak demand.`,
+
+      cost: lo
+        ? `Level: ${level}. Less pressure to cut corners; quality and stabilisation can be funded.`
+        : hi
+          ? `Level: ${level}. Savings bias: quality, training, and backfill are often first to be cut—raising failure risk.`
+          : `Level: ${level}. Some constraints; prioritisation matters.`
+    };
+
+    return txt[key] || `Level: ${level}.`;
+  }
+
+  function refreshSliderExplainers(){
+    const map = [
+      "procClarity","connectivity","consult",
+      "resourcing","training","wlProtect","psySafety",
+      "techReady","dataCoherence",
+      "govGrip","govDepth","decClarity","fbLoop","riskIntegrity",
+      "complexity","pace","cost"
+    ];
+    for(const k of map){
+      const box = el("e_"+k);
+      if(box) box.textContent = sliderExplain(k);
+    }
+  }
+
+  // ---------- Tabs ----------
+  function initTabs(){
+    const tabs = [...document.querySelectorAll(".tab")];
+    const sections = {
+      student: el("sec-student"),
+      people: el("sec-people"),
+      digital: el("sec-digital"),
+      govern: el("sec-govern"),
+      stress: el("sec-stress"),
+      sim: el("sec-sim"),
+      project: el("sec-project"),
+    };
+    tabs.forEach(t => t.addEventListener("click", () => {
+      tabs.forEach(x => x.classList.remove("active"));
+      t.classList.add("active");
+      Object.values(sections).forEach(s => s.classList.remove("active"));
+      sections[t.dataset.tab].classList.add("active");
+    }));
+  }
+
+  // ---------- Simulation core ----------
+  function simulateOne(seed, months, sigma){
+    const rng = mulberry32(seed);
+    const jitter = (x) => clamp01(x + randn(rng)*sigma);
+
+    const p = {};
+    for(const k in P) p[k] = jitter(P[k]);
+
+    let workload = clamp01(0.50 + randn(rng)*0.05);
+    let churn    = clamp01(0.25 + randn(rng)*0.06);
+    let knowledge= clamp01(0.60 + randn(rng)*0.06);
+    let latency  = clamp01(0.50 + randn(rng)*0.06);
+    let trust    = clamp01(0.50 + randn(rng)*0.06);
+    let qa       = clamp01(0.55 + randn(rng)*0.06);
+    let backlog  = 0;
+
+    function govHealth(){
+      const base = 0.62*p.govGrip + 0.22*p.decClarity + 0.16*p.fbLoop;
+      const depthPenalty = 0.58*p.govDepth * (0.55 + 0.45*(1-p.decClarity));
+      return clamp01(base - depthPenalty);
+    }
+    function demand(){
+      return clamp01(
+        0.30*p.pace +
+        0.28*p.complexity +
+        0.18*(1-p.techReady) +
+        0.14*(1-p.procClarity) +
+        0.10*(1-p.dataCoherence)
+      );
+    }
+    function capacity(){
+      const gh = govHealth();
+      return clamp01(
+        0.30*p.resourcing +
+        0.20*p.training +
+        0.14*p.procClarity +
+        0.14*p.techReady +
+        0.12*p.wlProtect +
+        0.10*gh -
+        0.12*churn
+      );
+    }
+
+    let committeeProlif = 0;
+    let meetingSpiral = 0;
+    let rubberStamp = 0;
+    let fbFail = 0;
+    let knowledgeSpiral = 0;
+
+    function redOverrideProb(){
+      return clamp01(0.08 + 0.60*(1-p.riskIntegrity) + 0.18*p.pace + 0.14*p.cost);
+    }
+
+    for(let t=0; t<months; t++){
+      const gh = govHealth();
+      const dem = demand();
+      const cap = capacity();
+
+      const implRisk = clamp01(
+        0.30*p.pace + 0.26*p.complexity + 0.22*p.cost +
+        0.14*(1-gh) + 0.08*(1-p.procClarity)
+      );
+
+      const targetWork = clamp01(0.45 + 0.90*(dem - cap) + 0.35*implRisk);
+      workload = clamp01(lerp(workload, targetWork, 0.40));
+
+      const churnTarget = clamp01(
+        0.10 +
+        0.65*(1/(1+Math.exp(-(workload-0.55)*7))) +
+        0.14*(1-p.psySafety) +
+        0.12*(1-p.wlProtect) +
+        0.10*(1-p.training)
+      );
+      churn = clamp01(lerp(churn, churnTarget, 0.35));
+
+      const kGain = clamp01(0.05*p.training + 0.03*(1-churn));
+      const kLoss = clamp01(0.18*churn + 0.06*(1-p.training) + 0.05*implRisk);
+      knowledge = clamp01(lerp(knowledge, clamp01(knowledge + kGain - kLoss), 0.55));
+
+      const latTarget = clamp01(
+        0.18 + 0.48*workload +
+        0.15*(1-p.techReady) +
+        0.12*(1-p.procClarity) +
+        0.08*(1-p.dataCoherence) +
+        0.10*(1-knowledge)
+      );
+      latency = clamp01(lerp(latency, latTarget, 0.40));
+
+      const trustTarget = clamp01(
+        0.20 +
+        0.28*p.connectivity +
+        0.16*p.consult +
+        0.10*gh +
+        0.12*(1-latency) +
+        0.06*(1-workload)
+      );
+      trust = clamp01(lerp(trust, trustTarget, 0.25));
+
+      const qaTarget = clamp01(
+        0.20 +
+        0.25*p.procClarity +
+        0.20*p.govGrip +
+        0.10*p.techReady +
+        0.06*p.dataCoherence -
+        0.25*p.cost -
+        0.22*workload
+      );
+      qa = clamp01(lerp(qa, qaTarget, 0.30));
+
+      const inflow = clamp01(0.25*p.complexity + 0.20*(1-p.procClarity) + 0.15*(1-p.techReady));
+      const outflow = clamp01(0.35*p.fbLoop + 0.20*gh + 0.10*p.decClarity);
+      backlog = Math.max(0, backlog + inflow - outflow);
+
+      const override = rng() < redOverrideProb() * (1 - 0.35*gh);
+      if(override) rubberStamp++;
+
+      if(p.govDepth > 0.60 && gh < 0.40) committeeProlif++;
+      if(p.govDepth > 0.60 && p.fbLoop < 0.45) meetingSpiral++;
+      if(backlog > 1.5 && p.fbLoop < 0.50) fbFail++;
+      if(workload > 0.67 && churn > 0.40 && knowledge < 0.55) knowledgeSpiral++;
+    }
+
+    const studentSat = clamp01(0.18 + 0.35*(1-latency) + 0.18*qa + 0.12*trust + 0.10*knowledge + 0.07*p.techReady);
+    const wellbeing  = clamp01(0.18 + 0.30*(1-workload) + 0.18*p.wlProtect + 0.16*p.psySafety + 0.10*p.resourcing + 0.08*p.training);
+    const reliability= clamp01(0.15 + 0.22*p.procClarity + 0.18*p.techReady + 0.16*p.fbLoop + 0.12*p.decClarity + 0.12*govHealth() + 0.10*(1-p.govDepth) - 0.12*p.complexity - 0.10*p.pace);
+
+    const axioms = {
+      goal:      (p.decClarity >= 0.60 && p.consult >= 0.55),
+      gov:       (p.govGrip >= 0.65 && govHealth() >= 0.55 && p.govDepth <= 0.70),
+      feedback:  (p.fbLoop >= 0.60 && backlog < 1.2),
+      risk:      (p.riskIntegrity >= 0.65 && rubberStamp <= 2),
+      capability:(p.resourcing >= 0.60 && p.training >= 0.60 && churn <= 0.38),
+      coherence: (p.procClarity >= 0.60 && p.techReady >= 0.60 && p.dataCoherence >= 0.55),
+      wellbeing: (wellbeing >= 0.55 && workload <= 0.62),
+      student:   (studentSat >= 0.60 && latency <= 0.58)
+    };
+    const satCount = Object.values(axioms).filter(Boolean).length;
+    const institutionSat = satCount >= 6 ? 1 : 0;
+
+    const T = Math.max(1, months);
+    const path = {
+      committees: clamp01(committeeProlif / T),
+      meetings: clamp01(meetingSpiral / T),
+      rubber: clamp01(rubberStamp / Math.max(1, T/2)),
+      fb: clamp01(fbFail / T),
+      knowledge: clamp01(knowledgeSpiral / T)
+    };
+
+    return { studentSat, wellbeing, reliability, institutionSat, path, axioms };
+  }
+
+  // ---------- Rendering ----------
+  function setStatus(text, active, tone="warn"){
+    el("statusText").textContent = text;
+    const dot = el("statusDot");
+    dot.style.background = active ? (tone==="good"?css("--good") : tone==="bad"?css("--bad") : css("--warn")) : "rgba(255,255,255,.35)";
+  }
+
+  function median(arr){
+    const a=[...arr].sort((x,y)=>x-y);
+    if(!a.length) return 0;
+    const n=a.length;
+    return n%2 ? a[(n-1)/2] : 0.5*(a[n/2-1]+a[n/2]);
+  }
+  function hist(arr, bins=24){
+    const h=new Array(bins).fill(0);
+    for(const x of arr){
+      const i=Math.min(bins-1, Math.max(0, Math.floor(x*bins)));
+      h[i]+=1;
+    }
+    const n=arr.length||1;
+    return h.map(v=>v/n);
+  }
+  function setBar(numId, barId, val01, color){
+    el(numId).textContent = `${pct0(val01)}%`;
+    const b = el(barId);
+    b.style.width = `${pct0(val01)}%`;
+    b.style.background = color;
+  }
+
+  function drawDistributions(S, Wb, R, Sat){
+    const c = el("distCanvas");
+    const ctx = c.getContext("2d");
+    const W = c.width, H = c.height;
+    ctx.clearRect(0,0,W,H);
+
+    ctx.strokeStyle = "rgba(255,255,255,.10)";
+    ctx.lineWidth = 1;
+    for(let i=0;i<=10;i++){
+      const x = 40 + (W-60)*(i/10);
+      ctx.beginPath(); ctx.moveTo(x, 20); ctx.lineTo(x, H-30); ctx.stroke();
+    }
+    for(let j=0;j<=6;j++){
+      const y = 20 + (H-50)*(j/6);
+      ctx.beginPath(); ctx.moveTo(40, y); ctx.lineTo(W-20, y); ctx.stroke();
+    }
+
+    const bins=24;
+    const hS=hist(S,bins), hW=hist(Wb,bins), hR=hist(R,bins);
+    const pSat = Sat.reduce((a,b)=>a+b,0)/(Sat.length||1);
+
+    const maxY = Math.max(...hS,...hW,...hR,pSat);
+    const xAt=i=>40+(W-60)*(i/bins);
+    const yAt=v=>(H-30)-(H-60)*(v/(maxY||1));
+
+    function drawHist(h, color, label, legendY){
+      ctx.fillStyle=color;
+      for(let i=0;i<bins;i++){
+        const x0=xAt(i), x1=xAt(i+1);
+        const bw=(x1-x0)*0.86;
+        const x=x0+(x1-x0)*0.07;
+        const y=yAt(h[i]);
+        const hh=(H-30)-y;
+        ctx.globalAlpha=0.72;
+        ctx.fillRect(x,y,bw,hh);
+      }
+      ctx.globalAlpha=1;
+      ctx.fillStyle="rgba(255,255,255,.88)";
+      ctx.font="14px ui-sans-serif, system-ui";
+      ctx.fillText(label, 58, 40+legendY);
+      ctx.fillStyle=color;
+      ctx.fillRect(40, 31+legendY, 10, 10);
+    }
+
+    drawHist(hS, css("--c-student"), "Student satisfaction (S)", 0);
+    drawHist(hW, css("--c-people"),  "Wellbeing (Wb)", 22);
+    drawHist(hR, css("--c-digital"), "Delivery reliability (R)", 44);
+
+    const x0 = 40 + (W-60)*0.80;
+    const bw = (W-60)*0.18;
+    const y = yAt(pSat);
+    ctx.fillStyle = css("--c-govern");
+    ctx.globalAlpha = 0.85;
+    ctx.fillRect(x0, y, bw, (H-30)-y);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle="rgba(255,255,255,.90)";
+    ctx.font="14px ui-sans-serif, system-ui";
+    ctx.fillText("P( M ⊨ Sen )", x0, 40);
+
+    ctx.fillStyle="rgba(255,255,255,.65)";
+    ctx.font="12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+    ctx.fillText("0", 40, H-10);
+    ctx.fillText("1", W-25, H-10);
+    ctx.fillText("probability", 40, 14);
+  }
+
+  function drawRisks(riskMeans){
+    const c = el("riskCanvas");
+    const ctx = c.getContext("2d");
+    const W = c.width, H = c.height;
+    ctx.clearRect(0,0,W,H);
+
+    const warn = css("--warn") || "rgba(255,211,123,1)";
+    const bad  = css("--bad")  || "rgba(255,90,122,1)";
+
+    const items = [
+      {name:"Committees", v:riskMeans.committees, col: css("--c-govern")},
+      {name:"Meeting spiral", v:riskMeans.meetings, col: warn},
+      {name:"Rubber-stamp gating", v:riskMeans.rubber, col: bad},
+      {name:"Feedback-loop failure", v:riskMeans.fb, col: css("--c-govern")},
+      {name:"Knowledge-loss spiral", v:riskMeans.knowledge, col: css("--c-people")}
+    ];
+
+    ctx.strokeStyle="rgba(255,255,255,.10)";
+    ctx.lineWidth=1;
+    for(let j=0;j<=4;j++){
+      const y=20+(H-50)*(j/4);
+      ctx.beginPath(); ctx.moveTo(20,y); ctx.lineTo(W-20,y); ctx.stroke();
+    }
+
+    const bw=(W-40)/items.length;
+    items.forEach((it,i)=>{
+      const x=20+i*bw+bw*0.12;
+      const w=bw*0.76;
+      const h=(H-60)*it.v;
+      const y=(H-28)-h;
+
+      ctx.fillStyle=it.col;
+      ctx.globalAlpha=0.82;
+      ctx.fillRect(x,y,w,h);
+      ctx.globalAlpha=1;
+
+      ctx.fillStyle="rgba(255,255,255,.88)";
+      ctx.font="12px ui-sans-serif, system-ui";
+      ctx.fillText(it.name, x, H-8);
+
+      ctx.fillStyle="rgba(255,255,255,.70)";
+      ctx.font="12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+      ctx.fillText(`${pct0(it.v)}%`, x, y-6);
+    });
+  }
+
+  function renderAxiomsChecklist(){
+    const list = el("axioms");
+    list.innerHTML = "";
+    const axioms = [
+      { name:"Clear goals & decision rights", ok:(P.decClarity>=0.60),
+        why:"Prevents objective drift and reduces meeting-as-a-substitute-for-decisions." },
+      { name:"Meaningful co-creation", ok:(P.consult>=0.60 && P.psySafety>=0.55),
+        why:"Consultation only works if people can safely shape outcomes." },
+      { name:"Lean, deliberative governance", ok:(P.govGrip>=0.65 && P.govDepth<=0.55),
+        why:"Deep governance without grip produces committees and slow decisions." },
+      { name:"Feedback loop closes", ok:(P.fbLoop>=0.60),
+        why:"If feedback isn’t acted on, issues accumulate and trust erodes." },
+      { name:"Red risks block gates", ok:(P.riskIntegrity>=0.65),
+        why:"If red risks don’t bite, defects become legacy problems." },
+      { name:"Capability is real (resourcing + training + backfill)", ok:(P.resourcing>=0.60 && P.training>=0.60 && P.wlProtect>=0.55),
+        why:"Paper capacity is not effective capacity; training needs time and protected space." },
+      { name:"Socio-technical coherence (process + tech + data)", ok:(P.procClarity>=0.60 && P.techReady>=0.60 && P.dataCoherence>=0.55),
+        why:"Structure before systems creates workarounds and invisible queues." }
+    ];
+    axioms.forEach(a=>{
+      const li=document.createElement("li");
+      li.innerHTML = `<b>${a.ok?"✅":"❌"} ${a.name}</b><small>${a.why}</small>`;
+      list.appendChild(li);
+    });
+  }
+
+  // Generate example quotes (stakeholders) consistent with settings
+  function generateQuotes(summary){
+    // Compute a few “signals” from settings and outcomes
+    const { risks, pSat, medS, medWb, medR } = summary;
+
+    const high = x => x >= 0.65;
+    const low  = x => x < 0.35;
+
+    const committeePain = (high(P.govDepth) && (low(P.govGrip) || low(P.decClarity) || low(P.fbLoop)));
+    const rubberStamp = low(P.riskIntegrity) && (high(P.pace) || high(P.cost));
+    const knowledgeLoss = low(P.training) && low(P.wlProtect);
+    const workaroundCulture = low(P.techReady) || low(P.dataCoherence) || low(P.procClarity);
+    const trustGap = low(P.connectivity) || low(P.consult) || low(P.fbLoop);
+
+    const studentTone = (medS >= 0.60) ? "positive" : (medS < 0.50 ? "negative" : "mixed");
+    const staffTone = (medWb >= 0.60) ? "positive" : (medWb < 0.50 ? "negative" : "mixed");
+    const progTone = (medR >= 0.60) ? "positive" : (medR < 0.50 ? "negative" : "mixed");
+
+    // Student quotes
+    const studentQuotes = [];
+    if(studentTone==="positive"){
+      studentQuotes.push(`“I didn’t have to explain my situation three times — it felt like one service.”`);
+      if(!workaroundCulture) studentQuotes.push(`“The system actually updated when people said it would; that built trust.”`);
+      else studentQuotes.push(`“It worked most of the time, but when it broke, no one seemed to know where the truth was.”`);
+    } else if(studentTone==="negative"){
+      studentQuotes.push(`“I was bounced between teams and had to repeat everything. It felt like nobody owned my case.”`);
+      if(workaroundCulture) studentQuotes.push(`“Staff kept saying ‘the system won’t let us’ and asked for the same info again.”`);
+      if(trustGap) studentQuotes.push(`“It felt like decisions were made without student input, then we were told to adapt.”`);
+    } else {
+      studentQuotes.push(`“Some requests were smooth, others were a maze — it depends who you reach.”`);
+      if(workaroundCulture) studentQuotes.push(`“There were a lot of manual steps. When things got busy it slowed right down.”`);
+    }
+
+    // Frontline staff quotes
+    const staffQuotes = [];
+    if(staffTone==="positive"){
+      staffQuotes.push(`“The new process reduced rework — we close cases properly instead of chasing clarifications.”`);
+      if(high(P.training)) staffQuotes.push(`“Training and handover were solid; new joiners ramped quickly.”`);
+    } else if(staffTone==="negative"){
+      staffQuotes.push(`“We’re doing the new work on top of BAU. There’s no protected time, so everything is always urgent.”`);
+      if(knowledgeLoss) staffQuotes.push(`“So much know-how walked out the door — we keep rediscovering the same fixes.”`);
+      if(low(P.psySafety)) staffQuotes.push(`“People stopped raising risks because it just made you ‘difficult’.”`);
+    } else {
+      staffQuotes.push(`“There are good bits, but it’s fragile — one absence and the queue doubles.”`);
+      if(knowledgeLoss) staffQuotes.push(`“We rely on a few experts. When they’re off, progress stalls.”`);
+    }
+
+    // Programme / PMO quotes
+    const progQuotes = [];
+    if(progTone==="positive"){
+      progQuotes.push(`“We stabilised quickly because we gated go-live on readiness, not the calendar.”`);
+      if(high(P.fbLoop)) progQuotes.push(`“Feedback was acted on within weeks; the backlog didn’t balloon.”`);
+    } else if(progTone==="negative"){
+      progQuotes.push(`“We hit the date, but the cost was pushed into stabilisation. The queue became BAU’s problem.”`);
+      if(rubberStamp) progQuotes.push(`“Risks were logged as ‘red’ and we went live anyway — the gate was performative.”`);
+      if(committeePain) progQuotes.push(`“Decisions took three committees and two ‘alignment’ sessions. Momentum died.”`);
+    } else {
+      progQuotes.push(`“Delivery was possible, but only by trading off quality and relying on heroics.”`);
+      if(workaroundCulture) progQuotes.push(`“We underestimated integration and data clean-up — manual work exploded.”`);
+    }
+
+    // Governance quotes
+    const govQuotes = [];
+    if(pSat >= 0.60 && risks.committees < 0.25){
+      govQuotes.push(`“Governance stayed lean: short meetings, explicit decision rights, and clear stop/go criteria.”`);
+      if(high(P.riskIntegrity)) govQuotes.push(`“When risks were red, we paused and re-scoped rather than pushing failure downstream.”`);
+    } else {
+      if(committeePain) govQuotes.push(`“We created additional groups to ‘get control’, but it increased meeting load without improving decisions.”`);
+      if(low(P.decClarity)) govQuotes.push(`“Everyone had a veto but no one had ownership — escalations became the default.”`);
+      if(low(P.fbLoop)) govQuotes.push(`“We listened, but we didn’t have a mechanism to convert feedback into changes.”`);
+    }
+
+    // Compose
+    const lines = [];
+    lines.push(`[Students]`);
+    studentQuotes.forEach(q => lines.push(`- ${q}`));
+    lines.push(`\n[Frontline staff]`);
+    staffQuotes.forEach(q => lines.push(`- ${q}`));
+    lines.push(`\n[Programme / PMO]`);
+    progQuotes.forEach(q => lines.push(`- ${q}`));
+    lines.push(`\n[Governance / Committees]`);
+    govQuotes.forEach(q => lines.push(`- ${q}`));
+
+    el("quoteBox").textContent = lines.join("\n");
+  }
+
+  // Hints and improvements: more explicit, tied to settings
+  function hints(summary){
+    const { pSat, medS, medWb, medR, risks } = summary;
+
+    const tips = [];
+
+    // Committee proliferation / meeting spiral
+    if(risks.committees > 0.28 || risks.meetings > 0.28){
+      tips.push("If committees are proliferating: reduce governance depth OR sharply increase governance grip + decision clarity. Add sunset clauses to groups; cap meeting cadence.");
+    }
+    if(P.govDepth > 0.65 && (P.govGrip < 0.55 || P.decClarity < 0.55)){
+      tips.push("High governance depth with weak grip/decision rights is a classic meeting spiral. Consolidate forums and publish decision-rights (RACI) that actually bite.");
+    }
+
+    // Rubber-stamp gating
+    if(risks.rubber > 0.20 || (P.riskIntegrity < 0.50 && P.pace > 0.55)){
+      tips.push("If risk gates are rubber-stamping: implement a hard ‘stop rule’ for red risks, plus independent readiness checks (training complete, data clean, process tested).");
+    }
+
+    // Knowledge loss spiral
+    if(risks.knowledge > 0.18 || (P.training < 0.50 && P.wlProtect < 0.50)){
+      tips.push("If knowledge is bleeding: fund handover, create runbooks, pair new staff with experienced mentors, and protect time (backfill) so training actually happens.");
+    }
+
+    // Workarounds / tech-data mismatch
+    if(P.techReady < 0.50 || P.dataCoherence < 0.50){
+      tips.push("If workarounds are expanding: don’t ‘structure first, systems later’. Stabilise core tools/data before scaling. Track workaround volume as a KPI.");
+    }
+
+    // Student experience
+    if(medS < 0.60){
+      tips.push("To lift student satisfaction: raise process clarity (ownership, triage, closure), strengthen connectivity, and make consultation change decisions (not just collect comments).");
+    }
+    if(P.procClarity < 0.55 && P.connectivity < 0.55){
+      tips.push("Low process clarity + low connectivity means cases bounce. Define ‘single owner’ rules and a fast escalation route with named decision-makers.");
+    }
+
+    // Wellbeing / burnout
+    if(medWb < 0.60){
+      tips.push("To improve wellbeing: increase workload protection (backfill), increase resourcing, and reduce pace. Without this, ‘heroic’ delivery becomes the operating model.");
+    }
+
+    // Reliability / pace/complexity
+    if(medR < 0.60 && (P.pace > 0.55 || P.complexity > 0.55)){
+      tips.push("Reliability is sensitive to pace and coupling. Use pilots, decouple work packages, and avoid ‘big bang’ go-lives when complexity is high.");
+    }
+
+    // Overall “institution satisfaction”
+    if(pSat < 0.50){
+      tips.push("Institution satisfaction is low because multiple axioms are failing. Pick 2–3 constraints to enforce ruthlessly: decision rights, red-risk stop rules, and protected capacity.");
+    }
+
+    el("insightText").textContent = tips.slice(0, 6).join(" ");
+    const tone = (pSat>=0.60 && medS>=0.60 && medWb>=0.60) ? "good" : (pSat<0.45 ? "bad" : "warn");
+    el("insightBox").className = "callout " + tone;
+  }
+
+  // ---------- Real-time + Full-run ----------
+  let runningFull = false;
+  let rtTimer = null;
+
+  function computeAndRender(N, T, sigma, label){
+    const S=new Array(N), Wb=new Array(N), R=new Array(N), Sat=new Array(N);
+    const pr={committees:new Array(N), meetings:new Array(N), rubber:new Array(N), fb:new Array(N), knowledge:new Array(N)};
+
+    for(let i=0;i<N;i++){
+      const out = simulateOne(77777 + i*31, T, sigma);
+      S[i]=out.studentSat; Wb[i]=out.wellbeing; R[i]=out.reliability; Sat[i]=out.institutionSat;
+      pr.committees[i]=out.path.committees; pr.meetings[i]=out.path.meetings; pr.rubber[i]=out.path.rubber; pr.fb[i]=out.path.fb; pr.knowledge[i]=out.path.knowledge;
+    }
+
+    drawDistributions(S,Wb,R,Sat);
+
+    const pSat = Sat.reduce((a,b)=>a+b,0)/(Sat.length||1);
+    const medS = median(S), medWb = median(Wb), medR = median(R);
+
+    setBar("k_sat","bar_sat", pSat, css("--c-govern"));
+    setBar("k_s","bar_s", medS, css("--c-student"));
+    setBar("k_wb","bar_wb", medWb, css("--c-people"));
+    setBar("k_r","bar_r", medR, css("--c-digital"));
+
+    const mean = arr => arr.reduce((a,b)=>a+b,0)/(arr.length||1);
+    const risks = {
+      committees: mean(pr.committees),
+      meetings: mean(pr.meetings),
+      rubber: mean(pr.rubber),
+      fb: mean(pr.fb),
+      knowledge: mean(pr.knowledge)
+    };
+    drawRisks(risks);
+
+    renderAxiomsChecklist();
+    hints({ pSat, medS, medWb, medR, risks });
+    generateQuotes({ pSat, medS, medWb, medR, risks });
+
+    const tone = (pSat>=0.60 && medS>=0.60 && medWb>=0.60) ? "good" : (pSat<0.45 ? "bad" : "warn");
+    setStatus(label, false, tone);
+
+    return { pSat, medS, medWb, medR, risks };
+  }
+
+  function scheduleRealtimeUpdate(){
+    if(runningFull) return;
+    if(rtTimer) clearTimeout(rtTimer);
+    rtTimer = setTimeout(() => {
+      const N = parseInt(el("rtRuns").value,10);
+      const T = parseInt(el("months").value,10);
+      const sigma = parseInt(el("sigma").value,10)/100;
+      setStatus("Updating (real-time)…", true, "warn");
+      computeAndRender(N, T, sigma, "Real-time mode");
+      rtTimer = null;
+    }, 160);
+  }
+
+  function runFull(){
+    if(runningFull) return;
+    runningFull = true;
+
+    const N = parseInt(el("runs").value, 10);
+    const T = parseInt(el("months").value, 10);
+    const sigma = parseInt(el("sigma").value,10)/100;
+
+    el("stopBtn").disabled = false;
+    setStatus("Running full simulation…", true, "warn");
+
+    const S=new Array(N), Wb=new Array(N), R=new Array(N), Sat=new Array(N);
+    const pr={committees:new Array(N), meetings:new Array(N), rubber:new Array(N), fb:new Array(N), knowledge:new Array(N)};
+
+    let i=0;
+    const chunk=450;
+
+    function step(){
+      if(!runningFull) return finish(true);
+      const end=Math.min(N, i+chunk);
+      for(; i<end; i++){
+        const out = simulateOne(123456 + i*37, T, sigma);
+        S[i]=out.studentSat; Wb[i]=out.wellbeing; R[i]=out.reliability; Sat[i]=out.institutionSat;
+        pr.committees[i]=out.path.committees; pr.meetings[i]=out.path.meetings; pr.rubber[i]=out.path.rubber; pr.fb[i]=out.path.fb; pr.knowledge[i]=out.path.knowledge;
+      }
+      setStatus(`Running full… ${Math.round((i/N)*100)}%`, true, "warn");
+      if(i < N) requestAnimationFrame(step);
+      else finish(false);
+    }
+
+    function finish(stopped){
+      if(stopped){
+        setStatus("Full simulation stopped", false, "warn");
+        el("stopBtn").disabled = true;
+        runningFull = false;
+        scheduleRealtimeUpdate();
+        return;
+      }
+
+      drawDistributions(S,Wb,R,Sat);
+
+      const pSat = Sat.reduce((a,b)=>a+b,0)/(Sat.length||1);
+      const medS = median(S), medWb = median(Wb), medR = median(R);
+
+      setBar("k_sat","bar_sat", pSat, css("--c-govern"));
+      setBar("k_s","bar_s", medS, css("--c-student"));
+      setBar("k_wb","bar_wb", medWb, css("--c-people"));
+      setBar("k_r","bar_r", medR, css("--c-digital"));
+
+      const mean = arr => arr.reduce((a,b)=>a+b,0)/(arr.length||1);
+      const risks = {
+        committees: mean(pr.committees),
+        meetings: mean(pr.meetings),
+        rubber: mean(pr.rubber),
+        fb: mean(pr.fb),
+        knowledge: mean(pr.knowledge)
+      };
+      drawRisks(risks);
+
+      renderAxiomsChecklist();
+      hints({ pSat, medS, medWb, medR, risks });
+      generateQuotes({ pSat, medS, medWb, medR, risks });
+
+      const tone = (pSat>=0.60 && medS>=0.60 && medWb>=0.60) ? "good" : (pSat<0.45 ? "bad" : "warn");
+      setStatus("Full simulation complete ✓", false, tone);
+
+      el("stopBtn").disabled = true;
+      runningFull = false;
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  function stopFull(){ runningFull = false; }
+
+  // ---------- Project prompt ----------
+  function sliderSnapshot(){
+    const rows = [];
+    const add = (group, items) => {
+      rows.push(`\n${group}:`);
+      for(const [k, label] of items){
+        rows.push(`- ${label}: ${Math.round(P[k]*100)}% (${P[k].toFixed(2)})`);
+      }
+    };
+    add("Student experience", [
+      ["procClarity","Process clarity (handoffs)"],
+      ["connectivity","Academic–PS connectivity"],
+      ["consult","Consultation / co-creation quality"]
+    ]);
+    add("People & culture", [
+      ["resourcing","Resourcing adequacy"],
+      ["training","Training & handover quality"],
+      ["wlProtect","Workload protection (backfill)"],
+      ["psySafety","Psychological safety"]
+    ]);
+    add("Digital & data", [
+      ["techReady","Tech readiness"],
+      ["dataCoherence","Data coherence"]
+    ]);
+    add("Governance & delivery", [
+      ["govGrip","Governance grip"],
+      ["govDepth","Governance depth (layers)"],
+      ["decClarity","Decision clarity"],
+      ["fbLoop","Feedback loop effectiveness"],
+      ["riskIntegrity","Risk integrity (red risks block gates)"]
+    ]);
+    add("Change stressors", [
+      ["complexity","Complexity"],
+      ["pace","Change pace"],
+      ["cost","Cost pressure"]
+    ]);
+    return rows.join("\n");
+  }
+
+  function generateCaseStudyPrompt(){
+    const name = (el("projName").value || "").trim();
+    const cat = el("projCategory").value;
+    const task = (el("projTask").value || "").trim();
+    const res = (el("projResources").value || "").trim();
+    const rat = (el("projRationale").value || "").trim();
+
+    const kSat = el("k_sat").textContent;
+    const kS = el("k_s").textContent;
+    const kWb = el("k_wb").textContent;
+    const kR = el("k_r").textContent;
+    const hintText = (el("insightText").textContent || "").trim();
+    const quotes = (el("quoteBox").textContent || "").trim();
+
+    const prompt =
+`You are an expert evaluator writing a post-completion case-study evaluation for a university transformation project.
+Be frank about where delivery-handbook rhetoric diverges from operational reality, and surface SEP-like pathologies:
+committee proliferation, meeting spirals, rubber-stamp gating, ineffective feedback loops, knowledge-loss churn, unclear objectives.
+
+PROJECT DETAILS
+- Strategy category: ${cat}
+- Project name: ${name || "(not provided)"}
+- Task / scope: ${task || "(not provided)"}
+- Resources & constraints: ${res || "(not provided)"}
+- Rationale / objectives: ${rat || "(not provided)"}
+
+OPERATING REALITY (INSTITUTION SETTINGS)
+Treat these slider values as the real conditions experienced during delivery:
+${sliderSnapshot()}
+
+MODEL-BASED OUTCOME SIGNALS (from the simulator)
+- P(M ⊨ Sen): ${kSat}
+- Median student satisfaction (S): ${kS}
+- Median staff wellbeing (Wb): ${kWb}
+- Median delivery reliability (R): ${kR}
+
+PLAUSIBLE QUALITATIVE EVIDENCE (stakeholder excerpts)
+Use or adapt these as if they came from interviews:
+${quotes || "(quotes not available)"}
+
+TARGETED IMPROVEMENT HINTS (from simulator)
+${hintText || "(none yet)"}
+
+WHAT TO WRITE
+Write a structured case-study evaluation (~1,500–2,500 words) with:
+1) Executive summary: what was attempted, what happened, and overall success level.
+2) Theory of change vs lived delivery: how the delivery handbook framing played out; where it broke.
+3) What happened over time: phases (mobilise, design, transition, go-live, stabilisation), including friction points.
+4) Outcomes: student experience, staff experience, reliability, and unintended consequences (workarounds, hidden queues, admin tax).
+5) Governance: committee load, decision rights, risk gates; evidence of rubber-stamping vs deliberation.
+6) Feedback loop: what signals were collected, whether acted on, and trust impacts.
+7) Capability & knowledge: training, handover, churn, institutional memory, workload and wellbeing.
+8) Digital/data realism: system readiness vs process maturity; integration problems; data quality; workaround ecology.
+9) Mitigations that would have changed the outcome: prioritised list tied to the settings above.
+10) Lessons learned & recommendations: include controls (sunset clauses for committees, capability readiness gates, red-risk stop rules, protected time).
+
+EVIDENCE STYLE
+- Use plausible evidence types (minutes themes, incident log patterns, backlog measures, staff narratives, student complaints).
+- Make causal chains explicit: which settings drove which events and outcomes.
+- Avoid generic platitudes; be concrete about mechanisms and trade-offs.
+`;
+
+    el("promptBox").textContent = prompt;
+    setStatus("AI prompt generated", false, "good");
+  }
+
+  async function copyPrompt(){
+    const text = el("promptBox").textContent || "";
+    try{
+      await navigator.clipboard.writeText(text);
+      setStatus("Prompt copied to clipboard", false, "good");
+    }catch(e){
+      setStatus("Copy failed (browser blocked). Select & copy manually.", false, "warn");
+    }
+  }
+
+  // ---------- Binding ----------
+  function bindParam(sliderId, key){
+    const s = el(sliderId);
+    const v = el("v_" + sliderId);
+    const update = () => {
+      P[key] = clamp01(parseInt(s.value,10)/100);
+      v.textContent = fmt2(P[key]);
+      refreshSliderExplainers();
+      renderAxiomsChecklist();
+      scheduleRealtimeUpdate();
+    };
+    s.addEventListener("input", update);
+    update();
+  }
+  function bindInt(sliderId, displayId, transform=(x)=>x){
+    const s = el(sliderId);
+    const v = el(displayId);
+    const update = () => { v.textContent = transform(s.value); };
+    s.addEventListener("input", () => { update(); scheduleRealtimeUpdate(); });
+    update();
+  }
+
+  // Student
+  bindParam("procClarity","procClarity");
+  bindParam("connectivity","connectivity");
+  bindParam("consult","consult");
+  // People
+  bindParam("resourcing","resourcing");
+  bindParam("training","training");
+  bindParam("wlProtect","wlProtect");
+  bindParam("psySafety","psySafety");
+  // Digital
+  bindParam("techReady","techReady");
+  bindParam("dataCoherence","dataCoherence");
+  // Governance
+  bindParam("govGrip","govGrip");
+  bindParam("govDepth","govDepth");
+  bindParam("decClarity","decClarity");
+  bindParam("fbLoop","fbLoop");
+  bindParam("riskIntegrity","riskIntegrity");
+  // Stressors
+  bindParam("complexity","complexity");
+  bindParam("pace","pace");
+  bindParam("cost","cost");
+
+  // sim controls
+  bindInt("runs","v_runs",(x)=>x);
+  bindInt("months","v_months",(x)=>x);
+  bindInt("sigma","v_sigma",(x)=>fmt2(parseInt(x,10)/100));
+  bindInt("rtRuns","v_rtRuns",(x)=>x);
+
+  function updateRunInfo(){
+    el("runInfo").textContent = `N=${el("runs").value} • T=${el("months").value}`;
+  }
+  el("runs").addEventListener("input", updateRunInfo);
+  el("months").addEventListener("input", updateRunInfo);
+  updateRunInfo();
+
+  // Buttons
+  el("runBigBtn").addEventListener("click", runFull);
+  el("stopBtn").addEventListener("click", () => { stopFull(); el("stopBtn").disabled = true; setStatus("Stopping full simulation…", false, "warn"); });
+
+  function applyPreset(obj, msg){
+    Object.assign(P, obj);
+    for(const k in obj){
+      if(el(k)){
+        el(k).value = Math.round(P[k]*100);
+        el("v_"+k).textContent = fmt2(P[k]);
+      }
+    }
+    refreshSliderExplainers();
+    renderAxiomsChecklist();
+    setStatus(msg, false, "warn");
+    scheduleRealtimeUpdate();
+  }
+  el("presetPath").addEventListener("click", () => applyPreset({
+    govGrip:.35, govDepth:.78, decClarity:.40, fbLoop:.30, riskIntegrity:.30,
+    resourcing:.45, training:.35, wlProtect:.30, psySafety:.40,
+    procClarity:.40, connectivity:.35, consult:.35,
+    techReady:.30, dataCoherence:.35,
+    complexity:.75, pace:.70, cost:.65
+  }, "Preset loaded: SEP-like Pathology"));
+  el("presetHealthy").addEventListener("click", () => applyPreset({
+    govGrip:.78, govDepth:.42, decClarity:.72, fbLoop:.70, riskIntegrity:.75,
+    resourcing:.68, training:.72, wlProtect:.65, psySafety:.70,
+    procClarity:.72, connectivity:.65, consult:.70,
+    techReady:.75, dataCoherence:.62,
+    complexity:.50, pace:.45, cost:.40
+  }, "Preset loaded: Healthy Delivery"));
+  el("chaosBtn").addEventListener("click", () => {
+    const rnd = () => Math.random()*0.9 + 0.05;
+    const obj = {};
+    for(const k in P) obj[k] = clamp01(rnd());
+    applyPreset(obj, "Chaos test loaded");
+  });
+
+  // Project prompt
+  el("genPromptBtn").addEventListener("click", generateCaseStudyPrompt);
+  el("copyPromptBtn").addEventListener("click", copyPrompt);
+
+  // ---------- Init ----------
+  initTabs();
+  refreshSliderExplainers();
+  renderAxiomsChecklist();
+  setStatus("Real-time mode", false, "warn");
+
+  // initial render
+  (function initCharts(){
+    const N = parseInt(el("rtRuns").value,10);
+    const T = parseInt(el("months").value,10);
+    const sigma = parseInt(el("sigma").value,10)/100;
+    computeAndRender(N, T, sigma, "Real-time mode");
+  })();
+})();
+</script>
+</body>
+</html>
