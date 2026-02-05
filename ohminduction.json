@@ -1,0 +1,603 @@
+{
+  "meta": {
+    "title": "Occupational Health Service Management — From Deep Principles to Operational Delivery",
+    "subtitle": "Trace concepts from ethical and strategic foundations to governance, programmes (risk, surveillance, exposure control), communications, and day-to-day OH service management decisions.",
+    "domainName": "occupational health service management",
+    "searchPlaceholder": "e.g., risk assessment, COSHH, WELs, hearing conservation, audiometry, WBGT/PHS, confidentiality, consent, report writing, KPIs, SEQOHS, RIDDOR…",
+    "userContextLabel": "Your organisation / service context (optional)",
+    "userContextPlaceholder": "e.g., Multi-site manufacturing; outsourced OH; high noise + solvents; rising absence; need defensible governance + KPIs…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert occupational health service director and occupational hygiene-informed advisor specialising in {{DOMAIN}}.\n\nWrite a narrative case study that uses the selected concepts to show how deep understanding improves practical OH management decisions.\nMake it realistic (constraints, trade-offs, stakeholder pressures) and defensible (law, ethics, governance, evidence, quality).\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- A plausible organisational scenario (workforce, hazards, stakeholders, constraints)\n- A step-by-step management story linking surface problems to deeper causes (governance, risk assessment, controls, surveillance, culture)\n- A programme plan (controls + surveillance + competence + communications) with rationale\n- A quality plan: 3 system-suitability checks + acceptance criteria for the OH service (not the lab)\n- 2 leading + 2 lagging indicators of OH service health\n- A brief note on ethics/confidentiality and how you would report and govern decisions responsibly\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Judgement, ethics, trust, and good governance in occupational health service management."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Deep ideas that constrain OH decisions: risk, law, ethics, systems, communication, and organisational behaviour."
+    },
+    {
+      "id": 2,
+      "title": "Foundations of work, health & exposure",
+      "hint": "Core concepts underpinning hazards, exposure, dose-response, and prevention."
+    },
+    {
+      "id": 3,
+      "title": "Service governance & programme architecture",
+      "hint": "How an OH service is designed, commissioned, governed, and integrated with risk management."
+    },
+    {
+      "id": 4,
+      "title": "Operational processes & delivery mechanisms",
+      "hint": "Consultations, surveillance, exposure assessment, controls, reporting, training, and coordination."
+    },
+    {
+      "id": 5,
+      "title": "Quality, performance & improvement",
+      "hint": "Assurance, audit, KPIs, records, competence, learning loops, and continuous improvement."
+    },
+    {
+      "id": 6,
+      "title": "Use cases & operating scenarios",
+      "hint": "Real OH management situations where trade-offs, governance, and stakeholder pressures become explicit."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "trust_stewardship",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Trust stewardship (people + organisation)",
+      "summary": "Run OH as a trusted function: fairness, transparency, proportionality, and respect for individuals while supporting organisational risk control.",
+      "tags": ["trust", "ethics", "governance"],
+      "bodyHtml": "<p>OH managers must maintain legitimacy with workers, managers, unions, and regulators. Trust depends on consistent consent/confidentiality practice, clear role boundaries, and defensible recommendations that prioritise prevention and fairness.</p>"
+    },
+    {
+      "id": "fit_for_purpose_service",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Fitness-for-purpose service design",
+      "summary": "Scope, staffing, pathways, and programmes proportional to the organisation’s hazard profile and decision risks.",
+      "tags": ["strategy", "service_design", "risk"],
+      "bodyHtml": "<p>Different organisations need different OH architectures: e.g., heavy industry requires mature exposure control + surveillance programmes; office-based work may emphasise psychosocial risk, MSDs, and absence management. Design the simplest defensible service that meets needs.</p>"
+    },
+    {
+      "id": "prevention_first",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Prevention-first orientation",
+      "summary": "Prioritise upstream risk control over downstream case management; treatment supports but does not replace prevention.",
+      "tags": ["prevention", "population_health"],
+      "bodyHtml": "<p>OH services often drift into reactive casework. Wise management keeps prevention central: risk assessment support, exposure reduction, effective controls, and targeted surveillance where it can actually prevent harm.</p>"
+    },
+    {
+      "id": "systems_leadership",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "End-to-end systems leadership",
+      "summary": "Treat OH as a system: hazard identification → exposure evaluation → control → surveillance → communication → learning.",
+      "tags": ["systems", "workflow", "learning"],
+      "bodyHtml": "<p>Many OH failures are systemic: weak control ownership, poor data flows, unclear referral questions, inadequate follow-up, and broken feedback loops between surveillance findings and engineering controls. Manage the whole chain.</p>"
+    },
+    {
+      "id": "risk_based_prioritisation",
+      "level": 1,
+      "kind": "concept",
+      "label": "Risk-based prioritisation",
+      "summary": "Allocate OH attention where harm is most likely and most severe, using defensible criteria.",
+      "tags": ["risk", "prioritisation"],
+      "bodyHtml": "<p>OH management decisions (staffing, surveillance, sampling, programme intensity) should be driven by hazard severity, exposure likelihood, workforce vulnerability, and the potential consequences of errors or delays.</p>"
+    },
+    {
+      "id": "law_accountability",
+      "level": 1,
+      "kind": "concept",
+      "label": "Law, dutyholders & accountability",
+      "summary": "Map statutory duties, common law duties, and organisational responsibilities into practical governance.",
+      "tags": ["law", "compliance", "dutyholders"],
+      "bodyHtml": "<p>OH managers translate legal requirements into operational controls: risk assessments, surveillance where required, reporting, consultation, and recordkeeping—ensuring responsibilities are owned and evidenced.</p>"
+    },
+    {
+      "id": "two_master_ethics",
+      "level": 1,
+      "kind": "concept",
+      "label": "Two-master ethics (worker–employer tension)",
+      "summary": "Balance individual welfare and organisational needs without collapsing into advocacy for one side.",
+      "tags": ["ethics", "conflict_of_interest"],
+      "bodyHtml": "<p>OH is distinct because it serves multiple stakeholders. Ethical management means robust processes: consent, confidentiality boundaries, relevance in reporting, and fairness in fitness-for-work decisions.</p>"
+    },
+    {
+      "id": "confidentiality_consent_governance",
+      "level": 1,
+      "kind": "concept",
+      "label": "Confidentiality & consent governance",
+      "summary": "Consistent rules for data sharing, report release, and exceptional disclosures.",
+      "tags": ["confidentiality", "consent", "information_governance"],
+      "bodyHtml": "<p>OH services are built on sensitive information. Managers must ensure lawful and ethical handling, clear consent pathways for reports, and transparent explanations to workers about what is shared and why.</p>"
+    },
+    {
+      "id": "stakeholder_risk_communication",
+      "level": 1,
+      "kind": "concept",
+      "label": "Stakeholder communication & risk perception",
+      "summary": "Translate technical risk into understandable, actionable messages for diverse audiences.",
+      "tags": ["communication", "risk_perception"],
+      "bodyHtml": "<p>Effective OH management includes communication strategy: with workers (trust + clarity), managers (decision-ready advice), safety teams (controls), and regulators (evidence). Mismanaged risk communication can undermine programmes even when technically correct.</p>"
+    },
+    {
+      "id": "multidisciplinary_teaming",
+      "level": 1,
+      "kind": "concept",
+      "label": "Multidisciplinary teaming",
+      "summary": "Coordinate clinicians, hygienists, safety/engineering, HR, and leadership as one risk-control system.",
+      "tags": ["team", "integration"],
+      "bodyHtml": "<p>Noise, chemicals, vibration, heat, and ergonomic risks require joint ownership: hygiene measurement + engineering controls + clinical surveillance + training + work design. Management must align incentives and workflows.</p>"
+    },
+    {
+      "id": "culture_behaviour",
+      "level": 1,
+      "kind": "concept",
+      "label": "Organisational culture & behaviour",
+      "summary": "Programme success depends on leadership commitment, worker engagement, and consistent practice.",
+      "tags": ["culture", "behaviour"],
+      "bodyHtml": "<p>Many controls rely on human behaviour (e.g., PPE use, reporting symptoms, attending surveillance). Culture determines whether good processes are followed and whether issues are surfaced early.</p>"
+    },
+    {
+      "id": "hazard_vs_risk",
+      "level": 2,
+      "kind": "concept",
+      "label": "Hazard vs risk",
+      "summary": "Hazard is potential harm; risk is likelihood given real exposure and work processes.",
+      "tags": ["hazard", "risk"],
+      "bodyHtml": "<p>OH managers ensure teams avoid two traps: (1) treating any hazard as automatically high risk, and (2) ignoring exposure and process realities. Prioritisation depends on risk, not just hazard labels.</p>"
+    },
+    {
+      "id": "exposure_dose_response",
+      "level": 2,
+      "kind": "concept",
+      "label": "Exposure, dose and dose–response thinking",
+      "summary": "External exposure drives internal dose and health effects; duration, route, and intensity matter.",
+      "tags": ["exposure", "toxicology", "dose_response"],
+      "bodyHtml": "<p>Whether dealing with chemicals, noise, heat, or vibration, the key managerial question is: who is exposed, how much, how often, and what health effects follow—then how to prevent them.</p>"
+    },
+    {
+      "id": "anticipate_recognise_evaluate_control",
+      "level": 2,
+      "kind": "concept",
+      "label": "Anticipate–Recognise–Evaluate–Control (AREC)",
+      "summary": "A structured hygiene-based cycle for preventing occupational ill health.",
+      "tags": ["hygiene", "control_cycle"],
+      "bodyHtml": "<p>OH management uses AREC to structure programmes: foresee hazards when change occurs, identify them on-site, evaluate exposure against standards, and implement/verify controls.</p>"
+    },
+    {
+      "id": "hierarchy_of_control",
+      "level": 2,
+      "kind": "concept",
+      "label": "Hierarchy of control",
+      "summary": "Prefer elimination/substitution/engineering, then admin controls, then PPE.",
+      "tags": ["controls", "engineering", "PPE"],
+      "bodyHtml": "<p>Managers must ensure that programmes do not default to PPE-only solutions. Resource planning and engineering partnerships are needed to deliver upstream controls.</p>"
+    },
+    {
+      "id": "risk_assessment_to_risk_management",
+      "level": 2,
+      "kind": "concept",
+      "label": "Risk assessment → risk management",
+      "summary": "Risk assessment characterises risk; risk management adds feasibility, costs, communication, policy, and stakeholder expectations.",
+      "tags": ["risk_assessment", "risk_management"],
+      "bodyHtml": "<p>OH professionals support risk assessment, but managers must ensure outputs translate into implemented, maintained controls and monitored outcomes.</p>"
+    },
+    {
+      "id": "service_scope_and_model",
+      "level": 3,
+      "kind": "concept",
+      "label": "Service scope, model & commissioning",
+      "summary": "Define what OH provides (and does not), delivery model (in-house/outsourced), and how performance will be governed.",
+      "tags": ["commissioning", "SLA", "scope"],
+      "bodyHtml": "<p>Clear scope prevents dysfunctional demand (e.g., inappropriate referrals). Commissioning should specify response times, report standards, surveillance programmes, and integration with safety/HR.</p>"
+    },
+    {
+      "id": "clinical_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Clinical governance & professional standards",
+      "summary": "Policies, supervision, competence, audit, and safe practice across clinicians and the wider OH team.",
+      "tags": ["governance", "quality", "standards"],
+      "bodyHtml": "<p>Governance includes consent processes, record standards, report templates, escalation rules, and professional accountability. It also includes supervision and continuous learning.</p>"
+    },
+    {
+      "id": "integration_with_hs_risk_system",
+      "level": 3,
+      "kind": "concept",
+      "label": "Integration with H&S risk systems",
+      "summary": "Connect OH outputs to organisational risk registers, engineering controls, and management accountability.",
+      "tags": ["integration", "risk_register", "controls"],
+      "bodyHtml": "<p>OH must not operate as an isolated clinic. Health surveillance trends and exposure findings should feed into control improvements, procurement decisions, and management review.</p>"
+    },
+    {
+      "id": "programme_portfolio",
+      "level": 3,
+      "kind": "concept",
+      "label": "Programme portfolio management",
+      "summary": "Run coherent programmes (e.g., COSHH, noise, vibration, heat) rather than disconnected activities.",
+      "tags": ["programmes", "portfolio"],
+      "bodyHtml": "<p>Each hazard family needs an explicit programme: exposure assessment strategy, control plan, surveillance criteria, training plan, documentation, and review cadence.</p>"
+    },
+    {
+      "id": "surveillance_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Health surveillance strategy",
+      "summary": "Decide where surveillance is required, useful, and actionable; specify triggers, methods, and follow-up pathways.",
+      "tags": ["health_surveillance", "screening"],
+      "bodyHtml": "<p>Surveillance should be targeted: it is justified when there is an identifiable adverse effect linked to exposure and valid detection techniques—paired with actions when abnormalities arise.</p>"
+    },
+    {
+      "id": "exposure_monitoring_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Exposure monitoring & survey strategy",
+      "summary": "Plan basic vs detailed surveys, personal vs static sampling, and re-survey triggers (change, incidents, results).",
+      "tags": ["monitoring", "sampling", "surveys"],
+      "bodyHtml": "<p>Management must ensure monitoring is neither tokenistic nor excessive. Strategy should match variability, toxicity, and uncertainty, and should be designed to drive control decisions.</p>"
+    },
+    {
+      "id": "consultation_and_triage",
+      "level": 4,
+      "kind": "standard",
+      "label": "Referral pathways, triage & consultation set-up",
+      "summary": "Right case to right clinician at right time; clarify referral questions and explain OH role/consent upfront.",
+      "tags": ["referral", "triage", "consultation"],
+      "bodyHtml": "<p>Operational excellence includes consistent entry points (self-referral/management referral), triage rules, and early role-clarity to reduce mistrust and complaints.</p>"
+    },
+    {
+      "id": "report_writing_operational",
+      "level": 4,
+      "kind": "standard",
+      "label": "Report writing for management decisions",
+      "summary": "Provide decision-ready functional advice (capacity, prognosis, adjustments) while minimising unnecessary clinical detail.",
+      "tags": ["reports", "fitness_for_work", "adjustments"],
+      "bodyHtml": "<p>Reports are the service output that managers rely on. Operational standards should define relevance, consent process, transparency with the worker, and clear recommendations.</p>"
+    },
+    {
+      "id": "coss_hazardous_substances_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "COSHH / hazardous substances programme delivery",
+      "summary": "Assess risks, implement/maintain controls, monitor exposure where needed, run surveillance where justified, train and prepare for incidents.",
+      "tags": ["COSHH", "chemicals", "WELs"],
+      "bodyHtml": "<p>Delivery requires close work with safety and engineering: inventories/SDS use, exposure scenarios, control banding where appropriate, targeted sampling, and documented maintenance and training.</p>"
+    },
+    {
+      "id": "noise_programme_delivery",
+      "level": 4,
+      "kind": "standard",
+      "label": "Noise risk control + hearing conservation delivery",
+      "summary": "Noise surveys, engineering/administrative controls, hearing protection, education, audiometry, and records as a coherent programme.",
+      "tags": ["noise", "audiometry", "programme"],
+      "bodyHtml": "<p>Effective delivery requires senior commitment, competent measurement, and a feedback loop from audiometry outcomes to control upgrades.</p>"
+    },
+    {
+      "id": "thermal_stress_programme_delivery",
+      "level": 4,
+      "kind": "standard",
+      "label": "Thermal stress management delivery",
+      "summary": "Assess heat/cold exposures, apply indices pragmatically, implement controls (work-rest, hydration, engineering), and monitor vulnerable workers.",
+      "tags": ["heat", "WBGT", "PHS"],
+      "bodyHtml": "<p>Programmes should be designed for operational usability: screening tools, escalation thresholds, and clear work organisation controls—supported by training and review.</p>"
+    },
+    {
+      "id": "vibration_programme_delivery",
+      "level": 4,
+      "kind": "standard",
+      "label": "Vibration risk + surveillance delivery",
+      "summary": "Identify HAV/WBV exposures, prioritise tool/process controls, and run appropriate health monitoring and action pathways.",
+      "tags": ["HAV", "WBV", "surveillance"],
+      "bodyHtml": "<p>Delivery requires tool inventories, exposure estimation, procurement/maintenance controls, worker training, and prompt action on symptoms or findings.</p>"
+    },
+    {
+      "id": "training_and_health_promotion",
+      "level": 4,
+      "kind": "standard",
+      "label": "Training, information & health promotion",
+      "summary": "Ensure workers and managers understand hazards, controls, and surveillance; support behaviour change and informed participation.",
+      "tags": ["training", "communication", "health_promotion"],
+      "bodyHtml": "<p>Training is part of control sustainability. It supports correct work practices, PPE use when necessary, early symptom reporting, and constructive engagement with surveillance.</p>"
+    },
+    {
+      "id": "records_and_information_governance",
+      "level": 4,
+      "kind": "standard",
+      "label": "Records, retention & information governance",
+      "summary": "Maintain secure, auditable records for consultations, surveillance, and exposure monitoring; define access and retention rules.",
+      "tags": ["records", "data_protection", "audit"],
+      "bodyHtml": "<p>Information governance is operational, not abstract: access control, template use, consent documentation, and defensible retention schedules underpin service credibility.</p>"
+    },
+    {
+      "id": "service_kpis",
+      "level": 5,
+      "kind": "standard",
+      "label": "Service KPIs (leading + lagging indicators)",
+      "summary": "Measure performance, outcomes, and programme maturity—not just activity counts.",
+      "tags": ["KPIs", "performance"],
+      "bodyHtml": "<p>Good OH KPIs combine leading indicators (controls implemented, surveillance coverage, training completion) with lagging indicators (disease trends, audiometry shifts, heat illness events, report quality issues).</p>"
+    },
+    {
+      "id": "audit_and_assurance",
+      "level": 5,
+      "kind": "standard",
+      "label": "Audit, assurance & governance review",
+      "summary": "Regularly test whether programmes are being delivered as designed and whether they work.",
+      "tags": ["audit", "assurance", "governance"],
+      "bodyHtml": "<p>Assurance includes checking consent practice, report quality, surveillance follow-up, sampling quality, control maintenance, and the closure of actions in risk systems.</p>"
+    },
+    {
+      "id": "learning_loops",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning loops & continuous improvement",
+      "summary": "Use incidents, surveillance findings, complaints, and audits to improve controls and service design.",
+      "tags": ["improvement", "learning", "feedback"],
+      "bodyHtml": "<p>OH services improve when they systematically convert signals (near misses, early health effects, dissatisfaction) into changes (engineering controls, process redesign, training upgrades, policy clarification).</p>"
+    },
+    {
+      "id": "competence_workforce_planning",
+      "level": 5,
+      "kind": "standard",
+      "label": "Competence & workforce planning",
+      "summary": "Ensure the right mix of competencies (clinical, hygiene, ergonomics, admin) with supervision and development plans.",
+      "tags": ["workforce", "competence", "supervision"],
+      "bodyHtml": "<p>OH is multidisciplinary. Management must plan capacity and competence for core tasks (surveillance, fitness for work, risk support) and ensure safe delegation and escalation.</p>"
+    },
+    {
+      "id": "resource_tradeoffs",
+      "level": 5,
+      "kind": "standard",
+      "label": "Resource allocation & trade-offs",
+      "summary": "Budget and time constraints require explicit prioritisation and defensible service levels.",
+      "tags": ["finance", "tradeoffs", "prioritisation"],
+      "bodyHtml": "<p>Managers must make trade-offs transparently: which hazards get detailed sampling, which groups get surveillance, what turnaround times are realistic, and which controls are funded first.</p>"
+    },
+    {
+      "id": "noise_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Hearing conservation programme in a high-noise plant",
+      "summary": "Integrate noise surveys, engineering controls, training, PPE governance, and audiometry with senior commitment.",
+      "tags": ["noise", "programme", "leadership"],
+      "bodyHtml": "<p>A plant introduces new machinery and complaints rise. OH management must coordinate competent surveys, prioritise engineering solutions, set surveillance triggers, improve training, and report progress to leadership and workers.</p>"
+    },
+    {
+      "id": "coss_case",
+      "level": 6,
+      "kind": "case",
+      "label": "COSHH programme reset after poor control maintenance",
+      "summary": "Rebuild hazardous substance governance: assessment, controls, maintenance/testing, monitoring, surveillance, and incident planning.",
+      "tags": ["COSHH", "maintenance", "monitoring"],
+      "bodyHtml": "<p>Sampling shows variable exposures and local exhaust ventilation is poorly maintained. OH management must align engineering maintenance, re-assess exposure scenarios, re-train supervisors, and tighten assurance.</p>"
+    },
+    {
+      "id": "heat_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Heat stress escalation during extreme temperatures",
+      "summary": "Use screening indices, adjust work organisation, protect vulnerable workers, and communicate clearly.",
+      "tags": ["heat", "operations", "communication"],
+      "bodyHtml": "<p>During extreme heat, incidents and productivity loss occur. OH management must implement a practical heat plan: triggers, work-rest regimes, hydration strategy, supervision, and escalation pathways.</p>"
+    },
+    {
+      "id": "rtw_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Return-to-work and adjustments in a contested case",
+      "summary": "Use fair consultation and decision-ready reporting: functional capacity, prognosis, and adjustments without unnecessary disclosure.",
+      "tags": ["RTW", "adjustments", "reports"],
+      "bodyHtml": "<p>A manager demands diagnosis; the worker fears disclosure. OH management must ensure consent processes, protect confidentiality, and provide practical adjustments advice consistent with policy and law.</p>"
+    },
+    {
+      "id": "data_request_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Records access, consent withdrawal, and reporting dispute",
+      "summary": "Handle subject access and report release disputes with clear governance, documentation, and professionalism.",
+      "tags": ["records", "consent", "dispute"],
+      "bodyHtml": "<p>A worker requests records and withdraws consent for a report. OH management must apply policy, ensure lawful handling, and manage stakeholder expectations while maintaining trust.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "trust_stewardship",
+      "to": "confidentiality_consent_governance",
+      "why": "Trust depends on predictable, fair consent and confidentiality practice."
+    },
+    {
+      "from": "trust_stewardship",
+      "to": "stakeholder_risk_communication",
+      "why": "Trust is reinforced when risk and decisions are communicated clearly and respectfully."
+    },
+    {
+      "from": "fit_for_purpose_service",
+      "to": "risk_based_prioritisation",
+      "why": "Service scope and intensity should follow risk, not convenience or tradition."
+    },
+    {
+      "from": "fit_for_purpose_service",
+      "to": "service_scope_and_model",
+      "why": "Fitness-for-purpose is operationalised through commissioning, scope, and SLAs."
+    },
+    {
+      "from": "prevention_first",
+      "to": "hierarchy_of_control",
+      "why": "Prevention is enacted by prioritising elimination/substitution/engineering over PPE-only responses."
+    },
+    {
+      "from": "prevention_first",
+      "to": "programme_portfolio",
+      "why": "Prevention requires coherent programmes (noise/chemicals/heat/vibration), not disconnected tasks."
+    },
+    {
+      "from": "systems_leadership",
+      "to": "integration_with_hs_risk_system",
+      "why": "Systems leadership requires OH outputs to feed organisational risk control and accountability."
+    },
+    {
+      "from": "systems_leadership",
+      "to": "learning_loops",
+      "why": "Systems improve through feedback from surveillance, incidents, audits, and complaints."
+    },
+    {
+      "from": "risk_based_prioritisation",
+      "to": "surveillance_strategy",
+      "why": "Surveillance should be targeted where disease is plausible, detectable, and actionable."
+    },
+    {
+      "from": "risk_based_prioritisation",
+      "to": "exposure_monitoring_strategy",
+      "why": "Monitoring intensity (basic vs detailed) should match uncertainty, variability, and severity."
+    },
+    {
+      "from": "law_accountability",
+      "to": "clinical_governance",
+      "why": "Legal duties are translated into governed processes, supervision, and auditable documentation."
+    },
+    {
+      "from": "law_accountability",
+      "to": "records_and_information_governance",
+      "why": "Compliance requires defensible records, retention, and controlled access."
+    },
+    {
+      "from": "two_master_ethics",
+      "to": "report_writing_operational",
+      "why": "Ethical tension is most visible in reporting—relevance, fairness, and restraint."
+    },
+    {
+      "from": "two_master_ethics",
+      "to": "consultation_and_triage",
+      "why": "Role clarity and consent up front reduces mistrust and ethical drift."
+    },
+    {
+      "from": "confidentiality_consent_governance",
+      "to": "records_and_information_governance",
+      "why": "Consent and confidentiality must be operationalised through secure records and access rules."
+    },
+    {
+      "from": "stakeholder_risk_communication",
+      "to": "training_and_health_promotion",
+      "why": "Communication becomes durable through structured training and information pathways."
+    },
+    {
+      "from": "multidisciplinary_teaming",
+      "to": "noise_programme_delivery",
+      "why": "Noise control requires hygiene measurement, engineering controls, and clinical surveillance working together."
+    },
+    {
+      "from": "multidisciplinary_teaming",
+      "to": "coss_hazardous_substances_programme",
+      "why": "COSHH requires cross-functional control ownership, not clinician-only activity."
+    },
+    {
+      "from": "culture_behaviour",
+      "to": "training_and_health_promotion",
+      "why": "Culture shapes whether workers engage with controls, training, and surveillance."
+    },
+    {
+      "from": "hazard_vs_risk",
+      "to": "risk_assessment_to_risk_management",
+      "why": "Understanding hazard vs risk clarifies why assessments focus on exposure and work processes."
+    },
+    {
+      "from": "exposure_dose_response",
+      "to": "surveillance_strategy",
+      "why": "Dose-response and route/duration thinking determine what surveillance makes sense."
+    },
+    {
+      "from": "anticipate_recognise_evaluate_control",
+      "to": "exposure_monitoring_strategy",
+      "why": "AREC drives monitoring design: evaluate exposure before and after controls, and when change occurs."
+    },
+    {
+      "from": "hierarchy_of_control",
+      "to": "coss_hazardous_substances_programme",
+      "why": "COSHH control is strongest when upstream controls are prioritised and maintained."
+    },
+    {
+      "from": "hierarchy_of_control",
+      "to": "noise_programme_delivery",
+      "why": "Noise management follows the same hierarchy: source controls before PPE dependence."
+    },
+    {
+      "from": "risk_assessment_to_risk_management",
+      "to": "integration_with_hs_risk_system",
+      "why": "Risk management requires controls to be owned, resourced, tracked, and reviewed."
+    },
+    {
+      "from": "service_scope_and_model",
+      "to": "resource_tradeoffs",
+      "why": "Commissioning defines service levels and constraints that drive trade-offs."
+    },
+    {
+      "from": "clinical_governance",
+      "to": "audit_and_assurance",
+      "why": "Governance must be tested through audit of practice, records, and outcomes."
+    },
+    {
+      "from": "programme_portfolio",
+      "to": "service_kpis",
+      "why": "Programmes need KPIs that reflect maturity and effectiveness, not just activity."
+    },
+    {
+      "from": "exposure_monitoring_strategy",
+      "to": "audit_and_assurance",
+      "why": "Monitoring quality (methods, representativeness, triggers) should be part of assurance."
+    },
+    {
+      "from": "surveillance_strategy",
+      "to": "learning_loops",
+      "why": "Surveillance findings should drive control improvements and targeted interventions."
+    },
+    {
+      "from": "service_kpis",
+      "to": "resource_tradeoffs",
+      "why": "KPIs inform where to invest or de-invest to improve outcomes."
+    },
+    {
+      "from": "competence_workforce_planning",
+      "to": "multidisciplinary_teaming",
+      "why": "Team effectiveness requires the right competency mix and supervision structures."
+    },
+    {
+      "from": "audit_and_assurance",
+      "to": "learning_loops",
+      "why": "Audit results should trigger service and programme improvements."
+    },
+    {
+      "from": "noise_programme_delivery",
+      "to": "noise_case",
+      "why": "The case operationalises how a coherent hearing conservation programme is run and governed."
+    },
+    {
+      "from": "coss_hazardous_substances_programme",
+      "to": "coss_case",
+      "why": "The case tests COSHH governance under real maintenance and exposure variability constraints."
+    },
+    {
+      "from": "thermal_stress_programme_delivery",
+      "to": "heat_case",
+      "why": "The case shows how heat stress management becomes an operational control problem during extremes."
+    },
+    {
+      "from": "report_writing_operational",
+      "to": "rtw_case",
+      "why": "RTW disputes make report quality, relevance, and ethical restraint central."
+    },
+    {
+      "from": "records_and_information_governance",
+      "to": "data_request_case",
+      "why": "Data access and consent disputes are governance stress-tests that must be handled consistently."
+    }
+  ]
+}
