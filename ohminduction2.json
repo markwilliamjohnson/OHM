@@ -1,0 +1,820 @@
+{
+  "meta": {
+    "title": "Occupational Health Service Management — Wisdom → Super-Concepts → Systems → Governance → Operations → Improvement → Cases",
+    "subtitle": "Expanded lattice with dense, meaningful interconnections: ethics/law/trust constrain information flows; systems dynamics shape service reliability; governance structures programmes; operations create outputs; quality closes feedback loops back to strategy.",
+    "domainName": "occupational health service management",
+    "searchPlaceholder": "COSHH, WELs, AREC, hierarchy of control, exposure monitoring, health surveillance, audiometry, HAVS, WBGT/PHS, lighting/glare, SDS/CLP, consent, confidentiality, RIDDOR, HASAWA, SEQOHS, ISO 45001, PDCA, KPIs, outsourcing, drift, interfaces…",
+    "userContextLabel": "Your OH service context (optional)",
+    "userContextPlaceholder": "e.g., multi-site organisation; outsourced OH; noise+solvents; backlog; confidentiality complaints; need governance + KPIs + integration with H&S…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert occupational health service director with occupational hygiene literacy and systems-thinking capability.\n\nWrite a realistic narrative case-study showing how upstream constraints (ethics, law, systems dynamics, incentives) shape downstream OH service performance.\nUse the selected concepts to explain what to do, why it works, and how to govern it.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario description (industry, hazards, stakeholders, constraints)\n- Diagnosis of failure modes (interfaces, drift, incentives, work-as-done)\n- OH operating model + programme portfolio (chemicals/noise/vibration/thermal/lighting + case management)\n- Legal + ethical compliance plan (consent/confidentiality, reporting, COSHH/RIDDOR duties)\n- Operational playbook (triage, consultation, report, escalation)\n- Measurement plan: leading + lagging indicators + learning loops\n- 2 safe-to-fail experiments with backfire checks\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Judgement-in-context: trust, ethics, proportion, learning and dignity under real organisational pressure."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: risk, uncertainty, stakeholder legitimacy, incentives, communication, and the worker–employer tension."
+    },
+    {
+      "id": 2,
+      "title": "Systems concepts",
+      "hint": "How services behave: feedback, drift, interfaces, flow, boundaries, incentives, work-as-done vs work-as-imagined."
+    },
+    {
+      "id": 3,
+      "title": "Service governance & programme architecture",
+      "hint": "Commissioning, governance, legal compliance, programme portfolio, and integration with H&S."
+    },
+    {
+      "id": 4,
+      "title": "Operational delivery mechanisms",
+      "hint": "Consultations, surveillance, monitoring, control verification, reporting, training, records, incident response."
+    },
+    {
+      "id": 5,
+      "title": "Quality, performance & improvement",
+      "hint": "Standards, audit, KPIs, competence assurance, continuous improvement, organisational learning."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios and common failure modes for tracing back to roots."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_listening",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Listening (serious attention)",
+      "summary": "Listen beyond dashboards: worker stories, near-miss narratives, complaint themes, and \"unease\" signals.",
+      "tags": ["wisdom", "sensing", "trust"],
+      "bodyHtml": "<p>Wise OH management treats lived experience as system data. Listening surfaces friction, adaptations, and weak signals that metrics miss—especially around confidentiality, trust, and control usability.</p>"
+    },
+    {
+      "id": "wis_grace",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Grace (non-blame + dignity)",
+      "summary": "Protect dignity; reduce shame; keep reporting safe so weak signals keep flowing.",
+      "tags": ["wisdom", "culture", "justice"],
+      "bodyHtml": "<p>OH programmes fail when people fear punishment or humiliation. Non-blame practice preserves trust and makes early reporting possible (symptoms, near misses, control failures).</p>"
+    },
+    {
+      "id": "wis_proportion",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Proportion & timing",
+      "summary": "Right-sized action; don’t flood the system with rules; match interventions to capacity and risk.",
+      "tags": ["wisdom", "governance", "practicability"],
+      "bodyHtml": "<p>OH management is full of trade-offs (surveillance intensity, sampling depth, clinic capacity). Proportionate decisions are ethically and legally defensible and prevent compliance theatre.</p>"
+    },
+    {
+      "id": "wis_ethics_fairness",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Ethics & fairness as design constraints",
+      "summary": "Consent, confidentiality, justice and autonomy are structural constraints that stabilise trust and legitimacy.",
+      "tags": ["wisdom", "ethics", "confidentiality"],
+      "bodyHtml": "<p>Ethical practice is not a “soft extra”. It determines whether employees engage with OH, accept surveillance, and trust advice—directly affecting system performance.</p>"
+    },
+    {
+      "id": "wis_holism",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Holism (whole-system view)",
+      "summary": "Don’t optimise one metric at the expense of health; outcomes emerge from interactions across the system.",
+      "tags": ["wisdom", "systems", "integration"],
+      "bodyHtml": "<p>OH success depends on procurement, engineering, rostering, supervision, culture, and incentives—not only clinics and reports.</p>"
+    },
+    {
+      "id": "wis_safe_to_fail",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Safe-to-fail experiments",
+      "summary": "Test → learn → adapt in short cycles; prevent backfire in complex problems.",
+      "tags": ["wisdom", "improvement", "complexity"],
+      "bodyHtml": "<p>Many OH interventions backfire when rolled out as one big change. Safe-to-fail pilots use leading indicators and explicit backfire checks before scaling.</p>"
+    },
+    {
+      "id": "wis_reflection_sensemaking",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Reflection & sensemaking",
+      "summary": "Turn information into understanding; check assumptions; avoid blaming individuals for system problems.",
+      "tags": ["wisdom", "learning", "governance"],
+      "bodyHtml": "<p>Reflection converts exposure data, surveillance outcomes, complaints, and audit findings into improvements in controls, interfaces, and governance.</p>"
+    },
+    {
+      "id": "risk_based_prioritisation",
+      "level": 1,
+      "kind": "concept",
+      "label": "Risk-based prioritisation",
+      "summary": "Allocate OH attention where harm is most likely/severe, using defensible criteria (hazard, exposure, vulnerability, uncertainty).",
+      "tags": ["risk", "prioritisation"],
+      "bodyHtml": "<p>OH management prioritises programmes and casework based on risk—not volume or loudest stakeholder.</p>"
+    },
+    {
+      "id": "two_master_ethics",
+      "level": 1,
+      "kind": "concept",
+      "label": "Two-master ethics (worker–employer tension)",
+      "summary": "Balance individual welfare, public/colleague safety, organisational needs and fairness.",
+      "tags": ["ethics", "stakeholders", "conflict"],
+      "bodyHtml": "<p>OH managers must design processes that keep independence credible: consent, confidentiality, relevance in reports, appeal pathways.</p>"
+    },
+    {
+      "id": "law_and_accountability",
+      "level": 1,
+      "kind": "concept",
+      "label": "Law, dutyholders & accountability",
+      "summary": "Translate statutory/common-law duties and enforcement expectations into operational governance.",
+      "tags": ["law", "compliance", "dutyholders"],
+      "bodyHtml": "<p>Core themes: ‘reasonably practicable’, COSHH duties, RIDDOR reporting, consultation duties, and data protection.</p>"
+    },
+    {
+      "id": "consent_confidentiality",
+      "level": 1,
+      "kind": "concept",
+      "label": "Consent & confidentiality governance",
+      "summary": "Consistent rules for consent, information sharing, report access, and exceptional disclosures.",
+      "tags": ["confidentiality", "consent", "information_governance"],
+      "bodyHtml": "<p>Operationalise consent: what will be shared, with whom, why, and rights—while managing lawful exceptions and expectations.</p>"
+    },
+    {
+      "id": "risk_communication",
+      "level": 1,
+      "kind": "concept",
+      "label": "Stakeholder communication & risk perception",
+      "summary": "Turn technical risk into actionable, comprehensible messages for workers, managers, unions and regulators.",
+      "tags": ["communication", "risk_perception"],
+      "bodyHtml": "<p>Miscommunication can destroy trust even when technical work is sound. OH management needs templates and escalation pathways.</p>"
+    },
+    {
+      "id": "uncertainty_limits",
+      "level": 1,
+      "kind": "concept",
+      "label": "Uncertainty & model limits",
+      "summary": "Prognosis and exposure–effect relationships can be uncertain; false certainty creates brittleness and distrust.",
+      "tags": ["uncertainty", "decision_quality"],
+      "bodyHtml": "<p>Express uncertainty honestly (ranges, conditions). Build policies tolerant to variation and revise via feedback.</p>"
+    },
+    {
+      "id": "information_to_wisdom",
+      "level": 1,
+      "kind": "concept",
+      "label": "Information → Knowledge → Wisdom ladder",
+      "summary": "More data ≠ better decisions; interpretation and judgement matter.",
+      "tags": ["meta", "decision_quality"],
+      "bodyHtml": "<p>OH generates lots of data (surveillance, exposure measurements, absence metrics). The management challenge is converting it into action without ethical drift.</p>"
+    },
+    {
+      "id": "multidisciplinary_teaming",
+      "level": 1,
+      "kind": "concept",
+      "label": "Multidisciplinary teaming",
+      "summary": "Coordinate clinicians, hygienists, H&S, engineering, HR and leadership as one risk-control system.",
+      "tags": ["team", "integration"],
+      "bodyHtml": "<p>Noise/vibration/heat/chemicals/lighting require shared ownership. OH managers align roles, escalation rules and shared KPIs.</p>"
+    },
+    {
+      "id": "work_as_imagined_vs_done",
+      "level": 2,
+      "kind": "concept",
+      "label": "Work-as-imagined vs work-as-done",
+      "summary": "Policies are simplified models; real work adapts under constraint. The gap explains many control failures.",
+      "tags": ["systems", "real_work", "controls"],
+      "bodyHtml": "<p>LEV ‘passes’ but exposure spikes on busy days; PPE is specified but not wearable at pace; surveillance exists but follow-up fails.</p>"
+    },
+    {
+      "id": "feedback_loops",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops",
+      "summary": "Measure → learn → adapt; weak signals become actionable when captured and acted on.",
+      "tags": ["systems", "learning"],
+      "bodyHtml": "<p>Design feedback loops from surveillance, monitoring, incidents and complaints into engineering controls, training and policies.</p>"
+    },
+    {
+      "id": "entropy_and_drift",
+      "level": 2,
+      "kind": "concept",
+      "label": "Entropy / drift",
+      "summary": "Controls and processes degrade unless actively maintained; drift silently increases risk.",
+      "tags": ["systems", "maintenance", "reliability"],
+      "bodyHtml": "<p>Examples: expired calibration, outdated templates, informal workarounds, delayed maintenance, role ambiguity, surveillance backlogs.</p>"
+    },
+    {
+      "id": "interfaces_and_handoffs",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interfaces & handoffs",
+      "summary": "Where failure clusters: referral forms, portals, report delivery, lab results, surveillance clinics, contractor chains.",
+      "tags": ["systems", "risk", "reliability"],
+      "bodyHtml": "<p>Many OH failures are interface failures: wrong recipient, missing consent, unclear questions, lost follow-up.</p>"
+    },
+    {
+      "id": "boundaries_and_coverage",
+      "level": 2,
+      "kind": "concept",
+      "label": "System boundaries (who is covered)",
+      "summary": "Boundary choices decide who is included in care/accountability (employees vs contractors, sites, remote workers, supply chain).",
+      "tags": ["systems", "equity", "governance"],
+      "bodyHtml": "<p>OH managers must explicitly decide coverage boundaries and ensure consistent protections and reporting across them.</p>"
+    },
+    {
+      "id": "flow_and_capacity",
+      "level": 2,
+      "kind": "concept",
+      "label": "Flow (time, attention, clinic capacity, data)",
+      "summary": "Bottlenecks create pressure; pressure drives unsafe adaptations and degraded quality.",
+      "tags": ["systems", "capacity", "operations"],
+      "bodyHtml": "<p>Backlogs, rushed assessments, delayed controls and missing follow-up are flow problems.</p>"
+    },
+    {
+      "id": "power_and_incentives",
+      "level": 2,
+      "kind": "concept",
+      "label": "Power & incentives",
+      "summary": "Contracts, KPIs and reputational pressures reshape behaviour and can create perverse outcomes (under-reporting, compliance theatre).",
+      "tags": ["systems", "commissioning", "metrics"],
+      "bodyHtml": "<p>Measure what matters (controls, follow-up, outcomes) not just speed/volume; avoid punishment signals that suppress reporting.</p>"
+    },
+    {
+      "id": "problem_types",
+      "level": 2,
+      "kind": "concept",
+      "label": "Problem types: simple / complicated / complex",
+      "summary": "Intervention choice should match problem type: checklist fixes vs engineered solutions vs adaptive learning cycles.",
+      "tags": ["systems", "complexity"],
+      "bodyHtml": "<p>Noise mapping is complicated; culture and trust repair is complex.</p>"
+    },
+    {
+      "id": "commissioning_scope",
+      "level": 3,
+      "kind": "concept",
+      "label": "Commissioning, scope & operating model",
+      "summary": "Define what OH provides, referral pathways, turnaround times, surveillance programmes, and integration responsibilities.",
+      "tags": ["commissioning", "SLA", "scope"],
+      "bodyHtml": "<p>Clear scope prevents dysfunctional demand and makes performance measurable and defensible.</p>"
+    },
+    {
+      "id": "clinical_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Clinical governance",
+      "summary": "Policies, supervision, competence, audit, safe practice, and escalation across clinicians and the wider OH team.",
+      "tags": ["governance", "quality"],
+      "bodyHtml": "<p>Includes consent scripts, record standards, report templates, and handling disputes/complaints.</p>"
+    },
+    {
+      "id": "information_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Information governance (records, access, security, retention)",
+      "summary": "Operational controls for confidentiality and data protection: access control, secure delivery, retention schedules, incident response.",
+      "tags": ["IG", "data_protection", "records"],
+      "bodyHtml": "<p>Information governance is where ethics and law become daily operational practice.</p>"
+    },
+    {
+      "id": "legal_compliance_backbone",
+      "level": 3,
+      "kind": "concept",
+      "label": "Legal compliance backbone (HASAWA/COSHH/RIDDOR/consultation)",
+      "summary": "Ensure statutory duties are translated into processes, evidence and accountability.",
+      "tags": ["law", "HASAWA", "COSHH", "RIDDOR"],
+      "bodyHtml": "<p>Risk assessment, prevention/control, maintenance, monitoring/surveillance, incident planning, training and reporting.</p>"
+    },
+    {
+      "id": "integration_with_hs",
+      "level": 3,
+      "kind": "concept",
+      "label": "Integration with H&S risk systems",
+      "summary": "Connect OH outputs to risk registers, engineering controls, management review and consultation structures.",
+      "tags": ["integration", "risk_register"],
+      "bodyHtml": "<p>OH must not be an isolated clinic. Surveillance and exposure findings should drive control improvements and policy changes.</p>"
+    },
+    {
+      "id": "programme_portfolio",
+      "level": 3,
+      "kind": "concept",
+      "label": "Programme portfolio management",
+      "summary": "Run coherent hazard programmes (chemicals, noise, vibration, thermal, lighting) plus case management and health promotion.",
+      "tags": ["portfolio", "programmes"],
+      "bodyHtml": "<p>Each programme needs an owner, monitoring plan, surveillance criteria, training plan, documentation, and review cadence.</p>"
+    },
+    {
+      "id": "hygiene_cycle_arec",
+      "level": 3,
+      "kind": "concept",
+      "label": "Anticipate–Recognise–Evaluate–Control (AREC)",
+      "summary": "Hygiene management cycle used to structure hazard programmes and change management.",
+      "tags": ["hygiene", "AREC"],
+      "bodyHtml": "<p>AREC connects change to exposure evaluation and control verification. Backbone of prevention-first OH management.</p>"
+    },
+    {
+      "id": "risk_assessment_management",
+      "level": 3,
+      "kind": "concept",
+      "label": "Risk assessment → risk management",
+      "summary": "Risk assessment characterises risk; risk management ensures controls are implemented, maintained, communicated and reviewed.",
+      "tags": ["risk", "management"],
+      "bodyHtml": "<p>OH managers ensure assessment outputs turn into real controls and sustained outcomes.</p>"
+    },
+    {
+      "id": "hierarchy_of_control",
+      "level": 3,
+      "kind": "concept",
+      "label": "Hierarchy of control",
+      "summary": "Prefer elimination/substitution/engineering, then administrative controls, then PPE.",
+      "tags": ["controls", "engineering", "PPE"],
+      "bodyHtml": "<p>OH management must avoid PPE-only responses and ensure engineering and procurement are engaged.</p>"
+    },
+    {
+      "id": "exposure_monitoring_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Exposure monitoring & survey strategy",
+      "summary": "Plan initial/basic/detailed surveys, personal vs static sampling, and resurvey triggers.",
+      "tags": ["monitoring", "sampling"],
+      "bodyHtml": "<p>Monitoring should drive control decisions and verify effectiveness—not as a ritual.</p>"
+    },
+    {
+      "id": "health_surveillance_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Health surveillance strategy (targeted, actionable)",
+      "summary": "Deploy surveillance where disease is plausible, detectable, and results trigger action.",
+      "tags": ["surveillance", "screening"],
+      "bodyHtml": "<p>Surveillance is justified only when it can prevent harm via early detection and response.</p>"
+    },
+    {
+      "id": "toxicology_foundations",
+      "level": 3,
+      "kind": "concept",
+      "label": "Toxicology foundations (dose, route, ADME, target organs)",
+      "summary": "Use toxicology to interpret hazards, limits, combined exposures, and health effects for decision-making.",
+      "tags": ["toxicology", "dose_response"],
+      "bodyHtml": "<p>Supports justified monitoring, surveillance, and prioritisation for hazardous substances.</p>"
+    },
+    {
+      "id": "hazard_info_sds_clp",
+      "level": 3,
+      "kind": "concept",
+      "label": "Hazard information systems (SDS/labels/CLP-GHS)",
+      "summary": "Use labels/SDS/classification to understand hazard types; treat SDS as input, not a risk assessment.",
+      "tags": ["SDS", "CLP", "GHS", "COSHH"],
+      "bodyHtml": "<p>Management ensures competent interpretation and integration into exposure scenarios and controls.</p>"
+    },
+    {
+      "id": "coshh_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "COSHH / hazardous substances programme delivery",
+      "summary": "Assess risks; prevent/control exposure; maintain controls; monitor exposure where needed; surveillance where required; train and plan for incidents.",
+      "tags": ["COSHH", "chemicals", "WELs"],
+      "bodyHtml": "<p>Includes inventories, exposure scenarios, control banding, sampling plans, LEV testing/maintenance, PPE governance, incident readiness.</p>"
+    },
+    {
+      "id": "noise_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Noise programme (hearing conservation)",
+      "summary": "Noise surveys, engineering controls, hearing protection governance, training, audiometry, and feedback to controls.",
+      "tags": ["noise", "audiometry"],
+      "bodyHtml": "<p>Requires senior commitment, competent measurement, and a closed loop from surveillance to control improvement.</p>"
+    },
+    {
+      "id": "vibration_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Vibration programme (HAV/WBV)",
+      "summary": "Identify exposures, prioritise tool/process controls, train workers, and provide monitoring and response pathways for symptoms/findings.",
+      "tags": ["vibration", "HAVS", "WBV"],
+      "bodyHtml": "<p>Controls include tool procurement/maintenance, exposure estimation, supervision, and rapid action on early symptoms.</p>"
+    },
+    {
+      "id": "thermal_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Thermal stress management (heat/cold)",
+      "summary": "Assess exposures, implement controls (work-rest, hydration, engineering), and protect vulnerable workers with clear triggers.",
+      "tags": ["heat", "cold", "WBGT", "PHS"],
+      "bodyHtml": "<p>Plans need thresholds, supervision routines, and stop/go rules under extremes.</p>"
+    },
+    {
+      "id": "lighting_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Lighting & visual environment management",
+      "summary": "Manage illuminance, glare, contrast, flicker and task needs; integrate with task design and DSE.",
+      "tags": ["lighting", "glare", "illuminance"],
+      "bodyHtml": "<p>Often neglected; poor lighting contributes to errors, discomfort, fatigue and complaints.</p>"
+    },
+    {
+      "id": "consultation_standards",
+      "level": 4,
+      "kind": "standard",
+      "label": "Consultation standards & triage",
+      "summary": "Right case to right clinician at right time; role clarity; informed consent; documentation and escalation.",
+      "tags": ["consultation", "triage"],
+      "bodyHtml": "<p>Standards reduce complaints and ethical drift; ensure consistency across providers and sites.</p>"
+    },
+    {
+      "id": "teleconsultation",
+      "level": 4,
+      "kind": "standard",
+      "label": "Teleconsultation governance (phone/video)",
+      "summary": "Identity verification, adapted consent, limitations management, equity/IT barriers, and safe documentation.",
+      "tags": ["telehealth", "consent"],
+      "bodyHtml": "<p>Operationalise safe teleconsultation with checklists and boundaries.</p>"
+    },
+    {
+      "id": "report_writing",
+      "level": 4,
+      "kind": "standard",
+      "label": "Report writing (decision-ready, relevant, minimal disclosure)",
+      "summary": "Answer the question; focus on function, adjustments and prognosis ranges; protect confidentiality; document consent.",
+      "tags": ["reports", "fitness_for_work"],
+      "bodyHtml": "<p>Reports are the tangible output of OH. Governance must prevent pressure for unnecessary diagnoses and ensure secure delivery.</p>"
+    },
+    {
+      "id": "fitness_for_work",
+      "level": 4,
+      "kind": "standard",
+      "label": "Fitness for work & adjustments",
+      "summary": "Assess capacity, restrictions, accommodations, redeployment, and safe return-to-work pathways while balancing fairness and safety.",
+      "tags": ["RTW", "adjustments", "capacity"],
+      "bodyHtml": "<p>Links clinical judgement to work design and management decisions within ethical/legal constraints.</p>"
+    },
+    {
+      "id": "training_information",
+      "level": 4,
+      "kind": "standard",
+      "label": "Training, information & health promotion",
+      "summary": "Make hazards and controls understandable; support behaviour change; increase informed participation in surveillance and controls.",
+      "tags": ["training", "communication"],
+      "bodyHtml": "<p>Training supports control sustainability and builds trust by explaining what OH does and why.</p>"
+    },
+    {
+      "id": "incident_response",
+      "level": 4,
+      "kind": "standard",
+      "label": "Incidents, escalation & emergency planning",
+      "summary": "Protocols for acute exposures, heat illness events, data breaches, and serious risk disclosures; connect to organisational incident systems.",
+      "tags": ["incident", "escalation"],
+      "bodyHtml": "<p>Requires clear thresholds, communications plans, and documentation expectations.</p>"
+    },
+    {
+      "id": "records_management",
+      "level": 4,
+      "kind": "standard",
+      "label": "Records management (secure, auditable, useful)",
+      "summary": "Secure, consistent records for consultations, surveillance, exposure monitoring and follow-up; define access and retention.",
+      "tags": ["records", "audit", "IG"],
+      "bodyHtml": "<p>Records are the evidence layer for ethics, law, quality, and learning.</p>"
+    },
+    {
+      "id": "complaints_handling",
+      "level": 4,
+      "kind": "standard",
+      "label": "Complaints handling & learning",
+      "summary": "Timely acknowledgement, fair investigation, honest explanation, and changes that prevent recurrence.",
+      "tags": ["complaints", "learning"],
+      "bodyHtml": "<p>Complaints are weak signals. Good handling increases legitimacy and improves service design.</p>"
+    },
+    {
+      "id": "seqohs",
+      "level": 5,
+      "kind": "standard",
+      "label": "SEQOHS (OH service quality standard)",
+      "summary": "Governance domains: business probity, information governance, people/competence, facilities/equipment, purchaser & worker relationships.",
+      "tags": ["standard", "quality"],
+      "bodyHtml": "<p>Use SEQOHS domains as an OH management checklist for outsourced or in-house services.</p>"
+    },
+    {
+      "id": "iso45001",
+      "level": 5,
+      "kind": "standard",
+      "label": "ISO 45001 / OHSMS integration",
+      "summary": "Framework for managing OH&S responsibilities with continual improvement and leadership accountability.",
+      "tags": ["standard", "OHSMS"],
+      "bodyHtml": "<p>Align OH programmes with risk registers, consultation, management review, and continual improvement processes.</p>"
+    },
+    {
+      "id": "pdca_hsg65",
+      "level": 5,
+      "kind": "standard",
+      "label": "PDCA / HSG65-style management cycle",
+      "summary": "Plan–Do–Check–Act: policy, organisation, planning, implementing, monitoring, audit & review.",
+      "tags": ["PDCA", "management"],
+      "bodyHtml": "<p>Applies to OH services: plan programmes, deliver, check effectiveness, and act on learning.</p>"
+    },
+    {
+      "id": "kpis_metrics",
+      "level": 5,
+      "kind": "standard",
+      "label": "KPIs & indicators (leading + lagging)",
+      "summary": "Measure programme maturity and outcomes, not just activity: controls implemented, coverage, follow-up timeliness, trends.",
+      "tags": ["KPIs", "measurement"],
+      "bodyHtml": "<p>Combine quantitative metrics with narrative intelligence (listening loops). Use metrics for learning, not punishment.</p>"
+    },
+    {
+      "id": "audit_assurance",
+      "level": 5,
+      "kind": "standard",
+      "label": "Audit, assurance & governance review",
+      "summary": "Test whether practice matches standards and whether programmes work under real conditions (including peak load).",
+      "tags": ["audit", "assurance"],
+      "bodyHtml": "<p>Audit should detect drift, interface failure, and WAI/WAD gaps—not just paperwork completeness.</p>"
+    },
+    {
+      "id": "competence_workforce",
+      "level": 5,
+      "kind": "standard",
+      "label": "Competence & workforce planning",
+      "summary": "Right competency mix, supervision, CPD and safe delegation—especially across outsourcing chains.",
+      "tags": ["competence", "workforce"],
+      "bodyHtml": "<p>Competence is a reliability control; align demand (flow) with capacity and safe practice.</p>"
+    },
+    {
+      "id": "learning_loops",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning loops & continuous improvement",
+      "summary": "Convert surveillance findings, exposure data, incidents and complaints into redesigned controls, training and governance.",
+      "tags": ["learning", "improvement"],
+      "bodyHtml": "<p>Institutional memory is maintained by structured review cadence and disciplined change control.</p>"
+    },
+    {
+      "id": "challenge_outsourcing",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Outsourcing & accountability drift",
+      "summary": "Supply chains multiply interfaces; accountability and QA must be explicit or learning collapses.",
+      "tags": ["outsourcing", "risk"],
+      "bodyHtml": "<p>Without strong commissioning, supervision and audit, outsourced OH can optimise for speed/volume rather than quality, ethics and outcomes.</p>"
+    },
+    {
+      "id": "pathology_underreporting",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Under-reporting & weak-signal collapse",
+      "summary": "When reporting is punished or ignored, signals vanish and risk accumulates silently.",
+      "tags": ["culture", "risk"],
+      "bodyHtml": "<p>Affects symptoms, near misses, surveillance participation, and incident reporting—destroying self-regulation.</p>"
+    },
+    {
+      "id": "pathology_normalised_deviance",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Normalisation of deviance",
+      "summary": "Workarounds become ‘normal’ under pressure; controls appear compliant while real risk increases.",
+      "tags": ["drift", "risk"],
+      "bodyHtml": "<p>Common in LEV use, PPE shortcuts, missed breaks in heat, and rushed surveillance follow-up.</p>"
+    },
+    {
+      "id": "case_lev_spikes",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: LEV passes tests but exposures spike on busy days",
+      "summary": "WAI/WAD mismatch under throughput pressure; needs friction audit, flow redesign, and verification under load.",
+      "tags": ["COSHH", "LEV", "WAI/WAD"],
+      "bodyHtml": "<p>Investigate staging, peak-load practices, maintenance, supervision, and incentives. Fix the system, not the worker.</p>"
+    },
+    {
+      "id": "case_noise_programme",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Hearing conservation programme stagnates",
+      "summary": "Audiometry shows shifts but controls don’t improve; feedback loop is broken between surveillance and engineering.",
+      "tags": ["noise", "audiometry", "feedback"],
+      "bodyHtml": "<p>Strengthen governance: assign owners, action thresholds, engineering prioritisation, and worker engagement.</p>"
+    },
+    {
+      "id": "case_heat_extremes",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Heat stress escalation during extreme temperatures",
+      "summary": "Triggers and work-rest controls fail; needs thresholds, supervision routines, and protection of vulnerable workers.",
+      "tags": ["heat", "operations"],
+      "bodyHtml": "<p>Use practical escalation, hydration and rest governance, plus monitoring of early symptoms and near misses.</p>"
+    },
+    {
+      "id": "case_report_dispute",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: ‘We pay so we own the report’ dispute",
+      "summary": "Manager demands diagnosis; worker fears disclosure. Requires consent governance and decision-ready functional reporting.",
+      "tags": ["confidentiality", "reports"],
+      "bodyHtml": "<p>Reinforce minimal necessary disclosure, informed consent, and clear explanation of OH role and boundaries.</p>"
+    },
+    {
+      "id": "case_wrong_recipient",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Report sent to the wrong person (data breach)",
+      "summary": "Interface failure in secure delivery; needs incident response, root cause analysis, and stronger information governance.",
+      "tags": ["IG", "interface", "incident"],
+      "bodyHtml": "<p>Fix verification steps, secure channels, access control, and staff training; apply learning loop and audit re-check.</p>"
+    },
+    {
+      "id": "case_dermatitis_compliance_theatre",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Audit scores rose but dermatitis increased",
+      "summary": "Paper compliance hides real exposure; investigate glove availability, friction, onboarding gaps, pressure and substitutions.",
+      "tags": ["COSHH", "skin", "drift"],
+      "bodyHtml": "<p>Use listening and WAI/WAD analysis; redesign controls and verify under real working conditions.</p>"
+    }
+  ],
+  "edges": [
+    { "from": "wis_listening", "to": "risk_communication", "why": "Listening reveals stakeholder misunderstandings and fears, improving message targeting and trust." },
+    { "from": "wis_listening", "to": "feedback_loops", "why": "Listening generates weak-signal inputs that can be turned into actionable feedback." },
+    { "from": "wis_listening", "to": "complaints_handling", "why": "Listening reduces escalation by surfacing dissatisfaction early and shaping fair responses." },
+    { "from": "wis_listening", "to": "work_as_imagined_vs_done", "why": "Listening uncovers adaptations and workarounds that widen the WAI/WAD gap." },
+    { "from": "wis_grace", "to": "pathology_underreporting", "why": "Non-blame climates reduce fear and restore reporting of symptoms, near misses and control failures." },
+    { "from": "wis_grace", "to": "complaints_handling", "why": "Grace supports respectful complaint resolution and reduces defensive organisational behaviour." },
+    { "from": "wis_proportion", "to": "risk_based_prioritisation", "why": "Proportionate action depends on prioritising by risk rather than volume, habit or politics." },
+    { "from": "wis_proportion", "to": "commissioning_scope", "why": "Scope and service levels must be right-sized to risk profile and organisational capacity." },
+    { "from": "wis_proportion", "to": "kpis_metrics", "why": "Right-sizing metrics avoids target overload and focuses measurement on decision usefulness." },
+    { "from": "wis_ethics_fairness", "to": "consent_confidentiality", "why": "Ethical constraints are operationalised through consistent consent and confidentiality governance." },
+    { "from": "wis_ethics_fairness", "to": "two_master_ethics", "why": "Ethical judgement frames how OH navigates worker–employer tensions without losing independence." },
+    { "from": "wis_ethics_fairness", "to": "information_governance", "why": "Dignity and autonomy require secure, minimal-disclosure information handling." },
+    { "from": "wis_holism", "to": "multidisciplinary_teaming", "why": "Whole-system outcomes require coordinated roles across OH, hygiene, engineering, HR and H&S." },
+    { "from": "wis_holism", "to": "integration_with_hs", "why": "Holism demands connecting clinical outputs to risk registers, controls, and management review." },
+    { "from": "wis_safe_to_fail", "to": "problem_types", "why": "Safe-to-fail experimentation fits complex problems better than one-shot rollouts." },
+    { "from": "wis_safe_to_fail", "to": "learning_loops", "why": "Safe-to-fail cycles need structured learning loops and backfire checks." },
+    { "from": "wis_reflection_sensemaking", "to": "information_to_wisdom", "why": "Reflection converts data and documents into understanding and wise action." },
+    { "from": "wis_reflection_sensemaking", "to": "audit_assurance", "why": "Reflection prevents audit becoming ritual by focusing on meaning, causes and improvement." },
+
+    { "from": "information_to_wisdom", "to": "kpis_metrics", "why": "Indicators are information; without interpretation they become noise or incentives." },
+    { "from": "information_to_wisdom", "to": "audit_assurance", "why": "Audit evidence must be interpreted to inform governance decisions." },
+    { "from": "risk_based_prioritisation", "to": "programme_portfolio", "why": "Programme intensity (noise/chemicals/vibration/thermal/lighting) should follow risk profile and uncertainty." },
+    { "from": "risk_based_prioritisation", "to": "exposure_monitoring_strategy", "why": "Monitoring depth (basic vs detailed) should match severity, variability and uncertainty." },
+    { "from": "risk_based_prioritisation", "to": "health_surveillance_strategy", "why": "Surveillance should be targeted where harm is plausible, detectable, and actionable." },
+    { "from": "risk_based_prioritisation", "to": "flow_and_capacity", "why": "Prioritisation is how you manage capacity bottlenecks and prevent unsafe throughput pressure." },
+
+    { "from": "uncertainty_limits", "to": "report_writing", "why": "Reports should avoid false precision; use ranges/conditions and acknowledge limits." },
+    { "from": "uncertainty_limits", "to": "risk_assessment_management", "why": "Uncertainty requires adaptive risk management with review triggers and verification." },
+    { "from": "uncertainty_limits", "to": "health_surveillance_strategy", "why": "Uncertain effect pathways increase the value of targeted surveillance and trend review (where actionable)." },
+
+    { "from": "two_master_ethics", "to": "report_writing", "why": "Ethical tension is most visible in reporting: relevance, fairness and restraint in disclosure." },
+    { "from": "two_master_ethics", "to": "fitness_for_work", "why": "Fitness decisions require balancing welfare, safety, fairness, and operational constraints." },
+    { "from": "two_master_ethics", "to": "consultation_standards", "why": "Role clarity and consent in the consultation reduces mistrust and prevents ethical drift." },
+    { "from": "two_master_ethics", "to": "risk_communication", "why": "Explaining OH’s role and boundaries is essential to maintain legitimacy with all stakeholders." },
+
+    { "from": "law_and_accountability", "to": "legal_compliance_backbone", "why": "Law becomes real through defined duties, processes, evidence and accountability." },
+    { "from": "law_and_accountability", "to": "commissioning_scope", "why": "Commissioning must reflect legal responsibilities even when delivery is outsourced." },
+    { "from": "law_and_accountability", "to": "incident_response", "why": "Legal/reporting duties and urgent risk scenarios require clear escalation pathways." },
+    { "from": "law_and_accountability", "to": "information_governance", "why": "Data protection, confidentiality and lawful disclosure rules constrain information handling." },
+
+    { "from": "consent_confidentiality", "to": "information_governance", "why": "Consent and confidentiality are enforced via access control, secure delivery, and retention rules." },
+    { "from": "consent_confidentiality", "to": "consultation_standards", "why": "Consent is obtained and recorded in consultations; governance requires consistent scripts and documentation." },
+    { "from": "consent_confidentiality", "to": "records_management", "why": "Records must reflect consent decisions and limit disclosure to what is necessary." },
+    { "from": "consent_confidentiality", "to": "teleconsultation", "why": "Teleconsultation needs extra safeguards: identity checks, consent confirmation, and limitation management." },
+
+    { "from": "risk_communication", "to": "training_information", "why": "Communication becomes durable when embedded in training, briefings, and accessible materials." },
+    { "from": "risk_communication", "to": "commissioning_scope", "why": "Clear external and internal communications set realistic expectations about what OH can and cannot do." },
+    { "from": "risk_communication", "to": "complaints_handling", "why": "Better communication reduces complaint load and improves perceived fairness." },
+
+    { "from": "multidisciplinary_teaming", "to": "integration_with_hs", "why": "Teaming requires shared governance through risk registers, control ownership, and management review." },
+    { "from": "multidisciplinary_teaming", "to": "programme_portfolio", "why": "Programmes need clinical + hygiene + engineering + HR roles working as one system." },
+    { "from": "multidisciplinary_teaming", "to": "hierarchy_of_control", "why": "Upstream controls require engineering/procurement involvement, not clinician-only action." },
+
+    { "from": "power_and_incentives", "to": "commissioning_scope", "why": "Contracts and SLAs shape behaviour; unclear incentives create quality drift and gaming." },
+    { "from": "power_and_incentives", "to": "kpis_metrics", "why": "What you measure and reward is what the system will optimise—even if it harms trust or outcomes." },
+    { "from": "power_and_incentives", "to": "pathology_underreporting", "why": "Punitive metrics and blame cultures suppress reporting and destroy learning." },
+    { "from": "power_and_incentives", "to": "challenge_outsourcing", "why": "Outsourcing chains amplify misaligned incentives and accountability gaps." },
+
+    { "from": "flow_and_capacity", "to": "consultation_standards", "why": "Backlogs and time pressure degrade consultation quality unless standards and triage protect critical steps." },
+    { "from": "flow_and_capacity", "to": "health_surveillance_strategy", "why": "Surveillance capacity must be planned; otherwise coverage becomes inequitable and follow-up fails." },
+    { "from": "flow_and_capacity", "to": "entropy_and_drift", "why": "Sustained overload accelerates drift: shortcuts, missed follow-ups, delayed maintenance." },
+
+    { "from": "interfaces_and_handoffs", "to": "records_management", "why": "Reliable handoffs require structured records and clear routing/verification steps." },
+    { "from": "interfaces_and_handoffs", "to": "report_writing", "why": "Report production/delivery is a high-risk interface: wrong recipient, ambiguous wording, missing consent." },
+    { "from": "interfaces_and_handoffs", "to": "incident_response", "why": "Interface failures produce incidents (breaches, missed escalations) requiring response playbooks." },
+    { "from": "interfaces_and_handoffs", "to": "complaints_handling", "why": "Many complaints originate from handoff failures: delays, unclear outcomes, miscommunication." },
+
+    { "from": "entropy_and_drift", "to": "audit_assurance", "why": "Audit detects drift and tests whether controls and processes are still working as intended." },
+    { "from": "entropy_and_drift", "to": "competence_workforce", "why": "Turnover and poor supervision accelerate drift; competence planning stabilises practice." },
+    { "from": "entropy_and_drift", "to": "pathology_normalised_deviance", "why": "Uncorrected drift becomes 'normal' and hides growing risk." },
+
+    { "from": "feedback_loops", "to": "learning_loops", "why": "Learning loops are structured feedback loops that translate signals into sustained system change." },
+    { "from": "feedback_loops", "to": "kpis_metrics", "why": "Indicators are the sensor layer of feedback loops; they must be meaningful and non-punitive." },
+    { "from": "feedback_loops", "to": "audit_assurance", "why": "Audit is a formal feedback mechanism: check reality, then change the system and re-check." },
+
+    { "from": "work_as_imagined_vs_done", "to": "audit_assurance", "why": "Audit must test work-as-done under load, not just documented compliance." },
+    { "from": "work_as_imagined_vs_done", "to": "risk_assessment_management", "why": "Risk assessment must model real tasks and adaptations, otherwise controls will fail." },
+    { "from": "work_as_imagined_vs_done", "to": "hierarchy_of_control", "why": "Controls must be usable in real work; otherwise the system drifts toward weaker, behaviour-dependent controls." },
+
+    { "from": "boundaries_and_coverage", "to": "commissioning_scope", "why": "Coverage decisions must be explicit in scope (contractors, multi-site, remote workers) to avoid inequity and hidden risk." },
+    { "from": "boundaries_and_coverage", "to": "legal_compliance_backbone", "why": "Legal responsibilities and reporting can extend beyond direct employees depending on context and dutyholder roles." },
+    { "from": "boundaries_and_coverage", "to": "programme_portfolio", "why": "Programme design must reflect who is exposed and where work happens, including contractors and distributed sites." },
+
+    { "from": "commissioning_scope", "to": "clinical_governance", "why": "Commissioning should require governance: supervision, templates, consent practices, and audit rights." },
+    { "from": "commissioning_scope", "to": "challenge_outsourcing", "why": "Weak commissioning creates accountability drift and inconsistent standards across providers." },
+    { "from": "commissioning_scope", "to": "flow_and_capacity", "why": "Service levels and scope determine demand; demand determines waiting times and quality risk." },
+
+    { "from": "clinical_governance", "to": "consultation_standards", "why": "Governance sets consultation norms: consent, documentation, escalation and fairness." },
+    { "from": "clinical_governance", "to": "report_writing", "why": "Governance enforces report quality: relevance, clarity, consent, and secure handling." },
+    { "from": "clinical_governance", "to": "competence_workforce", "why": "Governance relies on competence, supervision, CPD and safe delegation." },
+    { "from": "clinical_governance", "to": "complaints_handling", "why": "A governed complaints process protects legitimacy and yields structured learning." },
+
+    { "from": "information_governance", "to": "records_management", "why": "IG policies are implemented through record structure, access control, retention and secure delivery." },
+    { "from": "information_governance", "to": "audit_assurance", "why": "IG requires assurance: access logs, breach drills, template checks, and delivery verification." },
+    { "from": "information_governance", "to": "case_wrong_recipient", "why": "A data breach is a direct stress-test of IG controls and interface design." },
+
+    { "from": "legal_compliance_backbone", "to": "programme_portfolio", "why": "Legal duties determine which programmes must exist and what evidence is required." },
+    { "from": "legal_compliance_backbone", "to": "training_information", "why": "Duties include information/instruction/training so controls are understood and sustained." },
+    { "from": "legal_compliance_backbone", "to": "incident_response", "why": "Incident planning and escalation are required where serious harm could occur." },
+
+    { "from": "integration_with_hs", "to": "risk_assessment_management", "why": "Risk management requires controls to be owned, resourced, tracked and reviewed in the organisational system." },
+    { "from": "integration_with_hs", "to": "audit_assurance", "why": "Integration enables assurance: close-out of actions, management review, and control verification." },
+    { "from": "integration_with_hs", "to": "programme_portfolio", "why": "Integration keeps programmes aligned with operational reality and engineering priorities." },
+
+    { "from": "programme_portfolio", "to": "coshh_programme", "why": "Hazard portfolios require explicit programmes with owners, monitoring, controls, and surveillance pathways." },
+    { "from": "programme_portfolio", "to": "noise_programme", "why": "Noise is a core programme requiring survey-control-surveillance loops." },
+    { "from": "programme_portfolio", "to": "vibration_programme", "why": "Vibration requires coordinated tool/process controls and health monitoring pathways." },
+    { "from": "programme_portfolio", "to": "thermal_programme", "why": "Thermal stress requires operational triggers, controls, and vulnerable-worker safeguards." },
+    { "from": "programme_portfolio", "to": "lighting_programme", "why": "Lighting affects comfort, errors and fatigue; include as a managed environment programme." },
+    { "from": "programme_portfolio", "to": "fitness_for_work", "why": "Case management and adjustments are a programme stream needing standards and capacity planning." },
+
+    { "from": "hygiene_cycle_arec", "to": "risk_assessment_management", "why": "AREC provides the structure to move from hazard recognition to evaluation and control decisions." },
+    { "from": "hygiene_cycle_arec", "to": "exposure_monitoring_strategy", "why": "Evaluation requires a monitoring strategy: baseline, post-control verification, and change-triggered monitoring." },
+    { "from": "hygiene_cycle_arec", "to": "hierarchy_of_control", "why": "Control selection should follow hierarchy; AREC ensures controls are implemented and reviewed." },
+    { "from": "hygiene_cycle_arec", "to": "health_surveillance_strategy", "why": "Where exposures remain, surveillance can provide early warning and test whether controls are adequate." },
+
+    { "from": "risk_assessment_management", "to": "hierarchy_of_control", "why": "Risk management prioritises upstream controls; the hierarchy guides investment decisions." },
+    { "from": "risk_assessment_management", "to": "training_information", "why": "Risk management includes administrative controls and training so controls work in practice." },
+    { "from": "risk_assessment_management", "to": "incident_response", "why": "Residual risk requires emergency planning, escalation triggers, and practice drills." },
+
+    { "from": "exposure_monitoring_strategy", "to": "coshh_programme", "why": "Chemical exposure evaluation and verification is delivered through monitoring and survey strategy." },
+    { "from": "exposure_monitoring_strategy", "to": "noise_programme", "why": "Noise surveys are exposure monitoring for a physical agent; they inform and verify controls." },
+    { "from": "exposure_monitoring_strategy", "to": "vibration_programme", "why": "Vibration exposure estimation and tool inventories inform risk and surveillance triggers." },
+    { "from": "exposure_monitoring_strategy", "to": "thermal_programme", "why": "Environmental measurement and indices inform triggers and work-rest controls." },
+    { "from": "exposure_monitoring_strategy", "to": "audit_assurance", "why": "Monitoring quality and representativeness should be assurance-tested (methods, triggers, response)." },
+
+    { "from": "health_surveillance_strategy", "to": "noise_programme", "why": "Audiometry is the surveillance arm of hearing conservation and should feed back to controls." },
+    { "from": "health_surveillance_strategy", "to": "vibration_programme", "why": "HAVS symptom surveillance and staging enables early action and tool/process control escalation." },
+    { "from": "health_surveillance_strategy", "to": "coshh_programme", "why": "Where justified, surveillance (e.g., skin/respiratory) detects early harm and tests control adequacy." },
+    { "from": "health_surveillance_strategy", "to": "feedback_loops", "why": "Surveillance outcomes are signals that should trigger control improvement and policy review." },
+
+    { "from": "toxicology_foundations", "to": "hazard_info_sds_clp", "why": "Toxicology explains why substances are classified and how to interpret hazard types and endpoints." },
+    { "from": "toxicology_foundations", "to": "risk_based_prioritisation", "why": "Dose-response and endpoint severity inform prioritisation (high-consequence hazards get more control/monitoring)." },
+    { "from": "hazard_info_sds_clp", "to": "coshh_programme", "why": "SDS/labels feed inventory, exposure scenarios, control selection and training content." },
+    { "from": "hazard_info_sds_clp", "to": "training_information", "why": "Label/SDS literacy is needed so workers and supervisors understand hazards and precautions." },
+    { "from": "hazard_info_sds_clp", "to": "risk_assessment_management", "why": "Hazard information is an input to risk assessment but must be contextualised to real tasks and exposures." },
+
+    { "from": "consultation_standards", "to": "report_writing", "why": "High-quality consultations produce clear, defensible, consented reports." },
+    { "from": "consultation_standards", "to": "fitness_for_work", "why": "Fitness decisions rely on structured assessment of function and work demands." },
+    { "from": "consultation_standards", "to": "records_management", "why": "Consultations must be documented to evidence consent, reasoning, and advice." },
+    { "from": "teleconsultation", "to": "records_management", "why": "Teleconsultation requires extra documentation of identity verification and limitations." },
+
+    { "from": "report_writing", "to": "risk_communication", "why": "Reports are a form of risk communication translating health information into management actions." },
+    { "from": "report_writing", "to": "case_report_dispute", "why": "Disputes stress-test relevance, consent and confidentiality boundaries." },
+
+    { "from": "fitness_for_work", "to": "risk_assessment_management", "why": "Work restrictions and adjustments must align with risk assessment and control feasibility." },
+    { "from": "fitness_for_work", "to": "multidisciplinary_teaming", "why": "Effective adjustments require coordination between OH, HR, line management and sometimes engineering/ergonomics." },
+
+    { "from": "training_information", "to": "work_as_imagined_vs_done", "why": "Training must be designed for real work; otherwise it becomes “work-as-imagined” theatre." },
+    { "from": "training_information", "to": "pathology_normalised_deviance", "why": "When training is unrealistic, workarounds become normal and hide real risk." },
+
+    { "from": "incident_response", "to": "learning_loops", "why": "Incidents and near misses are learning opportunities if investigated and converted into system change." },
+    { "from": "records_management", "to": "audit_assurance", "why": "Records allow assurance testing: consent documented, follow-up done, referrals closed, controls verified." },
+    { "from": "complaints_handling", "to": "learning_loops", "why": "Complaints are weak signals; converting them into fixes requires structured learning loops." },
+
+    { "from": "seqohs", "to": "clinical_governance", "why": "SEQOHS domains constrain governance expectations for clinicians, processes and relationships." },
+    { "from": "seqohs", "to": "information_governance", "why": "SEQOHS explicitly requires robust information governance and worker relationship protections." },
+    { "from": "iso45001", "to": "integration_with_hs", "why": "OHSMS frameworks expect integration of monitoring, consultation, and continual improvement." },
+    { "from": "pdca_hsg65", "to": "audit_assurance", "why": "PDCA requires checking and auditing, not just planning and doing." },
+
+    { "from": "kpis_metrics", "to": "power_and_incentives", "why": "Metrics create incentives; design KPIs to support learning and prevention rather than gaming." },
+    { "from": "audit_assurance", "to": "learning_loops", "why": "Audit is valuable only when it changes the system and is re-checked." },
+    { "from": "competence_workforce", "to": "flow_and_capacity", "why": "Workforce planning is how you match demand to capacity and reduce unsafe throughput pressure." },
+    { "from": "competence_workforce", "to": "challenge_outsourcing", "why": "Outsourcing requires explicit competence and supervision requirements across provider chains." },
+
+    { "from": "challenge_outsourcing", "to": "interfaces_and_handoffs", "why": "Outsourcing multiplies interfaces (referrals, labs, report routing) and increases failure probability." },
+    { "from": "challenge_outsourcing", "to": "audit_assurance", "why": "Outsourced delivery requires stronger assurance (audit rights, sampling of reports, supervision evidence)." },
+
+    { "from": "pathology_underreporting", "to": "feedback_loops", "why": "Under-reporting breaks the sensing layer; feedback loops cannot regulate the system." },
+    { "from": "pathology_normalised_deviance", "to": "work_as_imagined_vs_done", "why": "Normalised deviance is sustained WAI/WAD mismatch that becomes culturally invisible." },
+
+    { "from": "coshh_programme", "to": "case_lev_spikes", "why": "Exposure spikes under load are a classic control verification failure mode in COSHH." },
+    { "from": "noise_programme", "to": "case_noise_programme", "why": "A stagnating programme reveals broken feedback from audiometry to engineering controls." },
+    { "from": "thermal_programme", "to": "case_heat_extremes", "why": "Extreme heat exposes weaknesses in triggers, supervision and work-rest governance." },
+    { "from": "report_writing", "to": "case_wrong_recipient", "why": "Report delivery is a high-risk interface; weak controls can cause breaches." },
+    { "from": "work_as_imagined_vs_done", "to": "case_dermatitis_compliance_theatre", "why": "Paper compliance can hide real exposure pathways and friction (gloves, time pressure, substitutions)." },
+    { "from": "information_governance", "to": "case_wrong_recipient", "why": "A data breach stress-tests IG controls: access, verification, secure channels, and incident response." },
+
+    { "from": "wis_listening", "to": "case_dermatitis_compliance_theatre", "why": "Listening finds supply, workflow and onboarding realities that audits and SDS training often miss." },
+    { "from": "wis_safe_to_fail", "to": "case_lev_spikes", "why": "Pilot small workflow and staging changes under peak load with backfire checks before scaling." },
+    { "from": "wis_grace", "to": "case_report_dispute", "why": "Respectful, non-blaming communication reduces escalation and preserves trust in a contested situation." },
+    { "from": "wis_proportion", "to": "case_heat_extremes", "why": "Extreme conditions require proportionate, decisive thresholds rather than perfect-but-late analysis." }
+  ]
+}
