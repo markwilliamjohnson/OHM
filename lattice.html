@@ -1,0 +1,1401 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lattice Map</title>
+  <style>
+    :root{
+      --bg:#f7fafc;
+      --text:#0f172a;
+      --muted:#475569;
+      --muted2:#64748b;
+      --border:rgba(15,23,42,.12);
+      --shadow: 0 14px 34px rgba(15,23,42,.10);
+      --radius:16px;
+
+      --edge:rgba(30,41,59,.18);
+      --edgeHi:rgba(2,132,199,.85);
+
+      --lvl0:#fff7ed;
+      --lvl1:#eff6ff;
+      --lvl2:#f5f3ff;
+      --lvl3:#ecfeff;
+      --lvl4:#f0fdf4;
+      --lvl5:#f8fafc;
+      --lvl6:#fff1f2;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(900px 520px at 10% 10%, rgba(56,189,248,.20), transparent 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(34,197,94,.18), transparent 55%),
+        radial-gradient(900px 520px at 60% 100%, rgba(168,85,247,.14), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      overflow:hidden;
+    }
+
+    header{
+      padding:12px 14px;
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--border);
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      position:sticky; top:0; z-index:20;
+    }
+    header .title{display:flex; flex-direction:column; gap:2px; min-width:260px}
+    header h1{margin:0; font-size:16px; letter-spacing:.2px}
+    header .sub{font-size:12px; color:var(--muted2); line-height:1.35}
+    header .toolbar{
+      display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;
+      justify-content:flex-end; flex:1;
+    }
+    .ctl{display:flex; flex-direction:column; gap:5px; min-width:220px}
+    .ctl label{font-size:11px; color:var(--muted2); font-weight:800}
+    input[type="text"], textarea, select{
+      width:100%;
+      background:#fff;
+      border:1px solid var(--border);
+      color:var(--text);
+      border-radius:12px;
+      padding:9px 10px;
+      outline:none;
+      font-size:13px;
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
+    }
+    textarea{min-height:110px; resize:vertical}
+    select{cursor:pointer}
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      color:var(--text);
+      background: rgba(15,23,42,.03);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:12px;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{background: rgba(15,23,42,.06); border-color:rgba(15,23,42,.18)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{background: rgba(2,132,199,.12); border-color: rgba(2,132,199,.28)}
+    .btn.primary:hover{background: rgba(2,132,199,.16)}
+    .btn.danger{background: rgba(225,29,72,.10); border-color: rgba(225,29,72,.22)}
+    .btn:disabled{opacity:.55; cursor:not-allowed}
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:11px; padding:2px 6px; border-radius:8px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+
+    .layout{
+      height: calc(100vh - 74px);
+      display:grid;
+      grid-template-columns: 1fr 410px;
+      gap:12px;
+      padding:12px;
+      min-height:0;
+    }
+    .stage{
+      position:relative;
+      overflow:auto;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,.78);
+      min-height:0;
+    }
+    .stageInner{
+      position:relative;
+      min-width:1100px;
+      padding:16px 16px 24px;
+    }
+
+    .howto{
+      border:1px solid rgba(2,132,199,.18);
+      background: rgba(2,132,199,.06);
+      border-radius: 16px;
+      padding:12px 12px 10px;
+      margin-bottom:12px;
+    }
+    .howto h2{margin:0 0 6px; font-size:13px}
+    .howto .grid{
+      display:grid; gap:8px;
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+    }
+    .howto .step{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.92);
+      border-radius: 14px;
+      padding:10px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+    @media (max-width: 1180px){
+      body{overflow:auto}
+      .layout{grid-template-columns: 1fr; height:auto}
+      .howto .grid{grid-template-columns: 1fr}
+    }
+
+    .level{
+      margin-top:12px;
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.90);
+    }
+    .level:first-child{margin-top:0}
+    .levelHeader{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; margin-bottom:10px;
+    }
+    .levelHeader .lhTitle{
+      display:flex; align-items:center; gap:10px;
+      font-weight:950; letter-spacing:.2px; font-size:13px;
+    }
+    .badge{
+      font-size:11px; padding:5px 9px; border-radius:999px;
+      background: rgba(15,23,42,.04);
+      border:1px solid var(--border);
+      color: var(--muted2);
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .lhHint{font-size:12px; color:var(--muted2)}
+    .row{display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start;}
+
+    .node{
+      position:relative;
+      border-radius:999px;
+      padding:9px 12px;
+      border:1px solid rgba(15,23,42,.14);
+      background: rgba(255,255,255,.92);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease, box-shadow .12s ease, opacity .12s ease;
+      font-size:12px;
+      line-height:1;
+      white-space:nowrap;
+      touch-action: manipulation;
+    }
+    .node:hover{background: #fff; border-color:rgba(15,23,42,.22)}
+    .node:active{transform: translateY(1px)}
+    .node .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(2,132,199,.9);
+      box-shadow: 0 0 0 3px rgba(2,132,199,.12);
+    }
+    .node[data-kind="standard"] .dot{background: rgba(22,163,74,.9); box-shadow: 0 0 0 3px rgba(22,163,74,.12)}
+    .node[data-kind="case"] .dot{background: rgba(234,88,12,.9); box-shadow: 0 0 0 3px rgba(234,88,12,.12)}
+    .node[data-kind="risk"] .dot{background: rgba(225,29,72,.88); box-shadow: 0 0 0 3px rgba(225,29,72,.12)}
+    .node[data-kind="wisdom"] .dot{background: rgba(124,45,18,.90); box-shadow: 0 0 0 3px rgba(124,45,18,.12)}
+
+    .node[data-level="0"]{background: var(--lvl0); border-color: rgba(234,88,12,.22)}
+    .node[data-level="1"]{background: var(--lvl1); border-color: rgba(37,99,235,.22)}
+    .node[data-level="2"]{background: var(--lvl2); border-color: rgba(124,58,237,.20)}
+    .node[data-level="3"]{background: var(--lvl3); border-color: rgba(6,182,212,.22)}
+    .node[data-level="4"]{background: var(--lvl4); border-color: rgba(22,163,74,.22)}
+    .node[data-level="5"]{background: var(--lvl5); border-color: rgba(15,23,42,.14)}
+    .node[data-level="6"]{background: var(--lvl6); border-color: rgba(225,29,72,.18)}
+
+    .node .tag{
+      font-size:10px; padding:3px 7px; border-radius:999px;
+      border:1px solid rgba(15,23,42,.14);
+      background: rgba(255,255,255,.55);
+      color: var(--muted2);
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .node.selected{
+      border-color: rgba(2,132,199,.75);
+      box-shadow: 0 0 0 5px rgba(2,132,199,.14);
+    }
+    .node.related{
+      border-color: rgba(15,23,42,.35);
+      box-shadow: 0 0 0 4px rgba(15,23,42,.06);
+    }
+    .node.dim{opacity:.35}
+
+    svg#edges{
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      overflow:visible;
+    }
+    .edge{stroke: var(--edge); stroke-width: 2; fill:none}
+    .edge.hi{
+      stroke: var(--edgeHi);
+      stroke-width: 2.6;
+      filter: drop-shadow(0 1px 0 rgba(2,132,199,.10));
+    }
+    .edge.dim{opacity:.20}
+
+    .panel{
+      background: rgba(255,255,255,.88);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+      min-height:0;
+    }
+    .phead{
+      padding:12px;
+      border-bottom:1px solid var(--border);
+      background: rgba(15,23,42,.02);
+    }
+    .phead .ph{font-weight:950; font-size:13px}
+    .pbody{padding:12px; overflow:auto; min-height:0}
+
+    .hint{font-size:12px; color:var(--muted2); line-height:1.45}
+
+    .actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+
+    .card{
+      background: rgba(255,255,255,.96);
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding:12px;
+    }
+    .card h3{margin:0 0 6px; font-size:13px}
+    .card p, .card li{color: rgba(15,23,42,.92); font-size:12.5px; line-height:1.45}
+    .card ul{margin:8px 0 0 18px}
+    .metaLine{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .pill{
+      font-size:11px; padding:5px 9px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color:var(--muted2);
+      font-weight:850;
+    }
+
+    .path{margin-top:10px; display:flex; flex-direction:column; gap:8px;}
+    .pathStep{
+      display:flex; gap:8px; align-items:flex-start;
+      padding:10px; border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.02);
+      cursor:pointer; user-select:none;
+    }
+    .pathStep:hover{background: rgba(15,23,42,.04)}
+    .pathStep .n{
+      width:22px; height:22px; border-radius:999px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(2,132,199,.12);
+      border:1px solid rgba(2,132,199,.24);
+      color: rgba(2,132,199,.95);
+      font-weight:950; font-size:12px;
+      flex:0 0 auto;
+    }
+    .pathStep .t{font-weight:950; font-size:12px}
+    .pathStep .d{font-size:12px; color:var(--muted2); margin-top:2px; line-height:1.35}
+
+    .chips{display:flex; gap:6px; flex-wrap:wrap;}
+    .chip{
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color:var(--text);
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      user-select:none;
+      font-weight:850;
+    }
+    .chip.active{border-color: rgba(2,132,199,.35); background: rgba(2,132,199,.10)}
+    .chip .x{margin-left:6px; color:var(--muted2); font-weight:950}
+
+    details summary{cursor:pointer; font-weight:900; color:var(--text); font-size:12.5px}
+    details .detailsBody{margin-top:10px}
+
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(255,255,255,.95);
+      border:1px solid var(--border);
+      padding:10px 12px; border-radius: 14px;
+      box-shadow: var(--shadow);
+      font-size:12px;
+      color: var(--text);
+      opacity:0; pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index:40;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+  
+/* Data source is chosen via URL parameter (?data=...), so hide manual loader UI */
+#btnLoadJson, #fileJson { display:none !important; }
+
+
+/* Screen space: hide search + filter toolbar */
+.toolbar { display:none !important; }
+
+</style>
+</head>
+
+<body>
+<header>
+  <div class="title">
+    <h1 id="appTitle">Lattice Map</h1>
+    <div class="sub" id="appSubtitle">Tap a lozenge to explore. Multi-select: <span class="kbd">Shift+Click</span> / <span class="kbd">Ctrl/Cmd+Click</span> (desktop) or <span class="kbd">Long-press</span> (mobile). <span id="dataStatus" style="margin-left:8px; color:#0f766e; font-weight:900"></span></div>
+  </div>
+
+  <div class="toolbar">
+    <div class="ctl">
+      <label for="search">Search</label>
+      <input id="search" type="text" placeholder="Search concepts…" autocomplete="off"/>
+    </div>
+    <div class="ctl" style="min-width:190px">
+      <label for="filterKind">Filter</label>
+      <select id="filterKind">
+        <option value="all">All</option>
+        <option value="wisdom">Management wisdom</option>
+        <option value="concept">Concepts</option>
+        <option value="standard">Standards / frameworks</option>
+        <option value="case">Case studies</option>
+        <option value="risk">Challenges / pathologies</option>
+      </select>
+    </div>
+    <input id="fileJson" type="file" accept="application/json" style="display:none" />
+    <button class="btn" id="btnLoadFile" title="Load a JSON map file">Data source: URL parameter</button>
+    <button class="btn danger" id="btnClear" title="Clear selection (Esc)">Clear <span class="kbd">Esc</span></button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="stage" id="stage">
+    <div class="stageInner" id="stageInner">
+      <svg id="edges" aria-hidden="true"></svg>
+
+      <div class="howto">
+        <h2>How to use this map</h2>
+        <div class="grid">
+          <div class="step"><b>1)</b> Tap a lozenge to open details and highlight related links.</div>
+          <div class="step"><b>2)</b> Build a set: <span class="kbd">Shift+Click</span> (desktop) or <span class="kbd">Long-press</span> (mobile) to add/remove lozenges.</div>
+          <div class="step"><b>3)</b> Use the right panel to <b>Trace to top</b> and <b>Generate prompt</b> for a narrative case-study connecting the chain.</div>
+        </div>
+      </div>
+
+      <div id="levels"></div>
+    </div>
+  </main>
+
+  <aside class="panel">
+    <div class="phead">
+      <div class="ph">Detail & actions</div>
+      <div class="actions">
+        <button class="btn" id="btnTrace" title="Trace selected node up to management wisdom">Trace to top</button>
+        <button class="btn primary" id="btnPrompt" title="Generate an AI prompt from selected nodes">Generate prompt</button>
+        <button class="btn" id="btnCopyPrompt" title="Copy the generated prompt">Copy</button>
+      </div>
+      <div class="hint" style="margin-top:8px">Tip: include a <b>case</b> (orange) or <b>challenge/pathology</b> (red) plus supporting concepts.</div>
+    </div>
+    <div class="pbody">
+      <div id="detailEmpty" class="hint">Tap a lozenge to see meaning, connections, and a trace.</div>
+
+      <div id="detail" style="display:none">
+        <div class="card">
+          <h3 id="dTitle"></h3>
+          <div class="metaLine" id="dMeta"></div>
+
+          <div style="margin-top:10px; font-size:12px; color:var(--muted2); font-weight:900">Meaning</div>
+          <div id="dBody" style="margin-top:6px; font-size:12.5px; color:rgba(15,23,42,.92); line-height:1.48"></div>
+
+          <div style="margin-top:12px; font-size:12px; color:var(--muted2); font-weight:900">Connections (tap to jump)</div>
+          <ul id="dConnections" style="margin:8px 0 0 18px; font-size:12.5px; color:rgba(15,23,42,.90); line-height:1.45"></ul>
+
+          <div style="margin-top:12px">
+            <div class="hint"><b>Selected for prompt</b></div>
+            <div class="chips" id="selectedChips" style="margin-top:8px"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:10px">
+          <h3>Trace to management wisdom</h3>
+          <div class="hint">A constraint path: upstream shaping concepts → down to your selected node.</div>
+          <div class="path" id="path"></div>
+        </div>
+
+        <div class="card" style="margin-top:10px">
+          <h3>Generated prompt</h3>
+          <div class="hint" style="margin-top:6px">Your context (optional): paste a real situation from your work to tailor the story.</div>
+          <textarea id="userContext" placeholder="Describe your own situation (optional)…" style="margin-top:8px"></textarea>
+          <div class="hint" style="margin-top:10px">AI prompt (generated from your selections + context)</div>
+          <textarea id="promptOut" placeholder="Tap “Generate prompt” above…" style="margin-top:6px"></textarea>
+        </div>
+
+        <details style="margin-top:10px">
+          <summary>Advanced: Export / import map JSON</summary>
+          <div class="detailsBody card">
+            <div class="hint">Use this to expand the lattice later with more document fragments.</div>
+            <textarea id="jsonIO" placeholder='{"levels":[...],"nodes":[...],"edges":[...]}' style="margin-top:10px"></textarea>
+            <div class="actions" style="margin-top:8px">
+              <button class="btn" id="btnLoadJson">Load JSON</button>
+              <button class="btn" id="btnDumpJson">Export JSON</button>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let data = null;
+const el = (q, root=document) => root.querySelector(q);
+const els = (q, root=document) => Array.from(root.querySelectorAll(q));
+
+const levelsEl = el("#levels");
+const edgesSvg = el("#edges");
+const stageInner = el("#stageInner");
+
+const searchEl = el("#search");
+const filterKindEl = el("#filterKind");
+const btnClear = el("#btnClear");
+const btnTrace = el("#btnTrace");
+const btnPrompt = el("#btnPrompt");
+const btnCopyPrompt = el("#btnCopyPrompt");
+
+const jsonIO = el("#jsonIO");
+const btnLoadJson = el("#btnLoadJson");
+const btnDumpJson = el("#btnDumpJson");
+
+const detailEmpty = el("#detailEmpty");
+const detail = el("#detail");
+const dTitle = el("#dTitle");
+const dMeta = el("#dMeta");
+const dBody = el("#dBody");
+const dConnections = el("#dConnections");
+const pathEl = el("#path");
+const selectedChipsEl = el("#selectedChips");
+const userContext = el("#userContext");
+const promptOut = el("#promptOut");
+const toastEl = el("#toast");
+
+
+const fileJsonEl = el("#fileJson");
+const btnLoadFile = el("#btnLoadFile");
+const dataStatusEl = el("#dataStatus");
+
+async function loadDataFromUrl(url){
+  const res = await fetch(url, {cache:"no-store"});
+  if(!res.ok) throw new Error(`HTTP ${res.status}`);
+  const obj = await res.json();
+  validateData(obj);
+  return obj;
+}
+function getDataUrlFromParams(){
+  const sp = new URLSearchParams(window.location.search);
+  // Supported params:
+  //   ?data=<url>  (preferred)
+  //   ?json=<url>  (alias)
+  const u = sp.get("data") || sp.get("json");
+  if(!u) return null;
+  try{
+    // Allow relative or absolute URLs
+    return new URL(u, window.location.href).toString();
+  }catch(_){
+    return u;
+  }
+}
+
+
+function validateData(obj){
+  if(!obj || typeof obj !== "object") throw new Error("JSON is not an object.");
+  if(!Array.isArray(obj.levels) || !Array.isArray(obj.nodes) || !Array.isArray(obj.edges)){
+    throw new Error("JSON must include {levels:[], nodes:[], edges:[]}.");
+  }
+  const ids = new Set();
+  for(const n of obj.nodes){
+    if(!n.id) throw new Error("Each node needs an id.");
+    if(ids.has(n.id)) throw new Error(`Duplicate node id: ${n.id}`);
+    ids.add(n.id);
+    if(typeof n.level !== "number") throw new Error(`Node ${n.id} missing numeric level.`);
+    if(!n.label) throw new Error(`Node ${n.id} missing label.`);
+    if(!n.kind) n.kind = "concept";
+  }
+  for(const e of obj.edges){
+    if(!ids.has(e.from) || !ids.has(e.to)){
+      throw new Error(`Edge refers to missing node: ${e.from}→${e.to}`);
+    }
+    if(!e.why) e.why = "";
+  }
+}
+
+async function boot(){
+  try{
+    const paramUrl = getDataUrlFromParams();
+    const dataUrl = paramUrl || "oh-systems-lattice_data.json";
+    if(!paramUrl && dataStatusEl) dataStatusEl.textContent = "Tip: add ?data=YOUR_JSON_URL to the page URL to load a different dataset.";
+    data = await loadDataFromUrl(dataUrl);
+    if(dataStatusEl) dataStatusEl.textContent = `Loaded: ${dataUrl}`;
+// Apply data-driven UI meta (so the app is domain-agnostic)
+  const meta = (data && data.meta) ? data.meta : {};
+  const titleText = meta.title || "Lattice Map";
+  const subtitleText = meta.subtitle || "Tap a lozenge to explore and follow connections.";
+  const searchPH = meta.searchPlaceholder || "Search concepts…";
+  const ctxPH = meta.userContextPlaceholder || "Describe your own situation (optional)…";
+  const ctxLabel = meta.userContextLabel || "Your context (optional)";
+  const howtoHtml = meta.howtoHtml || null;
+
+  const tEl = document.getElementById("appTitle");
+  const sEl = document.getElementById("appSubtitle");
+  if(tEl) tEl.textContent = titleText;
+  document.title = titleText;
+  if(sEl){
+    // Keep the existing multi-select guidance that already exists in the subtitle row
+    // but allow meta.subtitle to prefix it.
+    const base = sEl.innerHTML;
+    const parts = base.split("Tap a lozenge to explore.");
+    if(parts.length>1){
+      sEl.innerHTML = `${subtitleText} ` + parts[1];
+    }else{
+      sEl.textContent = subtitleText;
+    }
+  }
+
+  const searchEl = document.getElementById("search");
+  if(searchEl) searchEl.setAttribute("placeholder", searchPH);
+
+  const ctxEl = document.getElementById("userContext");
+  if(ctxEl) ctxEl.setAttribute("placeholder", ctxPH);
+
+  const ctxLabelEl = document.getElementById("userContextLabel");
+  if(ctxLabelEl) ctxLabelEl.textContent = ctxLabel;
+
+  // Optional: override How-To block (HTML) from data.meta
+  if(howtoHtml){
+    const howto = document.querySelector(".howto");
+    if(howto) howto.innerHTML = howtoHtml;
+  }
+
+  // Optional: initial prompt text (for the "Generate prompt" box)
+  const promptSeed = meta.initialPrompt || "";
+  if(promptSeed && typeof promptSeed === "string"){
+    const p = document.getElementById("promptOut");
+    if(p && !p.value) p.value = promptSeed;
+    const copyBtn = document.getElementById("btnCopyPrompt");
+    if(copyBtn) copyBtn.disabled = !p.value.trim();
+  }
+  }catch(err){
+    if(dataStatusEl) dataStatusEl.textContent = "No JSON loaded (use “Data source: URL parameter”).";
+    data = {levels:[], nodes:[], edges:[]};
+  }
+  clearSelection();
+  render();
+}
+
+btnLoadFile?.addEventListener("click", ()=> fileJsonEl?.click());
+fileJsonEl?.addEventListener("change", async ()=>{
+  const f = fileJsonEl.files && fileJsonEl.files[0];
+  if(!f) return;
+  try{
+    const text = await f.text();
+    const obj = JSON.parse(text);
+    validateData(obj);
+    data = obj;
+    if(dataStatusEl) dataStatusEl.textContent = `Loaded: ${f.name}`;
+// Apply meta immediately on file load too
+    const meta = (data && data.meta) ? data.meta : {};
+    const titleText = meta.title || "Lattice Map";
+    const subtitleText = meta.subtitle || "Tap a lozenge to explore and follow connections.";
+    document.title = titleText;
+    const tEl = document.getElementById("appTitle");
+    if(tEl) tEl.textContent = titleText;
+    const sEl = document.getElementById("appSubtitle");
+    if(sEl){
+      const base = sEl.innerHTML;
+      const parts = base.split("Tap a lozenge to explore.");
+      if(parts.length>1){
+        sEl.innerHTML = `${subtitleText} ` + parts[1];
+      }else{
+        sEl.textContent = subtitleText;
+      }
+    }
+    const searchEl = document.getElementById("search");
+    if(searchEl) searchEl.setAttribute("placeholder", meta.searchPlaceholder || "Search concepts…");
+    const ctxEl = document.getElementById("userContext");
+    if(ctxEl) ctxEl.setAttribute("placeholder", meta.userContextPlaceholder || "Describe your own situation (optional)…");
+    const ctxLabelEl = document.getElementById("userContextLabel");
+    if(ctxLabelEl) ctxLabelEl.textContent = meta.userContextLabel || "Your context (optional)";
+    if(meta.howtoHtml){
+      const howto = document.querySelector(".howto");
+      if(howto) howto.innerHTML = meta.howtoHtml;
+    }
+    if(meta.initialPrompt){
+      const p = document.getElementById("promptOut");
+      if(p && !p.value) p.value = meta.initialPrompt;
+      const copyBtn = document.getElementById("btnCopyPrompt");
+      if(copyBtn) copyBtn.disabled = !p.value.trim();
+    }
+    clearSelection();
+    promptOut.value="";
+    btnCopyPrompt.disabled=true;
+    render();
+    toast("Map loaded.");
+  }catch(e){
+    toast("Could not load JSON: " + e.message);
+  }finally{
+    fileJsonEl.value = "";
+  }
+});
+
+let selected = new Set();
+let primary = null;
+let currentPath = [];
+let currentPaths = new Map(); // id -> path array for traced selections
+let edgeIndex = null;
+
+/* Long-press multi-select for mobile */
+let lpTimer = null;
+let lpTargetId = null;
+let lpFired = false;
+const LONGPRESS_MS = 480;
+
+// persist context
+try{
+  const savedCtx = localStorage.getItem("lattice_userContext");
+  if(savedCtx && userContext) userContext.value = savedCtx;
+  userContext?.addEventListener("input", ()=> localStorage.setItem("lattice_userContext", userContext.value || ""));
+}catch(_){}
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  setTimeout(()=>toastEl.classList.remove("show"), 1300);
+}
+
+function ensureConnectivity(){
+  // Generic safety net: if any node would be isolated, connect it to a nearby level anchor
+  // so the lattice remains navigable. Prefer: level-1 → node → level+1.
+  if(!data || !Array.isArray(data.nodes) || !Array.isArray(data.edges)) return;
+
+  const byId = new Map(data.nodes.map(n => [n.id, n]));
+  const degree = new Map();
+  for(const n of data.nodes) degree.set(n.id, 0);
+  for(const e of data.edges){
+    if(degree.has(e.from)) degree.set(e.from, degree.get(e.from)+1);
+    if(degree.has(e.to)) degree.set(e.to, degree.get(e.to)+1);
+  }
+
+  const levelMap = new Map();
+  for(const n of data.nodes){
+    const arr = levelMap.get(n.level) || [];
+    arr.push(n);
+    levelMap.set(n.level, arr);
+  }
+
+  const edgeKey = new Set(data.edges.map(e => `${e.from}→${e.to}`));
+  const add = (from,to,why)=>{
+    const k = `${from}→${to}`;
+    if(edgeKey.has(k)) return;
+    data.edges.push({from, to, why});
+    edgeKey.add(k);
+  };
+
+  const pick = (lvl)=>{
+    const arr = levelMap.get(lvl);
+    if(!arr || !arr.length) return null;
+    // Prefer non-case, non-risk anchors if possible
+    const pref = arr.find(n => (n.kind||"concept")==="concept" || (n.kind||"concept")==="wisdom" || (n.kind||"concept")==="standard");
+    return (pref || arr[0]).id;
+  };
+
+  for(const n of data.nodes){
+    if((degree.get(n.id)||0) > 0) continue;
+    const above = pick(n.level-1);
+    const below = pick(n.level+1);
+    if(above) add(above, n.id, `${n.label} is related to ${byId.get(above)?.label || "a higher-level concept"}.`);
+    if(below) add(n.id, below, `${n.label} influences ${byId.get(below)?.label || "a lower-level concept"}.`);
+  }
+}
+
+function buildEdgeIndex(){
+  edgeIndex = { out:new Map(), into:new Map(), map:new Map() };
+  for(const e of data.edges){
+    if(!edgeIndex.out.has(e.from)) edgeIndex.out.set(e.from, []);
+    if(!edgeIndex.into.has(e.to)) edgeIndex.into.set(e.to, []);
+    edgeIndex.out.get(e.from).push(e);
+    edgeIndex.into.get(e.to).push(e);
+    edgeIndex.map.set(`${e.from}→${e.to}`, e);
+  }
+}
+
+function getNode(id){ return data.nodes.find(n=>n.id===id); }
+
+function kindTag(kind){
+  if(kind==="wisdom") return "WISDOM";
+  if(kind==="standard") return "STANDARD";
+  if(kind==="case") return "CASE";
+  if(kind==="risk") return "RISK";
+  return "CONCEPT";
+}
+
+function cssEscape(s){
+  return (window.CSS && CSS.escape) ? CSS.escape(s) : s.replace(/"/g,'\\"');
+}
+
+function stripHtml(html){
+  const d = document.createElement("div");
+  d.innerHTML = html;
+  return d.textContent || d.innerText || "";
+}
+
+function render(){
+  ensureConnectivity();
+  buildEdgeIndex();
+  levelsEl.innerHTML = "";
+  edgesSvg.innerHTML = "";
+
+  for(const lvl of data.levels){
+    const wrap = document.createElement("section");
+    wrap.className = "level";
+    wrap.dataset.level = lvl.id;
+    wrap.innerHTML = `
+      <div class="levelHeader">
+        <div class="lhTitle">
+          <span class="badge">Level ${lvl.id}</span>
+          <span>${lvl.title}</span>
+        </div>
+        <div class="lhHint">${lvl.hint}</div>
+      </div>
+      <div class="row" id="row-${lvl.id}"></div>
+    `;
+    levelsEl.appendChild(wrap);
+  }
+
+  const byLevel = new Map();
+  for(const n of data.nodes){
+    if(!byLevel.has(n.level)) byLevel.set(n.level, []);
+    byLevel.get(n.level).push(n);
+  }
+  for(const [lvl, arr] of byLevel){
+    arr.sort((a,b)=> (a.kind.localeCompare(b.kind) || a.label.localeCompare(b.label)));
+    const row = el(`#row-${lvl}`);
+    if(!row) continue;
+
+    for(const n of arr){
+      const nodeEl = document.createElement("div");
+      nodeEl.className = "node";
+      nodeEl.dataset.id = n.id;
+      nodeEl.dataset.kind = n.kind;
+      nodeEl.dataset.level = String(n.level);
+      nodeEl.innerHTML = `
+        <span class="dot"></span>
+        <span class="label">${n.label}</span>
+        <span class="tag">${kindTag(n.kind)}</span>
+      `;
+
+      // Desktop/pen pointerdown: capture modifier state reliably and prevent double-fire
+      nodeEl.addEventListener("pointerdown", (ev)=>{
+        if(ev.pointerType === "touch") return; // touch handled by long-press
+        const multi = ev.shiftKey || ev.ctrlKey || ev.metaKey;
+        // Use pointerdown selection to avoid click losing modifier state.
+        selectNode(n.id, {multi});
+        nodeEl.dataset.skipClick = "1";
+      });
+
+nodeEl.addEventListener("click", (ev) => {
+        if(nodeEl.dataset.skipClick==="1"){ nodeEl.dataset.skipClick="0"; return; }
+        if(lpFired){ lpFired = false; return; }
+        const multi = ev.shiftKey || ev.ctrlKey || ev.metaKey;
+        selectNode(n.id, {multi});
+      });
+
+      nodeEl.addEventListener("pointerdown", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        try{ nodeEl.setPointerCapture(ev.pointerId); }catch(_){}
+        lpTargetId = n.id;
+        lpFired = false;
+        const startX = ev.clientX, startY = ev.clientY;
+        nodeEl.dataset.lpStartX = String(startX);
+        nodeEl.dataset.lpStartY = String(startY);
+
+        clearTimeout(lpTimer);
+        lpTimer = setTimeout(()=>{
+          lpFired = true;
+          selectNode(lpTargetId, {multi:true});
+          toast("Multi-select: toggled");
+        }, LONGPRESS_MS);
+      });
+
+      nodeEl.addEventListener("pointermove", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        if(!lpTimer) return;
+        const sx = Number(nodeEl.dataset.lpStartX || "0");
+        const sy = Number(nodeEl.dataset.lpStartY || "0");
+        const dx = ev.clientX - sx;
+        const dy = ev.clientY - sy;
+        const dist = Math.hypot(dx, dy);
+        if(dist > 10){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+      });
+
+      nodeEl.addEventListener("pointerup", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        if(lpTimer){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+        // If long-press fired, swallow the subsequent click where possible
+        if(lpFired){
+          ev.preventDefault();
+        }
+      });
+
+      nodeEl.addEventListener("pointercancel", ()=>{
+        if(lpTimer){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+      });
+
+      row.appendChild(nodeEl);
+    }
+  }
+
+  requestAnimationFrame(()=>{
+    drawEdges();
+    applyFilter();
+    applySelectionStyles();
+    renderSelectedChips();
+    renderDetail();
+  });
+}
+
+function drawEdges(){
+  edgesSvg.innerHTML = "";
+  const rect = stageInner.getBoundingClientRect();
+  edgesSvg.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+
+  const centers = new Map();
+  for(const nodeEl of els(".node", stageInner)){
+    const r = nodeEl.getBoundingClientRect();
+    const cx = (r.left - rect.left) + r.width/2;
+    const cy = (r.top - rect.top) + r.height/2;
+    centers.set(nodeEl.dataset.id, {cx, cy});
+  }
+
+  for(const e of data.edges){
+    const a = centers.get(e.from);
+    const b = centers.get(e.to);
+    if(!a || !b) continue;
+
+    const dx = (b.cx - a.cx);
+    const dy = (b.cy - a.cy);
+    const bend = Math.max(42, Math.abs(dy)*0.35);
+    const c1x = a.cx + dx*0.15;
+    const c1y = a.cy + (dy>=0 ? bend : -bend);
+    const c2x = b.cx - dx*0.15;
+    const c2y = b.cy - (dy>=0 ? bend : -bend);
+
+    const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d", `M ${a.cx} ${a.cy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${b.cx} ${b.cy}`);
+    p.setAttribute("class", "edge");
+    p.dataset.from = e.from;
+    p.dataset.to = e.to;
+    edgesSvg.appendChild(p);
+  }
+}
+
+function applyFilter(){
+  const q = (searchEl.value || "").trim().toLowerCase();
+  const kind = filterKindEl.value;
+
+  const matches = (n) => {
+    const txt = `${n.label} ${(n.summary||"")} ${(n.tags||[]).join(" ")} ${(stripHtml(n.bodyHtml||""))}`.toLowerCase();
+    const okQ = !q || txt.includes(q);
+    const okKind = (kind==="all") || n.kind===kind;
+    return okQ && okKind;
+  };
+
+  const matched = new Set(data.nodes.filter(matches).map(n=>n.id));
+
+  for(const nodeEl of els(".node", stageInner)){
+    const id = nodeEl.dataset.id;
+    const isMatch = matched.has(id);
+    nodeEl.classList.toggle("dim", !isMatch && q.length>0);
+    nodeEl.style.display = ((kind==="all" || nodeEl.dataset.kind===kind) ? "" : "none");
+  }
+
+  for(const p of els(".edge", edgesSvg)){
+    const a = el(`.node[data-id="${cssEscape(p.dataset.from)}"]`, stageInner);
+    const b = el(`.node[data-id="${cssEscape(p.dataset.to)}"]`, stageInner);
+    const hidden = (!a || !b || a.style.display==="none" || b.style.display==="none");
+    p.classList.toggle("dim", hidden);
+  }
+}
+
+function selectNode(id, {multi=false}={}){
+  if(!multi){
+    selected.clear();
+    selected.add(id);
+  }else{
+    if(selected.has(id)) selected.delete(id);
+    else selected.add(id);
+  }
+  primary = selected.size ? (selected.has(id) ? id : selected.values().next().value) : null;
+  currentPath = [];
+  currentPaths.clear();
+  applySelectionStyles();
+  renderSelectedChips();
+  renderDetail();
+  highlightRelated();
+  highlightEdges();
+}
+
+function clearSelection(){
+  selected.clear();
+  primary = null;
+  currentPath = [];
+  currentPaths.clear();
+  applySelectionStyles();
+  renderSelectedChips();
+  renderDetail();
+  highlightEdges();
+}
+
+function applySelectionStyles(){
+  for(const nodeEl of els(".node", stageInner)){
+    nodeEl.classList.toggle("selected", selected.has(nodeEl.dataset.id));
+  }
+}
+
+function highlightRelated(){
+  for(const nodeEl of els(".node", stageInner)) nodeEl.classList.remove("related");
+  if(!primary || !edgeIndex) return;
+
+  const rel = new Set();
+  for(const e of (edgeIndex.out.get(primary)||[])) rel.add(e.to);
+  for(const e of (edgeIndex.into.get(primary)||[])) rel.add(e.from);
+
+  for(const id of rel){
+    const nodeEl = el(`.node[data-id="${cssEscape(id)}"]`, stageInner);
+    if(nodeEl) nodeEl.classList.add("related");
+  }
+}
+
+function highlightEdges(){
+  const hi = new Set();
+
+  // Highlight adjacency for ALL selected nodes (not only primary)
+  if(edgeIndex && selected && selected.size){
+    for(const sid of selected){
+      for(const e of (edgeIndex.out.get(sid)||[])) hi.add(`${e.from}→${e.to}`);
+      for(const e of (edgeIndex.into.get(sid)||[])) hi.add(`${e.from}→${e.to}`);
+    }
+  }
+
+  // Highlight all traced paths (Trace to top) across all selected nodes
+  if(currentPaths && currentPaths.size){
+    for(const path of currentPaths.values()){
+      if(!path || path.length<2) continue;
+      for(let i=0;i<path.length-1;i++){
+        hi.add(`${path[i]}→${path[i+1]}`);
+      }
+    }
+  }else if(currentPath && currentPath.length>1){
+    // Backward compatibility (single path)
+    for(let i=0;i<currentPath.length-1;i++){
+      hi.add(`${currentPath[i]}→${currentPath[i+1]}`);
+    }
+  }
+
+  for(const p of els(".edge", edgesSvg)){
+    const key = `${p.dataset.from}→${p.dataset.to}`;
+    const shouldHi = hi.has(key);
+    p.classList.toggle("hi", shouldHi);
+    p.classList.toggle("dim", (selected.size>0 || currentPaths.size>0 || (currentPath && currentPath.length>1)) && !shouldHi);
+  }
+}
+
+function renderSelectedChips(){
+  selectedChipsEl.innerHTML = "";
+  const arr = Array.from(selected).map(getNode).filter(Boolean);
+  if(arr.length===0){
+    const chip = document.createElement("div");
+    chip.className="hint";
+    chip.textContent = "Multi-select: Shift+Click (desktop) or Long-press (mobile).";
+    selectedChipsEl.appendChild(chip);
+    return;
+  }
+  for(const n of arr){
+    const c = document.createElement("div");
+    c.className = "chip active";
+    c.innerHTML = `${n.label}<span class="x">×</span>`;
+    c.onclick = () => {
+      selected.delete(n.id);
+      primary = selected.size ? selected.values().next().value : null;
+      currentPath = [];
+  currentPaths.clear();
+      applySelectionStyles();
+      renderSelectedChips();
+      renderDetail();
+      highlightRelated();
+      highlightEdges();
+    };
+    selectedChipsEl.appendChild(c);
+  }
+}
+
+function renderDetail(){
+  if(!primary){
+    detailEmpty.style.display = "";
+    detail.style.display = "none";
+    btnTrace.disabled = true;
+    btnPrompt.disabled = true;
+    btnCopyPrompt.disabled = true;
+    return;
+  }
+  const n = getNode(primary);
+  if(!n){
+    detailEmpty.style.display = "";
+    detail.style.display = "none";
+    btnTrace.disabled = true;
+    btnPrompt.disabled = true;
+    btnCopyPrompt.disabled = true;
+    return;
+  }
+  detailEmpty.style.display = "none";
+  detail.style.display = "";
+  btnTrace.disabled = false;
+  btnPrompt.disabled = false;
+  btnCopyPrompt.disabled = (promptOut.value.trim().length===0);
+
+  dTitle.textContent = n.label;
+
+  dMeta.innerHTML = "";
+  const pill1 = document.createElement("div");
+  pill1.className = "pill";
+  pill1.textContent = `Level ${n.level} • ${kindTag(n.kind)}`;
+  dMeta.appendChild(pill1);
+
+  if(n.tags && n.tags.length){
+    for(const tag of n.tags){
+      const p = document.createElement("div");
+      p.className="pill";
+      p.textContent = tag;
+      dMeta.appendChild(p);
+    }
+  }
+  if(n.summary){
+    const p = document.createElement("div");
+    p.className="pill";
+    p.textContent = n.summary;
+    dMeta.appendChild(p);
+  }
+
+  dBody.innerHTML = n.bodyHtml || "<p>(No detail yet.)</p>";
+
+  dConnections.innerHTML = "";
+  const conn = [];
+  for(const e of (edgeIndex.out.get(primary)||[])){
+    const toN = getNode(e.to);
+    if(toN) conn.push({type:"down", other:toN, why:e.why});
+  }
+  for(const e of (edgeIndex.into.get(primary)||[])){
+    const fromN = getNode(e.from);
+    if(fromN) conn.push({type:"up", other:fromN, why:e.why});
+  }
+  conn.sort((a,b)=> (a.type.localeCompare(b.type) || a.other.level - b.other.level || a.other.label.localeCompare(b.other.label)));
+  for(const c of conn){
+    const li = document.createElement("li");
+    li.innerHTML = `<b>${c.type==="up" ? "Upstream" : "Downstream"}:</b> <span style="color:#0284c7; font-weight:950">${c.other.label}</span><br/><span style="color:var(--muted2)">${c.why}</span>`;
+    li.style.marginBottom = "8px";
+    li.onclick = () => { selectNode(c.other.id, {multi:false}); scrollToNode(c.other.id); };
+    li.style.cursor = "pointer";
+    dConnections.appendChild(li);
+  }
+
+  if(!currentPath.length) renderPath([]);
+}
+
+function findTopRoots(){
+  return data.nodes.filter(n=>n.level===0).map(n=>n.id);
+}
+
+function traceToTop(targetId){
+  if(!edgeIndex) buildEdgeIndex();
+  const roots = new Set(findTopRoots());
+  if(roots.has(targetId)) return [targetId];
+
+  const q = [targetId];
+  const prev = new Map();
+  const seen = new Set([targetId]);
+  let foundRoot = null;
+
+  while(q.length){
+    const cur = q.shift();
+    const incoming = edgeIndex.into.get(cur) || [];
+    for(const e of incoming){
+      const up = e.from;
+      if(seen.has(up)) continue;
+      seen.add(up);
+      prev.set(up, cur);
+      if(roots.has(up)){ foundRoot = up; q.length = 0; break; }
+      q.push(up);
+    }
+  }
+  if(!foundRoot) return [targetId];
+
+  const path = [foundRoot];
+  let cur = foundRoot;
+  while(cur !== targetId){
+    const next = prev.get(cur);
+    if(!next) break;
+    path.push(next);
+    cur = next;
+  }
+  return path;
+}
+
+function renderPath(path){
+  pathEl.innerHTML = "";
+  if(!primary) return;
+
+  if(path.length===0){
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = "Tap “Trace to top” to generate a step-by-step constraint path.";
+    pathEl.appendChild(hint);
+    return;
+  }
+
+  currentPath = path;
+  highlightEdges();
+
+  for(let i=0;i<path.length;i++){
+    const id = path[i];
+    const n = getNode(id);
+    if(!n) continue;
+
+    let expl = "";
+    if(i < path.length-1){
+      const e = edgeIndex.map.get(`${id}→${path[i+1]}`);
+      if(e) expl = e.why;
+    }else{
+      expl = "Selected concept.";
+    }
+
+    const step = document.createElement("div");
+    step.className="pathStep";
+    step.innerHTML = `
+      <div class="n">${i+1}</div>
+      <div>
+        <div class="t">${n.label}</div>
+        <div class="d">${expl}</div>
+      </div>
+    `;
+    step.onclick = () => { selectNode(id, {multi:false}); scrollToNode(id); };
+    pathEl.appendChild(step);
+  }
+}
+
+function scrollToNode(id){
+  const nodeEl = el(`.node[data-id="${cssEscape(id)}"]`, stageInner);
+  if(!nodeEl) return;
+  nodeEl.scrollIntoView({behavior:"smooth", block:"center", inline:"center"});
+}
+
+function generatePrompt(){
+  const meta = (data && data.meta) ? data.meta : {};
+  const domain = meta.domainName || "this domain";
+  const tpl = (meta.promptTemplate && String(meta.promptTemplate).trim())
+    ? String(meta.promptTemplate)
+    : (
+`You are an expert practitioner and educator in ${domain}.
+
+`+
+`Write a narrative case study that connects the selected concepts from practical surface symptoms to deeper mechanisms.
+
+`+
+`User context (if provided):
+{{USER_CONTEXT}}
+
+`+
+`Selected concepts:
+{{SELECTED_TITLES}}
+
+`+
+`Details:
+{{SELECTED_DETAILS}}
+
+`+
+`Trace paths:
+{{TRACE_SUMMARY}}
+
+`+
+`Deliver: a scenario, a step-by-step explanation, 3 leverage points, and a small QA/learning plan.
+`
+    );
+
+  const selectedNodes = Array.from(selected).map(getNode).filter(Boolean);
+  const ctx = (userContext?.value || "").trim();
+  if(selectedNodes.length===0){ toast("Select at least one node."); return ""; }
+
+  // Choose a concrete anchor for the story
+  const cases = selectedNodes.filter(n=>n.kind==="case");
+  const risks = selectedNodes.filter(n=>n.kind==="risk");
+  const primary = cases[0] || risks[0] || selectedNodes.find(n=>n.level===Math.max(...selectedNodes.map(x=>x.level))) || selectedNodes[0];
+
+  // Build adjacency (for relationship summaries)
+  const outMap = new Map(), inMap = new Map();
+  for(const e of (data.edges||[])){
+    if(!outMap.has(e.from)) outMap.set(e.from, []);
+    if(!inMap.has(e.to)) inMap.set(e.to, []);
+    outMap.get(e.from).push(e);
+    inMap.get(e.to).push(e);
+  }
+
+  const picked = new Map();
+  const primaryPath = traceToTop(primary.id);
+  for(const id of primaryPath){ const n = getNode(id); if(n) picked.set(n.id, n); }
+  for(const n of selectedNodes) picked.set(n.id, n);
+
+  const formatNode = (n)=>{
+    const lines = [];
+    lines.push(`- ${n.label} (level ${n.level}${n.kind?`, ${n.kind}`:""})`);
+    if(n.summary) lines.push(`  Summary: ${n.summary}`);
+    const rels = [];
+    const outs = (outMap.get(n.id)||[]).slice(0,6);
+    const ins = (inMap.get(n.id)||[]).slice(0,6);
+    for(const e of outs){
+      const t = getNode(e.to);
+      if(t) rels.push(`  → ${t.label}: ${e.why||""}`.trim());
+    }
+    for(const e of ins){
+      const f = getNode(e.from);
+      if(f) rels.push(`  ← ${f.label}: ${e.why||""}`.trim());
+    }
+    if(rels.length){
+      lines.push("  Links:");
+      for(const r of rels.slice(0,8)) lines.push(`  - ${r}`);
+    }
+    return lines.join("\n");
+  };
+
+  const selIds = Array.from(picked.keys());
+  const selectedTitles = selIds.map(id=>getNode(id)?.label||id).join(", ");
+
+  const traceSummary = Array.from(selected).map(id=>{
+    const p = traceToTop(id).map(n=>n.label).join(" → ");
+    return `- ${p}`;
+  }).join("\n");
+
+  const selectedDetails = selIds.map(id=>formatNode(getNode(id))).join("\n");
+
+  const tokenMap = {
+    "{{DOMAIN}}": domain,
+    "{{USER_CONTEXT}}": ctx || "(none provided)",
+    "{{SELECTED_TITLES}}": selectedTitles,
+    "{{SELECTED_DETAILS}}": selectedDetails,
+    "{{TRACE_SUMMARY}}": traceSummary || "(no traces)",
+    "{{PRIMARY_CASE}}": primary.label
+  };
+
+  let prompt = tpl;
+  for(const [k,v] of Object.entries(tokenMap)){
+    prompt = prompt.split(k).join(v);
+  }
+
+  // If the template didn't mention the primary anchor, add a gentle nudge
+  if(prompt && !prompt.includes(primary.label)){
+    prompt = prompt.replace("{{PRIMARY_CASE}}", primary.label);
+  }
+
+  return prompt.trim();
+}
+
+function copyToClipboard(text){
+  navigator.clipboard.writeText(text).then(()=>toast("Copied.")).catch(()=>toast("Could not copy (browser permissions)."));
+}
+
+btnClear.onclick = () => { clearSelection(); promptOut.value=""; btnCopyPrompt.disabled=true; };
+
+btnTrace.onclick = () => {
+  if(!primary){ toast("Select a node first."); return; }
+
+  // Compute and store trace paths for every selected node
+  currentPaths.clear();
+  for(const sid of selected){
+    const p = traceToTop(sid);
+    currentPaths.set(sid, p);
+  }
+
+  // Render the primary path in the panel (keeps UI clean),
+  // but edge highlighting will reflect ALL traced paths.
+  const primaryPath = currentPaths.get(primary) || traceToTop(primary);
+  renderPath(primaryPath);
+
+  highlightRelated();
+  highlightEdges();
+  toast(`Traced ${selected.size} selection${selected.size===1?"":"s"}.`);
+};
+
+btnPrompt.onclick = () => {
+  const p = generatePrompt();
+  if(!p) return;
+  promptOut.value = p;
+  btnCopyPrompt.disabled = false;
+  toast("Prompt generated.");
+};
+
+btnCopyPrompt.onclick = () => {
+  const txt = promptOut.value.trim();
+  if(!txt){ toast("Generate a prompt first."); return; }
+  copyToClipboard(txt);
+};
+
+searchEl.addEventListener("input", applyFilter);
+filterKindEl.addEventListener("change", ()=>{ applyFilter(); drawEdges(); highlightEdges(); });
+
+window.addEventListener("resize", ()=>{ drawEdges(); highlightEdges(); });
+
+document.addEventListener("keydown", (ev)=>{ if(ev.key==="Escape") clearSelection(); });
+
+btnLoadJson?.addEventListener("click", () => {
+  const txt = (jsonIO.value || "").trim();
+  if(!txt){ toast("Paste JSON first."); return; }
+  try{
+    const obj = JSON.parse(txt);
+    if(!obj.nodes || !obj.edges) throw new Error("JSON must include nodes and edges.");
+    data = {
+      levels: Array.isArray(obj.levels) ? obj.levels : data.levels,
+      nodes: obj.nodes,
+      edges: obj.edges
+    };
+    clearSelection();
+    promptOut.value="";
+    btnCopyPrompt.disabled=true;
+    render();
+    toast("Map loaded.");
+  }catch(e){ toast("Invalid JSON: " + e.message); }
+});
+
+btnDumpJson?.addEventListener("click", () => {
+  jsonIO.value = JSON.stringify({levels:data.levels, nodes:data.nodes, edges:data.edges}, null, 2);
+  toast("Exported.");
+});
+
+boot();
+</script>
+</body>
+</html>
