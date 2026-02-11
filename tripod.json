@@ -1,0 +1,540 @@
+{
+  "meta": {
+    "title": "TRIPOD-AI for Diagnostic AI (incl. Multi-Agent Systems) — Wisdom → Claims → Systems → Governance → Methods → Reporting → Cases",
+    "subtitle": "A TRIPOD-AI-focused lattice for diagnostic/triage/replacement AI in healthcare & pharma contexts, with special attention to multi-agent AI: intended use clarity, transparent study design and data provenance, leakage control, reproducible specification, robust evaluation, uncertainty, generalisability, and integrity.",
+    "domainName": "TRIPOD-AI evaluation and reporting for diagnostic, triage, and replacement AI (including multi-agent AI)",
+    "searchPlaceholder": "TRIPOD-AI, diagnostic AI, triage AI, replacement AI, reference standard, leakage, calibration, decision thresholds, external validation, participant flow, missing data, imputation, subgroup analysis, heterogeneity, multi-agent orchestration, traceability, tool use, audit logs…",
+    "userContextLabel": "Your diagnostic AI intended use (optional)",
+    "userContextPlaceholder": "e.g., diagnostic aid for imaging; multi-agent LLM + tools; intended users; clinical setting; reference standard; deployment sites; safety constraints…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert in TRIPOD-AI-aligned evaluation for diagnostic AI, including multi-agent AI systems.\n\nWrite a concrete evaluation and reporting plan aligned to TRIPOD-AI for the selected concepts.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Intended use statement (diagnosis vs triage vs replacement; users; setting; decision supported)\n- Study design + data provenance + participant flow\n- Predictor/outcome/reference standard definitions and timing\n- Development vs evaluation separation (internal/external validation)\n- Performance metrics (calibration + discrimination) and operating points\n- Uncertainty reporting (CIs) and subgroup/heterogeneity plan\n- Multi-agent system specification, traceability, and component-level evaluation\n- Limitations, generalisability, and integrity/open-science actions\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Judgement-in-context: don’t overclaim; protect patients; align evidence with decisions; treat evaluation as a safety-critical design activity."
+    },
+    {
+      "id": 1,
+      "title": "TRIPOD-AI claim discipline & responsible evidence",
+      "hint": "Core TRIPOD-AI themes: intended use clarity, transparent design, reproducibility, uncertainty, generalisability, subgroup integrity, and open science."
+    },
+    {
+      "id": 2,
+      "title": "System failure modes (esp. multi-agent AI)",
+      "hint": "Where evidence collapses: leakage, spectrum bias, automation bias, emergent multi-agent behaviour, tool instability, and hidden handoffs."
+    },
+    {
+      "id": 3,
+      "title": "Governance & assurance architecture",
+      "hint": "How teams make TRIPOD-AI real: protocol, data governance, traceability, auditability, change control, and accountability for claims."
+    },
+    {
+      "id": 4,
+      "title": "Methods & practical evaluation steps",
+      "hint": "What to do in the project: define predictors/outcomes, plan sample size, handle missingness, specify models, split data, validate externally, test thresholds."
+    },
+    {
+      "id": 5,
+      "title": "TRIPOD-AI reporting outputs",
+      "hint": "What must be reported: participant flow, model specification, performance (calibration + discrimination), uncertainty, limitations, and generalisability."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios for tracing back: inflated results, mis-specified intended use, multi-agent opacity, threshold failures, and poor transportability."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_patient_first",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Patient-first evidentiary humility",
+      "summary": "Treat diagnostic AI evidence as a patient-safety artifact: claims must match context, uncertainty must be explicit, and failure modes must be surfaced.",
+      "tags": ["wisdom", "patient_safety", "humility"],
+      "bodyHtml": "<p>TRIPOD-AI is not a paperwork exercise. It is a discipline that prevents patient harm by forcing clarity about what the model does, how it was evaluated, and where it may fail.</p>"
+    },
+    {
+      "id": "wis_no_overclaim",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "No overclaiming (claims follow evidence)",
+      "summary": "Never let impressive metrics outrun study design quality, clinical utility, and external validity.",
+      "tags": ["wisdom", "integrity", "claims"],
+      "bodyHtml": "<p>Overclaiming is a predictable failure mode: AUROC gets marketed as “clinical impact”. TRIPOD-AI pushes you to align claims with decision context and evidence quality.</p>"
+    },
+    {
+      "id": "wis_traceability",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Traceability as a safety principle",
+      "summary": "If you can’t trace data, versions, and decisions, you can’t trust results—or investigate harm.",
+      "tags": ["wisdom", "traceability", "safety"],
+      "bodyHtml": "<p>Diagnostic AI must be investigable. Multi-agent systems add extra steps and handoffs; traceability is what keeps accountability real.</p>"
+    },
+
+    {
+      "id": "claim_intended_use",
+      "level": 1,
+      "kind": "concept",
+      "label": "Clarity of intended use (diagnosis vs triage vs replacement)",
+      "summary": "State precisely what the model is for, what decision it supports, who uses it, and in what setting—so performance claims match context.",
+      "tags": ["TRIPOD-AI", "intended_use", "diagnosis"],
+      "bodyHtml": "<p>Diagnostic use typically implies higher evidentiary bar than triage; replacement implies the highest bar and demands strong human factors and safety evidence. Even for “diagnosis”, specify whether it is decision support vs final decision-maker.</p>"
+    },
+    {
+      "id": "claim_context_of_use",
+      "level": 1,
+      "kind": "concept",
+      "label": "Context-of-use specification",
+      "summary": "Define setting, population, workflow, prevalence, and how the output will be consumed (screening, confirmatory, adjunct).",
+      "tags": ["TRIPOD-AI", "context", "applicability"],
+      "bodyHtml": "<p>Performance depends on case-mix and workflow. Context-of-use is what makes results interpretable and transportability assessable.</p>"
+    },
+    {
+      "id": "claim_reference_standard",
+      "level": 1,
+      "kind": "concept",
+      "label": "Reference standard & outcome validity",
+      "summary": "Define what “truth” is for diagnosis: reference standard, adjudication, measurement process, and imperfections.",
+      "tags": ["TRIPOD-AI", "reference_standard"],
+      "bodyHtml": "<p>Diagnostic evaluation is only as good as the reference standard. If the reference is noisy or biased, report it and assess implications.</p>"
+    },
+    {
+      "id": "claim_predictor_outcome_timing",
+      "level": 1,
+      "kind": "concept",
+      "label": "Predictor/outcome timing discipline",
+      "summary": "Ensure predictors are measured before the outcome; avoid leakage, post-treatment variables, and future information.",
+      "tags": ["TRIPOD-AI", "leakage", "timing"],
+      "bodyHtml": "<p>TRIPOD-AI pushes explicit timing definitions for predictors and outcomes. Diagnostic pipelines often leak via metadata, downstream notes, or lab-confirmation timestamps.</p>"
+    },
+    {
+      "id": "claim_open_science",
+      "level": 1,
+      "kind": "concept",
+      "label": "Open science & research integrity",
+      "summary": "Pre-specify protocols and analyses; share code/data where feasible; document deviations to reduce research waste.",
+      "tags": ["TRIPOD-AI", "integrity", "protocol"],
+      "bodyHtml": "<p>Protocol availability and transparent deviations reduce p-hacking, selective reporting, and irreproducible results—especially important for complex multi-agent systems.</p>"
+    },
+    {
+      "id": "claim_fairness_applicability",
+      "level": 1,
+      "kind": "concept",
+      "label": "Fairness, heterogeneity & applicability",
+      "summary": "Report performance across relevant groups/settings so readers can judge applicability and integrity.",
+      "tags": ["TRIPOD-AI", "subgroups", "heterogeneity"],
+      "bodyHtml": "<p>Subgroup analyses are part of applicability. The goal is not just to compute a number, but to show where performance is reliable vs risky.</p>"
+    },
+    {
+      "id": "claim_multiagent_scope",
+      "level": 1,
+      "kind": "concept",
+      "label": "Multi-agent system claim scope",
+      "summary": "Make explicit what is being evaluated: the whole agentic system, components, tools, and the decision policy across them.",
+      "tags": ["TRIPOD-AI", "multi_agent", "claims"],
+      "bodyHtml": "<p>Agentic AI often includes multiple models, tools, and routing logic. TRIPOD-AI-style transparency requires defining the evaluated object and its boundaries.</p>"
+    },
+
+    {
+      "id": "sys_leakage",
+      "level": 2,
+      "kind": "risk",
+      "label": "Pathology: Information leakage (future data)",
+      "summary": "Apparent performance is inflated because predictors encode the outcome directly or indirectly.",
+      "tags": ["risk", "leakage"],
+      "bodyHtml": "<p>Common leakage sources: timestamps, clinician notes that include diagnosis, post-test variables, label-proxy codes, or data splits that allow patient overlap.</p>"
+    },
+    {
+      "id": "sys_spectrum_bias",
+      "level": 2,
+      "kind": "risk",
+      "label": "Pathology: Spectrum / case-mix bias",
+      "summary": "Evaluation data differs from real use (severity, prevalence, referral pathways), making metrics misleading.",
+      "tags": ["risk", "bias", "generalisability"],
+      "bodyHtml": "<p>Diagnostic models can look strong in enriched datasets but fail in routine care. Case-mix must be described and compared to intended deployment.</p>"
+    },
+    {
+      "id": "sys_automation_bias",
+      "level": 2,
+      "kind": "risk",
+      "label": "Automation bias & label confirmation loops",
+      "summary": "Users overweight model outputs; labels and future decisions become contaminated by the model itself.",
+      "tags": ["risk", "human_factors"],
+      "bodyHtml": "<p>In prospective use, the model may influence clinician behaviour and the recorded truth. This can create feedback loops and degrade evaluability over time.</p>"
+    },
+    {
+      "id": "sys_multiagent_emergence",
+      "level": 2,
+      "kind": "risk",
+      "label": "Multi-agent emergence & non-determinism",
+      "summary": "Agentic systems can behave differently across runs due to routing, tool availability, prompts, or stochasticity.",
+      "tags": ["risk", "multi_agent", "reproducibility"],
+      "bodyHtml": "<p>Non-determinism complicates reproducibility and evaluation. TRIPOD-AI-aligned reporting must describe how variability is controlled or measured.</p>"
+    },
+    {
+      "id": "sys_tool_dependency",
+      "level": 2,
+      "kind": "risk",
+      "label": "Tool-dependency failures (retrieval, calculators, EHR APIs)",
+      "summary": "Performance depends on external tools that change; outages and drift become part of the diagnostic system.",
+      "tags": ["risk", "tools", "handoffs"],
+      "bodyHtml": "<p>For agentic diagnostic systems, the weakest link may be a retrieval index, ontology service, or API. TRIPOD-AI transparency requires documenting these dependencies.</p>"
+    },
+    {
+      "id": "sys_dataset_overlap",
+      "level": 2,
+      "kind": "risk",
+      "label": "Dataset overlap and patient-level contamination",
+      "summary": "Patient overlap across train/test or site leakage inflates performance and undermines generalisability.",
+      "tags": ["risk", "splits", "contamination"],
+      "bodyHtml": "<p>TRIPOD-AI separation of development vs evaluation requires explicit split logic and checks for overlap, including temporal and site-based leakage.</p>"
+    },
+
+    {
+      "id": "gov_protocol_prereg",
+      "level": 3,
+      "kind": "standard",
+      "label": "Protocol & analysis plan (pre-specified)",
+      "summary": "Predefine endpoints, datasets, subgroup analyses, thresholds, and primary/secondary claims; document deviations.",
+      "tags": ["governance", "protocol", "TRIPOD-AI"],
+      "bodyHtml": "<p>Pre-specification reduces selective reporting and aligns teams on what counts as success before results are known.</p>"
+    },
+    {
+      "id": "gov_data_provenance",
+      "level": 3,
+      "kind": "standard",
+      "label": "Data provenance governance",
+      "summary": "Document sources, eligibility, dates, settings, and participant flow; enforce lineage, permissions, and data quality controls.",
+      "tags": ["governance", "data", "provenance"],
+      "bodyHtml": "<p>TRIPOD-AI expects transparent study design. Governance ensures the evidence chain is auditable and defensible.</p>"
+    },
+    {
+      "id": "gov_multiagent_trace_logs",
+      "level": 3,
+      "kind": "standard",
+      "label": "Multi-agent trace logging & auditability",
+      "summary": "Log agent routing, tool calls, retrieved evidence, intermediate outputs, versions, and decision policy.",
+      "tags": ["governance", "multi_agent", "audit"],
+      "bodyHtml": "<p>For agentic systems, the evaluation object is a pipeline. Trace logs enable reproducibility, error analysis, and incident investigation.</p>"
+    },
+    {
+      "id": "gov_model_versioning",
+      "level": 3,
+      "kind": "standard",
+      "label": "Versioning & reproducibility controls",
+      "summary": "Lock model/prompt/tool/index versions for evaluation; document randomness controls and environment details.",
+      "tags": ["governance", "reproducibility"],
+      "bodyHtml": "<p>Multi-agent systems can change via prompts, tools, retrieval indices, and routing rules. Version everything you evaluate.</p>"
+    },
+    {
+      "id": "gov_human_oversight_policy",
+      "level": 3,
+      "kind": "standard",
+      "label": "Human oversight policy (diagnostic use)",
+      "summary": "Define review steps, responsibilities, escalation, and when the model may or may not be used.",
+      "tags": ["governance", "oversight", "diagnosis"],
+      "bodyHtml": "<p>Even for diagnostic decision support, oversight must be realistic under load and aligned with intended use and risk.</p>"
+    },
+
+    {
+      "id": "meth_participant_flow",
+      "level": 4,
+      "kind": "concept",
+      "label": "Participant flow & eligibility definition",
+      "summary": "Describe inclusion/exclusion, recruitment/selection, and flow (diagram) so readers can assess bias and applicability.",
+      "tags": ["methods", "flow"],
+      "bodyHtml": "<p>TRIPOD-AI expects transparent participant flow: how many were screened, excluded, missing, and analysed—and why.</p>"
+    },
+    {
+      "id": "meth_predictor_definition",
+      "level": 4,
+      "kind": "concept",
+      "label": "Predictor definition & measurement",
+      "summary": "Define each predictor (what, when, how measured), preprocessing, and feature availability at decision time.",
+      "tags": ["methods", "predictors"],
+      "bodyHtml": "<p>Diagnostic AI often uses multimodal predictors (images, text, labs). You must show they were available at the intended decision point.</p>"
+    },
+    {
+      "id": "meth_outcome_definition",
+      "level": 4,
+      "kind": "concept",
+      "label": "Outcome definition & measurement process",
+      "summary": "Define diagnostic outcome, reference standard, adjudication, blinding, and measurement timing.",
+      "tags": ["methods", "outcomes"],
+      "bodyHtml": "<p>Outcome measurement is part of the system. If adjudicators saw the predictors or model output, bias can occur and must be reported.</p>"
+    },
+    {
+      "id": "meth_missing_data",
+      "level": 4,
+      "kind": "concept",
+      "label": "Missing data patterns & handling",
+      "summary": "Report missingness, justify imputation/handling, and assess sensitivity—because it can dominate results.",
+      "tags": ["methods", "missingness"],
+      "bodyHtml": "<p>Diagnostic datasets often have systematic missingness (tests ordered based on suspicion). Handling choices can create leakage or bias.</p>"
+    },
+    {
+      "id": "meth_sample_size",
+      "level": 4,
+      "kind": "concept",
+      "label": "Sample size & event count rationale",
+      "summary": "Justify sample size for stable performance estimates, calibration, subgroup analyses, and external validation.",
+      "tags": ["methods", "sample_size"],
+      "bodyHtml": "<p>TRIPOD-AI pushes transparent rationale, not just “we had N”. Diagnostic prevalence and event counts matter for uncertainty and calibration.</p>"
+    },
+    {
+      "id": "meth_dev_eval_separation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Separation of development vs evaluation",
+      "summary": "Make unambiguous what data were used for training, tuning, internal validation, and true evaluation (incl. external validation).",
+      "tags": ["methods", "validation"],
+      "bodyHtml": "<p>Clear separation prevents optimistic bias. For multi-site data, consider site-based and temporal splits to test transportability.</p>"
+    },
+    {
+      "id": "meth_model_specification",
+      "level": 4,
+      "kind": "concept",
+      "label": "Full, reproducible model specification",
+      "summary": "Provide enough detail to understand/replicate: architecture/class, features, preprocessing, training, hyperparameters, ensembling.",
+      "tags": ["methods", "reproducibility"],
+      "bodyHtml": "<p>For LLM/agentic systems: include prompts, routing logic, tool configs, retrieval index construction, and constraints/guardrails.</p>"
+    },
+    {
+      "id": "meth_multiagent_component_eval",
+      "level": 4,
+      "kind": "concept",
+      "label": "Multi-agent component-level evaluation",
+      "summary": "Evaluate both end-to-end performance and critical components (retrieval, routing, agent roles) to localise failure modes.",
+      "tags": ["methods", "multi_agent"],
+      "bodyHtml": "<p>End-to-end metrics can hide brittle components. Component evaluation supports safer iteration and clearer limitations reporting.</p>"
+    },
+    {
+      "id": "meth_operating_points",
+      "level": 4,
+      "kind": "concept",
+      "label": "Operating points, thresholds & clinical utility",
+      "summary": "Specify thresholds and decision consequences; report clinically meaningful trade-offs, not just global discrimination.",
+      "tags": ["methods", "thresholds", "utility"],
+      "bodyHtml": "<p>Diagnostic use requires explicit operating points: sensitivity/specificity trade-offs, PPV/NPV at prevalence, and downstream actions.</p>"
+    },
+    {
+      "id": "meth_calibration",
+      "level": 4,
+      "kind": "concept",
+      "label": "Calibration assessment",
+      "summary": "Assess and report calibration (and recalibration plans) so probabilities mean what users think they mean.",
+      "tags": ["methods", "calibration"],
+      "bodyHtml": "<p>Well-calibrated probabilities matter for diagnostic decision-making and risk communication. Calibration can degrade across sites and time.</p>"
+    },
+    {
+      "id": "meth_uncertainty",
+      "level": 4,
+      "kind": "concept",
+      "label": "Uncertainty, confidence intervals & precision",
+      "summary": "Report confidence intervals (or equivalent) for performance, calibration, and subgroup estimates.",
+      "tags": ["methods", "uncertainty"],
+      "bodyHtml": "<p>Uncertainty is part of the evidence. Wide intervals can mean the study is underpowered or unstable—especially in subgroups.</p>"
+    },
+    {
+      "id": "meth_external_validation",
+      "level": 4,
+      "kind": "concept",
+      "label": "External validation & transportability tests",
+      "summary": "Test across sites, time, and populations; document differences and likely failure modes.",
+      "tags": ["methods", "external_validation"],
+      "bodyHtml": "<p>External validation is where generalisability claims are earned. For diagnostic AI, transportability is often the key risk.</p>"
+    },
+    {
+      "id": "meth_subgroup_reporting",
+      "level": 4,
+      "kind": "concept",
+      "label": "Subgroup, heterogeneity & fairness analyses",
+      "summary": "Plan and report subgroup performance to assess applicability and integrity of evidence.",
+      "tags": ["methods", "subgroups"],
+      "bodyHtml": "<p>Subgroup reporting should be pre-specified, clinically justified, and interpreted with uncertainty to avoid spurious conclusions.</p>"
+    },
+
+    {
+      "id": "rep_tripod_ai_core",
+      "level": 5,
+      "kind": "standard",
+      "label": "TRIPOD-AI core reporting structure",
+      "summary": "A reporting checklist mindset: clear purpose, transparent data/study design, reproducible model spec, valid evaluation, and honest limitations.",
+      "tags": ["TRIPOD-AI", "reporting"],
+      "bodyHtml": "<p>TRIPOD-AI pushes comprehensive reporting so others can judge bias, applicability, and reproducibility—especially crucial for complex systems like multi-agent AI.</p>"
+    },
+    {
+      "id": "rep_performance_reporting",
+      "level": 5,
+      "kind": "standard",
+      "label": "Performance reporting beyond AUROC",
+      "summary": "Report discrimination + calibration + thresholds; include clinically meaningful metrics (e.g., sensitivity/specificity, PPV/NPV) and utility when claimed.",
+      "tags": ["reporting", "metrics"],
+      "bodyHtml": "<p>Global AUROC can mislead. Diagnostic evaluation needs operating points and consequences, plus calibration where probabilities are used.</p>"
+    },
+    {
+      "id": "rep_generalisability_limitations",
+      "level": 5,
+      "kind": "standard",
+      "label": "Generalisability & limitations narrative",
+      "summary": "Describe case-mix, setting differences, temporal shifts, and known failure modes; explain transfer conditions.",
+      "tags": ["reporting", "limitations"],
+      "bodyHtml": "<p>Readers need to know where the model should not be trusted. Multi-agent systems require explicit tool and workflow dependency statements.</p>"
+    },
+    {
+      "id": "rep_reproducibility_artifacts",
+      "level": 5,
+      "kind": "standard",
+      "label": "Reproducibility artifacts (code/data/protocol where feasible)",
+      "summary": "Share or document artifacts that enable verification: protocol, code, pseudo-code, data dictionaries, and version logs.",
+      "tags": ["reporting", "open_science"],
+      "bodyHtml": "<p>Even when data cannot be shared, you can share schemas, synthetic examples, evaluation harnesses, and detailed methods that enable scrutiny.</p>"
+    },
+
+    {
+      "id": "case_leakage_auc",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: AUROC looks great—because the model leaked the diagnosis",
+      "summary": "A diagnostic model uses future-coded features and patient overlap; performance collapses on clean external validation.",
+      "tags": ["case", "leakage", "diagnosis"],
+      "bodyHtml": "<p>Training included downstream billing codes and discharge summaries. A site-based external validation reveals near-random performance.</p>"
+    },
+    {
+      "id": "case_multiagent_unreproducible",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Multi-agent diagnostic assistant is not reproducible across runs",
+      "summary": "Routing and retrieval variability changes outputs; reported results can’t be replicated; audit trail is incomplete.",
+      "tags": ["case", "multi_agent", "reproducibility"],
+      "bodyHtml": "<p>Different tool availability and retrieval index versions lead to different rationales and answers. Without trace logs, root-cause analysis is impossible.</p>"
+    },
+    {
+      "id": "risk_replacement_overreach",
+      "level": 6,
+      "kind": "risk",
+      "label": "Risk: Replacement claims without replacement-grade evidence",
+      "summary": "A system marketed as “replacement” lacks prospective evaluation, robust oversight design, and clinical utility evidence.",
+      "tags": ["risk", "replacement", "overclaiming"],
+      "bodyHtml": "<p>Replacement is not just higher accuracy; it changes responsibility, workflow, and harm pathways. TRIPOD-AI discipline helps prevent this overreach.</p>"
+    },
+    {
+      "id": "risk_threshold_misalignment",
+      "level": 6,
+      "kind": "risk",
+      "label": "Risk: Threshold misalignment in triage/diagnosis",
+      "summary": "A threshold chosen for AUROC optimisation causes unsafe false negatives or unmanageable false positives in real use.",
+      "tags": ["risk", "thresholds", "utility"],
+      "bodyHtml": "<p>Operating points must match clinical capacity and risk tolerance. Misalignment produces predictable harm and loss of trust.</p>"
+    }
+  ],
+  "edges": [
+    { "from": "wis_patient_first", "to": "claim_intended_use", "why": "Patient safety requires precise intended use; diagnostic claims set the evidentiary bar and safe workflow constraints." },
+    { "from": "wis_patient_first", "to": "claim_reference_standard", "why": "If the reference standard is flawed, diagnostic evidence can mislead and cause harm." },
+    { "from": "wis_patient_first", "to": "meth_operating_points", "why": "Safety depends on explicit thresholds and decision consequences, not only aggregate metrics." },
+
+    { "from": "wis_no_overclaim", "to": "claim_context_of_use", "why": "Overclaiming is prevented when claims are tethered to a specific setting, user, and decision context." },
+    { "from": "wis_no_overclaim", "to": "rep_generalisability_limitations", "why": "Honest limitations and failure modes prevent extrapolating beyond the evidence." },
+    { "from": "wis_no_overclaim", "to": "risk_replacement_overreach", "why": "Replacement-grade claims demand replacement-grade evidence; otherwise risk rises sharply." },
+
+    { "from": "wis_traceability", "to": "gov_multiagent_trace_logs", "why": "Trace logs operationalise traceability for multi-agent routing, tool calls, and intermediate outputs." },
+    { "from": "wis_traceability", "to": "gov_model_versioning", "why": "Without versioning (model/prompt/tools/index), results cannot be trusted or reproduced." },
+    { "from": "wis_traceability", "to": "rep_reproducibility_artifacts", "why": "Traceable artifacts make evidence verifiable and usable by others." },
+
+    { "from": "claim_intended_use", "to": "claim_context_of_use", "why": "Intended use becomes evaluable only when the setting, users, and workflow are explicit." },
+    { "from": "claim_intended_use", "to": "gov_human_oversight_policy", "why": "Diagnostic use requires clear human oversight expectations and accountability for decisions." },
+    { "from": "claim_intended_use", "to": "meth_operating_points", "why": "Intended diagnostic decision dictates thresholds and acceptable trade-offs." },
+    { "from": "claim_intended_use", "to": "claim_multiagent_scope", "why": "For agentic systems, intended use must specify what the system includes and excludes." },
+
+    { "from": "claim_context_of_use", "to": "meth_participant_flow", "why": "Context-of-use informs eligibility and participant flow reporting needed to judge applicability." },
+    { "from": "claim_context_of_use", "to": "sys_spectrum_bias", "why": "Mismatch between evaluation case-mix and real-world setting creates spectrum bias." },
+    { "from": "claim_context_of_use", "to": "meth_external_validation", "why": "Claims about deployment require external validation across sites/time matching the target setting." },
+
+    { "from": "claim_reference_standard", "to": "meth_outcome_definition", "why": "Outcome definition operationalises the reference standard, adjudication, and measurement process." },
+    { "from": "claim_reference_standard", "to": "sys_automation_bias", "why": "If the model influences labels or adjudication, the reference standard can be contaminated." },
+    { "from": "claim_reference_standard", "to": "rep_generalisability_limitations", "why": "Imperfect or setting-specific references must be reported as limitations affecting transportability." },
+
+    { "from": "claim_predictor_outcome_timing", "to": "sys_leakage", "why": "Timing discipline is the primary guardrail against future information leakage." },
+    { "from": "claim_predictor_outcome_timing", "to": "meth_predictor_definition", "why": "Predictor definitions must include when they are available relative to the diagnostic decision." },
+    { "from": "claim_predictor_outcome_timing", "to": "meth_dev_eval_separation", "why": "Separation prevents subtle leakage via split design and patient overlap across phases." },
+
+    { "from": "claim_open_science", "to": "gov_protocol_prereg", "why": "Open science is enacted through pre-specified protocols and transparent deviations." },
+    { "from": "claim_open_science", "to": "rep_reproducibility_artifacts", "why": "Sharing artifacts enables verification and reduces research waste." },
+
+    { "from": "claim_fairness_applicability", "to": "meth_subgroup_reporting", "why": "Fairness and heterogeneity are assessed via planned subgroup analyses with uncertainty." },
+    { "from": "claim_fairness_applicability", "to": "rep_generalisability_limitations", "why": "Applicability requires reporting where performance differs and why." },
+
+    { "from": "claim_multiagent_scope", "to": "sys_multiagent_emergence", "why": "Agentic boundaries and routing determine emergent behaviours and non-determinism risk." },
+    { "from": "claim_multiagent_scope", "to": "sys_tool_dependency", "why": "Agentic systems often rely on tools; tool behaviour becomes part of the diagnostic system." },
+    { "from": "claim_multiagent_scope", "to": "meth_multiagent_component_eval", "why": "Clear scope enables component-level evaluation to localise failure modes." },
+
+    { "from": "sys_dataset_overlap", "to": "meth_dev_eval_separation", "why": "Explicit split logic and overlap checks operationalise development/evaluation separation." },
+    { "from": "sys_dataset_overlap", "to": "case_leakage_auc", "why": "Patient-level contamination is a common cause of inflated AUROC in practice." },
+
+    { "from": "sys_leakage", "to": "case_leakage_auc", "why": "This case exemplifies future-data leakage inflating apparent performance." },
+    { "from": "sys_leakage", "to": "meth_predictor_definition", "why": "Careful predictor definitions and availability checks reduce leakage risk." },
+    { "from": "sys_leakage", "to": "rep_tripod_ai_core", "why": "TRIPOD-AI transparency requirements help reviewers detect leakage pathways." },
+
+    { "from": "sys_spectrum_bias", "to": "meth_participant_flow", "why": "Participant flow and eligibility reporting expose spectrum differences and selection effects." },
+    { "from": "sys_spectrum_bias", "to": "meth_external_validation", "why": "External validation tests whether performance transfers beyond the development case-mix." },
+
+    { "from": "sys_multiagent_emergence", "to": "case_multiagent_unreproducible", "why": "Non-determinism and routing variability can make results non-replicable without controls." },
+    { "from": "sys_multiagent_emergence", "to": "gov_model_versioning", "why": "Versioning and randomness controls mitigate reproducibility failures." },
+    { "from": "sys_multiagent_emergence", "to": "gov_multiagent_trace_logs", "why": "Trace logs are required to understand and reproduce the agentic decision process." },
+
+    { "from": "sys_tool_dependency", "to": "gov_multiagent_trace_logs", "why": "Tool calls, retrieved evidence, and tool versions must be logged for auditability." },
+    { "from": "sys_tool_dependency", "to": "gov_model_versioning", "why": "Tools and retrieval indices change; versioning makes evaluation interpretable and reproducible." },
+
+    { "from": "gov_protocol_prereg", "to": "meth_sample_size", "why": "The protocol should justify sample size and event counts for stable estimates and subgroup plans." },
+    { "from": "gov_protocol_prereg", "to": "meth_operating_points", "why": "Thresholds and primary operating points should be pre-specified to avoid tuning on the test set." },
+    { "from": "gov_protocol_prereg", "to": "meth_subgroup_reporting", "why": "Pre-specification avoids selective subgroup reporting and supports credible applicability claims." },
+
+    { "from": "gov_data_provenance", "to": "meth_participant_flow", "why": "Provenance governance ensures participant flow, dates, and settings are captured and reportable." },
+    { "from": "gov_data_provenance", "to": "meth_missing_data", "why": "Data governance exposes missingness patterns and supports defensible handling decisions." },
+
+    { "from": "gov_multiagent_trace_logs", "to": "meth_model_specification", "why": "Trace logs provide the concrete details needed to specify an agentic system reproducibly." },
+    { "from": "gov_multiagent_trace_logs", "to": "meth_multiagent_component_eval", "why": "Logged intermediate steps enable component-level evaluation and error attribution." },
+    { "from": "gov_multiagent_trace_logs", "to": "rep_reproducibility_artifacts", "why": "Traceability artifacts support reproducibility and meaningful peer review." },
+
+    { "from": "gov_model_versioning", "to": "meth_dev_eval_separation", "why": "Locking versions during evaluation prevents “moving target” effects that inflate or obscure performance." },
+    { "from": "gov_model_versioning", "to": "case_multiagent_unreproducible", "why": "Lack of versioning is a common root cause of unreproducible agentic evaluations." },
+
+    { "from": "gov_human_oversight_policy", "to": "sys_automation_bias", "why": "Oversight design and training counter automation bias and unsafe over-reliance." },
+    { "from": "gov_human_oversight_policy", "to": "risk_replacement_overreach", "why": "Replacement-like usage without oversight escalates risk and invalidates evidence claims." },
+
+    { "from": "meth_participant_flow", "to": "rep_tripod_ai_core", "why": "Participant flow is a TRIPOD-AI reporting backbone for transparency and bias assessment." },
+    { "from": "meth_predictor_definition", "to": "meth_model_specification", "why": "Model spec depends on clear feature definitions and preprocessing that can be reproduced." },
+    { "from": "meth_outcome_definition", "to": "rep_generalisability_limitations", "why": "Outcome measurement limitations drive generalisability caveats and applicability constraints." },
+
+    { "from": "meth_missing_data", "to": "meth_uncertainty", "why": "Missingness handling influences variance and bias; uncertainty reporting should reflect this." },
+    { "from": "meth_sample_size", "to": "meth_uncertainty", "why": "Sample size determines precision; small datasets yield wide intervals and unstable subgroup estimates." },
+
+    { "from": "meth_dev_eval_separation", "to": "rep_tripod_ai_core", "why": "TRIPOD-AI requires clear delineation of training/tuning/internal validation vs external evaluation." },
+    { "from": "meth_dev_eval_separation", "to": "sys_dataset_overlap", "why": "Separation practices are the main defense against overlap contamination." },
+
+    { "from": "meth_model_specification", "to": "rep_reproducibility_artifacts", "why": "Full specification plus artifacts enables independent replication and verification." },
+    { "from": "meth_multiagent_component_eval", "to": "rep_generalisability_limitations", "why": "Component-level findings clarify why the system may fail in new settings (e.g., retrieval quality differs)." },
+
+    { "from": "meth_operating_points", "to": "rep_performance_reporting", "why": "Operating points turn metrics into decision-relevant reporting (sensitivity/specificity, PPV/NPV, utility)." },
+    { "from": "meth_operating_points", "to": "risk_threshold_misalignment", "why": "Mis-specified thresholds cause predictable safety and capacity failures in real workflows." },
+
+    { "from": "meth_calibration", "to": "rep_performance_reporting", "why": "Calibration reporting is required when probabilities inform diagnostic decisions and risk communication." },
+    { "from": "meth_uncertainty", "to": "rep_performance_reporting", "why": "Confidence intervals (and precision statements) prevent overinterpretation of performance estimates." },
+
+    { "from": "meth_external_validation", "to": "rep_generalisability_limitations", "why": "External validation results determine the strength of generalisability claims and limitations." },
+    { "from": "meth_subgroup_reporting", "to": "claim_fairness_applicability", "why": "Subgroup evidence supports or refutes applicability across relevant groups and settings." },
+
+    { "from": "rep_tripod_ai_core", "to": "wis_no_overclaim", "why": "TRIPOD-AI reporting discipline makes it harder to overclaim by exposing assumptions and limitations." },
+    { "from": "rep_tripod_ai_core", "to": "case_leakage_auc", "why": "TRIPOD-AI-style transparency helps reviewers spot leakage risk factors in methods and timing." },
+
+    { "from": "case_multiagent_unreproducible", "to": "gov_multiagent_trace_logs", "why": "The resolution path is better trace logging: routing, tool calls, evidence retrieval, and versions." },
+    { "from": "case_leakage_auc", "to": "claim_predictor_outcome_timing", "why": "The root cause is timing discipline failure: predictors contained future information." },
+
+    { "from": "risk_replacement_overreach", "to": "claim_intended_use", "why": "Replacement risk often starts with ambiguous intended use statements and inappropriate claim inflation." },
+    { "from": "risk_threshold_misalignment", "to": "claim_context_of_use", "why": "Thresholds must reflect context: prevalence, capacity, and consequences in the deployment setting." }
+  ]
+}
