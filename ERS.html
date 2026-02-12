@@ -1,0 +1,1154 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Occupational Respiratory Causality Explorer (Monte Carlo + Uncertainty Map)</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121925;
+      --panel2: #0f1621;
+      --text: #e6edf3;
+      --muted: #9db0c3;
+      --accent: #5eead4;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      --good: #86efac;
+      --line: rgba(255,255,255,0.08);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: radial-gradient(1200px 600px at 20% 10%, rgba(94,234,212,0.10), transparent 55%),
+                  radial-gradient(900px 500px at 80% 0%, rgba(251,191,36,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+    }
+    header {
+      padding: 18px 20px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      letter-spacing: 0.2px;
+    }
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      max-width: 1100px;
+    }
+
+    .wrap {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 14px;
+      padding: 14px;
+      max-width: 1400px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%), var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+    }
+
+    .controls h2, .viz h2 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      color: #d8e2ec;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 72px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.08);
+    }
+    .row:last-child { border-bottom: 0; }
+    label {
+      font-size: 12.5px;
+      color: #dbe6f0;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .hint {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.25;
+    }
+    input[type="range"] { width: 100%; }
+    .val {
+      font-family: var(--mono);
+      font-size: 12px;
+      text-align: right;
+      color: #d7fbe8;
+      white-space: nowrap;
+    }
+    .mini {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      color: var(--text);
+      padding: 9px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12.5px;
+    }
+    button:hover { border-color: rgba(94,234,212,0.45); }
+    button:active { transform: translateY(1px); }
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .vizGrid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 60%), var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      box-sizing: border-box;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: #dbe6f0;
+      letter-spacing: 0.2px;
+    }
+    canvas {
+      width: 100%;
+      height: 250px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .small canvas { height: 220px; }
+
+    .legend {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .legend code { font-family: var(--mono); color: #c7d2fe; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(0,0,0,0.12);
+    }
+    .kpi .t { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+    .kpi .n { font-family: var(--mono); font-size: 13px; color: #eafff8; }
+    .footerNote {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    @media (max-width: 1020px) {
+      .wrap { grid-template-columns: 1fr; }
+      .vizGrid { grid-template-columns: 1fr; }
+      canvas { height: 240px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Occupational Respiratory Causality Explorer</h1>
+    <p>
+      Explore how exposure, controls, and socioeconomic constraints change (a) the <b>probability distribution</b> over causal mechanisms
+      and (b) the <b>uncertainty map</b> showing where richer patient conversations / measurements are most needed.
+    </p>
+  </header>
+
+  <div class="wrap">
+    <section class="panel controls">
+      <h2>Parameters</h2>
+
+      <div class="row">
+        <div>
+          <label for="exposureIntensity">Exposure intensity (dose strength)</label>
+          <input id="exposureIntensity" type="range" min="0" max="100" value="70" />
+          <div class="hint">High if visible dust/fumes, strong smell, confined space, dry cutting, frequent mixing/pouring.</div>
+        </div>
+        <div class="val" id="exposureIntensityVal">0.70</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="exposureFrequency">Exposure frequency (how often)</label>
+          <input id="exposureFrequency" type="range" min="0" max="100" value="75" />
+          <div class="hint">High if daily/shift-based; low if occasional tasks.</div>
+        </div>
+        <div class="val" id="exposureFrequencyVal">0.75</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="agentAmbiguity">Agent ambiguity (how unclear the trigger is)</label>
+          <input id="agentAmbiguity" type="range" min="0" max="100" value="55" />
+          <div class="hint">High if “chemical smell / dust” but no specific agent known; low if clear (flour, isocyanates, bleach, silica).</div>
+        </div>
+        <div class="val" id="agentAmbiguityVal">0.55</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="engineeringControls">Engineering controls quality (extraction/booth/ventilation)</label>
+          <input id="engineeringControls" type="range" min="0" max="100" value="35" />
+          <div class="hint">High if effective local exhaust / well-maintained; low if old, rattling, recirculating air, no windows.</div>
+        </div>
+        <div class="val" id="engineeringControlsVal">0.35</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="ppeAccess">PPE access & fit (availability + fit testing)</label>
+          <input id="ppeAccess" type="range" min="0" max="100" value="45" />
+          <div class="hint">High if correct respirator, fit-tested, filters available; low if paper masks, shared kit, missing filters.</div>
+        </div>
+        <div class="val" id="ppeAccessVal">0.45</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="ppeAdherence">PPE adherence (actual use under pressure)</label>
+          <input id="ppeAdherence" type="range" min="0" max="100" value="35" />
+          <div class="hint">Low if discomfort, heat, teasing, time targets, customer optics; high if enforced and culturally normal.</div>
+        </div>
+        <div class="val" id="ppeAdherenceVal">0.35</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="jobInsecurity">Job insecurity (zero-hours/agency/outsourcing fear)</label>
+          <input id="jobInsecurity" type="range" min="0" max="100" value="70" />
+          <div class="hint">High insecurity → less reporting, more “push through” → delayed controls → more cumulative exposure.</div>
+        </div>
+        <div class="val" id="jobInsecurityVal">0.70</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="financialStrain">Financial strain (rent, overtime dependence, dependents)</label>
+          <input id="financialStrain" type="range" min="0" max="100" value="75" />
+          <div class="hint">High strain makes “leave job / take sick leave” less feasible, increasing continued exposure.</div>
+        </div>
+        <div class="val" id="financialStrainVal">0.75</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="dataRichness">Conversation / data richness</label>
+          <input id="dataRichness" type="range" min="0" max="100" value="40" />
+          <div class="hint">High richness = clearer temporal pattern, better agent identification, better constraint detail → lower uncertainty.</div>
+        </div>
+        <div class="val" id="dataRichnessVal">0.40</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="nSamples">Monte Carlo samples</label>
+          <input id="nSamples" type="range" min="500" max="20000" step="500" value="6000" />
+          <div class="hint">More samples = smoother distributions (slower).</div>
+        </div>
+        <div class="val" id="nSamplesVal">6000</div>
+      </div>
+
+      <div class="mini">
+        <button id="rerunBtn">Re-run simulation</button>
+        <button id="randomizeBtn">Randomize parameters</button>
+        <span class="pill" id="statusPill">Ready</span>
+      </div>
+
+      <div class="footerNote">
+        <b>Interpretation note:</b> This model is intentionally simple. It is designed to highlight
+        <i>where uncertainty is coming from</i> (e.g., unclear agent, unknown control effectiveness, under-reporting due to insecurity),
+        rather than to deliver clinical probabilities.
+      </div>
+    </section>
+
+    <section class="panel viz">
+      <h2>Live results</h2>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="t">Mechanism uncertainty (entropy)</div>
+          <div class="n" id="kpiEntropy">–</div>
+        </div>
+        <div class="kpi">
+          <div class="t">Expected severe symptom risk</div>
+          <div class="n" id="kpiSevere">–</div>
+        </div>
+        <div class="kpi">
+          <div class="t">Expected “better away” probability</div>
+          <div class="n" id="kpiBetterAway">–</div>
+        </div>
+      </div>
+
+      <div class="vizGrid" style="margin-top: 12px;">
+        <div class="card">
+          <h3>Distribution: inferred causal mechanism (mixture)</h3>
+          <canvas id="mechCanvas" width="900" height="450"></canvas>
+          <div class="legend" id="mechLegend"></div>
+        </div>
+
+        <div class="card small">
+          <h3>Distribution: symptom severity (0–1)</h3>
+          <canvas id="sevCanvas" width="900" height="450"></canvas>
+          <div class="legend">
+            The severity distribution combines exposure dose, controls/PPE, and constraint-driven delayed action.
+            High “job insecurity + financial strain” pushes severity upward by increasing continued exposure.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Uncertainty map: where more data / richer conversations would help most</h3>
+          <canvas id="uncCanvas" width="900" height="450"></canvas>
+          <div class="legend" id="uncLegend"></div>
+        </div>
+
+        <div class="card small">
+          <h3>Sensitivity bars: which parameters drive uncertainty most</h3>
+          <canvas id="sensCanvas" width="900" height="450"></canvas>
+          <div class="legend">
+            Bars show each parameter’s contribution to uncertainty in mechanism assignment (approx. variance in entropy when jittered).
+            Higher bars = most valuable to clarify with measurements or deeper interviews.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script>
+/* =========================================================
+   Occupational Respiratory Causality Explorer
+   - No external libraries
+   - Live Monte Carlo + uncertainty/sensitivity visualization
+   ========================================================= */
+
+const $ = (id) => document.getElementById(id);
+
+const sliders = [
+  ["exposureIntensity", "exposureIntensityVal", (v)=>fmt01(v)],
+  ["exposureFrequency", "exposureFrequencyVal", (v)=>fmt01(v)],
+  ["agentAmbiguity", "agentAmbiguityVal", (v)=>fmt01(v)],
+  ["engineeringControls", "engineeringControlsVal", (v)=>fmt01(v)],
+  ["ppeAccess", "ppeAccessVal", (v)=>fmt01(v)],
+  ["ppeAdherence", "ppeAdherenceVal", (v)=>fmt01(v)],
+  ["jobInsecurity", "jobInsecurityVal", (v)=>fmt01(v)],
+  ["financialStrain", "financialStrainVal", (v)=>fmt01(v)],
+  ["dataRichness", "dataRichnessVal", (v)=>fmt01(v)],
+  ["nSamples", "nSamplesVal", (v)=>String(v)],
+];
+
+function fmt01(v) { return (Number(v)/100).toFixed(2); }
+function clamp(x, a=0, b=1){ return Math.max(a, Math.min(b, x)); }
+function lerp(a,b,t){ return a + (b-a)*t; }
+function sigmoid(x){ return 1/(1+Math.exp(-x)); }
+function randu(){ return Math.random(); }
+// Box-Muller
+function randn(){
+  let u=0, v=0;
+  while(u===0) u=Math.random();
+  while(v===0) v=Math.random();
+  return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+}
+
+function softmax(logits){
+  const m = Math.max(...logits);
+  const exps = logits.map(z => Math.exp(z-m));
+  const s = exps.reduce((a,b)=>a+b,0);
+  return exps.map(e=>e/s);
+}
+
+function entropy(p){
+  // natural log entropy
+  let h=0;
+  for(const x of p){
+    if(x>0) h -= x*Math.log(x);
+  }
+  return h;
+}
+
+function setStatus(text, tone="neutral"){
+  const pill = $("statusPill");
+  pill.textContent = text;
+  pill.style.borderColor = tone==="good" ? "rgba(134,239,172,0.4)"
+                      : tone==="warn" ? "rgba(251,191,36,0.5)"
+                      : tone==="bad"  ? "rgba(251,113,133,0.5)"
+                      : "rgba(255,255,255,0.12)";
+}
+
+/* ===============================
+   Model: mechanisms & outcomes
+   ===============================
+
+We simulate three broad mechanism classes:
+
+1) Sensitizer-type asthma/allergy (flour, isocyanates, animal allergens)
+2) Irritant-induced bronchospasm (bleach/chlorine, SO2, sharp fumes)
+3) Dust/fume chronic inflammatory load (silica, welding fume mixtures) — long-term-ish risk proxy
+
+We *infer* a mechanism distribution per simulation draw based on:
+- exposure intensity + frequency (dose)
+- controls + PPE (effective reduction)
+- agent ambiguity + data richness (uncertainty about which agent class)
+- job insecurity + financial strain (delayed controls, under-reporting → higher effective cumulative dose)
+*/
+
+function getParams(){
+  const p = {
+    I: Number($("exposureIntensity").value)/100, // intensity
+    F: Number($("exposureFrequency").value)/100, // frequency
+    Aamb: Number($("agentAmbiguity").value)/100, // agent ambiguity
+    Eng: Number($("engineeringControls").value)/100,
+    PPEa: Number($("ppeAccess").value)/100,
+    PPEu: Number($("ppeAdherence").value)/100,
+    Insec: Number($("jobInsecurity").value)/100,
+    Fin: Number($("financialStrain").value)/100,
+    Rich: Number($("dataRichness").value)/100,
+    N: Number($("nSamples").value),
+  };
+  return p;
+}
+
+/* Effective exposure:
+   - engineering controls reduce dose multiplicatively
+   - PPE reduces dose depending on access * adherence
+   - insecurity/financial strain increase "continued exposure" (less sick leave, less reporting)
+*/
+function effectiveDose(p){
+  const base = clamp(0.15 + 0.85*(0.55*p.I + 0.45*p.F));
+  const engRed = clamp(0.10 + 0.90*p.Eng); // higher Eng => higher reduction
+  const ppeEff = clamp(p.PPEa * p.PPEu);    // access * use
+  // interpret reductions:
+  const doseAfterEng = base * (1 - 0.70*engRed); // at Eng=1 => 70% reduction; at Eng=0 => 0% reduction
+  const doseAfterPPE = doseAfterEng * (1 - 0.60*ppeEff); // PPE max 60% reduction
+  // constraint amplification (delay, endure, overtime)
+  const endure = clamp(0.10 + 0.90*(0.55*p.Insec + 0.45*p.Fin));
+  const amplified = clamp(doseAfterPPE * (1 + 0.65*endure));
+  return amplified;
+}
+
+/* Mechanism inference:
+   We produce a probability vector over [Sensitizer, Irritant, Dust/Fume]
+   using a simple logit model with uncertainty driven by ambiguity and richness.
+
+   - Sensitizer more likely with repeated exposures (F) and moderate-to-high dose
+   - Irritant more likely with high intensity (I) and "peakiness" proxy (I high, F low-ish)
+   - Dust/Fume more likely with both high dose and weak controls (Eng low, PPE low)
+
+   Ambiguity + low richness => add noise to logits (more uncertainty).
+*/
+function mechPosterior(p, dose){
+  // base logits
+  const peakiness = clamp(p.I - 0.6*p.F + 0.25); // crude
+  const weakControls = clamp(1 - (0.55*p.Eng + 0.45*(p.PPEa*p.PPEu)));
+
+  let zSens = -0.2 + 1.2*p.F + 0.9*dose - 0.4*peakiness;
+  let zIrr  = -0.3 + 1.1*peakiness + 0.8*p.I + 0.2*dose;
+  let zDust = -0.1 + 1.0*dose + 1.0*weakControls + 0.35*p.F;
+
+  // uncertainty: ambiguity increases, richness decreases
+  const unc = clamp(0.10 + 0.90*(0.70*p.Aamb + 0.30*(1-p.Rich)));
+  // add noise to logits
+  const noiseScale = 0.9*unc;
+  zSens += randn()*noiseScale;
+  zIrr  += randn()*noiseScale;
+  zDust += randn()*noiseScale;
+
+  // also inject "blur" by pulling logits towards each other when uncertainty high
+  const avg = (zSens+zIrr+zDust)/3;
+  const blur = unc*0.55;
+  zSens = lerp(zSens, avg, blur);
+  zIrr  = lerp(zIrr , avg, blur);
+  zDust = lerp(zDust, avg, blur);
+
+  return softmax([zSens, zIrr, zDust]);
+}
+
+/* Severity:
+   - increases with effective dose
+   - increases with continued exposure (insecurity/strain)
+   - decreases with richness (earlier recognition/adjustment proxy)
+   - add random variability (individual susceptibility, unobserved confounders)
+*/
+function severitySample(p, dose){
+  const endure = clamp(0.10 + 0.90*(0.55*p.Insec + 0.45*p.Fin));
+  const earlyAction = p.Rich; // proxy: richer info = earlier action
+
+  // latent susceptibility noise increases when richness is low (more unknown confounders)
+  const confUnc = clamp(0.15 + 0.85*(0.60*(1-p.Rich) + 0.40*p.Aamb));
+  const eps = randn() * (0.20 + 0.35*confUnc);
+
+  // severity logit
+  const z = -1.2 + 3.2*dose + 0.9*endure - 0.8*earlyAction + eps;
+  return clamp(sigmoid(z));
+}
+
+/* Better-away probability:
+   A proxy: probability that symptoms improve away from exposure.
+   - typically high when work-related (dose-driven) and not entirely chronic/irreversible
+   - dust/fume chronic component reduces reversibility
+*/
+function betterAwayProb(mechP, sev){
+  const pDust = mechP[2];
+  const revers = clamp(0.85 - 0.55*pDust); // dust chronic reduces reversibility
+  // severity reduces perceived improvement too
+  const away = clamp(revers * (0.95 - 0.35*sev));
+  return away;
+}
+
+/* ===============================
+   Visualization helpers (canvas)
+   =============================== */
+
+function clearCanvas(ctx){
+  ctx.clearRect(0,0,ctx.canvas.width, ctx.canvas.height);
+}
+
+function drawAxes(ctx, pad=42){
+  const w = ctx.canvas.width, h = ctx.canvas.height;
+  ctx.save();
+  ctx.strokeStyle = "rgba(255,255,255,0.10)";
+  ctx.lineWidth = 1;
+  // x axis
+  ctx.beginPath();
+  ctx.moveTo(pad, h-pad);
+  ctx.lineTo(w-pad, h-pad);
+  ctx.stroke();
+  // y axis
+  ctx.beginPath();
+  ctx.moveTo(pad, pad);
+  ctx.lineTo(pad, h-pad);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawText(ctx, text, x, y, color="rgba(230,237,243,0.9)", size=12, align="left"){
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.font = `${size}px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial`;
+  ctx.textAlign = align;
+  ctx.fillText(text, x, y);
+  ctx.restore();
+}
+
+function drawMono(ctx, text, x, y, color="rgba(158,176,195,0.95)", size=11, align="left"){
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.font = `${size}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`;
+  ctx.textAlign = align;
+  ctx.fillText(text, x, y);
+  ctx.restore();
+}
+
+function plotHistogram(ctx, samples, opts){
+  const {
+    bins=40,
+    pad=42,
+    title="Histogram",
+    xLabel="x",
+    yLabel="density",
+    note="",
+    color="rgba(94,234,212,0.85)"
+  } = opts || {};
+
+  clearCanvas(ctx);
+  drawAxes(ctx, pad);
+
+  const w = ctx.canvas.width, h = ctx.canvas.height;
+  const innerW = w - 2*pad, innerH = h - 2*pad;
+
+  // compute bins in [0,1]
+  const counts = new Array(bins).fill(0);
+  for(const s of samples){
+    const x = clamp(s);
+    const i = Math.min(bins-1, Math.floor(x*bins));
+    counts[i] += 1;
+  }
+  const n = samples.length;
+  // density-like scale
+  const maxC = Math.max(...counts, 1);
+
+  // bars
+  ctx.save();
+  ctx.fillStyle = color;
+  for(let i=0;i<bins;i++){
+    const x0 = pad + (i/bins)*innerW;
+    const bw = (innerW/bins) * 0.92;
+    const yv = counts[i]/maxC;
+    const bh = yv*innerH;
+    ctx.fillRect(x0, (h-pad) - bh, bw, bh);
+  }
+  ctx.restore();
+
+  // labels
+  drawText(ctx, title, pad, 22, "rgba(230,237,243,0.95)", 13, "left");
+  drawMono(ctx, xLabel, w-pad, h-16, "rgba(158,176,195,0.95)", 11, "right");
+  drawMono(ctx, yLabel, 14, pad, "rgba(158,176,195,0.95)", 11, "left");
+
+  // ticks
+  ctx.save();
+  ctx.strokeStyle = "rgba(255,255,255,0.08)";
+  ctx.fillStyle = "rgba(158,176,195,0.95)";
+  ctx.font = `10px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}`;
+  for(const t of [0,0.25,0.5,0.75,1]){
+    const x = pad + t*innerW;
+    ctx.beginPath();
+    ctx.moveTo(x, h-pad);
+    ctx.lineTo(x, h-pad+6);
+    ctx.stroke();
+    ctx.textAlign = "center";
+    ctx.fillText(t.toFixed(2), x, h-pad+18);
+  }
+  ctx.restore();
+
+  if(note){
+    drawMono(ctx, note, pad, h-14, "rgba(158,176,195,0.85)", 10, "left");
+  }
+}
+
+function plotBars(ctx, labels, values, opts){
+  const { pad=42, title="", color="rgba(251,191,36,0.85)" } = opts || {};
+  clearCanvas(ctx);
+  drawAxes(ctx, pad);
+
+  const w = ctx.canvas.width, h = ctx.canvas.height;
+  const innerW = w - 2*pad, innerH = h - 2*pad;
+
+  const maxV = Math.max(...values, 1e-9);
+  const n = labels.length;
+  const step = innerW / n;
+
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.strokeStyle = "rgba(255,255,255,0.08)";
+  ctx.lineWidth = 1;
+
+  for(let i=0;i<n;i++){
+    const x0 = pad + i*step + step*0.12;
+    const bw = step*0.76;
+    const bh = (values[i]/maxV)*innerH;
+    ctx.fillRect(x0, (h-pad)-bh, bw, bh);
+    ctx.strokeRect(x0, (h-pad)-bh, bw, bh);
+  }
+  ctx.restore();
+
+  drawText(ctx, title, pad, 22, "rgba(230,237,243,0.95)", 13, "left");
+
+  // x labels
+  ctx.save();
+  ctx.fillStyle = "rgba(158,176,195,0.95)";
+  ctx.font = `10px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}`;
+  ctx.textAlign = "center";
+  for(let i=0;i<n;i++){
+    const x = pad + i*step + step/2;
+    ctx.fillText(labels[i], x, h-pad+18);
+  }
+  ctx.restore();
+}
+
+/* Heatmap:
+   We’ll create a 2D grid:
+     X axis: agent ambiguity (clear → ambiguous)
+     Y axis: data richness (thin → rich)
+   Color: mechanism uncertainty (entropy) averaged over simulations given those settings,
+          with other parameters held fixed.
+*/
+function plotHeatmap(ctx, grid, xTicks, yTicks, opts){
+  const { pad=54, title="Uncertainty Map", xLabel="Agent ambiguity", yLabel="Data richness" } = opts || {};
+  clearCanvas(ctx);
+
+  const w = ctx.canvas.width, h = ctx.canvas.height;
+  const innerW = w - 2*pad, innerH = h - 2*pad;
+
+  // find min/max
+  let minV = Infinity, maxV = -Infinity;
+  for(const row of grid){
+    for(const v of row){
+      minV = Math.min(minV, v);
+      maxV = Math.max(maxV, v);
+    }
+  }
+  if(!isFinite(minV)) { minV = 0; maxV = 1; }
+  const rows = grid.length;
+  const cols = grid[0].length;
+
+  // draw cells
+  const cellW = innerW / cols;
+  const cellH = innerH / rows;
+
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const v = grid[r][c];
+      const t = (v - minV) / Math.max(1e-9, (maxV - minV));
+      // color scale: low uncertainty → teal-ish; high → pink-ish
+      const R = Math.round(lerp(94, 251, t));
+      const G = Math.round(lerp(234, 113, t));
+      const B = Math.round(lerp(212, 133, t));
+      const x0 = pad + c*cellW;
+      const y0 = pad + r*cellH;
+
+      ctx.fillStyle = `rgba(${R},${G},${B},0.90)`;
+      ctx.fillRect(x0, y0, cellW, cellH);
+    }
+  }
+
+  // frame
+  ctx.save();
+  ctx.strokeStyle = "rgba(255,255,255,0.10)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(pad, pad, innerW, innerH);
+  ctx.restore();
+
+  // title
+  drawText(ctx, title, pad, 22, "rgba(230,237,243,0.95)", 13, "left");
+
+  // axes labels
+  drawMono(ctx, xLabel, w-pad, h-16, "rgba(158,176,195,0.95)", 11, "right");
+  drawMono(ctx, yLabel, 14, pad, "rgba(158,176,195,0.95)", 11, "left");
+
+  // ticks
+  ctx.save();
+  ctx.fillStyle = "rgba(158,176,195,0.95)";
+  ctx.strokeStyle = "rgba(255,255,255,0.12)";
+  ctx.font = `10px ${getComputedStyle(document.documentElement).getPropertyValue('--mono')}`;
+
+  // x ticks
+  ctx.textAlign = "center";
+  for(let i=0;i<xTicks.length;i++){
+    const t = xTicks[i];
+    const x = pad + t*innerW;
+    ctx.beginPath(); ctx.moveTo(x, pad+innerH); ctx.lineTo(x, pad+innerH+6); ctx.stroke();
+    ctx.fillText(t.toFixed(2), x, pad+innerH+18);
+  }
+  // y ticks (note: r=0 top)
+  ctx.textAlign = "right";
+  for(let i=0;i<yTicks.length;i++){
+    const t = yTicks[i];
+    const y = pad + (1-t)*innerH;
+    ctx.beginPath(); ctx.moveTo(pad-6, y); ctx.lineTo(pad, y); ctx.stroke();
+    ctx.fillText(t.toFixed(2), pad-10, y+3);
+  }
+  ctx.restore();
+
+  // legend gradient bar
+  const gx = w - pad - 140;
+  const gy = pad - 34;
+  const gw = 130;
+  const gh = 10;
+  const grad = ctx.createLinearGradient(gx, gy, gx+gw, gy);
+  grad.addColorStop(0, "rgba(94,234,212,0.95)");
+  grad.addColorStop(1, "rgba(251,113,133,0.95)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(gx, gy, gw, gh);
+  ctx.strokeStyle = "rgba(255,255,255,0.12)";
+  ctx.strokeRect(gx, gy, gw, gh);
+  drawMono(ctx, "low", gx-6, gy+9, "rgba(158,176,195,0.95)", 10, "right");
+  drawMono(ctx, "high", gx+gw+6, gy+9, "rgba(158,176,195,0.95)", 10, "left");
+  drawMono(ctx, "uncertainty", gx+gw/2, gy-2, "rgba(158,176,195,0.95)", 10, "center");
+}
+
+/* ===============================
+   Monte Carlo simulation
+   =============================== */
+
+function simulateOnce(p){
+  const dose = effectiveDose(p);
+  const mechP = mechPosterior(p, dose);
+
+  // sample mechanism as categorical (but we also use the soft distribution)
+  const r = randu();
+  let mech = 0;
+  let cum = mechP[0];
+  if(r > cum){ mech = 1; cum += mechP[1]; }
+  if(r > cum){ mech = 2; }
+
+  const sev = severitySample(p, dose);
+
+  // “work-related pattern” proxy:
+  // more likely with higher dose, reduced if uncertainty huge (because pattern may be under-described)
+  const patternUnc = clamp(0.05 + 0.95*(0.50*p.Aamb + 0.50*(1-p.Rich)));
+  const pWorkRelated = clamp(sigmoid(-1.0 + 4.2*dose + randn()*0.35) * (1 - 0.25*patternUnc));
+
+  const pAway = betterAwayProb(mechP, sev);
+
+  return {
+    mechP, mech, sev, pWorkRelated, pAway
+  };
+}
+
+function runSimulation(){
+  const p = getParams();
+  const N = p.N;
+
+  setStatus("Simulating…", "warn");
+
+  const sevSamples = new Float64Array(N);
+  const awaySamples = new Float64Array(N);
+
+  // accumulate mechanism posterior mean
+  let mechSum = [0,0,0];
+
+  // also store mechanism "score" samples for histogram:
+  // We’ll histogram the sampled mechanism as categorical counts.
+  const mechCounts = [0,0,0];
+
+  // entropy samples for uncertainty stats
+  const entSamples = new Float64Array(N);
+
+  for(let i=0;i<N;i++){
+    const out = simulateOnce(p);
+    sevSamples[i] = out.sev;
+    awaySamples[i] = out.pAway;
+
+    mechSum[0] += out.mechP[0];
+    mechSum[1] += out.mechP[1];
+    mechSum[2] += out.mechP[2];
+
+    mechCounts[out.mech] += 1;
+
+    entSamples[i] = entropy(out.mechP);
+  }
+
+  const mechMean = mechSum.map(x=>x/N);
+
+  // KPI: entropy of mean posterior (plus expected entropy)
+  const Hmean = entropy(mechMean);              // uncertainty of mixture mean
+  const Hexp  = entSamples.reduce((a,b)=>a+b,0)/N; // expected entropy (more conservative)
+  const severeProb = mean(sevSamples.map ? sevSamples : Array.from(sevSamples), (x)=> x>0.7 ? 1:0);
+  const awayMean = mean(awaySamples);
+
+  // render plots
+  renderMechanismBar(mechMean, mechCounts, Hmean, Hexp);
+  renderSeverityHist(Array.from(sevSamples));
+  // uncertainty heatmap (agent ambiguity x data richness)
+  const heat = computeUncertaintyHeatmap(p);
+  renderHeatmap(heat);
+  // sensitivity
+  const sens = computeSensitivity(p);
+  renderSensitivity(sens);
+
+  // KPIs
+  $("kpiEntropy").textContent = `${Hexp.toFixed(3)} (exp) • ${Hmean.toFixed(3)} (mean)`;
+  $("kpiSevere").textContent = `${(severeProb*100).toFixed(1)}%`;
+  $("kpiBetterAway").textContent = `${(awayMean*100).toFixed(1)}%`;
+
+  setStatus("Updated live", "good");
+}
+
+function mean(arr, f){
+  if(!arr || arr.length===0) return 0;
+  if(!f){
+    let s=0;
+    for(let i=0;i<arr.length;i++) s += arr[i];
+    return s/arr.length;
+  } else {
+    let s=0;
+    for(let i=0;i<arr.length;i++) s += f(arr[i], i);
+    return s/arr.length;
+  }
+}
+
+/* ===============================
+   Mechanism plot (bars + legend)
+   =============================== */
+function renderMechanismBar(mechMean, mechCounts, Hmean, Hexp){
+  const ctx = $("mechCanvas").getContext("2d");
+  clearCanvas(ctx);
+
+  // We'll draw 3 bars with scale to 1.
+  const labels = ["Sens", "Irr", "Dust"];
+  const values = mechMean;
+
+  // Custom bar plot with annotations
+  const pad=54;
+  const w=ctx.canvas.width, h=ctx.canvas.height;
+  const innerW=w-2*pad, innerH=h-2*pad;
+
+  // axes
+  ctx.save();
+  ctx.strokeStyle="rgba(255,255,255,0.10)";
+  ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,h-pad); ctx.stroke();
+  ctx.restore();
+
+  // bars
+  const n=3;
+  const step=innerW/n;
+  for(let i=0;i<n;i++){
+    const x0 = pad + i*step + step*0.16;
+    const bw = step*0.68;
+    const bh = values[i]*innerH;
+    // color by type
+    const col = i===0 ? "rgba(94,234,212,0.88)" : i===1 ? "rgba(251,191,36,0.88)" : "rgba(251,113,133,0.88)";
+    ctx.fillStyle = col;
+    ctx.fillRect(x0, (h-pad)-bh, bw, bh);
+    ctx.strokeStyle="rgba(255,255,255,0.10)";
+    ctx.strokeRect(x0, (h-pad)-bh, bw, bh);
+
+    // label + value + sample count
+    drawMono(ctx, labels[i], x0+bw/2, h-pad+18, "rgba(158,176,195,0.95)", 11, "center");
+    drawMono(ctx, (values[i]*100).toFixed(1)+"%", x0+bw/2, (h-pad)-bh-8, "rgba(230,237,243,0.95)", 11, "center");
+    const c = mechCounts[i];
+    drawMono(ctx, `n=${c}`, x0+bw/2, (h-pad)-bh+16, "rgba(230,237,243,0.75)", 10, "center");
+  }
+
+  drawText(ctx, "Distribution: inferred causal mechanism (posterior mean + sampled counts)", pad, 22, "rgba(230,237,243,0.95)", 13);
+  drawMono(ctx, "probability", 14, pad, "rgba(158,176,195,0.95)", 11, "left");
+  drawMono(ctx, "mechanism class", w-pad, h-16, "rgba(158,176,195,0.95)", 11, "right");
+
+  const legend = $("mechLegend");
+  legend.innerHTML = `
+    <div>
+      <b>Mechanisms</b>:
+      <span style="color:rgba(94,234,212,0.95)"><b>Sens</b></span> = sensitizer-type (flour/isocyanates/animal allergens),
+      <span style="color:rgba(251,191,36,0.95)"><b>Irr</b></span> = irritant-induced (bleach/chlorine/SO₂),
+      <span style="color:rgba(251,113,133,0.95)"><b>Dust</b></span> = dust/fume chronic inflammatory load (silica/welding mixtures).
+    </div>
+    <div>
+      <b>Uncertainty</b>:
+      expected entropy <code>${Hexp.toFixed(3)}</code> (higher = more ambiguity),
+      entropy of mean <code>${Hmean.toFixed(3)}</code>.
+    </div>
+  `;
+}
+
+/* ===============================
+   Severity histogram
+   =============================== */
+function renderSeverityHist(samples){
+  const ctx = $("sevCanvas").getContext("2d");
+  plotHistogram(ctx, samples, {
+    bins: 45,
+    title: "Distribution: symptom severity (0–1)",
+    xLabel: "severity",
+    yLabel: "relative frequency",
+    note: "Severity rises with effective dose + constraint-driven endurance; richness lowers via earlier recognition/adjustment.",
+    color: "rgba(94,234,212,0.82)"
+  });
+}
+
+/* ===============================
+   Uncertainty heatmap computation
+   =============================== */
+function computeUncertaintyHeatmap(baseP){
+  // Grid: rows (richness from 0..1), cols (agent ambiguity from 0..1)
+  const rows = 12, cols = 16;
+  const grid = [];
+  const xTicks = [0,0.5,1];
+  const yTicks = [0,0.5,1];
+
+  // Use fewer samples per cell to stay fast
+  const perCell = Math.max(200, Math.min(900, Math.floor(baseP.N/12)));
+
+  for(let r=0;r<rows;r++){
+    const row = [];
+    // richness increases upward in the display; we’ll store r=0 as top, so richness is high at r=0
+    const rich = 1 - (r/(rows-1));
+    for(let c=0;c<cols;c++){
+      const amb = c/(cols-1);
+      const p = { ...baseP, Rich: rich, Aamb: amb };
+      // compute average expected entropy
+      let H=0;
+      for(let i=0;i<perCell;i++){
+        const dose = effectiveDose(p);
+        const mp = mechPosterior(p, dose);
+        H += entropy(mp);
+      }
+      H /= perCell;
+      row.push(H);
+    }
+    grid.push(row);
+  }
+  return { grid, xTicks, yTicks };
+}
+
+function renderHeatmap(heat){
+  const ctx = $("uncCanvas").getContext("2d");
+  plotHeatmap(ctx, heat.grid, heat.xTicks, heat.yTicks, {
+    title: "Uncertainty map (entropy) across Agent ambiguity × Data richness",
+    xLabel: "Agent ambiguity (clear → ambiguous)",
+    yLabel: "Data richness (thin → rich)"
+  });
+
+  const uncLegend = $("uncLegend");
+  uncLegend.innerHTML = `
+    <div>
+      <b>How to use this:</b> look for the <b>reddest</b> region. That’s where the model is most unsure which mechanism is driving symptoms.
+    </div>
+    <div>
+      <b>Practical meaning:</b> red zones typically indicate you need:
+      (1) clearer exposure identification (<code>which agent, which task, which timing</code>),
+      and/or (2) richer patient narrative (<code>work vs weekend pattern, nocturnal symptoms, PPE reality, power dynamics</code>).
+    </div>
+  `;
+}
+
+/* ===============================
+   Sensitivity: which inputs drive uncertainty most
+   ===============================
+
+We approximate sensitivity by jittering each parameter slightly and measuring
+how much the *expected entropy* changes (variance across jitters).
+This is not Sobol; it’s quick, interpretable, and live.
+*/
+function computeSensitivity(baseP){
+  const names = [
+    ["I","Exposure"],
+    ["F","Frequency"],
+    ["Aamb","AgentAmb"],
+    ["Eng","EngCtrl"],
+    ["PPEa","PPEacc"],
+    ["PPEu","PPEuse"],
+    ["Insec","Insec"],
+    ["Fin","FinStr"],
+    ["Rich","Rich"],
+  ];
+
+  const perTest = Math.max(350, Math.min(1200, Math.floor(baseP.N/8)));
+  const jitters = 10;
+  const delta = 0.08; // +/- 0.08
+
+  function expectedEntropyFor(p){
+    let H=0;
+    for(let i=0;i<perTest;i++){
+      const dose = effectiveDose(p);
+      const mp = mechPosterior(p, dose);
+      H += entropy(mp);
+    }
+    return H/perTest;
+  }
+
+  const baseH = expectedEntropyFor(baseP);
+  const results = [];
+
+  for(const [key, label] of names){
+    const hs = [];
+    for(let j=0;j<jitters;j++){
+      const sign = (j%2===0) ? 1 : -1;
+      const t = (Math.floor(j/2)+1)/(jitters/2);
+      const jitter = sign * delta * t;
+
+      const p = { ...baseP };
+      p[key] = clamp(p[key] + jitter);
+
+      hs.push(expectedEntropyFor(p));
+    }
+    const m = hs.reduce((a,b)=>a+b,0)/hs.length;
+    const v = hs.reduce((a,b)=>a+(b-m)*(b-m),0)/hs.length;
+    // scaled sensitivity: sqrt(var) relative to base
+    const s = Math.sqrt(v) / Math.max(1e-6, baseH);
+    results.push({ label, score: s });
+  }
+
+  // sort descending for display
+  results.sort((a,b)=>b.score - a.score);
+  return results;
+}
+
+function renderSensitivity(sens){
+  const ctx = $("sensCanvas").getContext("2d");
+  const labels = sens.map(x=>x.label);
+  const values = sens.map(x=>x.score);
+
+  plotBars(ctx, labels, values, {
+    title: "Sensitivity of mechanism uncertainty (relative entropy variance)",
+    color: "rgba(251,191,36,0.86)"
+  });
+}
+
+/* ===============================
+   Wiring: sliders + buttons
+   =============================== */
+
+let debounceTimer = null;
+function scheduleRun(){
+  if(debounceTimer) clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(runSimulation, 120);
+}
+
+function init(){
+  for(const [sid, vid, fmt] of sliders){
+    const s = $(sid);
+    const v = $(vid);
+    const updateVal = () => {
+      v.textContent = fmt(s.value);
+    };
+    updateVal();
+    s.addEventListener("input", () => { updateVal(); scheduleRun(); });
+  }
+
+  $("rerunBtn").addEventListener("click", runSimulation);
+
+  $("randomizeBtn").addEventListener("click", () => {
+    // randomize but keep nSamples moderate
+    $("exposureIntensity").value = Math.floor(100*(0.3 + 0.7*Math.random()));
+    $("exposureFrequency").value = Math.floor(100*(0.2 + 0.8*Math.random()));
+    $("agentAmbiguity").value = Math.floor(100*Math.random());
+    $("engineeringControls").value = Math.floor(100*Math.random());
+    $("ppeAccess").value = Math.floor(100*Math.random());
+    $("ppeAdherence").value = Math.floor(100*Math.random());
+    $("jobInsecurity").value = Math.floor(100*Math.random());
+    $("financialStrain").value = Math.floor(100*Math.random());
+    $("dataRichness").value = Math.floor(100*Math.random());
+    $("nSamples").value = 6000;
+
+    // refresh text
+    for(const [sid, vid, fmt] of sliders){
+      $(vid).textContent = fmt($(sid).value);
+    }
+    runSimulation();
+  });
+
+  runSimulation();
+}
+
+init();
+</script>
+</body>
+</html>
