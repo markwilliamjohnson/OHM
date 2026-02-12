@@ -1,0 +1,503 @@
+{
+  "meta": {
+    "id": "matse_goguen_proxy_v1",
+    "title": "MATSE Goguen Institution Parameter Lab",
+    "subtitle": "A lightweight Monte Carlo “semantic plausibility” simulator. Adjust institution parameters and watch outcome distributions update in real time. This is a fast proxy model—not a clinical or regulatory decision tool.",
+    "footerNote": "Note: This simulator is a toy semantic proxy model for exploring trade-offs. It is not validated, not clinical advice, and not a substitute for biostatistics, ethics review, or regulatory engagement."
+  },
+
+  "project": {
+    "name": "Multi-Agent Trial Simulation Engine (MATSE)",
+    "description": [
+      "MATSE builds a synthetic multi-agent population, optimizes trial design, then matches it to real recruitment pools.",
+      "The project must satisfy clinical validity, fairness/representational justice, compute/budget feasibility, governance/reporting (AREA + TRIPOD-AI / CONSORT-AI / SPIRIT-AI), and institutional stakeholder investment dynamics."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Add project details (e.g., disease area, endpoints, data sources, governance plan, stakeholder context). Click “Generate AI Prompt” to produce a prompt you can paste into an AI assistant for a short report interpreting the current settings.",
+      "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions.]",
+      "promptText": [
+        "You are an expert in responsible innovation, clinical trials, and formal methods (Goguen institutions).",
+        "Write a short report (700–1,000 words) interpreting the likely outcomes of deploying a multi-agent AI system (MATSE)",
+        "to simulate and optimize a clinical trial population under the current parameter settings.",
+        "",
+        "Context:",
+        "- MATSE builds a synthetic multi-agent population, optimizes trial design, then matches it to real recruitment pools.",
+        "- The project must satisfy clinical validity, fairness/representational justice, compute/budget feasibility,",
+        "  governance/reporting (AREA + TRIPOD-AI / CONSORT-AI / SPIRIT-AI), and institutional stakeholder investment dynamics.",
+        "",
+        "Current parameter settings (0–100):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Please do ALL of the following:",
+        "1) Explain how these settings shape the “institution satisfiable” likelihood (compute sufficiency, governance legitimacy, stakeholder investability).",
+        "2) Discuss expected effects on trial design success, regulatory acceptance, recruitment time, and cost overrun risks.",
+        "3) Identify the main failure modes and which parameters are the biggest levers to mitigate them.",
+        "4) Recommend 5 practical next actions aligned to AREA (anticipation, reflection, engagement, action), and note what TRIPOD-AI-style reporting would need to cover.",
+        "5) Be explicit about uncertainty and what evidence (prospective validation, audits, stress tests) would reduce it.",
+        "",
+        "Project refinements supplied by the user (incorporate these carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Likely Outcomes (distributions + summary stats)",
+      "chartsTitle": "Likely Outcomes (distributions)"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        { "id": "btnRandomize", "label": "Randomize params" },
+        { "id": "btnReset", "label": "Reset defaults" },
+        { "id": "btnToggleLive", "label": "Toggle live update" },
+        { "id": "btnRecompute", "label": "Recompute now" }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your project refinements here…\nExamples:\n- Indication, inclusion criteria goals, endpoints, sites and countries\n- Data sources (EHR, registry, RWD partners), privacy approach\n- Planned governance (AREA actions, audit cadence, TRIPOD-AI reporting plan)\n- Known organizational constraints or political sensitivities",
+      "buttons": [
+        { "id": "btnGenPrompt", "label": "Generate AI Prompt" },
+        { "id": "btnCopyPrompt", "label": "Copy Prompt" },
+        { "id": "btnClearRefinements", "label": "Clear refinements" }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+
+  "parameters": [
+    {
+      "id": "dataQuality",
+      "label": "Data quality (coverage, missingness)",
+      "hint": "Higher reduces model miscalibration + improves matching fidelity.",
+      "min": 0, "max": 100, "step": 1, "default": 70
+    },
+    {
+      "id": "bias",
+      "label": "Bias level (historical inequity imprint)",
+      "hint": "Higher increases fairness risk + subgroup performance instability.",
+      "min": 0, "max": 100, "step": 1, "default": 35
+    },
+    {
+      "id": "fairness",
+      "label": "Fairness constraint strength",
+      "hint": "Higher improves representational justice but can increase cost/complexity.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "validation",
+      "label": "Validation rigor (TRIPOD-AI / audits)",
+      "hint": "Higher improves reliability + regulator confidence; costs more compute/time.",
+      "min": 0, "max": 100, "step": 1, "default": 65
+    },
+    {
+      "id": "compute",
+      "label": "Compute capacity (relative)",
+      "hint": "Higher reduces turnaround time; enables broader simulation + calibration.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "budget",
+      "label": "Budget (relative)",
+      "hint": "Higher improves feasibility; interacts with compute + validation choices.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "support",
+      "label": "Stakeholder support (politics/strategy)",
+      "hint": "Higher increases investment approval + adoption; lowers “org drag”.",
+      "min": 0, "max": 100, "step": 1, "default": 45
+    },
+    {
+      "id": "friction",
+      "label": "Organizational friction (silos, change fatigue)",
+      "hint": "Higher slows decision cycles; raises risk of partial/inconsistent deployment.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "shift",
+      "label": "Distribution shift risk (target ≠ reality)",
+      "hint": "Higher reduces matching success + can undermine external validity.",
+      "min": 0, "max": 100, "step": 1, "default": 40
+    },
+    {
+      "id": "complexity",
+      "label": "Model complexity (multi-agent richness)",
+      "hint": "Higher may improve realism but increases compute demand + opacity risk.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500, "max": 30000, "step": 500, "default": 8000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more “real-time”.",
+      "min": 0, "max": 600, "step": 20, "default": 120,
+      "isMeta": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "id": "success",
+      "title": "Overall project success probability",
+      "subtitle": "Proxy for “institution satisfiable” + “improves outcomes” given constraints.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "reg",
+      "title": "Regulatory acceptance probability",
+      "subtitle": "Influenced by validation rigor, transparency proxy, drift risk, and governance alignment.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "recruit",
+      "title": "Recruitment time (months)",
+      "subtitle": "Faster with better matching & support; slower with fairness constraints (if under-resourced) + friction.",
+      "units": "months",
+      "range": { "min": 2, "max": 36 },
+      "summary": { "meanFormat": "months", "p10p90Format": "months" }
+    },
+    {
+      "id": "overrun",
+      "title": "Cost overrun probability",
+      "subtitle": "Rises when compute/budget are tight relative to complexity + validation + fairness ambitions.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    }
+  ],
+
+  "engine": {
+    "bins": 44,
+
+    "random": {
+      "shocks": {
+        "epsCal":  { "type": "normal", "sigma": 0.18 },
+        "epsOrg":  { "type": "normal", "sigma": 0.22 },
+        "epsReg":  { "type": "normal", "sigma": 0.18 },
+        "epsRec":  { "type": "normal", "sigma": 0.25 },
+        "epsCost": { "type": "normal", "sigma": 0.20 }
+      }
+    },
+
+    "derived": {
+      "dq":   { "op": "div", "args": [ { "var": "dataQuality" }, { "lit": 100 } ] },
+      "bias": { "op": "div", "args": [ { "var": "bias" }, { "lit": 100 } ] },
+      "fair": { "op": "div", "args": [ { "var": "fairness" }, { "lit": 100 } ] },
+      "val":  { "op": "div", "args": [ { "var": "validation" }, { "lit": 100 } ] },
+      "comp": { "op": "div", "args": [ { "var": "compute" }, { "lit": 100 } ] },
+      "bud":  { "op": "div", "args": [ { "var": "budget" }, { "lit": 100 } ] },
+      "sup":  { "op": "div", "args": [ { "var": "support" }, { "lit": 100 } ] },
+      "fric": { "op": "div", "args": [ { "var": "friction" }, { "lit": 100 } ] },
+      "shift":{ "op": "div", "args": [ { "var": "shift" }, { "lit": 100 } ] },
+      "cx":   { "op": "div", "args": [ { "var": "complexity" }, { "lit": 100 } ] },
+
+      "computeLoad": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "cx" } ] },
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "val" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "fair" } ] }
+        ]
+      },
+      "computeSupply": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "comp" } ] },
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "bud" } ] }
+        ]
+      },
+      "computeGap": { "op": "sub", "args": [ { "var": "computeSupply" }, { "var": "computeLoad" } ] },
+
+      "governance": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.60 }, { "var": "val" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "sup" } ] },
+          { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "fric" } ] },
+          { "op": "mul", "args": [ { "lit": -0.15 }, { "var": "cx" } ] }
+        ]
+      },
+
+      "complexityBonus": {
+        "op": "mul",
+        "args": [
+          { "lit": 0.15 },
+          {
+            "op": "tanh",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "sub",
+                    "args": [ { "var": "cx" }, { "lit": 0.35 } ]
+                  },
+                  { "lit": 2.2 }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+
+      "matchFidelity": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "dq" } ] },
+          { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "shift" } ] },
+          { "var": "complexityBonus" }
+        ]
+      },
+
+      "fairnessLat": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "fair" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "dq" } ] },
+          { "op": "mul", "args": [ { "lit": -0.60 }, { "var": "bias" } ] },
+          { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "shift" } ] }
+        ]
+      },
+
+      "investLatCore": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.70 }, { "var": "sup" } ] },
+          { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "bud" } ] },
+          { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "fric" } ] },
+          {
+            "op": "mul",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "sub", "args": [ { "lit": 1 }, { "var": "dq" } ] }
+            ]
+          }
+        ]
+      }
+    },
+
+    "perDraw": {
+      "overrunProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.3 },
+              { "op": "mul", "args": [ { "lit": -1.25 }, { "var": "computeGap" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "cx" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "val" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "fair" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "bud" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "fric" } ] },
+              { "var": "epsCost" }
+            ]
+          }
+        ]
+      },
+
+      "regProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 1.35 }, { "var": "governance" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "dq" } ] },
+              { "op": "mul", "args": [ { "lit": -0.75 }, { "var": "shift" } ] },
+              { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "cx" } ] },
+              { "op": "mul", "args": [ { "lit": -0.45 }, { "var": "overrunProb" } ] },
+              { "var": "epsReg" }
+            ]
+          }
+        ]
+      },
+
+      "fairnessPenalty": {
+        "op": "max",
+        "args": [
+          { "lit": 0 },
+          {
+            "op": "sub",
+            "args": [
+              { "var": "fair" },
+              { "op": "mul", "args": [ { "lit": 0.6 }, { "var": "computeSupply" } ] }
+            ]
+          }
+        ]
+      },
+
+      "recruitMonths": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": 10.0 },
+              {
+                "op": "mul",
+                "args": [
+                  { "lit": 6.5 },
+                  {
+                    "op": "sub",
+                    "args": [
+                      { "lit": 1 },
+                      {
+                        "op": "sigmoid",
+                        "args": [
+                          {
+                            "op": "add",
+                            "args": [
+                              { "op": "mul", "args": [ { "lit": 2.4 }, { "var": "matchFidelity" } ] },
+                              { "var": "epsRec" }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              { "op": "mul", "args": [ { "lit": 3.5 }, { "var": "fric" } ] },
+              { "op": "mul", "args": [ { "lit": 3.0 }, { "var": "shift" } ] },
+              { "op": "mul", "args": [ { "lit": 2.2 }, { "var": "fairnessPenalty" } ] },
+              { "op": "mul", "args": [ { "lit": -3.2 }, { "var": "sup" } ] },
+              { "op": "mul", "args": [ { "lit": -1.8 }, { "var": "bud" } ] },
+              { "op": "mul", "args": [ { "lit": -1.8 }, { "var": "comp" } ] }
+            ]
+          },
+          { "lit": 2.0 },
+          { "lit": 36.0 }
+        ]
+      },
+
+      "investProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.15 },
+              { "op": "mul", "args": [ { "lit": 1.25 }, { "var": "investLatCore" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "overrunProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "regProb" } ] },
+              { "var": "epsOrg" }
+            ]
+          }
+        ]
+      },
+
+      "fairnessPowerTradeoff": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              { "lit": -0.35 },
+              {
+                "op": "max",
+                "args": [
+                  { "lit": 0 },
+                  { "op": "sub", "args": [ { "var": "fair" }, { "lit": 0.75 } ] }
+                ]
+              }
+            ]
+          },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "fair" } ] }
+        ]
+      },
+
+      "perfProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.20 },
+              { "op": "mul", "args": [ { "lit": 1.10 }, { "var": "matchFidelity" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "dq" } ] },
+              { "op": "mul", "args": [ { "lit": 0.60 }, { "var": "val" } ] },
+              { "var": "fairnessPowerTradeoff" },
+              { "op": "mul", "args": [ { "lit": -0.95 }, { "var": "bias" } ] },
+              { "op": "mul", "args": [ { "lit": -0.70 }, { "var": "shift" } ] },
+              { "var": "epsCal" }
+            ]
+          }
+        ]
+      },
+
+      "timeScore": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "div",
+            "args": [
+              { "op": "sub", "args": [ { "lit": 16.0 }, { "var": "recruitMonths" } ] },
+              { "lit": 3.5 }
+            ]
+          }
+        ]
+      },
+
+      "execProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.15 },
+              { "op": "mul", "args": [ { "lit": 1.05 }, { "op": "sub", "args": [ { "lit": 1 }, { "var": "overrunProb" } ] } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "timeScore" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "computeGap" } ] },
+              { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "comp" } ] },
+              { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "fric" } ] },
+              { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "randn" } ] }
+            ]
+          }
+        ]
+      },
+
+      "successProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.34 }, { "var": "perfProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.26 }, { "var": "regProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.22 }, { "var": "investProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.18 }, { "var": "execProb" } ] }
+            ]
+          },
+          { "lit": 0 },
+          { "lit": 1 }
+        ]
+      }
+    },
+
+    "outputMapping": {
+      "success": "successProb",
+      "reg": "regProb",
+      "recruit": "recruitMonths",
+      "overrun": "overrunProb"
+    }
+  }
+}
