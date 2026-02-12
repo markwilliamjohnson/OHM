@@ -1,0 +1,598 @@
+<!-- index.html (manual upload of institution JSON via file picker) -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Institution UI Shell (Upload Spec)</title>
+  <style>
+    :root { --bg:#0b0f17; --panel:#111827; --muted:#9ca3af; --text:#e5e7eb; --accent:#60a5fa; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--text); }
+    header { padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.08); background:linear-gradient(180deg, rgba(96,165,250,.12), transparent); }
+    header h1 { margin:0; font-size:18px; }
+    header p { margin:6px 0 0; color:var(--muted); font-size:13px; max-width: 1100px; }
+    .wrap { display:grid; grid-template-columns: 420px 1fr; gap:14px; padding:14px; }
+    .panel { background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+    .panel h2 { margin:0 0 10px; font-size:14px; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .ctrl { border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px; background: rgba(255,255,255,.02); }
+    .ctrl label { display:flex; justify-content:space-between; gap:10px; font-size:12px; color:#d1d5db; }
+    .ctrl .v { color:#fff; font-variant-numeric: tabular-nums; }
+    input[type="range"] { width:100%; margin-top:8px; }
+    .hint { margin-top:6px; font-size:11px; color:var(--muted); line-height:1.35; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; }
+    .pill { display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03); font-size:12px; }
+    .stats { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:10px; margin-top:10px; }
+    .stat { border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px; background: rgba(255,255,255,.02); }
+    .stat .k { font-size:11px; color:var(--muted); }
+    .stat .x { font-size:16px; margin-top:4px; font-variant-numeric: tabular-nums; }
+    .stat .s { font-size:11px; margin-top:2px; color:var(--muted); }
+    .charts { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; margin-top:12px; }
+    .chart { border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:10px; background: rgba(255,255,255,.02); }
+    .chart h3 { margin:0; font-size:12px; }
+    .chart p { margin:4px 0 8px; font-size:11px; color:var(--muted); }
+    canvas { width:100%; height:180px; display:block; border-radius:10px; background: rgba(255,255,255,.02); }
+    textarea { width:100%; min-height:110px; resize:vertical; border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.25); color:var(--text); outline:none; }
+    textarea:focus, button:focus { box-shadow: 0 0 0 3px rgba(96,165,250,.25); }
+    button { cursor:pointer; border-radius:12px; border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.06); color:var(--text); padding:10px 12px; font-size:12px; }
+    button:hover { background: rgba(255,255,255,.09); }
+    .btns { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .small { font-size:11px; color:var(--muted); margin-top:8px; line-height:1.4; }
+    .footer { padding:14px; color:var(--muted); font-size:11px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 11px; }
+    .gate {
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(255,255,255,.02);
+      margin-bottom:12px;
+    }
+    .fileRow { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .fileName { color: var(--muted); font-size: 11px; }
+    @media (max-width: 1000px) {
+      .wrap { grid-template-columns:1fr; }
+      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .charts { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">Institution UI Shell</h1>
+    <p id="subtitle">Click “Upload spec” to load an institution JSON file.</p>
+  </header>
+
+  <div class="wrap">
+    <section class="panel">
+      <div class="gate">
+        <h2 style="margin:0 0 8px;">Upload Institution JSON</h2>
+        <div class="hint">
+          Click “Upload spec” and choose a JSON file that defines parameters, charts, and the Monte Carlo logic (AST).
+          Nothing is uploaded to a server; the file is read locally in your browser.
+        </div>
+        <div class="fileRow" style="margin-top:10px;">
+          <button id="btnUploadSpec">Upload spec</button>
+          <span class="fileName" id="fileName">No file selected.</span>
+        </div>
+        <input id="fileInput" type="file" accept=".json,application/json" style="display:none" />
+        <div class="small" id="loadStatus">Spec not loaded.</div>
+      </div>
+
+      <h2 id="leftTitle">Parameters</h2>
+      <div id="controls" class="grid2"></div>
+
+      <div style="margin-top:12px" class="row">
+        <span class="pill"><span style="color:var(--accent)">●</span> <span id="drawsPillLabel">Monte Carlo draws</span>: <b id="drawsPillValue">—</b></span>
+        <span class="pill"><span style="color:var(--accent)">●</span> <span id="livePillLabel">Live update</span>: <b id="livePillValue">—</b></span>
+      </div>
+
+      <div class="btns" id="buttonBar"></div>
+      <div class="small" id="statusLine">Upload a spec to start.</div>
+    </section>
+
+    <section class="panel">
+      <h2 id="rightTitle">Outcomes</h2>
+
+      <div class="stats" id="statsRow"></div>
+      <div class="charts" id="chartsGrid"></div>
+
+      <hr style="border:0;border-top:1px solid rgba(255,255,255,.08); margin:14px 0;">
+
+      <h2 id="promptTitle">AI Prompt Generator</h2>
+      <div class="hint" id="promptInstructions"></div>
+      <textarea id="refinements" disabled></textarea>
+
+      <div class="btns" id="promptButtons"></div>
+      <textarea id="promptOut" class="mono" readonly disabled></textarea>
+    </section>
+  </div>
+
+  <div class="footer" id="footerNote"></div>
+
+<script>
+/* ============================
+   Minimal expression engine
+============================ */
+function clamp(x, lo, hi){ return Math.max(lo, Math.min(hi, x)); }
+function sigmoid(x){ return 1/(1+Math.exp(-x)); }
+function randn(){
+  let u=0,v=0;
+  while(u===0) u=Math.random();
+  while(v===0) v=Math.random();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+}
+function evalExpr(node, env) {
+  if (node == null) throw new Error("Null expression node");
+  if (typeof node === 'number') return node;
+  if (node.lit !== undefined) return node.lit;
+  if (node.var !== undefined) {
+    if (!(node.var in env)) throw new Error("Unknown var: " + node.var);
+    return env[node.var];
+  }
+  const op = node.op;
+  const a = node.args || [];
+  if (op === 'add') return a.reduce((s,x)=>s+evalExpr(x,env),0);
+  if (op === 'sub') return evalExpr(a[0],env) - evalExpr(a[1],env);
+  if (op === 'mul') return evalExpr(a[0],env) * evalExpr(a[1],env);
+  if (op === 'div') return evalExpr(a[0],env) / evalExpr(a[1],env);
+  if (op === 'max') return Math.max(...a.map(x=>evalExpr(x,env)));
+  if (op === 'min') return Math.min(...a.map(x=>evalExpr(x,env)));
+  if (op === 'tanh') return Math.tanh(evalExpr(a[0],env));
+  if (op === 'sigmoid') return sigmoid(evalExpr(a[0],env));
+  if (op === 'clamp') return clamp(evalExpr(a[0],env), evalExpr(a[1],env), evalExpr(a[2],env));
+  throw new Error("Unknown op: " + op);
+}
+
+/* ============================
+   Stats helpers
+============================ */
+function percentile(sorted, p){
+  const n = sorted.length;
+  const idx = (n-1)*p;
+  const lo = Math.floor(idx), hi = Math.ceil(idx);
+  if (lo === hi) return sorted[lo];
+  return sorted[lo] + (sorted[hi]-sorted[lo])*(idx-lo);
+}
+function summarize(arr){
+  const a = Array.from(arr);
+  a.sort((x,y)=>x-y);
+  const mean = a.reduce((s,x)=>s+x,0)/a.length;
+  return { mean, p10: percentile(a,0.10), p90: percentile(a,0.90), sorted:a };
+}
+function hist(data, bins, minV, maxV){
+  const h = new Array(bins).fill(0);
+  const span = maxV - minV;
+  for (let i=0;i<data.length;i++){
+    const x = data[i];
+    const t = (x - minV) / span;
+    const b = Math.floor(t * bins);
+    if (b>=0 && b<bins) h[b] += 1;
+  }
+  return h;
+}
+function drawHist(canvas, data, opts){
+  const ctx = canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,0.02)';
+  ctx.fillRect(0,0,W,H);
+
+  const padL=36,padR=10,padT=10,padB=26;
+  const x0=padL,x1=W-padR,y0=padT,y1=H-padB;
+
+  ctx.strokeStyle='rgba(255,255,255,0.08)';
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  for(let k=0;k<=4;k++){
+    const y=y1-(y1-y0)*(k/4);
+    ctx.moveTo(x0,y); ctx.lineTo(x1,y);
+  }
+  ctx.stroke();
+
+  const bins=opts.bins;
+  const h=hist(data,bins,opts.minV,opts.maxV);
+  const maxH=Math.max(1,...h);
+  const bw=(x1-x0)/bins;
+
+  ctx.fillStyle='rgba(96,165,250,0.55)';
+  for(let i=0;i<bins;i++){
+    const barH=(h[i]/maxH)*(y1-y0);
+    const x=x0+i*bw+1;
+    const y=y1-barH;
+    ctx.fillRect(x,y,Math.max(1,bw-2),barH);
+  }
+
+  ctx.fillStyle='rgba(229,231,235,0.85)';
+  ctx.font='11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
+  ctx.textAlign='left';
+  ctx.fillText(String(opts.minVLabel ?? opts.minV), x0, H-8);
+  ctx.textAlign='right';
+  ctx.fillText(String(opts.maxVLabel ?? opts.maxV), x1, H-8);
+
+  if (opts.note){
+    ctx.textAlign='left';
+    ctx.fillStyle='rgba(156,163,175,0.9)';
+    ctx.font='11px system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif';
+    ctx.fillText(opts.note, x0, 18);
+  }
+}
+
+/* ============================
+   App state
+============================ */
+let SPEC = null;
+let live = true;
+let timer = null;
+
+function fmtPct(x){ return (100*x).toFixed(1)+'%'; }
+function fmtMonths(x){ return x.toFixed(1)+' mo'; }
+
+function setDisabled(disabled){
+  document.querySelectorAll('#controls input').forEach(el => el.disabled = disabled);
+  document.getElementById('refinements').disabled = disabled;
+  document.getElementById('promptOut').disabled = disabled;
+  document.querySelectorAll('#buttonBar button, #promptButtons button').forEach(el => el.disabled = disabled);
+}
+
+function updateLoadStatus(msg){ document.getElementById('loadStatus').textContent = msg; }
+function updateStatus(msg){ document.getElementById('statusLine').textContent = msg; }
+
+function readParams(){
+  const p = {};
+  for (const par of SPEC.parameters){
+    p[par.id] = Number(document.getElementById('p_'+par.id).value);
+  }
+  return p;
+}
+
+function refreshParamLabels(){
+  const p = readParams();
+  for (const par of SPEC.parameters){
+    const vEl = document.getElementById('v_'+par.id);
+    if (vEl) vEl.textContent = p[par.id];
+  }
+  document.getElementById('drawsPillValue').textContent = p.draws ?? '—';
+  document.getElementById('livePillValue').textContent = live ? 'On' : 'Off';
+}
+
+/* ============================
+   Monte Carlo engine from JSON
+============================ */
+function simulateFromSpec(params, draws){
+  const outputs = {};
+  for (const out of SPEC.outputs) outputs[out.id] = new Float32Array(draws);
+
+  const baseEnv = { ...params, randn: 0 };
+
+  // Derived vars (deterministic)
+  for (const [name, expr] of Object.entries(SPEC.engine.derived)){
+    baseEnv[name] = evalExpr(expr, baseEnv);
+  }
+
+  const shockSpec = SPEC.engine.random?.shocks || {};
+  const shockNames = Object.keys(shockSpec);
+  const perDraw = SPEC.engine.perDraw;
+  const outMap = SPEC.engine.outputMapping;
+
+  for (let i=0;i<draws;i++){
+    const env = { ...baseEnv };
+
+    // sample shocks
+    for (const s of shockNames){
+      const spec = shockSpec[s];
+      if (spec.type === 'normal') env[s] = (spec.sigma ?? 1) * randn();
+      else throw new Error("Unsupported shock type: " + spec.type);
+    }
+
+    // ad hoc noise
+    env.randn = randn();
+
+    // resolve perDraw expressions
+    const pending = new Map(Object.entries(perDraw));
+    let safety = 0;
+    while (pending.size > 0 && safety < 200){
+      safety++;
+      let progressed = false;
+      for (const [name, expr] of Array.from(pending.entries())){
+        try {
+          env[name] = evalExpr(expr, env);
+          pending.delete(name);
+          progressed = true;
+        } catch {}
+      }
+      if (!progressed) {
+        throw new Error("Could not resolve perDraw expressions. Pending: " + Array.from(pending.keys()).join(', '));
+      }
+    }
+
+    // write outputs
+    for (const outId of Object.keys(outMap)){
+      outputs[outId][i] = env[outMap[outId]];
+    }
+  }
+  return outputs;
+}
+
+/* ============================
+   Rendering from spec
+============================ */
+function scheduleCompute(){
+  if (!live) { refreshParamLabels(); return; }
+  refreshParamLabels();
+  const params = readParams();
+  const wait = params.debounce || 0;
+  if (timer) clearTimeout(timer);
+  timer = setTimeout(() => setTimeout(computeAndRender, 0), wait);
+}
+
+function renderControls(){
+  const root = document.getElementById('controls');
+  root.innerHTML = '';
+
+  for (const par of SPEC.parameters){
+    const div = document.createElement('div');
+    div.className = 'ctrl';
+    div.innerHTML = `
+      <label>
+        <span>${par.label}</span>
+        <span class="v" id="v_${par.id}"></span>
+      </label>
+      <input id="p_${par.id}" type="range" min="${par.min}" max="${par.max}" step="${par.step ?? 1}" value="${par.default}" />
+      <div class="hint">${par.hint ?? ''}</div>
+    `;
+    root.appendChild(div);
+    div.querySelector('input').addEventListener('input', scheduleCompute);
+  }
+}
+
+function renderButtons(){
+  const bar = document.getElementById('buttonBar');
+  bar.innerHTML = '';
+
+  const btns = SPEC.ui.controls.buttons;
+  const byId = Object.fromEntries(btns.map(x=>[x.id,x.label]));
+
+  const makeBtn = (id, label, onClick) => {
+    const b = document.createElement('button');
+    b.id = id;
+    b.textContent = label;
+    b.addEventListener('click', onClick);
+    bar.appendChild(b);
+  };
+
+  makeBtn('btnRandomize', byId.btnRandomize || 'Randomize params', randomizeParams);
+  makeBtn('btnReset', byId.btnReset || 'Reset defaults', resetParams);
+  makeBtn('btnToggleLive', byId.btnToggleLive || 'Toggle live update', toggleLive);
+  makeBtn('btnRecompute', byId.btnRecompute || 'Recompute now', computeAndRender);
+}
+
+function renderStatsAndCharts(){
+  const statsRow = document.getElementById('statsRow');
+  const chartsGrid = document.getElementById('chartsGrid');
+  statsRow.innerHTML = '';
+  chartsGrid.innerHTML = '';
+
+  for (const out of SPEC.outputs){
+    const s = document.createElement('div');
+    s.className = 'stat';
+    s.innerHTML = `
+      <div class="k">${out.title} — mean</div>
+      <div class="x" id="m_${out.id}">—</div>
+      <div class="s" id="s_${out.id}">p10–p90: —</div>
+    `;
+    statsRow.appendChild(s);
+
+    const c = document.createElement('div');
+    c.className = 'chart';
+    c.innerHTML = `
+      <h3>${out.title}</h3>
+      <p>${out.subtitle ?? ''}</p>
+      <canvas id="c_${out.id}" width="700" height="220"></canvas>
+    `;
+    chartsGrid.appendChild(c);
+  }
+}
+
+function renderPromptUI(){
+  document.getElementById('promptTitle').textContent = SPEC.project.promptTemplate.title;
+  document.getElementById('promptInstructions').textContent = SPEC.project.promptTemplate.instructions;
+
+  const refinements = document.getElementById('refinements');
+  refinements.placeholder = SPEC.ui.promptUI.refinementsPlaceholder;
+
+  const out = document.getElementById('promptOut');
+  out.placeholder = SPEC.ui.promptUI.promptOutputPlaceholder;
+
+  const bar = document.getElementById('promptButtons');
+  bar.innerHTML = '';
+
+  const btns = SPEC.ui.promptUI.buttons;
+  const byId = Object.fromEntries(btns.map(x=>[x.id,x.label]));
+
+  const makeBtn = (id, label, onClick) => {
+    const b = document.createElement('button');
+    b.id = id;
+    b.textContent = label;
+    b.addEventListener('click', onClick);
+    bar.appendChild(b);
+  };
+
+  makeBtn('btnGenPrompt', byId.btnGenPrompt || 'Generate AI Prompt', () => {
+    document.getElementById('promptOut').value = buildPrompt();
+    updateStatus('Prompt generated.');
+  });
+  makeBtn('btnCopyPrompt', byId.btnCopyPrompt || 'Copy Prompt', copyPrompt);
+  makeBtn('btnClearRefinements', byId.btnClearRefinements || 'Clear refinements', () => {
+    refinements.value = '';
+    updateStatus('Refinements cleared.');
+  });
+}
+
+function setStat(outId, mean, p10, p90, fmt){
+  document.getElementById('m_'+outId).textContent = fmt(mean);
+  document.getElementById('s_'+outId).textContent = `p10–p90: ${fmt(p10)} – ${fmt(p90)}`;
+}
+
+function computeAndRender(){
+  refreshParamLabels();
+  const params = readParams();
+  const draws = params.draws || 5000;
+
+  updateStatus('Simulating…');
+  const t0 = performance.now();
+  const sim = simulateFromSpec(params, draws);
+  const t1 = performance.now();
+
+  for (const out of SPEC.outputs){
+    const s = summarize(sim[out.id]);
+    const fmt = (out.summary?.meanFormat === 'months') ? fmtMonths : fmtPct;
+
+    setStat(out.id, s.mean, s.p10, s.p90, fmt);
+
+    drawHist(document.getElementById('c_'+out.id), s.sorted, {
+      bins: SPEC.engine.bins || 44,
+      minV: out.range.min,
+      maxV: out.range.max,
+      minVLabel: out.range.min,
+      maxVLabel: out.range.max,
+      note: 'mean ' + fmt(s.mean)
+    });
+  }
+
+  updateStatus(`Updated. ${draws} draws in ~${(t1-t0).toFixed(0)}ms.`);
+}
+
+/* ============================
+   Buttons actions
+============================ */
+function resetParams(){
+  for (const par of SPEC.parameters){
+    document.getElementById('p_'+par.id).value = par.default;
+  }
+  live = true;
+  refreshParamLabels();
+  computeAndRender();
+}
+function randomizeParams(){
+  const rand = (a,b,step=1) => {
+    const n = Math.round((a + Math.random()*(b-a))/step)*step;
+    return clamp(n,a,b);
+  };
+  for (const par of SPEC.parameters){
+    const el = document.getElementById('p_'+par.id);
+    if (par.id === 'draws') el.value = rand(1500, 14000, par.step ?? 500);
+    else if (par.id === 'debounce') el.value = rand(0, 240, par.step ?? 20);
+    else el.value = rand(par.min, par.max, par.step ?? 1);
+  }
+  refreshParamLabels();
+  computeAndRender();
+}
+function toggleLive(){
+  live = !live;
+  refreshParamLabels();
+  updateStatus(live ? 'Live update enabled.' : 'Live update disabled (manual recompute).');
+}
+
+/* ============================
+   Prompt generation
+============================ */
+function buildPrompt(){
+  const params = readParams();
+  const tpl = SPEC.project.promptTemplate;
+
+  const paramLines = SPEC.parameters
+    .filter(p => !p.isMeta)
+    .map(p => `- ${p.label}: ${params[p.id]}`)
+    .join('\n');
+
+  const refinementsText = document.getElementById('refinements').value.trim() || tpl.defaultAssumptions;
+
+  return tpl.promptText.join('\n')
+    .replace('{{PARAMETERS_LIST}}', paramLines)
+    .replace('{{REFINEMENTS}}', refinementsText);
+}
+async function copyPrompt(){
+  const ta = document.getElementById('promptOut');
+  if (!ta.value.trim()){
+    updateStatus('Nothing to copy yet. Click “Generate AI Prompt” first.');
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(ta.value);
+    updateStatus('Prompt copied to clipboard.');
+  } catch (e) {
+    ta.focus(); ta.select();
+    document.execCommand('copy');
+    updateStatus('Prompt copied (fallback).');
+  }
+}
+
+/* ============================
+   Upload-based spec load
+============================ */
+function applySpec(spec){
+  SPEC = spec;
+
+  document.getElementById('title').textContent = SPEC.meta?.title ?? 'Institution UI Shell';
+  document.getElementById('subtitle').textContent = SPEC.meta?.subtitle ?? '';
+  document.getElementById('footerNote').textContent = SPEC.meta?.footerNote ?? '';
+
+  document.getElementById('leftTitle').textContent = SPEC.ui?.layout?.leftPanelTitle ?? 'Parameters';
+  document.getElementById('rightTitle').textContent = SPEC.ui?.layout?.rightPanelTitle ?? 'Outcomes';
+
+  document.getElementById('drawsPillLabel').textContent = SPEC.ui?.controls?.drawsLabel ?? 'Monte Carlo draws';
+  document.getElementById('livePillLabel').textContent = SPEC.ui?.controls?.liveUpdateLabel ?? 'Live update';
+
+  renderControls();
+  renderButtons();
+  renderStatsAndCharts();
+  renderPromptUI();
+
+  setDisabled(false);
+  live = true;
+
+  refreshParamLabels();
+  computeAndRender();
+
+  updateLoadStatus('Loaded ✓');
+  updateStatus('Ready.');
+}
+
+function validateSpec(spec){
+  // Minimal sanity checks (expand as you like)
+  if (!spec || typeof spec !== 'object') throw new Error('Spec is not an object');
+  if (!Array.isArray(spec.parameters) || spec.parameters.length === 0) throw new Error('Spec missing parameters[]');
+  if (!Array.isArray(spec.outputs) || spec.outputs.length === 0) throw new Error('Spec missing outputs[]');
+  if (!spec.engine || !spec.engine.derived || !spec.engine.perDraw || !spec.engine.outputMapping) throw new Error('Spec missing engine sections');
+}
+
+document.getElementById('btnUploadSpec').addEventListener('click', () => {
+  document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', async (ev) => {
+  const file = ev.target.files && ev.target.files[0];
+  if (!file) return;
+
+  document.getElementById('fileName').textContent = file.name;
+  updateLoadStatus('Reading file…');
+
+  try {
+    const text = await file.text();
+    const spec = JSON.parse(text);
+    validateSpec(spec);
+    applySpec(spec);
+  } catch (err) {
+    updateLoadStatus('Load failed: ' + String(err));
+    updateStatus('Upload a valid spec to start.');
+  } finally {
+    // allow re-upload of the same file by resetting input value
+    ev.target.value = '';
+  }
+});
+
+// Start disabled until spec is uploaded
+setDisabled(true);
+</script>
+</body>
+</html>
