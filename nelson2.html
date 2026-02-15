@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trafalgar Institution Simulator (Collision + States + Color MC)</title>
+  <style>
+    :root { --bg:#0b0f14; --panel:#101826; --muted:#9fb1c7; --text:#e7f0ff; }
+    *{ box-sizing:border-box; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body{ margin:0; background:var(--bg); color:var(--text); }
+    header{ padding:14px 18px; border-bottom:1px solid rgba(255,255,255,0.08); }
+    header h1{ font-size:16px; margin:0; font-weight:700; }
+    header .sub{ font-size:12px; color:var(--muted); margin-top:2px; }
+    main{ display:grid; grid-template-columns: 360px 1fr 360px; gap:12px; padding:12px; }
+    .card{ background:var(--panel); border:1px solid rgba(255,255,255,0.08); border-radius:14px; overflow:hidden; }
+    .hd{ padding:12px; border-bottom:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .hd h2{ margin:0; font-size:13px; font-weight:700; color:#d9e6ff; }
+    .bd{ padding:12px; }
+    .row{ display:flex; gap:10px; align-items:center; }
+    .row + .row{ margin-top:10px; }
+    label{ width:160px; font-size:12px; color:var(--muted); }
+    input[type="range"]{ width:100%; }
+    select, button, input[type="number"]{ background:#0c1320; color:var(--text); border:1px solid rgba(255,255,255,0.12); border-radius:10px; padding:8px 10px; }
+    button{ cursor:pointer; }
+    button:disabled{ opacity:.55; cursor:not-allowed; }
+    .btns{ display:flex; gap:8px; flex-wrap:wrap; }
+    .pill{ font-size:11px; padding:4px 8px; border:1px solid rgba(255,255,255,0.12); border-radius:999px; color:var(--muted); white-space:nowrap; }
+    .legend{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:6px; }
+    #canvas{
+      width:100%;
+      height:640px;
+      background:#06101b;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      display:block;
+    }
+    #log{ height:260px; overflow:auto; background:#0b1320; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px; }
+    #log .item{ margin:0 0 10px; }
+    #log .item .t{ color:#cfe3ff; font-size:12px; margin:0 0 2px; }
+    #log .item .d{ color:var(--muted); font-size:11px; margin:0; }
+    .small{ font-size:11px; color:var(--muted); line-height:1.35; }
+    canvas.chart{ width:100%; height:170px; background:#0b1320; border:1px solid rgba(255,255,255,0.08); border-radius:12px; }
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .kpi{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .kpi .box{ background:#0b1320; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px; }
+    .kpi .box .v{ font-size:16px; font-weight:750; margin:0; }
+    .kpi .box .l{ font-size:11px; color:var(--muted); margin:2px 0 0; }
+    #tooltip{
+      position:fixed; pointer-events:none; z-index:10; transform:translate(10px,10px);
+      background:rgba(10,16,26,0.95); border:1px solid rgba(255,255,255,0.12);
+      border-radius:10px; padding:10px; width:320px; display:none;
+    }
+    #tooltip h3{ margin:0 0 6px; font-size:12px; }
+    #tooltip .kv{ display:grid; grid-template-columns: 1fr auto; gap:6px; font-size:11px; color:var(--muted); }
+    #tooltip .kv div:nth-child(2n){ color:#d9e6ff; text-align:right; }
+    .miniLegend{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:6px; }
+    .sq{ width:10px; height:10px; border-radius:2px; display:inline-block; margin-right:6px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Trafalgar Institution Simulator</h1>
+  <div class="sub">1 ship/cell • ship states • mission-command epistemics • Monte Carlo charts color-coded (B blue / F red)</div>
+</header>
+
+<main>
+  <!-- LEFT -->
+  <section class="card">
+    <div class="hd"><h2>Controls</h2><span class="pill" id="seedPill">seed: 42</span></div>
+    <div class="bd">
+      <div class="row">
+        <label>Scenario</label>
+        <select id="scenario">
+          <option value="trafalgar">Historical-ish</option>
+          <option value="badBrief">British poor briefing</option>
+          <option value="frenchBetter">French stronger</option>
+          <option value="fogChaos">Heavy smoke</option>
+          <option value="britLoss">British likely loss</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label>Seed</label>
+        <input id="seed" type="number" min="1" max="999999" value="42" style="width:100%">
+      </div>
+
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08); margin:12px 0">
+
+      <div class="row"><label>Fleet size (each)</label><input type="range" id="nShips" min="6" max="22" step="1"></div>
+
+      <div class="row"><label>Steps / second</label><input type="range" id="speed" min="1" max="8" step="1"></div>
+      <div class="row"><label>Extra step delay (ms)</label><input type="range" id="delay" min="0" max="900" step="50"></div>
+
+      <div class="row">
+        <label>Slow motion mode</label>
+        <select id="slowmo">
+          <option value="on">On (snap steps)</option>
+          <option value="off">Off (smooth)</option>
+        </select>
+      </div>
+
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08); margin:12px 0">
+
+      <div class="row"><label>British training</label><input type="range" id="bTraining" min="0" max="1" step="0.01"></div>
+      <div class="row"><label>French training</label><input type="range" id="fTraining" min="0" max="1" step="0.01"></div>
+
+      <div class="row"><label>British doctrine</label><input type="range" id="bDoctrine" min="0" max="1" step="0.01"></div>
+      <div class="row"><label>French doctrine</label><input type="range" id="fDoctrine" min="0" max="1" step="0.01"></div>
+
+      <div class="row"><label>Shared knowledge (B)</label><input type="range" id="bCommon" min="0" max="1" step="0.01"></div>
+      <div class="row"><label>Shared knowledge (F)</label><input type="range" id="fCommon" min="0" max="1" step="0.01"></div>
+
+      <div class="row"><label>Comms (pre)</label><input type="range" id="commsPre" min="0" max="1" step="0.01"></div>
+      <div class="row"><label>Comms (close)</label><input type="range" id="commsClose" min="0" max="1" step="0.01"></div>
+
+      <div class="row"><label>British aggression</label><input type="range" id="bAgg" min="0" max="1" step="0.01"></div>
+      <div class="row"><label>French aggression</label><input type="range" id="fAgg" min="0" max="1" step="0.01"></div>
+
+      <div class="row"><label>Wind advantage (B)</label><input type="range" id="windB" min="-1" max="1" step="0.01"></div>
+      <div class="row"><label>French line integrity</label><input type="range" id="lineF" min="0" max="1" step="0.01"></div>
+
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08); margin:12px 0">
+
+      <div class="row"><label>Monte Carlo runs</label><input type="range" id="mcRuns" min="50" max="600" step="10"></div>
+
+      <div class="btns" style="margin-top:10px">
+        <button id="resetBtn">Reset</button>
+        <button id="stepBtn">Step</button>
+        <button id="playBtn">Play</button>
+        <button id="pauseBtn" disabled>Pause</button>
+      </div>
+
+      <p class="small" style="margin-top:10px">
+        Visual key: bright = <b>active</b>, grey = <b>disabled</b>, white ring = <b>struck</b> (captured), not drawn = <b>sunk</b>.
+      </p>
+    </div>
+  </section>
+
+  <!-- CENTER -->
+  <section class="card">
+    <div class="hd">
+      <h2>Grid</h2>
+      <div class="legend">
+        <span><span class="dot" style="background:#60a5fa"></span>British</span>
+        <span><span class="dot" style="background:#fb7185"></span>French</span>
+        <span><span class="dot" style="background:#94a3b8"></span>Disabled</span>
+        <span><span class="dot" style="background:#e7f0ff"></span>Struck</span>
+        <span class="pill" id="phasePill">phase: preparation</span>
+        <span class="pill" id="stepPill">t=0</span>
+        <span class="pill" id="outcomePill">outcome: pending</span>
+      </div>
+    </div>
+
+    <div class="bd">
+      <div class="kpi" style="margin-bottom:10px">
+        <div class="box"><p class="v" id="kpiCoh">0.00</p><p class="l">British cohesion</p></div>
+        <div class="box"><p class="v" id="kpiComms">0.00</p><p class="l">Comms reliability</p></div>
+        <div class="box"><p class="v" id="kpiB">0</p><p class="l">British effective points</p></div>
+        <div class="box"><p class="v" id="kpiF">0</p><p class="l">French effective points</p></div>
+      </div>
+
+      <canvas id="canvas"></canvas>
+      <div class="small" id="whyLine" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <!-- RIGHT -->
+  <section style="display:grid; grid-template-rows:auto 1fr auto; gap:12px;">
+    <section class="card">
+      <div class="hd"><h2>Explanation</h2></div>
+      <div class="bd">
+        <div id="log"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h2>Monte Carlo</h2><span class="pill" id="mcPill">runs: 200</span></div>
+      <div class="bd">
+        <div class="grid2">
+          <div>
+            <div class="small">Batch win probability (B blue / F red)</div>
+            <canvas class="chart" id="chartVictory" width="520" height="220"></canvas>
+            <div class="miniLegend small">
+              <span><span class="sq" style="background:rgba(96,165,250,0.45)"></span>British win</span>
+              <span><span class="sq" style="background:rgba(251,113,133,0.35)"></span>French win</span>
+            </div>
+          </div>
+          <div>
+            <div class="small">Final effective-point margin</div>
+            <canvas class="chart" id="chartMargin" width="520" height="220"></canvas>
+            <div class="miniLegend small">
+              <span><span class="sq" style="background:rgba(96,165,250,0.35)"></span>B&gt;F</span>
+              <span><span class="sq" style="background:rgba(251,113,133,0.35)"></span>F&gt;B</span>
+            </div>
+          </div>
+        </div>
+        <p class="small" style="margin-top:8px">
+          Victory uses <b>effective points</b>: active=1.0, disabled=0.5, struck=0.0, sunk=0.0.
+        </p>
+      </div>
+    </section>
+  </section>
+</main>
+
+<div id="tooltip"></div>
+
+<script>
+/* ========= RNG + helpers ========= */
+function mulberry32(seed){ let t=seed>>>0; return function(){ t+=0x6D2B79F5; let r=Math.imul(t^(t>>>15),1|t); r^=r+Math.imul(r^(r>>>7),61|r); return ((r^(r>>>14))>>>0)/4294967296; }; }
+function clamp(x,a,b){ return Math.max(a,Math.min(b,x)); }
+function lerp(a,b,t){ return a+(b-a)*t; }
+function dist(ax,ay,bx,by){ return Math.hypot(ax-bx,ay-by); }
+function mean(arr){ return arr.reduce((s,x)=>s+x,0)/Math.max(1,arr.length); }
+function debounce(fn,ms){ let t=null; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),ms); }; }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,(c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
+
+/* ========= Ship states ========= */
+const ShipState = Object.freeze({ ACTIVE:"active", DISABLED:"disabled", STRUCK:"struck", SUNK:"sunk" });
+
+class Ship{
+  constructor({id,side,x,y,rng}){
+    this.id=id; this.side=side; this.x=x; this.y=y;
+    this.state=ShipState.ACTIVE;
+    this.hp=1.0; this.morale=1.0;
+    this.targetId=null;
+    this.doctrine=0; this.intent=0; this.common=0; this.signalInbox=0;
+    this.skill=0.5; this.aggr=0.5;
+    this.lastDecision="hold"; this.lastReason=""; this.rng=rng;
+    this.px=x; this.py=y;
+    this.spawnY=y;
+  }
+  isOnMap(){ return this.state !== ShipState.SUNK; }
+  canMove(){ return this.state === ShipState.ACTIVE; }
+  canShoot(){ return this.state === ShipState.ACTIVE || this.state === ShipState.DISABLED; }
+  power(){
+    if (this.state === ShipState.ACTIVE) return 1.0;
+    if (this.state === ShipState.DISABLED) return 0.5;
+    return 0.0;
+  }
+}
+
+/* ========= Simulation ========= */
+class Simulation{
+  constructor(params){
+    this.params=JSON.parse(JSON.stringify(params));
+    this.rng=mulberry32(params.seed);
+    this.t=0; this.phase="preparation"; this.done=false; this.outcome="pending"; this.why="";
+    this.gridW=24; this.gridH=18;
+    this.ships=[]; this.log=[];
+    this.initFleets();
+    this.applyProgramming();
+    this.pushLog("Preparation","Doctrine/intent/common-knowledge initialise the ‘program’. One ship per cell: columns queue rather than stack.");
+  }
+
+  initFleets(){
+    const n=this.params.nShips;
+    const b1=Math.ceil(n/2), b2=n-b1;
+
+    for(let i=0;i<b1;i++){
+      const y = clamp(3+i*2, 1, this.gridH-2);
+      this.ships.push(new Ship({id:`B${i}`,side:"B",x:2,y,rng:this.rng}));
+    }
+    for(let i=0;i<b2;i++){
+      const y = clamp(2+i*2, 1, this.gridH-2);
+      this.ships.push(new Ship({id:`B${b1+i}`,side:"B",x:4,y,rng:this.rng}));
+    }
+    for(let i=0;i<n;i++){
+      const y = clamp(2+i, 1, this.gridH-2);
+      this.ships.push(new Ship({id:`F${i}`,side:"F",x:this.gridW-3,y,rng:this.rng}));
+    }
+  }
+
+  applyProgramming(){
+    for(const s of this.ships){
+      if(s.side==="B"){
+        s.skill=this.params.bTraining;
+        s.doctrine=this.params.bDoctrine;
+        s.intent=clamp(this.params.bDoctrine*0.6 + this.params.bCommon*0.25 + 0.15,0,1);
+        s.common=this.params.bCommon;
+        s.aggr=this.params.bAgg;
+      }else{
+        s.skill=this.params.fTraining;
+        s.doctrine=this.params.fDoctrine;
+        s.intent=clamp(this.params.fDoctrine*0.55 + this.params.fCommon*0.2 + this.params.lineF*0.2,0,1);
+        s.common=this.params.fCommon;
+        s.aggr=this.params.fAgg;
+      }
+    }
+  }
+
+  commsReliability(){
+    if(this.phase==="preparation") return this.params.commsPre;
+    if(this.phase==="approach") return lerp(this.params.commsPre,this.params.commsClose,0.35);
+    return this.params.commsClose;
+  }
+
+  isCloseFight(){
+    let close=0;
+    const B=this.ships.filter(s=>s.side==="B"&&s.isOnMap()&&s.state!==ShipState.STRUCK);
+    const F=this.ships.filter(s=>s.side==="F"&&s.isOnMap()&&s.state!==ShipState.STRUCK);
+    for(const b of B) for(const f of F) if(dist(b.x,b.y,f.x,f.y)<=2.4) close++;
+    return close>=Math.max(1,Math.floor(0.05*B.length*F.length));
+  }
+
+  updatePhase(){
+    if(this.phase==="preparation" && this.t>=3) this.phase="approach";
+    if(this.phase!=="close" && this.isCloseFight()) this.phase="close";
+  }
+
+  receiveSignals(){
+    const cr=this.commsReliability();
+    for(const s of this.ships){
+      if(!s.isOnMap()) continue;
+      const dependency=1-(0.55*s.common+0.25*s.doctrine);
+      const noise=(this.rng()-0.5)*0.25;
+      const perceived=clamp(cr+noise,0,1);
+      s.signalInbox=clamp(lerp(s.signalInbox, perceived, 0.6*dependency+0.2),0,1);
+    }
+  }
+
+  occMap(){
+    const occ = new Map();
+    for(const s of this.ships){
+      if(!s.isOnMap()) continue;
+      occ.set(`${s.x},${s.y}`, s.id);
+    }
+    return occ;
+  }
+
+  chooseTargets(){
+    const activeB=this.ships.filter(s=>s.side==="B"&&s.isOnMap()&&s.state!==ShipState.STRUCK);
+    const activeF=this.ships.filter(s=>s.side==="F"&&s.isOnMap()&&s.state!==ShipState.STRUCK);
+    const midY=activeF.length?mean(activeF.map(x=>x.y)):this.gridH/2;
+
+    for(const s of this.ships){
+      if(!s.isOnMap() || s.state===ShipState.STRUCK) { s.targetId=null; continue; }
+      const opp=(s.side==="B")?activeF:activeB;
+      if(!opp.length){ s.targetId=null; continue; }
+
+      let best=null, bestScore=1e9;
+      for(const o of opp){
+        const d=dist(s.x,s.y,o.x,o.y);
+        let bias=0;
+        if(s.side==="B"){
+          bias -= 0.35*(1-Math.min(1,Math.abs(o.y-midY)/8));
+          bias -= 0.25*(s.doctrine*s.intent*s.common);
+        }else{
+          bias += 0.15*(s.doctrine*s.common);
+        }
+        const score=d+bias;
+        if(score<bestScore){ bestScore=score; best=o; }
+      }
+      s.targetId=best?.id ?? null;
+    }
+  }
+
+  cohesionScore(side){
+    const ships=this.ships.filter(s=>s.side===side&&s.isOnMap()&&s.state!==ShipState.STRUCK);
+    if(ships.length<2) return 1;
+    const cr=this.commsReliability();
+    const base=mean(ships.map(s=>s.common*s.doctrine*s.intent));
+    const dependence=mean(ships.map(s=>1-(0.55*s.common+0.25*s.doctrine)));
+    const penalty=(this.phase==="close")?(dependence*(1-cr)):0.15*dependence*(1-cr);
+    return clamp(base-penalty+0.15,0,1);
+  }
+
+  proposeMove(s, target){
+    s.px = s.x; s.py = s.y;
+
+    if(!s.canMove()){
+      s.lastDecision = (s.state===ShipState.DISABLED) ? "disabled" : "struck";
+      s.lastReason = (s.state===ShipState.DISABLED)
+        ? "Disabled: still afloat and blocks space; manoeuvre reduced."
+        : "Struck: captured; no longer fighting but blocks movement.";
+      return {nx:s.x, ny:s.y};
+    }
+
+    if(!target || !target.isOnMap() || target.state===ShipState.STRUCK){
+      if(s.side==="B"){
+        s.lastDecision="advance";
+        s.lastReason="No clear target: continue advancing.";
+        return {nx: s.x+1, ny: s.y};
+      }
+      s.lastDecision="hold line";
+      s.lastReason="Maintain line/position.";
+      const dy = Math.sign(s.spawnY - s.y);
+      return {nx:s.x, ny: s.y + (this.rng()<0.25?dy:0)};
+    }
+
+    const cr=this.commsReliability();
+    const wind=this.params.windB;
+    const d=dist(s.x,s.y,target.x,target.y);
+    const prog=clamp(0.55*s.doctrine + 0.35*s.intent + 0.35*s.common,0,1);
+    const opp=clamp((0.45*s.skill+0.55*s.aggr)*s.morale,0,1);
+
+    if(s.side==="B"){
+      if(d>1.9){
+        const dx = Math.sign(target.x - s.x);
+        const dy = Math.sign(target.y - s.y);
+        let stepX = dx;
+        if (wind > 0.45 && this.rng() < 0.25) stepX = 2*dx;
+        let stepY = 0;
+        const angle = (this.phase!=="preparation") && (prog>0.55) && (this.rng() < 0.55*prog);
+        if(angle) stepY = dy;
+        s.lastDecision = angle ? "angle / break" : "close";
+        s.lastReason = (cr<0.35)
+          ? "Comms poor: doctrine+intent substitute for detailed signals; autonomous closing."
+          : "Signals usable: close within plan framework.";
+        return {nx:s.x+stepX, ny:s.y+stepY};
+      } else {
+        s.lastDecision="engage";
+        s.lastReason = (cr<0.35)
+          ? "Close action: mission rule substitutes for signals."
+          : "Engage with local coordination.";
+        return {nx:s.x, ny:s.y};
+      }
+    } else {
+      const formal=clamp(0.45*cr + 0.35*s.doctrine + 0.25*s.common + 0.25*this.params.lineF,0,1);
+      const Fcoh=this.cohesionScore("F");
+      const willHold = clamp(0.20 + 0.70*formal + 0.10*Fcoh,0,1);
+
+      if(d>1.9){
+        if(this.rng()<willHold){
+          const dy = Math.sign(s.spawnY - s.y);
+          s.lastDecision="hold line";
+          s.lastReason = (cr>0.5)
+            ? "Comms + doctrine maintain line; slower adaptation."
+            : "Degraded comms: doctrine still biases holding formation.";
+          return {nx:s.x, ny:s.y + (this.rng()<0.5?dy:0)};
+        } else {
+          const dx=Math.sign(target.x - s.x);
+          const dy=Math.sign(target.y - s.y);
+          s.lastDecision="respond";
+          s.lastReason = (cr<0.35)
+            ? "Comms degraded: local reactive dueling."
+            : "Local initiative increases as control weakens.";
+          return {nx:s.x+dx, ny:s.y + (this.rng()<0.7?dy:0)};
+        }
+      } else {
+        s.lastDecision = (this.rng()<0.65*opp ? "engage" : "brace");
+        s.lastReason = (s.lastDecision==="engage") ? "Engage nearby attacker." : "Brace: slower cycle / confusion.";
+        return {nx:s.x, ny:s.y};
+      }
+    }
+  }
+
+  resolveMoves(){
+    const idToShip=new Map(this.ships.map(s=>[s.id,s]));
+    const occ = this.occMap();
+
+    const sortKey = (s)=>{
+      const base = (s.side==="B") ? -s.x : s.x;
+      return base + s.y*0.01;
+    };
+
+    const movers = this.ships
+      .filter(s=>s.isOnMap())
+      .slice()
+      .sort((a,b)=> sortKey(a)-sortKey(b));
+
+    const proposals = new Map();
+    for(const s of movers){
+      const t = s.targetId ? idToShip.get(s.targetId) : null;
+      const {nx, ny} = this.proposeMove(s, t);
+      const cx = clamp(nx,1,this.gridW-2);
+      const cy = clamp(ny,1,this.gridH-2);
+      proposals.set(s.id, {nx:cx, ny:cy});
+    }
+
+    for(const s of movers){
+      const p = proposals.get(s.id);
+      if(!p) continue;
+
+      if (p.nx===s.x && p.ny===s.y) continue;
+
+      const key = `${p.nx},${p.ny}`;
+      const occupiedBy = occ.get(key);
+
+      if(!occupiedBy){
+        occ.delete(`${s.x},${s.y}`);
+        s.x = p.nx; s.y = p.ny;
+        occ.set(`${s.x},${s.y}`, s.id);
+      }else{
+        s.lastDecision = ["close","advance","respond","angle / break"].includes(s.lastDecision) ? "queue" : s.lastDecision;
+        s.lastReason = "Cell occupied: ship queues behind (no stacking).";
+      }
+    }
+  }
+
+  resolveCombat(){
+    const idToShip=new Map(this.ships.map(s=>[s.id,s]));
+    const cr=this.commsReliability();
+    const shots=[];
+
+    for(const s of this.ships){
+      if(!s.isOnMap() || !s.canShoot() || !s.targetId) continue;
+      const t=idToShip.get(s.targetId);
+      if(!t || !t.isOnMap() || t.state===ShipState.STRUCK) continue;
+
+      const d=dist(s.x,s.y,t.x,t.y);
+      if(d>2.2) continue;
+
+      const disabledPenalty = (s.state===ShipState.DISABLED) ? 0.18 : 0.0;
+
+      let baseHit=0.16 + 0.36*s.skill + 0.08*s.morale - disabledPenalty;
+      const chaos=(this.rng()-0.5)*0.12;
+
+      if(s.side==="B"){
+        const prog=clamp(0.55*s.doctrine + 0.35*s.intent + 0.35*s.common,0,1);
+        baseHit += (1-cr)*0.22*prog;
+        baseHit += (d<=1.6?0.08:0);
+      }else{
+        const formal=clamp(0.45*cr + 0.35*s.doctrine + 0.25*s.common + 0.15*this.params.lineF,0,1);
+        baseHit += cr*0.12*formal;
+        baseHit -= (1-cr)*0.10;
+      }
+
+      const hitProb=clamp(baseHit+chaos,0.02,0.90);
+      if(this.rng()<hitProb){
+        let dmg=(0.055+0.17*s.skill + (d<=1.6?0.06:0))*(0.85+0.3*this.rng());
+        dmg *= (1.05-0.25*t.morale);
+        if (t.state===ShipState.DISABLED) dmg *= 1.15;
+        shots.push({to:t.id,dmg});
+      }
+    }
+
+    for(const sh of shots){
+      const t=idToShip.get(sh.to);
+      if(!t || !t.isOnMap() || t.state===ShipState.STRUCK) continue;
+
+      t.hp=clamp(t.hp-sh.dmg,0,1);
+
+      if(t.hp<=0.02){
+        t.state=ShipState.SUNK;
+        t.lastDecision="sunk";
+        t.lastReason="Sunk: removed from map.";
+      } else if (t.hp<=0.10){
+        t.state=ShipState.STRUCK;
+        t.lastDecision="struck";
+        t.lastReason="Struck colours: captured/neutralised (stays on map, blocks movement).";
+      } else if (t.hp<=0.25 && t.state===ShipState.ACTIVE){
+        t.state=ShipState.DISABLED;
+        t.lastDecision="disabled";
+        t.lastReason="Disabled: still afloat and blocks space; manoeuvre reduced; firepower reduced.";
+      }
+
+      if(t.hp<0.25) t.morale=clamp(t.morale-0.06,0,1);
+    }
+  }
+
+  effectivePoints(side){
+    return this.ships
+      .filter(s=>s.side===side && s.isOnMap())
+      .reduce((sum,s)=>sum + s.power(), 0);
+  }
+
+  checkOutcome(){
+    const Bp=this.effectivePoints("B");
+    const Fp=this.effectivePoints("F");
+    const total = Math.max(1, Bp+Fp);
+
+    if(Fp/total <= 0.15){ this.done=true; this.outcome="british victory"; return; }
+    if(Bp/total <= 0.15){ this.done=true; this.outcome="french victory"; return; }
+
+    if(this.t>=80){
+      this.done=true;
+      const margin = Bp - Fp;
+      if(margin > 1.5) this.outcome="british victory";
+      else if(margin < -1.5) this.outcome="french victory";
+      else this.outcome="indecisive";
+    }
+  }
+
+  explain(){
+    const cr=this.commsReliability();
+    const Bcoh=this.cohesionScore("B");
+    const Fcoh=this.cohesionScore("F");
+    const Bp=this.effectivePoints("B");
+    const Fp=this.effectivePoints("F");
+
+    this.why =
+      `${cr<0.35?"Close action: signals unreliable.":"Signals partly usable."} ` +
+      `${Bcoh>Fcoh?"British alignment > French alignment.":"French formation control competitive."} ` +
+      `${Bp>=Fp?"British effective strength holding.":"French effective strength holding."}`;
+
+    if(this.t===1){
+      this.pushLog("Why ships no longer ‘disappear’",
+        "Ships now have states: active, disabled (grey), struck (captured), sunk (removed). Disabled/struck ships remain on the grid and block movement.");
+    }
+    if(this.phase==="close" && this.t%7===0){
+      this.pushLog("Close action mechanism",
+        (Bcoh>0.55)
+          ? "British ships keep concentrating attacks despite poor signals because shared intent is internalised (high doctrine + shared knowledge)."
+          : "British attacks become less coordinated: low shared knowledge means autonomy becomes unaligned, reducing concentration.");
+    }
+  }
+
+  pushLog(title,detail){
+    this.log.unshift({t:this.t,title,detail});
+    if(this.log.length>28) this.log.pop();
+  }
+
+  step(){
+    if(this.done) return;
+    this.updatePhase();
+    this.receiveSignals();
+    this.chooseTargets();
+    this.resolveMoves();
+    this.resolveCombat();
+    this.checkOutcome();
+    this.explain();
+    this.t++;
+  }
+}
+
+/* ========= UI ========= */
+const ui={
+  canvas:document.getElementById("canvas"),
+  ctx:null,
+  tooltip:document.getElementById("tooltip"),
+  log:document.getElementById("log"),
+  whyLine:document.getElementById("whyLine"),
+  phasePill:document.getElementById("phasePill"),
+  stepPill:document.getElementById("stepPill"),
+  outcomePill:document.getElementById("outcomePill"),
+  seedPill:document.getElementById("seedPill"),
+  kpiCoh:document.getElementById("kpiCoh"),
+  kpiComms:document.getElementById("kpiComms"),
+  kpiB:document.getElementById("kpiB"),
+  kpiF:document.getElementById("kpiF"),
+  chartVictory:document.getElementById("chartVictory").getContext("2d"),
+  chartMargin:document.getElementById("chartMargin").getContext("2d"),
+  mcPill:document.getElementById("mcPill"),
+};
+
+const c={
+  scenario:document.getElementById("scenario"),
+  seed:document.getElementById("seed"),
+  nShips:document.getElementById("nShips"),
+  speed:document.getElementById("speed"),
+  delay:document.getElementById("delay"),
+  slowmo:document.getElementById("slowmo"),
+  bTraining:document.getElementById("bTraining"),
+  fTraining:document.getElementById("fTraining"),
+  bDoctrine:document.getElementById("bDoctrine"),
+  fDoctrine:document.getElementById("fDoctrine"),
+  bCommon:document.getElementById("bCommon"),
+  fCommon:document.getElementById("fCommon"),
+  commsPre:document.getElementById("commsPre"),
+  commsClose:document.getElementById("commsClose"),
+  bAgg:document.getElementById("bAgg"),
+  fAgg:document.getElementById("fAgg"),
+  windB:document.getElementById("windB"),
+  lineF:document.getElementById("lineF"),
+  mcRuns:document.getElementById("mcRuns"),
+  resetBtn:document.getElementById("resetBtn"),
+  stepBtn:document.getElementById("stepBtn"),
+  playBtn:document.getElementById("playBtn"),
+  pauseBtn:document.getElementById("pauseBtn"),
+};
+
+const defaults={
+  trafalgar:{ bTraining:0.80,fTraining:0.55,bDoctrine:0.92,fDoctrine:0.55,bCommon:0.80,fCommon:0.45,commsPre:0.85,commsClose:0.30,bAgg:0.75,fAgg:0.55,windB:0.35,lineF:0.60,nShips:16,mcRuns:200,speed:2,delay:400,slowmo:"on" },
+  badBrief:{ bTraining:0.78,fTraining:0.55,bDoctrine:0.45,fDoctrine:0.60,bCommon:0.35,fCommon:0.45,commsPre:0.80,commsClose:0.25,bAgg:0.70,fAgg:0.55,windB:0.25,lineF:0.65,nShips:16,mcRuns:240,speed:2,delay:450,slowmo:"on" },
+  frenchBetter:{ bTraining:0.78,fTraining:0.72,bDoctrine:0.82,fDoctrine:0.70,bCommon:0.70,fCommon:0.65,commsPre:0.82,commsClose:0.33,bAgg:0.70,fAgg:0.65,windB:0.10,lineF:0.80,nShips:16,mcRuns:260,speed:2,delay:450,slowmo:"on" },
+  fogChaos:{ bTraining:0.78,fTraining:0.60,bDoctrine:0.80,fDoctrine:0.60,bCommon:0.55,fCommon:0.45,commsPre:0.70,commsClose:0.10,bAgg:0.70,fAgg:0.60,windB:0.15,lineF:0.60,nShips:16,mcRuns:300,speed:1,delay:700,slowmo:"on" },
+  britLoss:{ bTraining:0.70,fTraining:0.72,bDoctrine:0.45,fDoctrine:0.75,bCommon:0.35,fCommon:0.70,commsPre:0.75,commsClose:0.22,bAgg:0.62,fAgg:0.70,windB:-0.20,lineF:0.88,nShips:18,mcRuns:350,speed:2,delay:500,slowmo:"on" },
+  custom:{ bTraining:0.78,fTraining:0.60,bDoctrine:0.80,fDoctrine:0.60,bCommon:0.60,fCommon:0.50,commsPre:0.80,commsClose:0.25,bAgg:0.70,fAgg:0.60,windB:0.10,lineF:0.65,nShips:16,mcRuns:200,speed:2,delay:400,slowmo:"on" },
+};
+
+function setScenario(key){
+  const d=defaults[key]||defaults.custom;
+  c.bTraining.value=d.bTraining; c.fTraining.value=d.fTraining;
+  c.bDoctrine.value=d.bDoctrine; c.fDoctrine.value=d.fDoctrine;
+  c.bCommon.value=d.bCommon; c.fCommon.value=d.fCommon;
+  c.commsPre.value=d.commsPre; c.commsClose.value=d.commsClose;
+  c.bAgg.value=d.bAgg; c.fAgg.value=d.fAgg;
+  c.windB.value=d.windB; c.lineF.value=d.lineF;
+  c.nShips.value=d.nShips; c.mcRuns.value=d.mcRuns;
+  c.speed.value=d.speed; c.delay.value=d.delay; c.slowmo.value=d.slowmo;
+  ui.mcPill.textContent=`runs: ${d.mcRuns}`;
+}
+
+function getParams(){
+  const seed=parseInt(c.seed.value||"42",10);
+  return {
+    seed:isFinite(seed)?seed:42,
+    nShips:parseInt(c.nShips.value,10),
+    speed:parseInt(c.speed.value,10),
+    delay:parseInt(c.delay.value,10),
+    slowmo:c.slowmo.value,
+    bTraining:parseFloat(c.bTraining.value),
+    fTraining:parseFloat(c.fTraining.value),
+    bDoctrine:parseFloat(c.bDoctrine.value),
+    fDoctrine:parseFloat(c.fDoctrine.value),
+    bCommon:parseFloat(c.bCommon.value),
+    fCommon:parseFloat(c.fCommon.value),
+    commsPre:parseFloat(c.commsPre.value),
+    commsClose:parseFloat(c.commsClose.value),
+    bAgg:parseFloat(c.bAgg.value),
+    fAgg:parseFloat(c.fAgg.value),
+    windB:parseFloat(c.windB.value),
+    lineF:parseFloat(c.lineF.value),
+    mcRuns:parseInt(c.mcRuns.value,10),
+  };
+}
+
+/* ========= Canvas sizing + draw ========= */
+function fitCanvasToCSS(){
+  const rect=ui.canvas.getBoundingClientRect();
+  const dpr=window.devicePixelRatio||1;
+  ui.canvas.width=Math.floor(rect.width*dpr);
+  ui.canvas.height=Math.floor(rect.height*dpr);
+  ui.ctx=ui.canvas.getContext("2d");
+  ui.ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+
+function colorForShip(s){
+  const B = "rgba(96,165,250,1)";
+  const F = "rgba(251,113,133,1)";
+  const base = (s.side==="B") ? B : F;
+  if (s.state===ShipState.ACTIVE) return base;
+  if (s.state===ShipState.DISABLED) return "rgba(148,163,184,1)";
+  if (s.state===ShipState.STRUCK) return "rgba(231,240,255,0.9)";
+  return "rgba(0,0,0,0)";
+}
+
+function draw(sim, alpha=1){
+  const ctx=ui.ctx;
+  const rect=ui.canvas.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  ctx.clearRect(0,0,W,H);
+
+  const cellW = W / sim.gridW;
+  const cellH = H / sim.gridH;
+
+  // Chessboard
+  for(let y=0;y<sim.gridH;y++){
+    for(let x=0;x<sim.gridW;x++){
+      const isDark=(x+y)%2===0;
+      ctx.fillStyle = isDark ? "rgba(255,255,255,0.035)" : "rgba(255,255,255,0.015)";
+      ctx.fillRect(x*cellW, y*cellH, cellW, cellH);
+    }
+  }
+
+  // Grid lines
+  ctx.strokeStyle="rgba(255,255,255,0.06)";
+  for(let x=0;x<=sim.gridW;x++){
+    ctx.beginPath(); ctx.moveTo(x*cellW,0); ctx.lineTo(x*cellW,H); ctx.stroke();
+  }
+  for(let y=0;y<=sim.gridH;y++){
+    ctx.beginPath(); ctx.moveTo(0,y*cellH); ctx.lineTo(W,y*cellH); ctx.stroke();
+  }
+
+  // phase overlay
+  if(sim.phase==="preparation"){ ctx.fillStyle="rgba(96,165,250,0.03)"; ctx.fillRect(0,0,W,H); }
+  if(sim.phase==="close"){ ctx.fillStyle="rgba(251,191,36,0.035)"; ctx.fillRect(0,0,W,H); }
+
+  // target lines (only for active/disabled)
+  const idToShip=new Map(sim.ships.map(s=>[s.id,s]));
+  ctx.lineWidth=1;
+  for(const s of sim.ships){
+    if(!s.isOnMap() || s.state===ShipState.STRUCK || !s.targetId) continue;
+    const t=idToShip.get(s.targetId);
+    if(!t || !t.isOnMap() || t.state===ShipState.STRUCK) continue;
+    const sx=(s.x+0.5)*cellW, sy=(s.y+0.5)*cellH;
+    const tx=(t.x+0.5)*cellW, ty=(t.y+0.5)*cellH;
+    ctx.strokeStyle="rgba(251,191,36,0.18)";
+    ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(tx,ty); ctx.stroke();
+  }
+
+  // ships
+  for(const s of sim.ships){
+    if(!s.isOnMap()) continue;
+
+    const x = lerp(s.px, s.x, alpha);
+    const y = lerp(s.py, s.y, alpha);
+    const cx=(x+0.5)*cellW, cy=(y+0.5)*cellH;
+
+    const prog=clamp(0.55*s.doctrine+0.35*s.intent+0.35*s.common,0,1);
+    const baseColor=colorForShip(s);
+
+    const radiusBase = Math.min(cellW,cellH)*0.24 + 4*s.hp;
+    const haloR = Math.min(cellW,cellH)*0.42;
+
+    // knowledge halo
+    const haloAlpha = (s.state===ShipState.ACTIVE) ? (0.10+0.22*prog)
+                    : (s.state===ShipState.DISABLED) ? (0.06+0.12*prog)
+                    : (s.state===ShipState.STRUCK) ? (0.04+0.08*prog)
+                    : 0;
+    ctx.fillStyle = (s.side==="B") ? `rgba(96,165,250,${haloAlpha})` : `rgba(251,113,133,${haloAlpha})`;
+    ctx.beginPath(); ctx.arc(cx,cy,haloR,0,Math.PI*2); ctx.fill();
+
+    // core
+    ctx.fillStyle=baseColor;
+    ctx.beginPath(); ctx.arc(cx,cy,radiusBase,0,Math.PI*2); ctx.fill();
+
+    // ring (signal inbox) or captured ring
+    if (s.state===ShipState.STRUCK){
+      ctx.strokeStyle="rgba(231,240,255,0.85)";
+      ctx.lineWidth=3;
+      ctx.beginPath(); ctx.arc(cx,cy,radiusBase+2,0,Math.PI*2); ctx.stroke();
+    } else {
+      ctx.strokeStyle=`rgba(231,240,255,${0.12+0.55*s.signalInbox})`;
+      ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(cx,cy,radiusBase+1,0,Math.PI*2); ctx.stroke();
+    }
+
+    // label
+    ctx.fillStyle="rgba(231,240,255,0.95)";
+    ctx.font="11px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+    ctx.fillText(s.id, cx-12, cy-10);
+  }
+
+  // UI pills + KPIs
+  ui.phasePill.textContent=`phase: ${sim.phase}`;
+  ui.stepPill.textContent=`t=${sim.t}`;
+  ui.outcomePill.textContent=`outcome: ${sim.outcome}`;
+  ui.whyLine.textContent=sim.why;
+
+  const cr=sim.commsReliability();
+  ui.kpiComms.textContent=cr.toFixed(2);
+  ui.kpiCoh.textContent=sim.cohesionScore("B").toFixed(2);
+
+  ui.kpiB.textContent=sim.effectivePoints("B").toFixed(1);
+  ui.kpiF.textContent=sim.effectivePoints("F").toFixed(1);
+
+  ui.log.innerHTML = sim.log.map(it=>`<div class="item"><div class="t">t=${it.t} • ${escapeHtml(it.title)}</div><div class="d">${escapeHtml(it.detail)}</div></div>`).join("");
+}
+
+/* ========= Tooltip ========= */
+function shipAt(sim, mx, my){
+  const rect=ui.canvas.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  const cellW=W/sim.gridW, cellH=H/sim.gridH;
+  let best=null, bestD=1e9;
+  for(const s of sim.ships){
+    if(!s.isOnMap()) continue;
+    const cx=(s.x+0.5)*cellW, cy=(s.y+0.5)*cellH;
+    const d=Math.hypot(mx-cx,my-cy);
+    if(d<Math.min(cellW,cellH)*0.55 && d<bestD){ best=s; bestD=d; }
+  }
+  return best;
+}
+let sim = null; // forward declaration for canvas handlers
+ui.canvas.addEventListener("mousemove",(e)=>{
+  if(!sim) return;
+  const rect=ui.canvas.getBoundingClientRect();
+  const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  const s=shipAt(sim,mx,my);
+  if(!s){ ui.tooltip.style.display="none"; return; }
+  const prog=clamp(0.55*s.doctrine+0.35*s.intent+0.35*s.common,0,1);
+  ui.tooltip.style.display="block";
+  ui.tooltip.style.left=`${e.clientX}px`; ui.tooltip.style.top=`${e.clientY}px`;
+  ui.tooltip.innerHTML=`
+    <h3>${s.id} • ${s.side==="B"?"British":"French"} • <span style="color:#cfe3ff">${escapeHtml(s.state)}</span></h3>
+    <div class="kv">
+      <div>HP</div><div>${s.hp.toFixed(2)}</div>
+      <div>Power points</div><div>${s.power().toFixed(1)}</div>
+      <div>Morale</div><div>${s.morale.toFixed(2)}</div>
+      <div>Doctrine (D)</div><div>${s.doctrine.toFixed(2)}</div>
+      <div>Intent (I)</div><div>${s.intent.toFixed(2)}</div>
+      <div>Shared (C)</div><div>${s.common.toFixed(2)}</div>
+      <div>Signal inbox</div><div>${s.signalInbox.toFixed(2)}</div>
+      <div>Program score</div><div>${prog.toFixed(2)}</div>
+      <div>Decision</div><div>${escapeHtml(s.lastDecision)}</div>
+    </div>
+    <div class="small" style="margin-top:8px">${escapeHtml(s.lastReason)}</div>
+  `;
+});
+ui.canvas.addEventListener("mouseleave",()=>ui.tooltip.style.display="none");
+
+/* ========= Monte Carlo charts (color-coded) ========= */
+/*
+Victory chart:
+- Blue histogram = batch P(British win)
+- Red histogram  = batch P(French win) = 1 - P(B win)
+(overlaid with transparency)
+
+Margin chart:
+- Blue histogram = positive margins (B-F > 0)
+- Red histogram  = negative margins (B-F < 0)
+(we split margins into two series; both share axis range)
+*/
+
+function drawHistogram(ctx, values, opts){
+  const W=ctx.canvas.width, H=ctx.canvas.height;
+
+  const clear = (opts.clear !== false);
+  if(clear){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="rgba(255,255,255,0.02)";
+    ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle="rgba(255,255,255,0.10)";
+    ctx.strokeRect(8,8,W-16,H-16);
+  }
+
+  if(!values.length) return;
+
+  const bins=opts.bins ?? 20;
+  const min=opts.min ?? Math.min(...values);
+  const max=opts.max ?? Math.max(...values);
+  const pad=18, innerW=W-2*pad, innerH=H-2*pad;
+
+  const counts=new Array(bins).fill(0);
+  for(const v of values){
+    const t=(v-min)/(max-min||1);
+    const b=clamp(Math.floor(t*bins),0,bins-1);
+    counts[b]++;
+  }
+  const maxC=Math.max(...counts);
+  const barW=innerW/bins;
+
+  const fill = opts.fill ?? "rgba(231,240,255,0.35)";
+  const stroke = opts.stroke ?? null;
+
+  for(let i=0;i<bins;i++){
+    const h=innerH*(counts[i]/(maxC||1));
+    const x=pad+i*barW, y=pad+(innerH-h);
+    ctx.fillStyle=fill;
+    ctx.fillRect(x+1,y,barW-2,h);
+    if(stroke){
+      ctx.strokeStyle=stroke;
+      ctx.strokeRect(x+1,y,barW-2,h);
+    }
+  }
+
+  if(opts.title){
+    ctx.fillStyle="rgba(159,177,199,0.9)";
+    ctx.font="11px ui-sans-serif, system-ui";
+    ctx.fillText(opts.title,12,16);
+  }
+}
+
+function runOneFast(params,seedOffset){
+  const s=new Simulation({...params,seed:params.seed+seedOffset});
+  for(let i=0;i<70 && !s.done;i++) s.step();
+  const Bp=s.effectivePoints("B");
+  const Fp=s.effectivePoints("F");
+  const victory=(s.outcome==="british victory")?1:0;
+  const margin= Bp - Fp;
+  return {victory, margin};
+}
+
+function runMonteCarlo(params){
+  const runs=params.mcRuns;
+  const victories=[], margins=[];
+  let vSum=0;
+  for(let i=0;i<runs;i++){
+    const r=runOneFast(params,i*997);
+    victories.push(r.victory); margins.push(r.margin); vSum+=r.victory;
+  }
+
+  // Batch probabilities to make a visible distribution
+  const batch=Math.max(10,Math.floor(runs/25));
+  const probsB=[];
+  for(let i=0;i<runs;i+=batch){
+    const slice=victories.slice(i,i+batch);
+    probsB.push(slice.reduce((s,x)=>s+x,0)/Math.max(1,slice.length));
+  }
+  const probsF = probsB.map(p => 1 - p);
+
+  // Victory chart overlay: B blue then F red
+  drawHistogram(ui.chartVictory, probsB, {
+    bins:18, min:0, max:1, title:"Batch win probability",
+    fill:"rgba(96,165,250,0.45)",
+    clear:true
+  });
+  drawHistogram(ui.chartVictory, probsF, {
+    bins:18, min:0, max:1,
+    fill:"rgba(251,113,133,0.35)",
+    clear:false
+  });
+
+  // Margin chart: split + shared axis range
+  const minM = Math.min(...margins);
+  const maxM = Math.max(...margins);
+  const pos = margins.filter(m => m > 0);
+  const neg = margins.filter(m => m < 0);
+
+  drawHistogram(ui.chartMargin, pos.length?pos:[0], {
+    bins:22, min:minM, max:maxM, title:"Effective-point margin (B−F)",
+    fill:"rgba(96,165,250,0.35)",
+    clear:true
+  });
+  drawHistogram(ui.chartMargin, neg.length?neg:[0], {
+    bins:22, min:minM, max:maxM,
+    fill:"rgba(251,113,133,0.35)",
+    clear:false
+  });
+
+  return vSum/runs;
+}
+
+const runMC = debounce(()=>{
+  const p=getParams();
+  ui.mcPill.textContent=`runs: ${p.mcRuns}`;
+  runMonteCarlo(p);
+},250);
+
+/* ========= Play loop ========= */
+let playing=false;
+let raf=null;
+let lastStep=0;
+let animStart=0;
+let animAlpha=1;
+
+function resetSim(){
+  const p=getParams();
+  sim=new Simulation(p);
+  ui.seedPill.textContent=`seed: ${p.seed}`;
+  fitCanvasToCSS();
+  draw(sim,1);
+  runMC();
+}
+
+function setPlaying(v){
+  playing=v;
+  c.playBtn.disabled=v;
+  c.pauseBtn.disabled=!v;
+  c.stepBtn.disabled=v;
+  if(v){
+    lastStep=performance.now();
+    animStart=performance.now();
+    animAlpha=1;
+    raf=requestAnimationFrame(loop);
+  }else{
+    if(raf) cancelAnimationFrame(raf);
+    raf=null;
+  }
+}
+
+function loop(ts){
+  if(!playing) return;
+
+  const p=getParams();
+  const baseInterval = 1000 / Math.max(1,p.speed);
+  const interval = baseInterval + p.delay;
+
+  const stepProgress = clamp((ts - animStart)/interval, 0, 1);
+  animAlpha = (p.slowmo==="off") ? stepProgress : 1;
+
+  if(ts - lastStep >= interval){
+    lastStep = ts;
+    animStart = ts;
+    if(sim && !sim.done) sim.step();
+    if(sim?.done) setPlaying(false);
+  }
+  draw(sim, animAlpha);
+  raf=requestAnimationFrame(loop);
+}
+
+/* ========= Events ========= */
+c.resetBtn.addEventListener("click", ()=> resetSim());
+c.stepBtn.addEventListener("click", ()=>{
+  if(!sim) resetSim();
+  if(!sim.done) sim.step();
+  draw(sim,1);
+});
+c.playBtn.addEventListener("click", ()=>{ if(!sim) resetSim(); setPlaying(true); });
+c.pauseBtn.addEventListener("click", ()=> setPlaying(false));
+
+c.scenario.addEventListener("change", ()=>{
+  setScenario(c.scenario.value);
+  resetSim();
+});
+c.seed.addEventListener("change", ()=> resetSim());
+
+const sliders=[
+  "nShips","speed","delay","bTraining","fTraining","bDoctrine","fDoctrine","bCommon","fCommon",
+  "commsPre","commsClose","bAgg","fAgg","windB","lineF","mcRuns"
+];
+for(const id of sliders){
+  c[id].addEventListener("input", ()=>{
+    c.scenario.value="custom";
+    if(id==="nShips") resetSim();
+    else { if(sim){ sim.params=getParams(); sim.applyProgramming(); draw(sim,1); } runMC(); }
+  });
+}
+c.slowmo.addEventListener("change", ()=>{ if(sim) draw(sim,1); });
+
+window.addEventListener("resize", ()=>{
+  fitCanvasToCSS();
+  if(sim) draw(sim,1);
+});
+
+/* ========= Boot ========= */
+setScenario("trafalgar");
+fitCanvasToCSS();
+resetSim();
+</script>
+</body>
+</html>
