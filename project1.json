@@ -1,0 +1,492 @@
+{
+  "meta": {
+    "title": "Open-Access AI Agents in Occupational Health — Wisdom → Principles → Systems → Governance → Delivery → Assurance → Cases",
+    "subtitle": "A connected map of the STP: human-centred ethics constrain design; system dynamics shape adoption; governance makes compliance operational; pilot agents prove safety; assurance + learning enable equitable scaling.",
+    "domainName": "open-access AI transformation for occupational health",
+    "searchPlaceholder": "AI Audit Assistant, open-access hub, non-profit governance, GDPR, NHS data governance, SEQOHS, MHRA medical device, closed-system pilots, pseudonymisation, bias, auditability, vendor lock-in, interoperability, reciprocity, global inclusion, funding model…",
+    "userContextLabel": "Your OH + AI transformation context (optional)",
+    "userContextPlaceholder": "e.g., NHS OH team with documentation backlog; multiple systems (OPAS/Cohort); concern about GDPR/MHRA; desire for open standards + a non-profit hub; need a closed-system pilot (audit assistant) and a scaling plan…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert occupational health leader and responsible-AI programme director.\n\nWrite a realistic narrative case study about implementing open-access AI agents in Occupational Health (OH) in a way that is ethical, secure-by-design, and compliant.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario (setting, stakeholders, service pressures, equity gaps)\n- The two-tier strategy: proof-of-principle closed-system pilot → national open-access hub\n- A compliance and safety plan (GDPR/NHS governance, SEQOHS alignment, MHRA/medical-device boundary)\n- The operational design of at least one AI agent (inputs → processing constraints → outputs)\n- Governance model (non-profit, open standards, auditability, collaboration, reciprocity)\n- Measures of success (time saved, quality improved, error reduction, equity/access, learning loops)\n- Risks + mitigations (bias, lock-in, fragmentation, under-resourcing, transparency, security)\n- 2 safe-to-fail experiments and explicit backfire checks\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Deep professional wisdom",
+      "hint": "Human-centred judgement under pressure: dignity, trust, fairness, humility, and learning-first change."
+    },
+    {
+      "id": 1,
+      "title": "Guiding principles",
+      "hint": "Design constraints and values: ethical leadership, secure-by-design, openness, equity, and role clarity for AI."
+    },
+    {
+      "id": 2,
+      "title": "System dynamics",
+      "hint": "How adoption behaves: fragmentation vs coordination, lock-in, incentives, capability gaps, boundaries, and feedback loops."
+    },
+    {
+      "id": 3,
+      "title": "Governance & strategy architecture",
+      "hint": "National hub model, compliance scaffolding (SEQOHS/GDPR/NHS governance), phased development, funding and partnerships."
+    },
+    {
+      "id": 4,
+      "title": "Operational delivery mechanisms",
+      "hint": "What gets built and how it runs: closed-system pilots, modular agents, workflows, data handling, and non-clinical boundaries."
+    },
+    {
+      "id": 5,
+      "title": "Assurance, evaluation & scaling",
+      "hint": "Auditability, quality improvement, bias monitoring, safety cases, performance measures, and learning loops for scale-up."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios (backlogs, lock-in, inequity, regulatory triggers, trust failures) that trace back to roots."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_human_care",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Human-centred care (AI supports, not replaces)",
+      "summary": "Use AI to return time and attention to people; keep clinicians accountable for judgement.",
+      "tags": ["wisdom", "human_centered", "accountability"],
+      "bodyHtml": "<p>The proposal frames AI as task-specific support that reduces administrative load and error while preserving human responsibility and relationship-based care.</p>"
+    },
+    {
+      "id": "wis_transparency_humility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Transparency + humility about limits",
+      "summary": "Be explicit about what an agent can/can’t do; avoid false certainty and hidden automation.",
+      "tags": ["wisdom", "trust", "limits"],
+      "bodyHtml": "<p>Trust depends on clarity: scope boundaries, data use, and how outputs should be interpreted and challenged.</p>"
+    },
+    {
+      "id": "wis_equity_justice",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Equity and justice as outcomes",
+      "summary": "Design so benefits reach under-resourced services; prevent widening the gap.",
+      "tags": ["wisdom", "equity", "access"],
+      "bodyHtml": "<p>The STP emphasises avoiding a future where only well-funded organisations benefit from AI, leaving others behind.</p>"
+    },
+    {
+      "id": "wis_collaboration_reciprocity",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Collaboration + reciprocity",
+      "summary": "Cross-sector, global co-development: shared benefit, shared standards, equal partnership.",
+      "tags": ["wisdom", "collaboration", "reciprocity"],
+      "bodyHtml": "<p>Open-access infrastructure and shared standards are treated as a collective endeavour, including developing countries as equal partners and contributors.</p>"
+    },
+    {
+      "id": "wis_safe_to_fail_phasing",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Phased change (safe-to-fail pilots before scale)",
+      "summary": "Start with high-feasibility, non-clinical tools; learn; then scale responsibly.",
+      "tags": ["wisdom", "phasing", "learning"],
+      "bodyHtml": "<p>The two-tier strategy (proof-of-principle pilot → open-access hub) reduces regulatory risk and builds legitimacy through demonstrated safety and value.</p>"
+    },
+
+    {
+      "id": "principle_open_access",
+      "level": 1,
+      "kind": "concept",
+      "label": "Open access (equitable availability of tools + knowledge)",
+      "summary": "Open access means shared capability and equitable availability—not uncontrolled data exposure.",
+      "tags": ["principles", "openness", "equity"],
+      "bodyHtml": "<p>The proposal defines open access as equitable availability of AI tools and shared knowledge across OH, supported by governance and sustainability mechanisms.</p>"
+    },
+    {
+      "id": "principle_nonprofit_mission",
+      "level": 1,
+      "kind": "concept",
+      "label": "Non-profit mission + public value orientation",
+      "summary": "Prioritise workforce health outcomes over proprietary advantage or rent-seeking.",
+      "tags": ["principles", "nonprofit", "public_value"],
+      "bodyHtml": "<p>A non-profit structure is positioned as a guardrail against vendor lock-in, fragmented innovation, and misaligned incentives.</p>"
+    },
+    {
+      "id": "principle_secure_by_design",
+      "level": 1,
+      "kind": "concept",
+      "label": "Secure-by-design technology",
+      "summary": "Start with threat models, access controls, audit logs, and safe architecture choices.",
+      "tags": ["principles", "security", "privacy"],
+      "bodyHtml": "<p>Security is treated as a core design constraint (not a bolt-on), aligned to NHS data governance expectations.</p>"
+    },
+    {
+      "id": "principle_ethically_led",
+      "level": 1,
+      "kind": "concept",
+      "label": "Ethically led (human rights, fairness, accountability)",
+      "summary": "Ethics governs data use, outputs, oversight, and who benefits.",
+      "tags": ["principles", "ethics", "governance"],
+      "bodyHtml": "<p>Ethics is positioned as a strategic requirement: preventing bias, preserving trust, and ensuring transparent, responsible deployment.</p>"
+    },
+    {
+      "id": "principle_role_clarity",
+      "level": 1,
+      "kind": "concept",
+      "label": "Role clarity: non-clinical support vs clinical decision-making",
+      "summary": "Design early tools to avoid clinical decision-support classification and reduce regulatory friction.",
+      "tags": ["principles", "scope", "regulatory"],
+      "bodyHtml": "<p>The STP’s pilot focus is on non-clinical functions (e.g., documentation quality audit) to avoid medical device classification risk and limit GDPR concerns.</p>"
+    },
+    {
+      "id": "principle_task_specific_agents",
+      "level": 1,
+      "kind": "concept",
+      "label": "Task-specific agents (modular, bounded, auditable)",
+      "summary": "Narrow scope improves safety, evaluation, and adoption.",
+      "tags": ["principles", "agents", "modular"],
+      "bodyHtml": "<p>‘Smart, task-specific AI agents’ are described as the mechanism to save time, improve quality, reduce error, and enhance outcomes while remaining human-centred.</p>"
+    },
+
+    {
+      "id": "sys_fragmentation_vs_coordination",
+      "level": 2,
+      "kind": "concept",
+      "label": "Fragmentation vs coordination dynamics",
+      "summary": "Siloed AI causes duplication and inequity; coordination enables shared standards and scaling.",
+      "tags": ["systems", "fragmentation", "coordination"],
+      "bodyHtml": "<p>The ‘do nothing’ path predicts fragmented development, minimal sharing, and uneven adoption—undermining national workforce health resilience.</p>"
+    },
+    {
+      "id": "sys_vendor_lockin",
+      "level": 2,
+      "kind": "concept",
+      "label": "Proprietary lock-in and data control",
+      "summary": "Vendor control limits transparency, interoperability, and shared learning.",
+      "tags": ["systems", "lock_in", "interoperability"],
+      "bodyHtml": "<p>Lock-in is treated as a systemic risk: it concentrates capability, restricts transparency, and slows collective improvement.</p>"
+    },
+    {
+      "id": "sys_infrastructure_gap",
+      "level": 2,
+      "kind": "concept",
+      "label": "Digital infrastructure and capability gaps",
+      "summary": "Hardware, connectivity, cybersecurity, interoperability, and workforce skills shape what’s feasible.",
+      "tags": ["systems", "infrastructure", "capability"],
+      "bodyHtml": "<p>AI deployment depends on wider digital infrastructure and capabilities; without them, adoption will be uneven and brittle.</p>"
+    },
+    {
+      "id": "sys_inequity_amplification",
+      "level": 2,
+      "kind": "concept",
+      "label": "Inequity amplification risk",
+      "summary": "Innovation benefits the well-resourced first unless equity is designed in.",
+      "tags": ["systems", "equity", "adoption"],
+      "bodyHtml": "<p>Patterns from other public service digitisation suggest uneven progress without open standards and equitable design.</p>"
+    },
+    {
+      "id": "sys_regulatory_friction",
+      "level": 2,
+      "kind": "concept",
+      "label": "Regulatory friction (GDPR and MHRA boundaries)",
+      "summary": "Compliance constraints slow clinical AI; safe architecture choices can unblock progress.",
+      "tags": ["systems", "regulation", "risk"],
+      "bodyHtml": "<p>The STP identifies GDPR as limiting LLM use in OH practice and warns that clinical decision-support may trigger MHRA medical device classification.</p>"
+    },
+    {
+      "id": "sys_feedback_learning",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops for learning and trust",
+      "summary": "Collect evidence of value and harms; adapt governance and tools accordingly.",
+      "tags": ["systems", "feedback", "learning"],
+      "bodyHtml": "<p>Scaling responsibly requires loops from usage, incidents, complaints, and evaluation back into design, policy, and training.</p>"
+    },
+
+    {
+      "id": "gov_two_tier_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Two-tier strategy: closed-system pilots → open-access hub",
+      "summary": "Tier 1 proves feasibility safely; Tier 2 institutionalises shared governance and scaling.",
+      "tags": ["governance", "strategy", "phasing"],
+      "bodyHtml": "<p>Tier 1: proof-of-principle, secure closed-system innovation (e.g., AI Audit Assistant). Tier 2: a nationally governed open-access hub inspired by research infrastructures.</p>"
+    },
+    {
+      "id": "gov_alignment_seqohs_gdpr_nhs",
+      "level": 3,
+      "kind": "standard",
+      "label": "Alignment: SEQOHS + GDPR + NHS data governance",
+      "summary": "Make legal/quality duties operational through standards, controls, and oversight.",
+      "tags": ["SEQOHS", "GDPR", "NHS", "governance"],
+      "bodyHtml": "<p>The STP positions compliance alignment as foundational: ethically led, secure-by-design, and consistent with OH quality and data governance expectations.</p>"
+    },
+    {
+      "id": "gov_national_hub_model",
+      "level": 3,
+      "kind": "concept",
+      "label": "Nationally governed open-access AI hub (non-profit)",
+      "summary": "Pool standards, share expertise, co-create tools, and scale across public/private OH.",
+      "tags": ["hub", "nonprofit", "collaboration"],
+      "bodyHtml": "<p>The hub is intended to reduce duplication, improve equity, and support coordinated innovation across sectors—scalable globally.</p>"
+    },
+    {
+      "id": "gov_global_inclusion",
+      "level": 3,
+      "kind": "concept",
+      "label": "Global inclusion and reciprocity mechanism",
+      "summary": "Developing countries participate as equal partners; subsidised access in return for expert contribution.",
+      "tags": ["global", "reciprocity", "equity"],
+      "bodyHtml": "<p>The STP explicitly frames global collaboration as mutually beneficial: expertise flows both ways, increasing contextual awareness and justice.</p>"
+    },
+    {
+      "id": "gov_sustainability_model",
+      "level": 3,
+      "kind": "concept",
+      "label": "Sustainability model (cost recovery / membership + mixed funding)",
+      "summary": "Maintain open access while funding quality, security, and ongoing development.",
+      "tags": ["funding", "sustainability", "membership"],
+      "bodyHtml": "<p>Proposed funding sources include public health bodies, universities, socially responsible tech firms, and philanthropy; with cost-recovery or membership for durability.</p>"
+    },
+    {
+      "id": "gov_stakeholder_endorsement",
+      "level": 3,
+      "kind": "concept",
+      "label": "Stakeholder endorsement and co-design governance",
+      "summary": "Engage clinicians, vendors, trusts, researchers, and innovators to co-create tools and legitimacy.",
+      "tags": ["stakeholders", "co_design", "adoption"],
+      "bodyHtml": "<p>Next steps include circulating to a national OH AI working group, identifying contributors (universities, OH vendors, NHS trusts), and prioritising pilots.</p>"
+    },
+
+    {
+      "id": "op_ai_audit_assistant",
+      "level": 4,
+      "kind": "standard",
+      "label": "Pilot agent: AI Audit Assistant (non-clinical)",
+      "summary": "Reviews OH records for documentation quality, policy application, and SEQOHS alignment—without clinical decisions.",
+      "tags": ["pilot", "audit", "SEQOHS", "non_clinical"],
+      "bodyHtml": "<p>A high-feasibility pilot agent that reduces documentation burden and improves consistency while staying outside clinical decision-making.</p>"
+    },
+    {
+      "id": "op_closed_system_modular",
+      "level": 4,
+      "kind": "concept",
+      "label": "Closed-system modular architecture (no direct DB integration)",
+      "summary": "Analyse data already held securely; avoid system-level access; maximise compatibility across platforms.",
+      "tags": ["architecture", "closed_system", "modular"],
+      "bodyHtml": "<p>The STP proposes a closed-system modular tool that does not directly integrate with OH databases (e.g., OPAS, Cohort), reducing risk and easing participation.</p>"
+    },
+    {
+      "id": "op_pseudonymisation_pipeline",
+      "level": 4,
+      "kind": "concept",
+      "label": "Pseudonymisation/anonymisation before upload (where required)",
+      "summary": "Reduce data protection concerns; support safe evaluation and sharing of learnings.",
+      "tags": ["privacy", "pseudonymisation", "data_handling"],
+      "bodyHtml": "<p>Where needed, data can be pseudonymised or anonymised prior to upload; the tool avoids external data access.</p>"
+    },
+    {
+      "id": "op_inputs_outputs_audit",
+      "level": 4,
+      "kind": "concept",
+      "label": "Audit workflow: inputs → checks → structured report",
+      "summary": "Inputs (case notes, surveillance logs, process docs) → checks (standards/procedures/audit principles) → outputs (gaps, risks, trends).",
+      "tags": ["workflow", "outputs", "quality"],
+      "bodyHtml": "<p>The agent produces an easy-to-interpret report highlighting missing elements, inconsistencies, emerging trends, and alignment with best practice.</p>"
+    },
+    {
+      "id": "op_agent_catalogue",
+      "level": 4,
+      "kind": "concept",
+      "label": "Agent catalogue (examples across OH)",
+      "summary": "Audit assistant, triage support, surveillance tracker, signposting, immunisation query, infection response, accessibility checker, psychological safety radar, adjustments toolkit, language bridge, knowledge bank, wellbeing prompter, AI scribe.",
+      "tags": ["agents", "catalogue", "capability"],
+      "bodyHtml": "<p>The STP includes a set of example agents spanning non-clinical and safeguarded clinical-adjacent functions, each with different feasibility and risk profiles.</p>"
+    },
+    {
+      "id": "op_feasibility_tiers",
+      "level": 4,
+      "kind": "concept",
+      "label": "Feasibility tiers (near-term → safeguarded → long-term)",
+      "summary": "Near-term: audit/knowledge/signposting/accessibility/immunisation. Medium: triage/wellbeing/language/adjustments/scribe. Long-term: psychological safety radar/surveillance tracker/infection response.",
+      "tags": ["feasibility", "roadmap", "risk"],
+      "bodyHtml": "<p>Staging agents by feasibility keeps early work safe and evaluable while building capability for harder problems later.</p>"
+    },
+    {
+      "id": "op_nonclinical_boundary",
+      "level": 4,
+      "kind": "standard",
+      "label": "Non-clinical boundary controls (avoid clinical decisions)",
+      "summary": "Explicitly prevent diagnosis/clinical decision outputs; keep scope to documentation, quality, navigation, or explainable logic proofs.",
+      "tags": ["scope", "safety", "medical_device_boundary"],
+      "bodyHtml": "<p>Boundary discipline reduces regulatory risk and supports rapid learning: the pilot agent reviews quality and alignment, not clinical decision-making.</p>"
+    },
+
+    {
+      "id": "qa_auditability",
+      "level": 5,
+      "kind": "standard",
+      "label": "Auditability and transparent assurance",
+      "summary": "Make outputs explainable, traceable to rules/standards, and reviewable by humans.",
+      "tags": ["auditability", "assurance", "transparency"],
+      "bodyHtml": "<p>Ethical risk includes lack of auditability and transparency; assurance requires traceable reasoning and governance review.</p>"
+    },
+    {
+      "id": "qa_bias_and_fairness",
+      "level": 5,
+      "kind": "standard",
+      "label": "Bias monitoring and fairness checks",
+      "summary": "Test disparate impacts across workforce groups; adjust data, rules, and governance.",
+      "tags": ["bias", "fairness", "equity"],
+      "bodyHtml": "<p>Ethical leadership requires proactive monitoring so tools reduce inequalities rather than entrench them.</p>"
+    },
+    {
+      "id": "qa_kpis_value",
+      "level": 5,
+      "kind": "standard",
+      "label": "Value measurement (time saved, quality, error reduction, access/equity)",
+      "summary": "Measure what matters: documentation burden reduced, quality improved, fewer errors, improved responsiveness and coverage.",
+      "tags": ["KPIs", "evaluation", "outcomes"],
+      "bodyHtml": "<p>The STP’s motivation is practical impact: saving time, improving quality, reducing error, enhancing outcomes—while protecting human-centred care.</p>"
+    },
+    {
+      "id": "qa_learning_loops_scale",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning loops for scaling",
+      "summary": "Use pilot evidence to update standards, training, tooling, and hub governance before expansion.",
+      "tags": ["learning", "scaling", "continuous_improvement"],
+      "bodyHtml": "<p>Responsible scale-up requires structured feedback from pilots into governance decisions, technical design, and policy templates.</p>"
+    },
+    {
+      "id": "qa_security_testing",
+      "level": 5,
+      "kind": "standard",
+      "label": "Security testing and incident readiness",
+      "summary": "Threat modelling, access controls, logging, breach drills, and safe operational procedures.",
+      "tags": ["security", "incident_response", "governance"],
+      "bodyHtml": "<p>Secure-by-design requires continuous security validation and readiness, not just initial architecture choices.</p>"
+    },
+
+    {
+      "id": "case_doc_burden",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Documentation burden crowds out patient support",
+      "summary": "Frontline OH clinicians spend large time on documentation; morale and service responsiveness suffer.",
+      "tags": ["case", "capacity", "documentation"],
+      "bodyHtml": "<p>This is the core lived problem that motivates task-specific agents: use automation to return time to people without removing human accountability.</p>"
+    },
+    {
+      "id": "case_fragmented_ai_silos",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: AI developed in silos (duplication + minimal sharing)",
+      "summary": "Fragmentation produces uneven quality, duplication of effort, and slow learning across OH.",
+      "tags": ["risk", "fragmentation", "duplication"],
+      "bodyHtml": "<p>Without an open-access non-profit hub, AI adoption risks becoming scattered and inequitable with little coordination.</p>"
+    },
+    {
+      "id": "case_vendor_lockin",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Proprietary lock-in blocks transparency and interoperability",
+      "summary": "Vendors retain data control; services cannot audit, adapt, or share improvements.",
+      "tags": ["risk", "lock_in", "governance"],
+      "bodyHtml": "<p>Lock-in concentrates power and limits the ability to pool ethical standards, share code/tools, and improve quality collectively.</p>"
+    },
+    {
+      "id": "case_regulatory_tripwire",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Clinical decision-support triggers MHRA/medical-device obligations",
+      "summary": "Scope creep turns a pilot into regulated clinical decision support; progress stalls without governance.",
+      "tags": ["risk", "MHRA", "scope_creep"],
+      "bodyHtml": "<p>Design must keep early agents non-clinical and bounded; clinical-adjacent pilots require explicit safeguards, oversight, and regulatory planning.</p>"
+    },
+    {
+      "id": "case_under_resourced_provider",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Under-resourced OH service falls behind on AI adoption",
+      "summary": "A smaller provider lacks digital infrastructure and skills; inequity widens without shared open tools and support.",
+      "tags": ["case", "equity", "infrastructure"],
+      "bodyHtml": "<p>This case stresses the need for open access, shared standards, and capability-building so innovation does not only benefit well-resourced organisations.</p>"
+    },
+    {
+      "id": "case_global_reciprocity",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Reciprocity partnership with a developing-country OH programme",
+      "summary": "Partner contributes expertise; gains access to infrastructure; governance ensures equal benefit and contextual fit.",
+      "tags": ["case", "global", "reciprocity"],
+      "bodyHtml": "<p>This scenario tests whether the hub can operate as a just partnership model, not extractive collaboration.</p>"
+    }
+  ],
+  "edges": [
+    { "from": "wis_human_care", "to": "principle_task_specific_agents", "why": "Human-centred intent is operationalised by bounded, task-specific agents that support (not replace) clinicians." },
+    { "from": "wis_human_care", "to": "qa_kpis_value", "why": "If the goal is more time for people, evaluate time saved, quality, and error reduction—not just deployment volume." },
+
+    { "from": "wis_transparency_humility", "to": "qa_auditability", "why": "Transparency about limits requires auditable outputs and traceable reasoning that humans can review and contest." },
+    { "from": "wis_transparency_humility", "to": "principle_role_clarity", "why": "Humility about limits forces role clarity: what is non-clinical support versus clinical decision-making." },
+
+    { "from": "wis_equity_justice", "to": "principle_open_access", "why": "Equity outcomes require open access to tools and shared knowledge, not exclusive capability." },
+    { "from": "wis_equity_justice", "to": "sys_inequity_amplification", "why": "Justice anticipates the system tendency for innovation to benefit the well-resourced first unless corrected." },
+    { "from": "wis_equity_justice", "to": "gov_global_inclusion", "why": "Equity becomes concrete through global inclusion and reciprocal partnership mechanisms." },
+
+    { "from": "wis_collaboration_reciprocity", "to": "gov_national_hub_model", "why": "Collaboration is institutionalised by a governed hub that pools standards and expertise across sectors." },
+    { "from": "wis_collaboration_reciprocity", "to": "gov_global_inclusion", "why": "Reciprocity shapes how international partners participate as equals rather than as recipients." },
+
+    { "from": "wis_safe_to_fail_phasing", "to": "gov_two_tier_strategy", "why": "Phasing is expressed as Tier 1 closed-system proof-of-principle followed by Tier 2 hub scaling." },
+    { "from": "wis_safe_to_fail_phasing", "to": "qa_learning_loops_scale", "why": "Safe-to-fail pilots only work if learning loops update design, policy, and governance before expansion." },
+
+    { "from": "principle_open_access", "to": "sys_fragmentation_vs_coordination", "why": "Open access counters fragmentation by enabling sharing of standards, tools, and learning across OH." },
+    { "from": "principle_nonprofit_mission", "to": "sys_vendor_lockin", "why": "A non-profit mission reduces incentives for proprietary lock-in and supports transparency and interoperability." },
+    { "from": "principle_secure_by_design", "to": "qa_security_testing", "why": "Secure-by-design is validated through continuous security testing, logs, and incident readiness." },
+    { "from": "principle_ethically_led", "to": "qa_bias_and_fairness", "why": "Ethical leadership requires bias monitoring and fairness checks so AI reduces inequalities rather than entrenching them." },
+    { "from": "principle_role_clarity", "to": "sys_regulatory_friction", "why": "Clear scope boundaries reduce MHRA/GDPR friction and allow faster, safer learning." },
+    { "from": "principle_task_specific_agents", "to": "op_agent_catalogue", "why": "The agent catalogue expresses the task-specific approach: multiple bounded agents for different OH tasks." },
+
+    { "from": "sys_fragmentation_vs_coordination", "to": "gov_national_hub_model", "why": "A governed hub is the coordination mechanism that reduces duplication and enables shared standards." },
+    { "from": "sys_vendor_lockin", "to": "gov_national_hub_model", "why": "The hub counters lock-in by pooling shared standards and enabling transparent, non-proprietary collaboration." },
+    { "from": "sys_infrastructure_gap", "to": "sys_inequity_amplification", "why": "Infrastructure gaps drive uneven adoption, widening inequalities between OH providers." },
+    { "from": "sys_regulatory_friction", "to": "gov_alignment_seqohs_gdpr_nhs", "why": "Compliance alignment makes regulatory constraints operational: data governance, quality standards, and safe boundaries." },
+    { "from": "sys_feedback_learning", "to": "qa_learning_loops_scale", "why": "Learning dynamics must be formalised so evidence updates tools, standards, and governance decisions." },
+
+    { "from": "gov_two_tier_strategy", "to": "op_ai_audit_assistant", "why": "Tier 1 proof-of-principle is exemplified by the AI Audit Assistant: high feasibility, non-clinical, measurable impact." },
+    { "from": "gov_two_tier_strategy", "to": "gov_national_hub_model", "why": "Tier 2 establishes the open-access hub to scale tools, standards, and collaboration beyond pilots." },
+
+    { "from": "gov_alignment_seqohs_gdpr_nhs", "to": "op_nonclinical_boundary", "why": "Compliance alignment reinforces strict non-clinical boundaries and human accountability for judgement." },
+    { "from": "gov_alignment_seqohs_gdpr_nhs", "to": "qa_auditability", "why": "Standards-based governance requires auditability so tools can be inspected, assured, and improved." },
+
+    { "from": "gov_national_hub_model", "to": "gov_sustainability_model", "why": "A durable hub needs sustainable funding (membership/cost recovery + mixed funders) to maintain openness and quality." },
+    { "from": "gov_national_hub_model", "to": "gov_stakeholder_endorsement", "why": "Hub legitimacy depends on multidisciplinary co-design and endorsement from key stakeholders." },
+    { "from": "gov_global_inclusion", "to": "case_global_reciprocity", "why": "Reciprocity is tested in practice through equal-partner collaborations that exchange expertise for infrastructure access." },
+
+    { "from": "gov_sustainability_model", "to": "sys_infrastructure_gap", "why": "Funding and membership models can subsidise capability building and reduce infrastructure-driven inequity." },
+    { "from": "gov_stakeholder_endorsement", "to": "op_agent_catalogue", "why": "Co-design with clinicians, vendors, and trusts shapes which agents are prioritised and how they are made usable." },
+
+    { "from": "op_ai_audit_assistant", "to": "op_inputs_outputs_audit", "why": "The audit assistant’s value depends on a clear workflow: inputs → standards/procedure checks → structured report outputs." },
+    { "from": "op_ai_audit_assistant", "to": "op_closed_system_modular", "why": "Pilot safety and feasibility rely on a closed-system modular design that avoids direct database integration." },
+    { "from": "op_closed_system_modular", "to": "op_pseudonymisation_pipeline", "why": "Where required, pseudonymisation/anonymisation before upload reduces data protection concerns for a modular closed system." },
+    { "from": "op_nonclinical_boundary", "to": "case_regulatory_tripwire", "why": "Boundary breaches (scope creep into clinical decisions) can trigger MHRA/medical-device obligations and stall progress." },
+    { "from": "op_feasibility_tiers", "to": "gov_two_tier_strategy", "why": "Feasibility tiers provide a roadmap that fits the two-tier strategy: start safe and measurable, then expand." },
+
+    { "from": "qa_auditability", "to": "qa_kpis_value", "why": "Auditable outputs make evaluation credible: what changed, why it changed, and whether it improved quality and reduced errors." },
+    { "from": "qa_bias_and_fairness", "to": "sys_inequity_amplification", "why": "Fairness monitoring is a control mechanism to prevent system-level inequity amplification." },
+    { "from": "qa_security_testing", "to": "principle_secure_by_design", "why": "Security testing is how secure-by-design is maintained over time (not just at launch)." },
+    { "from": "qa_learning_loops_scale", "to": "gov_national_hub_model", "why": "Scaling requires institutional learning loops that update hub standards, shared tooling, and governance practices." },
+
+    { "from": "case_doc_burden", "to": "wis_human_care", "why": "The lived burden of documentation motivates AI that returns time and attention to people." },
+    { "from": "case_doc_burden", "to": "op_ai_audit_assistant", "why": "Documentation-heavy workflows are a high-feasibility target for non-clinical assistance and quality improvement." },
+
+    { "from": "case_fragmented_ai_silos", "to": "sys_fragmentation_vs_coordination", "why": "Siloed tool-building is the predicted system pathology without an open-access coordinating hub." },
+    { "from": "case_vendor_lockin", "to": "sys_vendor_lockin", "why": "Lock-in is the structural mechanism behind opaque tools, low interoperability, and constrained learning." },
+
+    { "from": "case_under_resourced_provider", "to": "sys_infrastructure_gap", "why": "Under-resourced services feel capability and infrastructure constraints first, driving unequal AI adoption." },
+    { "from": "case_under_resourced_provider", "to": "principle_open_access", "why": "Open access is the equity intervention that can reduce the adoption gap by sharing tools and knowledge." },
+
+    { "from": "case_regulatory_tripwire", "to": "sys_regulatory_friction", "why": "Regulatory friction increases sharply when tools cross into clinical decision support, requiring stronger oversight." },
+    { "from": "case_global_reciprocity", "to": "wis_collaboration_reciprocity", "why": "Global reciprocity is a wisdom-level commitment tested by real partnership governance and shared benefit." }
+  ]
+}
