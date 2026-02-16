@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SickSense Institution Simulator (Monte Carlo)</title>
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#151a33;
+      --card:#111833cc;
+      --card2:#0f1630cc;
+      --text:#e9ecff;
+      --muted:#b8c0ff;
+      --accent:#7c5cff;
+      --accent2:#00d4ff;
+      --good:#30e59a;
+      --warn:#ffcc33;
+      --bad:#ff4d6d;
+      --ink:#0a0f1f;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 26px;
+      --border: 1px solid rgba(255,255,255,.10);
+    }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 15% 20%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(1000px 700px at 85% 10%, rgba(0,212,255,.25), transparent 55%),
+        radial-gradient(900px 700px at 70% 90%, rgba(48,229,154,.20), transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+    }
+    header{
+      padding: 26px 20px 12px;
+      max-width: 1220px;
+      margin: 0 auto;
+      display:flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .title{
+      display:flex; align-items:center; gap:14px;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 25px rgba(124,92,255,.35);
+      position: relative;
+      overflow:hidden;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:-30%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.65), transparent 40%);
+      transform: rotate(20deg);
+    }
+    h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .subtitle{
+      margin:2px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .pillbar{
+      display:flex; gap:10px; flex-wrap: wrap; align-items:center; justify-content:flex-end;
+    }
+    .pill{
+      padding:10px 12px;
+      background: rgba(255,255,255,.08);
+      border: var(--border);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      display:flex; gap:10px; align-items:center;
+      font-size: 12.5px;
+      color: var(--text);
+      user-select:none;
+    }
+    .pill strong{ font-weight: 650; }
+    .wrap{
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 12px 20px 30px;
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap: 18px;
+    }
+    @media (max-width: 1040px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding: 14px 16px;
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      background: linear-gradient(90deg, rgba(124,92,255,.15), rgba(0,212,255,.10));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .card .hd .k{
+      font-weight: 750;
+      letter-spacing: .2px;
+      font-size: 13.5px;
+      margin:0;
+    }
+    .card .hd .d{
+      color: var(--muted);
+      font-size: 12px;
+      margin: 3px 0 0;
+      line-height: 1.3;
+    }
+    .card .bd{
+      padding: 14px 16px 16px;
+    }
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 520px){
+      .grid2{ grid-template-columns: 1fr; }
+    }
+    .control{
+      background: rgba(10,15,31,.55);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: var(--radius);
+      padding: 12px 12px 10px;
+    }
+    .control label{
+      display:flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .control label span{
+      color: var(--muted);
+      font-size: 11.5px;
+    }
+    input[type=range]{
+      width:100%;
+      accent-color: var(--accent2);
+    }
+    select, textarea, input[type=text], button{
+      font: inherit;
+    }
+    select, input[type=text], textarea{
+      width: 100%;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 10px;
+      outline: none;
+    }
+    textarea{
+      min-height: 92px;
+      resize: vertical;
+      line-height: 1.35;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+    .btn{
+      cursor:pointer;
+      border:none;
+      border-radius: 14px;
+      padding: 10px 12px;
+      color: #0a0f1f;
+      font-weight: 750;
+      background: linear-gradient(135deg, var(--good), var(--accent2));
+      box-shadow: 0 12px 26px rgba(0,212,255,.20);
+    }
+    .btn.secondary{
+      background: rgba(255,255,255,.10);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: none;
+      font-weight: 650;
+    }
+    .btn.danger{
+      background: linear-gradient(135deg, var(--bad), var(--warn));
+      color: #16070b;
+    }
+    .mini{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.35;
+    }
+    .bars{
+      display:grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .bar{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      padding: 8px 10px;
+      overflow:hidden;
+    }
+    .bar .top{
+      display:flex; justify-content: space-between; align-items:center;
+      font-size: 12.5px;
+      margin-bottom: 6px;
+    }
+    .bar .top .name{ font-weight: 700; }
+    .bar .top .pct{ color: var(--muted); font-variant-numeric: tabular-nums; }
+    .meter{
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      position: relative;
+    }
+    .fill{
+      height: 100%;
+      border-radius: 999px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 18px rgba(124,92,255,.35);
+      transition: width .18s ease;
+    }
+    .meter.good .fill{ background: linear-gradient(90deg, var(--good), var(--accent2)); }
+    .meter.warn .fill{ background: linear-gradient(90deg, var(--warn), #ff7a00); }
+    .meter.bad .fill{ background: linear-gradient(90deg, var(--bad), #ff7a9a); }
+
+    .cols{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .cols{ grid-template-columns: 1fr; }
+    }
+    .tag{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-size: 12px;
+      color: var(--text);
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius: 99px;
+      background: var(--accent2);
+      box-shadow: 0 0 14px rgba(0,212,255,.35);
+    }
+    .dot.good{ background: var(--good); box-shadow: 0 0 14px rgba(48,229,154,.35); }
+    .dot.warn{ background: var(--warn); box-shadow: 0 0 14px rgba(255,204,51,.35); }
+    .dot.bad{ background: var(--bad); box-shadow: 0 0 14px rgba(255,77,109,.35); }
+    .recommendations{
+      display:grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .rec{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(10,15,31,.55);
+      padding: 10px 12px;
+    }
+    .rec .t{
+      display:flex; justify-content: space-between; align-items:center;
+      font-weight: 800;
+      font-size: 12.5px;
+      margin-bottom: 4px;
+    }
+    .badge{
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+    }
+    .badge.good{ background: rgba(48,229,154,.14); border-color: rgba(48,229,154,.30);}
+    .badge.warn{ background: rgba(255,204,51,.16); border-color: rgba(255,204,51,.32); color:#fff3c2;}
+    .badge.bad{ background: rgba(255,77,109,.14); border-color: rgba(255,77,109,.30); color:#ffd0da;}
+
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      line-height: 1.35;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding: 10px 10px;
+      overflow:auto;
+      max-height: 240px;
+    }
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.35;
+    }
+    .footer{
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 20px 28px;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .kbd{
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,.85);
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="title">
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>SickSense Institution Simulator</h1>
+      <div class="subtitle">Monte Carlo “what-if” explorer for the socio-technical mechanisms in the case study (no React, live updates).</div>
+    </div>
+  </div>
+  <div class="pillbar">
+    <div class="pill"><strong id="mcRuns">5000</strong> simulations</div>
+    <div class="pill">Live update: <strong>ON</strong></div>
+    <div class="pill">Institution lens: <strong>risk • data • ecology • governance</strong></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- LEFT: Controls -->
+  <section class="card">
+    <div class="hd">
+      <div>
+        <div class="k">Parameters & presets</div>
+        <div class="d">Adjust the organisation, tool UI, and service ecology. Presets load common scenarios/pathologies.</div>
+      </div>
+      <div class="row">
+        <button class="btn secondary" id="resetBtn" title="Reset to defaults">Reset</button>
+        <button class="btn" id="reRunBtn" title="Rerun Monte Carlo now">Rerun</button>
+      </div>
+    </div>
+    <div class="bd">
+      <div class="control">
+        <label>
+          Preset scenario
+          <span>Loads parameter bundle</span>
+        </label>
+        <select id="preset">
+          <option value="custom">Custom</option>
+          <option value="contagion">Acute contagious illness (frontline)</option>
+          <option value="mental_low_oh">Mental health + long OH waits</option>
+          <option value="msk_physio">MSK injury + direct-to-physio</option>
+          <option value="pregnancy">Pregnancy-related sickness</option>
+          <option value="long_fatigue">Long-term fluctuating (e.g., long COVID)</option>
+          <option value="no_oh_site">No OH service (small site)</option>
+          <option value="post_governance">Post-governance “safe tool” design</option>
+        </select>
+        <div class="mini">
+          Tip: Pick a preset, then tweak sliders to see how <em>automation bias</em>, <em>privacy creep</em>, <em>gatekeeping</em>, <em>fragmentation</em>, and outcomes shift.
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="control">
+          <label>OH availability <span id="v_ohAvail">70%</span></label>
+          <input id="ohAvail" type="range" min="0" max="100" value="70" />
+          <div class="mini">How often OH is accessible at all for this site/population (0 = none).</div>
+        </div>
+        <div class="control">
+          <label>OH wait time <span id="v_ohWait">21 days</span></label>
+          <input id="ohWait" type="range" min="0" max="70" value="21" />
+          <div class="mini">Delays increase drift + accidental gatekeeping; also encourages “EAP-first” routing.</div>
+        </div>
+
+        <div class="control">
+          <label>EAP availability <span id="v_eapAvail">85%</span></label>
+          <input id="eapAvail" type="range" min="0" max="100" value="85" />
+          <div class="mini">Counselling/advice access. Helpful for support, but can substitute for OH if misused.</div>
+        </div>
+        <div class="control">
+          <label>Physio availability <span id="v_physioAvail">60%</span></label>
+          <input id="physioAvail" type="range" min="0" max="100" value="60" />
+          <div class="mini">Direct-to-physio capability (especially impacts MSK outcomes).</div>
+        </div>
+
+        <div class="control">
+          <label>H&S capability <span id="v_hsCap">60%</span></label>
+          <input id="hsCap" type="range" min="0" max="100" value="60" />
+          <div class="mini">Ability to do incident escalation and risk assessments (injury, contagion, pregnancy risk).</div>
+        </div>
+        <div class="control">
+          <label>Case ownership/integration <span id="v_caseOwner">45%</span></label>
+          <input id="caseOwner" type="range" min="0" max="100" value="45" />
+          <div class="mini">A named owner integrates OH/EAP/H&S actions into one plan. Low = “many hands, no owner”.</div>
+        </div>
+
+        <div class="control">
+          <label>Manager skill/training <span id="v_mgrSkill">50%</span></label>
+          <input id="mgrSkill" type="range" min="0" max="100" value="50" />
+          <div class="mini">Higher skill reduces boundary errors and improves supportive contact quality.</div>
+        </div>
+        <div class="control">
+          <label>Performance pressure <span id="v_pressure">55%</span></label>
+          <input id="pressure" type="range" min="0" max="100" value="55" />
+          <div class="mini">High pressure increases formalisation/stigma and can reduce supportive time.</div>
+        </div>
+
+        <div class="control">
+          <label>Tool “authority vibe” <span id="v_authority">60%</span></label>
+          <input id="authority" type="range" min="0" max="100" value="60" />
+          <div class="mini">How much the UI feels like a mandate (traffic lights, strong language, “do this now”).</div>
+        </div>
+        <div class="control">
+          <label>Automation reliance <span id="v_autoRel">55%</span></label>
+          <input id="autoRel" type="range" min="0" max="100" value="55" />
+          <div class="mini">Tendency to defer judgment to the tool (“the system told me”).</div>
+        </div>
+
+        <div class="control">
+          <label>Symptom-detail prompting <span id="v_symPrompt">55%</span></label>
+          <input id="symPrompt" type="range" min="0" max="100" value="55" />
+          <div class="mini">Higher = more detailed health data capture prompts (drives privacy creep risk).</div>
+        </div>
+        <div class="control">
+          <label>Data minimisation controls <span id="v_minCtrl">45%</span></label>
+          <input id="minCtrl" type="range" min="0" max="100" value="45" />
+          <div class="mini">UI + policy controls preventing unnecessary health detail (functional impact focus).</div>
+        </div>
+
+        <div class="control">
+          <label>Show duration predictions <span id="v_showDur">70%</span></label>
+          <input id="showDur" type="range" min="0" max="100" value="70" />
+          <div class="mini">Can help planning, but may become a normative benchmark → stigma if treated as promise.</div>
+        </div>
+        <div class="control">
+          <label>Show “comparable cases” <span id="v_showComp">55%</span></label>
+          <input id="showComp" type="range" min="0" max="100" value="55" />
+          <div class="mini">Comparisons can induce stigma/pressure; may be useful for analysts, risky for managers.</div>
+        </div>
+
+        <div class="control">
+          <label>Safeguarding support route <span id="v_safeguard">55%</span></label>
+          <input id="safeguard" type="range" min="0" max="100" value="55" />
+          <div class="mini">How well the organisation handles high-risk wellbeing concerns without dumping clinical burden on managers.</div>
+        </div>
+        <div class="control">
+          <label>Disclosure clarity <span id="v_disclose">55%</span></label>
+          <input id="disclose" type="range" min="0" max="100" value="55" />
+          <div class="mini">How likely employees disclose in a way the model “understands” (low can worsen equity).</div>
+        </div>
+      </div>
+
+      <hr style="border:0;border-top:1px solid rgba(255,255,255,.10);margin:16px 0;">
+
+      <div class="control">
+        <label>
+          Monte Carlo runs
+          <span id="v_runs">5000</span>
+        </label>
+        <input id="runs" type="range" min="500" max="20000" step="500" value="5000" />
+        <div class="mini">More runs = smoother distributions. Live updates rerun automatically when you move sliders.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT: Outputs -->
+  <section class="card">
+    <div class="hd">
+      <div>
+        <div class="k">Outcomes & mechanism pathologies (probability distributions)</div>
+        <div class="d">Simulated across many “cases”. Bars update live as parameters change.</div>
+      </div>
+      <div class="row">
+        <span class="tag"><span class="dot good"></span> Better</span>
+        <span class="tag"><span class="dot warn"></span> Watch</span>
+        <span class="tag"><span class="dot bad"></span> Worse</span>
+      </div>
+    </div>
+
+    <div class="bd">
+      <div class="cols">
+        <div>
+          <h3 style="margin:0 0 8px;font-size:14px;">Simulated outcomes</h3>
+          <div class="bars" id="outcomeBars"></div>
+
+          <h3 style="margin:14px 0 8px;font-size:14px;">Mechanism “pathologies”</h3>
+          <div class="bars" id="pathologyBars"></div>
+
+          <div class="recommendations" id="recs"></div>
+
+          <div class="hint">
+            <strong>Interpretation:</strong> “Pathologies” are emergent failure modes linked to the institution theory:
+            <span class="kbd">AutomationBias</span>, <span class="kbd">PrivacyCreep</span>, <span class="kbd">Gatekeeping</span>,
+            <span class="kbd">Fragmentation</span>, <span class="kbd">StigmaByMetrics</span>, and <span class="kbd">FeedbackLoop</span>.
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin:0 0 8px;font-size:14px;">What the parameters mean</h3>
+          <div class="rec">
+            <div class="t">
+              <span>Parameter glossary</span>
+              <span class="badge">Explain</span>
+            </div>
+            <div class="mini" id="glossary">
+              <ul style="margin:8px 0 0 18px;padding:0;line-height:1.45;">
+                <li><b>OH availability/wait:</b> access + delay to clinical occupational health input.</li>
+                <li><b>Case ownership:</b> single person integrates actions across services.</li>
+                <li><b>Authority vibe:</b> UI makes advice feel mandatory (traffic lights / strong language).</li>
+                <li><b>Automation reliance:</b> tendency to defer to tool, reducing checks and judgment.</li>
+                <li><b>Symptom prompting vs minimisation controls:</b> balance between data capture creep and “functional impact only”.</li>
+                <li><b>Show duration/comparables:</b> potentially useful but can induce stigma/pressure.</li>
+                <li><b>Disclosure clarity:</b> how “readable” the case is to tool logic (equity risk when low).</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 style="margin:14px 0 8px;font-size:14px;">Generate an AI prompt for a case study</h3>
+          <div class="control">
+            <label>
+              Describe your situation
+              <span>Free text</span>
+            </label>
+            <textarea id="userDesc" placeholder="Example: We’re a 400-person care provider with no in-house OH, high turnover, managers under pressure. We’re piloting a tool that suggests scripts and referral steps..."></textarea>
+            <div class="row" style="margin-top:10px;">
+              <button class="btn" id="genPromptBtn">Generate prompt</button>
+              <button class="btn secondary" id="copyPromptBtn">Copy</button>
+              <button class="btn danger" id="clearPromptBtn">Clear</button>
+            </div>
+            <div class="mini">The prompt includes your description, selected parameters, and asks for a scenario-rich case study + risks + mitigations.</div>
+          </div>
+
+          <div class="mono" id="promptOut" aria-label="Generated prompt output"></div>
+          <div class="hint">Use this prompt in your preferred AI writing tool. Adjust sliders to shape the narrative and the socio-technical mechanism emphasis.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="footer">
+  <b>Note:</b> This is a stylised simulator, not clinical or legal advice. It models the <em>mechanisms</em> from the case study as probabilistic relationships and shows how governance (minimisation controls, integration, training) can reduce harms.
+</div>
+
+<script>
+  // -----------------------------
+  // Utilities
+  // -----------------------------
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+  const lerp = (a,b,t) => a + (b-a)*t;
+
+  // A light-weight seeded RNG (Mulberry32) for stable runs if desired.
+  function mulberry32(seed){
+    let t = seed >>> 0;
+    return function(){
+      t += 0x6D2B79F5;
+      let r = Math.imul(t ^ (t >>> 15), 1 | t);
+      r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+      return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // Logistic helper
+  function sigmoid(z){ return 1/(1+Math.exp(-z)); }
+
+  // Draw one categorical value given map {key: prob} (sum=1)
+  function drawCategorical(rng, probs){
+    let u = rng();
+    let cum = 0;
+    for (const [k,p] of Object.entries(probs)){
+      cum += p;
+      if (u <= cum) return k;
+    }
+    return Object.keys(probs)[Object.keys(probs).length-1];
+  }
+
+  // -----------------------------
+  // Model parameters (0..1)
+  // -----------------------------
+  const defaults = {
+    ohAvail: 0.70,
+    ohWait: 21,        // days 0..70
+    eapAvail: 0.85,
+    physioAvail: 0.60,
+    hsCap: 0.60,
+    caseOwner: 0.45,
+    mgrSkill: 0.50,
+    pressure: 0.55,
+    authority: 0.60,
+    autoRel: 0.55,
+    symPrompt: 0.55,
+    minCtrl: 0.45,
+    showDur: 0.70,
+    showComp: 0.55,
+    safeguard: 0.55,
+    disclose: 0.55,
+    runs: 5000
+  };
+
+  // Presets that correspond to your scenarios/pathologies
+  const presets = {
+    custom: null,
+    contagion: {
+      ohAvail: 0.60, ohWait: 14, eapAvail: 0.70, physioAvail: 0.45, hsCap: 0.80, caseOwner: 0.55,
+      mgrSkill: 0.55, pressure: 0.70, authority: 0.65, autoRel: 0.55, symPrompt: 0.60, minCtrl: 0.45,
+      showDur: 0.55, showComp: 0.45, safeguard: 0.55, disclose: 0.70
+    },
+    mental_low_oh: {
+      ohAvail: 0.65, ohWait: 42, eapAvail: 0.90, physioAvail: 0.35, hsCap: 0.50, caseOwner: 0.40,
+      mgrSkill: 0.45, pressure: 0.70, authority: 0.65, autoRel: 0.65, symPrompt: 0.55, minCtrl: 0.40,
+      showDur: 0.75, showComp: 0.65, safeguard: 0.40, disclose: 0.45
+    },
+    msk_physio: {
+      ohAvail: 0.60, ohWait: 21, eapAvail: 0.70, physioAvail: 0.90, hsCap: 0.75, caseOwner: 0.55,
+      mgrSkill: 0.55, pressure: 0.55, authority: 0.55, autoRel: 0.50, symPrompt: 0.45, minCtrl: 0.55,
+      showDur: 0.55, showComp: 0.40, safeguard: 0.55, disclose: 0.65
+    },
+    pregnancy: {
+      ohAvail: 0.65, ohWait: 28, eapAvail: 0.75, physioAvail: 0.45, hsCap: 0.70, caseOwner: 0.55,
+      mgrSkill: 0.50, pressure: 0.55, authority: 0.60, autoRel: 0.55, symPrompt: 0.60, minCtrl: 0.45,
+      showDur: 0.65, showComp: 0.55, safeguard: 0.55, disclose: 0.60
+    },
+    long_fatigue: {
+      ohAvail: 0.70, ohWait: 35, eapAvail: 0.75, physioAvail: 0.50, hsCap: 0.55, caseOwner: 0.35,
+      mgrSkill: 0.50, pressure: 0.60, authority: 0.65, autoRel: 0.60, symPrompt: 0.55, minCtrl: 0.45,
+      showDur: 0.85, showComp: 0.75, safeguard: 0.55, disclose: 0.50
+    },
+    no_oh_site: {
+      ohAvail: 0.05, ohWait: 70, eapAvail: 0.70, physioAvail: 0.25, hsCap: 0.40, caseOwner: 0.25,
+      mgrSkill: 0.35, pressure: 0.65, authority: 0.70, autoRel: 0.70, symPrompt: 0.65, minCtrl: 0.25,
+      showDur: 0.70, showComp: 0.60, safeguard: 0.35, disclose: 0.55
+    },
+    post_governance: {
+      ohAvail: 0.75, ohWait: 18, eapAvail: 0.80, physioAvail: 0.70, hsCap: 0.70, caseOwner: 0.70,
+      mgrSkill: 0.70, pressure: 0.50, authority: 0.45, autoRel: 0.40, symPrompt: 0.25, minCtrl: 0.80,
+      showDur: 0.40, showComp: 0.15, safeguard: 0.75, disclose: 0.65
+    }
+  };
+
+  // -----------------------------
+  // DOM hookups
+  // -----------------------------
+  const els = {
+    preset: document.getElementById('preset'),
+    reRunBtn: document.getElementById('reRunBtn'),
+    resetBtn: document.getElementById('resetBtn'),
+    mcRuns: document.getElementById('mcRuns'),
+
+    ohAvail: document.getElementById('ohAvail'),
+    ohWait: document.getElementById('ohWait'),
+    eapAvail: document.getElementById('eapAvail'),
+    physioAvail: document.getElementById('physioAvail'),
+    hsCap: document.getElementById('hsCap'),
+    caseOwner: document.getElementById('caseOwner'),
+    mgrSkill: document.getElementById('mgrSkill'),
+    pressure: document.getElementById('pressure'),
+    authority: document.getElementById('authority'),
+    autoRel: document.getElementById('autoRel'),
+    symPrompt: document.getElementById('symPrompt'),
+    minCtrl: document.getElementById('minCtrl'),
+    showDur: document.getElementById('showDur'),
+    showComp: document.getElementById('showComp'),
+    safeguard: document.getElementById('safeguard'),
+    disclose: document.getElementById('disclose'),
+    runs: document.getElementById('runs'),
+
+    v_ohAvail: document.getElementById('v_ohAvail'),
+    v_ohWait: document.getElementById('v_ohWait'),
+    v_eapAvail: document.getElementById('v_eapAvail'),
+    v_physioAvail: document.getElementById('v_physioAvail'),
+    v_hsCap: document.getElementById('v_hsCap'),
+    v_caseOwner: document.getElementById('v_caseOwner'),
+    v_mgrSkill: document.getElementById('v_mgrSkill'),
+    v_pressure: document.getElementById('v_pressure'),
+    v_authority: document.getElementById('v_authority'),
+    v_autoRel: document.getElementById('v_autoRel'),
+    v_symPrompt: document.getElementById('v_symPrompt'),
+    v_minCtrl: document.getElementById('v_minCtrl'),
+    v_showDur: document.getElementById('v_showDur'),
+    v_showComp: document.getElementById('v_showComp'),
+    v_safeguard: document.getElementById('v_safeguard'),
+    v_disclose: document.getElementById('v_disclose'),
+    v_runs: document.getElementById('v_runs'),
+
+    outcomeBars: document.getElementById('outcomeBars'),
+    pathologyBars: document.getElementById('pathologyBars'),
+    recs: document.getElementById('recs'),
+
+    userDesc: document.getElementById('userDesc'),
+    genPromptBtn: document.getElementById('genPromptBtn'),
+    copyPromptBtn: document.getElementById('copyPromptBtn'),
+    clearPromptBtn: document.getElementById('clearPromptBtn'),
+    promptOut: document.getElementById('promptOut')
+  };
+
+  function readParams(){
+    return {
+      ohAvail: els.ohAvail.value / 100,
+      ohWait: Number(els.ohWait.value),
+      eapAvail: els.eapAvail.value / 100,
+      physioAvail: els.physioAvail.value / 100,
+      hsCap: els.hsCap.value / 100,
+      caseOwner: els.caseOwner.value / 100,
+      mgrSkill: els.mgrSkill.value / 100,
+      pressure: els.pressure.value / 100,
+      authority: els.authority.value / 100,
+      autoRel: els.autoRel.value / 100,
+      symPrompt: els.symPrompt.value / 100,
+      minCtrl: els.minCtrl.value / 100,
+      showDur: els.showDur.value / 100,
+      showComp: els.showComp.value / 100,
+      safeguard: els.safeguard.value / 100,
+      disclose: els.disclose.value / 100,
+      runs: Number(els.runs.value)
+    };
+  }
+
+  function writeParams(p){
+    els.ohAvail.value = Math.round(p.ohAvail*100);
+    els.ohWait.value = Math.round(p.ohWait);
+    els.eapAvail.value = Math.round(p.eapAvail*100);
+    els.physioAvail.value = Math.round(p.physioAvail*100);
+    els.hsCap.value = Math.round(p.hsCap*100);
+    els.caseOwner.value = Math.round(p.caseOwner*100);
+    els.mgrSkill.value = Math.round(p.mgrSkill*100);
+    els.pressure.value = Math.round(p.pressure*100);
+    els.authority.value = Math.round(p.authority*100);
+    els.autoRel.value = Math.round(p.autoRel*100);
+    els.symPrompt.value = Math.round(p.symPrompt*100);
+    els.minCtrl.value = Math.round(p.minCtrl*100);
+    els.showDur.value = Math.round(p.showDur*100);
+    els.showComp.value = Math.round(p.showComp*100);
+    els.safeguard.value = Math.round(p.safeguard*100);
+    els.disclose.value = Math.round(p.disclose*100);
+    if (p.runs) els.runs.value = p.runs;
+    updateValueLabels();
+  }
+
+  function updateValueLabels(){
+    const p = readParams();
+    els.v_ohAvail.textContent = Math.round(p.ohAvail*100) + '%';
+    els.v_ohWait.textContent = p.ohWait + ' days';
+    els.v_eapAvail.textContent = Math.round(p.eapAvail*100) + '%';
+    els.v_physioAvail.textContent = Math.round(p.physioAvail*100) + '%';
+    els.v_hsCap.textContent = Math.round(p.hsCap*100) + '%';
+    els.v_caseOwner.textContent = Math.round(p.caseOwner*100) + '%';
+    els.v_mgrSkill.textContent = Math.round(p.mgrSkill*100) + '%';
+    els.v_pressure.textContent = Math.round(p.pressure*100) + '%';
+    els.v_authority.textContent = Math.round(p.authority*100) + '%';
+    els.v_autoRel.textContent = Math.round(p.autoRel*100) + '%';
+    els.v_symPrompt.textContent = Math.round(p.symPrompt*100) + '%';
+    els.v_minCtrl.textContent = Math.round(p.minCtrl*100) + '%';
+    els.v_showDur.textContent = Math.round(p.showDur*100) + '%';
+    els.v_showComp.textContent = Math.round(p.showComp*100) + '%';
+    els.v_safeguard.textContent = Math.round(p.safeguard*100) + '%';
+    els.v_disclose.textContent = Math.round(p.disclose*100) + '%';
+    els.v_runs.textContent = p.runs.toString();
+    els.mcRuns.textContent = p.runs.toString();
+  }
+
+  // -----------------------------
+  // Monte Carlo socio-technical simulator
+  // -----------------------------
+  // Case types: map to "conditions" from the case study
+  const CASE_TYPES = [
+    { key:"contagion", label:"Acute contagious illness", base:0.18 },
+    { key:"mental", label:"Mental health distress", base:0.20 },
+    { key:"msk", label:"MSK injury/strain", base:0.22 },
+    { key:"pregnancy", label:"Pregnancy-related sickness", base:0.08 },
+    { key:"fluctuating", label:"Long-term fluctuating fatigue", base:0.16 },
+    { key:"other", label:"Other/unspecified", base:0.16 }
+  ];
+
+  function pickCaseType(rng){
+    const probs = {};
+    let sum = 0;
+    for (const ct of CASE_TYPES){ sum += ct.base; }
+    for (const ct of CASE_TYPES){ probs[ct.key] = ct.base / sum; }
+    return drawCategorical(rng, probs);
+  }
+
+  // Core mechanism computation for a single simulated case
+  function simulateOneCase(rng, p){
+    const type = pickCaseType(rng);
+
+    // Derived ecology signals
+    const ohAvailableThisCase = rng() < p.ohAvail;
+    const ohLongWait = (p.ohWait >= 28); // threshold
+    const eapAvailable = rng() < p.eapAvail;
+    const physioAvailable = rng() < p.physioAvail;
+    const hsStrong = rng() < p.hsCap;
+    const hasOwner = rng() < p.caseOwner;
+
+    // "Disclosure clarity" affects whether tool triage matches reality.
+    const toolUnderstands = rng() < p.disclose;
+
+    // Risk label shown & comparables/duration shown can produce stigma when treated as benchmark,
+    // especially with pressure and authority vibe.
+    const seesDuration = rng() < p.showDur;
+    const seesComparables = rng() < p.showComp;
+
+    // Manager behavior modifiers
+    const reliance = p.autoRel;
+    const authority = p.authority;
+    const skill = p.mgrSkill;
+    const pressure = p.pressure;
+
+    // --- Pathologies (probabilities) ---
+    // AutomationBias: grows with reliance & authority, reduced by skill and by explicit governance vibe (minCtrl helps a bit)
+    const pAutomationBias = sigmoid(
+      -1.0
+      + 2.2*reliance
+      + 1.3*authority
+      + 0.8*pressure
+      - 1.6*skill
+      - 0.6*p.minCtrl
+    );
+
+    // PrivacyCreep: grows with symptom prompting, reduced by minimisation controls + skill
+    const pPrivacyCreep = sigmoid(
+      -1.4
+      + 2.4*p.symPrompt
+      - 2.0*p.minCtrl
+      - 0.8*skill
+      + 0.5*authority
+    );
+
+    // Gatekeeping: long OH wait + OH not available + "EAP-first" norm (authority) + low owner
+    const pGatekeeping = sigmoid(
+      -1.0
+      + 1.2*(ohLongWait ? 1:0)
+      + 1.4*(ohAvailableThisCase ? 0:1)
+      + 0.9*authority
+      + 0.8*pressure
+      - 1.3*p.caseOwner
+      - 0.3*skill
+    );
+
+    // Fragmentation: multiple services + low owner -> fragmentation; rises with pressure (lots of disconnected actions)
+    // Here we approximate "multiple referrals occur" based on availability and type
+    const expectedMultiService =
+      (type==="mental" && eapAvailable && (ohAvailableThisCase || rng()<0.5)) ||
+      (type==="msk" && physioAvailable && (hsStrong || ohAvailableThisCase)) ||
+      (type==="fluctuating" && (ohAvailableThisCase || eapAvailable)) ||
+      (type==="pregnancy" && (hsStrong || ohAvailableThisCase)) ||
+      (type==="contagion" && hsStrong);
+
+    const pFragmentation = sigmoid(
+      -1.3
+      + 1.3*(expectedMultiService ? 1:0)
+      + 1.0*pressure
+      - 2.0*p.caseOwner
+      + 0.4*authority
+    );
+
+    // StigmaByMetrics: duration/comparables shown + pressure + authority - skill
+    const pStigmaByMetrics = sigmoid(
+      -1.6
+      + 1.2*(seesDuration ? 1:0)
+      + 1.4*(seesComparables ? 1:0)
+      + 1.1*pressure
+      + 0.8*authority
+      - 1.0*skill
+    );
+
+    // FeedbackLoop: stronger if trained-on-history-like behavior exists; we model it as authority+reliance+pressure,
+    // amplified by low minimisation controls (org learns wrong signals), and by low owner (case drift to formal)
+    const pFeedbackLoop = sigmoid(
+      -1.8
+      + 1.0*authority
+      + 1.0*reliance
+      + 1.2*pressure
+      - 0.7*p.minCtrl
+      - 1.0*p.caseOwner
+    );
+
+    // Self-harm safeguarding burden misplacement: mostly relevant for mental health
+    const pSafeguardMisplaced = sigmoid(
+      -1.8
+      + (type==="mental" ? 1.3 : 0.2)
+      + 0.9*authority
+      + 0.7*reliance
+      - 1.2*p.safeguard
+      - 0.6*skill
+    );
+
+    // "Tool misunderstood the case" (equity / disclosure mismatch) contributes to under-support and drift
+    const pMisread = sigmoid(
+      -1.0
+      + 1.4*(toolUnderstands ? 0:1)
+      + 0.6*authority
+      + 0.4*reliance
+      - 0.7*skill
+    );
+
+    // Sample actual pathologies
+    const AutomationBias = rng() < pAutomationBias;
+    const PrivacyCreep = rng() < pPrivacyCreep;
+    const Gatekeeping = rng() < pGatekeeping;
+    const Fragmentation = rng() < pFragmentation;
+    const StigmaByMetrics = rng() < pStigmaByMetrics;
+    const FeedbackLoop = rng() < pFeedbackLoop;
+    const SafeguardMisplaced = rng() < pSafeguardMisplaced;
+    const Misread = rng() < pMisread;
+
+    // --- Outcomes ---
+    // We produce 5 outcomes:
+    // - QuickReturn (<= 7 days)
+    // - SupportedAdjustments (return with workable adjustments)
+    // - ProlongedAbsence (>= 4 weeks)
+    // - GrievanceOrComplaint (employee relations issue)
+    // - ExitOrCapability (exit / formal capability route)
+    //
+    // Each outcome is influenced by case type + ecology + pathologies + governance.
+    let baseQuick = 0.35, baseSupport = 0.22, baseProlong = 0.20, baseGriev = 0.13, baseExit = 0.10;
+
+    // Type effects
+    if (type==="contagion"){ baseQuick += 0.10; baseProlong -= 0.06; baseSupport -= 0.03; }
+    if (type==="msk"){ baseQuick += 0.05; baseSupport += 0.05; baseProlong -= 0.05; }
+    if (type==="mental"){ baseQuick -= 0.06; baseProlong += 0.08; baseGriev += 0.03; }
+    if (type==="pregnancy"){ baseQuick -= 0.02; baseSupport += 0.04; baseGriev += 0.02; }
+    if (type==="fluctuating"){ baseQuick -= 0.10; baseProlong += 0.12; baseExit += 0.04; }
+
+    // Service effects
+    if (ohAvailableThisCase) baseSupport += 0.05;
+    if (ohAvailableThisCase && !ohLongWait) baseProlong -= 0.04;
+    if (!ohAvailableThisCase) baseExit += 0.03;
+
+    if (eapAvailable && type==="mental") baseSupport += 0.04;
+    if (physioAvailable && type==="msk") { baseQuick += 0.04; baseProlong -= 0.03; }
+    if (hsStrong && (type==="msk" || type==="contagion" || type==="pregnancy")) baseSupport += 0.03;
+
+    if (hasOwner) { baseSupport += 0.06; baseGriev -= 0.02; baseExit -= 0.02; }
+    else { baseGriev += 0.02; }
+
+    // Governance / skill effects
+    baseSupport += 0.06*p.minCtrl + 0.05*skill + 0.03*p.safeguard;
+    baseGriev -= 0.03*p.minCtrl + 0.03*skill;
+    baseExit -= 0.02*skill;
+
+    // Pressure harms
+    baseQuick -= 0.04*pressure;
+    baseSupport -= 0.05*pressure;
+    baseGriev += 0.05*pressure;
+    baseExit += 0.03*pressure;
+
+    // Pathology impacts (harms)
+    if (AutomationBias){ baseSupport -= 0.05; baseGriev += 0.03; baseExit += 0.03; }
+    if (PrivacyCreep){ baseGriev += 0.05; baseSupport -= 0.02; }
+    if (Gatekeeping){ baseProlong += 0.05; baseSupport -= 0.03; }
+    if (Fragmentation){ baseProlong += 0.03; baseGriev += 0.03; baseSupport -= 0.03; }
+    if (StigmaByMetrics){ baseGriev += 0.05; baseExit += 0.03; baseSupport -= 0.03; }
+    if (FeedbackLoop){ baseExit += 0.06; baseSupport -= 0.03; }
+    if (SafeguardMisplaced){ baseGriev += 0.03; }
+    if (Misread){ baseProlong += 0.04; baseSupport -= 0.03; }
+
+    // Renormalise to probabilities
+    const raw = {
+      QuickReturn: clamp(baseQuick, 0.01, 0.95),
+      SupportedAdjustments: clamp(baseSupport, 0.01, 0.95),
+      ProlongedAbsence: clamp(baseProlong, 0.01, 0.95),
+      Grievance: clamp(baseGriev, 0.01, 0.95),
+      ExitOrCapability: clamp(baseExit, 0.01, 0.95)
+    };
+    const sum = Object.values(raw).reduce((a,b)=>a+b,0);
+    const probs = {};
+    for (const k in raw) probs[k] = raw[k]/sum;
+
+    const outcome = drawCategorical(rng, probs);
+
+    return {
+      type,
+      outcome,
+      path: {
+        AutomationBias,
+        PrivacyCreep,
+        Gatekeeping,
+        Fragmentation,
+        StigmaByMetrics,
+        FeedbackLoop,
+        SafeguardMisplaced,
+        Misread
+      }
+    };
+  }
+
+  function runMonteCarlo(p){
+    const rng = mulberry32(123456); // stable seed for smoother perception; change to Date.now() for randomness
+    const countsOut = {
+      QuickReturn:0, SupportedAdjustments:0, ProlongedAbsence:0, Grievance:0, ExitOrCapability:0
+    };
+    const countsPath = {
+      AutomationBias:0,
+      PrivacyCreep:0,
+      Gatekeeping:0,
+      Fragmentation:0,
+      StigmaByMetrics:0,
+      FeedbackLoop:0,
+      SafeguardMisplaced:0,
+      Misread:0
+    };
+    const countsType = {};
+    for (const ct of CASE_TYPES) countsType[ct.key] = 0;
+
+    for (let i=0;i<p.runs;i++){
+      const res = simulateOneCase(rng, p);
+      countsType[res.type]++;
+
+      countsOut[res.outcome]++;
+
+      for (const k in countsPath){
+        if (res.path[k]) countsPath[k]++;
+      }
+    }
+
+    const outDist = {};
+    for (const k in countsOut) outDist[k] = countsOut[k]/p.runs;
+
+    const pathDist = {};
+    for (const k in countsPath) pathDist[k] = countsPath[k]/p.runs;
+
+    const typeDist = {};
+    for (const k in countsType) typeDist[k] = countsType[k]/p.runs;
+
+    return { outDist, pathDist, typeDist };
+  }
+
+  // -----------------------------
+  // Rendering
+  // -----------------------------
+  const OUTCOME_META = [
+    { key:"QuickReturn", label:"Quick return (≤ 7 days)", tone:"good", explain:"Higher means more cases resolve quickly with minimal complications." },
+    { key:"SupportedAdjustments", label:"Return with workable adjustments", tone:"good", explain:"Higher means better integration + reasonable adjustments instead of drift." },
+    { key:"ProlongedAbsence", label:"Prolonged absence (≥ 4 weeks)", tone:"warn", explain:"Higher means more drift/complexity; may reflect unmet needs or long OH waits." },
+    { key:"Grievance", label:"Grievance / complaint risk", tone:"bad", explain:"Higher means trust/experience issues (intrusive questions, stigma, poor comms)." },
+    { key:"ExitOrCapability", label:"Exit / early formal capability", tone:"bad", explain:"Higher means cases move toward ER formalisation or exit pathways." }
+  ];
+
+  const PATH_META = [
+    { key:"AutomationBias", label:"Automation bias", tone:"warn", explain:"Over-reliance on the tool reduces checking and human judgment." },
+    { key:"PrivacyCreep", label:"Privacy creep", tone:"bad", explain:"Unnecessary health detail gets collected/retained beyond workplace need." },
+    { key:"Gatekeeping", label:"Accidental gatekeeping", tone:"warn", explain:"OH input gets delayed/avoided, especially when waits are long." },
+    { key:"Fragmentation", label:"Mixed-ecology fragmentation", tone:"warn", explain:"Multiple referrals happen but no one integrates them into a coherent plan." },
+    { key:"StigmaByMetrics", label:"Stigma via metrics", tone:"bad", explain:"Duration/comparables become normative benchmarks (“promise effect”)." },
+    { key:"FeedbackLoop", label:"Feedback loop / self-fulfilling prophecy", tone:"bad", explain:"Historic patterns push early formalisation, increasing exits over time." },
+    { key:"SafeguardMisplaced", label:"Safeguarding burden misplaced", tone:"warn", explain:"Managers get nudged into quasi-clinical risk assessment without support." },
+    { key:"Misread", label:"Case misread (disclosure mismatch)", tone:"warn", explain:"Tool triage doesn’t match reality, reducing timely support (equity risk)." }
+  ];
+
+  function barRow(meta, value){
+    const pct = Math.round(value*1000)/10; // one decimal
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.innerHTML = `
+      <div class="top">
+        <div class="name" title="${meta.explain}">${meta.label}</div>
+        <div class="pct">${pct.toFixed(1)}%</div>
+      </div>
+      <div class="meter ${meta.tone}">
+        <div class="fill" style="width:${clamp(pct,0,100)}%"></div>
+      </div>
+      <div class="mini">${meta.explain}</div>
+    `;
+    return bar;
+  }
+
+  function renderDists(dists){
+    els.outcomeBars.innerHTML = '';
+    els.pathologyBars.innerHTML = '';
+
+    for (const m of OUTCOME_META){
+      els.outcomeBars.appendChild(barRow(m, dists.outDist[m.key] || 0));
+    }
+    for (const m of PATH_META){
+      els.pathologyBars.appendChild(barRow(m, dists.pathDist[m.key] || 0));
+    }
+  }
+
+  function makeRecommendations(p, dists){
+    // Simple rule-based “make things workable” recommendations based on high-risk signals
+    const recs = [];
+
+    const path = dists.pathDist;
+    const out = dists.outDist;
+
+    // Helper to push recommendation
+    const add = (title, severity, why, doList) => {
+      recs.push({ title, severity, why, doList });
+    };
+
+    // If PrivacyCreep high
+    if (path.PrivacyCreep > 0.25){
+      add(
+        "Reduce privacy creep (data minimisation by design)",
+        "bad",
+        `Simulated PrivacyCreep is ${(path.PrivacyCreep*100).toFixed(1)}%. High symptom prompting + weak minimisation controls tends to expand sensitive health data capture.`,
+        [
+          "Shift prompts from symptoms → functional impact (what work is affected).",
+          "Lock free-text health fields behind ‘necessity’ rationale.",
+          "Shorten retention + restrict access to health notes.",
+          "Train managers: don’t ask for diagnosis; ask what support helps."
+        ]
+      );
+    }
+
+    // If StigmaByMetrics high
+    if (path.StigmaByMetrics > 0.22){
+      add(
+        "Defuse stigma from predictions and comparables",
+        "warn",
+        `StigmaByMetrics is ${(path.StigmaByMetrics*100).toFixed(1)}%. Duration and “comparable cases” often become normative benchmarks under pressure.`,
+        [
+          "Hide ‘comparable cases’ from line managers; allow only analysts/OH to view aggregated insights.",
+          "Frame any duration estimate as uncertainty (‘range, not promise’) and remove traffic-light moralising.",
+          "Coach managers to avoid ‘you should be back by…’ language."
+        ]
+      );
+    }
+
+    // Gatekeeping / OH waits
+    if (path.Gatekeeping > 0.22 || p.ohWait >= 28 || p.ohAvail < 0.3){
+      add(
+        "Prevent accidental gatekeeping when OH is constrained",
+        "warn",
+        `Gatekeeping is ${(path.Gatekeeping*100).toFixed(1)}%, OH wait is ${p.ohWait} days, OH availability is ${(p.ohAvail*100).toFixed(0)}%.`,
+        [
+          "Create a ‘fast lane’ for adjustment advice (brief OH triage / case manager review).",
+          "Ensure EAP is framed as supportive, not a substitute for functional adjustments.",
+          "Use a clear escalation policy for safety-sensitive roles and prolonged cases."
+        ]
+      );
+    }
+
+    // Fragmentation / owner
+    if (path.Fragmentation > 0.18 || p.caseOwner < 0.4){
+      add(
+        "Fix mixed-ecology fragmentation (assign a case owner)",
+        "warn",
+        `Fragmentation is ${(path.Fragmentation*100).toFixed(1)}% and case ownership is ${(p.caseOwner*100).toFixed(0)}%.`,
+        [
+          "Assign a named case owner for long-term or multi-service cases.",
+          "Add a ‘support plan summary’ step that integrates OH/EAP/H&S actions.",
+          "Use consistent review cadence with a single integrated plan."
+        ]
+      );
+    }
+
+    // Automation bias / authority vibe
+    if (path.AutomationBias > 0.20 || (p.authority > 0.6 && p.autoRel > 0.6)){
+      add(
+        "Reduce automation bias (restore judgment and checks)",
+        "warn",
+        `AutomationBias is ${(path.AutomationBias*100).toFixed(1)}%. High ‘authority vibe’ + high reliance increases ‘the system told me’ behaviour.`,
+        [
+          "Change UI language from ‘Do X now’ → ‘Consider X, check Y’.",
+          "Add a ‘contrary evidence’ checkbox and a ‘human override rationale’ field.",
+          "Train managers: tool is checklist, not authority; encourage disconfirming checks."
+        ]
+      );
+    }
+
+    // Feedback loop / exits
+    if (path.FeedbackLoop > 0.15 || out.ExitOrCapability > 0.12){
+      add(
+        "Interrupt feedback loops driving early formalisation",
+        "bad",
+        `FeedbackLoop is ${(path.FeedbackLoop*100).toFixed(1)}% and Exit/Formal is ${(out.ExitOrCapability*100).toFixed(1)}%.`,
+        [
+          "Delay capability triggers until adjustments and OH review are demonstrably attempted.",
+          "Audit by group/role to detect biased escalation patterns.",
+          "Prefer ‘support urgency’ + ‘safety’ signals over a single ‘risk’ label."
+        ]
+      );
+    }
+
+    // Safeguarding burden misplaced
+    if (path.SafeguardMisplaced > 0.10){
+      add(
+        "Make safeguarding routes explicit (don’t offload to managers)",
+        "warn",
+        `SafeguardMisplaced is ${(path.SafeguardMisplaced*100).toFixed(1)}%.`,
+        [
+          "Replace ‘self-harm risk’ prompts with ‘If immediate concern, follow policy and contact X’.",
+          "Offer manager co-pilot support (HR/OH wellbeing lead) for high-risk conversations.",
+          "Provide short scripts focused on support and signposting, not assessment."
+        ]
+      );
+    }
+
+    // If everything looks decent, add a positive rec
+    if (recs.length === 0){
+      add(
+        "You’re in a workable zone",
+        "good",
+        "Pathology rates are relatively low under this configuration; focus on keeping governance strong as scale increases.",
+        [
+          "Maintain minimisation controls and case ownership.",
+          "Keep predictions/comparables away from day-to-day line management.",
+          "Monitor fairness and experience metrics, not only absence duration."
+        ]
+      );
+    }
+
+    // Render
+    els.recs.innerHTML = '';
+    for (const r of recs.slice(0,5)){
+      const div = document.createElement('div');
+      div.className = 'rec';
+      const badgeClass = r.severity === "good" ? "good" : (r.severity==="warn" ? "warn" : "bad");
+      div.innerHTML = `
+        <div class="t">
+          <span>${r.title}</span>
+          <span class="badge ${badgeClass}">${r.severity.toUpperCase()}</span>
+        </div>
+        <div class="mini">${r.why}</div>
+        <ul style="margin:8px 0 0 18px;padding:0;line-height:1.45;">
+          ${r.doList.map(x=>`<li>${x}</li>`).join('')}
+        </ul>
+      `;
+      els.recs.appendChild(div);
+    }
+  }
+
+  // -----------------------------
+  // Prompt generator
+  // -----------------------------
+  function buildPrompt(p){
+    const desc = els.userDesc.value.trim();
+    const scenario = els.preset.value;
+
+    const scenarioLabel = {
+      custom: "Custom",
+      contagion: "Acute contagious illness (frontline)",
+      mental_low_oh: "Mental health + long OH waits",
+      msk_physio: "MSK injury + direct-to-physio",
+      pregnancy: "Pregnancy-related sickness",
+      long_fatigue: "Long-term fluctuating fatigue (e.g., long COVID)",
+      no_oh_site: "No OH service (small site)",
+      post_governance: "Post-governance safe tool design"
+    }[scenario] || "Custom";
+
+    const paramLines = [
+      `OH availability: ${(p.ohAvail*100).toFixed(0)}%`,
+      `OH wait time: ${p.ohWait} days`,
+      `EAP availability: ${(p.eapAvail*100).toFixed(0)}%`,
+      `Physio availability: ${(p.physioAvail*100).toFixed(0)}%`,
+      `H&S capability: ${(p.hsCap*100).toFixed(0)}%`,
+      `Case ownership/integration: ${(p.caseOwner*100).toFixed(0)}%`,
+      `Manager skill/training: ${(p.mgrSkill*100).toFixed(0)}%`,
+      `Performance pressure: ${(p.pressure*100).toFixed(0)}%`,
+      `Tool authority vibe: ${(p.authority*100).toFixed(0)}%`,
+      `Automation reliance: ${(p.autoRel*100).toFixed(0)}%`,
+      `Symptom-detail prompting: ${(p.symPrompt*100).toFixed(0)}%`,
+      `Data minimisation controls: ${(p.minCtrl*100).toFixed(0)}%`,
+      `Show duration predictions: ${(p.showDur*100).toFixed(0)}%`,
+      `Show comparable cases: ${(p.showComp*100).toFixed(0)}%`,
+      `Safeguarding support route: ${(p.safeguard*100).toFixed(0)}%`,
+      `Disclosure clarity: ${(p.disclose*100).toFixed(0)}%`
+    ].join("\n");
+
+    const base = `
+You are writing a detailed case study (2,000–4,000 words) about an employer that uses an AI decision-support tool to advise managers on what to do when staff report sick. The case study must explore unintended consequences and useful aspects, across a mixed occupational health ecology (OH, EAP, physio, H&S, HR case ownership).
+
+Scenario preset: ${scenarioLabel}
+
+Organisation-specific description (from user):
+${desc || "[No description provided — invent a plausible organisation consistent with the preset.]"} 
+
+Use the following configuration (treat as the socio-technical environment knobs):
+${paramLines}
+
+Requirements:
+1) Include at least 5 scenarios: contagious illness; mental health; MSK injury; pregnancy-related; long-term fluctuating condition; plus one “no OH / constrained OH” variant.
+2) Explicitly surface underlying mechanisms: Automation bias, Accountability shift, Privacy creep, Gatekeeping, Fragmentation, Stigma by metrics, Feedback loops, and Equity/disclosure mismatch.
+3) For each scenario: show the tool’s recommendations, the manager’s actions, what helped, what harmed, and how governance mitigations change the trajectory.
+4) End with a “make it workable” section: concrete UI/policy guardrails (data minimisation, risk label redesign, case owner integration, escalation routes).
+5) Keep it realistic (UK workplace context), focusing on functional impact not diagnosis, and avoid clinical advice.
+
+Output format:
+- Title + executive summary
+- Scenario sections (bullet timelines + narrative)
+- A table of “mechanism → risk → mitigation”
+- Conclusion with recommended governance changes.
+
+`.trim();
+
+    return base;
+  }
+
+  function setPrompt(text){
+    els.promptOut.textContent = text;
+  }
+
+  async function copyPrompt(){
+    const txt = els.promptOut.textContent || "";
+    if (!txt.trim()) return;
+    try{
+      await navigator.clipboard.writeText(txt);
+      els.copyPromptBtn.textContent = "Copied!";
+      setTimeout(()=>els.copyPromptBtn.textContent="Copy", 900);
+    }catch(e){
+      els.copyPromptBtn.textContent = "Copy failed";
+      setTimeout(()=>els.copyPromptBtn.textContent="Copy", 900);
+    }
+  }
+
+  // -----------------------------
+  // Live update loop
+  // -----------------------------
+  let rafPending = false;
+  let lastDists = null;
+
+  function rerunAndRender(){
+    const p = readParams();
+    updateValueLabels();
+
+    // Set preset to custom if user tweaks sliders after preset selection:
+    // (We keep it simple: if current slider values differ from preset bundle, mark as custom.)
+    if (els.preset.value !== "custom"){
+      const presetObj = presets[els.preset.value];
+      if (presetObj){
+        const keys = Object.keys(presetObj);
+        let diverged = false;
+        for (const k of keys){
+          const val = (k==="ohWait") ? p.ohWait : p[k];
+          const ref = presetObj[k];
+          const normVal = (k==="ohWait") ? val : Number(val.toFixed(2));
+          const normRef = (k==="ohWait") ? ref : Number(ref.toFixed(2));
+          if (normVal !== normRef){ diverged = true; break; }
+        }
+        if (diverged) els.preset.value = "custom";
+      }
+    }
+
+    lastDists = runMonteCarlo(p);
+    renderDists(lastDists);
+    makeRecommendations(p, lastDists);
+  }
+
+  function scheduleRerun(){
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(()=>{
+      rafPending = false;
+      rerunAndRender();
+    });
+  }
+
+  // -----------------------------
+  // Event wiring
+  // -----------------------------
+  const sliderIds = [
+    'ohAvail','ohWait','eapAvail','physioAvail','hsCap','caseOwner',
+    'mgrSkill','pressure','authority','autoRel','symPrompt','minCtrl',
+    'showDur','showComp','safeguard','disclose','runs'
+  ];
+
+  for (const id of sliderIds){
+    els[id].addEventListener('input', scheduleRerun);
+    els[id].addEventListener('change', scheduleRerun);
+  }
+
+  els.reRunBtn.addEventListener('click', rerunAndRender);
+
+  els.resetBtn.addEventListener('click', ()=>{
+    writeParams(defaults);
+    els.preset.value = "custom";
+    rerunAndRender();
+  });
+
+  els.preset.addEventListener('change', ()=>{
+    const v = els.preset.value;
+    if (v === "custom") return;
+    const bundle = presets[v];
+    if (!bundle) return;
+    writeParams({ ...readParams(), ...bundle });
+    rerunAndRender();
+  });
+
+  els.genPromptBtn.addEventListener('click', ()=>{
+    const p = readParams();
+    setPrompt(buildPrompt(p));
+  });
+
+  els.copyPromptBtn.addEventListener('click', copyPrompt);
+
+  els.clearPromptBtn.addEventListener('click', ()=>{
+    els.userDesc.value = "";
+    setPrompt("");
+  });
+
+  // Initial render
+  writeParams(defaults);
+  rerunAndRender();
+  setPrompt("Paste a description of your organisation and situation, then click “Generate prompt”.");
+</script>
+</body>
+</html>
