@@ -1,0 +1,1678 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Recursive VSM Builder + Cascading Monte Carlo (live)</title>
+  <style>
+    :root{
+      --bg:#070a18;
+      --panelA: rgba(255,255,255,.07);
+      --panelB: rgba(255,255,255,.03);
+      --stroke: rgba(255,255,255,.10);
+
+      --text:#eef2ff;
+      --muted:#b7c4ff;
+
+      --c1:#66e3ff;     /* cyan */
+      --c2:#8affb3;     /* green */
+      --c3:#ffd36d;     /* amber */
+      --c4:#ff6d8d;     /* pink */
+      --c5:#b28bff;     /* purple */
+
+      --shadow: 0 14px 38px rgba(0,0,0,.40);
+      --radius: 16px;
+
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(102,227,255,.22) 0%, rgba(0,0,0,0) 55%),
+        radial-gradient(900px 560px at 80% 10%, rgba(178,139,255,.18) 0%, rgba(0,0,0,0) 55%),
+        radial-gradient(1100px 820px at 50% 115%, rgba(138,255,179,.12) 0%, rgba(0,0,0,0) 60%),
+        linear-gradient(180deg, #050818 0%, var(--bg) 100%) fixed;
+      color:var(--text);
+    }
+    header{
+      padding:16px 16px 10px;
+      display:flex; gap:12px; align-items:baseline; flex-wrap:wrap;
+    }
+    header h1{ margin:0; font-size:18px; letter-spacing:.3px; }
+    header .sub{ color:var(--muted); font-size:13px; }
+
+    .wrap{
+      display:grid;
+      grid-template-columns: 470px 1fr;
+      gap:14px;
+      padding: 0 14px 14px;
+      box-sizing:border-box;
+    }
+    @media (max-width: 1100px){ .wrap{ grid-template-columns:1fr; } }
+
+    .card{
+      background: linear-gradient(180deg, var(--panelA), var(--panelB));
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .panel{ padding:14px; }
+    .panel h2{ margin:0 0 10px; font-size:14px; color:var(--c1); }
+
+    .group{
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding:10px;
+      margin:10px 0;
+    }
+    .groupTitle{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom:8px;
+    }
+    .groupTitle h3{
+      margin:0;
+      font-size:12px;
+      letter-spacing:.35px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      padding:6px 10px;
+      background: rgba(0,0,0,.14);
+      color: var(--muted);
+      font-size: 11px;
+      user-select:none;
+    }
+    .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+    .dot.c1{ background: var(--c1); }
+    .dot.c2{ background: var(--c2); }
+    .dot.c3{ background: var(--c3); }
+    .dot.c4{ background: var(--c4); }
+    .dot.c5{ background: var(--c5); }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 150px;
+      gap:10px;
+      align-items:center;
+      margin: 8px 0;
+    }
+    label{ font-size:13px; }
+    small{ display:block; color:var(--muted); font-size:11px; margin-top:2px; }
+
+    input[type="text"], select{
+      width:100%;
+      box-sizing:border-box;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.16);
+      color: var(--text);
+      padding:8px 10px;
+      font-size:12px;
+      outline:none;
+    }
+    input[type="range"]{ width:100%; }
+
+    button{
+      cursor:pointer;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.16);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+    button:hover{ border-color: rgba(102,227,255,.55); }
+    button.primary{
+      background: linear-gradient(180deg, rgba(102,227,255,.22), rgba(102,227,255,.10));
+      border-color: rgba(102,227,255,.65);
+    }
+    button.warn{
+      background: linear-gradient(180deg, rgba(255,211,109,.20), rgba(255,211,109,.08));
+      border-color: rgba(255,211,109,.55);
+    }
+    .btnRow{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+
+    .mini{
+      color: var(--muted);
+      font-size:11px;
+      margin-top:8px;
+      line-height:1.35;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 1px 6px;
+      border-radius: 7px;
+      font-size: 11px;
+    }
+    .val{
+      text-align:right;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      font-size:12px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.08);
+      padding:6px 8px;
+      border-radius: 12px;
+    }
+
+    /* Breadcrumbs */
+    .crumbs{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 8px; }
+    .crumb{
+      display:inline-flex; gap:6px; align-items:center;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      padding:6px 10px;
+      background: rgba(0,0,0,.16);
+      color: var(--muted);
+      font-size: 11px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .crumb.active{
+      border-color: rgba(102,227,255,.70);
+      color: var(--text);
+      background: rgba(102,227,255,.12);
+    }
+
+    /* Node editor */
+    .nodeCard{
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.14);
+      border-radius: 14px;
+      padding:10px;
+      margin: 8px 0;
+    }
+    .nodeHead{
+      display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
+      margin-bottom:8px;
+    }
+    .nodeHead b{ font-size:13px; }
+    .nodeHead .path{ color:var(--muted); font-size:11px; line-height:1.35; }
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      align-items:end;
+    }
+    .grid2 .full{ grid-column: 1 / -1; }
+
+    .childList .child{
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.12);
+      border-radius: 14px;
+      padding:10px;
+      margin: 8px 0;
+    }
+    .childTop{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom: 6px;
+    }
+    .childTop b{ font-size: 13px; }
+    .childTop .go{
+      border-radius: 12px;
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.14);
+    }
+    .childMeta{
+      color: var(--muted);
+      font-size: 11px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Right column */
+    .right{
+      display:grid;
+      grid-template-rows: 1fr auto auto;
+      gap:14px;
+      padding:10px;
+      min-height: 820px;
+    }
+    .svgWrap{
+      padding:8px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.10);
+      min-height: 500px;
+    }
+    svg{ width:100%; height:100%; display:block; }
+    .hint{ color:var(--muted); font-size:12px; padding: 0 6px 6px; }
+
+    /* Simulation panel */
+    .simWrap{
+      padding: 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.10);
+    }
+    .simTop{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      margin-bottom: 8px;
+    }
+    canvas{ width:100%; height:210px; border-radius: 12px; border:1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.12); }
+    .simGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 1100px){ .simGrid{ grid-template-columns:1fr; } }
+    .simCard{
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.14);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .simCard h4{ margin:0 0 6px; font-size:12px; color: var(--c2); letter-spacing:.2px; }
+    .bullets{ margin:0; padding-left: 18px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .bullets b{ color: var(--text); font-weight: 800; }
+
+    /* Table */
+    .tableWrap{
+      padding: 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.10);
+      overflow:auto;
+      max-height: 330px;
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      font-size:12px;
+      color: var(--text);
+      min-width: 1250px;
+    }
+    thead th{
+      position: sticky;
+      top: 0;
+      background: rgba(15,23,48,.92);
+      backdrop-filter: blur(6px);
+      color: var(--muted);
+      text-align:left;
+      font-weight:700;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      padding:10px 8px;
+      white-space: nowrap;
+    }
+    tbody td{
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding: 8px;
+      vertical-align: top;
+      font-variant-numeric: tabular-nums;
+    }
+    tbody tr:hover td{ background: rgba(102,227,255,.06); }
+    .num{ text-align:right; }
+    .tag{
+      display:inline-block;
+      padding:2px 6px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      font-size:10px;
+      color: var(--muted);
+      margin-left: 6px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>Recursive VSM Builder</h1>
+  <div class="sub">
+    Live Monte Carlo updates as you move sliders. Unmanaged variety cascades up recursion: <span class="kbd">overload → erratic behaviour</span>,
+    <span class="kbd">underload → boredom/disruption</span>. Results include estimated <span class="kbd">accident</span> and <span class="kbd">sickness</span> risk proxies.
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- LEFT -->
+  <section class="card panel">
+    <h2>Structure, Variety Inputs, Scenarios</h2>
+
+    <div class="group">
+      <div class="groupTitle">
+        <h3>Recursion & Identity</h3>
+        <span class="badge"><span class="dot c5"></span>Recursion</span>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="recDepth">Recursion depth limit (UI)</label>
+          <small>How deep you’re allowed to create / navigate.</small>
+        </div>
+        <div>
+          <select id="recDepth">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="identityText">System 5 identity note (global)</label>
+          <small>Shown in diagrams and table.</small>
+        </div>
+        <div>
+          <input id="identityText" type="text" placeholder="e.g., 'Quality & care, sustainably'"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="groupTitle">
+        <h3>Presets (Beer pathologies)</h3>
+        <span class="badge"><span class="dot c4"></span>Scenarios</span>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="scenario">Scenario</label>
+          <small>Loads parameter presets + a typical tree shape.</small>
+        </div>
+        <div>
+          <select id="scenario">
+            <option value="healthy" selected>Healthy VSM (balanced 3↔4)</option>
+            <option value="collapse34">Pathology: 3 & 4 collapsed (no homeostat)</option>
+            <option value="managementSeparate">Pathology: management “is the viable system”</option>
+            <option value="targetitis">Pathology: targetitis / over-control</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btnRow">
+        <button class="primary" id="loadScenarioBtn">Load scenario</button>
+      </div>
+
+      <div class="mini">
+        These scenarios are stylised: they inject mechanisms that create the pathology (self-generated complexity, oscillation, and capacity–demand mismatch).
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="groupTitle">
+        <h3>Live simulation parameters</h3>
+        <span class="badge"><span class="dot c3"></span>Monte Carlo</span>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="envMean">Environment complexity (mean)</label>
+          <small>Baseline external variety faced by the <b>current container</b>.</small>
+        </div>
+        <div class="val" id="envMeanVal">120</div>
+      </div>
+      <input id="envMean" type="range" min="0" max="450" step="1" value="120"/>
+
+      <div class="row">
+        <div>
+          <label for="envVol">Environment volatility</label>
+          <small>How much the external variety fluctuates.</small>
+        </div>
+        <div class="val" id="envVolVal">0.30</div>
+      </div>
+      <input id="envVol" type="range" min="0" max="1" step="0.01" value="0.30"/>
+
+      <div class="row">
+        <div>
+          <label for="mgmtCompetence">Management competence</label>
+          <small>How well S2/S3/S4 meet their own demand.</small>
+        </div>
+        <div class="val" id="mgmtCompetenceVal">0.70</div>
+      </div>
+      <input id="mgmtCompetence" type="range" min="0" max="1" step="0.01" value="0.70"/>
+
+      <div class="row">
+        <div>
+          <label for="targetPressure">Target pressure</label>
+          <small>Unnecessary targets/KPIs → self-generated complexity.</small>
+        </div>
+        <div class="val" id="targetPressureVal">0.25</div>
+      </div>
+      <input id="targetPressure" type="range" min="0" max="1" step="0.01" value="0.25"/>
+
+      <div class="row">
+        <div>
+          <label for="collapseFactor">3↔4 coupling health</label>
+          <small>1 = healthy homeostat; 0 = collapsed/confused 3 & 4.</small>
+        </div>
+        <div class="val" id="collapseFactorVal">0.90</div>
+      </div>
+      <input id="collapseFactor" type="range" min="0" max="1" step="0.01" value="0.90"/>
+
+      <div class="row">
+        <div>
+          <label for="mcN">Samples</label>
+          <small>Auto-updates; keep moderate for smooth interaction.</small>
+        </div>
+        <div class="val" id="mcNVal">2500</div>
+      </div>
+      <input id="mcN" type="range" min="400" max="8000" step="100" value="2500"/>
+
+      <div class="btnRow">
+        <button class="primary" id="simulateBtn">▶ Simulate now</button>
+        <button id="resetAll">Reset</button>
+      </div>
+
+      <div class="mini">
+        Live simulation estimates a distribution of <b>unmanaged complexity</b> in the <b>current container subtree</b>.
+        It models cascade: local mismatch causes erratic/bored behaviours that <b>increase management difficulty above</b>.
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="groupTitle">
+        <h3>Navigate & edit recursion</h3>
+        <span class="badge"><span class="dot c1"></span>Structure</span>
+      </div>
+
+      <div class="crumbs" id="crumbs"></div>
+
+      <div class="nodeCard" id="currentNodeCard"></div>
+
+      <div class="btnRow">
+        <button id="upBtn">⬅ Up one level</button>
+        <button class="primary" id="addChildBtn">+ Add subcomponent (child S1)</button>
+        <button class="warn" id="delNodeBtn">Delete this node</button>
+      </div>
+
+      <div class="mini">
+        Move <b>any</b> variety slider at any level; the cascade will propagate and the Monte Carlo will refresh.
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT -->
+  <section class="card right">
+    <div class="svgWrap">
+      <svg id="viz" viewBox="0 0 1400 740" preserveAspectRatio="xMidYMid meet" aria-label="Beer-style VSM diagram (clickable)">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <path d="M0,0 L10,3 L0,6 Z" fill="rgba(102,227,255,.95)"></path>
+          </marker>
+          <filter id="softGlow">
+            <feGaussianBlur stdDeviation="2.2" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <g id="gLinks"></g>
+        <g id="gNodes"></g>
+        <g id="gLabels"></g>
+        <g id="gHot"></g>
+      </svg>
+      <div class="hint">
+        Diagram shows the current container’s VSM. Click an <span class="kbd">S1</span> box to go down. The <span class="kbd">3↔4 homeostat</span> is highlighted.
+      </div>
+    </div>
+
+    <div class="simWrap">
+      <div class="simTop">
+        <div>
+          <div style="font-weight:900; color:var(--c2);">Live simulation results</div>
+          <div class="mini" id="simSummary">Move sliders or press “Simulate now” to update. Histogram shows total unmanaged complexity in the current subtree.</div>
+        </div>
+        <span class="badge"><span class="dot c2"></span>Distribution</span>
+      </div>
+
+      <canvas id="hist" width="1200" height="270"></canvas>
+
+      <div class="simGrid">
+        <div class="simCard">
+          <h4>Safety & wellbeing risk proxies</h4>
+          <div class="mini" id="riskSummary">—</div>
+          <div class="mini">
+            These are <b>illustrative proxies</b> mapping unmanaged variety to risks (spikes → accidents; sustained overload → sickness).
+          </div>
+        </div>
+
+        <div class="simCard">
+          <h4>Suggestions (variety management)</h4>
+          <ul class="bullets" id="suggestions">
+            <li>—</li>
+          </ul>
+          <div class="mini">
+            Suggestions are derived from which mechanisms dominate: targets (self-generated variety), meta-deficit, 3↔4 collapse, overload/boredom hotspots.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tableWrap">
+      <div class="mini" style="margin:0 0 8px;">
+        Table lists <b>all nodes</b> in the recursive hierarchy, with variety sliders and computed “responsive” S2–S4 needs (heuristics).
+        <span class="tag">S2 need</span><span class="tag">S3 need</span><span class="tag">S4 need</span><span class="tag">S5 note</span>
+      </div>
+      <table id="summary">
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>Level</th>
+            <th>S1 name</th>
+            <th class="num">Variety handled</th>
+            <th class="num">S2 coordination need</th>
+            <th class="num">S3 control/support need</th>
+            <th class="num">S4 intelligence/adaptation need</th>
+            <th>S5 identity note</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script>
+/* =========================================================
+   LIVE CASCADING MONTE CARLO (toy model, transparent)
+   =========================================================
+   Key requirements you asked for:
+   1) Monte Carlo updates when sliders move  ✅ (debounced)
+   2) Subcomponent variety affects management above:
+        - if low-level unmanaged variety is high -> above management harder (cascade)
+        - if variety too low -> boredom/disruption -> cascade
+   3) Include accident/sickness risk proxies from unmanaged variety
+   4) Provide suggestions on how to manage the situation better
+   ========================================================= */
+
+/* ---------- DOM helpers ---------- */
+const $ = (id) => document.getElementById(id);
+function escapeHtml(s){
+  return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+}
+function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
+function fmt(x,d=2){ return Number(x).toFixed(d); }
+
+/* ---------- Tree model ----------
+   root is a container (not S1). Its children are top-level S1.
+*/
+let nextId = 1;
+const nodes = new Map();
+const rootId = 0;
+nodes.set(rootId, { id: rootId, name: "ROOT", variety: 0, parentId: null, children: [] });
+let currentContainerId = rootId;
+
+function pathToRoot(id){
+  const arr = [];
+  let cur = id;
+  while (cur !== null && cur !== undefined){
+    arr.push(cur);
+    cur = nodes.get(cur)?.parentId ?? null;
+  }
+  return arr.reverse();
+}
+function levelOf(id){ return pathToRoot(id).length - 1; }
+
+function nodePathLabel(id){
+  if (id === rootId) return "root";
+  const chain = pathToRoot(id).slice(1);
+  let curParent = rootId;
+  const parts = [];
+  for (const nid of chain){
+    const parent = nodes.get(curParent);
+    const idx = parent ? parent.children.indexOf(nid) : -1;
+    parts.push(String(idx+1));
+    curParent = nid;
+  }
+  return parts.join(".");
+}
+function canGoDeeper(){
+  const depthLimit = Number($("recDepth").value);
+  return levelOf(currentContainerId) < depthLimit;
+}
+function addChild(parentId){
+  const parent = nodes.get(parentId);
+  if (!parent) return;
+  const newNode = { id: nextId++, name: `S1-${nextId-1}`, variety: 60, parentId, children: [] };
+  nodes.set(newNode.id, newNode);
+  parent.children.push(newNode.id);
+}
+function deleteNode(id){
+  if (id === rootId) return;
+  const n = nodes.get(id);
+  if (!n) return;
+  const p = nodes.get(n.parentId);
+  if (p) p.children = p.children.filter(cid => cid !== id);
+
+  const stack = [id];
+  while (stack.length){
+    const x = stack.pop();
+    const node = nodes.get(x);
+    if (!node) continue;
+    for (const c of node.children) stack.push(c);
+    nodes.delete(x);
+  }
+  if (!nodes.has(currentContainerId)) currentContainerId = p?.id ?? rootId;
+}
+
+/* ---------- Heuristic meta needs (for table + part of sim) ---------- */
+function s2NeedForGroup(N, Vavg){
+  const c2 = 0.22;
+  return c2 * Math.max(0, N-1) * Vavg;
+}
+function s3Need(V){
+  const c3 = 0.45;
+  return c3 * V;
+}
+function s4Need(V, level){
+  const c4 = 0.25;
+  const depthFactor = 1 + 0.20*(level-1);
+  return c4 * V * depthFactor;
+}
+
+/* =========================================================
+   Simulation model
+   =========================================================
+   - Simulates unmanaged variety within the subtree rooted at currentContainerId.
+   - Cascades: child unmanaged variety creates parent "management difficulty".
+   - Pathologies from extremes:
+       overload/too-high local variety -> erratic/chaotic behaviour
+       underload/too-low local variety -> boredom/disruption
+   - Management failures:
+       targetPressure -> overhead complexity
+       meta deficit -> coordination/control failures -> more internal complexity
+       collapseFactor -> 3↔4 confusion -> more internal complexity
+   - Outputs distribution of total unmanaged complexity (positive leftover)
+   - Computes risk proxies:
+       accident risk ~ spikes (tail / p95)
+       sickness risk ~ sustained overload (mean / p50)
+*/
+
+function randn(){
+  // Box-Muller
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+function sigmoid(x){
+  return 1/(1+Math.exp(-x));
+}
+
+function postOrderSubtree(rootId){
+  // return node ids in post-order for subtree rooted at rootId
+  const out = [];
+  const stack = [{id: rootId, i:0}];
+  while (stack.length){
+    const top = stack[stack.length-1];
+    const node = nodes.get(top.id);
+    if (!node){ stack.pop(); continue; }
+    if (top.i < node.children.length){
+      const childId = node.children[top.i++];
+      // only traverse if exists
+      if (nodes.has(childId)) stack.push({id: childId, i:0});
+    } else {
+      out.push(top.id);
+      stack.pop();
+    }
+  }
+  return out;
+}
+
+function simulateCascadingSubtree(){
+  const envMean = Number($("envMean").value);
+  const envVol = Number($("envVol").value);
+  const mgmtCompetence = Number($("mgmtCompetence").value);
+  const targetPressure = Number($("targetPressure").value);
+  const collapseFactor = Number($("collapseFactor").value);
+  const N = Math.round(Number($("mcN").value));
+
+  const subtreeRoot = currentContainerId;
+  const order = postOrderSubtree(subtreeRoot);
+
+  // Precompute levels for nodes in subtree
+  const lvlCache = new Map();
+  for (const id of order) lvlCache.set(id, levelOf(id));
+
+  // Coefficients (tunable)
+  const kTarget = 0.55;  // how targets convert ops scale to overhead complexity
+  const kDef   = 0.85;   // meta deficit produces internal complexity
+  const kColl  = 0.70;   // 3↔4 collapse penalty strength
+  const kFric  = 0.32;   // internal complexity consumes operational attention
+  const kCas   = 0.60;   // cascade factor (child unmanaged -> parent management difficulty)
+  const kChaos = 0.75;   // chaotic behaviour escalates management difficulty
+  const kBore  = 0.45;   // boredom disruption intensity
+  const kOver  = 0.55;   // overload chaos intensity
+
+  // "Too low / too high" bands for local variety slider
+  const V_LOW  = 18;     // underload threshold
+  const V_HIGH = 165;    // overload threshold
+
+  // Track contributions for suggestions (deterministic-ish)
+  // We'll accumulate expected (mean over samples) unmanaged by node, plus boredom/overload frequency.
+  const accUnm = new Map();          // nodeId -> sum unmanagedPositive
+  const accBored = new Map();        // nodeId -> count boredom episodes
+  const accOver  = new Map();        // nodeId -> count overload episodes
+
+  // Sample totals for histogram
+  const totals = new Array(N);
+  const accRiskA = new Array(N); // accident proxy
+  const accRiskS = new Array(N); // sickness proxy
+
+  for (let s=0; s<N; s++){
+    // For each sample, compute node states bottom-up
+    const state = new Map(); // id -> {unmPos, chaos, bore, demandMeta, deficitMeta, overheadShare}
+
+    // Sample external environment complexity at THIS container level (then scaled down the recursion)
+    // We'll distribute external variety to children of each container in proportion to a mild depth factor.
+    const baseEnv = Math.max(0, envMean * (1 + randn()*envVol));
+
+    // We'll process containers bottom-up; each container's children states exist before container state in postorder.
+    for (const id of order){
+      const node = nodes.get(id);
+      if (!node) continue;
+
+      const lvl = lvlCache.get(id) || 0;
+      const children = node.children.map(cid => nodes.get(cid)).filter(Boolean);
+
+      // If this node is a "container" (it always is), its children are S1 units at this level.
+      // For each child, we'll compute its unmanaged variety when we reach that child id in the loop.
+      // Here we compute this node's "management difficulty" based on its children states.
+      if (children.length){
+        // meta demand from children variety levels
+        const vars = children.map(c => c.variety);
+        const Cap_ops = vars.reduce((a,b)=>a+b,0);
+        const nSib = Math.max(1, children.length);
+        const avgVar = Cap_ops / nSib;
+
+        const S2 = s2NeedForGroup(nSib, avgVar);
+        const S3 = vars.reduce((a,v)=>a+s3Need(v),0);
+        const S4 = vars.reduce((a,v)=>a+s4Need(v, Math.max(1,lvl)),0);
+
+        // management difficulty from children cascade
+        let childUnm = 0, childChaos = 0;
+        for (const c of children){
+          const st = state.get(c.id) || {unmPos:0, chaos:0};
+          childUnm += st.unmPos;
+          childChaos += st.chaos;
+        }
+
+        // chaosLoad: erratic behaviour makes coordination/control harder
+        const chaosLoad = kCas*childUnm + kChaos*childChaos;
+
+        const Demand_meta = S2 + S3 + S4 + chaosLoad;
+
+        // meta capacity depends on ops scale and competence
+        const Cap_meta = mgmtCompetence * (0.65*Cap_ops + 0.35*Demand_meta);
+
+        const deficit = Math.max(0, Demand_meta - Cap_meta);
+
+        // overhead complexity injected into operations by management failure
+        const baseOverhead = targetPressure * kTarget * Cap_ops;
+        const collapsePenalty = (1 - collapseFactor) * kColl * (S3 + S4);
+
+        const overheadTotal = Math.max(0,
+          baseOverhead * (1 + 0.15*randn()) +
+          kDef * deficit * (1 + 0.25*randn()) +
+          collapsePenalty * (1 + 0.20*randn())
+        );
+
+        // store container meta state; overhead will be used by each child when its state is computed
+        state.set(id, {
+          unmPos: childUnm, // container unmanaged = sum children's unmanaged (used for cascade above)
+          chaos: childChaos,
+          bore: 0,
+          demandMeta: Demand_meta,
+          deficitMeta: deficit,
+          overheadTotal,
+          capOps: Cap_ops
+        });
+      } else {
+        // leaf as container has no internal ops; its unmanaged for cascade will be the leaf's own mismatch when seen as S1 by parent.
+        // We'll set placeholder; it will be overwritten when leaf is computed as S1 (which it is, at parent level).
+        if (!state.has(id)) state.set(id, {unmPos:0, chaos:0, bore:0, overheadTotal:0, capOps:0, deficitMeta:0, demandMeta:0});
+      }
+    }
+
+    // Now compute each non-root node's S1 mismatch given its parent container overhead & environment share.
+    // We do a second pass bottom-up: each node's unmanaged contributes to its parent container's childUnm etc next samples.
+    // For THIS sample, we compute unmanagedPos for each node id != subtreeRoot? Actually subtreeRoot's children are S1 units at this level; root itself isn't an S1 here.
+    // We'll approximate: for each node (except subtreeRoot), treat it as S1 inside its parent container.
+    // Demand to node = external share at parent level + overhead share from parent + internal disruption (bored/over) + its own subcontainer instability.
+    //
+    // We want cascade: if a node's internal subcontainer has high unmanaged (children), the node as an S1 behaves erratically -> increases chaos.
+    // We'll model chaos = f( subUnmanaged + local overload/boredom + leftover ).
+    //
+    // We'll compute in postorder again so subcontainer instability is known.
+    for (const id of order){
+      if (id === subtreeRoot) continue; // subtree root is container focus, not S1 in its parent (outside subtree)
+      const node = nodes.get(id);
+      if (!node) continue;
+
+      const parent = nodes.get(node.parentId);
+      if (!parent) continue;
+
+      // only if parent is in subtree as container
+      if (!lvlCache.has(node.parentId)) continue;
+
+      const pState = state.get(node.parentId) || {overheadTotal:0, capOps:0};
+      const siblings = parent.children.map(cid => nodes.get(cid)).filter(Boolean);
+      const nSib = Math.max(1, siblings.length);
+
+      // external variety distribution: baseEnv scaled by depth (deeper = more local volatility felt)
+      const depthFactor = 1 + 0.12 * (Math.max(0, (lvlCache.get(node.parentId) || 0)));
+      const envShare = (baseEnv * depthFactor) / nSib;
+
+      // overhead distributed across siblings
+      const overheadShare = (pState.overheadTotal || 0) / nSib;
+
+      // subcontainer instability (this node as container): if it has children with unmanaged, the node becomes erratic
+      const subState = state.get(id) || {unmPos:0, chaos:0};
+      const subUnm = subState.unmPos || 0;
+
+      // boredom/underload disruption and overload chaos based on local variety setting
+      const v = node.variety;
+      const boredAmt = Math.max(0, V_LOW - v);
+      const overAmt  = Math.max(0, v - V_HIGH);
+
+      const bored = boredAmt > 0 ? (boredAmt * kBore * (1 + 0.30*randn())) : 0;
+      const over  = overAmt  > 0 ? (overAmt  * kOver * (1 + 0.25*randn())) : 0;
+
+      // internal disruption from subcontainer unmanaged
+      // (if subUnm high, local unit becomes "noisy" -> eats attention / creates extra coordination need above)
+      const subDisrupt = kCas * subUnm * (1 + 0.15*randn());
+
+      // demand on this node (variety it must cope with)
+      const demand = Math.max(0, envShare + overheadShare + bored + over + subDisrupt);
+
+      // friction: internal complexity consumes capacity to absorb
+      const friction = kFric * (overheadShare + subDisrupt + over);
+
+      const absorb = Math.max(0, v - friction);
+
+      const leftover = demand - absorb;
+      const unmPos = Math.max(0, leftover);
+
+      // chaos index: erratic behaviour that makes management above harder
+      // grows with overload + subUnm + leftover; boredom contributes too (different pathway)
+      const chaos = 30*sigmoid((over + subUnm + unmPos)/90) + 10*sigmoid(bored/20);
+
+      // record node state
+      state.set(id, {
+        ...(state.get(id)||{}),
+        unmPos,
+        chaos,
+        bore: bored,
+        over: over,
+        envShare,
+        overheadShare,
+        subUnm
+      });
+
+      // accumulate for suggestions
+      accUnm.set(id, (accUnm.get(id)||0) + unmPos);
+      if (boredAmt > 0) accBored.set(id, (accBored.get(id)||0) + 1);
+      if (overAmt  > 0) accOver.set(id,  (accOver.get(id)||0)  + 1);
+    }
+
+    // Total unmanaged complexity in subtree = sum of unmanagedPos of all S1 nodes in subtree (excluding subtreeRoot container itself)
+    let totalUnm = 0;
+    for (const id of order){
+      if (id === subtreeRoot) continue;
+      const st = state.get(id);
+      if (st) totalUnm += (st.unmPos || 0);
+    }
+    totals[s] = totalUnm;
+
+    // Risk proxies:
+    // accidents: sensitive to spikes -> map totalUnm to probability via exp curve with higher sensitivity
+    // sickness: sensitive to sustained overload -> slightly lower sensitivity
+    const kAcc = 0.020;  // accident sensitivity
+    const kSick = 0.012; // sickness sensitivity
+    const pAcc = 1 - Math.exp(-kAcc * (totalUnm/10));
+    const pSick = 1 - Math.exp(-kSick * (totalUnm/10));
+
+    accRiskA[s] = clamp(pAcc, 0, 1);
+    accRiskS[s] = clamp(pSick, 0, 1);
+  }
+
+  // Sort for quantiles
+  const sorted = totals.slice().sort((a,b)=>a-b);
+  const n = sorted.length;
+  const mean = totals.reduce((a,b)=>a+b,0)/n;
+  const p50 = sorted[Math.floor(0.50*(n-1))];
+  const p90 = sorted[Math.floor(0.90*(n-1))];
+  const p95 = sorted[Math.floor(0.95*(n-1))];
+
+  // Viability proxy: probability total unmanaged is ~0 (within tolerance)
+  const tol = 1e-6;
+  const pOk = totals.filter(x => x <= tol).length / n;
+
+  // Risk stats
+  accRiskA.sort((a,b)=>a-b);
+  accRiskS.sort((a,b)=>a-b);
+  const meanAcc = accRiskA.reduce((a,b)=>a+b,0)/n;
+  const meanSick = accRiskS.reduce((a,b)=>a+b,0)/n;
+  const p95Acc = accRiskA[Math.floor(0.95*(n-1))];
+  const p95Sick = accRiskS[Math.floor(0.95*(n-1))];
+
+  // Hotspots: top contributors by mean unmanaged
+  const contributors = [];
+  for (const [id, sumU] of accUnm.entries()){
+    const node = nodes.get(id);
+    if (!node) continue;
+    contributors.push({
+      id,
+      path: nodePathLabel(id),
+      name: node.name,
+      meanU: sumU/n,
+      boredRate: (accBored.get(id)||0)/n,
+      overRate: (accOver.get(id)||0)/n
+    });
+  }
+  contributors.sort((a,b)=>b.meanU - a.meanU);
+
+  // Aggregate dominance metrics for suggestions (at current container level)
+  const container = nodes.get(subtreeRoot);
+  const children = container.children.map(cid => nodes.get(cid)).filter(Boolean);
+  const vars = children.map(c => c.variety);
+  const Cap_ops = vars.reduce((a,b)=>a+b,0);
+  const nSib = Math.max(1, children.length);
+  const avgVar = nSib ? Cap_ops/nSib : 0;
+  const lvl = Math.max(1, levelOf(subtreeRoot));
+  const S2 = s2NeedForGroup(nSib, avgVar);
+  const S3 = vars.reduce((a,v)=>a+s3Need(v),0);
+  const S4 = vars.reduce((a,v)=>a+s4Need(v, lvl),0);
+  const Demand_meta = S2 + S3 + S4;
+  const Cap_meta = Number($("mgmtCompetence").value) * (0.65*Cap_ops + 0.35*Demand_meta);
+  const deficit = Math.max(0, Demand_meta - Cap_meta);
+  const baseOverhead = Number($("targetPressure").value) * 0.55 * Cap_ops;
+  const collapsePenalty = (1-Number($("collapseFactor").value)) * 0.70 * (S3+S4);
+
+  return {
+    totals, sorted, mean, p50, p90, p95, pOk,
+    meanAcc, meanSick, p95Acc, p95Sick,
+    contributors: contributors.slice(0, 6),
+    dominance: { Cap_ops, Demand_meta, Cap_meta, deficit, baseOverhead, collapsePenalty }
+  };
+}
+
+/* ---------- Histogram drawing ---------- */
+function drawHistogram(values, canvas){
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+
+  ctx.clearRect(0,0,W,H);
+
+  const m = { l: 64, r: 20, t: 18, b: 42 };
+  const iw = W - m.l - m.r;
+  const ih = H - m.t - m.b;
+
+  const n = values.length;
+  const sorted = values.slice().sort((a,b)=>a-b);
+  const min = sorted[0];
+  const max = sorted[n-1];
+  const span = Math.max(1e-9, max - min);
+
+  const bins = clamp(Math.round(Math.sqrt(n) * 1.1), 18, 70);
+  const binW = span / bins;
+
+  const counts = new Array(bins).fill(0);
+  for (const v of values){
+    let idx = Math.floor((v - min) / binW);
+    if (idx === bins) idx = bins-1;
+    counts[idx] += 1;
+  }
+  const maxC = Math.max(...counts, 1);
+
+  // axes
+  ctx.strokeStyle = "rgba(255,255,255,.18)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(m.l, m.t);
+  ctx.lineTo(m.l, m.t+ih);
+  ctx.lineTo(m.l+iw, m.t+ih);
+  ctx.stroke();
+
+  // bars
+  for (let i=0;i<bins;i++){
+    const x0 = m.l + (i/bins)*iw;
+    const x1 = m.l + ((i+1)/bins)*iw;
+    const h = (counts[i]/maxC)*ih;
+
+    const alpha = 0.18 + 0.58*(counts[i]/maxC);
+    ctx.fillStyle = `rgba(102,227,255,${alpha})`;
+    ctx.fillRect(x0+1, m.t+ih-h, Math.max(1, x1-x0-2), h);
+  }
+
+  // tick labels
+  const ticks = [min, (min+max)/2, max];
+  ctx.fillStyle = "rgba(183,196,255,.90)";
+  ctx.font = "12px system-ui";
+  ticks.forEach((tv) => {
+    const x = m.l + ((tv-min)/span)*iw;
+    ctx.fillText(tv.toFixed(0), x-12, m.t+ih+26);
+    ctx.strokeStyle = "rgba(255,255,255,.10)";
+    ctx.beginPath();
+    ctx.moveTo(x, m.t+ih);
+    ctx.lineTo(x, m.t+ih+6);
+    ctx.stroke();
+  });
+
+  ctx.fillStyle = "rgba(183,196,255,.85)";
+  ctx.fillText("frequency", 10, m.t+12);
+  ctx.fillText("total unmanaged complexity (subtree)", m.l + iw/2 - 118, H-12);
+}
+
+/* ---------- Suggestions based on dominance + hotspots ---------- */
+function buildSuggestions(res){
+  const sug = [];
+  const d = res.dominance;
+
+  // meta deficit & structure suggestions
+  if (d.deficit > 25){
+    sug.push(`<b>Meta deficit is high</b>: strengthen S2 coordination (reduce oscillations) and clarify S3 controls (resource rules, escalation). Consider reducing coupling or splitting overloaded S1 units.`);
+  }
+  if (Number($("collapseFactor").value) < 0.5){
+    sug.push(`<b>3↔4 coupling is unhealthy</b>: separate “inside-now” (S3) from “outside-then” (S4). Create explicit cadence/channels: operational review vs strategic scanning; avoid blending the meetings and metrics.`);
+  }
+  if (Number($("targetPressure").value) > 0.6){
+    sug.push(`<b>Target pressure dominates self-generated variety</b>: prune KPIs, remove conflicting targets, and replace “targets everywhere” with boundary conditions and learning loops (e.g., lead indicators + exception reporting).`);
+  }
+
+  // boredom & overload
+  const hot = res.contributors;
+  const boredHot = hot.filter(h => h.boredRate > 0.25).slice(0,2);
+  const overHot  = hot.filter(h => h.overRate  > 0.25).slice(0,2);
+
+  if (overHot.length){
+    sug.push(`<b>Overload hotspots</b>: ${overHot.map(h=>`${escapeHtml(h.name)} (${h.path})`).join(", ")}. Attenuate input variety (buffering, queues, standard work) or amplify capacity (staffing, tooling, autonomy). If a unit is “too big”, recurse: split into two viable units.`);
+  }
+  if (boredHot.length){
+    sug.push(`<b>Underload/boredom hotspots</b>: ${boredHot.map(h=>`${escapeHtml(h.name)} (${h.path})`).join(", ")}. Increase meaningful variety: job enrichment, rotation, continuous improvement tasks, or devolve decisions to create legitimate autonomy (reduces disruptive variety).`);
+  }
+
+  // generic VSM interventions
+  sug.push(`<b>Improve variety engineering</b>: make explicit what is attenuated (filters, standards, constraints) and what is amplified (skills, redundancy, niche-building). Push attenuation upstream; push amplification where it increases response repertoire.`);
+
+  // If no children in current container
+  const container = nodes.get(currentContainerId);
+  if (container && container.children.length === 0){
+    sug.push(`<b>No S1 units at this level</b>: add operational components or navigate up. Without S1 at a level, metasystem cannot act on anything tangible, so variety is effectively unmanaged.`);
+  }
+
+  // Keep to ~6 bullets max
+  return sug.slice(0,6);
+}
+
+/* ---------- LIVE UPDATE (debounced) ---------- */
+let simTimer = null;
+let lastRes = null;
+
+function scheduleSim(){
+  if (simTimer) clearTimeout(simTimer);
+  simTimer = setTimeout(() => {
+    runSimulationAndRender();
+  }, 160);
+}
+
+function runSimulationAndRender(){
+  // Avoid running with empty subtree (still render but results trivial)
+  const res = simulateCascadingSubtree();
+  lastRes = res;
+
+  drawHistogram(res.totals, $("hist"));
+
+  const name = (currentContainerId===rootId) ? "root" : nodes.get(currentContainerId).name;
+  const pOk = (res.pOk*100).toFixed(1);
+
+  $("simSummary").innerHTML = `
+    Subtree simulated: <b>${escapeHtml(name)}</b> (<span class="kbd">${escapeHtml(nodePathLabel(currentContainerId))}</span>) ·
+    <b>P(total unmanaged ≈ 0) ≈ ${pOk}%</b><br/>
+    mean=${fmt(res.mean,1)} · p50=${fmt(res.p50,1)} · p90=${fmt(res.p90,1)} · p95=${fmt(res.p95,1)} ·
+    meta deficit=${fmt(res.dominance.deficit,1)} · overhead=${fmt(res.dominance.baseOverhead + res.dominance.collapsePenalty,1)}
+  `;
+
+  $("riskSummary").innerHTML = `
+    Accident risk (mean) ≈ <b>${(res.meanAcc*100).toFixed(1)}%</b>, p95 ≈ <b>${(res.p95Acc*100).toFixed(1)}%</b><br/>
+    Sickness risk (mean) ≈ <b>${(res.meanSick*100).toFixed(1)}%</b>, p95 ≈ <b>${(res.p95Sick*100).toFixed(1)}%</b><br/>
+    Interpretation: accident proxy is more sensitive to spikes (tail), sickness proxy to sustained overload (central tendency).
+  `;
+
+  const sugList = $("suggestions");
+  const items = buildSuggestions(res);
+  sugList.innerHTML = items.map(t => `<li>${t}</li>`).join("");
+
+  // (Optional) could also show hotspots; keep it lightweight:
+  // If you want, we can add a small “Hotspots” table panel in the sim wrap.
+}
+
+/* ---------- Left pane rendering ---------- */
+function renderCrumbs(){
+  const host = $("crumbs");
+  host.innerHTML = "";
+  const chain = pathToRoot(currentContainerId);
+  chain.forEach(id => {
+    const isActive = (id === currentContainerId);
+    const el = document.createElement("div");
+    el.className = "crumb" + (isActive ? " active" : "");
+    const label = (id === rootId) ? "root" : (nodes.get(id)?.name || nodePathLabel(id));
+    el.textContent = label;
+    el.title = (id===rootId) ? "root" : nodePathLabel(id);
+    el.addEventListener("click", () => { currentContainerId = id; renderAll(); });
+    host.appendChild(el);
+  });
+}
+
+function renderCurrentNodeEditor(){
+  const card = $("currentNodeCard");
+  const container = nodes.get(currentContainerId);
+  const lvl = levelOf(currentContainerId);
+  const path = nodePathLabel(currentContainerId);
+  const depthLimit = Number($("recDepth").value);
+
+  const heading = (currentContainerId === rootId)
+    ? "Top-level container (root)"
+    : `Current node (as container): ${container.name}`;
+
+  const canDel = currentContainerId !== rootId;
+
+  card.innerHTML = `
+    <div class="nodeHead">
+      <div>
+        <b>${escapeHtml(heading)}</b>
+        <div class="path">path: <span class="kbd">${escapeHtml(path)}</span> · level: <span class="kbd">${lvl}</span> · depth limit: <span class="kbd">${depthLimit}</span></div>
+      </div>
+    </div>
+
+    ${currentContainerId !== rootId ? `
+      <div class="grid2">
+        <div class="full">
+          <label>Node name (S1 at its parent level)</label>
+          <input type="text" id="curName" value="${escapeHtml(container.name)}"/>
+        </div>
+        <div class="full">
+          <label>Variety handled (slider)</label>
+          <div class="row" style="grid-template-columns: 1fr 92px; margin:6px 0 0;">
+            <input type="range" id="curVar" min="0" max="220" step="1" value="${container.variety}">
+            <div class="val" id="curVarVal">${container.variety}</div>
+          </div>
+          <small>Too high → overload/erratic; too low → boredom/disruption (both cascade).</small>
+        </div>
+      </div>
+    ` : `
+      <div class="mini">Root is not a System 1. It is just the container for top-level System 1 units.</div>
+    `}
+
+    <div class="mini" style="margin-top:10px;">
+      Children of this container are the <b>System 1 units</b> at this level. Click a child to navigate down.
+      Each child has its own variety slider in its own editor when you navigate into it.
+    </div>
+    <div class="childList" id="childList"></div>
+  `;
+
+  if (currentContainerId !== rootId){
+    const nameEl = $("curName");
+    const varEl  = $("curVar");
+    const varVal = $("curVarVal");
+
+    nameEl.addEventListener("input", () => {
+      container.name = nameEl.value.trim() || container.name;
+      renderAll(false);
+      scheduleSim();
+    });
+    varEl.addEventListener("input", () => {
+      container.variety = clamp(Number(varEl.value)||0, 0, 220);
+      varVal.textContent = String(container.variety);
+      renderAll(false);
+      scheduleSim();
+    });
+  }
+
+  const list = $("childList");
+  const children = container.children.map(id => nodes.get(id)).filter(Boolean);
+  if (!children.length){
+    list.innerHTML = `<div class="mini">No children yet. Use “Add subcomponent”.</div>`;
+  } else {
+    list.innerHTML = children.map(c => `
+      <div class="child">
+        <div class="childTop">
+          <b>${escapeHtml(c.name)}</b>
+          <button class="go" data-go="${c.id}">Go down ➜</button>
+        </div>
+        <div class="childMeta">
+          <span>path <span class="kbd">${escapeHtml(nodePathLabel(c.id))}</span></span>
+          <span>variety <span class="kbd">${fmt(c.variety,0)}</span></span>
+          <span>children <span class="kbd">${c.children.length}</span></span>
+        </div>
+      </div>
+    `).join("");
+
+    list.querySelectorAll("[data-go]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = Number(btn.dataset.go);
+        if (!nodes.has(id)) return;
+        currentContainerId = id;
+        renderAll();
+        scheduleSim();
+      });
+    });
+  }
+
+  $("upBtn").disabled = (currentContainerId === rootId);
+  $("delNodeBtn").disabled = !canDel;
+  $("addChildBtn").disabled = !canGoDeeper();
+}
+
+/* ---------- Buttons ---------- */
+$("upBtn").addEventListener("click", () => {
+  const cur = nodes.get(currentContainerId);
+  if (!cur || cur.parentId === null) return;
+  currentContainerId = cur.parentId;
+  renderAll();
+  scheduleSim();
+});
+$("addChildBtn").addEventListener("click", () => {
+  if (!canGoDeeper()) return;
+  addChild(currentContainerId);
+  renderAll();
+  scheduleSim();
+});
+$("delNodeBtn").addEventListener("click", () => {
+  if (currentContainerId === rootId) return;
+  const parentId = nodes.get(currentContainerId)?.parentId ?? rootId;
+  deleteNode(currentContainerId);
+  currentContainerId = parentId;
+  renderAll();
+  scheduleSim();
+});
+
+/* ---------- Right: Beer-style diagram ---------- */
+const gLinks = $("gLinks");
+const gNodes = $("gNodes");
+const gLabels = $("gLabels");
+const gHot = $("gHot");
+
+function clearSVG(){ gLinks.innerHTML=""; gNodes.innerHTML=""; gLabels.innerHTML=""; gHot.innerHTML=""; }
+function mk(tag, attrs={}, parent=gNodes){
+  const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k,v] of Object.entries(attrs)) el.setAttribute(k, v);
+  parent.appendChild(el);
+  return el;
+}
+function box(x,y,w,h,title,sub,accent=false){
+  mk("rect", {
+    x,y,width:w,height:h,rx:16,ry:16,
+    fill:"rgba(0,0,0,.12)",
+    stroke: accent ? "rgba(102,227,255,.55)" : "rgba(255,255,255,.14)",
+    "stroke-width": accent ? "2.0" : "1.5"
+  }, gNodes);
+  mk("text",{x:x+14,y:y+22,"font-size":"13",fill:"rgba(232,238,255,.95)","font-weight":"900"}, gLabels).textContent=title;
+  if (sub) mk("text",{x:x+14,y:y+40,"font-size":"11",fill:"rgba(183,196,255,.92)"}, gLabels).textContent=sub;
+}
+function arrow(x1,y1,x2,y2,label,th=3,op=0.78){
+  mk("path",{d:`M ${x1} ${y1} L ${x2} ${y2}`,stroke:`rgba(102,227,255,${op})`,"stroke-width":String(th),fill:"none","marker-end":"url(#arrow)"}, gLinks);
+  if (label){
+    mk("text",{x:(x1+x2)/2,y:(y1+y2)/2 - 8,"text-anchor":"middle","font-size":"11",fill:"rgba(183,196,255,.92)"}, gLabels).textContent=label;
+  }
+}
+function line(x1,y1,x2,y2,th=2,op=0.35){
+  mk("path",{d:`M ${x1} ${y1} L ${x2} ${y2}`,stroke:`rgba(183,196,255,${op})`,"stroke-width":String(th),fill:"none"}, gLinks);
+}
+
+function renderDiagram(){
+  clearSVG();
+
+  const container = nodes.get(currentContainerId);
+  const children = container.children.map(id => nodes.get(id)).filter(Boolean);
+  const level = levelOf(currentContainerId);
+  const idNote = $("identityText").value?.trim() || "—";
+
+  const s5 = { x: 270, y: 30,  w: 820, h: 90  };
+  const s3 = { x: 380, y: 160, w: 420, h: 180 };
+  const s2 = { x: 380, y: 365, w: 420, h: 70  };
+  const s4 = { x: 840, y: 170, w: 250, h: 140 };
+  const env= { x: 1120,y: 150, w: 240, h: 300 };
+  const homeoY = 140;
+
+  // S1 row
+  const units = Math.max(1, children.length);
+  const x0 = 40, y0 = 470, H = 240, gap = 14;
+  const totalW = 1040;
+  const w = (totalW - gap*(units-1))/units;
+
+  mk("text",{x:40,y:20,"font-size":"12",fill:"rgba(183,196,255,.92)"}, gLabels)
+    .textContent = `Current container: ${currentContainerId===rootId?'root':container.name} · path ${nodePathLabel(currentContainerId)} · level ${level}.`;
+
+  box(s5.x,s5.y,s5.w,s5.h,"System 5 (Policy / Identity)", `identity: ${idNote}`, true);
+  box(s3.x,s3.y,s3.w,s3.h,"System 3 (Internal Control)","inside & now");
+  box(s2.x,s2.y,s2.w,s2.h,"System 2 (Coordination)","across S1");
+  box(s4.x,s4.y,s4.w,s4.h,"System 4 (Intelligence)","outside & then");
+  box(env.x,env.y,env.w,env.h,"Environment","(variety source)", false);
+
+  // S4 ↔ env
+  arrow(s4.x+s4.w, s4.y+42, env.x, env.y+70, "scan", 3, 0.7);
+  arrow(env.x, env.y+120, s4.x+s4.w, s4.y+95, "signals", 3, 0.7);
+
+  // S5 to S3/S4
+  arrow(s5.x+170, s5.y+s5.h, s3.x+90, s3.y, "", 2.5, 0.45);
+  arrow(s5.x+s5.w-170, s5.y+s5.h, s4.x+s4.w-60, s4.y, "", 2.5, 0.45);
+
+  // Explicit 3↔4 homeostat
+  mk("rect",{
+    x: s3.x + s3.w - 10, y: homeoY,
+    width: (s4.x - (s3.x+s3.w)) + 20,
+    height: 16, rx:8, ry:8,
+    fill:"rgba(102,227,255,.14)",
+    stroke:"rgba(102,227,255,.55)",
+    "stroke-width":"1.3",
+    filter:"url(#softGlow)"
+  }, gNodes);
+  mk("text",{
+    x:(s3.x+s3.w+s4.x)/2, y:homeoY+12,
+    "text-anchor":"middle","font-size":"11",
+    fill:"rgba(232,238,255,.95)","font-weight":"900"
+  }, gLabels).textContent = "3 ↔ 4 HOMEOSTAT";
+
+  // Curved bidirectional loop
+  const p1x = s3.x + s3.w, p1y = s3.y + 28;
+  const p2x = s4.x,        p2y = s4.y + 28;
+  mk("path",{
+    d:`M ${p1x} ${p1y} C ${p1x+80} ${p1y-60}, ${p2x-80} ${p2y-60}, ${p2x} ${p2y}`,
+    stroke:"rgba(102,227,255,.72)","stroke-width":"3",fill:"none","marker-end":"url(#arrow)",filter:"url(#softGlow)"
+  }, gLinks);
+  mk("path",{
+    d:`M ${p2x} ${p2y+30} C ${p2x-80} ${p2y+90}, ${p1x+80} ${p1y+90}, ${p1x} ${p1y+30}`,
+    stroke:"rgba(178,139,255,.55)","stroke-width":"3",fill:"none","marker-end":"url(#arrow)",filter:"url(#softGlow)"
+  }, gLinks);
+
+  // S3 ↔ S2
+  arrow(s3.x+s3.w/2, s3.y+s3.h, s2.x+s2.w/2, s2.y, "", 2.5, 0.45);
+
+  // S2 span above S1 row
+  mk("path",{d:`M ${x0} ${y0-12} L ${x0+totalW} ${y0-12}`,stroke:"rgba(138,255,179,.40)","stroke-width":"6",fill:"none"}, gLinks);
+  mk("text",{x:x0+totalW/2,y:y0-20,"text-anchor":"middle","font-size":"11",fill:"rgba(183,196,255,.92)"}, gLabels)
+    .textContent = "System 2 across System 1";
+
+  // downlinks to S1
+  for (let i=0;i<units;i++){
+    const cx = x0 + i*(w+gap) + w/2;
+    line(s2.x+s2.w/2, s2.y+s2.h, cx, y0, 2, 0.26);
+  }
+
+  if (!children.length){
+    mk("rect",{x:x0,y:y0,width:totalW,height:H,rx:16,ry:16,fill:"rgba(0,0,0,.12)",stroke:"rgba(255,255,255,.14)","stroke-width":"1.5"}, gNodes);
+    mk("text",{x:x0+12,y:y0+22,"font-size":"13",fill:"rgba(232,238,255,.95)","font-weight":"900"}, gLabels)
+      .textContent = "No S1 units yet (add a child on the left)";
+    return;
+  }
+
+  children.forEach((c, i) => {
+    const x = x0 + i*(w+gap);
+    mk("rect",{x,y:y0,width:w,height:H,rx:16,ry:16,fill:"rgba(0,0,0,.12)",stroke:"rgba(255,255,255,.18)","stroke-width":"1.6"}, gNodes);
+
+    mk("text",{x:x+12,y:y0+22,"font-size":"13",fill:"rgba(232,238,255,.95)","font-weight":"900"}, gLabels).textContent = c.name;
+    mk("text",{x:x+12,y:y0+42,"font-size":"11",fill:"rgba(183,196,255,.92)"}, gLabels)
+      .textContent = `variety: ${fmt(c.variety,0)} · children: ${c.children.length}`;
+
+    // preview block
+    const pad = 10, ix=x+pad, iy=y0+60, iw=w-2*pad, ih=H-70;
+    mk("rect",{x:ix,y:iy,width:iw,height:ih,rx:12,ry:12,fill:"rgba(0,0,0,.10)",stroke:"rgba(255,255,255,.10)","stroke-width":"1"}, gNodes);
+    mk("text",{x:ix+8,y:iy+14,"font-size":"10",fill:"rgba(183,196,255,.88)"}, gLabels)
+      .textContent = "click to go down";
+    if (c.children.length){
+      const g=8, cw=(iw-g)/2, ch=ih-24;
+      for (let k=0;k<2;k++){
+        const cx=ix+k*(cw+g), cy=iy+20;
+        mk("rect",{x:cx,y:cy,width:cw,height:ch,rx:10,ry:10,fill:"rgba(102,227,255,.08)",stroke:"rgba(102,227,255,.22)","stroke-width":"1"}, gNodes);
+      }
+    }
+
+    // hotspot
+    const hit = mk("rect",{x,y:y0,width:w,height:H,rx:16,ry:16,fill:"rgba(0,0,0,0.01)",stroke:"rgba(0,0,0,0)",cursor:"pointer"}, gHot);
+    hit.addEventListener("click", () => { currentContainerId = c.id; renderAll(); scheduleSim(); });
+  });
+}
+
+/* ---------- Table across entire tree ---------- */
+function renderTableAll(){
+  const tbody = $("summary").querySelector("tbody");
+  tbody.innerHTML = "";
+  const idNote = $("identityText").value?.trim() || "—";
+
+  const all = [];
+  for (const [id, n] of nodes.entries()){
+    if (id === rootId) continue;
+    all.push(n);
+  }
+  all.sort((a,b) => {
+    const pa = nodePathLabel(a.id).split(".").map(Number);
+    const pb = nodePathLabel(b.id).split(".").map(Number);
+    const L = Math.max(pa.length, pb.length);
+    for (let i=0;i<L;i++){
+      const va = pa[i] ?? -1, vb = pb[i] ?? -1;
+      if (va !== vb) return va - vb;
+    }
+    return 0;
+  });
+
+  all.forEach(n => {
+    const parent = nodes.get(n.parentId);
+    const siblings = parent ? parent.children.map(id => nodes.get(id)).filter(Boolean) : [];
+    const N = Math.max(1, siblings.length);
+    const avg = siblings.reduce((a,x)=>a+x.variety,0) / N;
+
+    const s2 = s2NeedForGroup(N, avg);
+    const lvl = levelOf(n.id);
+    const s3 = s3Need(n.variety);
+    const s4 = s4Need(n.variety, Math.max(1,lvl));
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><span class="kbd">${escapeHtml(nodePathLabel(n.id))}</span></td>
+      <td>${lvl}</td>
+      <td>${escapeHtml(n.name)}</td>
+      <td class="num">${fmt(n.variety,1)}</td>
+      <td class="num">${fmt(s2,1)}</td>
+      <td class="num">${fmt(s3,1)}</td>
+      <td class="num">${fmt(s4,1)}</td>
+      <td>${escapeHtml(idNote)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ---------- Slider labels + live scheduling ---------- */
+const simSliders = [
+  ["envMean","envMeanVal",0],
+  ["envVol","envVolVal",2],
+  ["mgmtCompetence","mgmtCompetenceVal",2],
+  ["targetPressure","targetPressureVal",2],
+  ["collapseFactor","collapseFactorVal",2],
+  ["mcN","mcNVal",0],
+];
+simSliders.forEach(([id, out, d]) => {
+  const el = $(id);
+  const outEl = $(out);
+  const upd = () => {
+    outEl.textContent = (d===0 ? String(Math.round(Number(el.value))) : Number(el.value).toFixed(d));
+    scheduleSim(); // ✅ live update on slider move
+  };
+  el.addEventListener("input", upd);
+  upd();
+});
+
+$("simulateBtn").addEventListener("click", () => runSimulationAndRender());
+
+/* ---------- Scenario presets ---------- */
+function resetTree(){
+  nodes.clear();
+  nextId = 1;
+  nodes.set(rootId, { id: rootId, name:"ROOT", variety:0, parentId:null, children:[] });
+  currentContainerId = rootId;
+}
+function buildBasicOrg(){
+  addChild(rootId); nodes.get(nodes.get(rootId).children[0]).name="Operations A"; nodes.get(nodes.get(rootId).children[0]).variety=80;
+  addChild(rootId); nodes.get(nodes.get(rootId).children[1]).name="Operations B"; nodes.get(nodes.get(rootId).children[1]).variety=70;
+  addChild(rootId); nodes.get(nodes.get(rootId).children[2]).name="Operations C"; nodes.get(nodes.get(rootId).children[2]).variety=90;
+
+  const a = nodes.get(rootId).children[0];
+  addChild(a); nodes.get(nodes.get(a).children[0]).name="A1"; nodes.get(nodes.get(a).children[0]).variety=40;
+  addChild(a); nodes.get(nodes.get(a).children[1]).name="A2"; nodes.get(nodes.get(a).children[1]).variety=45;
+
+  const b = nodes.get(rootId).children[1];
+  addChild(b); nodes.get(nodes.get(b).children[0]).name="B1"; nodes.get(nodes.get(b).children[0]).variety=35;
+  addChild(b); nodes.get(nodes.get(b).children[1]).name="B2"; nodes.get(nodes.get(b).children[1]).variety=42;
+
+  const c = nodes.get(rootId).children[2];
+  addChild(c); nodes.get(nodes.get(c).children[0]).name="C1"; nodes.get(nodes.get(c).children[0]).variety=50;
+  addChild(c); nodes.get(nodes.get(c).children[1]).name="C2"; nodes.get(nodes.get(c).children[1]).variety=55;
+}
+
+function refreshSimLabels(){
+  simSliders.forEach(([id, out, d]) => {
+    const el = $(id), outEl = $(out);
+    outEl.textContent = (d===0 ? String(Math.round(Number(el.value))) : Number(el.value).toFixed(d));
+  });
+}
+
+function loadScenario(key){
+  resetTree();
+
+  if (key === "healthy"){
+    buildBasicOrg();
+    $("identityText").value = "Coherent purpose; autonomy with accountability";
+    $("recDepth").value = "4";
+    $("envMean").value = "140";
+    $("envVol").value = "0.28";
+    $("mgmtCompetence").value = "0.78";
+    $("targetPressure").value = "0.18";
+    $("collapseFactor").value = "0.92";
+    $("mcN").value = "2500";
+  }
+
+  if (key === "collapse34"){
+    buildBasicOrg();
+    $("identityText").value = "Strategy pulled into ops; weak future sensing";
+    $("recDepth").value = "4";
+    $("envMean").value = "165";
+    $("envVol").value = "0.36";
+    $("mgmtCompetence").value = "0.55";
+    $("targetPressure").value = "0.30";
+    $("collapseFactor").value = "0.25";
+    $("mcN").value = "3000";
+  }
+
+  if (key === "managementSeparate"){
+    addChild(rootId); nodes.get(nodes.get(rootId).children[0]).name="Ops Cluster"; nodes.get(nodes.get(rootId).children[0]).variety=210;
+    const ops = nodes.get(rootId).children[0];
+    for (let i=0;i<6;i++){
+      addChild(ops);
+      const id = nodes.get(ops).children[i];
+      nodes.get(id).name = `Ops-${i+1}`;
+      nodes.get(id).variety = 55 + i*6;
+      // make a couple of deeper hotspots
+      if (i===2 || i===4){
+        addChild(id);
+        nodes.get(nodes.get(id).children[0]).name = `Ops-${i+1}.a`;
+        nodes.get(nodes.get(id).children[0]).variety = 35;
+        addChild(id);
+        nodes.get(nodes.get(id).children[1]).name = `Ops-${i+1}.b`;
+        nodes.get(nodes.get(id).children[1]).variety = 95;
+      }
+    }
+
+    $("identityText").value = "Management separate; weak autonomy; overhead dominates";
+    $("recDepth").value = "5";
+    $("envMean").value = "150";
+    $("envVol").value = "0.33";
+    $("mgmtCompetence").value = "0.50";
+    $("targetPressure").value = "0.38";
+    $("collapseFactor").value = "0.65";
+    $("mcN").value = "3500";
+  }
+
+  if (key === "targetitis"){
+    buildBasicOrg();
+    $("identityText").value = "KPI-driven control; gaming + compliance overhead";
+    $("recDepth").value = "4";
+    $("envMean").value = "135";
+    $("envVol").value = "0.26";
+    $("mgmtCompetence").value = "0.62";
+    $("targetPressure").value = "0.85";
+    $("collapseFactor").value = "0.78";
+    $("mcN").value = "3500";
+  }
+
+  refreshSimLabels();
+  renderAll();
+  scheduleSim();
+}
+
+$("loadScenarioBtn").addEventListener("click", () => loadScenario($("scenario").value));
+
+/* ---------- Global controls ---------- */
+$("recDepth").addEventListener("change", () => {
+  const limit = Number($("recDepth").value);
+  while (levelOf(currentContainerId) > limit){
+    currentContainerId = nodes.get(currentContainerId)?.parentId ?? rootId;
+  }
+  renderAll();
+  scheduleSim();
+});
+
+$("identityText").addEventListener("input", () => {
+  renderAll(false);
+  // identity doesn't affect sim directly, but refresh is cheap and keeps things consistent
+  scheduleSim();
+});
+
+$("resetAll").addEventListener("click", () => {
+  resetTree();
+  $("identityText").value = "";
+  $("recDepth").value = "2";
+  $("scenario").value = "healthy";
+
+  $("envMean").value = "120";
+  $("envVol").value = "0.30";
+  $("mgmtCompetence").value = "0.70";
+  $("targetPressure").value = "0.25";
+  $("collapseFactor").value = "0.90";
+  $("mcN").value = "2500";
+
+  refreshSimLabels();
+  initDefault();
+  renderAll();
+  scheduleSim();
+});
+
+/* ---------- Render all ---------- */
+function renderAll(){
+  renderCrumbs();
+  renderCurrentNodeEditor();
+  renderDiagram();
+  renderTableAll();
+}
+
+/* ---------- Default structure ---------- */
+function initDefault(){
+  addChild(rootId); nodes.get(nodes.get(rootId).children[0]).name="S1-1"; nodes.get(nodes.get(rootId).children[0]).variety=70;
+  addChild(rootId); nodes.get(nodes.get(rootId).children[1]).name="S1-2"; nodes.get(nodes.get(rootId).children[1]).variety=55;
+  addChild(rootId); nodes.get(nodes.get(rootId).children[2]).name="S1-3"; nodes.get(nodes.get(rootId).children[2]).variety=90;
+}
+
+(function init(){
+  initDefault();
+  renderAll();
+  scheduleSim(); // ✅ run once at start
+})();
+</script>
+</body>
+</html>
