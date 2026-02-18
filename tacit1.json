@@ -1,0 +1,820 @@
+{
+  "meta": {
+    "title": "Nelson’s Trafalgar Knowledge-Dynamics — Wisdom → Super-Concepts → Systems → Command Architecture → Execution → Learning → Cases",
+    "subtitle": "A lattice of constraints showing how Nelson’s ‘Nelson Touch’ blended explicit doctrine (memoranda, signals) with tacit coordination (trust, shared intent, captainly judgement) through SECI: socialisation → externalisation → combination → internalisation, under the friction of weather, smoke, time, and enemy formation.",
+    "domainName": "Nelson’s tactical knowledge and SECI dynamics",
+    "searchPlaceholder": "Trafalgar Memorandum, Nelson Touch, mission command, intent, tacit knowledge, explicit signals, line-ahead, breaking the line, two columns, weather gauge, smoke, comms failure, gunnery rate, captain autonomy, SECI, socialisation, externalisation, combination, internalisation…",
+    "userContextLabel": "Your command-and-learning context (optional)",
+    "userContextPlaceholder": "e.g., distributed teams; degraded comms; need shared intent + autonomy; balancing central direction with local initiative; turning tacit practice into teachable doctrine…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert historian of naval command and an organisational learning theorist.\n\nWrite a realistic narrative case-study showing how upstream constraints (trust, doctrine, incentives, information limits) shape downstream battle outcomes.\nUse the selected concepts to explain what happened, why it worked (or failed), and how tacit/explicit knowledge moved through SECI.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario description (forces, conditions, constraints)\n- Knowledge diagnosis (tacit/explicit mix; SECI cycle points)\n- Command architecture (intent, rules, signalling, autonomy boundaries)\n- Execution playbook (what captains do when signals fail)\n- Measurement/learning plan (how to capture lessons without killing initiative)\n- 2 safe-to-fail experiments (counterfactuals) with backfire checks\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Command wisdom",
+      "hint": "Judgement-in-context: trust, courage, restraint, timing, and humane leadership under uncertainty."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: intent, legitimacy, morale, incentives, sensemaking, and the tacit–explicit boundary."
+    },
+    {
+      "id": 2,
+      "title": "Systems concepts",
+      "hint": "How fleets behave: feedback, drift, interfaces, flow, fog-of-war, and work-as-done vs work-as-imagined."
+    },
+    {
+      "id": 3,
+      "title": "Command architecture & doctrine",
+      "hint": "How Nelson ‘programmed’ the fleet: shared intent, doctrine, signalling plans, and the SECI ‘combination’ layer."
+    },
+    {
+      "id": 4,
+      "title": "Execution mechanisms",
+      "hint": "Close action: gunnery, manoeuvre, local coordination, capture/disable dynamics, and what happens when comms degrade."
+    },
+    {
+      "id": 5,
+      "title": "Learning, performance & institutionalisation",
+      "hint": "Turning outcomes into doctrine: debrief, narrative intelligence, training, competence assurance, and SECI internalisation."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete Trafalgar and counterfactual scenarios: where the tacit/explicit blend succeeds or fails."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_listening",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Listening (serious attention)",
+      "summary": "Listen beyond signals: captains’ experience, ship-level constraints, and ‘unease’ indicators before close action.",
+      "tags": ["wisdom", "socialisation", "trust"],
+      "bodyHtml": "<p>Nelson’s leadership cultivated a climate where captains’ observations, doubts, and practical constraints could surface early. Listening is the entry point for <b>SECI socialisation</b>: tacit-to-tacit transfer through proximity, conversation, and shared experience (e.g., aboard flagship, in informal discussions) so that when signals fail, captains still share the same tactical instincts.</p>"
+    },
+    {
+      "id": "wis_grace",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Grace (non-blame + dignity)",
+      "summary": "Protect dignity; reduce fear; keep initiative safe so weak signals and honest judgement keep flowing.",
+      "tags": ["wisdom", "culture", "initiative"],
+      "bodyHtml": "<p>In battle, blame destroys initiative. A commander’s grace sustains honest reporting and autonomous action. In SECI terms, grace maintains the conditions for ongoing <b>socialisation</b> (sharing real practice) and later <b>externalisation</b> (articulating lessons) because people aren’t punished for what fog-of-war makes inevitable.</p>"
+    },
+    {
+      "id": "wis_proportion",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Proportion & timing",
+      "summary": "Right-sized direction; don’t flood the fleet with brittle micromanagement; match orders to visibility and time-to-act.",
+      "tags": ["wisdom", "mission_command", "timing"],
+      "bodyHtml": "<p>Nelson’s approach emphasised a small set of robust rules and intent that would survive smoke, distance, and confusion. Proportionate command trades detailed control for durable autonomy: enough explicit guidance to align, not so much that it collapses under friction.</p>"
+    },
+    {
+      "id": "wis_ethics_fairness",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Legitimacy & fairness as design constraints",
+      "summary": "Trust and legitimacy are structural constraints: captains act boldly when they believe the commander will be just to them.",
+      "tags": ["wisdom", "trust", "legitimacy"],
+      "bodyHtml": "<p>Trust is not mood; it is infrastructure. Captains take risk when they believe the commander’s judgement is fair and will credit intent rather than punish outcomes. This stabilises autonomy under uncertainty: a prerequisite for mission command and tacit coordination.</p>"
+    },
+    {
+      "id": "wis_holism",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Holism (whole-system view)",
+      "summary": "Don’t optimise one signal, one ship, or one formation; outcomes emerge from interactions across the fleet.",
+      "tags": ["wisdom", "systems", "fleet"],
+      "bodyHtml": "<p>Fleet combat is emergent: local duels, wind, smoke, and damage cascade across the system. Holistic leadership designs interactions (intent + doctrine + expected autonomy) so the whole fleet converges on decisive advantage rather than isolated heroics.</p>"
+    },
+    {
+      "id": "wis_safe_to_fail",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Safe-to-fail experiments (counterfactual discipline)",
+      "summary": "Test tactical ideas in drills and bounded scenarios; learn without betting the fleet on one brittle plan.",
+      "tags": ["wisdom", "learning", "complexity"],
+      "bodyHtml": "<p>What looks like genius in hindsight often rests on iterative learning. Safe-to-fail experimentation (drills, wargaming, partial rehearsals) helps internalise a commander’s intent without requiring perfect prediction. It supports SECI <b>internalisation</b> (explicit-to-tacit) before battle.</p>"
+    },
+    {
+      "id": "wis_reflection_sensemaking",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Reflection & sensemaking",
+      "summary": "Turn signals, stories, and outcomes into understanding; check assumptions; convert battle friction into learning.",
+      "tags": ["wisdom", "sensemaking", "SECI"],
+      "bodyHtml": "<p>Reflection is the bridge from experience to doctrine: capturing what worked, why, and under what conditions. This is SECI <b>externalisation</b> (tacit-to-explicit) and <b>combination</b> (structuring explicit lessons) so future captains can internalise the ‘touch’.</p>"
+    },
+    {
+      "id": "risk_based_prioritisation",
+      "level": 1,
+      "kind": "concept",
+      "label": "Risk-based prioritisation (decisive points)",
+      "summary": "Allocate attention to decisive points: the enemy line’s vulnerabilities, timing windows, and local concentration of force.",
+      "tags": ["tactics", "decisive_points"],
+      "bodyHtml": "<p>Nelson’s method emphasised concentration where it mattered: breaking cohesion, isolating segments, and turning local advantage into systemic collapse. Prioritisation also governs knowledge: what must be explicit (shared rules) versus what can remain tacit (captain judgement).</p>"
+    },
+    {
+      "id": "two_master_ethics",
+      "level": 1,
+      "kind": "concept",
+      "label": "Dual accountability (commander intent vs captain judgement)",
+      "summary": "Captains answer to intent and to reality: alignment without paralysis when the situation diverges from the plan.",
+      "tags": ["mission_command", "autonomy", "accountability"],
+      "bodyHtml": "<p>Mission command creates a productive tension: obey intent, but adapt to conditions. Captains must reconcile loyalty to design with fidelity to facts. This is exactly the tacit/explicit boundary: explicit intent, tacit execution.</p>"
+    },
+    {
+      "id": "law_and_accountability",
+      "level": 1,
+      "kind": "concept",
+      "label": "Authority, responsibility & accountability",
+      "summary": "Who may decide what, when? Clear responsibility boundaries prevent chaos when signals fail.",
+      "tags": ["command", "governance"],
+      "bodyHtml": "<p>Authority structures who may deviate, who may concentrate, who may pursue. In Trafalgar-like conditions (smoke, noise, damaged masts), accountability must be pre-designed: otherwise autonomy becomes fragmentation.</p>"
+    },
+    {
+      "id": "consent_confidentiality",
+      "level": 1,
+      "kind": "concept",
+      "label": "Trust contracts (psychological safety for initiative)",
+      "summary": "Captains act decisively when they believe the commander trusts them and will judge fairly under uncertainty.",
+      "tags": ["trust", "psychological_safety"],
+      "bodyHtml": "<p>This is the implicit social contract: ‘act on intent and I will stand by you.’ It encourages the right kind of risk-taking and helps the fleet behave as a coherent organism without needing constant explicit control.</p>"
+    },
+    {
+      "id": "risk_communication",
+      "level": 1,
+      "kind": "concept",
+      "label": "Intent communication & risk perception",
+      "summary": "Translate strategy into graspable intent: simple rules that survive fog-of-war and avoid misinterpretation.",
+      "tags": ["intent", "communication"],
+      "bodyHtml": "<p>Effective intent communication reduces dependence on perfect signalling and lets captains make compatible decisions. It is a deliberate design of ‘what must be shared explicitly’ versus ‘what can be left to tacit skill’.</p>"
+    },
+    {
+      "id": "uncertainty_limits",
+      "level": 1,
+      "kind": "concept",
+      "label": "Uncertainty & model limits",
+      "summary": "Plans are simplified models; smoke, wind, and damage make reality diverge—so autonomy must be built in.",
+      "tags": ["uncertainty", "fog_of_war"],
+      "bodyHtml": "<p>Battle plans inevitably omit emergent factors. A robust system encodes what to do when the model breaks: local action guided by intent. Explicitly acknowledging uncertainty prevents brittle over-control.</p>"
+    },
+    {
+      "id": "information_to_wisdom",
+      "level": 1,
+      "kind": "concept",
+      "label": "Tacit ↔ Explicit knowledge ladder",
+      "summary": "More signals ≠ better control; alignment depends on internalised intent and shared mental models.",
+      "tags": ["tacit", "explicit", "SECI"],
+      "bodyHtml": "<p>Signals are explicit information; performance depends on tacit competence and shared understanding. SECI explains how fleets convert experience into teachable doctrine and back into embodied practice.</p>"
+    },
+    {
+      "id": "multidisciplinary_teaming",
+      "level": 1,
+      "kind": "concept",
+      "label": "Captain network (peer coordination)",
+      "summary": "Coordination happens across captains as a network: shared norms, expectations, and mutual anticipation.",
+      "tags": ["network", "coordination"],
+      "bodyHtml": "<p>Nelson’s captains were not isolated actors: they formed a network of mutual knowledge. The network becomes the communication substrate when formal signals degrade.</p>"
+    },
+    {
+      "id": "work_as_imagined_vs_done",
+      "level": 2,
+      "kind": "concept",
+      "label": "Plan-as-imagined vs battle-as-done",
+      "summary": "Orders are a simplified model; real execution adapts under wind, damage, smoke, and local opportunities.",
+      "tags": ["systems", "adaptation"],
+      "bodyHtml": "<p>What is written is rarely what is done. The gap is not ‘failure’; it is where skilful adaptation lives. The design problem is to make adaptations converge on shared intent rather than diverge into chaos.</p>"
+    },
+    {
+      "id": "feedback_loops",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops (battle learning in real time)",
+      "summary": "Observe → orient → decide → act; local feedback steers ships when central control is blind.",
+      "tags": ["feedback", "OODA"],
+      "bodyHtml": "<p>Close action is driven by local feedback: damage, enemy movement, gaps in the line. Fleets win when local loops reinforce the overall design (intent), not when they wait for perfect signals.</p>"
+    },
+    {
+      "id": "entropy_and_drift",
+      "level": 2,
+      "kind": "concept",
+      "label": "Drift (training decay and doctrinal erosion)",
+      "summary": "Competence and alignment degrade without reinforcement; drift increases the chance autonomy becomes misalignment.",
+      "tags": ["drift", "training"],
+      "bodyHtml": "<p>Without continuous practice, shared intent becomes slogan. Drift shows up as slower gunnery cycles, poorer station-keeping, and weaker ‘same mental model’ responses when signals fail.</p>"
+    },
+    {
+      "id": "interfaces_and_handoffs",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interfaces (signals, visibility, and interpretation)",
+      "summary": "Where failure clusters: hoists, line-of-sight, smoke, and differing interpretations of the same signal.",
+      "tags": ["signals", "interfaces"],
+      "bodyHtml": "<p>Signals are interfaces between intent and action. They fail due to visibility, timing, damage, or ambiguity. Robust fleets assume interface failure and rely on internalised doctrine and tacit coordination.</p>"
+    },
+    {
+      "id": "boundaries_and_coverage",
+      "level": 2,
+      "kind": "concept",
+      "label": "Boundaries (what autonomy covers)",
+      "summary": "Define the envelope of acceptable deviation: what captains may decide locally, and what must remain aligned.",
+      "tags": ["autonomy_boundaries", "governance"],
+      "bodyHtml": "<p>Mission command works when autonomy boundaries are clear: captains may choose targets and positioning, but must pursue the shared purpose (e.g., close action, concentrate on decisive points).</p>"
+    },
+    {
+      "id": "flow_and_capacity",
+      "level": 2,
+      "kind": "concept",
+      "label": "Flow (time-to-contact, attention, and tempo)",
+      "summary": "Tempo bottlenecks drive adaptation: slow approaches, sudden close action, and rapid cascading engagements.",
+      "tags": ["tempo", "capacity"],
+      "bodyHtml": "<p>As time compresses, explicit coordination collapses. Tacit competence and pre-shared intent substitute for detailed command. ‘Flow’ is the system’s ability to keep acting coherently under time pressure.</p>"
+    },
+    {
+      "id": "power_and_incentives",
+      "level": 2,
+      "kind": "concept",
+      "label": "Incentives, honour culture & career risk",
+      "summary": "Reward structures shape behaviour: boldness, caution, adherence, and willingness to deviate under uncertainty.",
+      "tags": ["incentives", "culture"],
+      "bodyHtml": "<p>What officers believe will be praised or punished affects initiative. A commander who rewards intent-consistent initiative reduces the ‘career risk’ of autonomy and increases decisive action under fog-of-war.</p>"
+    },
+    {
+      "id": "problem_types",
+      "level": 2,
+      "kind": "concept",
+      "label": "Problem types: simple / complicated / complex",
+      "summary": "Battle is complex: nonlinear interaction; therefore rely on intent + learning rather than brittle procedures.",
+      "tags": ["complexity", "SECI"],
+      "bodyHtml": "<p>Some elements are complicated (navigation, seamanship), but the battle as a whole is complex. SECI-style learning and internalised doctrine are better suited than micromanaged checklists.</p>"
+    },
+    {
+      "id": "commissioning_scope",
+      "level": 3,
+      "kind": "concept",
+      "label": "Command intent & operating model",
+      "summary": "Define the operating model: what the fleet is trying to achieve, how it will fight, and what captains may improvise.",
+      "tags": ["intent", "operating_model"],
+      "bodyHtml": "<p>Nelson’s ‘programming’ is an operating model: decisive close action, local concentration, and permission to act without waiting for signals. This is the conceptual container for autonomous execution.</p>"
+    },
+    {
+      "id": "clinical_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Doctrine governance (consistency, competence, and alignment)",
+      "summary": "Maintain doctrinal coherence: shared rules, competence assurance, and clarity on deviation thresholds.",
+      "tags": ["doctrine", "alignment"],
+      "bodyHtml": "<p>Doctrine governance ensures that the fleet’s shared mental models remain consistent across captains and ships. It reduces interpretive variance when explicit signals are late or unreadable.</p>"
+    },
+    {
+      "id": "information_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Knowledge governance (what must be explicit)",
+      "summary": "Codify what must be shared explicitly (signals, memoranda) and what can remain tacit (judgement-in-contact).",
+      "tags": ["knowledge_governance", "SECI"],
+      "bodyHtml": "<p>Knowledge governance sets the explicit backbone (memoranda, signal books, standard manoeuvres) and supports tacit expertise through practice and socialisation. It is the design of the tacit/explicit boundary.</p>"
+    },
+    {
+      "id": "legal_compliance_backbone",
+      "level": 3,
+      "kind": "concept",
+      "label": "Rules of engagement & lawful constraints",
+      "summary": "Constraints of conduct and legitimacy shape what is permissible, reportable, and defensible within command.",
+      "tags": ["constraints", "legitimacy"],
+      "bodyHtml": "<p>Even in war, conduct and legitimacy constrain action. Clear constraints prevent ethical drift and preserve trust in command—an enabling condition for autonomy.</p>"
+    },
+    {
+      "id": "integration_with_hs",
+      "level": 3,
+      "kind": "concept",
+      "label": "Integration of tactics with conditions (wind, visibility, formation)",
+      "summary": "Connect intent to real constraints: weather gauge, approach geometry, enemy line integrity, and time-to-contact.",
+      "tags": ["wind", "visibility", "formation"],
+      "bodyHtml": "<p>A doctrine that ignores conditions becomes brittle. Integration means the plan anticipates likely friction and encodes robust actions when conditions diverge.</p>"
+    },
+    {
+      "id": "programme_portfolio",
+      "level": 3,
+      "kind": "concept",
+      "label": "Tactical portfolio (modes of action)",
+      "summary": "Maintain a portfolio: signalling, pre-briefing, standard manoeuvres, local concentration, boarding/capture—each activated by context.",
+      "tags": ["tactics", "portfolio"],
+      "bodyHtml": "<p>Winning requires multiple modes of action, not a single script. A tactical portfolio lets captains switch mode when comms degrade or openings appear.</p>"
+    },
+    {
+      "id": "hygiene_cycle_arec",
+      "level": 3,
+      "kind": "concept",
+      "label": "SECI cycle (Socialise–Externalise–Combine–Internalise)",
+      "summary": "The knowledge engine: tacit sharing → articulating insights → assembling doctrine → embodying practice.",
+      "tags": ["SECI", "Nonaka", "Takeuchi"],
+      "bodyHtml": "<p>SECI explains how Nelson’s fleet could act coherently without constant signalling: captains absorbed intent through socialisation, doctrine was externalised and combined, and then internalised into reflexive practice.</p>"
+    },
+    {
+      "id": "risk_assessment_management",
+      "level": 3,
+      "kind": "concept",
+      "label": "Threat assessment → action management",
+      "summary": "Assessing enemy disposition is not enough; ensure decisions translate into sustained local advantage and system-level collapse.",
+      "tags": ["threat_assessment", "execution"],
+      "bodyHtml": "<p>Assessment becomes valuable only when it produces action. The command architecture must convert perception into manoeuvre, gunnery, and concentration of force under uncertainty.</p>"
+    },
+    {
+      "id": "hierarchy_of_control",
+      "level": 3,
+      "kind": "concept",
+      "label": "Hierarchy of control (knowledge version)",
+      "summary": "Prefer robust alignment mechanisms (intent/internalisation) over fragile ones (fine-grained real-time signals).",
+      "tags": ["robustness", "command_control"],
+      "bodyHtml": "<p>When the environment is hostile to communication, ‘robust control’ shifts from detailed signals to shared intent and internalised doctrine. Signals remain useful but are not the single point of failure.</p>"
+    },
+    {
+      "id": "exposure_monitoring_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Sensing strategy (scouting, visibility, and local observation)",
+      "summary": "Design what to observe and how: line-of-sight constraints, smoke, ship damage, and local opportunities.",
+      "tags": ["sensing", "observation"],
+      "bodyHtml": "<p>Observation is constrained by fog-of-war. The fleet must rely on distributed sensing (captains and officers) and simple shared interpretation rules to coordinate effectively.</p>"
+    },
+    {
+      "id": "health_surveillance_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Fleet readiness monitoring (training, morale, competence)",
+      "summary": "Monitor readiness indicators that predict performance under stress: gunnery rate, cohesion, and captain competence.",
+      "tags": ["readiness", "competence"],
+      "bodyHtml": "<p>Readiness is a leading indicator of battle performance. High readiness increases the share of tacit execution that can be trusted when explicit control collapses.</p>"
+    },
+    {
+      "id": "toxicology_foundations",
+      "level": 3,
+      "kind": "concept",
+      "label": "Mechanisms of defeat (how fleets break)",
+      "summary": "Understand how cohesion collapses: isolation, local overwhelm, cascading damage, morale collapse, and command disruption.",
+      "tags": ["mechanisms", "system_collapse"],
+      "bodyHtml": "<p>Mechanisms matter: the aim is not ‘a plan’ but ‘a collapse pathway’ for the enemy system. Nelson’s approach attacked cohesion and mutual support, producing cascading loss of control.</p>"
+    },
+    {
+      "id": "hazard_info_sds_clp",
+      "level": 3,
+      "kind": "concept",
+      "label": "Explicit knowledge artefacts (signals, memoranda, standard phrases)",
+      "summary": "Codified artefacts that carry intent: memoranda, signal books, pre-briefed maxims, and standard manoeuvres.",
+      "tags": ["explicit", "artefacts"],
+      "bodyHtml": "<p>These artefacts are the ‘combination’ layer: assembling explicit knowledge into shareable form. Their value is highest before the battle and lowest during the most chaotic moments—hence the need for internalisation.</p>"
+    },
+    {
+      "id": "coshh_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Close action doctrine (fight at decisive range)",
+      "summary": "A standard mode: close, engage rapidly, exploit local advantage; designed for when signalling is degraded.",
+      "tags": ["close_action", "doctrine"],
+      "bodyHtml": "<p>Close action compresses time and reduces the value of late signals. It therefore relies on internalised intent and local initiative to create concentrated effects.</p>"
+    },
+    {
+      "id": "noise_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Gunnery tempo & fire discipline",
+      "summary": "Rate-of-fire, accuracy, and crew drill that converts training into decisive local advantage.",
+      "tags": ["gunnery", "tempo"],
+      "bodyHtml": "<p>Gunnery is an execution mechanism where practice becomes tacit capability. A higher sustained tempo can tip local duels and cascade into system-level collapse.</p>"
+    },
+    {
+      "id": "vibration_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Mast/sail manoeuvre capability (mobility under damage)",
+      "summary": "Ability to maintain mobility and orientation under stress; damage control and seamanship affect tactical options.",
+      "tags": ["manoeuvre", "damage_control"],
+      "bodyHtml": "<p>Mobility determines whether a ship can close, turn, support, or escape. Under smoke and damage, tacit seamanship becomes decisive.</p>"
+    },
+    {
+      "id": "thermal_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Environmental constraints management (wind, smoke, visibility)",
+      "summary": "Operational rules for how to act when wind and smoke constrain sensing and signalling.",
+      "tags": ["wind", "smoke", "visibility"],
+      "bodyHtml": "<p>Environmental constraints change the control regime: as visibility drops, reliance shifts from explicit signals to internalised intent and local judgement.</p>"
+    },
+    {
+      "id": "lighting_programme",
+      "level": 4,
+      "kind": "standard",
+      "label": "Visibility management (line-of-sight and signalling geometry)",
+      "summary": "Use formation geometry and timing to preserve line-of-sight where possible; anticipate inevitable comms loss.",
+      "tags": ["signals", "geometry"],
+      "bodyHtml": "<p>Signal effectiveness depends on geometry. When geometry fails (smoke, melee), the fleet must already be ‘programmed’ to act without further instruction.</p>"
+    },
+    {
+      "id": "consultation_standards",
+      "level": 4,
+      "kind": "standard",
+      "label": "Pre-briefing standards (captains’ alignment)",
+      "summary": "Structured pre-briefing that makes intent memorable, actionable, and compatible with autonomy.",
+      "tags": ["briefing", "alignment"],
+      "bodyHtml": "<p>Briefings translate doctrine into shared mental models. They are a primary vehicle of externalisation (articulating intent) and internalisation (captains absorbing rules for action).</p>"
+    },
+    {
+      "id": "teleconsultation",
+      "level": 4,
+      "kind": "standard",
+      "label": "Remote communication protocol (signals at distance)",
+      "summary": "A signalling protocol for early phases; assumes later degradation and includes fallbacks.",
+      "tags": ["signals", "comms"],
+      "bodyHtml": "<p>Signals work best early. Protocols should anticipate that later, the fleet will rely on internalised doctrine and local initiative to continue coherent action.</p>"
+    },
+    {
+      "id": "report_writing",
+      "level": 4,
+      "kind": "standard",
+      "label": "After-action narrative (making tacit explicit)",
+      "summary": "Write decision-ready narratives: what happened, why decisions made sense locally, and what rules should change.",
+      "tags": ["AAR", "externalisation"],
+      "bodyHtml": "<p>After-action narrative is externalisation: converting tacit judgement into teachable lessons. Good reports protect autonomy by crediting intent-consistent initiative rather than punishing imperfect outcomes.</p>"
+    },
+    {
+      "id": "fitness_for_work",
+      "level": 4,
+      "kind": "standard",
+      "label": "Captain ‘fitness to act’ (delegation readiness)",
+      "summary": "Assess whether captains can be trusted with autonomy: competence, temperament, judgement, and alignment with intent.",
+      "tags": ["delegation", "competence"],
+      "bodyHtml": "<p>Autonomy is only safe when capability exists. Fleet leadership must ensure captains are ready to interpret intent and act decisively under uncertainty.</p>"
+    },
+    {
+      "id": "training_information",
+      "level": 4,
+      "kind": "standard",
+      "label": "Training & drills (internalisation engine)",
+      "summary": "Drills that convert explicit doctrine into tacit reflex: gunnery, manoeuvre, signalling, and damage control.",
+      "tags": ["training", "internalisation"],
+      "bodyHtml": "<p>Training is SECI internalisation: converting explicit guidance into embodied capability so crews and captains can act under extreme time pressure and degraded comms.</p>"
+    },
+    {
+      "id": "incident_response",
+      "level": 4,
+      "kind": "standard",
+      "label": "Crisis escalation (catastrophic damage and local collapse)",
+      "summary": "Thresholds and playbooks for catastrophic damage, loss of masts, fires, or command disruption.",
+      "tags": ["crisis", "thresholds"],
+      "bodyHtml": "<p>Escalation playbooks prevent local crises from becoming fleet-level collapse. They also protect autonomy by clarifying when local commanders must switch to survival/damage-control mode.</p>"
+    },
+    {
+      "id": "records_management",
+      "level": 4,
+      "kind": "standard",
+      "label": "Knowledge records (doctrine memory)",
+      "summary": "Maintain structured records: memoranda, signals, drills, lessons, and shared phrases that preserve institutional memory.",
+      "tags": ["records", "institutional_memory"],
+      "bodyHtml": "<p>Records are the explicit store that supports combination and later internalisation. Without records, learning decays into folklore and drift increases.</p>"
+    },
+    {
+      "id": "complaints_handling",
+      "level": 4,
+      "kind": "standard",
+      "label": "Disagreement handling (conflict without fragmentation)",
+      "summary": "Mechanisms to resolve disputes about interpretation, credit, and responsibility without destroying trust.",
+      "tags": ["conflict", "trust"],
+      "bodyHtml": "<p>In mission command, disagreement is inevitable. Handling it fairly preserves the social contract that makes autonomy work.</p>"
+    },
+    {
+      "id": "seqohs",
+      "level": 5,
+      "kind": "standard",
+      "label": "Institutional doctrine standard (coherence checks)",
+      "summary": "A quality framework for doctrine: clarity, consistency, competence, and alignment checks across the fleet.",
+      "tags": ["standard", "doctrine_quality"],
+      "bodyHtml": "<p>Think of this as a ‘doctrine quality standard’: does the explicit guidance align with real execution? Are fallbacks clear? Are captains trained to interpret intent?</p>"
+    },
+    {
+      "id": "iso45001",
+      "level": 5,
+      "kind": "standard",
+      "label": "Command system integration (strategy → execution → review)",
+      "summary": "A system view: connect strategy, doctrine, training, operations, and learning cycles.",
+      "tags": ["system", "integration"],
+      "bodyHtml": "<p>Integration ensures that training produces the behaviour doctrine assumes, and that experience updates doctrine. This is SECI at organisational scale.</p>"
+    },
+    {
+      "id": "pdca_hsg65",
+      "level": 5,
+      "kind": "standard",
+      "label": "PDCA learning cycle (plan–fight–learn–adapt)",
+      "summary": "Plan intent, execute under friction, check outcomes, and adapt doctrine and training.",
+      "tags": ["PDCA", "learning_cycle"],
+      "bodyHtml": "<p>PDCA provides a structure for turning battle outcomes into improved doctrine while preserving the freedom to act during execution.</p>"
+    },
+    {
+      "id": "kpis_metrics",
+      "level": 5,
+      "kind": "standard",
+      "label": "Performance indicators (leading + lagging)",
+      "summary": "Measure readiness and coherence: gunnery tempo, cohesion, signal comprehension, and adaptation quality.",
+      "tags": ["metrics", "performance"],
+      "bodyHtml": "<p>Use indicators for learning, not punishment: if metrics become punitive, captains will avoid initiative. Leading indicators (training, cohesion) predict success when signals fail.</p>"
+    },
+    {
+      "id": "audit_assurance",
+      "level": 5,
+      "kind": "standard",
+      "label": "Assurance (does doctrine match reality?)",
+      "summary": "Test whether work-as-imagined matches work-as-done: drills under load, signal degradation tests, and friction audits.",
+      "tags": ["assurance", "WAI_WAD"],
+      "bodyHtml": "<p>Assurance prevents doctrine theatre: beautiful plans that fail in smoke. It checks whether captains and crews can execute when assumptions break.</p>"
+    },
+    {
+      "id": "competence_workforce",
+      "level": 5,
+      "kind": "standard",
+      "label": "Competence & captain development",
+      "summary": "Build the bench: selection, mentoring, practice opportunities, and shared language that supports autonomy.",
+      "tags": ["competence", "development"],
+      "bodyHtml": "<p>Competence planning is a reliability control. A fleet with uneven captain competence cannot safely decentralise; a fleet with strong competence can exploit autonomy under uncertainty.</p>"
+    },
+    {
+      "id": "learning_loops",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning loops (SECI institutionalisation)",
+      "summary": "Convert experience and narratives into revised doctrine and training; preserve the tacit/explicit balance.",
+      "tags": ["learning", "SECI"],
+      "bodyHtml": "<p>Learning loops are where SECI becomes institutional: socialise experience, externalise lessons, combine into doctrine, and internalise through training and practice.</p>"
+    },
+    {
+      "id": "challenge_outsourcing",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Fragmented control (coalition / mixed competence fleets)",
+      "summary": "More interfaces and uneven competence amplify misalignment; autonomy can become incoherence without shared intent.",
+      "tags": ["fragmentation", "risk"],
+      "bodyHtml": "<p>When fleets are heterogeneous in training and doctrine, the tacit substrate is weaker. Signals must carry more load, yet signals are brittle in battle—raising failure probability.</p>"
+    },
+    {
+      "id": "pathology_underreporting",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Silence and initiative collapse",
+      "summary": "If captains fear blame, they stop taking initiative; the fleet becomes slow, reactive, and brittle.",
+      "tags": ["fear", "initiative", "risk"],
+      "bodyHtml": "<p>Blame cultures suppress candid judgement and discourage adaptation. In battle, this yields hesitation at decisive moments and over-reliance on failing comms.</p>"
+    },
+    {
+      "id": "pathology_normalised_deviance",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Normalised misinterpretation of intent",
+      "summary": "Small deviations from doctrine become ‘normal’; eventually autonomy drifts into misalignment and friendly interference.",
+      "tags": ["drift", "misalignment"],
+      "bodyHtml": "<p>Over time, informal variants of doctrine appear. Without reflection and assurance, these become ‘how we do it’ and can sabotage coherence under pressure.</p>"
+    },
+    {
+      "id": "case_lev_spikes",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Plan works on paper, fails in smoke (signal degradation shock)",
+      "summary": "WAI/WAD mismatch under extreme comms loss; needs robust intent rules and internalised doctrine.",
+      "tags": ["signals", "WAI/WAD", "Trafalgar"],
+      "bodyHtml": "<p>The plan assumed readable signals at the critical moment. Smoke and damage made signals intermittent. Captains with internalised intent continued coherent action; others hesitated or acted incompatibly.</p>"
+    },
+    {
+      "id": "case_noise_programme",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Gunnery advantage converts local wins into cascade",
+      "summary": "Higher gunnery tempo breaks enemy cohesion segment-by-segment; feedback loops amplify the advantage.",
+      "tags": ["gunnery", "cascade"],
+      "bodyHtml": "<p>Local superiority (faster, steadier gunnery) creates disabling damage and struck colours. As enemy ships lose mobility and mutual support, the system collapses in chunks.</p>"
+    },
+    {
+      "id": "case_heat_extremes",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Wind shift breaks formation assumptions",
+      "summary": "Environmental change undermines pre-contact geometry; requires adaptive autonomy within intent.",
+      "tags": ["wind", "formation"],
+      "bodyHtml": "<p>A wind change alters approach angles and spacing. Rigid control fails; captains must adapt while still pursuing the shared purpose (close action and decisive concentration).</p>"
+    },
+    {
+      "id": "case_report_dispute",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Credit/blame dispute after battle (learning threatened)",
+      "summary": "If leadership mishandles credit, future initiative shrinks; externalisation becomes political rather than truthful.",
+      "tags": ["trust", "learning"],
+      "bodyHtml": "<p>After action, disputes about credit and responsibility can corrupt learning. If captains fear retrospective blame, they will be less willing to improvise next time.</p>"
+    },
+    {
+      "id": "case_wrong_recipient",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Mis-sent signal causes local miscoordination",
+      "summary": "Interface failure in signalling/interpretation; needs simpler fallbacks and stronger shared intent.",
+      "tags": ["signals", "interface"],
+      "bodyHtml": "<p>A signal is hoisted or interpreted incorrectly. If captains rely too heavily on explicit instructions, the error propagates; if intent is internalised, local judgement can correct it.</p>"
+    },
+    {
+      "id": "case_dermatitis_compliance_theatre",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: ‘Doctrine theatre’—formal compliance rises while performance falls",
+      "summary": "Paper doctrine and perfect briefings mask drift in training and tacit competence under load.",
+      "tags": ["doctrine_theatre", "drift"],
+      "bodyHtml": "<p>The fleet appears aligned (documents, signals, ceremonies) but gunnery drill and seamanship have drifted. When friction hits, the explicit layer cannot compensate for decayed tacit capability.</p>"
+    }
+  ],
+  "edges": [
+    { "from": "wis_listening", "to": "risk_communication", "why": "Listening exposes where intent is misunderstood, letting the commander rephrase purpose in memorable, actionable terms." },
+    { "from": "wis_listening", "to": "feedback_loops", "why": "Listening captures weak signals (crew fatigue, station-keeping issues) that become real-time feedback for readiness and adaptation." },
+    { "from": "wis_listening", "to": "complaints_handling", "why": "Listening defuses resentment and preserves trust, preventing post-action disputes from degrading future initiative." },
+    { "from": "wis_listening", "to": "work_as_imagined_vs_done", "why": "Listening reveals where the plan’s assumptions don’t match what ships can actually do under wind, damage, and smoke." },
+    { "from": "wis_grace", "to": "pathology_underreporting", "why": "Grace lowers fear of blame, encouraging honest judgement and initiative rather than silence and hesitation." },
+    { "from": "wis_grace", "to": "complaints_handling", "why": "Grace makes dispute resolution credible, so learning stays truthful rather than political." },
+    { "from": "wis_proportion", "to": "risk_based_prioritisation", "why": "Proportionate command focuses attention on decisive points instead of attempting brittle micromanagement." },
+    { "from": "wis_proportion", "to": "commissioning_scope", "why": "Right-sized intent defines what captains may improvise and what must remain aligned, keeping autonomy coherent." },
+    { "from": "wis_proportion", "to": "kpis_metrics", "why": "Proportionate measurement avoids turning indicators into punitive control that would suppress initiative." },
+    { "from": "wis_ethics_fairness", "to": "consent_confidentiality", "why": "Fairness and legitimacy create the trust contract that makes captains willing to act on intent under uncertainty." },
+    { "from": "wis_ethics_fairness", "to": "two_master_ethics", "why": "Legitimacy frames how captains reconcile obedience to intent with fidelity to reality when conditions diverge." },
+    { "from": "wis_ethics_fairness", "to": "information_governance", "why": "Fairness clarifies what must be explicit (intent boundaries) and protects the tacit space for captain judgement." },
+    { "from": "wis_holism", "to": "multidisciplinary_teaming", "why": "Holism treats captains as a networked system: coordination emerges from shared norms, not only from signals." },
+    { "from": "wis_holism", "to": "integration_with_hs", "why": "Holism requires integrating doctrine with wind, visibility, and enemy formation—otherwise the plan becomes brittle." },
+    { "from": "wis_safe_to_fail", "to": "problem_types", "why": "Because battle is complex, safe-to-fail rehearsal and learning beats overconfident procedural control." },
+    { "from": "wis_safe_to_fail", "to": "learning_loops", "why": "Safe-to-fail practice builds learning loops that refine doctrine without destroying autonomy." },
+    { "from": "wis_reflection_sensemaking", "to": "information_to_wisdom", "why": "Reflection converts signals and stories into SECI movement: tacit lessons become explicit and teachable." },
+    { "from": "wis_reflection_sensemaking", "to": "audit_assurance", "why": "Reflection stops doctrine becoming theatre by checking whether training and execution match the plan’s assumptions." },
+
+    { "from": "information_to_wisdom", "to": "kpis_metrics", "why": "Signals and numbers are not wisdom; indicators must be interpreted to support learning, not compliance theatre." },
+    { "from": "information_to_wisdom", "to": "audit_assurance", "why": "Assurance turns explicit doctrine into tested reality: can captains act correctly when signals are unreadable?" },
+    { "from": "risk_based_prioritisation", "to": "programme_portfolio", "why": "Decisive-point focus selects which tactical modes to emphasise: concentration, close action, capture, or support." },
+    { "from": "risk_based_prioritisation", "to": "exposure_monitoring_strategy", "why": "A good sensing strategy tracks decisive cues (gaps, disabled ships, wind shifts) that guide local action." },
+    { "from": "risk_based_prioritisation", "to": "health_surveillance_strategy", "why": "Readiness monitoring prioritises the capabilities that matter most when comms fail (tempo, cohesion, competence)." },
+    { "from": "risk_based_prioritisation", "to": "flow_and_capacity", "why": "Prioritisation manages tempo: it prevents paralysis by focusing attention where time-to-act is shortest." },
+
+    { "from": "uncertainty_limits", "to": "report_writing", "why": "After-action narratives should admit uncertainty and explain local reasoning, not pretend the plan predicted everything." },
+    { "from": "uncertainty_limits", "to": "risk_assessment_management", "why": "Uncertainty means assessment must translate into robust actions and fallbacks, not fragile optimisation." },
+    { "from": "uncertainty_limits", "to": "health_surveillance_strategy", "why": "Uncertainty increases the value of readiness and competence monitoring because execution must substitute for perfect prediction." },
+
+    { "from": "two_master_ethics", "to": "report_writing", "why": "To preserve autonomy, learning must credit intent-consistent initiative and explain deviations as rational under fog-of-war." },
+    { "from": "two_master_ethics", "to": "fitness_for_work", "why": "Delegation readiness determines how much autonomy is safe: competence enables decentralised execution." },
+    { "from": "two_master_ethics", "to": "consultation_standards", "why": "Pre-briefing standards clarify how to adapt: act on intent even when explicit control is absent." },
+    { "from": "two_master_ethics", "to": "risk_communication", "why": "Explaining intent and autonomy boundaries prevents captains from freezing or fragmenting when conditions change." },
+
+    { "from": "law_and_accountability", "to": "legal_compliance_backbone", "why": "Authority structures create lawful, defensible autonomy boundaries and prevent chaos under degraded control." },
+    { "from": "law_and_accountability", "to": "commissioning_scope", "why": "Clear responsibility defines the operating model: what is centralised versus delegated." },
+    { "from": "law_and_accountability", "to": "incident_response", "why": "Catastrophic damage needs defined escalation rules to prevent local collapse from spreading." },
+    { "from": "law_and_accountability", "to": "information_governance", "why": "Accountability defines what must be explicitly shared and what is left to captain discretion." },
+
+    { "from": "consent_confidentiality", "to": "information_governance", "why": "The trust contract is maintained by consistent rules: act on intent and you will be judged fairly." },
+    { "from": "consent_confidentiality", "to": "consultation_standards", "why": "Trust enables candid briefings and questions, improving shared understanding before the fight." },
+    { "from": "consent_confidentiality", "to": "records_management", "why": "Trust is sustained by reliable memory: recorded doctrine and lessons reduce misunderstandings and drift." },
+    { "from": "consent_confidentiality", "to": "teleconsultation", "why": "Remote comms are fragile; trust and fallbacks prevent minor signalling failures becoming major miscoordination." },
+
+    { "from": "risk_communication", "to": "training_information", "why": "Intent becomes durable only when embedded in drills—explicit guidance internalised into tacit reflex." },
+    { "from": "risk_communication", "to": "commissioning_scope", "why": "Clear intent communication defines the operating model and prevents autonomy from becoming fragmentation." },
+    { "from": "risk_communication", "to": "complaints_handling", "why": "Good intent communication reduces post-action disputes about what was ‘meant’ or ‘allowed’." },
+
+    { "from": "multidisciplinary_teaming", "to": "integration_with_hs", "why": "A captain network works only if shared intent is integrated with real constraints (wind, smoke, formation)." },
+    { "from": "multidisciplinary_teaming", "to": "programme_portfolio", "why": "Networked captains can coordinate which tactical mode to apply locally without waiting for signals." },
+    { "from": "multidisciplinary_teaming", "to": "hierarchy_of_control", "why": "Peer anticipation strengthens robust control mechanisms, reducing dependence on brittle explicit signalling." },
+
+    { "from": "power_and_incentives", "to": "commissioning_scope", "why": "Incentives determine whether captains take initiative or wait for orders; the operating model must align rewards with intent." },
+    { "from": "power_and_incentives", "to": "kpis_metrics", "why": "If metrics punish deviation, captains stop adapting; indicators must support learning, not fear." },
+    { "from": "power_and_incentives", "to": "pathology_underreporting", "why": "Punitive cultures suppress initiative and honest judgement, creating silence and brittleness under fog-of-war." },
+    { "from": "power_and_incentives", "to": "challenge_outsourcing", "why": "Heterogeneous incentives and competence increase misalignment risk, especially when comms degrade." },
+
+    { "from": "flow_and_capacity", "to": "consultation_standards", "why": "As tempo compresses, briefings must be minimal, memorable, and aligned with autonomy." },
+    { "from": "flow_and_capacity", "to": "health_surveillance_strategy", "why": "Tempo stress tests readiness; monitoring competence and cohesion predicts whether autonomy will hold." },
+    { "from": "flow_and_capacity", "to": "entropy_and_drift", "why": "Sustained tempo without training reinforcement accelerates drift in gunnery and coordination." },
+
+    { "from": "interfaces_and_handoffs", "to": "records_management", "why": "Signal books, memoranda, and lessons are the structured ‘handoffs’ that preserve doctrinal coherence." },
+    { "from": "interfaces_and_handoffs", "to": "report_writing", "why": "After-action narratives are the interface that converts tacit judgement into explicit lessons." },
+    { "from": "interfaces_and_handoffs", "to": "incident_response", "why": "Interface failures (misread signals) can create crises that require escalation playbooks." },
+    { "from": "interfaces_and_handoffs", "to": "complaints_handling", "why": "Many disputes originate at interfaces: ambiguous intent, misinterpreted signals, or unclear autonomy boundaries." },
+
+    { "from": "entropy_and_drift", "to": "audit_assurance", "why": "Assurance detects drift: can crews still execute at tempo when conditions are harsh?" },
+    { "from": "entropy_and_drift", "to": "competence_workforce", "why": "Competence development counteracts drift and enables safe decentralisation." },
+    { "from": "entropy_and_drift", "to": "pathology_normalised_deviance", "why": "Uncorrected drift becomes normalised and produces incompatible interpretations of intent." },
+
+    { "from": "feedback_loops", "to": "learning_loops", "why": "Learning loops are structured feedback that updates doctrine and training after real friction." },
+    { "from": "feedback_loops", "to": "kpis_metrics", "why": "Indicators are the sensor layer; they must measure readiness and coherence, not just ceremonial compliance." },
+    { "from": "feedback_loops", "to": "audit_assurance", "why": "Assurance formalises feedback: test under load, identify failure modes, and adapt." },
+
+    { "from": "work_as_imagined_vs_done", "to": "audit_assurance", "why": "Assurance must test execution in realistic conditions (smoke, comms loss), not just doctrinal paperwork." },
+    { "from": "work_as_imagined_vs_done", "to": "risk_assessment_management", "why": "Threat assessment must model real execution constraints; otherwise the plan collapses at contact." },
+    { "from": "work_as_imagined_vs_done", "to": "hierarchy_of_control", "why": "If doctrine is unusable in real battle, the fleet will drift to ad-hoc behaviour and lose coherence." },
+
+    { "from": "boundaries_and_coverage", "to": "commissioning_scope", "why": "Autonomy boundaries must be explicit in the operating model to prevent fragmentation." },
+    { "from": "boundaries_and_coverage", "to": "legal_compliance_backbone", "why": "Authority constraints define permissible action and responsibility under uncertainty." },
+    { "from": "boundaries_and_coverage", "to": "programme_portfolio", "why": "Clear autonomy boundaries allow captains to select the right tactical mode without waiting for central direction." },
+
+    { "from": "commissioning_scope", "to": "clinical_governance", "why": "The operating model must be supported by doctrine governance: competence, consistency, and alignment." },
+    { "from": "commissioning_scope", "to": "challenge_outsourcing", "why": "When fleets are mixed in competence/doctrine, the operating model becomes harder to execute coherently." },
+    { "from": "commissioning_scope", "to": "flow_and_capacity", "why": "Intent and timing shape tempo; tempo shapes the feasibility of explicit control." },
+
+    { "from": "clinical_governance", "to": "consultation_standards", "why": "Doctrine governance sets briefing norms that make intent internalisable and autonomy safe." },
+    { "from": "clinical_governance", "to": "report_writing", "why": "Governance shapes how lessons are externalised: truthful, decision-ready narratives." },
+    { "from": "clinical_governance", "to": "competence_workforce", "why": "Governance relies on competence development to keep autonomy aligned." },
+    { "from": "clinical_governance", "to": "complaints_handling", "why": "Governance protects trust by resolving disputes fairly and preventing learning from turning political." },
+
+    { "from": "information_governance", "to": "records_management", "why": "Knowledge governance is implemented via doctrine artefacts, records, and shared language." },
+    { "from": "information_governance", "to": "audit_assurance", "why": "Knowledge governance requires testing: are explicit artefacts understood and usable under stress?" },
+    { "from": "information_governance", "to": "case_wrong_recipient", "why": "A mis-sent/misread signal stress-tests whether the system relies too heavily on brittle explicit comms." },
+
+    { "from": "legal_compliance_backbone", "to": "programme_portfolio", "why": "Constraints of conduct and legitimacy shape which tactical modes are permissible and defensible." },
+    { "from": "legal_compliance_backbone", "to": "training_information", "why": "Constraints must be trained and internalised so captains do not hesitate or drift ethically under stress." },
+    { "from": "legal_compliance_backbone", "to": "incident_response", "why": "Clear constraints guide crisis escalation when catastrophe threatens local collapse." },
+
+    { "from": "integration_with_hs", "to": "risk_assessment_management", "why": "Threat assessment must integrate environmental and formation constraints to produce robust actions." },
+    { "from": "integration_with_hs", "to": "audit_assurance", "why": "Integration enables realistic testing: drills that include wind/visibility and comms failure." },
+    { "from": "integration_with_hs", "to": "programme_portfolio", "why": "Integration keeps the tactical portfolio adaptive to conditions rather than frozen to a paper plan." },
+
+    { "from": "programme_portfolio", "to": "coshh_programme", "why": "Close action is a core mode that activates when signalling becomes unreliable." },
+    { "from": "programme_portfolio", "to": "noise_programme", "why": "Gunnery tempo is a decisive execution mechanism that turns intent into local dominance." },
+    { "from": "programme_portfolio", "to": "vibration_programme", "why": "Manoeuvre capability under damage determines whether ships can exploit openings and support each other." },
+    { "from": "programme_portfolio", "to": "thermal_programme", "why": "Environmental constraints management governs how the fleet adapts when wind/smoke changes the control regime." },
+    { "from": "programme_portfolio", "to": "lighting_programme", "why": "Visibility and geometry determine whether explicit signals are usable; the portfolio includes fallbacks." },
+    { "from": "programme_portfolio", "to": "fitness_for_work", "why": "Delegation readiness determines how much of the portfolio can be executed autonomously and safely." },
+
+    { "from": "hygiene_cycle_arec", "to": "risk_assessment_management", "why": "SECI provides the structure to convert experience into doctrine: articulate, combine, and internalise." },
+    { "from": "hygiene_cycle_arec", "to": "exposure_monitoring_strategy", "why": "SECI depends on sensing: distributed observation supplies the raw material for learning and adaptation." },
+    { "from": "hygiene_cycle_arec", "to": "hierarchy_of_control", "why": "SECI supports robust control: internalised intent reduces dependency on fragile explicit signalling." },
+    { "from": "hygiene_cycle_arec", "to": "health_surveillance_strategy", "why": "SECI institutionalisation requires monitoring readiness so tacit capability remains strong." },
+
+    { "from": "risk_assessment_management", "to": "hierarchy_of_control", "why": "Action management prioritises robust alignment mechanisms that survive fog-of-war." },
+    { "from": "risk_assessment_management", "to": "training_information", "why": "Assessment must be internalised through training so execution remains coherent when signals fail." },
+    { "from": "risk_assessment_management", "to": "incident_response", "why": "Residual risk requires escalation playbooks for catastrophic damage and command disruption." },
+
+    { "from": "exposure_monitoring_strategy", "to": "coshh_programme", "why": "Distributed sensing guides when to shift into decisive close action and where to concentrate." },
+    { "from": "exposure_monitoring_strategy", "to": "noise_programme", "why": "Observation of local duels and damage informs gunnery focus and support decisions." },
+    { "from": "exposure_monitoring_strategy", "to": "vibration_programme", "why": "Sensing mobility/damage status determines manoeuvre choices and whether a ship can exploit openings." },
+    { "from": "exposure_monitoring_strategy", "to": "thermal_programme", "why": "Environmental observation triggers adaptation when wind/smoke shifts." },
+    { "from": "exposure_monitoring_strategy", "to": "audit_assurance", "why": "Sensing capability must be tested: can captains perceive and interpret decisive cues under smoke?" },
+
+    { "from": "health_surveillance_strategy", "to": "noise_programme", "why": "Readiness monitoring predicts whether gunnery tempo can be sustained in close action." },
+    { "from": "health_surveillance_strategy", "to": "vibration_programme", "why": "Readiness affects seamanship and damage-control performance, shaping manoeuvre options." },
+    { "from": "health_surveillance_strategy", "to": "coshh_programme", "why": "Close action success depends on trained crews and disciplined execution under extreme tempo." },
+    { "from": "health_surveillance_strategy", "to": "feedback_loops", "why": "Readiness signals feed back into training emphasis and competence development." },
+
+    { "from": "toxicology_foundations", "to": "hazard_info_sds_clp", "why": "Understanding mechanisms of fleet collapse guides which explicit artefacts are needed to support intent." },
+    { "from": "toxicology_foundations", "to": "risk_based_prioritisation", "why": "Collapse mechanisms define decisive points and therefore what the fleet should prioritise." },
+    { "from": "hazard_info_sds_clp", "to": "coshh_programme", "why": "Explicit artefacts (memoranda/maxims) guide when to commit to close action and how to behave when signals fail." },
+    { "from": "hazard_info_sds_clp", "to": "training_information", "why": "Explicit doctrine must be rehearsed so it becomes tacit competence under pressure." },
+    { "from": "hazard_info_sds_clp", "to": "risk_assessment_management", "why": "Explicit artefacts are inputs to action management, but must be contextualised to real conditions." },
+
+    { "from": "consultation_standards", "to": "report_writing", "why": "Briefings set up later externalisation: after-action narratives can reference agreed intent and autonomy boundaries." },
+    { "from": "consultation_standards", "to": "fitness_for_work", "why": "Briefings reveal which captains need more support or clearer autonomy boundaries." },
+    { "from": "consultation_standards", "to": "records_management", "why": "Briefings should leave artefacts: shared phrases and documented intent that preserve coherence across time." },
+    { "from": "teleconsultation", "to": "records_management", "why": "Signal protocols require standardised records so interpretation remains consistent and learning is captured." },
+
+    { "from": "report_writing", "to": "risk_communication", "why": "Narratives translate battle experience into guidance that future captains can understand and act on." },
+    { "from": "report_writing", "to": "case_report_dispute", "why": "Disputes stress-test whether narratives are fair, truthful, and supportive of future initiative." },
+
+    { "from": "fitness_for_work", "to": "risk_assessment_management", "why": "Delegation readiness affects how actions are managed: more capable captains can be given wider autonomy envelopes." },
+    { "from": "fitness_for_work", "to": "multidisciplinary_teaming", "why": "A capable captain network can coordinate mutually without relying on central signalling at the critical moment." },
+
+    { "from": "training_information", "to": "work_as_imagined_vs_done", "why": "Training must reflect real battle conditions; otherwise doctrine remains ‘imagined’ and fails under smoke and damage." },
+    { "from": "training_information", "to": "pathology_normalised_deviance", "why": "If training is unrealistic, informal shortcuts become normal and undermine coherence under pressure." },
+
+    { "from": "incident_response", "to": "learning_loops", "why": "Crisis events provide high-value learning: they show exactly where autonomy boundaries and fallbacks must change." },
+    { "from": "records_management", "to": "audit_assurance", "why": "Records enable assurance: check that doctrine is known, drilled, and executable under degraded comms." },
+    { "from": "complaints_handling", "to": "learning_loops", "why": "Disputes and grievances are weak signals about misaligned intent, unclear boundaries, or unfair judgement—convert them into fixes." },
+
+    { "from": "seqohs", "to": "clinical_governance", "why": "A doctrine quality standard constrains governance expectations: clarity, competence, and coherent decentralisation." },
+    { "from": "seqohs", "to": "information_governance", "why": "Doctrine quality includes knowledge governance: what is explicit, what is tacit, and how internalisation is assured." },
+    { "from": "iso45001", "to": "integration_with_hs", "why": "A command system must integrate strategy, doctrine, training, conditions, and learning into one loop." },
+    { "from": "pdca_hsg65", "to": "audit_assurance", "why": "PDCA requires checking: drills under load, comms-loss tests, and realism audits." },
+
+    { "from": "kpis_metrics", "to": "power_and_incentives", "why": "Metrics create incentives: design them to reward intent-consistent initiative rather than fear-driven compliance." },
+    { "from": "audit_assurance", "to": "learning_loops", "why": "Assurance is valuable only when it updates doctrine/training and is re-tested." },
+    { "from": "competence_workforce", "to": "flow_and_capacity", "why": "Competence planning is how the fleet sustains tempo without losing coherence under time pressure." },
+    { "from": "competence_workforce", "to": "challenge_outsourcing", "why": "Heterogeneous competence requires stronger alignment work; otherwise autonomy fragments into incompatible local actions." },
+
+    { "from": "challenge_outsourcing", "to": "interfaces_and_handoffs", "why": "Fragmented fleets multiply interfaces and interpretations, raising the likelihood of miscoordination when signals degrade." },
+    { "from": "challenge_outsourcing", "to": "audit_assurance", "why": "Mixed doctrine/competence requires stronger testing and alignment rehearsal to prevent fragmentation." },
+
+    { "from": "pathology_underreporting", "to": "feedback_loops", "why": "Silence breaks the sensing layer: the fleet cannot adapt in real time when captains stop acting or sharing cues." },
+    { "from": "pathology_normalised_deviance", "to": "work_as_imagined_vs_done", "why": "Normalised misalignment is the sustained gap between doctrine-as-imagined and battle-as-done." },
+
+    { "from": "coshh_programme", "to": "case_lev_spikes", "why": "Close action is the stress test for signalling; when comms fail, only internalised intent sustains coherent action." },
+    { "from": "noise_programme", "to": "case_noise_programme", "why": "Gunnery tempo advantage is a classic cascade driver: local duels tip, then system cohesion collapses." },
+    { "from": "thermal_programme", "to": "case_heat_extremes", "why": "Wind/environmental shifts expose whether adaptation within intent is real or only rhetorical." },
+    { "from": "report_writing", "to": "case_wrong_recipient", "why": "Explicit artefact failures (signals, messages) are interface failures; they reveal over-dependence on brittle control." },
+    { "from": "work_as_imagined_vs_done", "to": "case_dermatitis_compliance_theatre", "why": "Doctrinal paperwork can hide drift in tacit competence; realism appears only under load." },
+    { "from": "information_governance", "to": "case_wrong_recipient", "why": "A mis-sent/misread signal tests whether the fleet can correct locally using shared intent rather than collapsing into confusion." },
+
+    { "from": "wis_listening", "to": "case_dermatitis_compliance_theatre", "why": "Listening detects ‘doctrine theatre’ early by surfacing mismatches between what is claimed and what is practised." },
+    { "from": "wis_safe_to_fail", "to": "case_lev_spikes", "why": "Rehearse comms-loss and smoke scenarios in bounded drills to internalise intent before battle." },
+    { "from": "wis_grace", "to": "case_report_dispute", "why": "Graceful handling of credit and responsibility preserves trust and keeps future initiative alive." },
+    { "from": "wis_proportion", "to": "case_heat_extremes", "why": "Under sudden environmental change, proportionate command avoids paralysis by using simple, robust intent rules." }
+  ]
+}
