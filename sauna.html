@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sauna/Heat-Therapy Monte Carlo Model (Live)</title>
+  <style>
+    :root { --bg:#0b0d10; --panel:#12151b; --ink:#e9eef7; --muted:#a7b3c7; --accent:#7dd3fc; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--ink); }
+    header { padding:18px 18px 8px; }
+    h1 { margin:0; font-size:18px; font-weight:700; }
+    p { margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.35; }
+    .wrap { display:grid; grid-template-columns: 360px 1fr; gap:14px; padding:14px 18px 18px; }
+    @media (max-width: 980px){ .wrap{ grid-template-columns:1fr; } }
+    .card { background:var(--panel); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:14px; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .controls { display:flex; flex-direction:column; gap:12px; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .row label { font-size:13px; color:var(--muted); }
+    .row .val { font-variant-numeric: tabular-nums; font-size:13px; color:var(--ink); }
+    input[type="range"] { width:100%; }
+    .sliderBlock { display:flex; flex-direction:column; gap:6px; }
+    .sliderTop { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+    .sliderTop .name { font-size:13px; color:var(--ink); }
+    .sliderTop .hint { font-size:12px; color:var(--muted); }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .btns { display:flex; gap:10px; flex-wrap:wrap; }
+    button {
+      appearance:none; border:1px solid rgba(255,255,255,.10); background:#0f172a;
+      color:var(--ink); padding:10px 12px; border-radius:12px; cursor:pointer;
+      font-weight:600; font-size:13px;
+    }
+    button:hover { border-color: rgba(125,211,252,.45); }
+    .note { font-size:12px; color:var(--muted); line-height:1.35; }
+    .charts { display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    @media (max-width: 980px){ .charts{ grid-template-columns:1fr; } }
+    .chartHeader { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:8px; }
+    .chartHeader .title { font-weight:800; font-size:13px; }
+    .chartHeader .stats { font-size:12px; color:var(--muted); font-variant-numeric: tabular-nums; text-align:right; }
+    canvas { width:100%; height:220px; display:block; border-radius:12px; background: rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.06); }
+    .footerline { margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,.06); }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: rgba(255,255,255,.06); padding:2px 6px; border-radius:7px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Sauna / Heat-Therapy Monte Carlo Model (Live)</h1>
+  <p>
+    Move sliders to change assumptions. The app runs Monte Carlo simulations and updates outcome
+    distributions live. This is a toy mechanistic+probabilistic model (not medical advice).
+  </p>
+</header>
+
+<div class="wrap">
+  <section class="card controls" id="controls">
+    <div class="grid2">
+      <div class="sliderBlock">
+        <div class="sliderTop">
+          <div class="name">Simulations</div>
+          <div class="val" id="nVal">5000</div>
+        </div>
+        <input id="nSims" type="range" min="500" max="20000" step="500" value="5000" />
+        <div class="hint note">More sims = smoother distributions (slower).</div>
+      </div>
+
+      <div class="sliderBlock">
+        <div class="sliderTop">
+          <div class="name">Random seed</div>
+          <div class="val" id="seedVal">42</div>
+        </div>
+        <input id="seed" type="range" min="1" max="999" step="1" value="42" />
+        <div class="hint note">Deterministic repeatability.</div>
+      </div>
+    </div>
+
+    <div class="sliderBlock">
+      <div class="sliderTop">
+        <div class="name">Sauna temperature (°C)</div>
+        <div class="val" id="tempVal">85</div>
+      </div>
+      <input id="temp" type="range" min="60" max="110" step="1" value="85" />
+      <div class="hint note">Higher temp increases heat dose and variability.</div>
+    </div>
+
+    <div class="sliderBlock">
+      <div class="sliderTop">
+        <div class="name">Duration (min)</div>
+        <div class="val" id="durVal">20</div>
+      </div>
+      <input id="duration" type="range" min="5" max="45" step="1" value="20" />
+      <div class="hint note">Total hot time. Breaks are modeled via “effective dose.”</div>
+    </div>
+
+    <div class="grid2">
+      <div class="sliderBlock">
+        <div class="sliderTop">
+          <div class="name">Frequency (sessions/week)</div>
+          <div class="val" id="freqVal">4</div>
+        </div>
+        <input id="freq" type="range" min="0" max="14" step="1" value="4" />
+        <div class="hint note">Chronic adaptation scales with frequency.</div>
+      </div>
+
+      <div class="sliderBlock">
+        <div class="sliderTop">
+          <div class="name">Weeks of practice</div>
+          <div class="val" id="weeksVal">8</div>
+        </div>
+        <input id="weeks" type="range" min="0" max="52" step="1" value="8" />
+        <div class="hint note">Longer practice → more adaptation/priming.</div>
+      </div>
+    </div>
+
+    <div class="sliderBlock">
+      <div class="sliderTop">
+        <div class="name">Hydration (0–1)</div>
+        <div class="val" id="hydrVal">0.7</div>
+      </div>
+      <input id="hydration" type="range" min="0" max="1" step="0.01" value="0.70" />
+      <div class="hint note">Lower hydration increases hypotension risk and noise.</div>
+    </div>
+
+    <div class="sliderBlock">
+      <div class="sliderTop">
+        <div class="name">Baseline cardiovascular risk (0–1)</div>
+        <div class="val" id="riskVal">0.35</div>
+      </div>
+      <input id="risk" type="range" min="0" max="1" step="0.01" value="0.35" />
+      <div class="hint note">Higher risk increases stiffness/inflammation baseline and response spread.</div>
+    </div>
+
+    <div class="grid2">
+      <div class="sliderBlock">
+        <div class="sliderTop">
+          <div class="name">Baseline SBP (mmHg)</div>
+          <div class="val" id="sbp0Val">130</div>
+        </div>
+        <input id="sbp0" type="range" min="90" max="180" step="1" value="130" />
+      </div>
+
+      <div class="sliderBlock">
+        <div class="sliderTop">
+          <div class="name">Baseline PWV (m/s)</div>
+          <div class="val" id="pwv0Val">9.5</div>
+        </div>
+        <input id="pwv0" type="range" min="5" max="16" step="0.1" value="9.5" />
+      </div>
+    </div>
+
+    <div class="sliderBlock">
+      <div class="sliderTop">
+        <div class="name">Baseline CRP (mg/L)</div>
+        <div class="val" id="crp0Val">2.0</div>
+      </div>
+      <input id="crp0" type="range" min="0.1" max="10" step="0.1" value="2.0" />
+      <div class="hint note">Modeled on a log scale internally (CRP is skewed).</div>
+    </div>
+
+    <div class="sliderBlock">
+      <div class="sliderTop">
+        <div class="name">Epigenetic priming sensitivity (0–1)</div>
+        <div class="val" id="epiVal">0.55</div>
+      </div>
+      <input id="epi" type="range" min="0" max="1" step="0.01" value="0.55" />
+      <div class="hint note">Controls how practice converts into faster HSP + reduced inflammation variability.</div>
+    </div>
+
+    <div class="btns footerline">
+      <button id="reroll">Re-run (same sliders)</button>
+      <button id="reset">Reset defaults</button>
+    </div>
+
+    <div class="note">
+      Tip: Hold <span class="kbd">Shift</span> while dragging sliders for finer control in some browsers.
+      <br/>Outputs are shown as <b>distributions</b> across simulated people/sessions.
+    </div>
+  </section>
+
+  <section class="charts">
+    <div class="card">
+      <div class="chartHeader">
+        <div class="title">ΔSBP (mmHg) — post vs pre (acute)</div>
+        <div class="stats" id="stats_sbp"></div>
+      </div>
+      <canvas id="c_sbp"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="chartHeader">
+        <div class="title">ΔPWV (m/s) — post vs pre (acute)</div>
+        <div class="stats" id="stats_pwv"></div>
+      </div>
+      <canvas id="c_pwv"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="chartHeader">
+        <div class="title">CRP change (%) — chronic trend proxy</div>
+        <div class="stats" id="stats_crp"></div>
+      </div>
+      <canvas id="c_crp"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="chartHeader">
+        <div class="title">HSP induction (fold-change) — acute + priming</div>
+        <div class="stats" id="stats_hsp"></div>
+      </div>
+      <canvas id="c_hsp"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="chartHeader">
+        <div class="title">NO bioactivity change (%) — acute proxy</div>
+        <div class="stats" id="stats_no"></div>
+      </div>
+      <canvas id="c_no"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="chartHeader">
+        <div class="title">“Network resilience” score (0–1) — Torday-style integration proxy</div>
+        <div class="stats" id="stats_net"></div>
+      </div>
+      <canvas id="c_net"></canvas>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ==========================
+   Utilities: RNG + Stats
+========================== */
+
+// Mulberry32 PRNG (fast, deterministic)
+function mulberry32(seed) {
+  let t = seed >>> 0;
+  return function() {
+    t += 0x6D2B79F5;
+    let x = t;
+    x = Math.imul(x ^ (x >>> 15), x | 1);
+    x ^= x + Math.imul(x ^ (x >>> 7), x | 61);
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// Box-Muller normal
+function randn(rng) {
+  let u = 0, v = 0;
+  while (u === 0) u = rng();
+  while (v === 0) v = rng();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+
+function mean(arr) {
+  let s = 0;
+  for (let i=0;i<arr.length;i++) s += arr[i];
+  return s / arr.length;
+}
+
+function sd(arr, m) {
+  let s = 0;
+  for (let i=0;i<arr.length;i++) {
+    const d = arr[i] - m;
+    s += d*d;
+  }
+  return Math.sqrt(s / Math.max(1, arr.length - 1));
+}
+
+function quantile(sortedArr, q) {
+  const n = sortedArr.length;
+  if (n === 0) return NaN;
+  const pos = (n - 1) * q;
+  const base = Math.floor(pos);
+  const rest = pos - base;
+  if ((base + 1) < n) return sortedArr[base] + rest * (sortedArr[base + 1] - sortedArr[base]);
+  return sortedArr[base];
+}
+
+function summarize(arr) {
+  const a = arr.slice().sort((x,y)=>x-y);
+  const m = mean(a);
+  const s = sd(a, m);
+  return {
+    mean: m,
+    sd: s,
+    p05: quantile(a, 0.05),
+    p50: quantile(a, 0.50),
+    p95: quantile(a, 0.95),
+    min: a[0],
+    max: a[a.length-1]
+  };
+}
+
+/* ==========================
+   Histogram drawing
+========================== */
+
+function makeHistogram(data, bins = 40) {
+  let min = Infinity, max = -Infinity;
+  for (const x of data) { if (x < min) min = x; if (x > max) max = x; }
+  if (!isFinite(min) || !isFinite(max)) return null;
+  if (min === max) { min -= 1; max += 1; }
+  const counts = new Array(bins).fill(0);
+  const w = (max - min) / bins;
+  for (const x of data) {
+    let idx = Math.floor((x - min) / w);
+    idx = clamp(idx, 0, bins - 1);
+    counts[idx]++;
+  }
+  return { min, max, counts, bins };
+}
+
+function drawHistogram(canvas, hist, opts = {}) {
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const W = Math.floor(canvas.clientWidth * dpr);
+  const H = Math.floor(canvas.clientHeight * dpr);
+  if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+
+  // background
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = "rgba(255,255,255,0.02)";
+  ctx.fillRect(0,0,W,H);
+
+  const padL = 46*dpr, padR = 12*dpr, padT = 12*dpr, padB = 32*dpr;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+
+  // axes
+  ctx.strokeStyle = "rgba(255,255,255,0.10)";
+  ctx.lineWidth = 1*dpr;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT);
+  ctx.lineTo(padL, padT + plotH);
+  ctx.lineTo(padL + plotW, padT + plotH);
+  ctx.stroke();
+
+  if (!hist) return;
+
+  const maxC = Math.max(...hist.counts, 1);
+  const barW = plotW / hist.bins;
+
+  // bars
+  for (let i=0;i<hist.bins;i++) {
+    const c = hist.counts[i];
+    const h = (c / maxC) * plotH;
+    const x = padL + i * barW;
+    const y = padT + (plotH - h);
+    ctx.fillStyle = "rgba(125,211,252,0.55)";
+    ctx.fillRect(x+0.5*dpr, y, Math.max(0, barW-1.2*dpr), h);
+  }
+
+  // labels (min/max)
+  ctx.fillStyle = "rgba(255,255,255,0.75)";
+  ctx.font = `${12*dpr}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`;
+  ctx.textBaseline = "top";
+  ctx.fillText((opts.xMinLabel ?? hist.min).toFixed(opts.decimals ?? 2), padL, padT + plotH + 6*dpr);
+  const rightLabel = (opts.xMaxLabel ?? hist.max).toFixed(opts.decimals ?? 2);
+  const tw = ctx.measureText(rightLabel).width;
+  ctx.fillText(rightLabel, padL + plotW - tw, padT + plotH + 6*dpr);
+
+  // y max count
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "rgba(255,255,255,0.55)";
+  ctx.fillText(String(maxC), 6*dpr, padT + 8*dpr);
+}
+
+/* ==========================
+   The Model (toy)
+   - Inputs: temperature, duration, freq, weeks, hydration, risk, baseline SBP/PWV/CRP, epi sensitivity
+   - Outputs: distributions: ΔSBP, ΔPWV, CRP%, HSP fold, NO%, network resilience score
+========================== */
+
+function logistic(x) { return 1 / (1 + Math.exp(-x)); }
+
+// Convert sliders to derived features
+function derived(params) {
+  const {
+    tempC, durationMin, freqPerWeek, weeks,
+    hydration, risk, epiSensitivity
+  } = params;
+
+  // "Heat dose" proxy: temp above 60, duration, and mild diminishing returns
+  const tempFactor = clamp((tempC - 60) / 50, 0, 1.2); // 0..~1
+  const durFactor  = clamp(durationMin / 30, 0, 1.5);  // 0..~1
+  const heatDose = tempFactor * Math.sqrt(durFactor);
+
+  // Practice load
+  const totalSessions = Math.max(0, freqPerWeek) * Math.max(0, weeks);
+
+  // Adaptation saturates over sessions; epiSensitivity scales how strongly it “sticks”
+  const adapt = logistic((totalSessions - 12) / 10) * (0.35 + 0.65*epiSensitivity); // 0..~1
+  const priming = logistic((totalSessions - 8) / 8) * epiSensitivity; // 0..1
+
+  // Hydration penalty for instability (0 = worst)
+  const hydPenalty = (1 - hydration);
+
+  return { heatDose, totalSessions, adapt, priming, hydPenalty };
+}
+
+function runMonteCarlo(params, n) {
+  const rng = mulberry32(params.seed);
+  const d = derived(params);
+
+  const out = {
+    dSBP: new Array(n),
+    dPWV: new Array(n),
+    crpPct: new Array(n),
+    hspFold: new Array(n),
+    noPct: new Array(n),
+    netScore: new Array(n),
+  };
+
+  // Baselines
+  const SBP0 = params.sbp0;
+  const PWV0 = params.pwv0;
+  const CRP0 = params.crp0;
+
+  // Noise scales
+  // risk increases variability; dehydration increases variability and worsens hypotension risk.
+  const baseNoise = 1 + 0.9*params.risk + 0.8*d.hydPenalty;
+
+  for (let i=0;i<n;i++) {
+    // Individual heterogeneity (unobserved traits)
+    const personResilience = clamp(0.55 + 0.18*randn(rng) - 0.20*params.risk, 0.05, 0.95);
+    const vascularSensitivity = clamp(1.0 + 0.25*randn(rng) + 0.30*params.risk, 0.4, 2.0);
+    const inflamSetpoint = clamp(1.0 + 0.35*randn(rng) + 0.50*params.risk, 0.3, 2.5);
+
+    // Acute hemodynamic response (ΔSBP): typical reduction post-sauna, bigger with dose & adaptation,
+    // but excessive dose + low hydration can cause instability and less predictable changes.
+    const dose = d.heatDose;
+
+    const hypotensionRisk = logistic( (dose - 0.75)*2.2 + (d.hydPenalty - 0.3)*2.0 + (params.risk - 0.5)*1.2 );
+    const acuteVasodilation = (6.0 + 10.0*dose) * (0.55 + 0.45*d.adapt) * (0.6 + 0.4*personResilience);
+    const instability = (2.0 + 6.0*hypotensionRisk) * (0.4 + d.hydPenalty);
+
+    // ΔSBP in mmHg (negative is lower)
+    let dSBP = -acuteVasodilation * (0.85 + 0.25*randn(rng)) * (1/vascularSensitivity)
+               + instability * randn(rng) * 0.9 * baseNoise;
+
+    // Clamp extreme outliers
+    dSBP = clamp(dSBP, -35, +20);
+
+    // Acute arterial stiffness change (ΔPWV): decreases with NO and vasodilation;
+    // stronger effect with dose & adaptation; worsened by risk.
+    const noBoost = (6 + 18*dose) * (0.55 + 0.45*d.adapt) * (0.8 + 0.2*personResilience); // %
+    const pwvDrop = (0.25 + 0.75*dose) * (0.50 + 0.50*d.adapt) * (1.0 - 0.35*params.risk);
+    let dPWV = -pwvDrop * (0.95 + 0.22*randn(rng)) + (0.12*randn(rng))*baseNoise;
+    dPWV = clamp(dPWV, -2.5, +1.0);
+
+    // Chronic inflammation trend proxy (CRP%): decreases with sessions + priming (epigenetic memory),
+    // but with diminishing returns; risk reduces improvement.
+    // CRP is skewed -> model on log scale with multiplicative noise.
+    const sessions = d.totalSessions;
+    const chronicGain = logistic((sessions - 10)/12) * (0.45 + 0.55*d.priming) * (1 - 0.40*params.risk);
+    const crpLogChange = -0.10*chronicGain - 0.06*dose*(0.5 + 0.5*d.adapt) + 0.08*randn(rng)*0.35*inflamSetpoint;
+    const crpNew = CRP0 * Math.exp(crpLogChange);
+    let crpPct = ((crpNew - CRP0) / CRP0) * 100;
+    crpPct = clamp(crpPct, -70, +80);
+
+    // HSP induction (fold-change): depends on dose + priming; priming reduces variance and raises response
+    const hspBase = 1.0;
+    const hspMean = hspBase + (0.6 + 2.8*dose) * (0.55 + 0.45*d.adapt) * (1 + 0.60*d.priming);
+    const hspVar = (0.18 + 0.35*(1 - d.priming)) * (1 + 0.35*params.risk);
+    let hspFold = hspMean * Math.exp(randn(rng)*hspVar*0.35);
+    hspFold = clamp(hspFold, 0.9, 8.0);
+
+    // NO bioactivity change (%) acute proxy
+    let noPct = noBoost + 4.5*randn(rng)*0.45*baseNoise;
+    noPct = clamp(noPct, -10, +80);
+
+    // Network resilience score (0..1): Torday-style integrated physiology proxy
+    // Increases with adaptation + priming + mood/stress improvements, decreases with risk + dehydration + overdose.
+    const overload = logistic((dose - 0.95)*3.0); // when dose is very high
+    let net = 0.50
+      + 0.22*d.adapt
+      + 0.18*d.priming
+      + 0.08*personResilience
+      - 0.20*params.risk
+      - 0.12*d.hydPenalty
+      - 0.12*overload
+      + 0.06*randn(rng);
+    net = clamp(net, 0, 1);
+
+    out.dSBP[i] = dSBP;
+    out.dPWV[i] = dPWV;
+    out.crpPct[i] = crpPct;
+    out.hspFold[i] = hspFold;
+    out.noPct[i] = noPct;
+    out.netScore[i] = net;
+  }
+
+  return out;
+}
+
+/* ==========================
+   UI + Live Updates
+========================== */
+
+const els = {
+  nSims: document.getElementById("nSims"),
+  seed: document.getElementById("seed"),
+  temp: document.getElementById("temp"),
+  duration: document.getElementById("duration"),
+  freq: document.getElementById("freq"),
+  weeks: document.getElementById("weeks"),
+  hydration: document.getElementById("hydration"),
+  risk: document.getElementById("risk"),
+  sbp0: document.getElementById("sbp0"),
+  pwv0: document.getElementById("pwv0"),
+  crp0: document.getElementById("crp0"),
+  epi: document.getElementById("epi"),
+
+  nVal: document.getElementById("nVal"),
+  seedVal: document.getElementById("seedVal"),
+  tempVal: document.getElementById("tempVal"),
+  durVal: document.getElementById("durVal"),
+  freqVal: document.getElementById("freqVal"),
+  weeksVal: document.getElementById("weeksVal"),
+  hydrVal: document.getElementById("hydrVal"),
+  riskVal: document.getElementById("riskVal"),
+  sbp0Val: document.getElementById("sbp0Val"),
+  pwv0Val: document.getElementById("pwv0Val"),
+  crp0Val: document.getElementById("crp0Val"),
+  epiVal: document.getElementById("epiVal"),
+
+  reroll: document.getElementById("reroll"),
+  reset: document.getElementById("reset"),
+
+  canv: {
+    sbp: document.getElementById("c_sbp"),
+    pwv: document.getElementById("c_pwv"),
+    crp: document.getElementById("c_crp"),
+    hsp: document.getElementById("c_hsp"),
+    no:  document.getElementById("c_no"),
+    net: document.getElementById("c_net"),
+  },
+  stats: {
+    sbp: document.getElementById("stats_sbp"),
+    pwv: document.getElementById("stats_pwv"),
+    crp: document.getElementById("stats_crp"),
+    hsp: document.getElementById("stats_hsp"),
+    no:  document.getElementById("stats_no"),
+    net: document.getElementById("stats_net"),
+  }
+};
+
+const DEFAULTS = {
+  nSims: 5000,
+  seed: 42,
+  temp: 85,
+  duration: 20,
+  freq: 4,
+  weeks: 8,
+  hydration: 0.70,
+  risk: 0.35,
+  sbp0: 130,
+  pwv0: 9.5,
+  crp0: 2.0,
+  epi: 0.55
+};
+
+function getParams() {
+  return {
+    n: Number(els.nSims.value),
+    seed: Number(els.seed.value),
+    tempC: Number(els.temp.value),
+    durationMin: Number(els.duration.value),
+    freqPerWeek: Number(els.freq.value),
+    weeks: Number(els.weeks.value),
+    hydration: Number(els.hydration.value),
+    risk: Number(els.risk.value),
+    sbp0: Number(els.sbp0.value),
+    pwv0: Number(els.pwv0.value),
+    crp0: Number(els.crp0.value),
+    epiSensitivity: Number(els.epi.value)
+  };
+}
+
+function updateValueLabels() {
+  els.nVal.textContent = els.nSims.value;
+  els.seedVal.textContent = els.seed.value;
+  els.tempVal.textContent = els.temp.value;
+  els.durVal.textContent = els.duration.value;
+  els.freqVal.textContent = els.freq.value;
+  els.weeksVal.textContent = els.weeks.value;
+  els.hydrVal.textContent = Number(els.hydration.value).toFixed(2);
+  els.riskVal.textContent = Number(els.risk.value).toFixed(2);
+  els.sbp0Val.textContent = els.sbp0.value;
+  els.pwv0Val.textContent = Number(els.pwv0.value).toFixed(1);
+  els.crp0Val.textContent = Number(els.crp0.value).toFixed(1);
+  els.epiVal.textContent = Number(els.epi.value).toFixed(2);
+}
+
+function fmtStats(s, unit="", decimals=2) {
+  const d = decimals;
+  const m = s.mean.toFixed(d);
+  const sdv = s.sd.toFixed(d);
+  const p05 = s.p05.toFixed(d);
+  const p50 = s.p50.toFixed(d);
+  const p95 = s.p95.toFixed(d);
+  return `mean ${m}${unit} • sd ${sdv}${unit} • p05 ${p05}${unit} • p50 ${p50}${unit} • p95 ${p95}${unit}`;
+}
+
+let pending = false;
+let lastRunKey = "";
+let lastSeedNudge = 0;
+
+function scheduleRun(force=false) {
+  if (force) pending = false;
+  if (pending) return;
+  pending = true;
+  requestAnimationFrame(() => {
+    pending = false;
+    runAndRender();
+  });
+}
+
+function runAndRender() {
+  updateValueLabels();
+  const p = getParams();
+
+  // Avoid re-running if nothing changed (except reroll button)
+  const key = JSON.stringify(p);
+  if (key === lastRunKey) return;
+  lastRunKey = key;
+
+  const out = runMonteCarlo(p, p.n);
+
+  // Summaries
+  const sSBP = summarize(out.dSBP);
+  const sPWV = summarize(out.dPWV);
+  const sCRP = summarize(out.crpPct);
+  const sHSP = summarize(out.hspFold);
+  const sNO  = summarize(out.noPct);
+  const sNET = summarize(out.netScore);
+
+  // Stats text
+  els.stats.sbp.textContent = fmtStats(sSBP, "", 2);
+  els.stats.pwv.textContent = fmtStats(sPWV, "", 2);
+  els.stats.crp.textContent = fmtStats(sCRP, "%", 1);
+  els.stats.hsp.textContent = fmtStats(sHSP, "×", 2);
+  els.stats.no.textContent  = fmtStats(sNO, "%", 1);
+  els.stats.net.textContent = fmtStats(sNET, "", 2);
+
+  // Histograms
+  drawHistogram(els.canv.sbp, makeHistogram(out.dSBP, 44), { decimals: 1 });
+  drawHistogram(els.canv.pwv, makeHistogram(out.dPWV, 44), { decimals: 2 });
+  drawHistogram(els.canv.crp, makeHistogram(out.crpPct, 44), { decimals: 1 });
+  drawHistogram(els.canv.hsp, makeHistogram(out.hspFold, 44), { decimals: 2 });
+  drawHistogram(els.canv.no,  makeHistogram(out.noPct, 44), { decimals: 1 });
+  drawHistogram(els.canv.net, makeHistogram(out.netScore, 44), { decimals: 2 });
+}
+
+function bindInputs() {
+  const inputs = [
+    els.nSims, els.seed, els.temp, els.duration, els.freq, els.weeks,
+    els.hydration, els.risk, els.sbp0, els.pwv0, els.crp0, els.epi
+  ];
+  for (const el of inputs) {
+    el.addEventListener("input", () => scheduleRun(false));
+    el.addEventListener("change", () => scheduleRun(true));
+  }
+
+  els.reroll.addEventListener("click", () => {
+    // Nudge seed slightly (reroll) while keeping seed slider visually consistent:
+    // We'll just increment the seed slider (wrap).
+    const cur = Number(els.seed.value);
+    const next = cur >= 999 ? 1 : cur + 1;
+    els.seed.value = String(next);
+    scheduleRun(true);
+  });
+
+  els.reset.addEventListener("click", () => {
+    els.nSims.value = DEFAULTS.nSims;
+    els.seed.value = DEFAULTS.seed;
+    els.temp.value = DEFAULTS.temp;
+    els.duration.value = DEFAULTS.duration;
+    els.freq.value = DEFAULTS.freq;
+    els.weeks.value = DEFAULTS.weeks;
+    els.hydration.value = DEFAULTS.hydration;
+    els.risk.value = DEFAULTS.risk;
+    els.sbp0.value = DEFAULTS.sbp0;
+    els.pwv0.value = DEFAULTS.pwv0;
+    els.crp0.value = DEFAULTS.crp0;
+    els.epi.value = DEFAULTS.epi;
+    scheduleRun(true);
+  });
+
+  window.addEventListener("resize", () => scheduleRun(true));
+}
+
+bindInputs();
+scheduleRun(true);
+</script>
+</body>
+</html>
+```0
