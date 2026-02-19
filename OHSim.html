@@ -1,0 +1,1004 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OH-AI Institution Simulator (Monte Carlo)</title>
+  <style>
+    :root{
+      --bg:#f7fafc;
+      --card:#ffffffcc;
+      --text:#0f172a;
+      --muted:#475569;
+      --muted2:#64748b;
+      --border:rgba(15,23,42,.12);
+      --shadow: 0 14px 34px rgba(15,23,42,.10);
+      --radius:16px;
+      --accent: rgba(2,132,199,.9);
+      --warn: rgba(234,88,12,.9);
+      --risk: rgba(225,29,72,.9);
+      --ok: rgba(22,163,74,.9);
+      --ink: rgba(15,23,42,.92);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(900px 520px at 10% 10%, rgba(56,189,248,.20), transparent 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(34,197,94,.18), transparent 55%),
+        radial-gradient(900px 520px at 60% 100%, rgba(168,85,247,.14), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+      padding:12px 14px;
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+    }
+    header h1{margin:0; font-size:16px; letter-spacing:.2px}
+    header .sub{font-size:12px; color:var(--muted2); line-height:1.35}
+    .wrap{
+      padding:12px;
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap:12px;
+      align-items:start;
+    }
+    @media (max-width: 1080px){
+      .wrap{grid-template-columns: 1fr}
+      header{position:static}
+    }
+    .panel{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .phead{
+      padding:12px;
+      border-bottom:1px solid var(--border);
+      background: rgba(15,23,42,.02);
+      display:flex; gap:8px; align-items:flex-start; justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .phead .title{font-weight:950; font-size:13px}
+    .pbody{padding:12px}
+    .hint{font-size:12px; color:var(--muted2); line-height:1.45}
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    @media (max-width: 540px){ .grid2{grid-template-columns: 1fr} }
+
+    .ctl{
+      border:1px solid var(--border);
+      border-radius:14px;
+      background: rgba(255,255,255,.86);
+      padding:10px;
+    }
+    .ctl .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .ctl label{font-size:12px; font-weight:950}
+    .ctl .v{font-size:12px; color:var(--muted2); font-weight:900; min-width:72px; text-align:right}
+    .ctl input[type="range"]{width:100%}
+    .ctl .desc{margin-top:6px; font-size:12px; color:var(--muted); line-height:1.35}
+
+    textarea, input[type="text"]{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px;
+      background:#fff;
+      color:var(--text);
+      outline:none;
+      font-size:13px;
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
+    }
+    textarea{min-height:110px; resize:vertical}
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:950;
+      font-size:12px;
+      user-select:none;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease;
+    }
+    .btn:hover{background: rgba(15,23,42,.06); border-color:rgba(15,23,42,.18)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{background: rgba(2,132,199,.12); border-color: rgba(2,132,199,.28)}
+    .btn.primary:hover{background: rgba(2,132,199,.16)}
+    .btn:disabled{opacity:.55; cursor:not-allowed}
+    .chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .chip{
+      font-size:11px; padding:5px 9px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color:var(--muted2);
+      font-weight:900;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .chip.ok{border-color: rgba(22,163,74,.25); background: rgba(22,163,74,.10); color: rgba(22,163,74,.95)}
+    .chip.warn{border-color: rgba(234,88,12,.25); background: rgba(234,88,12,.10); color: rgba(234,88,12,.95)}
+    .chip.risk{border-color: rgba(225,29,72,.25); background: rgba(225,29,72,.10); color: rgba(225,29,72,.95)}
+
+    .cards{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .head{
+      padding:12px;
+      border-bottom:1px solid var(--border);
+      background: rgba(15,23,42,.02);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+      flex-wrap:wrap;
+    }
+    .card .head .t{font-weight:950; font-size:13px}
+    .card .body{padding:12px}
+    canvas{width:100%; height:260px; display:block; border-radius:14px; border:1px solid var(--border); background: rgba(255,255,255,.86)}
+    .small{font-size:12px; color:var(--muted2); line-height:1.45}
+    .kpiRow{display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px}
+    @media (max-width: 800px){ .kpiRow{grid-template-columns: 1fr} }
+    .kpi{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:10px;
+      background: rgba(255,255,255,.86);
+    }
+    .kpi .k{font-size:12px; font-weight:950}
+    .kpi .n{margin-top:4px; font-size:20px; font-weight:1000; letter-spacing:.2px}
+    .kpi .d{margin-top:4px; font-size:12px; color:var(--muted2); line-height:1.35}
+    details summary{cursor:pointer; font-weight:950; font-size:12.5px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>OH-AI Institution Simulator</h1>
+    <div class="sub">
+      Monte Carlo sandbox for the proposal’s institutional parameters: governance, privacy/security, scope boundaries, openness, engagement, infrastructure and funding.
+      Sliders refresh results live.
+    </div>
+  </div>
+  <div class="chips" id="statusChips" aria-live="polite"></div>
+</header>
+
+<div class="wrap">
+  <!-- Controls -->
+  <aside class="panel">
+    <div class="phead">
+      <div>
+        <div class="title">Institution parameters</div>
+        <div class="hint">These tune a simplified “institutional model” (not a prediction engine). The simulator shows how outcomes and pathologies can emerge under uncertainty.</div>
+      </div>
+      <button class="btn" id="btnReset" title="Reset sliders">Reset</button>
+    </div>
+    <div class="pbody" id="controls"></div>
+
+    <div class="phead" style="border-top:1px solid var(--border)">
+      <div>
+        <div class="title">Your project → custom case-study prompt</div>
+        <div class="hint">Describe a real initiative (pilot, hub, procurement, policy, clinical-adjacent tool). The prompt will incorporate the current slider settings + AREA framing.</div>
+      </div>
+    </div>
+    <div class="pbody">
+      <label class="hint" for="projTitle" style="font-weight:950; display:block; margin-bottom:6px">Project title</label>
+      <input id="projTitle" type="text" placeholder="e.g., Tier-1 AI Audit Assistant pilot across 3 NHS trusts" />
+
+      <label class="hint" for="projDetails" style="font-weight:950; display:block; margin:10px 0 6px">Project details</label>
+      <textarea id="projDetails" placeholder="Include: setting, stakeholders, data sources, intended outputs, constraints (GDPR/MHRA), timeline, success criteria, what keeps you up at night…"></textarea>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px">
+        <button class="btn primary" id="btnGenPrompt">Generate prompt</button>
+        <button class="btn" id="btnCopyPrompt" disabled>Copy</button>
+      </div>
+
+      <div class="hint" style="margin-top:10px; font-weight:950">Prompt output</div>
+      <textarea id="promptOut" class="mono" placeholder="Click “Generate prompt”…"></textarea>
+
+      <details style="margin-top:10px">
+        <summary>What the prompt is trying to do</summary>
+        <div class="small" style="margin-top:8px">
+          It asks an AI to write a short case study that (1) uses your context, (2) uses the current institutional settings,
+          (3) identifies what works, what fails, and why, and (4) proposes mitigations with AREA (Anticipate–Reflect–Engage–Act).
+        </div>
+      </details>
+    </div>
+  </aside>
+
+  <!-- Results -->
+  <main class="cards">
+    <section class="card">
+      <div class="head">
+        <div>
+          <div class="t">Outcomes (mean ± uncertainty band)</div>
+          <div class="small">Each refresh runs many plausible “worlds” using the slider values as priors. Bars show mean scores (0–100). Thin lines show 10th–90th percentile.</div>
+        </div>
+        <div class="chips">
+          <div class="chip" id="simInfo">—</div>
+          <div class="chip" id="seedInfo">—</div>
+        </div>
+      </div>
+      <div class="body">
+        <canvas id="canvasOutcomes" width="1000" height="300"></canvas>
+        <div class="kpiRow" id="kpis"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="head">
+        <div>
+          <div class="t">Pathologies (probability of emergence)</div>
+          <div class="small">Probabilities reflect how often a pathology crosses a “bad threshold” in the Monte Carlo runs (e.g., incidents > X, lock-in > X). Not a forecast—an exploration tool.</div>
+        </div>
+        <div class="chips" id="pathologyChips"></div>
+      </div>
+      <div class="body">
+        <canvas id="canvasPathologies" width="1000" height="300"></canvas>
+        <details style="margin-top:10px">
+          <summary>How to interpret pathologies</summary>
+          <div class="small" style="margin-top:8px">
+            Pathologies are “failure modes” tied to the proposal’s concerns: fragmentation, inequity amplification, vendor lock-in, compliance breach, MHRA trigger via scope creep, trust collapse, pilot purgatory, and security incidents.
+            Sliders influence both likelihood and severity; uncertainty (randomness) captures real-world variance.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="head">
+        <div>
+          <div class="t">Parameter meanings (in plain language)</div>
+          <div class="small">The model is a stylised version of the institution: principles → system dynamics → governance → delivery → assurance → outcomes.</div>
+        </div>
+      </div>
+      <div class="body" id="meaning"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ===========================
+   0) Utilities
+=========================== */
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const lerp = (a,b,t) => a + (b-a)*t;
+const sigmoid = (x) => 1 / (1 + Math.exp(-x));
+const pct = (x) => Math.round(clamp(x,0,1)*100);
+const fmt = (x) => (Math.round(x*10)/10).toFixed(1);
+
+function mulberry32(seed){
+  let t = seed >>> 0;
+  return function(){
+    t += 0x6D2B79F5;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  }
+}
+function randn(rng){
+  // Box-Muller
+  let u = 0, v = 0;
+  while(u === 0) u = rng();
+  while(v === 0) v = rng();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0*Math.PI*v);
+}
+function quantile(sorted, q){
+  const n = sorted.length;
+  if(n === 0) return NaN;
+  const pos = (n-1)*q;
+  const i = Math.floor(pos);
+  const f = pos - i;
+  if(i+1 < n) return sorted[i]*(1-f) + sorted[i+1]*f;
+  return sorted[i];
+}
+function drawBarsWithBands(canvas, items, opts={}){
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  const pad = 34;
+  const baseY = H - pad;
+  const topY = pad;
+  const maxV = 100;
+
+  // axes
+  ctx.globalAlpha = 1;
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "rgba(15,23,42,.18)";
+  ctx.beginPath();
+  ctx.moveTo(pad, topY);
+  ctx.lineTo(pad, baseY);
+  ctx.lineTo(W-pad, baseY);
+  ctx.stroke();
+
+  // gridlines
+  ctx.fillStyle = "rgba(15,23,42,.55)";
+  ctx.font = "12px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial";
+  for(let g=0; g<=5; g++){
+    const v = (maxV/5)*g;
+    const y = lerp(baseY, topY, v/maxV);
+    ctx.strokeStyle = "rgba(15,23,42,.08)";
+    ctx.beginPath();
+    ctx.moveTo(pad, y);
+    ctx.lineTo(W-pad, y);
+    ctx.stroke();
+    ctx.fillText(String(v), 6, y+4);
+  }
+
+  const n = items.length;
+  const innerW = (W - 2*pad);
+  const gap = Math.max(10, innerW*0.02);
+  const barW = (innerW - gap*(n-1)) / n;
+
+  items.forEach((it, idx)=>{
+    const x = pad + idx*(barW+gap);
+    const mean = it.mean;
+    const lo = it.p10;
+    const hi = it.p90;
+
+    const yMean = lerp(baseY, topY, mean/maxV);
+    const yLo = lerp(baseY, topY, lo/maxV);
+    const yHi = lerp(baseY, topY, hi/maxV);
+
+    // bar
+    ctx.fillStyle = "rgba(2,132,199,.22)";
+    if(it.kind==="good") ctx.fillStyle = "rgba(22,163,74,.22)";
+    if(it.kind==="bad") ctx.fillStyle = "rgba(225,29,72,.18)";
+    ctx.strokeStyle = "rgba(15,23,42,.18)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.roundRect(x, yMean, barW, baseY - yMean, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    // band line
+    ctx.strokeStyle = "rgba(15,23,42,.45)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    const cx = x + barW/2;
+    ctx.moveTo(cx, yHi);
+    ctx.lineTo(cx, yLo);
+    ctx.stroke();
+
+    // band caps
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - barW*0.18, yHi);
+    ctx.lineTo(cx + barW*0.18, yHi);
+    ctx.moveTo(cx - barW*0.18, yLo);
+    ctx.lineTo(cx + barW*0.18, yLo);
+    ctx.stroke();
+
+    // labels
+    ctx.fillStyle = "rgba(15,23,42,.92)";
+    ctx.font = "12px ui-sans-serif, system-ui";
+    const label = it.label;
+    const short = label.length>16 ? label.slice(0,16)+"…" : label;
+    ctx.fillText(short, x, baseY + 18);
+
+    ctx.fillStyle = "rgba(15,23,42,.70)";
+    ctx.font = "11px ui-sans-serif, system-ui";
+    ctx.fillText(`${Math.round(mean)}%`, x, yMean - 8);
+  });
+}
+
+// Polyfill-like for roundRect
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r){
+    r = Math.min(r, w/2, h/2);
+    this.beginPath();
+    this.moveTo(x+r, y);
+    this.arcTo(x+w, y, x+w, y+h, r);
+    this.arcTo(x+w, y+h, x, y+h, r);
+    this.arcTo(x, y+h, x, y, r);
+    this.arcTo(x, y, x+w, y, r);
+    this.closePath();
+    return this;
+  };
+}
+
+/* ===========================
+   1) Parameters (sliders)
+   Scale: 0..100
+=========================== */
+const PARAMS = [
+  {
+    id:"governance",
+    label:"Governance maturity",
+    default:65,
+    desc:"How well-defined and enforceable your governance is (roles, decision rights, auditability, DPIA/IG, change control). Higher reduces drift, incidents, and ‘pilot purgatory’."
+  },
+  {
+    id:"security",
+    label:"Security-by-design rigor",
+    default:60,
+    desc:"Threat modeling, access controls, logging, incident readiness, secure deployment and supply-chain controls. Higher reduces breach/exfiltration risk and increases legitimacy."
+  },
+  {
+    id:"privacy",
+    label:"Privacy & data minimisation strength",
+    default:70,
+    desc:"Pseudonymisation/anonymisation where appropriate, least-privilege access, retention limits, purpose limitation and lawful basis clarity. Higher reduces GDPR risk but can reduce utility if too strict."
+  },
+  {
+    id:"scope",
+    label:"Scope boundary discipline",
+    default:75,
+    desc:"How strongly you prevent scope creep into clinical decision-support (MHRA/medical-device boundary). Higher reduces MHRA-trigger risk and keeps early tools evaluable."
+  },
+  {
+    id:"openness",
+    label:"Open-access commitment",
+    default:55,
+    desc:"How strongly you pursue equitable access, shared standards, and reusable components. Higher reduces fragmentation over time but increases the need for careful security and governance."
+  },
+  {
+    id:"engagement",
+    label:"Stakeholder engagement quality",
+    default:55,
+    desc:"Depth and inclusiveness of engagement (clinicians, workers, unions, employers, regulators, vendors) plus responsiveness to concerns. Higher improves trust, adoption, and fit-for-purpose design."
+  },
+  {
+    id:"infra",
+    label:"Digital infrastructure readiness",
+    default:50,
+    desc:"Interoperability, secure compute, identity/access management, data pipelines, and staff capability. Higher improves feasibility and reduces operational failure."
+  },
+  {
+    id:"funding",
+    label:"Funding stability & sustainability",
+    default:55,
+    desc:"Long-run ability to maintain the hub/tooling (cost recovery, membership design, grants, partnerships). Higher reduces ‘pilot purgatory’ and under-resourcing."
+  },
+  {
+    id:"vendorDependence",
+    label:"Vendor dependence",
+    default:45,
+    desc:"Degree to which the programme relies on proprietary vendors and opaque tooling. Higher increases lock-in and reduces auditability/interoperability unless mitigated."
+  }
+];
+
+const OUTCOME_DEFS = [
+  {id:"adoption", label:"Adoption & uptake", kind:"good"},
+  {id:"compliance", label:"Compliance success", kind:"good"},
+  {id:"quality", label:"Quality improvement", kind:"good"},
+  {id:"equity", label:"Equity & access", kind:"good"},
+  {id:"trust", label:"Trust & legitimacy", kind:"good"},
+  {id:"lockin", label:"Vendor lock-in", kind:"bad"},
+  {id:"fragmentation", label:"Fragmentation", kind:"bad"},
+  {id:"incidents", label:"Incidents (security/IG)", kind:"bad"}
+];
+
+const PATHOLOGIES = [
+  {id:"mhraTrigger", label:"MHRA trigger via scope creep"},
+  {id:"gdprBlock", label:"GDPR block / IG stop"},
+  {id:"trustCollapse", label:"Trust collapse / backlash"},
+  {id:"pilotPurgatory", label:"Pilot purgatory (no scale)"},
+  {id:"lockInSpiral", label:"Lock-in spiral"},
+  {id:"fragmentationSilos", label:"Fragmentation into silos"},
+  {id:"equityGap", label:"Equity gap widens"},
+  {id:"securityIncident", label:"Major security incident"}
+];
+
+/* ===========================
+   2) Build UI
+=========================== */
+const controlsEl = document.getElementById("controls");
+const statusChipsEl = document.getElementById("statusChips");
+const meaningEl = document.getElementById("meaning");
+const kpisEl = document.getElementById("kpis");
+const simInfoEl = document.getElementById("simInfo");
+const seedInfoEl = document.getElementById("seedInfo");
+const pathologyChipsEl = document.getElementById("pathologyChips");
+
+const canvasOut = document.getElementById("canvasOutcomes");
+const canvasPath = document.getElementById("canvasPathologies");
+
+const btnReset = document.getElementById("btnReset");
+const btnGenPrompt = document.getElementById("btnGenPrompt");
+const btnCopyPrompt = document.getElementById("btnCopyPrompt");
+const promptOut = document.getElementById("promptOut");
+const projTitle = document.getElementById("projTitle");
+const projDetails = document.getElementById("projDetails");
+
+const state = {
+  seed: (Date.now() ^ (Math.random()*1e9)) >>> 0,
+  runs: 1200,
+  params: Object.fromEntries(PARAMS.map(p=>[p.id, p.default/100])),
+  last: null
+};
+
+function sliderCtl(p){
+  const div = document.createElement("div");
+  div.className = "ctl";
+  div.innerHTML = `
+    <div class="row">
+      <label for="${p.id}">${p.label}</label>
+      <div class="v" id="${p.id}-v">${Math.round(state.params[p.id]*100)}%</div>
+    </div>
+    <input id="${p.id}" type="range" min="0" max="100" step="1" value="${Math.round(state.params[p.id]*100)}" />
+    <div class="desc">${p.desc}</div>
+  `;
+  const input = div.querySelector("input");
+  const vEl = div.querySelector(`#${p.id}-v`);
+  input.addEventListener("input", ()=>{
+    state.params[p.id] = Number(input.value)/100;
+    vEl.textContent = `${Math.round(state.params[p.id]*100)}%`;
+    simulateAndRender();
+  });
+  return div;
+}
+
+function buildControls(){
+  controlsEl.innerHTML = "";
+  const wrap = document.createElement("div");
+  wrap.className = "grid2";
+  PARAMS.forEach(p=>wrap.appendChild(sliderCtl(p)));
+  controlsEl.appendChild(wrap);
+}
+
+function buildMeaning(){
+  meaningEl.innerHTML = `
+    <div class="small">
+      <p><b>What this is:</b> a stylised Monte Carlo “institution dynamics” sandbox. Sliders represent how strongly the institution (principles + governance + delivery) is implemented. Randomness represents uncertainty: different teams, vendors, data conditions, and political realities.</p>
+      <p><b>What outcomes mean:</b></p>
+      <ul>
+        <li><b>Adoption & uptake</b>: likelihood of sustained use beyond a demo (workflow fit + trust + capacity).</li>
+        <li><b>Compliance success</b>: probability the programme passes IG scrutiny (DPIA, lawful basis, data minimisation, audit logs) and stays within intended use.</li>
+        <li><b>Quality improvement</b>: improvement in documentation quality and consistency (e.g., audit assistant effects).</li>
+        <li><b>Equity & access</b>: whether benefits reach under-resourced services (not just well-funded ones).</li>
+        <li><b>Trust & legitimacy</b>: stakeholder confidence (clinicians, workers, employers, regulators).</li>
+        <li><b>Vendor lock-in</b> (bad): dependence on proprietary vendors reducing interoperability and auditability.</li>
+        <li><b>Fragmentation</b> (bad): siloed tools/standards that don’t share learnings; duplication grows.</li>
+        <li><b>Incidents</b> (bad): security/IG failures (breach, unsafe deployment, uncontrolled data exposure).</li>
+      </ul>
+      <p><b>AREA lens:</b> you’ll see pathologies increase when you don’t (A) <b>Anticipate</b> risks, (R) <b>Reflect</b> on values & boundaries, (E) <b>Engage</b> stakeholders, and (A) <b>Act</b> on signals with governance and mitigations. In this sandbox those are approximated by <i>governance</i>, <i>security/privacy/scope</i>, and <i>engagement</i>.</p>
+    </div>
+  `;
+}
+
+btnReset.addEventListener("click", ()=>{
+  state.params = Object.fromEntries(PARAMS.map(p=>[p.id, p.default/100]));
+  // update UI
+  PARAMS.forEach(p=>{
+    const el = document.getElementById(p.id);
+    const vEl = document.getElementById(`${p.id}-v`);
+    if(el){ el.value = String(p.default); }
+    if(vEl){ vEl.textContent = `${p.default}%`; }
+  });
+  simulateAndRender();
+});
+
+/* ===========================
+   3) The simulation model
+   (Stylised causal structure)
+=========================== */
+function simulateOnce(rng, P){
+  // Uncertainty knobs
+  const orgPolitics = clamp(0.5 + 0.35*randn(rng), 0, 1);     // how messy politics/decision rights are
+  const dataMessiness = clamp(0.5 + 0.40*randn(rng), 0, 1);   // data quality, heterogeneity, process variance
+  const adversaryPressure = clamp(0.35 + 0.35*randn(rng), 0, 1); // likelihood of targeted attacks/abuse
+  const regulatoryStrictness = clamp(0.55 + 0.30*randn(rng), 0, 1); // IG/reg scrutiny level
+
+  // Derived institutional capacities
+  const gov = P.governance;
+  const sec = P.security;
+  const priv = P.privacy;
+  const scope = P.scope;
+  const open = P.openness;
+  const engage = P.engagement;
+  const infra = P.infra;
+  const fund = P.funding;
+  const vend = P.vendorDependence;
+
+  // --- Core mechanisms ---
+  // 1) Operational feasibility
+  const feasibility = sigmoid(
+    2.2*(infra-0.5) + 1.4*(gov-0.5) + 1.0*(fund-0.5)
+    - 1.2*(dataMessiness-0.5) - 0.9*(orgPolitics-0.5)
+  );
+
+  // 2) Compliance strength (GDPR/IG)
+  // Privacy helps, but too much minimisation can reduce utility (and thus pressures workarounds).
+  const privacyUtilityPenalty = Math.max(0, priv - 0.85) * 1.6; // extreme privacy can reduce usefulness
+  const compliance = sigmoid(
+    2.3*(gov-0.5) + 1.8*(priv-0.5) + 1.3*(sec-0.5) + 0.9*(scope-0.5)
+    - 1.2*(regulatoryStrictness-0.5) - 1.1*(orgPolitics-0.5)
+    - 0.7*privacyUtilityPenalty
+  );
+
+  // 3) Security incident propensity
+  const incidentRate = sigmoid(
+    -2.2*(sec-0.5) - 1.0*(gov-0.5) - 0.7*(priv-0.5)
+    + 1.8*(adversaryPressure-0.5) + 0.8*(infra<0.35 ? 1 : 0)
+  );
+
+  // 4) MHRA trigger via scope creep
+  const scopeCreepPressure = sigmoid(
+    1.4*(1-feasibility) + 1.1*(1-gov) + 0.9*(1-engage) + 0.8*(orgPolitics)
+  );
+  const mhraTrigger = sigmoid(
+    2.2*(scopeCreepPressure-0.5) + 2.0*((1-scope)-0.5)
+  );
+
+  // 5) Trust and legitimacy
+  const trust = sigmoid(
+    1.8*(engage-0.5) + 1.5*(gov-0.5) + 1.2*(sec-0.5) + 0.8*(compliance-0.5)
+    - 1.6*(incidentRate-0.5) - 1.2*(mhraTrigger-0.5)
+  );
+
+  // 6) Adoption and uptake
+  const adoption = sigmoid(
+    2.0*(feasibility-0.5) + 1.4*(trust-0.5) + 1.0*(fund-0.5)
+    + 0.7*(gov-0.5)
+    - 1.0*(dataMessiness-0.5)
+  );
+
+  // 7) Quality improvement (e.g., audit assistant)
+  const quality = sigmoid(
+    1.9*(adoption-0.5) + 1.2*(feasibility-0.5) + 0.9*(gov-0.5)
+    - 0.9*(mhraTrigger-0.5) - 0.8*(incidentRate-0.5)
+  );
+
+  // 8) Fragmentation vs coordination (open access + governance reduces fragmentation; low infra + politics increases)
+  const fragmentation = sigmoid(
+    1.7*((1-open)-0.5) + 1.5*((1-gov)-0.5) + 1.2*(orgPolitics-0.5) + 0.8*(1-infra)
+  );
+
+  // 9) Vendor lock-in (vendor dependence, low openness, low governance)
+  const lockin = sigmoid(
+    2.2*(vend-0.5) + 1.6*((1-open)-0.5) + 1.1*((1-gov)-0.5)
+  );
+
+  // 10) Equity outcomes (improves with openness + funding + infra + engagement; worsens with fragmentation/lock-in)
+  const equity = sigmoid(
+    1.7*(open-0.5) + 1.1*(fund-0.5) + 1.0*(infra-0.5) + 1.0*(engage-0.5)
+    - 1.2*(fragmentation-0.5) - 1.0*(lockin-0.5)
+  );
+
+  // 11) Pilot purgatory: adoption happens but scale stalls (low funding stability + low governance + high lock-in + high fragmentation)
+  const pilotPurgatory = sigmoid(
+    1.8*((1-fund)-0.5) + 1.4*((1-gov)-0.5) + 1.2*(lockin-0.5) + 1.1*(fragmentation-0.5)
+    + 0.5*(adoption-0.5)
+  );
+
+  // 12) GDPR block: compliance failure under high regulatory strictness
+  const gdprBlock = sigmoid(
+    2.0*(regulatoryStrictness-0.5) + 1.7*((1-compliance)-0.5) + 0.8*(orgPolitics-0.5)
+  );
+
+  // --- Translate to 0..1 outcomes ---
+  return {
+    outcomes:{
+      adoption,
+      compliance,
+      quality,
+      equity,
+      trust,
+      lockin,
+      fragmentation,
+      incidents: incidentRate
+    },
+    pathologies:{
+      mhraTrigger,
+      gdprBlock,
+      trustCollapse: sigmoid(2.2*((1-trust)-0.5) + 0.8*(incidentRate-0.5)),
+      pilotPurgatory,
+      lockInSpiral: sigmoid(2.0*(lockin-0.5) + 1.0*(vend-0.5) + 0.8*((1-open)-0.5)),
+      fragmentationSilos: sigmoid(2.0*(fragmentation-0.5) + 0.7*(orgPolitics-0.5)),
+      equityGap: sigmoid(2.0*((1-equity)-0.5) + 0.8*(fragmentation-0.5) + 0.7*(lockin-0.5)),
+      securityIncident: sigmoid(2.2*(incidentRate-0.5) + 0.7*(adversaryPressure-0.5))
+    },
+    internal:{
+      feasibility,
+      scopeCreepPressure,
+      orgPolitics,
+      dataMessiness,
+      regulatoryStrictness
+    }
+  };
+}
+
+function runMonteCarlo(){
+  const rng = mulberry32(state.seed);
+  const runs = state.runs;
+
+  const samples = {};
+  OUTCOME_DEFS.forEach(o=>samples[o.id]=[]);
+  const pathCounts = {};
+  PATHOLOGIES.forEach(p=>pathCounts[p.id]=0);
+
+  // thresholds for counting a pathology "emerged"
+  const TH = {
+    mhraTrigger: 0.55,
+    gdprBlock: 0.55,
+    trustCollapse: 0.60,
+    pilotPurgatory: 0.55,
+    lockInSpiral: 0.60,
+    fragmentationSilos: 0.60,
+    equityGap: 0.55,
+    securityIncident: 0.55
+  };
+
+  // Also compute some KPIs we want to display
+  let k_feas = 0, k_scopeCreep = 0, k_regStrict = 0;
+
+  for(let i=0;i<runs;i++){
+    const r = simulateOnce(rng, state.params);
+    // outcomes
+    OUTCOME_DEFS.forEach(o=>samples[o.id].push(r.outcomes[o.id]));
+    // pathologies
+    PATHOLOGIES.forEach(p=>{
+      if(r.pathologies[p.id] >= TH[p.id]) pathCounts[p.id] += 1;
+    });
+    k_feas += r.internal.feasibility;
+    k_scopeCreep += r.internal.scopeCreepPressure;
+    k_regStrict += r.internal.regulatoryStrictness;
+  }
+
+  // Summaries
+  const outcomeStats = OUTCOME_DEFS.map(o=>{
+    const arr = samples[o.id].slice().sort((a,b)=>a-b);
+    const mean = arr.reduce((s,x)=>s+x,0)/arr.length;
+    const p10 = quantile(arr, 0.10);
+    const p90 = quantile(arr, 0.90);
+    return { id:o.id, label:o.label, kind:o.kind, mean:mean*100, p10:p10*100, p90:p90*100 };
+  });
+
+  const pathologyProbs = PATHOLOGIES.map(p=>{
+    const prob = pathCounts[p.id] / runs;
+    return { id:p.id, label:p.label, prob:prob };
+  }).sort((a,b)=>b.prob - a.prob);
+
+  const kpis = {
+    feasibility: k_feas / runs,
+    scopeCreep: k_scopeCreep / runs,
+    regStrict: k_regStrict / runs
+  };
+
+  return { outcomeStats, pathologyProbs, kpis };
+}
+
+/* ===========================
+   4) Render
+=========================== */
+function renderKpis(kpis){
+  kpisEl.innerHTML = "";
+  const items = [
+    {
+      k:"Feasibility (operational capacity)",
+      n:`${pct(kpis.feasibility)}%`,
+      d:"How often the system has enough infrastructure + governance + funding to run smoothly under uncertainty."
+    },
+    {
+      k:"Scope creep pressure",
+      n:`${pct(kpis.scopeCreep)}%`,
+      d:"How strongly conditions push tools toward unintended clinical decision-support or uncontrolled expansion."
+    },
+    {
+      k:"Regulatory strictness (environment)",
+      n:`${pct(kpis.regStrict)}%`,
+      d:"External variance: how tough IG/regulatory scrutiny is across simulated worlds (not directly controlled by sliders)."
+    }
+  ];
+  for(const it of items){
+    const div = document.createElement("div");
+    div.className = "kpi";
+    div.innerHTML = `<div class="k">${it.k}</div><div class="n">${it.n}</div><div class="d">${it.d}</div>`;
+    kpisEl.appendChild(div);
+  }
+}
+
+function renderStatusChips(stats){
+  statusChipsEl.innerHTML = "";
+  // a few headline heuristics
+  const o = Object.fromEntries(stats.outcomeStats.map(x=>[x.id, x]));
+  const topPath = stats.pathologyProbs[0];
+  const chip = (txt, cls)=> {
+    const d=document.createElement("div");
+    d.className = `chip ${cls||""}`.trim();
+    d.textContent = txt;
+    statusChipsEl.appendChild(d);
+  };
+
+  const good = (o.compliance.mean>=70 && o.trust.mean>=65 && o.incidents.mean<=35 && o.lockin.mean<=45 && o.fragmentation.mean<=45);
+  const risky = (topPath && topPath.prob>=0.55) || (o.incidents.mean>=55) || (o.compliance.mean<=45);
+
+  if(good) chip("Overall: plausible & robust", "ok");
+  else if(risky) chip("Overall: high pathology risk", "risk");
+  else chip("Overall: mixed / sensitive", "warn");
+
+  if(o.compliance.mean<55) chip("Compliance fragile", "risk");
+  else if(o.compliance.mean<70) chip("Compliance moderate", "warn");
+  else chip("Compliance strong", "ok");
+
+  if(o.trust.mean<55) chip("Trust fragile", "risk");
+  else if(o.trust.mean<70) chip("Trust moderate", "warn");
+  else chip("Trust strong", "ok");
+
+  if(topPath){
+    const cls = topPath.prob>=0.60 ? "risk" : (topPath.prob>=0.45 ? "warn" : "ok");
+    chip(`Top pathology: ${topPath.label} (${pct(topPath.prob)}%)`, cls);
+  }
+}
+
+function renderPathologyChips(pathologyProbs){
+  pathologyChipsEl.innerHTML = "";
+  pathologyProbs.slice(0,4).forEach(p=>{
+    const cls = p.prob>=0.60 ? "risk" : (p.prob>=0.45 ? "warn" : "ok");
+    const d = document.createElement("div");
+    d.className = `chip ${cls}`;
+    d.textContent = `${p.label}: ${pct(p.prob)}%`;
+    pathologyChipsEl.appendChild(d);
+  });
+}
+
+function renderPathologyChart(pathologyProbs){
+  // show top 8 probabilities as bars with bands = none (use p10/p90 not available); we'll fake bands via small jitter range
+  const items = pathologyProbs.slice(0,8).map(p=>({
+    label: p.label,
+    mean: p.prob*100,
+    p10: clamp((p.prob - 0.08), 0, 1)*100,
+    p90: clamp((p.prob + 0.08), 0, 1)*100,
+    kind: (p.prob>=0.55) ? "bad" : "good"
+  }));
+  drawBarsWithBands(canvasPath, items);
+}
+
+function simulateAndRender(){
+  // keep seed stable while sliding (so changes are attributable to parameters, not noise)
+  // but you can refresh page to re-seed.
+  const stats = runMonteCarlo();
+  state.last = stats;
+
+  simInfoEl.textContent = `Runs: ${state.runs}`;
+  seedInfoEl.textContent = `Seed: ${state.seed}`;
+
+  drawBarsWithBands(canvasOut, stats.outcomeStats);
+  renderKpis(stats.kpis);
+  renderStatusChips(stats);
+  renderPathologyChips(stats.pathologyProbs);
+  renderPathologyChart(stats.pathologyProbs);
+}
+
+/* ===========================
+   5) Prompt generation
+=========================== */
+function currentSettingsSummary(){
+  const lines = [];
+  PARAMS.forEach(p=>{
+    const v = Math.round(state.params[p.id]*100);
+    lines.push(`- ${p.label}: ${v}/100 — ${p.desc}`);
+  });
+  return lines.join("\n");
+}
+
+function topRisksSummary(){
+  if(!state.last) return "(run the simulation first)";
+  const probs = state.last.pathologyProbs.slice(0,6)
+    .map(p=>`- ${p.label}: ~${pct(p.prob)}% chance (in this sandbox)`)
+    .join("\n");
+  return probs;
+}
+
+function outcomeSnapshot(){
+  if(!state.last) return "(run the simulation first)";
+  const o = Object.fromEntries(state.last.outcomeStats.map(x=>[x.id, x]));
+  const lines = [
+    `- Adoption & uptake: ~${Math.round(o.adoption.mean)}% (p10 ${Math.round(o.adoption.p10)} / p90 ${Math.round(o.adoption.p90)})`,
+    `- Compliance success: ~${Math.round(o.compliance.mean)}% (p10 ${Math.round(o.compliance.p10)} / p90 ${Math.round(o.compliance.p90)})`,
+    `- Quality improvement: ~${Math.round(o.quality.mean)}% (p10 ${Math.round(o.quality.p10)} / p90 ${Math.round(o.quality.p90)})`,
+    `- Equity & access: ~${Math.round(o.equity.mean)}% (p10 ${Math.round(o.equity.p10)} / p90 ${Math.round(o.equity.p90)})`,
+    `- Trust & legitimacy: ~${Math.round(o.trust.mean)}% (p10 ${Math.round(o.trust.p10)} / p90 ${Math.round(o.trust.p90)})`,
+    `- Vendor lock-in (bad): ~${Math.round(o.lockin.mean)}%`,
+    `- Fragmentation (bad): ~${Math.round(o.fragmentation.mean)}%`,
+    `- Incidents (bad): ~${Math.round(o.incidents.mean)}%`
+  ];
+  return lines.join("\n");
+}
+
+function generatePrompt(){
+  const title = (projTitle.value || "").trim() || "(untitled project)";
+  const details = (projDetails.value || "").trim() || "(no details provided)";
+  const prompt =
+`You are an expert occupational health (OH) transformation leader and responsible-innovation advisor.
+
+Write a short case study (700–1,000 words) about the following project, using the institutional settings and simulation snapshot below.
+
+PROJECT TITLE:
+${title}
+
+PROJECT DETAILS (from the user):
+${details}
+
+CURRENT INSTITUTIONAL SETTINGS (0–100):
+${currentSettingsSummary()}
+
+SIMULATION SNAPSHOT (stylised, not a forecast):
+${outcomeSnapshot()}
+
+TOP EMERGING PATHOLOGIES (stylised probabilities):
+${topRisksSummary()}
+
+TASK:
+1) Describe the setting, stakeholders, and service pressures. Make it realistic (NHS/OH constraints, documentation burden, procurement, IG, and workforce trust).
+2) Explain what works and why, explicitly linking to the current settings (e.g., governance maturity, scope discipline, privacy/security, openness, engagement, infrastructure, funding, vendor dependence).
+3) Explain what fails or becomes fragile and why (choose at least 2 of the top pathologies). Identify mechanisms (scope creep → MHRA boundary, IG/DPIA failure, lock-in, fragmentation, inequity amplification, trust collapse, pilot purgatory, security incident).
+4) Use the AREA framework:
+   - Anticipate: hazards, misuse cases, adversarial threats, and “unknown unknowns”
+   - Reflect: values & trade-offs (equity vs speed; openness vs attack surface; data minimisation vs usefulness; clinician burden vs surveillance risk)
+   - Engage: who must be involved (clinicians, workers/unions, employers, regulators, vendors, under-resourced providers) and how concerns are handled
+   - Act: concrete mitigations, governance controls, stop/go criteria, monitoring, incident response, and learning loops
+5) Provide 5 actionable recommendations and 3 “backfire checks” (signals that mean you should pause or roll back).
+
+Constraints:
+- Do NOT invent laws; keep to general GDPR/IG principles and the MHRA “medical device boundary” as a risk when scope creeps into clinical decision-support.
+- Keep the tone practical and candid, like an internal programme review.
+`;
+  return prompt;
+}
+
+btnGenPrompt.addEventListener("click", ()=>{
+  const p = generatePrompt();
+  promptOut.value = p;
+  btnCopyPrompt.disabled = !p.trim();
+});
+
+btnCopyPrompt.addEventListener("click", async ()=>{
+  const txt = promptOut.value.trim();
+  if(!txt) return;
+  try{
+    await navigator.clipboard.writeText(txt);
+    btnCopyPrompt.textContent = "Copied!";
+    setTimeout(()=>btnCopyPrompt.textContent="Copy", 900);
+  }catch(e){
+    alert("Could not copy (browser permissions).");
+  }
+});
+
+/* ===========================
+   6) Boot
+=========================== */
+buildControls();
+buildMeaning();
+simulateAndRender();
+
+// resize-aware redraw (keeps crispness)
+function resizeCanvasToDisplaySize(canvas){
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.round(rect.width * dpr);
+  const h = Math.round(rect.height * dpr);
+  if(canvas.width !== w || canvas.height !== h){
+    canvas.width = w; canvas.height = h;
+    return true;
+  }
+  return false;
+}
+function onResize(){
+  const changed1 = resizeCanvasToDisplaySize(canvasOut);
+  const changed2 = resizeCanvasToDisplaySize(canvasPath);
+  if(changed1 || changed2) simulateAndRender();
+}
+window.addEventListener("resize", onResize);
+onResize();
+</script>
+</body>
+</html>
