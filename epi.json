@@ -1,0 +1,671 @@
+{
+  "meta": {
+    "title": "Epidemiology Study Design — Wisdom → Super-Concepts → Causal & Measurement Systems → Study Designs → Statistical Tooling → Standards → Cases",
+    "subtitle": "A lattice for public health evidence: wise questions and ethics shape causal targets; validity threats shape design; designs determine estimands; analysis translates data into decisions; standards keep trust and reproducibility intact.",
+    "domainName": "epidemiologic study design and public health evidence",
+    "searchPlaceholder": "research questions, PICOT, estimand, causal inference, confounding, selection bias, misclassification, cohort, case-control, RCT, DiD, ITS, RD, Cox, Poisson, GEE, propensity scores, missing data, STROBE, CONSORT, ethics…",
+    "userContextLabel": "Your public health problem context (optional)",
+    "userContextPlaceholder": "e.g., evaluating a smoke-free policy; outbreak in schools; inequities in maternal outcomes; limited routine data; need a feasible design + analysis plan…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert epidemiologist and public health methodologist.\n\nWrite a realistic narrative case study showing how upstream choices (research question quality, ethics, causal target, validity threats) shape downstream study design and statistical analysis.\nUse the selected concepts to explain what to do, why it works, and how to communicate results responsibly.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario (population, setting, decision need)\n- Research question and estimand (clear PICO/PICOT + causal contrast)\n- Design choice and why alternatives fail\n- Bias & validity plan (confounding, selection, measurement, time)\n- Statistical analysis plan (models, checks, sensitivity)\n- Ethics, equity, and governance plan\n- Interpretation for public health action (absolute effects, heterogeneity, uncertainty)\n- 2 safe-to-fail analytic/implementation experiments + backfire checks\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Judgement-in-context: humility, ethics, relevance, and truthfulness under real-world constraints."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: decision-relevance, causal targets, equity, uncertainty, and intelligent question design."
+    },
+    {
+      "id": 2,
+      "title": "Causal & measurement systems",
+      "hint": "How evidence breaks: bias, validity, time, missingness, measurement error, and causal structure."
+    },
+    {
+      "id": 3,
+      "title": "Study design architecture",
+      "hint": "Choosing designs to fit public health problems: descriptive, observational, experimental, quasi-experimental."
+    },
+    {
+      "id": 4,
+      "title": "Statistical techniques & operational analysis",
+      "hint": "Estimands, models, diagnostics, weighting, time-to-event, clustering, missing data, and sensitivity analysis."
+    },
+    {
+      "id": 5,
+      "title": "Standards, transparency & quality",
+      "hint": "Reporting, governance, reproducibility, and communication norms that maintain trust and usability."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios and common failure modes for tracing back to roots."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_public_good",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Public good orientation",
+      "summary": "Treat the study as a decision tool for population health, not a p-value machine.",
+      "tags": ["wisdom", "public_health", "decision"],
+      "bodyHtml": "<p>Wise epidemiology starts from the public health decision: what should change, for whom, and why. Methods serve the decision—never the other way around.</p>"
+    },
+    {
+      "id": "wis_humility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Humility about inference",
+      "summary": "Know what your design can and cannot identify; avoid over-claiming causality.",
+      "tags": ["wisdom", "uncertainty", "communication"],
+      "bodyHtml": "<p>Humility means making assumptions explicit, checking them where possible, and communicating uncertainty without hiding behind jargon.</p>"
+    },
+    {
+      "id": "wis_ethics_as_structure",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Ethics as structure (not an add-on)",
+      "summary": "Consent, privacy, justice and non-maleficence shape feasible designs and credible participation.",
+      "tags": ["wisdom", "ethics", "trust"],
+      "bodyHtml": "<p>Ethics is a design constraint: it determines recruitment, measurement, intervention feasibility, and trust. Ethical drift destroys both validity and legitimacy.</p>"
+    },
+    {
+      "id": "wis_question_craft",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Craft intelligent research questions",
+      "summary": "A sharp question is the highest-leverage method choice; vagueness invites bias and waste.",
+      "tags": ["wisdom", "question", "leverage"],
+      "bodyHtml": "<p>Good questions specify population, exposure/intervention, comparator, outcome, and timing—plus why the answer matters. Bad questions are vague, non-actionable, or causally incoherent.</p>"
+    },
+    {
+      "id": "wis_equity",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Equity as a primary outcome",
+      "summary": "Average effects can hide widening gaps; design and analysis must examine distributional impact.",
+      "tags": ["wisdom", "equity", "justice"],
+      "bodyHtml": "<p>Equity-aware epidemiology anticipates differential exposure, differential vulnerability, and differential access to interventions—and measures them explicitly.</p>"
+    },
+    {
+      "id": "wis_transparency",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Radical transparency",
+      "summary": "Pre-specify, document, and share: assumptions, protocols, code, and limitations.",
+      "tags": ["wisdom", "reproducibility", "trust"],
+      "bodyHtml": "<p>Transparency is an ethical duty and a scientific accelerator. It reduces avoidable error and makes results usable for action.</p>"
+    },
+
+    {
+      "id": "decision_relevance",
+      "level": 1,
+      "kind": "concept",
+      "label": "Decision relevance (who will act?)",
+      "summary": "Tie questions to concrete decisions: policy, clinical guidance, resource allocation, implementation.",
+      "tags": ["super", "decision"],
+      "bodyHtml": "<p>A practical litmus test: if the study gives a clear answer, who does what differently tomorrow?</p>"
+    },
+    {
+      "id": "good_vs_bad_questions",
+      "level": 1,
+      "kind": "concept",
+      "label": "Good vs bad research questions",
+      "summary": "Good: specific, causal, feasible, actionable; Bad: vague, fishing, non-actionable, ethically misaligned.",
+      "tags": ["super", "question_quality"],
+      "bodyHtml": "<p>Bad questions often become ‘significant’ through flexibility and bias. Good questions constrain design, measurement, and analysis in a defensible way.</p>"
+    },
+    {
+      "id": "picot",
+      "level": 1,
+      "kind": "standard",
+      "label": "PICOT framing",
+      "summary": "Population, Intervention/Exposure, Comparator, Outcome, Time — clarifies scope and feasibility.",
+      "tags": ["framework", "question"],
+      "bodyHtml": "<p>PICOT forces clarity: who, what, compared to what, which outcomes, over what time horizon.</p>"
+    },
+    {
+      "id": "estimand",
+      "level": 1,
+      "kind": "concept",
+      "label": "Estimand (the target quantity)",
+      "summary": "Define the causal contrast: risk difference, risk ratio, hazard ratio, policy effect, etc.",
+      "tags": ["super", "causal_target"],
+      "bodyHtml": "<p>Estimands translate a question into a measurable target under assumptions—critical for aligning design and analysis.</p>"
+    },
+    {
+      "id": "counterfactual_thinking",
+      "level": 1,
+      "kind": "concept",
+      "label": "Counterfactual thinking",
+      "summary": "Causal effects compare outcomes under different exposures for the same population.",
+      "tags": ["super", "causal_inference"],
+      "bodyHtml": "<p>Every causal claim implicitly asks: what would have happened otherwise? Design tries to approximate that counterfactual.</p>"
+    },
+    {
+      "id": "public_health_triage",
+      "level": 1,
+      "kind": "concept",
+      "label": "Public health question triage",
+      "summary": "Descriptive burden → causes → intervention effectiveness → implementation and equity.",
+      "tags": ["super", "workflow"],
+      "bodyHtml": "<p>Different stages require different designs: surveillance for burden, cohorts/case-control for causes, RCT/quasi-experiments for interventions, and implementation studies for real-world impact.</p>"
+    },
+    {
+      "id": "uncertainty_communication",
+      "level": 1,
+      "kind": "concept",
+      "label": "Communicating uncertainty responsibly",
+      "summary": "Use effect sizes, intervals, assumptions and sensitivity—not just p-values.",
+      "tags": ["super", "communication"],
+      "bodyHtml": "<p>Public health decisions need magnitude and uncertainty. Over-certainty can mislead policy; under-clarity can paralyse action.</p>"
+    },
+    {
+      "id": "ethics_principles",
+      "level": 1,
+      "kind": "standard",
+      "label": "Ethical principles (respect, beneficence, justice)",
+      "summary": "Protect persons, minimize harm, distribute burdens/benefits fairly, and steward data.",
+      "tags": ["ethics", "framework"],
+      "bodyHtml": "<p>Ethical principles guide consent, privacy, community impact, and the appropriateness of randomization or coercive policy evaluation.</p>"
+    },
+    {
+      "id": "equity_mechanisms",
+      "level": 1,
+      "kind": "concept",
+      "label": "Equity mechanisms",
+      "summary": "Differential exposure, differential susceptibility, differential access to protection/care.",
+      "tags": ["equity", "mechanisms"],
+      "bodyHtml": "<p>Inequities arise from structural drivers and become visible in measurement, design, and effect modification.</p>"
+    },
+
+    {
+      "id": "internal_validity",
+      "level": 2,
+      "kind": "concept",
+      "label": "Internal validity",
+      "summary": "Are results true for the study population, given bias and confounding threats?",
+      "tags": ["validity", "bias"],
+      "bodyHtml": "<p>Internal validity is primarily protected by design (sampling, timing, measurement) and secondarily by statistical adjustment.</p>"
+    },
+    {
+      "id": "external_validity",
+      "level": 2,
+      "kind": "concept",
+      "label": "External validity / transportability",
+      "summary": "Will the estimate apply to other settings and populations?",
+      "tags": ["generalizability", "transport"],
+      "bodyHtml": "<p>External validity requires understanding selection, context, and effect modification. ‘Works here’ may not mean ‘works there’.</p>"
+    },
+    {
+      "id": "confounding",
+      "level": 2,
+      "kind": "risk",
+      "label": "Confounding",
+      "summary": "A common cause of exposure and outcome creates spurious association if unaddressed.",
+      "tags": ["bias", "causal"],
+      "bodyHtml": "<p>Confounding is best handled by design (randomization, restriction, matching) or by analytic strategies guided by causal structure.</p>"
+    },
+    {
+      "id": "selection_bias",
+      "level": 2,
+      "kind": "risk",
+      "label": "Selection bias",
+      "summary": "Inclusion/retention depends on exposure and outcome (or their causes), distorting estimates.",
+      "tags": ["bias", "sampling"],
+      "bodyHtml": "<p>Selection bias often appears via loss to follow-up, collider stratification, or conditioning on healthcare access.</p>"
+    },
+    {
+      "id": "information_bias",
+      "level": 2,
+      "kind": "risk",
+      "label": "Information bias (misclassification)",
+      "summary": "Errors in measuring exposure/outcome/confounders distort associations.",
+      "tags": ["bias", "measurement"],
+      "bodyHtml": "<p>Non-differential misclassification can dilute effects; differential misclassification can bias in any direction.</p>"
+    },
+    {
+      "id": "time_bias",
+      "level": 2,
+      "kind": "risk",
+      "label": "Time-related biases",
+      "summary": "Immortal time, reverse causation, left truncation, time-lag and changing exposure over time.",
+      "tags": ["bias", "time"],
+      "bodyHtml": "<p>Time structure is often the hidden failure mode of observational studies—especially in EHR/claims data.</p>"
+    },
+    {
+      "id": "missing_data",
+      "level": 2,
+      "kind": "risk",
+      "label": "Missing data & informative censoring",
+      "summary": "Missingness can be related to exposure/outcome; naive complete-case analysis can bias results.",
+      "tags": ["missingness", "bias"],
+      "bodyHtml": "<p>Missing data handling should align with the assumed missingness mechanism and be stress-tested with sensitivity analyses.</p>"
+    },
+    {
+      "id": "measurement_quality",
+      "level": 2,
+      "kind": "concept",
+      "label": "Measurement validity & reliability",
+      "summary": "Definitions, ascertainment, specificity/sensitivity, and consistency across settings/time.",
+      "tags": ["measurement", "construct"],
+      "bodyHtml": "<p>Public health outcomes can be definitional (case definitions), administrative (codes), or clinical (labs). Measurement choices are causal choices.</p>"
+    },
+    {
+      "id": "dag",
+      "level": 2,
+      "kind": "standard",
+      "label": "DAGs (causal diagrams)",
+      "summary": "Make assumptions explicit; decide what to adjust for; avoid collider bias.",
+      "tags": ["causal", "framework"],
+      "bodyHtml": "<p>DAGs help separate confounders from mediators and colliders, guiding both design and analytic adjustment.</p>"
+    },
+    {
+      "id": "effect_modification",
+      "level": 2,
+      "kind": "concept",
+      "label": "Effect modification (heterogeneity)",
+      "summary": "Effects differ by subgroup/context; crucial for equity and implementation.",
+      "tags": ["interaction", "equity"],
+      "bodyHtml": "<p>Effect modification is not ‘nuisance’. It can be the central public health fact (who benefits or is harmed).</p>"
+    },
+    {
+      "id": "causal_paths",
+      "level": 2,
+      "kind": "concept",
+      "label": "Confounders vs mediators vs colliders",
+      "summary": "Adjusting for the wrong variables can introduce bias even with large datasets.",
+      "tags": ["causal", "adjustment"],
+      "bodyHtml": "<p>Confounders should be controlled; mediators depend on the estimand; colliders should generally not be conditioned on.</p>"
+    },
+
+    {
+      "id": "descriptive_surveillance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Descriptive epidemiology & surveillance",
+      "summary": "Quantify burden (incidence/prevalence/mortality), trends, and inequities to target action.",
+      "tags": ["design", "burden"],
+      "bodyHtml": "<p>Before causes or interventions, public health needs reliable burden estimates and trend monitoring.</p>"
+    },
+    {
+      "id": "cross_sectional",
+      "level": 3,
+      "kind": "concept",
+      "label": "Cross-sectional studies",
+      "summary": "Prevalence and associations at a time; limited for causality when temporality is unclear.",
+      "tags": ["design", "observational"],
+      "bodyHtml": "<p>Strong for rapid assessment and service coverage; weaker for causal questions with long latency or reverse causation.</p>"
+    },
+    {
+      "id": "case_control",
+      "level": 3,
+      "kind": "concept",
+      "label": "Case–control studies",
+      "summary": "Efficient for rare outcomes/long latency; validity hinges on control selection and exposure measurement.",
+      "tags": ["design", "observational"],
+      "bodyHtml": "<p>Best when cases are well-defined and controls represent the exposure distribution of the source population.</p>"
+    },
+    {
+      "id": "cohort",
+      "level": 3,
+      "kind": "concept",
+      "label": "Cohort studies (prospective/retrospective)",
+      "summary": "Follow exposure groups to estimate incidence and time-to-event outcomes; still vulnerable to confounding.",
+      "tags": ["design", "observational"],
+      "bodyHtml": "<p>Cohorts clarify temporality and allow multiple outcomes; careful handling of time-varying exposures and censoring is critical.</p>"
+    },
+    {
+      "id": "ecological_multilevel",
+      "level": 3,
+      "kind": "concept",
+      "label": "Ecological and multilevel designs",
+      "summary": "Area-level exposures/policies; multilevel models combine context + individual data.",
+      "tags": ["design", "policy"],
+      "bodyHtml": "<p>Useful for policy and structural determinants, but beware ecological fallacy; multilevel designs can separate context from composition.</p>"
+    },
+    {
+      "id": "rct",
+      "level": 3,
+      "kind": "standard",
+      "label": "Randomized controlled trials (individual/cluster/pragmatic)",
+      "summary": "Randomization protects internal validity; pragmatism improves real-world relevance.",
+      "tags": ["design", "experimental"],
+      "bodyHtml": "<p>Trials test interventions with high causal credibility; cluster and stepped-wedge variants suit systems and communities.</p>"
+    },
+    {
+      "id": "quasi_experiments",
+      "level": 3,
+      "kind": "standard",
+      "label": "Quasi-experimental designs",
+      "summary": "DiD, interrupted time series, regression discontinuity, synthetic control, IV — approximate counterfactuals for policies.",
+      "tags": ["design", "policy", "causal"],
+      "bodyHtml": "<p>When randomization is infeasible, quasi-experiments can yield credible effects if assumptions are plausible and tested.</p>"
+    },
+    {
+      "id": "diagnostic_screening",
+      "level": 3,
+      "kind": "concept",
+      "label": "Diagnostic & screening evaluation",
+      "summary": "Test accuracy, predictive values, and downstream outcomes; watch lead-time and overdiagnosis.",
+      "tags": ["design", "screening"],
+      "bodyHtml": "<p>Screening is an intervention. Evaluation must consider harms, false positives, and whether detection improves outcomes.</p>"
+    },
+    {
+      "id": "outbreak_investigation",
+      "level": 3,
+      "kind": "concept",
+      "label": "Outbreak and infectious disease field studies",
+      "summary": "Rapid designs (case-control, cohorts, serosurveys) under time pressure and changing transmission.",
+      "tags": ["design", "infectious"],
+      "bodyHtml": "<p>Speed, data imperfection, and dependence between individuals mean methods must be pragmatic and transparent about uncertainty.</p>"
+    },
+
+    {
+      "id": "effect_measures",
+      "level": 4,
+      "kind": "concept",
+      "label": "Effect measures (absolute vs relative)",
+      "summary": "Risk difference, risk ratio, rate ratio, odds ratio, hazard ratio; absolute effects often drive policy.",
+      "tags": ["stats", "interpretation"],
+      "bodyHtml": "<p>Public health frequently needs absolute impact and population impact, not just relative measures.</p>"
+    },
+    {
+      "id": "regression_glm",
+      "level": 4,
+      "kind": "concept",
+      "label": "Regression models (GLMs)",
+      "summary": "Linear/logistic/Poisson/negative binomial; align link and distribution with outcome type and estimand.",
+      "tags": ["stats", "modeling"],
+      "bodyHtml": "<p>GLMs are common tools; validity depends on measurement, confounding control, and correct use of weights/clustered SEs.</p>"
+    },
+    {
+      "id": "survival_analysis",
+      "level": 4,
+      "kind": "standard",
+      "label": "Survival analysis (time-to-event)",
+      "summary": "Kaplan–Meier, Cox, parametric survival, competing risks, time-varying covariates.",
+      "tags": ["stats", "time"],
+      "bodyHtml": "<p>Time-to-event methods handle censoring and changing risk; careful attention to proportional hazards and time structure is required.</p>"
+    },
+    {
+      "id": "standardization",
+      "level": 4,
+      "kind": "standard",
+      "label": "Standardization & adjustment",
+      "summary": "Age/sex standardization, stratification; transparent comparisons across populations.",
+      "tags": ["stats", "descriptive"],
+      "bodyHtml": "<p>Standardization remains foundational for burden comparisons and equity monitoring.</p>"
+    },
+    {
+      "id": "propensity_scores",
+      "level": 4,
+      "kind": "standard",
+      "label": "Propensity score methods",
+      "summary": "Matching/weighting/stratification to balance measured confounders; requires diagnostics and overlap.",
+      "tags": ["stats", "causal"],
+      "bodyHtml": "<p>Propensity methods improve comparability but cannot fix unmeasured confounding; check common support and balance.</p>"
+    },
+    {
+      "id": "g_methods",
+      "level": 4,
+      "kind": "standard",
+      "label": "G-methods for time-varying confounding",
+      "summary": "IPTW/MSMs, g-formula, structural nested models; handle confounders affected by prior exposure.",
+      "tags": ["stats", "causal", "longitudinal"],
+      "bodyHtml": "<p>When treatment changes over time and influences future confounders, g-methods can estimate policy-relevant longitudinal effects.</p>"
+    },
+    {
+      "id": "did_its_rd",
+      "level": 4,
+      "kind": "standard",
+      "label": "Policy effect estimation (DiD / ITS / RD)",
+      "summary": "Difference-in-differences, interrupted time series, and regression discontinuity with assumption checks.",
+      "tags": ["stats", "policy"],
+      "bodyHtml": "<p>DiD needs parallel trends; ITS needs enough time points and autocorrelation handling; RD needs a credible cutoff and manipulation checks.</p>"
+    },
+    {
+      "id": "clustered_data",
+      "level": 4,
+      "kind": "concept",
+      "label": "Clustering & multilevel analysis",
+      "summary": "Mixed models, random effects, GEE; cluster-robust SEs for policy and cluster trials.",
+      "tags": ["stats", "hierarchical"],
+      "bodyHtml": "<p>Public health data are often clustered (schools, clinics, neighborhoods). Ignoring correlation can misstate uncertainty.</p>"
+    },
+    {
+      "id": "missing_data_methods",
+      "level": 4,
+      "kind": "standard",
+      "label": "Missing data methods",
+      "summary": "Multiple imputation, inverse probability weighting for attrition, MNAR sensitivity analyses.",
+      "tags": ["stats", "missingness"],
+      "bodyHtml": "<p>Missing data handling should be planned, justified, and stress-tested. ‘Complete-case’ is rarely safe by default.</p>"
+    },
+    {
+      "id": "sensitivity_analysis",
+      "level": 4,
+      "kind": "standard",
+      "label": "Sensitivity & bias analysis",
+      "summary": "Negative controls, quantitative bias analysis, E-values, misclassification correction, robustness checks.",
+      "tags": ["stats", "robustness"],
+      "bodyHtml": "<p>Good studies show how conclusions change under plausible violations—especially unmeasured confounding and misclassification.</p>"
+    },
+    {
+      "id": "screening_stats",
+      "level": 4,
+      "kind": "concept",
+      "label": "Screening/diagnostic statistics",
+      "summary": "Sensitivity/specificity, PPV/NPV, likelihood ratios, ROC/AUC; prevalence matters.",
+      "tags": ["stats", "screening"],
+      "bodyHtml": "<p>Predictive values depend on prevalence; screening evaluation must connect accuracy to downstream outcomes and harms.</p>"
+    },
+
+    {
+      "id": "strobe",
+      "level": 5,
+      "kind": "standard",
+      "label": "STROBE reporting for observational studies",
+      "summary": "Transparent reporting of design, bias threats, measurement, analysis, and limitations.",
+      "tags": ["standard", "reporting"],
+      "bodyHtml": "<p>STROBE improves interpretability and reduces ‘hidden’ analytic flexibility that undermines trust.</p>"
+    },
+    {
+      "id": "consort",
+      "level": 5,
+      "kind": "standard",
+      "label": "CONSORT reporting for trials",
+      "summary": "Randomization, allocation concealment, flow, outcomes, and harms reporting for credible trial interpretation.",
+      "tags": ["standard", "reporting"],
+      "bodyHtml": "<p>CONSORT provides the minimum structure needed to judge trial bias and applicability.</p>"
+    },
+    {
+      "id": "protocol_prereg",
+      "level": 5,
+      "kind": "standard",
+      "label": "Protocol, preregistration & analysis plans",
+      "summary": "Pre-specify hypotheses, outcomes, and primary analyses; document deviations.",
+      "tags": ["standard", "transparency"],
+      "bodyHtml": "<p>Pre-specification reduces ‘researcher degrees of freedom’ and improves credibility in policy-relevant contexts.</p>"
+    },
+    {
+      "id": "reproducible_workflows",
+      "level": 5,
+      "kind": "standard",
+      "label": "Reproducible workflows",
+      "summary": "Versioned code, data provenance, clear variable definitions, and auditable outputs.",
+      "tags": ["standard", "reproducibility"],
+      "bodyHtml": "<p>Reproducibility is practical ethics: it prevents avoidable errors and enables learning and reuse.</p>"
+    },
+    {
+      "id": "data_governance",
+      "level": 5,
+      "kind": "standard",
+      "label": "Data governance & privacy stewardship",
+      "summary": "Minimize data, secure access, protect confidentiality, manage linkage risks, and handle disclosures responsibly.",
+      "tags": ["ethics", "governance"],
+      "bodyHtml": "<p>Public trust depends on safe data handling. Governance choices can affect participation and bias.</p>"
+    },
+    {
+      "id": "interpretation_for_action",
+      "level": 5,
+      "kind": "concept",
+      "label": "Interpretation for action",
+      "summary": "Translate results into decisions: absolute effects, uncertainty, equity impacts, feasibility and harms.",
+      "tags": ["translation", "policy"],
+      "bodyHtml": "<p>Decision-focused interpretation includes magnitude, uncertainty, heterogeneity, and population impact—not just statistical significance.</p>"
+    },
+
+    {
+      "id": "pathology_p_hacking",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: p-hacking and analytic flexibility",
+      "summary": "Trying many models/outcomes until ‘significance’ appears; undermines credibility.",
+      "tags": ["risk", "transparency"],
+      "bodyHtml": "<p>Flexible choices without disclosure inflate false positives. Pre-specification and robustness checks reduce this risk.</p>"
+    },
+    {
+      "id": "pathology_collider",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: collider adjustment",
+      "summary": "Conditioning on a collider (e.g., healthcare use) induces bias even with large datasets.",
+      "tags": ["risk", "causal"],
+      "bodyHtml": "<p>Common when restricting to tested/hospitalized patients or adjusting for variables influenced by both exposure and outcome.</p>"
+    },
+    {
+      "id": "case_policy_did",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: evaluating a smoking ban with DiD",
+      "summary": "Policy implemented in one city; need credible controls and parallel-trends checks.",
+      "tags": ["case", "policy", "DiD"],
+      "bodyHtml": "<p>Use event-study plots, control regions, clustered SEs, and sensitivity to migration/measurement changes.</p>"
+    },
+    {
+      "id": "case_vaccine_effectiveness",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: vaccine effectiveness using routine data",
+      "summary": "Time-varying exposure and healthcare-seeking bias can distort observational estimates.",
+      "tags": ["case", "infectious", "bias"],
+      "bodyHtml": "<p>Define index dates, avoid immortal time, consider test-negative designs carefully, and adjust for time-varying confounding.</p>"
+    },
+    {
+      "id": "case_air_pollution",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: air pollution and hospital admissions",
+      "summary": "Short-term exposure, seasonality, and autocorrelation require time-series methods and careful confounding control.",
+      "tags": ["case", "environment", "ITS"],
+      "bodyHtml": "<p>Use distributed lag models where appropriate, adjust for weather/seasonality, and conduct sensitivity analyses.</p>"
+    },
+    {
+      "id": "case_screening_overdiagnosis",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: screening program with possible overdiagnosis",
+      "summary": "Improved detection may not improve outcomes; harms and false positives matter.",
+      "tags": ["case", "screening"],
+      "bodyHtml": "<p>Evaluate downstream outcomes (advanced disease, mortality), not only detection rates; consider lead-time and length bias.</p>"
+    },
+    {
+      "id": "case_selection_bias_ehr",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: EHR study conditioned on clinic attendance",
+      "summary": "Restricting to attendees can create collider bias and mislead causal conclusions.",
+      "tags": ["case", "EHR", "selection"],
+      "bodyHtml": "<p>Attendance is influenced by exposure and health status; conditioning can bias estimates. Reconsider target population and selection mechanism.</p>"
+    }
+  ],
+  "edges": [
+    { "from": "wis_public_good", "to": "decision_relevance", "why": "Public good thinking forces clarity about the decision the evidence must support." },
+    { "from": "wis_question_craft", "to": "good_vs_bad_questions", "why": "Question craft distinguishes actionable, coherent questions from vague or fishing questions." },
+    { "from": "wis_question_craft", "to": "picot", "why": "PICOT is a practical scaffold for turning intent into a designable question." },
+    { "from": "wis_question_craft", "to": "estimand", "why": "A good question specifies the estimand: what effect quantity you intend to estimate." },
+    { "from": "wis_humility", "to": "uncertainty_communication", "why": "Humility supports honest uncertainty communication and avoids over-claiming causality." },
+    { "from": "wis_ethics_as_structure", "to": "ethics_principles", "why": "Ethics-as-structure operationalizes through respect, beneficence, and justice." },
+    { "from": "wis_ethics_as_structure", "to": "data_governance", "why": "Ethical constraints become practical through privacy, security, and data stewardship." },
+    { "from": "wis_equity", "to": "equity_mechanisms", "why": "Equity-as-outcome requires specifying mechanisms that create differential impact." },
+    { "from": "wis_transparency", "to": "protocol_prereg", "why": "Transparency is supported by protocols, preregistration, and analysis plans." },
+    { "from": "wis_transparency", "to": "reproducible_workflows", "why": "Transparency becomes durable through reproducible, auditable analytic workflows." },
+
+    { "from": "decision_relevance", "to": "public_health_triage", "why": "Decision needs determine whether you need burden estimates, causal evidence, or intervention evaluation." },
+    { "from": "counterfactual_thinking", "to": "estimand", "why": "Counterfactual logic defines the causal contrast that an estimand represents." },
+    { "from": "picot", "to": "estimand", "why": "Clear PICO/PICOT elements enable a precise estimand definition." },
+    { "from": "uncertainty_communication", "to": "interpretation_for_action", "why": "Responsible uncertainty communication supports decision-focused interpretation." },
+
+    { "from": "estimand", "to": "internal_validity", "why": "A well-defined estimand clarifies which biases threaten identification of the target effect." },
+    { "from": "estimand", "to": "external_validity", "why": "Estimands also imply a target population; transportability depends on context and effect modification." },
+    { "from": "counterfactual_thinking", "to": "dag", "why": "Causal diagrams formalize counterfactual assumptions and guide adjustment choices." },
+    { "from": "dag", "to": "causal_paths", "why": "DAGs help separate confounders, mediators, and colliders to avoid harmful adjustment." },
+    { "from": "causal_paths", "to": "confounding", "why": "Confounder identification determines what must be controlled to estimate causal effects." },
+    { "from": "causal_paths", "to": "selection_bias", "why": "Collider structures and conditioning can create selection bias." },
+    { "from": "measurement_quality", "to": "information_bias", "why": "Poor measurement generates misclassification and information bias." },
+    { "from": "time_bias", "to": "internal_validity", "why": "Time-related biases can invalidate causal interpretation even with large samples." },
+    { "from": "missing_data", "to": "selection_bias", "why": "Informative censoring and missingness are forms of selection mechanisms." },
+    { "from": "effect_modification", "to": "external_validity", "why": "Heterogeneity determines whether results generalize across contexts and groups." },
+    { "from": "equity_mechanisms", "to": "effect_modification", "why": "Equity questions often appear as effect modification and distributional impacts." },
+
+    { "from": "public_health_triage", "to": "descriptive_surveillance", "why": "Burden and trend questions are primarily addressed by surveillance and descriptive epidemiology." },
+    { "from": "public_health_triage", "to": "cohort", "why": "Etiologic questions often require temporality and incidence estimation, suited to cohort designs." },
+    { "from": "public_health_triage", "to": "case_control", "why": "Rare outcomes or long latency etiologies are often efficiently studied with case–control designs." },
+    { "from": "public_health_triage", "to": "rct", "why": "Intervention effectiveness is most credibly estimated by randomized trials when feasible and ethical." },
+    { "from": "public_health_triage", "to": "quasi_experiments", "why": "Policy evaluations often require quasi-experiments when randomization is infeasible." },
+
+    { "from": "internal_validity", "to": "rct", "why": "Randomization is a powerful design tool for protecting internal validity." },
+    { "from": "confounding", "to": "cohort", "why": "Cohorts are vulnerable to confounding; design/analysis must plan for it." },
+    { "from": "confounding", "to": "case_control", "why": "Case–control studies require careful confounder control and exposure assessment." },
+    { "from": "selection_bias", "to": "case_control", "why": "Control selection determines whether exposure odds represent the source population." },
+    { "from": "information_bias", "to": "case_control", "why": "Recall and measurement differences between cases/controls can distort estimates." },
+    { "from": "time_bias", "to": "cohort", "why": "Time-to-event structure and time-varying exposure create time-related bias risks in cohorts." },
+    { "from": "selection_bias", "to": "cross_sectional", "why": "Cross-sectional sampling and healthcare access can induce selection and collider mechanisms." },
+    { "from": "ecological_multilevel", "to": "quasi_experiments", "why": "Policy variation is often measured at area level; multilevel and policy designs complement each other." },
+    { "from": "diagnostic_screening", "to": "screening_stats", "why": "Screening evaluation relies on accuracy and predictive-value statistics plus downstream outcomes." },
+    { "from": "outbreak_investigation", "to": "case_control", "why": "Outbreaks often use rapid case–control designs to identify exposures quickly." },
+    { "from": "outbreak_investigation", "to": "cohort", "why": "Closed settings (households/schools) allow cohort follow-up to estimate attack rates and risk factors." },
+
+    { "from": "descriptive_surveillance", "to": "standardization", "why": "Standardization enables fair comparison of rates across populations and time." },
+    { "from": "cross_sectional", "to": "regression_glm", "why": "Cross-sectional analyses often use GLMs for prevalence associations and adjusted comparisons." },
+    { "from": "case_control", "to": "regression_glm", "why": "Case–control studies commonly use logistic regression to estimate odds ratios with covariate adjustment." },
+    { "from": "cohort", "to": "survival_analysis", "why": "Cohorts frequently analyze time-to-event outcomes using survival models." },
+    { "from": "cohort", "to": "effect_measures", "why": "Cohorts support risks, rates, risk differences, and rate ratios tied to incidence." },
+    { "from": "rct", "to": "clustered_data", "why": "Cluster trials and pragmatic designs require methods accounting for correlated outcomes." },
+    { "from": "quasi_experiments", "to": "did_its_rd", "why": "Policy designs map directly to DiD/ITS/RD estimators and diagnostics." },
+    { "from": "confounding", "to": "propensity_scores", "why": "Propensity methods are one approach to reduce confounding from measured covariates." },
+    { "from": "time_bias", "to": "g_methods", "why": "Time-varying confounding affected by prior exposure often requires g-methods." },
+    { "from": "missing_data", "to": "missing_data_methods", "why": "Missingness mechanisms require planned methods like imputation or attrition weighting." },
+    { "from": "information_bias", "to": "sensitivity_analysis", "why": "Misclassification can be explored with bias analysis and sensitivity checks." },
+    { "from": "confounding", "to": "sensitivity_analysis", "why": "Unmeasured confounding is stress-tested via robustness and quantitative bias analysis." },
+    { "from": "effect_measures", "to": "interpretation_for_action", "why": "Choosing absolute and relative measures supports decisions about impact and resource prioritization." },
+
+    { "from": "wis_transparency", "to": "strobe", "why": "Transparency is enforced via clear reporting standards for observational studies." },
+    { "from": "wis_transparency", "to": "consort", "why": "Trials require structured reporting to judge bias and applicability." },
+    { "from": "protocol_prereg", "to": "pathology_p_hacking", "why": "Pre-specification reduces analytic flexibility that drives p-hacking." },
+    { "from": "dag", "to": "pathology_collider", "why": "Causal diagrams help avoid collider adjustment mistakes that create bias." },
+    { "from": "selection_bias", "to": "pathology_collider", "why": "Collider conditioning is a common mechanism producing selection bias." },
+
+    { "from": "quasi_experiments", "to": "case_policy_did", "why": "Policy evaluation often uses DiD when comparable control trends exist." },
+    { "from": "did_its_rd", "to": "case_policy_did", "why": "Event-study and parallel-trends checks are central to credible DiD policy inference." },
+    { "from": "cohort", "to": "case_vaccine_effectiveness", "why": "Routine data vaccine studies are often cohort-like but require careful time handling." },
+    { "from": "time_bias", "to": "case_vaccine_effectiveness", "why": "Immortal time and time-varying confounding are major threats in observational VE studies." },
+    { "from": "missing_data", "to": "case_vaccine_effectiveness", "why": "Routine data often have informative missingness (testing patterns, follow-up, records)." },
+    { "from": "descriptive_surveillance", "to": "case_air_pollution", "why": "Environmental health questions often start from surveillance signals and temporal patterns." },
+    { "from": "did_its_rd", "to": "case_air_pollution", "why": "Time-series structure and autocorrelation handling are central to short-term exposure studies." },
+    { "from": "diagnostic_screening", "to": "case_screening_overdiagnosis", "why": "Screening programs can cause overdiagnosis; evaluation must include harms and outcome improvements." },
+    { "from": "screening_stats", "to": "case_screening_overdiagnosis", "why": "Accuracy measures alone are insufficient; prevalence and downstream outcomes drive real impact." },
+    { "from": "selection_bias", "to": "case_selection_bias_ehr", "why": "Conditioning on clinic attendance or testing can induce selection/collider bias." },
+    { "from": "pathology_collider", "to": "case_selection_bias_ehr", "why": "This scenario is a practical example of collider bias in healthcare-based datasets." },
+
+    { "from": "data_governance", "to": "internal_validity", "why": "Governance affects participation and linkage quality; breaches and mistrust can create biased samples." },
+    { "from": "ethics_principles", "to": "rct", "why": "Ethical constraints determine whether randomization is permissible and how consent is handled." },
+    { "from": "wis_ethics_as_structure", "to": "interpretation_for_action", "why": "Responsible interpretation includes harms, equity impacts, and the ethics of causal claims." }
+  ]
+}
