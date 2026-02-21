@@ -1,0 +1,1558 @@
+{
+  "meta": {
+    "title": "AI Digital Pathology Venture — Wisdom → Super-Concepts → Systems → Governance → Operations → Quality/Regulation → Cases",
+    "subtitle": "A lattice for translating a real-world digital pathology AI venture into connected concepts: workforce pressure and stakeholder trust drive data access; governance constrains information flows; infrastructure enables gigapixel learning; validation controls bias; QMS/regulation shapes development; pilots measure lab + patient impact.",
+    "domainName": "clinical AI for digital pathology (blood cancer diagnostics)",
+    "searchPlaceholder": "digital pathology, whole slide imaging, gigapixel, weak supervision, lymphoma, hematopathology, NHS collaboration, anonymisation, data governance, ISO 13485, ISO 14971, UKCA, CE-IVDR/MDR, external validation, consecutive cohorts, bias, QMS, pilots, turnaround time…",
+    "userContextLabel": "Your clinical AI / pathology product context (optional)",
+    "userContextPlaceholder": "e.g., hospital trust + vendor collaboration; WSI adoption stage; target disease; data access constraints; governance hurdles; compute budget; regulatory route; pilot goals…",
+    "initialPrompt": "",
+    "promptTemplate": "you are an expert clinical-ai product lead (digital pathology) with deep knowledge of data governance, validation science, and medical-device regulation.\n\nwrite a realistic narrative case study that uses the selected nodes to connect broad principles to concrete actions.\nmake the story specific: choose (or ask the user to choose) at least one CASE node and one CHALLENGE/RISK node, then show how upstream constraints shape downstream outcomes.\n\nUSER CONTEXT (if provided):\n{{USER_CONTEXT}}\n\nSELECTED CONCEPTS:\n{{SELECTED_TITLES}}\n\nDETAILS:\n{{SELECTED_DETAILS}}\n\nTRACE PATHS:\n{{TRACE_SUMMARY}}\n\nDELIVER:\n- a concrete setting (health system, lab workflow, stakeholders)\n- the problem (capacity/turnaround/quality) and why it matters clinically\n- data access + governance plan (what data, why, anonymisation, security)\n- technical plan (WSI handling, labeling strategy, training/validation design)\n- regulatory/QMS plan (risk management, documentation, change control)\n- pilot design (sites, endpoints, bias checks, adoption plan)\n- 3 leverage points + 2 safe-to-fail experiments + backfire checks\n- explicitly invite the user to specify a comparable real case (site type, disease, dataset size, constraints, success criteria) for a tailored follow-up prompt.\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Judgement-in-context: trust, patient benefit, intellectual honesty, and proportionate action under clinical and commercial constraints."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: value, legitimacy, stakeholders, uncertainty, incentives, ethics, and translation from research to real clinical use."
+    },
+    {
+      "id": 2,
+      "title": "Systems concepts",
+      "hint": "How the pipeline behaves: flows (data/compute/decisions), feedback loops, drift, interfaces, bias, generalisation, and work-as-done."
+    },
+    {
+      "id": 3,
+      "title": "Governance, ethics & collaboration architecture",
+      "hint": "Data governance, anonymisation, ethics, contracts, funding mechanisms, and organisational scaffolding enabling access and legitimacy."
+    },
+    {
+      "id": 4,
+      "title": "Operational delivery mechanisms",
+      "hint": "Digitisation, data curation, secure cloud processing, model development, integration into clinical workflow, and deployment operations."
+    },
+    {
+      "id": 5,
+      "title": "Quality, regulation & assurance",
+      "hint": "QMS, risk management, documentation, validation evidence, auditability, monitoring and continuous improvement (medical device mindset)."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios and common failure modes for tracing back to roots and generating tailored prompts."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_transparency",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Radical transparency with stakeholders",
+      "summary": "Be open about goals, limits, risks and trade-offs to build durable trust.",
+      "tags": [
+        "wisdom",
+        "trust",
+        "communication"
+      ],
+      "bodyHtml": "<p>In clinical AI, trust is a prerequisite for data access, adoption, and safe use. Being frank about limitations, uncertainty, and commercial intent prevents later conflict and speeds agreement on governance and value.</p>"
+    },
+    {
+      "id": "wis_patient_first",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Patient benefit as the north star",
+      "summary": "Design decisions should trace to better outcomes: faster, fairer, safer diagnosis and care.",
+      "tags": [
+        "wisdom",
+        "patient",
+        "value"
+      ],
+      "bodyHtml": "<p>When priorities conflict (speed vs evidence, scope vs safety), anchor decisions in patient benefit: reduced turnaround times, maintained quality, and equitable access.</p>"
+    },
+    {
+      "id": "wis_plan_early",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Plan early in regulated domains",
+      "summary": "Front-load risk identification: prototypes and pathway mapping before expensive data collection.",
+      "tags": [
+        "wisdom",
+        "planning",
+        "regulation"
+      ],
+      "bodyHtml": "<p>Unlike typical software, medical AI requires early clarity on intended use, workflow fit, data needs, and regulatory evidence. Early planning reduces rework and sunk-cost traps.</p>"
+    },
+    {
+      "id": "wis_multidisciplinary_respect",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Respect disciplines; integrate expertise",
+      "summary": "AI, pathology, quality/regulatory, and commercial skills must co-design the product.",
+      "tags": [
+        "wisdom",
+        "team",
+        "integration"
+      ],
+      "bodyHtml": "<p>Clinical AI products fail when one discipline dominates. Robust products come from co-design: clinicians define use and failure modes; AI defines feasibility; QA defines controls; commercial defines adoption and sustainability.</p>"
+    },
+    {
+      "id": "wis_communicate_plainly",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Translate without dumbing down",
+      "summary": "Tailor communication to non-technical stakeholders while staying scientifically honest.",
+      "tags": [
+        "wisdom",
+        "communication",
+        "alignment"
+      ],
+      "bodyHtml": "<p>Clinicians often prefer frank science; governance teams require concrete controls; patients need clear ethical framing. Materials should be tailored and tested with each audience.</p>"
+    },
+    {
+      "id": "wis_safe_to_fail_pilots",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Safe-to-fail clinical pilots",
+      "summary": "Pilot in controlled settings with backfire checks before scaling.",
+      "tags": [
+        "wisdom",
+        "pilots",
+        "learning"
+      ],
+      "bodyHtml": "<p>Pilots should test workflow impact, reliability, and adoption—not just offline accuracy. Use small, safe experiments with clear stopping rules and learning loops.</p>"
+    },
+    {
+      "id": "wis_ethics_as_constraint",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Ethics & dignity as design constraints",
+      "summary": "Governance, consent, and fairness are structural—not optional add-ons.",
+      "tags": [
+        "wisdom",
+        "ethics",
+        "governance"
+      ],
+      "bodyHtml": "<p>Public/patient involvement and strong governance increase legitimacy and reduce downstream friction. Ethical drift destroys adoption and can invalidate clinical value.</p>"
+    },
+    {
+      "id": "sc_workforce_crisis",
+      "level": 1,
+      "kind": "concept",
+      "label": "Workforce shortage & rising diagnostic demand",
+      "summary": "Demand rises while specialist capacity shrinks; tools must increase throughput without reducing quality.",
+      "tags": [
+        "context",
+        "capacity",
+        "health-systems"
+      ],
+      "bodyHtml": "<p>Pathology services face increased workload and complexity while many specialists approach retirement. AI tools aim to ease burden and maintain service levels.</p>"
+    },
+    {
+      "id": "sc_value_proposition",
+      "level": 1,
+      "kind": "concept",
+      "label": "Value proposition for labs and patients",
+      "summary": "Define who benefits, how, and what is measurable (capacity, cost, turnaround, quality).",
+      "tags": [
+        "value",
+        "adoption",
+        "outcomes"
+      ],
+      "bodyHtml": "<p>Clinical AI must be valuable to labs (capacity, resilience) and patients (faster diagnosis, earlier treatment). Explicit outcomes guide product design and pilots.</p>"
+    },
+    {
+      "id": "sc_translation_research_to_clinic",
+      "level": 1,
+      "kind": "concept",
+      "label": "Translation from research to clinical product",
+      "summary": "Move from lab prototypes to deployable, regulated, supported medical device software.",
+      "tags": [
+        "translation",
+        "commercialisation",
+        "regulation"
+      ],
+      "bodyHtml": "<p>Research-grade models rarely meet clinical requirements: data governance, workflow integration, monitoring, and regulatory evidence are essential for real-world deployment.</p>"
+    },
+    {
+      "id": "sc_stakeholder_trust",
+      "level": 1,
+      "kind": "concept",
+      "label": "Stakeholder trust & legitimacy",
+      "summary": "Trust enables collaboration, data access, and adoption across hospitals, patients, and regulators.",
+      "tags": [
+        "trust",
+        "stakeholders",
+        "legitimacy"
+      ],
+      "bodyHtml": "<p>Trust is built via transparency, mutual benefit, and reliable governance. Without it, collaborations stall and pilots fail.</p>"
+    },
+    {
+      "id": "sc_mutual_benefit",
+      "level": 1,
+      "kind": "concept",
+      "label": "Mutual benefit in collaborations",
+      "summary": "Design projects so all parties gain: costs covered, academic credit, service improvement, or capability building.",
+      "tags": [
+        "collaboration",
+        "incentives",
+        "grants"
+      ],
+      "bodyHtml": "<p>Grant-funded collaborations can align incentives between SMEs and hospitals by covering costs and supporting professional profiles while enabling dataset creation.</p>"
+    },
+    {
+      "id": "sc_uncertainty_honesty",
+      "level": 1,
+      "kind": "concept",
+      "label": "Intellectual honesty about uncertainty",
+      "summary": "Be explicit about what the model does/doesn't know; avoid false certainty in clinical settings.",
+      "tags": [
+        "uncertainty",
+        "risk",
+        "communication"
+      ],
+      "bodyHtml": "<p>Clinical decisions are high-stakes. Communicating uncertainty (calibration, failure modes, boundary conditions) supports safe adoption and appropriate oversight.</p>"
+    },
+    {
+      "id": "sc_nontechnical_communication",
+      "level": 1,
+      "kind": "concept",
+      "label": "Communication with non-technical stakeholders",
+      "summary": "Use tailored materials and early difficult conversations to prevent misalignment.",
+      "tags": [
+        "communication",
+        "governance",
+        "commercial"
+      ],
+      "bodyHtml": "<p>Commercialisation creates sensitive topics (IP, value, liability, data). Early open conversations reduce conflict and speed decisions.</p>"
+    },
+    {
+      "id": "sc_regulatory_mindset",
+      "level": 1,
+      "kind": "concept",
+      "label": "Regulatory mindset: build evidence as you build software",
+      "summary": "Development must be auditable and risk-managed from day one.",
+      "tags": [
+        "regulation",
+        "QMS",
+        "evidence"
+      ],
+      "bodyHtml": "<p>Medical device development requires disciplined change control, documentation, traceability, and risk management—without freezing scientific progress.</p>"
+    },
+    {
+      "id": "sc_funding_mix",
+      "level": 1,
+      "kind": "concept",
+      "label": "Mixed funding strategy (grants + equity)",
+      "summary": "Use grants to enable collaborations and de-risk; use equity to scale productisation and approvals.",
+      "tags": [
+        "funding",
+        "grants",
+        "investment"
+      ],
+      "bodyHtml": "<p>Grants can underwrite data collection and validation work, improving credibility for later venture investment.</p>"
+    },
+    {
+      "id": "sc_ppi_value",
+      "level": 1,
+      "kind": "concept",
+      "label": "Public & patient involvement (PPIE) as product input",
+      "summary": "Use patient workshops to shape communication, governance expectations, and ethical framing.",
+      "tags": [
+        "PPIE",
+        "ethics",
+        "communication"
+      ],
+      "bodyHtml": "<p>PPIE improves how the intervention is explained and can surface concerns that affect adoption and legitimacy.</p>"
+    },
+    {
+      "id": "sys_pipeline_end_to_end",
+      "level": 2,
+      "kind": "concept",
+      "label": "End-to-end diagnostic pipeline as a system",
+      "summary": "AI is one component; performance emerges from interactions among data, workflow, people, and governance.",
+      "tags": [
+        "systems",
+        "workflow",
+        "integration"
+      ],
+      "bodyHtml": "<p>Model accuracy alone is insufficient. Consider specimen processing, scanning, reporting, clinical correlation, and operational constraints.</p>"
+    },
+    {
+      "id": "sys_flow_capacity",
+      "level": 2,
+      "kind": "concept",
+      "label": "Flow and capacity (data/compute/people)",
+      "summary": "Bottlenecks drive delays and shortcuts; design for throughput and resilience.",
+      "tags": [
+        "systems",
+        "capacity",
+        "operations"
+      ],
+      "bodyHtml": "<p>Gigapixel data and clinical review create bottlenecks. System design must manage throughput while protecting quality and governance.</p>"
+    },
+    {
+      "id": "sys_interfaces_handoffs",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interfaces & handoffs (where failures cluster)",
+      "summary": "Data transfers, labeling, report routing, and workflow integration are common failure points.",
+      "tags": [
+        "systems",
+        "interfaces",
+        "risk"
+      ],
+      "bodyHtml": "<p>Failures often occur at boundaries: hospital→SME data transfer, label provenance, model outputs into LIS, and escalation pathways.</p>"
+    },
+    {
+      "id": "sys_work_as_done",
+      "level": 2,
+      "kind": "concept",
+      "label": "Work-as-imagined vs work-as-done in pathology",
+      "summary": "Real labs have interruptions, variable quality, and local practices that models must tolerate.",
+      "tags": [
+        "systems",
+        "real_work",
+        "robustness"
+      ],
+      "bodyHtml": "<p>Archival consecutive cases include artifacts, incomplete metadata, and edge cases. Validation must reflect work-as-done.</p>"
+    },
+    {
+      "id": "sys_bias_generalisation",
+      "level": 2,
+      "kind": "concept",
+      "label": "Bias & generalisation across labs",
+      "summary": "Training on one lab can fail elsewhere; external validation and dataset diversity are required.",
+      "tags": [
+        "bias",
+        "generalisation",
+        "validation"
+      ],
+      "bodyHtml": "<p>Scanner differences, staining, protocols, and population variation cause domain shift. Use external sites and disjoint datasets to estimate real performance.</p>"
+    },
+    {
+      "id": "sys_feedback_learning",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops (learning in deployment)",
+      "summary": "Collect signals (errors, drift, user feedback) and feed them into controlled improvement cycles.",
+      "tags": [
+        "feedback",
+        "monitoring",
+        "improvement"
+      ],
+      "bodyHtml": "<p>Post-deployment monitoring must detect drift and unintended consequences, then feed QMS-controlled updates.</p>"
+    },
+    {
+      "id": "sys_entropy_drift",
+      "level": 2,
+      "kind": "concept",
+      "label": "Entropy and drift in data & software",
+      "summary": "Data quality, pipelines, and model performance degrade unless maintained.",
+      "tags": [
+        "drift",
+        "maintenance",
+        "reliability"
+      ],
+      "bodyHtml": "<p>Scanner calibration, stain changes, software dependencies, and workflow changes can erode performance. Plan monitoring, maintenance, and update governance.</p>"
+    },
+    {
+      "id": "sys_uncertainty_propagation",
+      "level": 2,
+      "kind": "concept",
+      "label": "Uncertainty propagation in clinical decisions",
+      "summary": "Model uncertainty interacts with clinical uncertainty; manage thresholds and escalation.",
+      "tags": [
+        "uncertainty",
+        "safety",
+        "decision-support"
+      ],
+      "bodyHtml": "<p>Set triage thresholds, abstain options, and escalation to specialists. Document where clinical correlation is required.</p>"
+    },
+    {
+      "id": "sys_weak_supervision",
+      "level": 2,
+      "kind": "concept",
+      "label": "Weak supervision and label noise",
+      "summary": "Use slide-level or report-derived labels while managing ambiguity and noise.",
+      "tags": [
+        "machine-learning",
+        "labels",
+        "noise"
+      ],
+      "bodyHtml": "<p>Pathology labels can be weak (slide-level diagnosis). Methods must learn relevant regions while handling inconclusive or mixed cases.</p>"
+    },
+    {
+      "id": "sys_data_quality_variation",
+      "level": 2,
+      "kind": "concept",
+      "label": "Data quality variation (artifacts, focus, metadata gaps)",
+      "summary": "Real-world data requires cleaning, curation, and exclusion rules.",
+      "tags": [
+        "data-quality",
+        "curation",
+        "risk"
+      ],
+      "bodyHtml": "<p>Artifacts, focus problems, and missing/inconclusive metadata can mislead training and validation unless addressed systematically.</p>"
+    },
+    {
+      "id": "gov_data_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Hospital data governance engagement",
+      "summary": "Early engagement to justify data, define anonymisation, and approve transfer.",
+      "tags": [
+        "governance",
+        "NHS",
+        "IG"
+      ],
+      "bodyHtml": "<p>Work with governance teams to specify datasets, purposes, identifiability risk, and anonymisation steps before transfer outside hospital control.</p>"
+    },
+    {
+      "id": "gov_anonymisation",
+      "level": 3,
+      "kind": "concept",
+      "label": "Anonymisation & de-identification procedures",
+      "summary": "Remove identifiers; reduce re-identification risk (e.g., age bands).",
+      "tags": [
+        "anonymisation",
+        "privacy",
+        "risk"
+      ],
+      "bodyHtml": "<p>Data should arrive cleared of identifying information, with quasi-identifiers minimised to reduce linkage risk.</p>"
+    },
+    {
+      "id": "gov_security_controls",
+      "level": 3,
+      "kind": "concept",
+      "label": "Security controls for external storage/processing",
+      "summary": "Access control, encryption, audit logs, and least privilege protect sensitive clinical data.",
+      "tags": [
+        "security",
+        "cloud",
+        "controls"
+      ],
+      "bodyHtml": "<p>Even anonymised data needs strong security. Implement controlled access, monitoring, and incident response for the processing environment.</p>"
+    },
+    {
+      "id": "gov_ethics",
+      "level": 3,
+      "kind": "concept",
+      "label": "Ethics review and approvals",
+      "summary": "Determine when ethics approval is required and secure it early; document rationale.",
+      "tags": [
+        "ethics",
+        "approvals",
+        "research"
+      ],
+      "bodyHtml": "<p>Whether routine archival data needs ethics approval depends on context. Establish requirements early and help sites navigate nuanced processes.</p>"
+    },
+    {
+      "id": "gov_ppie_workshops",
+      "level": 3,
+      "kind": "concept",
+      "label": "PPIE workshops as governance input",
+      "summary": "Structured patient feedback improves communication and ethical framing.",
+      "tags": [
+        "PPIE",
+        "governance",
+        "trust"
+      ],
+      "bodyHtml": "<p>Working with established patient groups provides informed feedback on what matters and how to communicate the intervention responsibly.</p>"
+    },
+    {
+      "id": "gov_collaboration_grants",
+      "level": 3,
+      "kind": "concept",
+      "label": "Grant-funded collaborations with hospitals",
+      "summary": "Use grants to align incentives, cover costs, and create research legitimacy while building datasets.",
+      "tags": [
+        "grants",
+        "collaboration",
+        "datasets"
+      ],
+      "bodyHtml": "<p>Grants can fund digitisation, clinician time, and data preparation, enabling consecutive-case cohorts needed for device validation.</p>"
+    },
+    {
+      "id": "gov_funding_equity",
+      "level": 3,
+      "kind": "concept",
+      "label": "Equity investment for scaling and approvals",
+      "summary": "Use investment to build product, hire, and run regulatory/market activities.",
+      "tags": [
+        "investment",
+        "scale",
+        "commercial"
+      ],
+      "bodyHtml": "<p>Equity complements grants by funding productisation, quality systems, regulatory submissions, and go-to-market activity.</p>"
+    },
+    {
+      "id": "gov_stakeholder_network",
+      "level": 3,
+      "kind": "concept",
+      "label": "Stakeholder network building",
+      "summary": "Warm introductions and trust-building unlock expertise, data access, and early adopters.",
+      "tags": [
+        "network",
+        "stakeholders",
+        "trust"
+      ],
+      "bodyHtml": "<p>Collaboration is relationship-driven. Consistent openness and delivery builds credibility across clinical, commercial, and governance communities.</p>"
+    },
+    {
+      "id": "gov_contracts_data_sharing",
+      "level": 3,
+      "kind": "concept",
+      "label": "Data sharing agreements and responsibilities",
+      "summary": "Contracts define scope, permitted uses, security expectations, and accountability.",
+      "tags": [
+        "contracts",
+        "governance",
+        "accountability"
+      ],
+      "bodyHtml": "<p>Clear agreements prevent later conflict and support auditability for regulators and partner organisations.</p>"
+    },
+    {
+      "id": "ops_wsi_digitisation",
+      "level": 4,
+      "kind": "standard",
+      "label": "Whole slide imaging digitisation workflow",
+      "summary": "Select cohorts, retrieve archival slides, scan to WSI, and track provenance.",
+      "tags": [
+        "WSI",
+        "digitisation",
+        "operations"
+      ],
+      "bodyHtml": "<p>Operational steps: cohort definition, slide retrieval, scanning, QC checks, and chain-of-custody for images and metadata.</p>"
+    },
+    {
+      "id": "ops_data_transfer",
+      "level": 4,
+      "kind": "standard",
+      "label": "Secure data transfer from hospital to company",
+      "summary": "Controlled export after anonymisation with verification and logging.",
+      "tags": [
+        "transfer",
+        "security",
+        "IG"
+      ],
+      "bodyHtml": "<p>Define transfer mechanism, verify anonymisation, log exports, and confirm receipt/integrity checks in the target environment.</p>"
+    },
+    {
+      "id": "ops_cloud_processing",
+      "level": 4,
+      "kind": "standard",
+      "label": "Cloud storage + distributed processing for gigapixel WSIs",
+      "summary": "Use scalable storage and distributed compute to handle terabytes and long processing times.",
+      "tags": [
+        "cloud",
+        "distributed",
+        "scale"
+      ],
+      "bodyHtml": "<p>WSIs are gigapixel images; processing requires tiling, parallelism, and robust orchestration to meet business cycle times.</p>"
+    },
+    {
+      "id": "ops_data_curation",
+      "level": 4,
+      "kind": "standard",
+      "label": "Data curation: QC, cleaning, and exclusion rules",
+      "summary": "Detect artifacts, focus issues, and metadata gaps; define fit-for-purpose criteria.",
+      "tags": [
+        "curation",
+        "QC",
+        "metadata"
+      ],
+      "bodyHtml": "<p>Curation includes slide QC, metadata reconciliation, handling inconclusive diagnoses, and documenting exclusions to reduce bias and label noise.</p>"
+    },
+    {
+      "id": "ops_labeling_strategy",
+      "level": 4,
+      "kind": "standard",
+      "label": "Labeling strategy (reports + expert review)",
+      "summary": "Combine report-derived labels with expert adjudication for ambiguous cases.",
+      "tags": [
+        "labels",
+        "adjudication",
+        "weak-supervision"
+      ],
+      "bodyHtml": "<p>Routine datasets include ambiguous cases. Expert review of reports and clinical correlation improves label quality for training/validation.</p>"
+    },
+    {
+      "id": "ops_model_training",
+      "level": 4,
+      "kind": "standard",
+      "label": "Model training with weak supervision",
+      "summary": "Train deep learning models to localise relevant regions and predict outcomes using slide-level labels.",
+      "tags": [
+        "deep-learning",
+        "weak-supervision",
+        "training"
+      ],
+      "bodyHtml": "<p>Weakly supervised methods can learn from slide-level diagnoses while discovering informative regions; manage uncertainty and avoid overfitting.</p>"
+    },
+    {
+      "id": "ops_model_validation",
+      "level": 4,
+      "kind": "standard",
+      "label": "Validation with consecutive cohorts and external sites",
+      "summary": "Use large, consecutive case sets and external labs not seen in training.",
+      "tags": [
+        "validation",
+        "bias",
+        "external"
+      ],
+      "bodyHtml": "<p>Device-grade validation requires consecutive cohorts to reflect real prevalence and workload, plus external validation to estimate generalisation.</p>"
+    },
+    {
+      "id": "ops_workflow_integration",
+      "level": 4,
+      "kind": "standard",
+      "label": "Integration into clinical workflow",
+      "summary": "Fit outputs into reporting pathways; support triage, second reads, and escalation.",
+      "tags": [
+        "integration",
+        "workflow",
+        "adoption"
+      ],
+      "bodyHtml": "<p>Design UI and output formats to match pathologists’ workflow. Provide clear explanations, confidence, and escalation rules.</p>"
+    },
+    {
+      "id": "ops_pilot_delivery",
+      "level": 4,
+      "kind": "standard",
+      "label": "Pilot delivery with early adopter labs",
+      "summary": "Deploy in selected labs; measure capacity and turnaround impacts; iterate safely.",
+      "tags": [
+        "pilots",
+        "deployment",
+        "measurement"
+      ],
+      "bodyHtml": "<p>Pilots should quantify diagnostic throughput, turnaround times, and user experience, while monitoring safety and bias.</p>"
+    },
+    {
+      "id": "ops_product_suite",
+      "level": 4,
+      "kind": "concept",
+      "label": "Product suite strategy (lymphoma → myeloma/leukemia → beyond)",
+      "summary": "Expand to adjacent use-cases while reusing infrastructure and governance patterns.",
+      "tags": [
+        "portfolio",
+        "roadmap",
+        "scaling"
+      ],
+      "bodyHtml": "<p>Start with a focused product, then extend to related blood cancer areas using shared pipelines and validation playbooks.</p>"
+    },
+    {
+      "id": "qa_qms_iso13485",
+      "level": 5,
+      "kind": "standard",
+      "label": "Quality management system (ISO 13485)",
+      "summary": "Establish auditable processes for design, development, verification/validation, and change control.",
+      "tags": [
+        "QMS",
+        "ISO13485",
+        "medical-device"
+      ],
+      "bodyHtml": "<p>ISO 13485 supports consistent, documented development suitable for medical device software, aligning teams across science and compliance.</p>"
+    },
+    {
+      "id": "qa_risk_management",
+      "level": 5,
+      "kind": "standard",
+      "label": "Risk management (ISO 14971-style thinking)",
+      "summary": "Identify hazards, estimate risk, implement controls, and verify effectiveness across lifecycle.",
+      "tags": [
+        "risk",
+        "safety",
+        "ISO14971"
+      ],
+      "bodyHtml": "<p>Clinical AI hazards include misclassification, bias, workflow misuse, and security incidents. Risk controls include thresholds, UI constraints, training, and monitoring.</p>"
+    },
+    {
+      "id": "qa_regulatory_route",
+      "level": 5,
+      "kind": "standard",
+      "label": "Regulatory pathway (UK approval + EU follow-on)",
+      "summary": "Define intended use, evidence requirements, and submission plan; align milestones to pilots.",
+      "tags": [
+        "regulation",
+        "UK",
+        "EU"
+      ],
+      "bodyHtml": "<p>Plan for UK approval first, then EU approval. Evidence includes analytical validation, clinical performance, usability, and post-market plans.</p>"
+    },
+    {
+      "id": "qa_baseline_human",
+      "level": 5,
+      "kind": "standard",
+      "label": "Baseline human performance studies",
+      "summary": "Measure specialist vs non-specialist agreement to set realistic performance targets.",
+      "tags": [
+        "baseline",
+        "human-factors",
+        "benchmarking"
+      ],
+      "bodyHtml": "<p>Understanding current practice performance helps set acceptance targets for the AI tool and clarifies where it adds value (e.g., triage, second read).</p>"
+    },
+    {
+      "id": "qa_external_validation",
+      "level": 5,
+      "kind": "standard",
+      "label": "External validation and bias controls",
+      "summary": "Hold out labs; document dataset splits; test subgroup performance where possible.",
+      "tags": [
+        "validation",
+        "bias",
+        "generalisation"
+      ],
+      "bodyHtml": "<p>External validation is a core control against hidden bias and overfitting to local lab characteristics.</p>"
+    },
+    {
+      "id": "qa_documentation_traceability",
+      "level": 5,
+      "kind": "standard",
+      "label": "Documentation & traceability (requirements→tests→evidence)",
+      "summary": "Maintain traceability from intended use and requirements through verification/validation evidence.",
+      "tags": [
+        "documentation",
+        "traceability",
+        "audit"
+      ],
+      "bodyHtml": "<p>Traceability supports audits and change control, ensuring updates do not break safety assumptions.</p>"
+    },
+    {
+      "id": "qa_post_market_monitoring",
+      "level": 5,
+      "kind": "standard",
+      "label": "Post-market monitoring & drift management",
+      "summary": "Monitor real-world performance and workflow outcomes; manage updates under QMS.",
+      "tags": [
+        "monitoring",
+        "drift",
+        "lifecycle"
+      ],
+      "bodyHtml": "<p>Detect drift from stain/scanner/workflow changes and update models via controlled, documented processes.</p>"
+    },
+    {
+      "id": "qa_usability_human_factors",
+      "level": 5,
+      "kind": "standard",
+      "label": "Usability and human factors assurance",
+      "summary": "Ensure outputs are interpretable and do not induce unsafe reliance or misuse.",
+      "tags": [
+        "usability",
+        "human-factors",
+        "safety"
+      ],
+      "bodyHtml": "<p>Decision-support tools must be designed to support, not replace, clinical judgement—using clear affordances and constraints.</p>"
+    },
+    {
+      "id": "risk_data_quality",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Variable slide and metadata quality",
+      "summary": "Artifacts, focus issues, and missing/inconclusive metadata require QC and exclusions.",
+      "tags": [
+        "risk",
+        "data-quality"
+      ],
+      "bodyHtml": "<p>Routine archival data is messy. Without systematic QC and adjudication, training and validation results are misleading.</p>"
+    },
+    {
+      "id": "risk_scale_compute",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Gigapixel scale and long processing times",
+      "summary": "Terabytes of WSIs can take weeks to process; affects iteration speed and costs.",
+      "tags": [
+        "risk",
+        "scale",
+        "compute"
+      ],
+      "bodyHtml": "<p>Operational planning must account for storage costs, queue times, and distributed processing reliability.</p>"
+    },
+    {
+      "id": "risk_governance_delay",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Governance/ethics delays stall datasets",
+      "summary": "Late engagement with governance teams can cause long delays or block transfers.",
+      "tags": [
+        "risk",
+        "governance",
+        "delays"
+      ],
+      "bodyHtml": "<p>Early, concrete documentation of purpose, minimisation, anonymisation, and controls reduces friction and uncertainty for hospital teams.</p>"
+    },
+    {
+      "id": "risk_regulatory_science_tension",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Scientific iteration vs regulatory control",
+      "summary": "Fast iteration conflicts with documentation and change control demands.",
+      "tags": [
+        "risk",
+        "regulation",
+        "process"
+      ],
+      "bodyHtml": "<p>Without disciplined processes, teams either move too slowly or accumulate untraceable changes that endanger approvals and safety.</p>"
+    },
+    {
+      "id": "risk_bias_domain_shift",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Domain shift across labs",
+      "summary": "Scanner/stain/protocol differences cause performance drops in new sites.",
+      "tags": [
+        "risk",
+        "bias",
+        "domain-shift"
+      ],
+      "bodyHtml": "<p>External validation and monitoring are essential; domain adaptation may be needed but must be evidence-backed and controlled.</p>"
+    },
+    {
+      "id": "risk_adoption_workflow",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Workflow mismatch reduces adoption",
+      "summary": "If the tool doesn’t fit reporting reality, it won’t be used—or will be misused.",
+      "tags": [
+        "risk",
+        "adoption",
+        "workflow"
+      ],
+      "bodyHtml": "<p>Pilots should measure usability, time impact, and clinician trust—not just accuracy. Integration and training are key controls.</p>"
+    },
+    {
+      "id": "case_lymphoma_stratification",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Lymphoma stratification prototype to clinical product",
+      "summary": "Lab-developed AI for stratification evolves into a regulated product with clinical workflow integration.",
+      "tags": [
+        "case",
+        "lymphoma",
+        "translation"
+      ],
+      "bodyHtml": "<p>Start with research algorithms; then define intended use, collect consecutive cohorts, implement QMS, and pursue regulatory approval for clinical deployment.</p>"
+    },
+    {
+      "id": "case_nhs_consecutive_dataset",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Multi-NHS hospital consecutive cohort for validation",
+      "summary": "Build large consecutive datasets across hospitals; hold out external labs for validation.",
+      "tags": [
+        "case",
+        "NHS",
+        "validation"
+      ],
+      "bodyHtml": "<p>Use grants to support digitisation and clinician time. Ensure training/validation separation and document cohort selection to minimise bias.</p>"
+    },
+    {
+      "id": "case_inconclusive_exclusions",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Inconclusive diagnoses and label adjudication",
+      "summary": "Routine data contains uncertain cases; expert review correlates reports and metadata; some cases excluded.",
+      "tags": [
+        "case",
+        "labels",
+        "quality"
+      ],
+      "bodyHtml": "<p>Expert hematopathologists review reports, reconcile metadata, and decide when labels are reliable enough for validation—documenting exclusions.</p>"
+    },
+    {
+      "id": "case_20tb_pipeline",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: 20TB WSI processing pipeline hits week-long runtimes",
+      "summary": "Distributed processing is required; iteration speed becomes an operations constraint.",
+      "tags": [
+        "case",
+        "scale",
+        "cloud"
+      ],
+      "bodyHtml": "<p>Design tiling, caching, job orchestration, and monitoring. Plan compute budgets and schedules to keep development cycles viable.</p>"
+    },
+    {
+      "id": "case_iso13485_qms",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Implementing ISO 13485 to bridge AI and regulatory teams",
+      "summary": "Quality system introduces traceability and change control while preserving research productivity.",
+      "tags": [
+        "case",
+        "QMS",
+        "process"
+      ],
+      "bodyHtml": "<p>Define design controls, documentation practices, and release gates. Align AI experimentation with controlled baselines and reproducible training pipelines.</p>"
+    },
+    {
+      "id": "case_ppie_leeds",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: PPIE workshop shapes communication and ethics framing",
+      "summary": "Patient group feedback improves materials, consent narratives, and trust-building approaches.",
+      "tags": [
+        "case",
+        "PPIE",
+        "communication"
+      ],
+      "bodyHtml": "<p>Use a structured workshop to learn what patients care about (speed, fairness, privacy, accountability) and reflect it in product communications.</p>"
+    },
+    {
+      "id": "case_early_adopter_pilot",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Early adopter pilot measures turnaround-time impact",
+      "summary": "Deploy to pilot labs; assess throughput, cost, resilience, and patient impacts over months.",
+      "tags": [
+        "case",
+        "pilot",
+        "impact"
+      ],
+      "bodyHtml": "<p>Measure diagnostic turnaround times, pathologist workload, and error patterns. Use learning loops and QMS-controlled updates.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_transparency",
+      "to": "sc_stakeholder_trust",
+      "why": "Transparency builds credibility and reduces later conflict over data, value, and limitations."
+    },
+    {
+      "from": "wis_transparency",
+      "to": "sc_uncertainty_honesty",
+      "why": "Transparency requires stating uncertainty and boundary conditions, not marketing certainty."
+    },
+    {
+      "from": "wis_patient_first",
+      "to": "sc_value_proposition",
+      "why": "Patient benefit clarifies what outcomes matter and how value is measured."
+    },
+    {
+      "from": "wis_plan_early",
+      "to": "sc_translation_research_to_clinic",
+      "why": "Early planning maps research outputs to intended clinical use and evidence needs."
+    },
+    {
+      "from": "wis_multidisciplinary_respect",
+      "to": "sc_regulatory_mindset",
+      "why": "Cross-discipline design makes regulatory constraints part of engineering and science work."
+    },
+    {
+      "from": "wis_communicate_plainly",
+      "to": "sc_nontechnical_communication",
+      "why": "Tailored, honest communication materials are necessary for alignment with governance, clinicians, and patients."
+    },
+    {
+      "from": "wis_safe_to_fail_pilots",
+      "to": "sc_value_proposition",
+      "why": "Pilots operationalise the value proposition into measurable endpoints and adoption evidence."
+    },
+    {
+      "from": "wis_ethics_as_constraint",
+      "to": "sc_ppi_value",
+      "why": "Ethical design is strengthened by patient involvement and clear governance narratives."
+    },
+    {
+      "from": "wis_ethics_as_constraint",
+      "to": "sc_stakeholder_trust",
+      "why": "Fairness and privacy protections stabilise trust and legitimacy."
+    },
+    {
+      "from": "sc_workforce_crisis",
+      "to": "sys_flow_capacity",
+      "why": "Workforce shortage turns throughput and bottlenecks into primary constraints."
+    },
+    {
+      "from": "sc_value_proposition",
+      "to": "ops_pilot_delivery",
+      "why": "Value claims must be tested in pilots with lab and patient endpoints."
+    },
+    {
+      "from": "sc_translation_research_to_clinic",
+      "to": "qa_regulatory_route",
+      "why": "Clinical translation requires a defined regulatory route and evidence plan."
+    },
+    {
+      "from": "sc_stakeholder_trust",
+      "to": "gov_stakeholder_network",
+      "why": "Trust is built through networks, warm introductions, and consistent delivery."
+    },
+    {
+      "from": "sc_mutual_benefit",
+      "to": "gov_collaboration_grants",
+      "why": "Grant funding is a practical mechanism for mutual benefit and dataset creation."
+    },
+    {
+      "from": "sc_funding_mix",
+      "to": "gov_funding_equity",
+      "why": "Equity complements grants to fund productisation and regulatory submissions."
+    },
+    {
+      "from": "sc_funding_mix",
+      "to": "gov_collaboration_grants",
+      "why": "Grants fund data access and validation activities that de-risk investment."
+    },
+    {
+      "from": "sc_uncertainty_honesty",
+      "to": "sys_uncertainty_propagation",
+      "why": "Uncertainty in models must be managed because it propagates into clinical decisions."
+    },
+    {
+      "from": "sc_nontechnical_communication",
+      "to": "gov_data_governance",
+      "why": "Clear documentation and early conversations reduce governance friction."
+    },
+    {
+      "from": "sc_ppi_value",
+      "to": "gov_ppie_workshops",
+      "why": "PPIE workshops create structured channels for patient voice in design and governance."
+    },
+    {
+      "from": "sc_regulatory_mindset",
+      "to": "qa_qms_iso13485",
+      "why": "A regulatory mindset is operationalised through an ISO 13485 quality management system."
+    },
+    {
+      "from": "sys_interfaces_handoffs",
+      "to": "gov_contracts_data_sharing",
+      "why": "Interfaces require clear responsibilities and permitted-use constraints in agreements."
+    },
+    {
+      "from": "sys_work_as_done",
+      "to": "ops_data_curation",
+      "why": "Work-as-done realities require explicit QC, cleaning, and exclusion rules."
+    },
+    {
+      "from": "sys_bias_generalisation",
+      "to": "ops_model_validation",
+      "why": "Generalisation is estimated through external-site validation and disjoint datasets."
+    },
+    {
+      "from": "sys_flow_capacity",
+      "to": "ops_cloud_processing",
+      "why": "Distributed compute and scalable storage are needed to manage gigapixel throughput."
+    },
+    {
+      "from": "sys_entropy_drift",
+      "to": "qa_post_market_monitoring",
+      "why": "Drift is controlled via monitoring and QMS-governed updates."
+    },
+    {
+      "from": "sys_feedback_learning",
+      "to": "qa_post_market_monitoring",
+      "why": "Feedback loops must be formalised into monitoring and improvement processes."
+    },
+    {
+      "from": "sys_weak_supervision",
+      "to": "ops_labeling_strategy",
+      "why": "Weak supervision needs careful label provenance, adjudication, and noise management."
+    },
+    {
+      "from": "sys_data_quality_variation",
+      "to": "risk_data_quality",
+      "why": "Data quality variation is a core failure mode that must be treated as a first-class risk."
+    },
+    {
+      "from": "sys_bias_generalisation",
+      "to": "risk_bias_domain_shift",
+      "why": "Domain shift is the practical manifestation of generalisation risk."
+    },
+    {
+      "from": "gov_data_governance",
+      "to": "gov_anonymisation",
+      "why": "Governance defines what anonymisation steps are required before transfer."
+    },
+    {
+      "from": "gov_anonymisation",
+      "to": "ops_data_transfer",
+      "why": "Anonymisation is completed before secure transfer to external infrastructure."
+    },
+    {
+      "from": "gov_security_controls",
+      "to": "ops_cloud_processing",
+      "why": "Security controls enable compliant cloud storage and distributed processing."
+    },
+    {
+      "from": "gov_ethics",
+      "to": "ops_wsi_digitisation",
+      "why": "Ethics scope and approvals influence what cohorts can be digitised and used."
+    },
+    {
+      "from": "gov_ppie_workshops",
+      "to": "sc_nontechnical_communication",
+      "why": "Patient feedback improves communication materials and trust-building."
+    },
+    {
+      "from": "gov_collaboration_grants",
+      "to": "ops_wsi_digitisation",
+      "why": "Grants can fund scanning and cohort assembly in hospitals."
+    },
+    {
+      "from": "gov_contracts_data_sharing",
+      "to": "ops_data_transfer",
+      "why": "Contracts specify transfer methods, access controls, and audit rights."
+    },
+    {
+      "from": "gov_stakeholder_network",
+      "to": "ops_pilot_delivery",
+      "why": "Networks help recruit early adopter labs for pilots and feedback."
+    },
+    {
+      "from": "gov_funding_equity",
+      "to": "qa_regulatory_route",
+      "why": "Investment supports regulatory submissions and quality operations."
+    },
+    {
+      "from": "gov_funding_equity",
+      "to": "ops_workflow_integration",
+      "why": "Scaling integration work often requires investment-funded engineering capacity."
+    },
+    {
+      "from": "ops_wsi_digitisation",
+      "to": "sys_data_quality_variation",
+      "why": "Digitisation quality directly affects downstream model performance and validation."
+    },
+    {
+      "from": "ops_data_curation",
+      "to": "qa_external_validation",
+      "why": "Documented curation/exclusion rules are part of defensible validation and bias control."
+    },
+    {
+      "from": "ops_model_training",
+      "to": "qa_documentation_traceability",
+      "why": "Training pipelines must be reproducible and traceable for audits."
+    },
+    {
+      "from": "ops_model_validation",
+      "to": "qa_external_validation",
+      "why": "External validation is the formal evidence layer for generalisation."
+    },
+    {
+      "from": "ops_workflow_integration",
+      "to": "qa_usability_human_factors",
+      "why": "Integration must address usability and avoid unsafe reliance."
+    },
+    {
+      "from": "ops_pilot_delivery",
+      "to": "sys_feedback_learning",
+      "why": "Pilots generate feedback signals needed for learning loops and improvement."
+    },
+    {
+      "from": "ops_pilot_delivery",
+      "to": "qa_post_market_monitoring",
+      "why": "Pilot monitoring is the precursor to post-market monitoring routines."
+    },
+    {
+      "from": "ops_product_suite",
+      "to": "sc_value_proposition",
+      "why": "A suite strategy must preserve clear value claims per indication and workflow."
+    },
+    {
+      "from": "ops_cloud_processing",
+      "to": "risk_scale_compute",
+      "why": "Scaling constraints (time/cost) are a persistent operational risk."
+    },
+    {
+      "from": "qa_qms_iso13485",
+      "to": "qa_documentation_traceability",
+      "why": "QMS requires traceability from requirements through tests and evidence."
+    },
+    {
+      "from": "qa_risk_management",
+      "to": "qa_qms_iso13485",
+      "why": "Risk management is executed within the QMS via controlled processes and records."
+    },
+    {
+      "from": "qa_regulatory_route",
+      "to": "qa_baseline_human",
+      "why": "Regulatory evidence often includes benchmarking against current clinical performance."
+    },
+    {
+      "from": "qa_baseline_human",
+      "to": "sc_value_proposition",
+      "why": "Baseline studies define where the tool adds value relative to humans."
+    },
+    {
+      "from": "qa_external_validation",
+      "to": "qa_regulatory_route",
+      "why": "External validation is key evidence for regulator and customer confidence."
+    },
+    {
+      "from": "qa_usability_human_factors",
+      "to": "risk_adoption_workflow",
+      "why": "Human factors issues often cause adoption failure or unsafe use."
+    },
+    {
+      "from": "qa_post_market_monitoring",
+      "to": "sys_entropy_drift",
+      "why": "Monitoring mitigates drift from changing scanners, stains, workflows, and software dependencies."
+    },
+    {
+      "from": "wis_plan_early",
+      "to": "risk_governance_delay",
+      "why": "Early planning reduces governance delays by clarifying data needs and controls."
+    },
+    {
+      "from": "wis_transparency",
+      "to": "risk_regulatory_science_tension",
+      "why": "Transparency helps reconcile teams when iteration meets regulatory constraints."
+    },
+    {
+      "from": "wis_safe_to_fail_pilots",
+      "to": "risk_adoption_workflow",
+      "why": "Safe pilots detect workflow mismatch early and prevent unsafe scaling."
+    },
+    {
+      "from": "wis_ethics_as_constraint",
+      "to": "risk_governance_delay",
+      "why": "Ethical clarity and patient-centric framing can speed governance approvals."
+    },
+    {
+      "from": "case_lymphoma_stratification",
+      "to": "sc_translation_research_to_clinic",
+      "why": "This case exemplifies moving from research stratification to a deployable product."
+    },
+    {
+      "from": "case_lymphoma_stratification",
+      "to": "ops_model_training",
+      "why": "Weakly supervised deep learning methods are used to learn from slide-level labels."
+    },
+    {
+      "from": "case_nhs_consecutive_dataset",
+      "to": "gov_collaboration_grants",
+      "why": "The dataset is enabled by grant-funded collaboration with NHS hospitals."
+    },
+    {
+      "from": "case_nhs_consecutive_dataset",
+      "to": "ops_model_validation",
+      "why": "Consecutive cohorts and external sites are used for device-grade validation."
+    },
+    {
+      "from": "case_inconclusive_exclusions",
+      "to": "ops_data_curation",
+      "why": "Adjudication and exclusion rules are applied to handle uncertain ground truth."
+    },
+    {
+      "from": "case_20tb_pipeline",
+      "to": "ops_cloud_processing",
+      "why": "A distributed pipeline is required to process terabytes of gigapixel images."
+    },
+    {
+      "from": "case_iso13485_qms",
+      "to": "qa_qms_iso13485",
+      "why": "Implementing ISO 13485 provides structure for regulated software development."
+    },
+    {
+      "from": "case_ppie_leeds",
+      "to": "gov_ppie_workshops",
+      "why": "Patient workshops provide feedback on communication and governance expectations."
+    },
+    {
+      "from": "case_early_adopter_pilot",
+      "to": "ops_pilot_delivery",
+      "why": "The pilot tests operational impact and safety in real labs."
+    },
+    {
+      "from": "risk_data_quality",
+      "to": "case_inconclusive_exclusions",
+      "why": "Inconclusive cases and label noise are a common manifestation of data quality risk."
+    },
+    {
+      "from": "risk_scale_compute",
+      "to": "case_20tb_pipeline",
+      "why": "The 20TB pipeline illustrates compute and throughput constraints."
+    },
+    {
+      "from": "risk_governance_delay",
+      "to": "case_nhs_consecutive_dataset",
+      "why": "Multi-site datasets are particularly vulnerable to governance delays."
+    },
+    {
+      "from": "risk_regulatory_science_tension",
+      "to": "case_iso13485_qms",
+      "why": "QMS implementation is a practical response to the science–regulation tension."
+    },
+    {
+      "from": "risk_bias_domain_shift",
+      "to": "case_nhs_consecutive_dataset",
+      "why": "External lab cohorts test whether domain shift undermines performance."
+    },
+    {
+      "from": "risk_adoption_workflow",
+      "to": "case_early_adopter_pilot",
+      "why": "Pilots reveal whether workflow integration is acceptable and safe."
+    },
+    {
+      "from": "wis_transparency",
+      "to": "gov_contracts_data_sharing",
+      "why": "Clear intentions and constraints make agreements easier to negotiate and defend."
+    },
+    {
+      "from": "wis_patient_first",
+      "to": "ops_workflow_integration",
+      "why": "Patient benefit requires workflow integration that genuinely reduces time-to-treatment."
+    },
+    {
+      "from": "wis_multidisciplinary_respect",
+      "to": "ops_labeling_strategy",
+      "why": "Clinician–AI collaboration is essential for adjudicating labels and edge cases."
+    },
+    {
+      "from": "wis_communicate_plainly",
+      "to": "gov_ppie_workshops",
+      "why": "Testing materials with patients and publics improves clarity and trust."
+    },
+    {
+      "from": "wis_plan_early",
+      "to": "qa_regulatory_route",
+      "why": "Early planning defines intended use and the evidence package needed for approvals."
+    },
+    {
+      "from": "wis_safe_to_fail_pilots",
+      "to": "qa_usability_human_factors",
+      "why": "Pilots are where usability and unsafe reliance risks are discovered and mitigated."
+    },
+    {
+      "from": "sc_funding_mix",
+      "to": "sc_mutual_benefit",
+      "why": "Funding mechanisms are a key lever for aligning incentives in collaborations."
+    },
+    {
+      "from": "sc_regulatory_mindset",
+      "to": "sc_nontechnical_communication",
+      "why": "Regulatory alignment depends on clear communication of requirements and constraints."
+    },
+    {
+      "from": "sc_uncertainty_honesty",
+      "to": "sc_stakeholder_trust",
+      "why": "Honest uncertainty reporting increases credibility and avoids future trust collapse."
+    },
+    {
+      "from": "sc_workforce_crisis",
+      "to": "sc_value_proposition",
+      "why": "Workforce pressure defines the urgency and the value of throughput improvements."
+    },
+    {
+      "from": "sc_ppi_value",
+      "to": "sc_stakeholder_trust",
+      "why": "Patient involvement increases legitimacy and social licence for data use."
+    },
+    {
+      "from": "sys_pipeline_end_to_end",
+      "to": "sys_interfaces_handoffs",
+      "why": "End-to-end thinking highlights where handoffs create failure and delay."
+    },
+    {
+      "from": "sys_pipeline_end_to_end",
+      "to": "sys_bias_generalisation",
+      "why": "Pipeline choices (scanning, QC, splits) strongly affect generalisation."
+    },
+    {
+      "from": "sys_flow_capacity",
+      "to": "sys_work_as_done",
+      "why": "Pressure on flow changes work-as-done and can degrade quality and safety."
+    },
+    {
+      "from": "sys_entropy_drift",
+      "to": "sys_feedback_learning",
+      "why": "Without feedback, drift is invisible; with feedback, drift becomes actionable."
+    },
+    {
+      "from": "sys_data_quality_variation",
+      "to": "sys_weak_supervision",
+      "why": "Noisy labels often co-occur with variable data quality in routine cohorts."
+    },
+    {
+      "from": "sys_uncertainty_propagation",
+      "to": "sys_work_as_done",
+      "why": "Real-world ambiguity and time pressure amplify uncertainty-related hazards."
+    },
+    {
+      "from": "gov_data_governance",
+      "to": "gov_security_controls",
+      "why": "Governance approval depends on credible security controls in the target environment."
+    },
+    {
+      "from": "gov_ethics",
+      "to": "gov_data_governance",
+      "why": "Ethics requirements and governance processes must be aligned and documented."
+    },
+    {
+      "from": "gov_collaboration_grants",
+      "to": "gov_stakeholder_network",
+      "why": "Grants create structured touchpoints that expand trust networks."
+    },
+    {
+      "from": "gov_contracts_data_sharing",
+      "to": "gov_data_governance",
+      "why": "Agreements encode governance decisions: minimisation, purpose, retention, audit."
+    },
+    {
+      "from": "gov_security_controls",
+      "to": "qa_risk_management",
+      "why": "Security controls are risk mitigations that must be verified and monitored."
+    },
+    {
+      "from": "ops_wsi_digitisation",
+      "to": "ops_data_curation",
+      "why": "QC and curation begins at scanning: focus, artifacts, stain variability."
+    },
+    {
+      "from": "ops_data_transfer",
+      "to": "gov_security_controls",
+      "why": "Secure transfer is part of the overall security control set."
+    },
+    {
+      "from": "ops_data_curation",
+      "to": "ops_labeling_strategy",
+      "why": "Curation and labeling are intertwined: resolving ambiguity improves both."
+    },
+    {
+      "from": "ops_labeling_strategy",
+      "to": "sys_weak_supervision",
+      "why": "Weak supervision succeeds only with careful label provenance and noise handling."
+    },
+    {
+      "from": "ops_cloud_processing",
+      "to": "ops_model_training",
+      "why": "Training relies on scalable pipelines for tiling, batching, and reproducible compute."
+    },
+    {
+      "from": "ops_model_validation",
+      "to": "qa_baseline_human",
+      "why": "Validation targets should be contextualised by baseline clinician performance."
+    },
+    {
+      "from": "ops_workflow_integration",
+      "to": "sc_value_proposition",
+      "why": "Integration determines whether promised time/capacity benefits are realised."
+    },
+    {
+      "from": "ops_pilot_delivery",
+      "to": "qa_external_validation",
+      "why": "Pilots complement offline validation by testing performance and safety in situ."
+    },
+    {
+      "from": "ops_pilot_delivery",
+      "to": "qa_documentation_traceability",
+      "why": "Pilot protocols, deviations, and outcomes should be documented for evidence."
+    },
+    {
+      "from": "qa_qms_iso13485",
+      "to": "qa_regulatory_route",
+      "why": "A QMS is typically required to produce evidence acceptable for regulatory submission."
+    },
+    {
+      "from": "qa_risk_management",
+      "to": "qa_usability_human_factors",
+      "why": "Many hazards are human–AI interaction hazards; usability is a key risk control."
+    },
+    {
+      "from": "qa_external_validation",
+      "to": "sys_bias_generalisation",
+      "why": "External validation operationalises generalisation concerns into evidence."
+    },
+    {
+      "from": "qa_post_market_monitoring",
+      "to": "qa_risk_management",
+      "why": "Post-market monitoring is a lifecycle risk control and feeds corrective actions."
+    },
+    {
+      "from": "risk_data_quality",
+      "to": "ops_data_curation",
+      "why": "Data quality risk is mitigated by QC, cleaning, metadata reconciliation, and exclusion rules."
+    },
+    {
+      "from": "risk_data_quality",
+      "to": "qa_documentation_traceability",
+      "why": "Documenting QC and exclusions prevents hidden bias and supports audits."
+    },
+    {
+      "from": "risk_scale_compute",
+      "to": "sys_flow_capacity",
+      "why": "Compute constraints create bottlenecks that shape iteration speed and cost."
+    },
+    {
+      "from": "risk_scale_compute",
+      "to": "qa_qms_iso13485",
+      "why": "Reproducible, controlled pipelines reduce rework and instability under scale."
+    },
+    {
+      "from": "risk_governance_delay",
+      "to": "gov_data_governance",
+      "why": "Early governance engagement is the primary mitigation for delay risk."
+    },
+    {
+      "from": "risk_regulatory_science_tension",
+      "to": "qa_documentation_traceability",
+      "why": "Traceability reconciles fast science with controlled releases and evidence."
+    },
+    {
+      "from": "risk_bias_domain_shift",
+      "to": "qa_post_market_monitoring",
+      "why": "Monitoring detects domain shift post-deployment and triggers controlled updates."
+    },
+    {
+      "from": "risk_adoption_workflow",
+      "to": "ops_workflow_integration",
+      "why": "Workflow co-design and integration testing mitigate adoption failure."
+    },
+    {
+      "from": "case_20tb_pipeline",
+      "to": "sys_flow_capacity",
+      "why": "Compute backlog is a flow constraint that shapes how quickly the team can learn."
+    },
+    {
+      "from": "case_inconclusive_exclusions",
+      "to": "sys_uncertainty_propagation",
+      "why": "Inconclusive cases illustrate how uncertainty enters labels and outcomes."
+    },
+    {
+      "from": "case_early_adopter_pilot",
+      "to": "sc_workforce_crisis",
+      "why": "Pilots respond directly to workforce pressure by testing throughput and turnaround gains."
+    },
+    {
+      "from": "case_iso13485_qms",
+      "to": "sc_regulatory_mindset",
+      "why": "The case is a concrete instantiation of adopting a regulatory mindset."
+    },
+    {
+      "from": "case_ppie_leeds",
+      "to": "wis_ethics_as_constraint",
+      "why": "Patient workshops operationalise ethics and dignity as design constraints."
+    },
+    {
+      "from": "sys_uncertainty_propagation",
+      "to": "qa_risk_management",
+      "why": "Uncertainty is a hazard source; risk management defines mitigations (thresholds, abstain, escalation)."
+    },
+    {
+      "from": "gov_security_controls",
+      "to": "qa_risk_management",
+      "why": "Security incidents are hazards; risk management includes security controls and incident response."
+    },
+    {
+      "from": "gov_contracts_data_sharing",
+      "to": "qa_documentation_traceability",
+      "why": "Agreements and provenance records support traceability and audit readiness."
+    },
+    {
+      "from": "ops_model_training",
+      "to": "sys_entropy_drift",
+      "why": "Training pipelines depend on software/hardware that can drift; reproducibility controls mitigate."
+    },
+    {
+      "from": "ops_product_suite",
+      "to": "qa_regulatory_route",
+      "why": "Each new indication may require its own intended use, evidence, and regulatory assessment."
+    }
+  ]
+}
