@@ -1,0 +1,466 @@
+{
+  "meta": {
+    "id": "goguen_institution_ai_org_deployment_v1",
+    "title": "AIWhatif — Goguen Institution Parameter Lab (AI in Organisations)",
+    "subtitle": "Adjust institutional parameters (signatures→sentences→models→satisfaction proxies) for responsible AI adoption: AREA governance, transparency, iteration/convergence, engagement, fit, human-in-loop control, incentives pressure, distinctiveness strategy, scanning, and internal red/blue assessment. Watch Monte Carlo outcome distributions update.",
+    "footerNote": "Note: This is a toy proxy simulator for exploring socio-technical trade-offs described in the transcript and the Goguen institution. It is not validated, not legal/medical advice, and not a substitute for domain-specific assurance, audits, or regulatory review."
+  },
+
+  "project": {
+    "name": "Responsible Deployment of Emerging AI/LLMs in an Organisation",
+    "description": [
+      "This project models organisational deployment of AI (often LLM-enabled) as a socio-technical system governed by responsible innovation practices (AREA: anticipation, reflection, engagement, action).",
+      "The simulator treats the Goguen institution abstractly: parameters approximate the satisfaction of key sentences (e.g., adoption requires fit; transparency reduces black-box mystification; anticipation produces mitigations; early engagement improves deployment effectiveness; speed pressure can squeeze reflexivity; skunkworks/time-space supports disruption).",
+      "Outputs are probabilistic proxies: adoption success, trust/legitimacy, net benefit vs harm, novelty/distinctiveness, and ROI/operational value."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Describe your real organisational context (domain, stakeholders, constraints, AI use-case). Click “Generate AI Prompt” to produce a prompt for an AI assistant to interpret the current institutional settings, propose scenarios, and recommend AREA-aligned actions (including internal red-team/blue-team assessment and specific comparable cases).",
+      "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions based on the selected parameter settings and highlight uncertainty.]",
+      "promptText": [
+        "You are an expert in responsible innovation (AREA), socio-technical systems, organisational change, and evaluation of AI/LLM deployments.",
+        "Write a practical report (800–1,200 words) that interprets the likely outcomes of deploying an emerging AI/LLM capability inside an organisation under the current parameter settings.",
+        "",
+        "System framing (Goguen institution proxy):",
+        "- Signatures: Org/Unit/Stakeholder/AI/LLM, DevPhase, Scenario/Risk/Mitigation, Assessment (red-team/blue-team).",
+        "- Sentences: adoption→fit; transparency→explainability; stochasticity→iteration→convergence; AREA→anticipation/reflection/engagement/action; engagement early→effective deployment; speed pressure→reflexivity loss; human-in-loop→accountability; disruptive innovation→skunkworks/time-space; scanning→reduced blindsiding.",
+        "- Models/satisfaction: parameters approximate whether these sentences are 'satisfied' in practice.",
+        "",
+        "Current parameter settings (0–100):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Do ALL of the following:",
+        "1) Give a scenario narrative: organisation type, AI use-case, stakeholders, constraints, and incentives.",
+        "2) Walk through AREA: Anticipation → Reflection → Engagement → Action, and specify concrete artefacts (scenario register, risk/mitigation plan, stakeholder map, decision gates).",
+        "3) Explain how transparency, iteration/convergence discipline, evaluation harnesses, and training reduce black-box mystification and improve trust.",
+        "4) Explain the speed vs reflexivity vs distinctiveness tension; propose how to keep cognitive space open while remaining competitive.",
+        "5) Recommend an internal rapid early assessment (red-team/blue-team) plan: participants, questions, pass/fail thresholds, and 2 stress-test scenarios.",
+        "6) Invite the user to specify at least one comparable historical or sector case (e.g., social media scale-first harms, asbestos ‘wonder material’ harms, or a domain-relevant analogue) and explain what transfers.",
+        "7) Provide: 3 leverage points, 3 metrics (leading + lagging), and a 30–60–90 day learning plan with stop/go criteria.",
+        "",
+        "Project refinements supplied by the user (incorporate these carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Likely Outcomes (distributions + summary stats)",
+      "chartsTitle": "Outcome distributions"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        { "id": "btnRandomize", "label": "Randomize params" },
+        { "id": "btnReset", "label": "Reset defaults" },
+        { "id": "btnToggleLive", "label": "Toggle live update" },
+        { "id": "btnRecompute", "label": "Recompute now" }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your organisational AI/LLM deployment…\nExamples:\n- Use-case: coding assistant, customer support, risk triage, forecasting, decision support\n- Domain constraints: safety-critical, regulated, confidentiality, IP/data boundaries\n- Stakeholders/users: teams, managers, customers, compliance, unions, affected groups\n- Deployment shape: pilot/silent trial, phased rollout, integration points\n- Governance: AREA steps, red-team/blue-team, stage-gates, audit cadence\n- What ‘novelty’ means: differentiation, better product, better workflow, new market\n- Known barriers: trust, workflow mismatch, skill gaps, incentives, procurement\n- Comparable cases to reference (pick at least one): social media, asbestos, or a domain analogue",
+      "buttons": [
+        { "id": "btnGenPrompt", "label": "Generate AI Prompt" },
+        { "id": "btnCopyPrompt", "label": "Copy Prompt" },
+        { "id": "btnClearRefinements", "label": "Clear refinements" }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+
+  "parameters": [
+    {
+      "id": "orgFit",
+      "label": "Organisational fit (workflows, roles, incentives)",
+      "hint": "Higher means the AI fits real work-as-done and is designed for the organisational context; strongly boosts adoption and benefit.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "transparency",
+      "label": "Transparency & explainability quality",
+      "hint": "Higher reduces black-box mystification and improves stakeholder trust; supports audits and incident learning.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "iterationDiscipline",
+      "label": "Iteration & convergence discipline",
+      "hint": "Higher means repeated trials, tuning, evaluation harnesses, and documented variability; improves reliability under stochastic behaviour.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "areaMaturity",
+      "label": "AREA maturity (anticipation/reflection/engagement/action)",
+      "hint": "Higher means stronger responsible innovation practice: scenario planning, reflection loops, stakeholder engagement, and corrective action.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "stakeholderEngagement",
+      "label": "Stakeholder engagement (early & iterative)",
+      "hint": "Higher means users/stakeholders are involved early; reduces WAI/WAD gaps and late-stage deployment failures.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "humanInLoop",
+      "label": "Human-in-the-loop control & accountability",
+      "hint": "Higher means humans can understand, override, and are responsible; reduces harmful automation and improves legitimacy.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "userTraining",
+      "label": "User training & adoption enablement",
+      "hint": "Higher improves appropriate use, reduces misuse and mystification, and increases sustained adoption.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "dataSecurity",
+      "label": "Data security & governance (training/sharing boundaries)",
+      "hint": "Higher reduces leakage and compliance risk; improves organisational willingness to deploy and scale.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "speedPressure",
+      "label": "Speed-to-market pressure (scale-first incentives)",
+      "hint": "Higher squeezes reflexivity and increases drift/late-fix risk unless counterbalanced by governance and gates.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "distinctivenessFocus",
+      "label": "Distinctiveness & novelty strategy focus",
+      "hint": "Higher means explicit effort to keep cognitive space open and differentiate outcomes (not just speed).",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "cognitiveNarrowingRisk",
+      "label": "Cognitive narrowing risk (LLM homogenisation)",
+      "hint": "Higher increases likelihood that teams converge on similar solutions; reduces novelty unless countermeasures are strong.",
+      "min": 0, "max": 100, "step": 1, "default": 45
+    },
+    {
+      "id": "envScanning",
+      "label": "Environmental scanning (tech/competition/regulation)",
+      "hint": "Higher reduces blindsiding and improves strategic positioning for continuous vs disruptive moves.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "disruptiveCapacity",
+      "label": "Disruptive capacity (skunkworks/time-space support)",
+      "hint": "Higher means the organisation can pursue disruptive innovation (separate units, autonomy, longer horizon) without being crushed by bureaucracy.",
+      "min": 0, "max": 100, "step": 1, "default": 40
+    },
+    {
+      "id": "internalAssessment",
+      "label": "Internal red-team/blue-team assessment strength",
+      "hint": "Higher means structured early assessment catches issues before rollout; improves mitigation quality and trust.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "resources",
+      "label": "Resources (budget/compute/time for evaluation & governance)",
+      "hint": "Higher supports validation, monitoring, training, and governance—reducing late fixes and improving reliability.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500, "max": 30000, "step": 500, "default": 9000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more real-time.",
+      "min": 0, "max": 600, "step": 20, "default": 120,
+      "isMeta": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "id": "adoptionSuccess",
+      "title": "Adoption success probability",
+      "subtitle": "Proxy: fit + engagement + training + legitimacy → sustained use.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "trustLegitimacy",
+      "title": "Trust & legitimacy probability",
+      "subtitle": "Proxy: transparency + human-in-loop + governance → stakeholders accept and rely appropriately.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "netBenefit",
+      "title": "Net benefit probability",
+      "subtitle": "Proxy: performance + fit + mitigation outweigh harms from drift, misuse, and late fixes.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "noveltyDistinctiveness",
+      "title": "Novelty & distinctiveness probability",
+      "subtitle": "Proxy: open cognitive space + strategy focus − cognitive narrowing effects.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "roiFeasibility",
+      "title": "ROI / value realisation probability",
+      "subtitle": "Proxy: adoption × net benefit × operational feasibility minus governance/retrofit costs.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "harmIncidentRisk",
+      "title": "Harm / incident risk probability",
+      "subtitle": "Proxy: speed pressure + weak governance + poor fit + low training increase incidents; mitigations reduce it.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    }
+  ],
+
+  "engine": {
+    "bins": 44,
+
+    "random": {
+      "shocks": {
+        "epsAdopt": { "type": "normal", "sigma": 0.22 },
+        "epsTrust": { "type": "normal", "sigma": 0.20 },
+        "epsPerf":  { "type": "normal", "sigma": 0.22 },
+        "epsGov":   { "type": "normal", "sigma": 0.18 },
+        "epsNovel": { "type": "normal", "sigma": 0.22 },
+        "epsInc":   { "type": "normal", "sigma": 0.22 },
+        "epsROI":   { "type": "normal", "sigma": 0.20 }
+      }
+    },
+
+    "derived": {
+      "fit":   { "op": "div", "args": [ { "var": "orgFit" }, { "lit": 100 } ] },
+      "tran":  { "op": "div", "args": [ { "var": "transparency" }, { "lit": 100 } ] },
+      "iter":  { "op": "div", "args": [ { "var": "iterationDiscipline" }, { "lit": 100 } ] },
+      "area":  { "op": "div", "args": [ { "var": "areaMaturity" }, { "lit": 100 } ] },
+      "eng":   { "op": "div", "args": [ { "var": "stakeholderEngagement" }, { "lit": 100 } ] },
+      "hil":   { "op": "div", "args": [ { "var": "humanInLoop" }, { "lit": 100 } ] },
+      "train": { "op": "div", "args": [ { "var": "userTraining" }, { "lit": 100 } ] },
+      "sec":   { "op": "div", "args": [ { "var": "dataSecurity" }, { "lit": 100 } ] },
+      "press": { "op": "div", "args": [ { "var": "speedPressure" }, { "lit": 100 } ] },
+      "dist":  { "op": "div", "args": [ { "var": "distinctivenessFocus" }, { "lit": 100 } ] },
+      "narrow": { "op": "div", "args": [ { "var": "cognitiveNarrowingRisk" }, { "lit": 100 } ] },
+      "scan":  { "op": "div", "args": [ { "var": "envScanning" }, { "lit": 100 } ] },
+      "disr":  { "op": "div", "args": [ { "var": "disruptiveCapacity" }, { "lit": 100 } ] },
+      "assess": { "op": "div", "args": [ { "var": "internalAssessment" }, { "lit": 100 } ] },
+      "res":   { "op": "div", "args": [ { "var": "resources" }, { "lit": 100 } ] },
+
+      "governanceStrength": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "area" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "assess" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "sec" } ] },
+          { "op": "mul", "args": [ { "lit": -0.30 }, { "var": "press" } ] }
+        ]
+      },
+
+      "reflexivityCapacity": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "area" } ] },
+          { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "assess" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "eng" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "res" } ] },
+          { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "press" } ] }
+        ]
+      },
+
+      "mystificationRisk": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.70 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "tran" } ] } ] },
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "train" } ] } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "press" } ] }
+        ]
+      },
+
+      "optionSpace": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.50 }, { "var": "dist" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "disr" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "assess" } ] },
+          { "op": "mul", "args": [ { "lit": -0.60 }, { "var": "narrow" } ] }
+        ]
+      },
+
+      "blindsideRisk": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.65 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "scan" } ] } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "press" } ] }
+        ]
+      }
+    },
+
+    "perDraw": {
+      "reliabilityEnvelope": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.30 },
+              { "op": "mul", "args": [ { "lit": 0.85 }, { "var": "iter" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "res" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "assess" } ] },
+              { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "press" } ] },
+              { "var": "epsPerf" }
+            ]
+          }
+        ]
+      },
+
+      "trustProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.20 },
+              { "op": "mul", "args": [ { "lit": 0.85 }, { "var": "tran" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "hil" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "governanceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "mystificationRisk" } ] },
+              { "var": "epsTrust" }
+            ]
+          }
+        ]
+      },
+
+      "adoptionProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 0.95 }, { "var": "fit" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "eng" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "train" } ] },
+              { "op": "mul", "args": [ { "lit": 0.40 }, { "var": "trustProb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "blindsideRisk" } ] },
+              { "var": "epsAdopt" }
+            ]
+          }
+        ]
+      },
+
+      "mitigationQuality": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.10 },
+              { "op": "mul", "args": [ { "lit": 0.80 }, { "var": "governanceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "reflexivityCapacity" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "assess" } ] },
+              { "var": "epsGov" }
+            ]
+          }
+        ]
+      },
+
+      "incidentRisk": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.15 },
+              { "op": "mul", "args": [ { "lit": 0.70 }, { "var": "press" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "fit" } ] } ] },
+              { "op": "mul", "args": [ { "lit": 0.40 }, { "var": "mystificationRisk" } ] },
+              { "op": "mul", "args": [ { "lit": -0.75 }, { "var": "mitigationQuality" } ] },
+              { "op": "mul", "args": [ { "lit": -0.40 }, { "var": "reliabilityEnvelope" } ] },
+              { "var": "epsInc" }
+            ]
+          }
+        ]
+      },
+
+      "noveltyProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 0.85 }, { "var": "optionSpace" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "scan" } ] },
+              { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "press" } ] },
+              { "var": "epsNovel" }
+            ]
+          }
+        ]
+      },
+
+      "benefitProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "reliabilityEnvelope" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "adoptionProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "trustProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "mitigationQuality" } ] },
+              { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "noveltyProb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "incidentRisk" } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      },
+
+      "roiProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.20 },
+              { "op": "mul", "args": [ { "lit": 0.80 }, { "var": "adoptionProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "benefitProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "fit" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "sec" } ] },
+              { "op": "mul", "args": [ { "lit": -0.30 }, { "var": "press" } ] },
+              { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "incidentRisk" } ] },
+              { "var": "epsROI" }
+            ]
+          }
+        ]
+      }
+    },
+
+    "outputMapping": {
+      "adoptionSuccess": "adoptionProb",
+      "trustLegitimacy": "trustProb",
+      "netBenefit": "benefitProb",
+      "noveltyDistinctiveness": "noveltyProb",
+      "roiFeasibility": "roiProb",
+      "harmIncidentRisk": "incidentRisk"
+    }
+  }
+}
