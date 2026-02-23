@@ -1,0 +1,1280 @@
+{
+  "meta": {
+    "id": "hip_migration_surveillance_institution_v1",
+    "title": "Hip Migration Surveillance AI \u2014 Institution What\u2011If Lab",
+    "subtitle": "Monte Carlo proxy simulator of a Goguen institution for automated hip migration assessment in children with cerebral palsy (clinical X\u2011ray data, QC, clinician ground truth, ML landmarking, geometric measurement, database reporting, and internal/external validation).",
+    "footerNote": "Note: This is a conceptual proxy model for exploring trade-offs in a clinical AI workflow. It is not validated, not medical advice, and not a substitute for clinical evaluation, safety engineering, or medical device regulatory processes."
+  },
+  "project": {
+    "name": "Automated Hip Migration Assessment (CP Surveillance)",
+    "description": [
+      "The system supports national surveillance programs by automatically assessing hip X\u2011rays for children with cerebral palsy, estimating hip migration measurements from ML-predicted anatomical landmarks.",
+      "The proxy model links data messiness and QC effort to usable images, ground-truth coverage to training signal, and validation breadth plus workflow integration to adoption and regulatory readiness.",
+      "Outputs represent likely distributions of measurement reliability, reporting timeliness (delay reduction), adoption, regulatory acceptance, and downstream probability of avoiding severe outcomes via earlier detection."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Add deployment details (sites, scanners, population, workflow, human oversight, validation plan, database integration, governance/regulatory plan). Click \u201cGenerate AI Prompt\u201d to produce a prompt you can paste into an AI assistant for a short report interpreting the current settings.",
+      "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions.]",
+      "promptText": [
+        "You are an expert in clinical AI for medical imaging, paediatric orthopaedics, surveillance programs, and medical-device translation.",
+        "Write a short report (700\u20131,000 words) interpreting the likely outcomes of deploying an automated hip migration assessment tool for children with cerebral palsy under the current parameter settings.",
+        "",
+        "System summary:",
+        "- Inputs: clinical hip X\u2011ray images (messy real-world data) + basic clinical metadata.",
+        "- Pipeline: QC/screening \u2192 clinician ground truth landmarks \u2192 ML landmark prediction \u2192 geometric measurement (migration index) \u2192 reporting to a surveillance database.",
+        "- Evaluation: internal validation (within-site clinical data) plus external validation (new hospitals/scanners/populations).",
+        "- Implementation: stakeholder engagement, workflow fit, and database integration strongly influence adoption and timeliness.",
+        "",
+        "Current parameter settings:",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Please do ALL of the following:",
+        "1) Explain how these settings shape measurement reliability and reporting timeliness (reducing the manual bottleneck).",
+        "2) Discuss internal vs external validation and how validation breadth affects generalization and regulator confidence.",
+        "3) Identify main failure modes (QC miss, label noise, distribution shift, workflow mismatch, delayed data access) and the biggest levers to mitigate them.",
+        "4) Recommend 5 practical next actions (data/QC, clinician collaboration, validation, integration, governance/regulation).",
+        "5) Be explicit about uncertainty and what evidence (multi-site datasets, independent audits, prospective/silent trials, post-deployment monitoring) would reduce it.",
+        "",
+        "Project refinements supplied by the user (incorporate carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ],
+      "refocus": null
+    }
+  },
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Monte Carlo Outcomes (distributions + stats)",
+      "chartsTitle": "Likely Outcomes (distributions)"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        {
+          "id": "btnRandomize",
+          "label": "Randomize params"
+        },
+        {
+          "id": "btnReset",
+          "label": "Reset defaults"
+        },
+        {
+          "id": "btnToggleLive",
+          "label": "Toggle live update"
+        },
+        {
+          "id": "btnRecompute",
+          "label": "Recompute now"
+        }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your hip migration surveillance project refinements here\u2026\nExamples:\n- Surveillance program context (e.g., CPIP), imaging cadence, referral thresholds\n- Sites/scanners and expected distribution shift risks\n- QC process: who screens images, what exclusion rules\n- Ground truth: which clinicians annotate, inter-rater approach, tooling\n- Validation plan: internal + external sites, metrics, acceptance criteria\n- Workflow integration: reporting, alerts, growth-chart visualisation\n- Stakeholder engagement: clinical champions, PPIE, governance\n- Regulatory path: partner roles, documentation, post-market monitoring",
+      "buttons": [
+        {
+          "id": "btnGenPrompt",
+          "label": "Generate AI Prompt"
+        },
+        {
+          "id": "btnCopyPrompt",
+          "label": "Copy Prompt"
+        },
+        {
+          "id": "btnClearRefinements",
+          "label": "Clear refinements"
+        }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here\u2026"
+    }
+  },
+  "parameters": [
+    {
+      "id": "clinicalMessiness",
+      "label": "Clinical data messiness (variation, mislabels, positioning)",
+      "hint": "Higher means more real\u2011world variability and QC burden (wrong label/side, shielding, out-of-FOV).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "qcEffort",
+      "label": "QC & screening effort (time/tools/process discipline)",
+      "hint": "Higher improves QC pass rate and reduces unusable images reaching the model.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "id": "dataAccessSpeed",
+      "label": "Clinical data access speed (governance + approvals)",
+      "hint": "Higher means faster access to clinical data for development and evaluation; low can delay validation by months/years.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "groundTruthCoverage",
+      "label": "Clinician ground truth coverage (label volume + consistency)",
+      "hint": "Higher means more and better landmark annotations for learning and evaluation (reduces supervision scarcity).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "clinicianCollab",
+      "label": "Clinician collaboration depth (champions + iterative feedback)",
+      "hint": "Higher improves problem understanding, label semantics, edge-case handling, and credibility for adoption.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 65
+    },
+    {
+      "id": "computeBudget",
+      "label": "Compute & engineering capacity (training + evaluation throughput)",
+      "hint": "Higher supports robustness work, faster iteration, and more extensive validation.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "distributionShift",
+      "label": "Distribution shift risk (new sites/scanners/populations)",
+      "hint": "Higher increases generalization risk and can degrade measurement reliability without external validation.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "externalValidation",
+      "label": "External validation breadth (sites + scanners + populations)",
+      "hint": "Higher increases confidence the tool generalizes beyond the development setting.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "id": "workflowFit",
+      "label": "Workflow fit (integration into clinical practice)",
+      "hint": "Higher reduces friction and speeds clinical use (right outputs, right time, right interface).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "dbIntegration",
+      "label": "Surveillance database integration readiness",
+      "hint": "Higher improves automated reporting to the national database and enables longitudinal \u2018growth-chart\u2019 tracking.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "ppie",
+      "label": "PPIE strength (parents/carers input and communication)",
+      "hint": "Higher improves acceptability, prioritizes meaningful outputs (e.g., trends over time), and supports trust.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "commercialPartner",
+      "label": "Commercial partner readiness (regulatory + delivery capability)",
+      "hint": "Higher supports medical device pathway work (QMS, documentation, deployment infrastructure).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "baselineManualDelay",
+      "label": "Baseline manual reporting delay (months)",
+      "hint": "How long it takes (on average) from X\u2011ray acquisition to recorded measurement without automation.",
+      "min": 0.0,
+      "max": 12.0,
+      "step": 0.5,
+      "default": 4.0
+    },
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500,
+      "max": 30000,
+      "step": 500,
+      "default": 9000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more \u201creal-time\u201d.",
+      "min": 0,
+      "max": 600,
+      "step": 20,
+      "default": 120,
+      "isMeta": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "measurementReliability",
+      "title": "Measurement reliability probability",
+      "subtitle": "Proxy for agreement with clinician measurements (landmarks \u2192 geometry) on clinical data.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "reportingTimeliness",
+      "title": "Timely reporting probability",
+      "subtitle": "Proxy for getting measurements into the surveillance database quickly (reduced bottleneck).",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "expectedDelayMonths",
+      "title": "Expected measurement-to-record delay",
+      "subtitle": "Proxy expected months between image acquisition and recorded measurement (lower is better).",
+      "units": "months",
+      "range": {
+        "min": 0,
+        "max": 12
+      },
+      "summary": {
+        "meanFormat": "months",
+        "p10p90Format": "months"
+      }
+    },
+    {
+      "id": "adoption",
+      "title": "Adoption & sustained use probability",
+      "subtitle": "Driven by workflow fit, clinician collaboration, database integration, and perceived reliability.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "regAcceptance",
+      "title": "Regulatory readiness probability",
+      "subtitle": "Driven by external validation, partner readiness, governance maturity (proxy), and shift risk.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "avoidSevereOutcome",
+      "title": "Avoiding severe hip outcome probability",
+      "subtitle": "Proxy for earlier detection and intervention reducing progression to dislocation/complex surgery.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    }
+  ],
+  "engine": {
+    "bins": 44,
+    "random": {
+      "shocks": {
+        "epsQC": {
+          "type": "normal",
+          "sigma": 0.18
+        },
+        "epsGT": {
+          "type": "normal",
+          "sigma": 0.18
+        },
+        "epsRel": {
+          "type": "normal",
+          "sigma": 0.2
+        },
+        "epsAdopt": {
+          "type": "normal",
+          "sigma": 0.22
+        },
+        "epsReg": {
+          "type": "normal",
+          "sigma": 0.2
+        },
+        "epsOps": {
+          "type": "normal",
+          "sigma": 0.18
+        }
+      }
+    },
+    "derived": {
+      "mess": {
+        "op": "div",
+        "args": [
+          {
+            "var": "clinicalMessiness"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "qc": {
+        "op": "div",
+        "args": [
+          {
+            "var": "qcEffort"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "acc": {
+        "op": "div",
+        "args": [
+          {
+            "var": "dataAccessSpeed"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "gt": {
+        "op": "div",
+        "args": [
+          {
+            "var": "groundTruthCoverage"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "clin": {
+        "op": "div",
+        "args": [
+          {
+            "var": "clinicianCollab"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "comp": {
+        "op": "div",
+        "args": [
+          {
+            "var": "computeBudget"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "shift": {
+        "op": "div",
+        "args": [
+          {
+            "var": "distributionShift"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "extv": {
+        "op": "div",
+        "args": [
+          {
+            "var": "externalValidation"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "wf": {
+        "op": "div",
+        "args": [
+          {
+            "var": "workflowFit"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "db": {
+        "op": "div",
+        "args": [
+          {
+            "var": "dbIntegration"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "ppie": {
+        "op": "div",
+        "args": [
+          {
+            "var": "ppie"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "partner": {
+        "op": "div",
+        "args": [
+          {
+            "var": "commercialPartner"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "trainingSignal": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.45
+              },
+              {
+                "var": "gt"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.35
+              },
+              {
+                "var": "clin"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.25
+              },
+              {
+                "var": "comp"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.35
+              },
+              {
+                "var": "mess"
+              }
+            ]
+          }
+        ]
+      },
+      "integrationReadiness": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.5
+              },
+              {
+                "var": "wf"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.35
+              },
+              {
+                "var": "db"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.25
+              },
+              {
+                "var": "clin"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "var": "mess"
+              }
+            ]
+          }
+        ]
+      },
+      "governanceProxy": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.35
+              },
+              {
+                "var": "ppie"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.35
+              },
+              {
+                "var": "partner"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.4
+              },
+              {
+                "var": "extv"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.3
+              },
+              {
+                "var": "shift"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "perDraw": {
+      "qcPass": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.25
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.35
+                  },
+                  {
+                    "var": "qc"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -1.1
+                  },
+                  {
+                    "var": "mess"
+                  }
+                ]
+              },
+              {
+                "var": "epsQC"
+              }
+            ]
+          }
+        ]
+      },
+      "gtEffective": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": 0.1
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.65
+                  },
+                  {
+                    "var": "gt"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "acc"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.2
+                  },
+                  {
+                    "var": "qcPass"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "mess"
+                  }
+                ]
+              },
+              {
+                "var": "epsGT"
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      },
+      "measReliability": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.15
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.1
+                  },
+                  {
+                    "var": "trainingSignal"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.8
+                  },
+                  {
+                    "var": "gtEffective"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.45
+                  },
+                  {
+                    "var": "qcPass"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.9
+                  },
+                  {
+                    "var": "shift"
+                  }
+                ]
+              },
+              {
+                "var": "epsRel"
+              }
+            ]
+          }
+        ]
+      },
+      "regProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.3
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.05
+                  },
+                  {
+                    "var": "extv"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.65
+                  },
+                  {
+                    "var": "partner"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "governanceProxy"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "db"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.7
+                  },
+                  {
+                    "var": "shift"
+                  }
+                ]
+              },
+              {
+                "var": "epsReg"
+              }
+            ]
+          }
+        ]
+      },
+      "adoptionProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.25
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.1
+                  },
+                  {
+                    "var": "integrationReadiness"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.45
+                  },
+                  {
+                    "var": "measReliability"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.4
+                  },
+                  {
+                    "var": "regProb"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "shift"
+                  }
+                ]
+              },
+              {
+                "var": "epsAdopt"
+              }
+            ]
+          }
+        ]
+      },
+      "delayMonths": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "var": "baselineManualDelay"
+                  },
+                  {
+                    "op": "sub",
+                    "args": [
+                      {
+                        "lit": 1.0
+                      },
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "lit": 0.75
+                          },
+                          {
+                            "op": "mul",
+                            "args": [
+                              {
+                                "var": "adoptionProb"
+                              },
+                              {
+                                "var": "db"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.3
+                  },
+                  {
+                    "var": "epsOps"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "var": "baselineManualDelay"
+          }
+        ]
+      },
+      "timelyProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "sigmoid",
+            "args": [
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "lit": -2.2
+                      },
+                      {
+                        "op": "div",
+                        "args": [
+                          {
+                            "var": "delayMonths"
+                          },
+                          {
+                            "op": "add",
+                            "args": [
+                              {
+                                "lit": 0.5
+                              },
+                              {
+                                "var": "baselineManualDelay"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "lit": 0.55
+                      },
+                      {
+                        "var": "db"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "lit": 0.35
+                      },
+                      {
+                        "var": "qcPass"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      },
+      "harmRisk": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.95
+                  },
+                  {
+                    "var": "shift"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.65
+                  },
+                  {
+                    "var": "mess"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.85
+                  },
+                  {
+                    "var": "qcPass"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.6
+                  },
+                  {
+                    "var": "measReliability"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "ppie"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.1
+                  },
+                  {
+                    "var": "randn"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "benefitProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.4
+                  },
+                  {
+                    "var": "measReliability"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.22
+                  },
+                  {
+                    "var": "timelyProb"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.18
+                  },
+                  {
+                    "var": "adoptionProb"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.12
+                  },
+                  {
+                    "var": "regProb"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.18
+                  },
+                  {
+                    "op": "sub",
+                    "args": [
+                      {
+                        "lit": 1.0
+                      },
+                      {
+                        "var": "harmRisk"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      },
+      "avoidSevere": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": 0.1
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.6
+                  },
+                  {
+                    "var": "benefitProb"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "timelyProb"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.1
+                  },
+                  {
+                    "var": "measReliability"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      }
+    },
+    "outputMapping": {
+      "measurementReliability": "measReliability",
+      "reportingTimeliness": "timelyProb",
+      "expectedDelayMonths": "delayMonths",
+      "adoption": "adoptionProb",
+      "regAcceptance": "regProb",
+      "avoidSevereOutcome": "avoidSevere"
+    }
+  }
+}
