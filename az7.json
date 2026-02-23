@@ -1,0 +1,440 @@
+{
+  "meta": {
+    "id": "nerc_hub_goguen_institution_whatif_v1",
+    "title": "NERC Digital Solutions Hub — Goguen Institution What-If Lab",
+    "subtitle": "Monte Carlo proxy simulator: tune institution parameters (signatures, sentence clarity, model adequacy, satisfaction robustness) for an environmental data hub linking to socio-economic & health analysis via UPRN + TRE workflows and metadata-grounded AI.",
+    "footerNote": "Note: This is a toy proxy simulator for exploring socio-technical trade-offs in an abstract (Goguen) institution. It is not validated evidence, not medical advice, and not a substitute for governance, security, or epidemiological review."
+  },
+
+  "project": {
+    "name": "Goguen Institution Proxy: Environmental Hub → TRE Linkage",
+    "description": [
+      "This simulator treats the talk’s ecosystem as a Goguen institution: signatures (vocabulary and interfaces), sentences (constraints/policies/assumptions), models (platform+data+actors), and satisfaction (whether constraints hold in practice).",
+      "Sliders adjust institutional and operational levers (FAIR, interoperability, metadata, governance boundary strength, UPRN linkage coverage, TRE geospatial enablement, cloud cost control, workforce skill mix, and RAG grounding).",
+      "Monte Carlo draws represent uncertainty: data heterogeneity, resolution/temporality mismatch, demand spikes (cloud cost), and socio-technical friction (training and adoption). Outcomes estimate probabilities of usable linkage, governance acceptance, sustainable operations, and insight validity."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Add your situation (city/region, indicators, TRE constraints, partner datasets, budget). Click “Generate AI Prompt” to get a structured prompt you can paste into an AI assistant for a short report interpreting the current settings and designing a concrete case study.",
+      "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions.]",
+      "promptText": [
+        "You are an expert in formal methods (institutions), geospatial data platforms, FAIR/open data, and environment–health epidemiology workflows using TREs.",
+        "Write a short report (800–1,200 words) interpreting the likely outcomes of building/operating an environmental data hub and UPRN→TRE extraction workflow under the current parameter settings.",
+        "",
+        "First, ask the user to CHOOSE a concrete case (or propose one) and lock it in before you proceed. Offer 6–10 case options and invite parameterization:",
+        "- Manchester local pollution estimation (raster model + DEFRA point monitors)",
+        "- Deprivation–pollution overlay using IMD (2019→2025) and neighbourhood polygons",
+        "- Christie cancer records + UPRN environmental indicators joined inside a TRE",
+        "- Asthma triggers via prescribing + pollution/noise/temperature indicators",
+        "- UK Biobank: attach UPRNs for cohort enrichment with environmental exposures",
+        "- Pilot TRE geospatial enablement: add GIS tooling inside TRE to avoid heavy coding",
+        "- Cloud budget stress test: popularity spike and cost containment via runtime windows",
+        "",
+        "System framing (Goguen institution mapping):",
+        "- Signatures: datasets, indicators, spatial/temporal types, services (UPRN extraction), TRE interface, metadata/Q&A interface.",
+        "- Sentences: FAIR constraints, governance boundary rules, interoperability assumptions, quality/provenance requirements.",
+        "- Models: the hub platform, data sources (NERC/Met Office/DEFRA/etc.), users, cloud runtime, TRE environment.",
+        "- Satisfaction: probability that constraints hold under uncertainty (resolution mismatch, drift, cost spikes, skill gaps).",
+        "",
+        "Current parameter settings (0–100):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Please do ALL of the following:",
+        "1) Translate the selected case into institutional terms (signature extensions, key sentences/constraints, model assumptions).",
+        "2) Explain how parameter settings shift satisfaction likelihoods (which constraints fail first and why).",
+        "3) Provide a step-by-step delivery plan: data engineering pipeline, interoperability steps, governance steps, UPRN extraction workflow, TRE linkage workflow, and metadata/RAG user navigation.",
+        "4) Identify 6–10 risks/pathologies (e.g., ecological fallacy from coarse rasters, missing tooling in TRE, runaway cloud costs, AI hallucination) and mitigations.",
+        "5) Recommend 5 concrete next actions and define success signals, backfire signals, and monitoring metrics.",
+        "",
+        "Project refinements supplied by the user (incorporate carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Outcomes (Monte Carlo distributions + stats)",
+      "chartsTitle": "Outcome distributions"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        { "id": "btnRandomize", "label": "Randomize params" },
+        { "id": "btnReset", "label": "Reset defaults" },
+        { "id": "btnToggleLive", "label": "Toggle live update" },
+        { "id": "btnRecompute", "label": "Recompute now" }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your hub + TRE scenario refinements…\nExamples:\n- Case choice (Manchester / Christie cancer / asthma / IMD equity / UK Biobank / pilot TRE / cloud cost stress test)\n- Geography, time window, target exposures (NO2/PM2.5/black carbon/noise/heat/flood)\n- Health outcome type (aggregate neighbourhood vs individual-level TRE)\n- Data sources you can access (NERC, Met Office, DEFRA monitors, local authority layers)\n- Spatial constraints (raster resolution, postcode vs UPRN, height dimension)\n- TRE constraints (software available, disk limits, coding-only vs GIS tools)\n- Governance notes (DPIA required, approvals, stakeholders)\n- Budget limits and expected usage patterns\n- User community (public/private/third sector; training needs)",
+      "buttons": [
+        { "id": "btnGenPrompt", "label": "Generate AI Prompt" },
+        { "id": "btnCopyPrompt", "label": "Copy Prompt" },
+        { "id": "btnClearRefinements", "label": "Clear refinements" }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+
+  "parameters": [
+    {
+      "id": "fairMaturity",
+      "label": "FAIR maturity (findable/access/interoperable/reusable)",
+      "hint": "Higher means better identifiers, cataloguing, access patterns, and reuse pathways for non-academic users.",
+      "min": 0, "max": 100, "step": 1, "default": 65
+    },
+    {
+      "id": "metadataQuality",
+      "label": "Metadata & provenance quality",
+      "hint": "Higher means clearer lineage, coverage, uncertainty notes, and documentation—supports trust and fitness-for-purpose checks.",
+      "min": 0, "max": 100, "step": 1, "default": 70
+    },
+    {
+      "id": "interopReadiness",
+      "label": "Interoperability readiness (formats/APIs/standards)",
+      "hint": "Higher reduces friction when combining raster/vector/polygon/time series data and exchanging with partners or TREs.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "govBoundaryStrength",
+      "label": "Governance boundary strength (TRE-first, purpose limitation)",
+      "hint": "Higher enforces 'do not move sensitive health data into hub' and supports compliant export of environmental indicators to TREs.",
+      "min": 0, "max": 100, "step": 1, "default": 65
+    },
+    {
+      "id": "uprnCoverage",
+      "label": "UPRN linkage coverage & quality",
+      "hint": "Higher means properties reliably keyed by UPRN; enables fine-grained exposure assignment (better than postcode; supports apartments).",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "treEnablement",
+      "label": "TRE geospatial enablement (tools + storage)",
+      "hint": "Higher means GIS tooling + sufficient storage/compute inside TRE; lowers need for heavy coding and reduces workflow bottlenecks.",
+      "min": 0, "max": 100, "step": 1, "default": 45
+    },
+    {
+      "id": "resolutionAdequacy",
+      "label": "Spatial resolution adequacy for the question",
+      "hint": "Higher means exposures match decision scale (less ecological fallacy). Lower implies coarse rasters for fine inferences.",
+      "min": 0, "max": 100, "step": 1, "default": 45
+    },
+    {
+      "id": "temporalAlignment",
+      "label": "Temporal alignment (granularity, lag handling, aggregation)",
+      "hint": "Higher means time-series harmonisation is handled well across sensors, models, and health records.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "ragGrounding",
+      "label": "RAG/Ask-AI grounding strength",
+      "hint": "Higher means AI answers are constrained by retrieved metadata; reduces hallucination and improves navigation for non-specialists.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "userLedDelivery",
+      "label": "User-led delivery intensity (workshops, testing, training)",
+      "hint": "Higher means more co-design, training and iteration; improves adoption and helps surface constraints early.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "skillsAvailability",
+      "label": "Skill-mix availability (spatial data eng + cloud + software)",
+      "hint": "Higher means the team can execute ETL, GIS services, cloud ops, and product delivery reliably; lowers pivot pain.",
+      "min": 0, "max": 100, "step": 1, "default": 40
+    },
+    {
+      "id": "cloudCostControl",
+      "label": "Cloud cost control maturity (FinOps, runtime windows, quotas)",
+      "hint": "Higher reduces runaway spend under demand spikes; enables sustainable operations on fixed budgets.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "budgetCapacity",
+      "label": "Budget capacity (compute/storage/support)",
+      "hint": "Higher improves feasibility for cloud bills, platform ops, training, and maintenance under demand uncertainty.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500, "max": 30000, "step": 500, "default": 9000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more “real-time”.",
+      "min": 0, "max": 600, "step": 20, "default": 120,
+      "isMeta": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "id": "satisfactionRobustness",
+      "title": "Institution satisfaction robustness",
+      "subtitle": "Probability key institutional constraints hold (FAIR+governance+interop+quality) under uncertainty.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "insightValidity",
+      "title": "Valid env→health insight probability",
+      "subtitle": "Proxy for producing interpretable, scale-appropriate findings (less resolution/temporal bias; better TRE workflow).",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "governanceAcceptance",
+      "title": "Governance & trust acceptance probability",
+      "subtitle": "Likelihood stakeholders accept the workflow (TRE-first boundary, privacy, transparency, AI grounding).",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "sustainableOps",
+      "title": "Operational sustainability probability",
+      "subtitle": "Likelihood the platform remains financially/operationally viable under demand and cost uncertainty.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    }
+  ],
+
+  "engine": {
+    "bins": 44,
+
+    "random": {
+      "shocks": {
+        "epsHet":   { "type": "normal", "sigma": 0.22 },
+        "epsGov":   { "type": "normal", "sigma": 0.18 },
+        "epsCost":  { "type": "normal", "sigma": 0.24 },
+        "epsAdopt": { "type": "normal", "sigma": 0.20 },
+        "epsSci":   { "type": "normal", "sigma": 0.22 }
+      }
+    },
+
+    "derived": {
+      "fair":   { "op": "div", "args": [ { "var": "fairMaturity" }, { "lit": 100 } ] },
+      "metaq":  { "op": "div", "args": [ { "var": "metadataQuality" }, { "lit": 100 } ] },
+      "interop":{ "op": "div", "args": [ { "var": "interopReadiness" }, { "lit": 100 } ] },
+      "gov":    { "op": "div", "args": [ { "var": "govBoundaryStrength" }, { "lit": 100 } ] },
+      "uprn":   { "op": "div", "args": [ { "var": "uprnCoverage" }, { "lit": 100 } ] },
+      "tre":    { "op": "div", "args": [ { "var": "treEnablement" }, { "lit": 100 } ] },
+      "res":    { "op": "div", "args": [ { "var": "resolutionAdequacy" }, { "lit": 100 } ] },
+      "temp":   { "op": "div", "args": [ { "var": "temporalAlignment" }, { "lit": 100 } ] },
+      "rag":    { "op": "div", "args": [ { "var": "ragGrounding" }, { "lit": 100 } ] },
+      "user":   { "op": "div", "args": [ { "var": "userLedDelivery" }, { "lit": 100 } ] },
+      "skills": { "op": "div", "args": [ { "var": "skillsAvailability" }, { "lit": 100 } ] },
+      "finops": { "op": "div", "args": [ { "var": "cloudCostControl" }, { "lit": 100 } ] },
+      "bud":    { "op": "div", "args": [ { "var": "budgetCapacity" }, { "lit": 100 } ] },
+
+      "signatureExpressiveness": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.32 }, { "var": "interop" } ] },
+          { "op": "mul", "args": [ { "lit": 0.28 }, { "var": "uprn" } ] },
+          { "op": "mul", "args": [ { "lit": 0.22 }, { "var": "tre" } ] },
+          { "op": "mul", "args": [ { "lit": 0.18 }, { "var": "fair" } ] }
+        ]
+      },
+
+      "sentenceClarity": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.40 }, { "var": "fair" } ] },
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "gov" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "metaq" } ] }
+        ]
+      },
+
+      "modelAdequacy": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.24 }, { "var": "skills" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "interop" } ] },
+          { "op": "mul", "args": [ { "lit": 0.18 }, { "var": "metaq" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "bud" } ] },
+          { "op": "mul", "args": [ { "lit": 0.18 }, { "var": "finops" } ] }
+        ]
+      },
+
+      "scienceSuitability": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.42 }, { "var": "res" } ] },
+          { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "temp" } ] },
+          { "op": "mul", "args": [ { "lit": 0.18 }, { "var": "uprn" } ] },
+          { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "tre" } ] }
+        ]
+      },
+
+      "demandStress": {
+        "op": "add",
+        "args": [
+          { "lit": 0.55 },
+          { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "finops" } ] },
+          { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "bud" } ] },
+          { "op": "mul", "args": [ { "lit": -0.10 }, { "var": "skills" } ] }
+        ]
+      }
+    },
+
+    "perDraw": {
+      "integrationQuality": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.35 },
+              { "op": "mul", "args": [ { "lit": 1.10 }, { "var": "signatureExpressiveness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.95 }, { "var": "modelAdequacy" } ] },
+              { "op": "mul", "args": [ { "lit": 0.65 }, { "var": "metaq" } ] },
+              { "op": "mul", "args": [ { "lit": -0.80 }, { "var": "demandStress" } ] },
+              { "var": "epsHet" }
+            ]
+          }
+        ]
+      },
+
+      "aiNavigationReliability": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 1.10 }, { "var": "rag" } ] },
+              { "op": "mul", "args": [ { "lit": 0.75 }, { "var": "metaq" } ] },
+              { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "fair" } ] },
+              { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "demandStress" } ] },
+              { "var": "epsAdopt" }
+            ]
+          }
+        ]
+      },
+
+      "governanceCompliance": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.35 },
+              { "op": "mul", "args": [ { "lit": 1.15 }, { "var": "gov" } ] },
+              { "op": "mul", "args": [ { "lit": 0.70 }, { "var": "sentenceClarity" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "aiNavigationReliability" } ] },
+              { "op": "mul", "args": [ { "lit": -0.40 }, { "var": "demandStress" } ] },
+              { "var": "epsGov" }
+            ]
+          }
+        ]
+      },
+
+      "insightProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.45 },
+              { "op": "mul", "args": [ { "lit": 1.05 }, { "var": "scienceSuitability" } ] },
+              { "op": "mul", "args": [ { "lit": 0.75 }, { "var": "integrationQuality" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "tre" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "uprn" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "demandStress" } ] },
+              { "var": "epsSci" }
+            ]
+          }
+        ]
+      },
+
+      "opsSustainProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.30 },
+              { "op": "mul", "args": [ { "lit": 1.05 }, { "var": "finops" } ] },
+              { "op": "mul", "args": [ { "lit": 0.85 }, { "var": "bud" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "skills" } ] },
+              { "op": "mul", "args": [ { "lit": -0.95 }, { "var": "demandStress" } ] },
+              { "var": "epsCost" }
+            ]
+          }
+        ]
+      },
+
+      "adoptionProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.35 },
+              { "op": "mul", "args": [ { "lit": 0.95 }, { "var": "user" } ] },
+              { "op": "mul", "args": [ { "lit": 0.65 }, { "var": "aiNavigationReliability" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "integrationQuality" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "governanceCompliance" } ] },
+              { "op": "mul", "args": [ { "lit": -0.45 }, { "var": "demandStress" } ] },
+              { "var": "epsAdopt" }
+            ]
+          }
+        ]
+      },
+
+      "satisfactionProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.28 }, { "var": "integrationQuality" } ] },
+              { "op": "mul", "args": [ { "lit": 0.24 }, { "var": "governanceCompliance" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "insightProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.16 }, { "var": "opsSustainProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.12 }, { "var": "adoptionProb" } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      },
+
+      "govAcceptProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "governanceCompliance" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "aiNavigationReliability" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "user" } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      }
+    },
+
+    "outputMapping": {
+      "satisfactionRobustness": "satisfactionProb",
+      "insightValidity": "insightProb",
+      "governanceAcceptance": "govAcceptProb",
+      "sustainableOps": "opsSustainProb"
+    }
+  }
+}
