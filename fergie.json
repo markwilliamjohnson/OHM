@@ -1,0 +1,464 @@
+{
+  "meta": {
+    "id": "spotlight_pathology_institution_proxy_v1",
+    "title": "Spotlight Pathology (Blood Cancer) — Goguen Institution What-If Lab",
+    "subtitle": "Monte Carlo proxy simulator for a digital pathology AI medical-device venture (Fergie interview). Adjust governance, data quality, compute/scale, validation, QMS/regulatory readiness, stakeholder trust, and workflow fit; observe likely outcomes for regulatory approval, generalisation, adoption, throughput, and patient turnaround impact.",
+    "footerNote": "Note: This is a toy proxy model of mechanisms described in an interview. It is not validated evidence, not medical advice, and not a substitute for formal clinical evaluation, ISO 13485/14971 processes, regulator guidance, or NHS information governance."
+  },
+
+  "project": {
+    "name": "Digital Pathology AI for Blood Cancer Diagnosis (Streamlining Pathology)",
+    "description": [
+      "The system develops deep learning tools to analyse digitised pathology whole-slide images (gigapixel WSIs) and clinical metadata to streamline diagnosis (initial focus: lymphoma; expanding to myeloma/leukaemia).",
+      "Key mechanisms: collaborative data access via NHS hospitals; anonymisation and governance before transfer; secure cloud storage + distributed processing at terabyte scale; data QC/cleaning for artifacts/inconclusive labels; weakly supervised deep learning; baseline clinician performance studies; large consecutive cohorts; external validation on labs not used for training; ISO 13485 QMS; regulatory submissions (UK then EU); pilots with early adopters measuring throughput and turnaround time impact."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Describe your own comparable pathology-AI project (disease area, sites, WSI scale, governance constraints, validation plan, regulatory route, pilot endpoints). Click “Generate AI Prompt” to create a prompt for an AI assistant to interpret the current sliders and propose next actions.",
+      "defaultAssumptions": "[No refinements provided. State reasonable assumptions about the intended use, workflow integration, and evidence plan.]",
+      "promptText": [
+        "You are an expert in clinical AI for digital pathology, NHS data governance, ISO 13485 quality systems, medical-device regulation, and validation science for whole-slide imaging models.",
+        "Write a short report (700–1,000 words) interpreting the likely outcomes of deploying a blood-cancer digital pathology AI tool under the current parameter settings.",
+        "",
+        "System summary:",
+        "- Deep learning model trained on digitised whole-slide images (WSIs) plus clinical metadata.",
+        "- Uses weakly supervised labels; requires extensive QC/cleaning due to artifacts and real-world diagnostic ambiguity.",
+        "- Data are sourced via collaborations with NHS hospitals; governance and anonymisation occur before transfer.",
+        "- Operates on secure cloud storage + distributed compute because datasets are terabyte-scale.",
+        "- Evidence includes baseline clinician performance, large consecutive validation cohorts, and external validation on unseen labs.",
+        "- Productisation is governed by an ISO 13485 quality management system; regulatory path targets UK approval then EU approval; pilots measure lab and patient impact.",
+        "",
+        "Current parameter settings (0–100):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Please do ALL of the following:",
+        "1) Explain how these settings shape: (a) generalisation to new labs, (b) regulatory approval prospects, (c) adoption probability, and (d) throughput/turnaround outcomes.",
+        "2) Identify the main failure modes (data quality/label ambiguity, domain shift, governance friction, security gaps, compute bottlenecks, science-vs-regulation tension, workflow mismatch).",
+        "3) Recommend 6 practical next actions to de-risk the project (governance, data QC, external validation, QMS controls, pilot design, monitoring).",
+        "4) Propose a pilot plan with endpoints (capacity, turnaround time, error patterns, safety backstops) and a post-market monitoring approach for drift.",
+        "5) Explicitly invite the user to specify a comparable real case: disease scope, number of labs, dataset size (TB), governance constraints, target turnaround reduction, and success criteria.",
+        "",
+        "Project refinements supplied by the user (incorporate carefully; if empty, state assumptions):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Likely Outcomes (distributions + summary stats)",
+      "chartsTitle": "Likely Outcomes (distributions)"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        { "id": "btnRandomize", "label": "Randomize params" },
+        { "id": "btnReset", "label": "Reset defaults" },
+        { "id": "btnToggleLive", "label": "Toggle live update" },
+        { "id": "btnRecompute", "label": "Recompute now" }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your pathology-AI project refinements…\nExamples:\n- Target indication: lymphoma / myeloma / leukaemia; intended use (triage, decision support, QC)\n- Sites: number of NHS labs, scanners/stain protocols, LIS integration constraints\n- Dataset: size (TB), consecutive cohorts vs curated cohorts, label strategy and adjudication plan\n- Governance: anonymisation steps, approvals, DPIA/IG requirements, security controls\n- Validation: baseline clinician study, external validation sites, subgroup/bias checks\n- QMS/regulatory: ISO 13485 readiness, risk management plan, UKCA/CE timelines\n- Pilot: endpoints (turnaround, capacity, cost), safety backstops, monitoring cadence",
+      "buttons": [
+        { "id": "btnGenPrompt", "label": "Generate AI Prompt" },
+        { "id": "btnCopyPrompt", "label": "Copy Prompt" },
+        { "id": "btnClearRefinements", "label": "Clear refinements" }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+
+  "parameters": [
+    {
+      "id": "dataQuality",
+      "label": "Data quality after QC (artifacts, focus, metadata completeness)",
+      "hint": "Higher means fewer slide artifacts/focus issues and better metadata reconciliation; reduces label noise and improves training/validation fidelity.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "labelAdjudication",
+      "label": "Label adjudication rigor (handling inconclusive diagnoses)",
+      "hint": "Higher means more expert review of reports/clinical correlation and clearer exclusion rules; reduces ambiguous ground truth.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "datasetRepresentativeness",
+      "label": "Representativeness (consecutive real-world cohorts)",
+      "hint": "Higher means more consecutive, routine-case cohorts (harder but more realistic); improves device-grade relevance but increases QC burden.",
+      "min": 0, "max": 100, "step": 1, "default": 65
+    },
+    {
+      "id": "domainShiftRisk",
+      "label": "Domain shift risk (new labs, scanners, stains, populations)",
+      "hint": "Higher increases generalisation risk; requires external validation, monitoring, and possibly adaptation under control.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "governanceMaturity",
+      "label": "NHS governance engagement maturity (early, clear, aligned)",
+      "hint": "Higher means earlier engagement with data governance teams, clearer justification/minimisation, and smoother approvals/transfer.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "anonymisationRigor",
+      "label": "Anonymisation rigor (de-identification, age banding, linkage risk control)",
+      "hint": "Higher reduces identifiability risk and improves partner/regulator confidence; may constrain some analyses.",
+      "min": 0, "max": 100, "step": 1, "default": 70
+    },
+    {
+      "id": "securityControls",
+      "label": "Cloud security controls (access control, audit, incident readiness)",
+      "hint": "Higher reduces breach risk and improves governance/regulatory acceptance for data stored outside hospitals.",
+      "min": 0, "max": 100, "step": 1, "default": 65
+    },
+    {
+      "id": "computeCapacity",
+      "label": "Compute capacity for WSI scale (storage + distributed processing)",
+      "hint": "Higher improves throughput for terabyte-scale training/validation and reduces cycle time impact of weeks-long jobs.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "infraMaturity",
+      "label": "Software/infrastructure maturity (reproducible pipelines, robustness)",
+      "hint": "Higher means stable platform for ingest/QC/training/validation and traceable runs; lowers operational risk.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "qmsMaturity",
+      "label": "QMS maturity (ISO 13485 design controls + change control)",
+      "hint": "Higher improves auditability and regulatory compatibility; constrains ad-hoc iteration but reduces rework.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "validationRigor",
+      "label": "Validation rigor (baseline studies + large cohorts + external labs)",
+      "hint": "Higher means stronger evidence: baseline human studies, consecutive cohorts, and external validation on unseen labs.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "stakeholderTrust",
+      "label": "Stakeholder trust & transparency (clinicians, hospitals, partners)",
+      "hint": "Higher improves collaboration speed, data access, and adoption willingness; reduces friction on difficult topics.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "workflowFit",
+      "label": "Workflow fit (pathway integration, usability, lab operations)",
+      "hint": "Higher means tool fits diagnostic practice and reduces turnaround time realistically; lowers workarounds.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "fundingAdequacy",
+      "label": "Funding adequacy (grants + equity to sustain evidence + productisation)",
+      "hint": "Higher supports data collection via grants and scaling via investment, reducing schedule and evidence gaps.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500, "max": 30000, "step": 500, "default": 9000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more “real-time”.",
+      "min": 0, "max": 600, "step": 20, "default": 120,
+      "isMeta": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "id": "generalisation",
+      "title": "Generalisation to new labs (probability)",
+      "subtitle": "Proxy for maintaining acceptable performance on unseen laboratories (domain shift controlled by external validation + monitoring readiness).",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "regApproval",
+      "title": "Regulatory approval readiness (probability)",
+      "subtitle": "Proxy for UK approval success given QMS maturity, governance/security controls, and validation evidence strength.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "adoption",
+      "title": "Adoption & sustained use (probability)",
+      "subtitle": "Proxy for uptake by pathology labs (workflow fit + trust + regulatory confidence + operational feasibility).",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "throughput",
+      "title": "Meaningful throughput gain (probability)",
+      "subtitle": "Proxy for increasing diagnostic capacity without sacrificing quality; depends on adoption + compute/infrastructure + data fidelity.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "patientTurnaround",
+      "title": "Reduced patient turnaround time (probability)",
+      "subtitle": "Proxy for reducing time from biopsy/reporting to diagnosis/treatment initiation through faster lab workflows.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "timeToMarket",
+      "title": "Time to market (months)",
+      "subtitle": "Proxy for time until first scalable market deployment (approval + operational readiness), under the current constraints.",
+      "units": "months",
+      "range": { "min": 0, "max": 36 },
+      "summary": { "meanFormat": "months", "p10p90Format": "months" }
+    }
+  ],
+
+  "engine": {
+    "bins": 44,
+
+    "random": {
+      "shocks": {
+        "epsData":  { "type": "normal", "sigma": 0.22 },
+        "epsGov":   { "type": "normal", "sigma": 0.18 },
+        "epsPerf":  { "type": "normal", "sigma": 0.20 },
+        "epsReg":   { "type": "normal", "sigma": 0.18 },
+        "epsAdopt": { "type": "normal", "sigma": 0.22 },
+        "epsOps":   { "type": "normal", "sigma": 0.20 },
+        "epsSched": { "type": "normal", "sigma": 0.30 }
+      }
+    },
+
+    "derived": {
+      "dq":   { "op": "div", "args": [ { "var": "dataQuality" }, { "lit": 100 } ] },
+      "adj":  { "op": "div", "args": [ { "var": "labelAdjudication" }, { "lit": 100 } ] },
+      "rep":  { "op": "div", "args": [ { "var": "datasetRepresentativeness" }, { "lit": 100 } ] },
+      "shift":{ "op": "div", "args": [ { "var": "domainShiftRisk" }, { "lit": 100 } ] },
+
+      "gov":  { "op": "div", "args": [ { "var": "governanceMaturity" }, { "lit": 100 } ] },
+      "anon": { "op": "div", "args": [ { "var": "anonymisationRigor" }, { "lit": 100 } ] },
+      "sec":  { "op": "div", "args": [ { "var": "securityControls" }, { "lit": 100 } ] },
+
+      "comp": { "op": "div", "args": [ { "var": "computeCapacity" }, { "lit": 100 } ] },
+      "inf":  { "op": "div", "args": [ { "var": "infraMaturity" }, { "lit": 100 } ] },
+
+      "qms":  { "op": "div", "args": [ { "var": "qmsMaturity" }, { "lit": 100 } ] },
+      "val":  { "op": "div", "args": [ { "var": "validationRigor" }, { "lit": 100 } ] },
+
+      "trust":{ "op": "div", "args": [ { "var": "stakeholderTrust" }, { "lit": 100 } ] },
+      "wf":   { "op": "div", "args": [ { "var": "workflowFit" }, { "lit": 100 } ] },
+      "fund": { "op": "div", "args": [ { "var": "fundingAdequacy" }, { "lit": 100 } ] },
+
+      "dataFidelityBase": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "dq" } ] },
+          { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "adj" } ] },
+          { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "rep" } ] },
+          { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "shift" } ] }
+        ]
+      },
+
+      "governanceStrength": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.40 }, { "var": "gov" } ] },
+          { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "anon" } ] },
+          { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "sec" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "trust" } ] }
+        ]
+      },
+
+      "engineeringReadiness": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "inf" } ] },
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "comp" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "fund" } ] }
+        ]
+      },
+
+      "evidenceStrength": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.65 }, { "var": "val" } ] },
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "rep" } ] },
+          { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "shift" } ] }
+        ]
+      },
+
+      "regReadiness": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "qms" } ] },
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "governanceStrength" } ] },
+          { "op": "mul", "args": [ { "lit": 0.50 }, { "var": "evidenceStrength" } ] },
+          { "op": "mul", "args": [ { "lit": -0.30 }, { "var": "shift" } ] }
+        ]
+      },
+
+      "adoptionReadiness": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "wf" } ] },
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "trust" } ] },
+          { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "fund" } ] }
+        ]
+      }
+    },
+
+    "perDraw": {
+      "dataFidelity": {
+        "op": "add",
+        "args": [
+          { "var": "dataFidelityBase" },
+          { "var": "epsData" }
+        ]
+      },
+
+      "modelPerformance": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.35 },
+              { "op": "mul", "args": [ { "lit": 1.15 }, { "var": "dataFidelity" } ] },
+              { "op": "mul", "args": [ { "lit": 0.65 }, { "var": "engineeringReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "evidenceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": -0.85 }, { "var": "shift" } ] },
+              { "var": "epsPerf" }
+            ]
+          }
+        ]
+      },
+
+      "generalisationProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 1.05 }, { "var": "modelPerformance" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "evidenceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": -0.95 }, { "var": "shift" } ] },
+              { "var": "epsGov" }
+            ]
+          }
+        ]
+      },
+
+      "regProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.35 },
+              { "op": "mul", "args": [ { "lit": 1.20 }, { "var": "regReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "generalisationProb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.45 }, { "var": "shift" } ] },
+              { "var": "epsReg" }
+            ]
+          }
+        ]
+      },
+
+      "adoptionProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.30 },
+              { "op": "mul", "args": [ { "lit": 1.10 }, { "var": "adoptionReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "regProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "modelPerformance" } ] },
+              { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "shift" } ] },
+              { "var": "epsAdopt" }
+            ]
+          }
+        ]
+      },
+
+      "throughputProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": 0.10 },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "modelPerformance" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "adoptionProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "engineeringReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "shift" } ] },
+              { "var": "epsOps" }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      },
+
+      "patientTurnaroundProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": 0.05 },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "throughputProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "wf" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "adoptionProb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.15 }, { "var": "shift" } ] },
+              { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "randn" } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      },
+
+      "timeMonths": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": 22.0 },
+              { "op": "mul", "args": [ { "lit": -10.0 }, { "var": "regProb" } ] },
+              { "op": "mul", "args": [ { "lit": -4.5 }, { "var": "engineeringReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": -3.5 }, { "var": "fund" } ] },
+              { "op": "mul", "args": [ { "lit": 6.0 }, { "var": "shift" } ] },
+              { "op": "mul", "args": [ { "lit": 2.0 }, { "var": "rep" } ] },
+              { "var": "epsSched" }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 36.0 }
+        ]
+      }
+    },
+
+    "outputMapping": {
+      "generalisation": "generalisationProb",
+      "regApproval": "regProb",
+      "adoption": "adoptionProb",
+      "throughput": "throughputProb",
+      "patientTurnaround": "patientTurnaroundProb",
+      "timeToMarket": "timeMonths"
+    }
+  }
+}
