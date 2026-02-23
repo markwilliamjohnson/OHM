@@ -1,0 +1,509 @@
+{
+  "meta": {
+    "id": "digital_health_institution_proxy_v1",
+    "title": "Digital Health Assurance — Goguen Institution What-If Lab",
+    "subtitle": "Monte Carlo proxy simulator: adjust institution parameters (team, governance, regulation, data, evidence, execution, investor readiness) and observe distributions for safety, effectiveness, regulatory acceptance, adoption, and time-to-milestone.",
+    "footerNote": "Note: This is a toy proxy model of a Goguen-style institution (signatures/sentences/models/satisfaction) for exploration and education. It is not validated and is not a substitute for clinical safety evaluation, regulatory advice, or real-world assurance."
+  },
+
+  "project": {
+    "name": "Digital Health Transformation & Assurance (Institution Model)",
+    "description": [
+      "This simulator treats a digital health/AI product effort as a Goguen institution: a signature (vocabulary of key concepts), sentences (requirements/claims), models (project worlds), and satisfaction (whether the world meets the requirements).",
+      "Sliders control the strength of the mechanisms discussed in the transcript: patient-safety-first, integrated governance, early regulatory roadmap aligned to commercial strategy, data availability/quality, compute readiness, evidence generation, co-creation, execution discipline, and investor readiness.",
+      "Outcomes are computed via Monte Carlo draws with uncertainty shocks to represent unknown unknowns and real-world variability."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Describe your specific case (product + setting + constraints). Click “Generate AI Prompt” to get a prompt for an AI assistant to interpret the current institution settings and propose an assurance plan. Tip: explicitly choose a case type (e.g., NHS procurement, pharma R&D AI pilot, independent provider digital clinic) and a failure mode (e.g., late regulation, data delay, bias/drift).",
+      "defaultAssumptions": "[No refinements provided. State reasonable assumptions and ask the user to specify a concrete case and failure mode.]",
+      "promptText": [
+        "You are an expert in digital health assurance, clinical safety governance, evidence generation, and regulatory/commercial alignment.",
+        "Interpret the current slider settings as a Goguen institution instance (signature + requirements + model + satisfaction).",
+        "",
+        "Current institution parameter settings (0–100 unless noted):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "User’s project refinements (incorporate carefully; if empty, propose 3 candidate cases and ask the user to pick one):",
+        "{{REFINEMENTS}}",
+        "",
+        "Do ALL of the following:",
+        "1) Translate settings into an explicit institution view: key signature concepts, the implied core requirements (sentences), and what would count as a satisfying model.",
+        "2) Explain outcome implications for: patient safety, clinical effectiveness, regulatory acceptance, adoption, and time-to-next-milestone.",
+        "3) Identify the dominant bottleneck(s) and the top 3 leverage points (what to change first).",
+        "4) Propose an integrated governance plan (clinical, HR credentialing, IG/security, corporate, financial) and a regulatory roadmap aligned with commercial strategy (as an enabler).",
+        "5) Specify a data + compute plan (availability, quality, bias, validation, monitoring) and an evidence plan (safety first, then ‘does it work’).",
+        "6) Provide an investor readiness plan (pitch story + financial model + milestone spend plan) and how to communicate to different audiences (grant vs investor).",
+        "7) List 5 concrete next actions and 5 indicators/metrics to monitor (including leading safety indicators).",
+        "8) Invite the user to specify a closely related case: setting (NHS/private/pharma), end users, data sources, intended claims, deployment workflow, and what went wrong/right."
+      ]
+    }
+  },
+
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Outcomes (Monte Carlo distributions + summary stats)",
+      "chartsTitle": "Outcome distributions"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        { "id": "btnRandomize", "label": "Randomize params" },
+        { "id": "btnReset", "label": "Reset defaults" },
+        { "id": "btnToggleLive", "label": "Toggle live update" },
+        { "id": "btnRecompute", "label": "Recompute now" }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your case here…\nExamples:\n- Case type: NHS procurement, independent provider digital clinic, pharma AI in R&D/medical affairs\n- Intended use/claims: triage support, clinical decision support, monitoring, admin automation\n- End users: clinicians, patients, ops staff; human-in-the-loop design\n- Data: sources, access constraints, quality issues, representativeness, IG/security approach\n- Governance: clinical safety lead, HR credentialing, IG owner, corporate oversight cadence\n- Regulation: DCB0129/0160, DTAC, SaMD/medical device considerations\n- Evidence plan: safety case + clinical evaluation + post-market monitoring\n- Funding: grant/investment round, milestone target, pitch deck status\n- What went wrong/right: late regulation, data delays, drift/bias, rushed launch, competitor pressure",
+      "buttons": [
+        { "id": "btnGenPrompt", "label": "Generate AI Prompt" },
+        { "id": "btnCopyPrompt", "label": "Copy Prompt" },
+        { "id": "btnClearRefinements", "label": "Clear refinements" }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+
+  "parameters": [
+    {
+      "id": "patientSafetyEthos",
+      "label": "Patient-safety-first ethos",
+      "hint": "Higher means safety is the first constraint (gating), shaping decisions across design, evidence, governance, and release cadence.",
+      "min": 0, "max": 100, "step": 1, "default": 75
+    },
+    {
+      "id": "teamCompleteness",
+      "label": "Team completeness (clinical + data + product + governance)",
+      "hint": "Higher means key roles exist and collaborate (clinicians, data scientist, product/engineering, governance, marketing). Reduces blind spots.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "cultureExecution",
+      "label": "Execution culture (high-performing, tension-managed)",
+      "hint": "Higher improves coordination and delivery rhythm; lower increases cross-functional friction and rework.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "coCreationDepth",
+      "label": "Co-creation depth (patients/clinicians continuous input)",
+      "hint": "Higher improves socio-technical fit, reduces workflow mismatch, and reveals safety risks earlier.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "integratedGovernance",
+      "label": "Integrated governance maturity",
+      "hint": "Higher means joined-up clinical governance + HR credentialing + IG/security + corporate + financial governance with clear owners and cadence.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "regRoadmapEarly",
+      "label": "Regulatory roadmap defined early",
+      "hint": "Higher means standards/claims/classification planned early (e.g., DCB0129/0160, DTAC, SaMD pathway) reducing late rework.",
+      "min": 0, "max": 100, "step": 1, "default": 65
+    },
+    {
+      "id": "regCommercialAlignment",
+      "label": "Regulatory–commercial alignment",
+      "hint": "Higher means intended use/claims, evidence, and go-to-market are aligned; regulation functions as an enabler of market access.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "dataAvailability",
+      "label": "Data availability (access + lead times)",
+      "hint": "Higher means data can be obtained in the needed time/format; lower increases delay risk and runway burn.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "dataQuality",
+      "label": "Data quality & representativeness",
+      "hint": "Higher improves model reliability and reduces bias risk; lower increases safety risk and weakens evidence.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "computeReadiness",
+      "label": "Compute/MLOps readiness",
+      "hint": "Higher supports reproducibility, monitoring, rollback, secure infra, and faster iteration; lower constrains validation and monitoring.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "evidenceDiscipline",
+      "label": "Evidence discipline (safety then effectiveness)",
+      "hint": "Higher means evidence plan exists early and matches claims/risk; lower increases regulatory and adoption fragility.",
+      "min": 0, "max": 100, "step": 1, "default": 60
+    },
+    {
+      "id": "investorReadiness",
+      "label": "Investor readiness (deck + financial model + milestones)",
+      "hint": "Higher means concise, audience-fit pitch + robust financial model linked to milestones; improves funding probability.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "marketClarity",
+      "label": "Market clarity (unmet need + USP + defensibility)",
+      "hint": "Higher means problem/market validated and defensibility understood; lower increases risk of building the wrong thing or being outcompeted.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "competitivePressure",
+      "label": "Competitive pressure",
+      "hint": "Higher increases incentive to rush; without governance it raises safety/rework risk. With strong governance it mainly accelerates execution.",
+      "min": 0, "max": 100, "step": 1, "default": 45
+    },
+    {
+      "id": "runwayBuffer",
+      "label": "Runway buffer (time/capital slack)",
+      "hint": "Higher means more slack to do evidence/compliance properly; lower increases shortcut temptation and late-stage fragility.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500, "max": 30000, "step": 500, "default": 9000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more “real-time”.",
+      "min": 0, "max": 600, "step": 20, "default": 120,
+      "isMeta": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "id": "safetySatisfaction",
+      "title": "Safety satisfaction probability",
+      "subtitle": "Proxy that the institution’s safety-related sentences are satisfied (safety case + controls + monitoring adequate for intended use).",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "effectivenessSatisfaction",
+      "title": "Effectiveness satisfaction probability",
+      "subtitle": "Proxy that evidence supports “does it work?” for the intended use in the real workflow context.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "regulatoryAcceptance",
+      "title": "Regulatory & procurement acceptance probability",
+      "subtitle": "Proxy acceptance under standards/procurement (e.g., DCB0129/0160, DTAC, SaMD path) driven by roadmap timing, governance, and evidence.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "adoptionProbability",
+      "title": "Adoption & sustained use probability",
+      "subtitle": "Proxy for uptake and persistence: workflow fit + trust + stakeholder support (via governance, evidence, and communication).",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "timeToMilestone",
+      "title": "Time to next milestone (expected)",
+      "subtitle": "Proxy months to reach the next investable/procurement milestone; increases with late rework, data delays, and weak execution.",
+      "units": "months",
+      "range": { "min": 0, "max": 24 },
+      "summary": { "meanFormat": "months", "p10p90Format": "months" }
+    }
+  ],
+
+  "engine": {
+    "bins": 44,
+
+    "random": {
+      "shocks": {
+        "epsUnk":   { "type": "normal", "sigma": 0.22 },
+        "epsData":  { "type": "normal", "sigma": 0.20 },
+        "epsGov":   { "type": "normal", "sigma": 0.18 },
+        "epsExec":  { "type": "normal", "sigma": 0.20 },
+        "epsMarket":{ "type": "normal", "sigma": 0.18 }
+      }
+    },
+
+    "derived": {
+      "ps":   { "op": "div", "args": [ { "var": "patientSafetyEthos" }, { "lit": 100 } ] },
+      "team": { "op": "div", "args": [ { "var": "teamCompleteness" }, { "lit": 100 } ] },
+      "cult": { "op": "div", "args": [ { "var": "cultureExecution" }, { "lit": 100 } ] },
+      "co":   { "op": "div", "args": [ { "var": "coCreationDepth" }, { "lit": 100 } ] },
+      "gov":  { "op": "div", "args": [ { "var": "integratedGovernance" }, { "lit": 100 } ] },
+      "re":   { "op": "div", "args": [ { "var": "regRoadmapEarly" }, { "lit": 100 } ] },
+      "ra":   { "op": "div", "args": [ { "var": "regCommercialAlignment" }, { "lit": 100 } ] },
+      "da":   { "op": "div", "args": [ { "var": "dataAvailability" }, { "lit": 100 } ] },
+      "dq":   { "op": "div", "args": [ { "var": "dataQuality" }, { "lit": 100 } ] },
+      "cr":   { "op": "div", "args": [ { "var": "computeReadiness" }, { "lit": 100 } ] },
+      "ev":   { "op": "div", "args": [ { "var": "evidenceDiscipline" }, { "lit": 100 } ] },
+      "ir":   { "op": "div", "args": [ { "var": "investorReadiness" }, { "lit": 100 } ] },
+      "mc":   { "op": "div", "args": [ { "var": "marketClarity" }, { "lit": 100 } ] },
+      "cp":   { "op": "div", "args": [ { "var": "competitivePressure" }, { "lit": 100 } ] },
+      "rb":   { "op": "div", "args": [ { "var": "runwayBuffer" }, { "lit": 100 } ] },
+
+      "unknownUnknowns": {
+        "op": "add",
+        "args": [
+          { "lit": 0.55 },
+          { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "team" } ] },
+          { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "gov" } ] },
+          { "op": "mul", "args": [ { "lit": -0.15 }, { "var": "co" } ] }
+        ]
+      },
+
+      "executionCapacity": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.40 }, { "var": "team" } ] },
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "cult" } ] },
+          { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "rb" } ] },
+          { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "cp" } ] }
+        ]
+      },
+
+      "governanceStrength": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "gov" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "ps" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "re" } ] },
+          { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "ra" } ] }
+        ]
+      },
+
+      "dataReadiness": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "da" } ] },
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "dq" } ] },
+          { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "cr" } ] }
+        ]
+      },
+
+      "evidenceStrength": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "ev" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "dataReadiness" } ] },
+          { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "co" } ] },
+          { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "cr" } ] }
+        ]
+      },
+
+      "marketRisk": {
+        "op": "add",
+        "args": [
+          { "lit": 0.45 },
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "cp" } ] },
+          { "op": "mul", "args": [ { "lit": -0.45 }, { "var": "mc" } ] }
+        ]
+      }
+    },
+
+    "perDraw": {
+      "lateReworkRisk": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.05 },
+              { "op": "mul", "args": [ { "lit": 1.15 }, { "var": "unknownUnknowns" } ] },
+              { "op": "mul", "args": [ { "lit": 0.70 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "re" } ] } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "ra" } ] } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "epsUnk" } ] }
+            ]
+          }
+        ]
+      },
+
+      "dataDelayRisk": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.10 },
+              { "op": "mul", "args": [ { "lit": 1.10 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "da" } ] } ] },
+              { "op": "mul", "args": [ { "lit": 0.65 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "dq" } ] } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "epsData" } ] }
+            ]
+          }
+        ]
+      },
+
+      "safetyControls": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 1.10 }, { "var": "ps" } ] },
+              { "op": "mul", "args": [ { "lit": 1.00 }, { "var": "governanceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": 0.65 }, { "var": "evidenceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": -0.85 }, { "var": "lateReworkRisk" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "dataDelayRisk" } ] },
+              { "var": "epsGov" }
+            ]
+          }
+        ]
+      },
+
+      "effectivenessEvidence": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.30 },
+              { "op": "mul", "args": [ { "lit": 0.95 }, { "var": "evidenceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "dataReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "executionCapacity" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "marketRisk" } ] },
+              { "var": "epsExec" }
+            ]
+          }
+        ]
+      },
+
+      "regulatoryProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.30 },
+              { "op": "mul", "args": [ { "lit": 1.15 }, { "var": "governanceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": 0.70 }, { "var": "evidenceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": -0.95 }, { "var": "lateReworkRisk" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "dataDelayRisk" } ] },
+              { "var": "epsGov" }
+            ]
+          }
+        ]
+      },
+
+      "trustSignal": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.20 },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "safetyControls" } ] },
+              { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "effectivenessEvidence" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "regulatoryProb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "lateReworkRisk" } ] },
+              { "var": "epsMarket" }
+            ]
+          }
+        ]
+      },
+
+      "adoptionProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 0.70 }, { "var": "trustSignal" } ] },
+              { "op": "mul", "args": [ { "lit": 0.50 }, { "var": "co" } ] },
+              { "op": "mul", "args": [ { "lit": 0.40 }, { "var": "executionCapacity" } ] },
+              { "op": "mul", "args": [ { "lit": -0.40 }, { "var": "marketRisk" } ] },
+              { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "dataDelayRisk" } ] },
+              { "var": "epsExec" }
+            ]
+          }
+        ]
+      },
+
+      "milestoneSpeed": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.15 },
+              { "op": "mul", "args": [ { "lit": 0.80 }, { "var": "executionCapacity" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "ir" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "rb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.85 }, { "var": "lateReworkRisk" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "dataDelayRisk" } ] },
+              { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "cp" } ] },
+              { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "randn" } ] }
+            ]
+          }
+        ]
+      },
+
+      "timeMonths": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": 14.0 },
+              { "op": "mul", "args": [ { "lit": -9.0 }, { "var": "milestoneSpeed" } ] },
+              { "op": "mul", "args": [ { "lit": 6.0 }, { "var": "lateReworkRisk" } ] },
+              { "op": "mul", "args": [ { "lit": 4.0 }, { "var": "dataDelayRisk" } ] },
+              { "op": "mul", "args": [ { "lit": 1.0 }, { "var": "epsUnk" } ] }
+            ]
+          },
+          { "lit": 1.0 },
+          { "lit": 24.0 }
+        ]
+      },
+
+      "safetyProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "safetyControls" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "regulatoryProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "dataReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "ps" } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      },
+
+      "effectivenessProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.60 }, { "var": "effectivenessEvidence" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "adoptionProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "dataReadiness" } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      }
+    },
+
+    "outputMapping": {
+      "safetySatisfaction": "safetyProb",
+      "effectivenessSatisfaction": "effectivenessProb",
+      "regulatoryAcceptance": "regulatoryProb",
+      "adoptionProbability": "adoptionProb",
+      "timeToMilestone": "timeMonths"
+    }
+  }
+}
