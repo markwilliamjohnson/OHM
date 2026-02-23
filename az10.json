@@ -1,0 +1,826 @@
+{
+  "meta": {
+    "title": "Digital Health Transformation & Assurance — Wisdom → Super-Concepts → Systems → Governance → Operations → Improvement → Cases",
+    "subtitle": "A dense lattice of interconnections from patient-safety-first wisdom to the practical mechanics of regulated digital health (AI, data, governance, evidence, investor readiness) and real-world failure modes.",
+    "domainName": "digital health transformation & assurance",
+    "searchPlaceholder": "patient safety, clinical evidence, integrated governance, DCB0129, DCB0160, DTAC, medical device regulation, SaMD, QMS, ISO 13485, ISO 14971, post-market surveillance, data quality, dataset access, bias, model validation, human factors, cybersecurity, pitch deck, financial model, milestones, product-market fit, unmet need, defensibility…",
+    "userContextLabel": "Your digital health / pharma transformation context (optional)",
+    "userContextPlaceholder": "e.g., pharma R&D team piloting AI triage; NHS procurement target; limited dataset access; runway pressure; need regulatory roadmap + evidence + investor deck…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert digital health assurance lead with deep experience in clinical safety, regulation, evidence generation, and digital transformation.\n\nWrite a realistic narrative case study that traces from upstream management wisdom down to operational decisions.\nYour goal: show how to build (or rescue) a digital health / AI product so it is safe, clinically effective, regulatory-ready, commercially aligned, and investable.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nCritical instruction:\n- Anchor the story around at least ONE selected CASE (orange) or RISK/PATHOLOGY (red).\n- If none is selected, propose 3 candidate cases from the map and invite the user to choose one.\n- Invite the user to specify (or invent) a closely related case: setting (NHS/private/pharma), user group, data source, intended claims, deployment context, and what went wrong/right.\n\nDeliver:\n- Scenario (actors, setting, patient/user group, intended outcome, constraints)\n- What problem is being solved + evidence of unmet need\n- Team composition + co-creation plan (patients/clinicians)\n- Integrated governance plan (clinical, IG, HR credentialing, corporate, financial)\n- Regulatory roadmap aligned to commercial strategy (as an enabler)\n- Data + compute plan (access, quality, bias, validation)\n- Evidence plan (safety first, then ‘does it work’)\n- Investor readiness plan (deck story + financial model + milestone spend)\n- Failure modes + prevention (what to do early to avoid costly rework)\n- 2 safe-to-fail experiments and leading indicators\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Judgement-in-context: patient safety, integrity, humility about unknown unknowns, and disciplined foundations."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: trust, legitimacy, value, incentives, evidence, and execution under runway pressure."
+    },
+    {
+      "id": 2,
+      "title": "Systems concepts",
+      "hint": "How projects behave: feedback loops, bottlenecks (data, regulation), drift, interfaces, and socio-technical coupling."
+    },
+    {
+      "id": 3,
+      "title": "Governance & programme architecture",
+      "hint": "Integrated governance: clinical safety, information governance, HR credentialing, corporate/financial governance, regulatory strategy."
+    },
+    {
+      "id": 4,
+      "title": "Operational delivery mechanisms",
+      "hint": "Co-creation, data pipelines, model development/validation, documentation, clinical evaluation, deployment and monitoring."
+    },
+    {
+      "id": 5,
+      "title": "Quality, performance & improvement",
+      "hint": "Assurance and scaling: evidence loops, audits, KPIs, milestone planning, investor readiness, continuous improvement."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios and common failure modes for tracing back to root causes and governance gaps."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_patient_safety_first",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Patient safety first (non-negotiable)",
+      "summary": "Start with safety; if it isn’t safe, you won’t sustain product–market fit.",
+      "tags": ["wisdom", "safety", "ethos"],
+      "bodyHtml": "<p>Make safety the first design constraint. Safety precedes growth: unsafe products trigger harm, enforcement, and loss of trust—destroying viability.</p>"
+    },
+    {
+      "id": "wis_integrated_foundations",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Build foundations, not sandcastles",
+      "summary": "Integrated governance early enables speed later (less haste, more speed).",
+      "tags": ["wisdom", "governance", "scaling"],
+      "bodyHtml": "<p>Early investment in governance, evidence, and data discipline prevents expensive rework and accelerates scale.</p>"
+    },
+    {
+      "id": "wis_co_creation_respect",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Co-creation with users (humility + respect)",
+      "summary": "Include patients/clinicians continuously; don’t treat feedback as a one-off.",
+      "tags": ["wisdom", "co-creation", "users"],
+      "bodyHtml": "<p>Digital health succeeds when end users shape requirements, workflows, and risk controls throughout development and deployment.</p>"
+    },
+    {
+      "id": "wis_regulation_as_enabler",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Regulation as an enabler",
+      "summary": "Regulation isn’t a block; done well it unlocks trust and revenue streams.",
+      "tags": ["wisdom", "regulation", "strategy"],
+      "bodyHtml": "<p>Regulatory readiness can be a competitive advantage: it reduces buyer risk (e.g., NHS), supports claims, and accelerates partnerships.</p>"
+    },
+    {
+      "id": "wis_evidence_over_excitation",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Evidence over excitement",
+      "summary": "Generate evidence early that it’s safe and that it works.",
+      "tags": ["wisdom", "evidence", "clinical"],
+      "bodyHtml": "<p>Innovation without clinical evidence and safety rationale becomes fragile: it stalls at procurement, regulatory gates, and trust checks.</p>"
+    },
+    {
+      "id": "wis_audience_empathy",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Audience empathy (simple story, right detail)",
+      "summary": "Pitch and communicate for the audience: investors want clarity and numbers.",
+      "tags": ["wisdom", "communication", "investors"],
+      "bodyHtml": "<p>Healthcare is complex. Translate complexity into a clear narrative: one sentence, problem–solution, evidence, market, business model, milestones.</p>"
+    },
+    {
+      "id": "wis_execution_rhythm",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Execution at the right speed",
+      "summary": "Avoid rushing; build a high-performing team that can deliver reliably.",
+      "tags": ["wisdom", "execution", "team"],
+      "bodyHtml": "<p>Success correlates with disciplined execution: roadmap clarity, role clarity, and team culture that manages cross-functional tension.</p>"
+    },
+
+    {
+      "id": "super_trust_legitimacy",
+      "level": 1,
+      "kind": "concept",
+      "label": "Trust & legitimacy",
+      "summary": "Clinical credibility, transparency, and governance build user and buyer confidence.",
+      "tags": ["trust", "legitimacy"],
+      "bodyHtml": "<p>Trust is a system property produced by safety, evidence, communication, and consistent governance.</p>"
+    },
+    {
+      "id": "super_unmet_need",
+      "level": 1,
+      "kind": "concept",
+      "label": "Unmet need & problem–solution fit",
+      "summary": "Start by validating the problem and the genuine need before building.",
+      "tags": ["market", "need"],
+      "bodyHtml": "<p>Market assessment prevents building impressive technology that doesn’t solve a high-value problem.</p>"
+    },
+    {
+      "id": "super_value_proposition",
+      "level": 1,
+      "kind": "concept",
+      "label": "Value proposition (clinical + economic)",
+      "summary": "Define measurable value for patients, clinicians, and payers.",
+      "tags": ["value", "economics"],
+      "bodyHtml": "<p>Healthcare adoption requires value across stakeholders: outcomes, workload, risk reduction, and cost/efficiency.</p>"
+    },
+    {
+      "id": "super_stakeholder_alignment",
+      "level": 1,
+      "kind": "concept",
+      "label": "Stakeholder alignment (patients, clinicians, payers, regulators)",
+      "summary": "Align incentives and expectations across stakeholders to avoid adoption failure.",
+      "tags": ["stakeholders", "alignment"],
+      "bodyHtml": "<p>Different stakeholders prize different evidence. Align messaging, evidence, and governance to each.</p>"
+    },
+    {
+      "id": "super_regulatory_commercial_alignment",
+      "level": 1,
+      "kind": "concept",
+      "label": "Regulatory roadmap aligned to commercial strategy",
+      "summary": "Define claims, target buyers, and standards early to avoid rework.",
+      "tags": ["regulation", "commercial"],
+      "bodyHtml": "<p>Intended use and claims define evidence and compliance needs; these must be aligned to go-to-market.</p>"
+    },
+    {
+      "id": "super_defensibility",
+      "level": 1,
+      "kind": "concept",
+      "label": "USP & defensibility",
+      "summary": "Know competitors; build defensibility (data access, workflow lock-in, IP, partnerships).",
+      "tags": ["competition", "USP"],
+      "bodyHtml": "<p>Defensibility prevents competitors taking the market while you fix governance or evidence gaps.</p>"
+    },
+    {
+      "id": "super_investor_readiness",
+      "level": 1,
+      "kind": "concept",
+      "label": "Investor readiness (story + numbers)",
+      "summary": "Pitch deck + financial model + milestone plan; communicate complex science simply.",
+      "tags": ["funding", "investors"],
+      "bodyHtml": "<p>Investor readiness is the ability to explain the business clearly, show progress logic, and justify use of funds to milestones.</p>"
+    },
+    {
+      "id": "super_runway_economics",
+      "level": 1,
+      "kind": "concept",
+      "label": "Runway economics (time is cost)",
+      "summary": "Data access delays and regulatory rework burn runway; plan early.",
+      "tags": ["runway", "planning"],
+      "bodyHtml": "<p>Delays are expensive. Plan for data acquisition, evidence generation, and compliance work as first-class roadmap items.</p>"
+    },
+    {
+      "id": "super_team_as_system",
+      "level": 1,
+      "kind": "concept",
+      "label": "Right team (diverse skills + culture)",
+      "summary": "Clinicians, data science, product, engineering, marketing, governance; build a shared culture.",
+      "tags": ["team", "culture"],
+      "bodyHtml": "<p>Digital health needs multidisciplinary skills. Success correlates strongly with team completeness and high-performance collaboration.</p>"
+    },
+    {
+      "id": "super_evidence_logic",
+      "level": 1,
+      "kind": "concept",
+      "label": "Safety → then effectiveness (evidence logic)",
+      "summary": "First: is it safe? Second: does it work? Both need evidence.",
+      "tags": ["evidence", "safety"],
+      "bodyHtml": "<p>Evidence planning should match risks, claims, and deployment context; safety is a gate, not a feature.</p>"
+    },
+    {
+      "id": "super_governance_breadth",
+      "level": 1,
+      "kind": "concept",
+      "label": "Integrated governance breadth",
+      "summary": "Clinical governance plus HR credentialing, IG, corporate, and financial governance.",
+      "tags": ["governance", "integration"],
+      "bodyHtml": "<p>Digital health failures often come from neglected governance domains: contracting, access controls, credentialing, escalation routes, or financial oversight.</p>"
+    },
+    {
+      "id": "super_communication_simplicity",
+      "level": 1,
+      "kind": "concept",
+      "label": "Communication simplicity (reading age 7–11 when needed)",
+      "summary": "Cut content; use visuals; tell a clear story; tailor to audience.",
+      "tags": ["communication", "pitch"],
+      "bodyHtml": "<p>Sector-agnostic investors and busy stakeholders need clarity, structure, and decisive framing—not dense technical exposition.</p>"
+    },
+
+    {
+      "id": "sys_unknown_unknowns",
+      "level": 2,
+      "kind": "concept",
+      "label": "Unknown unknowns & discovery risk",
+      "summary": "Early projects hide constraints; multidisciplinary teams reduce blind spots.",
+      "tags": ["uncertainty", "discovery"],
+      "bodyHtml": "<p>Digital health projects often discover data access, regulatory scope, and workflow constraints late unless explored early.</p>"
+    },
+    {
+      "id": "sys_feedback_loops",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops (evidence + safety signals)",
+      "summary": "Collect signals from use, incidents, outcomes; feed back into design and governance.",
+      "tags": ["systems", "learning"],
+      "bodyHtml": "<p>Clinical evidence, post-market monitoring, and user feedback should continuously reshape product, processes, and claims.</p>"
+    },
+    {
+      "id": "sys_bottlenecks_data_access",
+      "level": 2,
+      "kind": "concept",
+      "label": "Bottlenecks: data access & permissions",
+      "summary": "Data availability is often the blocker; delays consume runway.",
+      "tags": ["data", "bottleneck"],
+      "bodyHtml": "<p>Data access depends on legal basis, agreements, technical extraction, and governance. Plan lead times and alternatives.</p>"
+    },
+    {
+      "id": "sys_data_quality_bias",
+      "level": 2,
+      "kind": "concept",
+      "label": "Data quality, representativeness & bias",
+      "summary": "AI is only as good as its data; bias and missingness create safety risk.",
+      "tags": ["data", "bias", "AI"],
+      "bodyHtml": "<p>Quality includes correctness, completeness, timeliness, and representativeness across user groups.</p>"
+    },
+    {
+      "id": "sys_sociotechnical_fit",
+      "level": 2,
+      "kind": "concept",
+      "label": "Socio-technical fit (workflow + humans + tech)",
+      "summary": "Safety and effectiveness depend on workflow integration and human factors.",
+      "tags": ["workflow", "human_factors"],
+      "bodyHtml": "<p>Even accurate models can fail if deployed into the wrong workflow, with wrong incentives, or poor usability.</p>"
+    },
+    {
+      "id": "sys_interfaces_handoffs",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interfaces & handoffs",
+      "summary": "Failures cluster at boundaries: referrals, data transfers, reporting, escalation.",
+      "tags": ["interfaces", "handoffs"],
+      "bodyHtml": "<p>Most preventable harm and compliance failures occur at interfaces between teams, systems, and organisations.</p>"
+    },
+    {
+      "id": "sys_drift_technical_debt",
+      "level": 2,
+      "kind": "concept",
+      "label": "Drift & technical debt",
+      "summary": "Quality degrades unless actively maintained; documentation and controls drift out of date.",
+      "tags": ["drift", "debt"],
+      "bodyHtml": "<p>Model performance, data pipelines, and governance documents degrade over time; proactive monitoring and change control are required.</p>"
+    },
+    {
+      "id": "sys_incentives_goodhart",
+      "level": 2,
+      "kind": "concept",
+      "label": "Incentives & Goodhart’s law",
+      "summary": "Metrics distort behaviour; speed-only KPIs can create unsafe shortcuts.",
+      "tags": ["incentives", "metrics"],
+      "bodyHtml": "<p>Choose measures that promote safe outcomes and learning, not gaming or rushed releases.</p>"
+    },
+    {
+      "id": "sys_stage_gates",
+      "level": 2,
+      "kind": "concept",
+      "label": "Stage gates & decision points",
+      "summary": "Define go/no-go gates: safety, evidence, regulation, deployment readiness, funding milestones.",
+      "tags": ["governance", "decisions"],
+      "bodyHtml": "<p>Stage gates prevent ‘build first, govern later’ failure modes and help explain progress to investors and buyers.</p>"
+    },
+
+    {
+      "id": "gov_integrated_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Integrated governance (clinical + IG + HR + corporate + financial)",
+      "summary": "A joined-up governance model supporting safe scaling.",
+      "tags": ["governance", "integration"],
+      "bodyHtml": "<p>Integrated governance spans clinical safety, information governance, credentialing, corporate oversight, finance, and risk management.</p>"
+    },
+    {
+      "id": "gov_clinical_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Clinical governance",
+      "summary": "Clinical safety case, escalation routes, supervision, incident management, and evidence oversight.",
+      "tags": ["clinical", "safety"],
+      "bodyHtml": "<p>Ensures safe clinical practice, appropriate claims, and oversight of clinical evaluation and deployment.</p>"
+    },
+    {
+      "id": "gov_information_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Information governance (privacy, security, access)",
+      "summary": "Data protection, access control, secure processing, retention, breach response.",
+      "tags": ["IG", "privacy", "security"],
+      "bodyHtml": "<p>Information governance turns trust principles into operational controls around sensitive health data.</p>"
+    },
+    {
+      "id": "gov_hr_credentialing",
+      "level": 3,
+      "kind": "concept",
+      "label": "HR governance: credentialing & competence",
+      "summary": "Credential clinicians, define roles, supervision, and competence assurance.",
+      "tags": ["HR", "credentialing"],
+      "bodyHtml": "<p>Credentialing and competence planning prevent unsafe practice and support scalable service delivery.</p>"
+    },
+    {
+      "id": "gov_corporate_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Corporate governance (accountability + oversight)",
+      "summary": "Board/leadership oversight of risk, quality, strategy alignment, and compliance posture.",
+      "tags": ["corporate", "oversight"],
+      "bodyHtml": "<p>Clear accountability prevents late surprises and ensures risk owners exist for safety, evidence, and compliance.</p>"
+    },
+    {
+      "id": "gov_financial_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Financial governance (spend-to-milestone discipline)",
+      "summary": "Align spending to milestones; avoid ‘woolly’ progress narratives.",
+      "tags": ["finance", "milestones"],
+      "bodyHtml": "<p>Financial governance links runway to execution: what will be built, evidenced, and certified by the next funding gate.</p>"
+    },
+    {
+      "id": "std_dcb0129",
+      "level": 3,
+      "kind": "standard",
+      "label": "Clinical risk management standard (DCB0129)",
+      "summary": "Clinical risk management for health IT (supplier-focused in NHS context).",
+      "tags": ["standard", "clinical_safety"],
+      "bodyHtml": "<p>Used to structure clinical risk management and evidence of safety controls for digital health systems.</p>"
+    },
+    {
+      "id": "std_dcb0160",
+      "level": 3,
+      "kind": "standard",
+      "label": "Clinical risk management standard (DCB0160)",
+      "summary": "Clinical risk management for health IT (deployment/organisation-focused in NHS context).",
+      "tags": ["standard", "clinical_safety"],
+      "bodyHtml": "<p>Complements supplier-side obligations by specifying deployment-side safety governance and responsibilities.</p>"
+    },
+    {
+      "id": "std_dtac",
+      "level": 3,
+      "kind": "standard",
+      "label": "NHS DTAC (Digital Technology Assessment Criteria)",
+      "summary": "Procurement expectations: clinical safety, data protection, security, interoperability, usability, etc.",
+      "tags": ["standard", "procurement"],
+      "bodyHtml": "<p>DTAC readiness reduces procurement friction and demonstrates baseline assurance.</p>"
+    },
+    {
+      "id": "std_medical_device_reg",
+      "level": 3,
+      "kind": "standard",
+      "label": "Medical device / SaMD regulatory pathway",
+      "summary": "Determine if the product is a medical device; align claims, evidence, QMS, and post-market obligations.",
+      "tags": ["SaMD", "regulation"],
+      "bodyHtml": "<p>Regulatory classification is driven by intended use and claims. Get this right early to avoid rework.</p>"
+    },
+
+    {
+      "id": "ops_team_composition",
+      "level": 4,
+      "kind": "concept",
+      "label": "Team composition & roles",
+      "summary": "Clinicians, data science, product, engineering, marketing, governance; clarify responsibilities.",
+      "tags": ["team", "roles"],
+      "bodyHtml": "<p>Key hires often include a data scientist and (for tech businesses) a CTO; add clinical safety and governance leadership early.</p>"
+    },
+    {
+      "id": "ops_co_creation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Co-creation practices (focus groups, pilots, continuous feedback)",
+      "summary": "Engage patients and clinicians repeatedly through discovery, build, and rollout.",
+      "tags": ["co-creation", "UX"],
+      "bodyHtml": "<p>Use structured sessions and ongoing engagement to prevent building the wrong workflow or missing safety-critical needs.</p>"
+    },
+    {
+      "id": "ops_problem_definition",
+      "level": 4,
+      "kind": "concept",
+      "label": "Problem definition & market assessment",
+      "summary": "Define the problem, validate unmet need, and map the competitive landscape.",
+      "tags": ["problem", "market"],
+      "bodyHtml": "<p>Translate excitement into a clear problem statement and evidence of need; include competitor and buyer analysis.</p>"
+    },
+    {
+      "id": "ops_regulatory_roadmap",
+      "level": 4,
+      "kind": "concept",
+      "label": "Regulatory roadmap execution",
+      "summary": "Identify applicable standards, evidence needs, documentation, and timelines early.",
+      "tags": ["regulatory", "roadmap"],
+      "bodyHtml": "<p>Plan compliance work as part of product development, not as a late-stage scramble.</p>"
+    },
+    {
+      "id": "ops_data_strategy",
+      "level": 4,
+      "kind": "concept",
+      "label": "Data strategy (access, format, governance)",
+      "summary": "Specify data needs, acquisition plan, legal basis, and lead times.",
+      "tags": ["data", "access"],
+      "bodyHtml": "<p>Data acquisition is often the critical path; align agreements, pipelines, and governance early.</p>"
+    },
+    {
+      "id": "ops_data_quality",
+      "level": 4,
+      "kind": "concept",
+      "label": "Data quality management",
+      "summary": "Define quality metrics; validate completeness, correctness, and representativeness.",
+      "tags": ["data", "quality"],
+      "bodyHtml": "<p>Data quality is a safety issue for AI products; document checks, monitoring, and remediation.</p>"
+    },
+    {
+      "id": "ops_compute_infra",
+      "level": 4,
+      "kind": "concept",
+      "label": "Compute & MLOps infrastructure",
+      "summary": "Secure compute, reproducibility, deployment controls, monitoring, and rollback.",
+      "tags": ["compute", "MLOps"],
+      "bodyHtml": "<p>Infrastructure choices affect privacy, auditability, reliability, and the ability to scale safely.</p>"
+    },
+    {
+      "id": "ops_model_dev_validation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Model development & validation",
+      "summary": "Define intended use; validate performance and safety across subgroups; document limitations.",
+      "tags": ["AI", "validation"],
+      "bodyHtml": "<p>Validation must match deployment context and claims; include bias and robustness checks.</p>"
+    },
+    {
+      "id": "ops_clinical_evaluation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Clinical evaluation & evidence generation",
+      "summary": "Generate evidence for safety and effectiveness; align to claims and user workflows.",
+      "tags": ["evidence", "clinical"],
+      "bodyHtml": "<p>Evidence can include usability/human factors, observational studies, and controlled evaluations depending on risk and claims.</p>"
+    },
+    {
+      "id": "ops_incident_escalation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Incident reporting & escalation pathways",
+      "summary": "Define thresholds, responsibilities, and rapid response mechanisms.",
+      "tags": ["incidents", "safety"],
+      "bodyHtml": "<p>Plan what happens when harm, near-miss, data breach, or model drift occurs; document actions and learning loops.</p>"
+    },
+    {
+      "id": "ops_documentation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Documentation & safety case",
+      "summary": "Maintain decision logs, risk assessments, clinical safety case, and evidence files.",
+      "tags": ["documentation", "assurance"],
+      "bodyHtml": "<p>Documentation makes governance real: it supports audits, procurement, and safe scaling across environments.</p>"
+    },
+    {
+      "id": "ops_pitch_deck",
+      "level": 4,
+      "kind": "concept",
+      "label": "Pitch deck construction (investor-friendly)",
+      "summary": "One sentence; problem, solution, market, competition, evidence, traction, plan, numbers.",
+      "tags": ["pitch", "investors"],
+      "bodyHtml": "<p>The deck’s job is to get the meeting. Keep it concise and tailored to the audience.</p>"
+    },
+    {
+      "id": "ops_financial_model",
+      "level": 4,
+      "kind": "concept",
+      "label": "Financial modeling (assumptions → data)",
+      "summary": "Make assumptions explicit; replace with data over time; link costs to milestones and go-to-market.",
+      "tags": ["finance", "model"],
+      "bodyHtml": "<p>Financial models force clarity on hiring, timelines, CAC, unit economics, and milestone-based funding needs.</p>"
+    },
+
+    {
+      "id": "qual_kpis",
+      "level": 5,
+      "kind": "standard",
+      "label": "KPIs (leading + lagging)",
+      "summary": "Measure safety, evidence progress, data quality, delivery throughput, and learning loops (not just speed).",
+      "tags": ["KPIs", "measurement"],
+      "bodyHtml": "<p>Use metrics to learn, not punish: safety incidents, drift, evidence milestones, data quality indicators, and user outcomes.</p>"
+    },
+    {
+      "id": "qual_audit_assurance",
+      "level": 5,
+      "kind": "standard",
+      "label": "Audit & assurance cadence",
+      "summary": "Regularly test governance, documentation, security, and clinical safety controls in practice.",
+      "tags": ["audit", "assurance"],
+      "bodyHtml": "<p>Audit finds drift and interface failures early; it supports readiness for procurement and regulatory scrutiny.</p>"
+    },
+    {
+      "id": "qual_learning_loops",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning loops & continuous improvement",
+      "summary": "Turn feedback, incidents, evidence, and complaints into system changes and re-checks.",
+      "tags": ["learning", "improvement"],
+      "bodyHtml": "<p>Continuous improvement closes the loop: evidence updates governance; governance reshapes operations; operations generate new evidence.</p>"
+    },
+    {
+      "id": "qual_investor_milestones",
+      "level": 5,
+      "kind": "concept",
+      "label": "Milestone-based funding plan",
+      "summary": "Define what the money buys and what milestone it unlocks next.",
+      "tags": ["milestones", "funding"],
+      "bodyHtml": "<p>Milestones connect roadmap to capital. Clear milestones make the next round easier and reduce narrative ambiguity.</p>"
+    },
+    {
+      "id": "qual_governance_review",
+      "level": 5,
+      "kind": "concept",
+      "label": "Governance reviews (integrated)",
+      "summary": "Periodic reviews across clinical, IG, HR, corporate, and finance to keep alignment intact.",
+      "tags": ["governance", "reviews"],
+      "bodyHtml": "<p>Integrated review prevents local optimisation and ensures regulation, evidence, and commercial strategy remain aligned.</p>"
+    },
+
+    {
+      "id": "risk_reg_too_late",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Regulation engaged too late",
+      "summary": "Late compliance work causes rework, delays, cost blowouts, and risk exposure.",
+      "tags": ["regulation", "rework"],
+      "bodyHtml": "<p>Teams move fast, skip early regulatory thinking, then discover they must redo evidence, documentation, or even product claims.</p>"
+    },
+    {
+      "id": "risk_data_unavailable",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Data unavailable or delayed",
+      "summary": "Launch stalls because data access, permissions, or formats were underestimated.",
+      "tags": ["data", "delays"],
+      "bodyHtml": "<p>Data acquisition takes time (agreements, extraction, cleaning). Delays burn runway and compress safety/evidence work.</p>"
+    },
+    {
+      "id": "risk_ai_bias_harm",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: AI bias leads to unsafe recommendations",
+      "summary": "Non-representative data and weak validation create differential harm across groups.",
+      "tags": ["AI", "bias", "safety"],
+      "bodyHtml": "<p>Bias is a clinical safety risk: validate across subgroups and monitor drift post-deployment.</p>"
+    },
+    {
+      "id": "risk_team_gaps",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Missing key roles (CTO/data science/clinical safety)",
+      "summary": "Blind spots emerge; delivery quality and safety governance degrade.",
+      "tags": ["team", "skills"],
+      "bodyHtml": "<p>Digital health requires diverse skills. Gaps lead to poor data strategy, weak evidence, or fragile infrastructure.</p>"
+    },
+    {
+      "id": "risk_moves_too_fast",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Moving too fast (foundation debt)",
+      "summary": "Rushing creates governance and quality debt that explodes later.",
+      "tags": ["speed", "debt"],
+      "bodyHtml": "<p>Short-term speed causes long-term delays: rework, incidents, procurement failure, and eroded trust.</p>"
+    },
+    {
+      "id": "risk_pitch_too_dense",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Pitch deck too dense to land",
+      "summary": "Too much content; weak story; doesn’t match investor audience; fails to secure meetings.",
+      "tags": ["pitch", "communication"],
+      "bodyHtml": "<p>Founders often over-explain science. Investors need a simple narrative and credible numbers tied to milestones.</p>"
+    },
+    {
+      "id": "risk_competitor_captures_market",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Competitor captures market during rework",
+      "summary": "While you fix compliance/evidence issues, competitors ship and win share.",
+      "tags": ["competition", "timing"],
+      "bodyHtml": "<p>Late regulatory fixes are not just costly—they are strategic delays that can be fatal in a fast-moving market.</p>"
+    },
+    {
+      "id": "case_nhs_procurement_block",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: NHS pilot blocked by DTAC and clinical safety gaps",
+      "summary": "Product works in demo but fails procurement due to missing DTAC artefacts and clinical safety case.",
+      "tags": ["NHS", "DTAC", "DCB"],
+      "bodyHtml": "<p>Root cause: regulatory roadmap not defined early; documentation and IG controls not built into development.</p>"
+    },
+    {
+      "id": "case_ai_model_drift",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Model performance drifts after deployment",
+      "summary": "Clinical workflow or population changes; model accuracy drops; incidents rise.",
+      "tags": ["AI", "drift", "monitoring"],
+      "bodyHtml": "<p>Requires MLOps monitoring, incident pathways, and governance triggers for retraining, rollback, or claim changes.</p>"
+    },
+    {
+      "id": "case_data_access_crunch",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Launch delayed six months waiting for data agreements",
+      "summary": "Underestimated permissions, contracts, extraction complexity; runway pressure forces risky shortcuts.",
+      "tags": ["data", "runway"],
+      "bodyHtml": "<p>Fix with early data strategy, alternative datasets, staged evidence plan, and aligned funding milestones.</p>"
+    },
+    {
+      "id": "case_deck_rewrite",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Great product, average deck—funding stalls",
+      "summary": "Science-heavy deck fails to get meetings; needs story discipline and numbers tied to milestones.",
+      "tags": ["pitch", "investors"],
+      "bodyHtml": "<p>Rewrite around one-sentence explanation, evidence, market, competition, and milestone-based spend plan.</p>"
+    },
+    {
+      "id": "case_regulatory_rework",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Medical device classification discovered late",
+      "summary": "Claims trigger SaMD pathway; evidence and QMS need redesign; timeline slips.",
+      "tags": ["SaMD", "regulation"],
+      "bodyHtml": "<p>Prevention: define intended use and claims early; map standards and evidence to commercial strategy from day one.</p>"
+    }
+  ],
+  "edges": [
+    { "from": "wis_patient_safety_first", "to": "super_evidence_logic", "why": "Safety-first implies a structured evidence logic: prove safety before broad claims of effectiveness." },
+    { "from": "wis_patient_safety_first", "to": "gov_clinical_governance", "why": "Patient safety is operationalised through clinical governance, escalation, and oversight." },
+    { "from": "wis_patient_safety_first", "to": "sys_sociotechnical_fit", "why": "Safety is socio-technical: workflow, humans, and tech interactions determine real-world risk." },
+    { "from": "wis_integrated_foundations", "to": "gov_integrated_governance", "why": "Foundations are built by integrating governance domains early rather than patching later." },
+    { "from": "wis_integrated_foundations", "to": "sys_stage_gates", "why": "Stage gates protect foundations by preventing premature scaling without readiness." },
+    { "from": "wis_integrated_foundations", "to": "risk_moves_too_fast", "why": "Foundation-first prevents the common pathology of speed creating governance debt." },
+    { "from": "wis_co_creation_respect", "to": "ops_co_creation", "why": "Co-creation becomes real through continuous user involvement mechanisms." },
+    { "from": "wis_co_creation_respect", "to": "sys_sociotechnical_fit", "why": "User engagement surfaces workflow realities and human factors constraints." },
+    { "from": "wis_regulation_as_enabler", "to": "super_regulatory_commercial_alignment", "why": "Seeing regulation as an enabler encourages early alignment between compliance and go-to-market." },
+    { "from": "wis_regulation_as_enabler", "to": "ops_regulatory_roadmap", "why": "The enabling view drives practical roadmap execution rather than late-stage panic." },
+    { "from": "wis_regulation_as_enabler", "to": "case_nhs_procurement_block", "why": "Procurement blockers illustrate why early compliance artefacts enable market access." },
+    { "from": "wis_evidence_over_excitation", "to": "ops_clinical_evaluation", "why": "Evidence-first translates into an evidence-generation plan and clinical evaluation work." },
+    { "from": "wis_evidence_over_excitation", "to": "sys_feedback_loops", "why": "Evidence generation and post-market signals form feedback loops that improve safety and effectiveness." },
+    { "from": "wis_audience_empathy", "to": "super_communication_simplicity", "why": "Audience empathy drives the discipline of simplicity and tailoring." },
+    { "from": "wis_audience_empathy", "to": "ops_pitch_deck", "why": "Empathy becomes operational in how the pitch deck is structured and designed." },
+    { "from": "wis_execution_rhythm", "to": "super_team_as_system", "why": "Execution depends on a complete team with aligned culture and managed tension." },
+    { "from": "wis_execution_rhythm", "to": "super_runway_economics", "why": "Right-speed execution is constrained by runway economics and lead times." },
+
+    { "from": "super_trust_legitimacy", "to": "gov_information_governance", "why": "Trust depends on robust privacy, security, and access controls in handling health data." },
+    { "from": "super_trust_legitimacy", "to": "gov_clinical_governance", "why": "Legitimacy is strengthened by credible clinical governance and safety management." },
+    { "from": "super_trust_legitimacy", "to": "std_dtac", "why": "Procurement frameworks (e.g., DTAC) encode trust expectations into checkable criteria." },
+
+    { "from": "super_unmet_need", "to": "ops_problem_definition", "why": "Unmet need is clarified through disciplined problem definition and market assessment." },
+    { "from": "super_unmet_need", "to": "super_value_proposition", "why": "Validated need is the basis for a credible value proposition across stakeholders." },
+    { "from": "super_unmet_need", "to": "super_defensibility", "why": "Knowing the need and competitors clarifies what must be unique and defensible." },
+
+    { "from": "super_value_proposition", "to": "super_stakeholder_alignment", "why": "Value must be articulated differently for patients, clinicians, payers, and regulators." },
+    { "from": "super_value_proposition", "to": "super_investor_readiness", "why": "Investors fund value creation; value must be measurable and believable." },
+
+    { "from": "super_stakeholder_alignment", "to": "ops_co_creation", "why": "Stakeholder alignment is built through ongoing co-creation and feedback channels." },
+    { "from": "super_stakeholder_alignment", "to": "sys_interfaces_handoffs", "why": "Misalignment often shows up at interfaces between teams, systems, and organisations." },
+
+    { "from": "super_regulatory_commercial_alignment", "to": "ops_regulatory_roadmap", "why": "Alignment turns into concrete compliance tasks, timelines, and artefacts." },
+    { "from": "super_regulatory_commercial_alignment", "to": "std_medical_device_reg", "why": "Commercial claims influence device classification and therefore regulatory obligations." },
+    { "from": "super_regulatory_commercial_alignment", "to": "std_dtac", "why": "Targeting NHS procurement implies DTAC readiness requirements." },
+
+    { "from": "super_defensibility", "to": "risk_competitor_captures_market", "why": "Weak defensibility raises the risk of competitors winning while you resolve governance/evidence issues." },
+
+    { "from": "super_investor_readiness", "to": "ops_pitch_deck", "why": "Investor readiness requires an investor-friendly deck that earns meetings." },
+    { "from": "super_investor_readiness", "to": "ops_financial_model", "why": "Investor readiness requires a robust financial model tied to milestones." },
+    { "from": "super_investor_readiness", "to": "qual_investor_milestones", "why": "Investors care how funds translate into milestones that unlock the next round." },
+
+    { "from": "super_runway_economics", "to": "sys_bottlenecks_data_access", "why": "Data access lead times are a common critical-path runway risk." },
+    { "from": "super_runway_economics", "to": "risk_data_unavailable", "why": "Underestimating data acquisition converts directly into runway burn and delay." },
+    { "from": "super_runway_economics", "to": "risk_reg_too_late", "why": "Late regulation work forces rework and delay, consuming runway." },
+
+    { "from": "super_team_as_system", "to": "ops_team_composition", "why": "The team concept becomes real through defined roles and hiring priorities." },
+    { "from": "super_team_as_system", "to": "sys_unknown_unknowns", "why": "Diverse expertise reduces blind spots and unknown unknowns." },
+    { "from": "super_team_as_system", "to": "risk_team_gaps", "why": "Gaps in key roles correlate with delivery and safety failures." },
+
+    { "from": "super_evidence_logic", "to": "ops_clinical_evaluation", "why": "Evidence logic requires an evidence-generation plan matched to safety and effectiveness." },
+    { "from": "super_evidence_logic", "to": "qual_learning_loops", "why": "Evidence becomes useful when integrated into continuous learning loops." },
+
+    { "from": "super_governance_breadth", "to": "gov_integrated_governance", "why": "Breadth is implemented via integrated governance across clinical, IG, HR, corporate, and finance." },
+    { "from": "super_governance_breadth", "to": "gov_hr_credentialing", "why": "Credentialing clinicians is part of integrated governance, not an afterthought." },
+    { "from": "super_governance_breadth", "to": "gov_financial_governance", "why": "Financial governance ties execution plans to runway and milestones." },
+
+    { "from": "super_communication_simplicity", "to": "ops_pitch_deck", "why": "Simplicity discipline makes decks scannable, persuasive, and meeting-generating." },
+    { "from": "super_communication_simplicity", "to": "risk_pitch_too_dense", "why": "Ignoring simplicity creates overly dense decks that fail to land." },
+
+    { "from": "sys_unknown_unknowns", "to": "sys_stage_gates", "why": "Stage gates manage discovery risk by forcing explicit checks at decision points." },
+    { "from": "sys_feedback_loops", "to": "qual_learning_loops", "why": "Learning loops formalise feedback into governance and operational improvements." },
+    { "from": "sys_feedback_loops", "to": "case_ai_model_drift", "why": "Drift cases show why continuous monitoring and feedback loops matter." },
+
+    { "from": "sys_bottlenecks_data_access", "to": "ops_data_strategy", "why": "A robust data strategy reduces the likelihood that access becomes the bottleneck." },
+    { "from": "sys_bottlenecks_data_access", "to": "case_data_access_crunch", "why": "The case demonstrates how data permissions and agreements can dominate timelines." },
+
+    { "from": "sys_data_quality_bias", "to": "ops_data_quality", "why": "Bias and quality issues are managed through explicit data quality management practices." },
+    { "from": "sys_data_quality_bias", "to": "ops_model_dev_validation", "why": "Validation must check subgroup performance and limitations to prevent unsafe bias." },
+    { "from": "sys_data_quality_bias", "to": "risk_ai_bias_harm", "why": "Poor representativeness and weak validation can directly create harm." },
+
+    { "from": "sys_sociotechnical_fit", "to": "ops_co_creation", "why": "Socio-technical fit is improved via co-creation and workflow-informed design." },
+    { "from": "sys_sociotechnical_fit", "to": "ops_incident_escalation", "why": "When humans and workflows interact with tech, escalation pathways are critical for safe operation." },
+
+    { "from": "sys_interfaces_handoffs", "to": "gov_information_governance", "why": "Interfaces often involve sensitive data; IG controls mitigate boundary failures." },
+    { "from": "sys_interfaces_handoffs", "to": "ops_documentation", "why": "Clear documentation reduces ambiguity at handoffs (who does what, when, and why)." },
+
+    { "from": "sys_drift_technical_debt", "to": "qual_audit_assurance", "why": "Audit detects drift and ensures controls and documentation remain current." },
+    { "from": "sys_drift_technical_debt", "to": "case_ai_model_drift", "why": "Model drift is a concrete manifestation of technical and process drift." },
+
+    { "from": "sys_incentives_goodhart", "to": "qual_kpis", "why": "KPI design must avoid Goodhart effects that push unsafe shortcuts." },
+    { "from": "sys_incentives_goodhart", "to": "risk_moves_too_fast", "why": "Speed incentives can produce rushed releases that create foundation debt." },
+
+    { "from": "sys_stage_gates", "to": "gov_corporate_governance", "why": "Leadership oversight should enforce gates and accountability for readiness." },
+    { "from": "sys_stage_gates", "to": "qual_investor_milestones", "why": "Funding milestones are decision gates that must map to delivery and evidence." },
+
+    { "from": "gov_integrated_governance", "to": "gov_clinical_governance", "why": "Clinical governance is a core pillar of integrated governance." },
+    { "from": "gov_integrated_governance", "to": "gov_information_governance", "why": "IG is required to protect sensitive data and sustain legitimacy." },
+    { "from": "gov_integrated_governance", "to": "gov_hr_credentialing", "why": "Credentialing and competence assurance reduce clinical risk and improve reliability." },
+    { "from": "gov_integrated_governance", "to": "gov_corporate_governance", "why": "Corporate oversight binds governance domains into accountable decision-making." },
+    { "from": "gov_integrated_governance", "to": "gov_financial_governance", "why": "Financial governance ensures resources match obligations and timelines." },
+
+    { "from": "gov_clinical_governance", "to": "std_dcb0129", "why": "Clinical safety standards provide structure and artefacts for clinical risk management." },
+    { "from": "gov_clinical_governance", "to": "std_dcb0160", "why": "Deployment-side clinical safety governance clarifies organisational responsibilities." },
+    { "from": "gov_clinical_governance", "to": "ops_incident_escalation", "why": "Clinical governance requires defined incident and escalation pathways." },
+    { "from": "gov_clinical_governance", "to": "ops_clinical_evaluation", "why": "Clinical governance oversees the evidence plan and ensures claims are justified." },
+
+    { "from": "gov_information_governance", "to": "ops_data_strategy", "why": "Data access and lawful processing depend on IG controls and agreements." },
+    { "from": "gov_information_governance", "to": "ops_compute_infra", "why": "Secure compute and access control are part of IG operationalisation." },
+    { "from": "gov_information_governance", "to": "qual_audit_assurance", "why": "IG requires assurance: access logs, breach drills, and documentation checks." },
+
+    { "from": "gov_hr_credentialing", "to": "ops_team_composition", "why": "Credentialing ensures the right clinicians are hired and supervised appropriately." },
+    { "from": "gov_corporate_governance", "to": "qual_governance_review", "why": "Governance reviews implement leadership oversight and course-correct misalignment." },
+    { "from": "gov_financial_governance", "to": "qual_investor_milestones", "why": "Spend-to-milestone discipline is the operational heart of financial governance." },
+
+    { "from": "std_dtac", "to": "case_nhs_procurement_block", "why": "DTAC gaps are a common procurement failure mode in NHS pathways." },
+    { "from": "std_dcb0129", "to": "case_nhs_procurement_block", "why": "Missing supplier-side clinical risk artefacts blocks procurement or deployment." },
+    { "from": "std_dcb0160", "to": "case_nhs_procurement_block", "why": "Missing deployment-side safety governance blocks organisational approval." },
+    { "from": "std_medical_device_reg", "to": "case_regulatory_rework", "why": "Late discovery of SaMD obligations forces redesign of evidence and documentation." },
+
+    { "from": "ops_team_composition", "to": "ops_data_strategy", "why": "Data strategy requires the right expertise (data science, IG, domain knowledge)." },
+    { "from": "ops_team_composition", "to": "ops_model_dev_validation", "why": "Model validation requires data science and clinical input to match intended use." },
+
+    { "from": "ops_problem_definition", "to": "super_unmet_need", "why": "Problem definition and market assessment confirm whether a genuine unmet need exists." },
+    { "from": "ops_problem_definition", "to": "super_defensibility", "why": "Competitive mapping clarifies USP and defensibility requirements." },
+
+    { "from": "ops_regulatory_roadmap", "to": "risk_reg_too_late", "why": "Early roadmap execution prevents late-stage regulatory surprises and rework." },
+    { "from": "ops_regulatory_roadmap", "to": "std_dtac", "why": "Roadmaps should include DTAC if selling into NHS or similar procurement contexts." },
+    { "from": "ops_regulatory_roadmap", "to": "std_medical_device_reg", "why": "Roadmaps must check device classification driven by intended use and claims." },
+
+    { "from": "ops_data_strategy", "to": "ops_data_quality", "why": "Acquisition plans must include quality expectations, formats, and validation steps." },
+    { "from": "ops_data_strategy", "to": "risk_data_unavailable", "why": "Weak data strategy increases the likelihood of access delays and blockers." },
+
+    { "from": "ops_data_quality", "to": "ops_model_dev_validation", "why": "Model validity depends on data quality, representativeness, and labeling consistency." },
+    { "from": "ops_compute_infra", "to": "ops_model_dev_validation", "why": "Reproducible training/validation and safe deployment require disciplined infrastructure." },
+    { "from": "ops_compute_infra", "to": "case_ai_model_drift", "why": "Monitoring and rollback depend on infrastructure and MLOps discipline." },
+
+    { "from": "ops_model_dev_validation", "to": "risk_ai_bias_harm", "why": "Insufficient validation and bias checks can result in unsafe recommendations." },
+
+    { "from": "ops_clinical_evaluation", "to": "qual_learning_loops", "why": "Evidence outcomes should drive product and governance improvements." },
+    { "from": "ops_clinical_evaluation", "to": "qual_kpis", "why": "Evidence milestones and safety outcomes are key indicators to track progress and readiness." },
+
+    { "from": "ops_incident_escalation", "to": "qual_learning_loops", "why": "Incidents and near-misses should trigger structured learning and control improvements." },
+    { "from": "ops_documentation", "to": "qual_audit_assurance", "why": "Documentation is the evidence layer that enables audit and procurement readiness." },
+
+    { "from": "ops_pitch_deck", "to": "case_deck_rewrite", "why": "Deck quality can be the gating factor even when the underlying product is strong." },
+    { "from": "ops_pitch_deck", "to": "risk_pitch_too_dense", "why": "Overly dense decks often fail to get meetings; simplicity is the antidote." },
+
+    { "from": "ops_financial_model", "to": "qual_investor_milestones", "why": "Financial models should specify what funding buys and what milestone comes next." },
+    { "from": "ops_financial_model", "to": "super_runway_economics", "why": "Modeling forces explicit runway assumptions and exposes critical-path delays." },
+
+    { "from": "qual_kpis", "to": "sys_incentives_goodhart", "why": "KPIs create incentives; design them to reinforce safe behaviour and learning." },
+    { "from": "qual_audit_assurance", "to": "sys_drift_technical_debt", "why": "Audit detects drift in models, pipelines, governance and operational controls." },
+    { "from": "qual_learning_loops", "to": "wis_integrated_foundations", "why": "Learning loops reinforce foundational governance by continuously updating it with evidence." },
+
+    { "from": "risk_reg_too_late", "to": "risk_competitor_captures_market", "why": "Rework delays open the door for competitors to ship and win share." },
+    { "from": "risk_data_unavailable", "to": "risk_moves_too_fast", "why": "Under data pressure, teams may rush unsafe shortcuts to hit deadlines." },
+    { "from": "risk_team_gaps", "to": "risk_reg_too_late", "why": "Missing governance/regulatory expertise increases the chance compliance is handled too late." },
+    { "from": "risk_moves_too_fast", "to": "case_regulatory_rework", "why": "Rushing often surfaces later as classification/evidence rework and delayed launch." },
+    { "from": "risk_pitch_too_dense", "to": "case_deck_rewrite", "why": "A rewrite is often needed when the deck fails its only job: earning meetings." },
+
+    { "from": "case_nhs_procurement_block", "to": "gov_integrated_governance", "why": "Procurement failure reveals missing integrated governance artefacts (clinical, IG, documentation)." },
+    { "from": "case_ai_model_drift", "to": "ops_incident_escalation", "why": "Drift requires clear triggers, escalation, and rollback/retraining decisions." },
+    { "from": "case_data_access_crunch", "to": "ops_data_strategy", "why": "The remedy is an early data strategy with agreements, lead times, and alternatives." },
+    { "from": "case_regulatory_rework", "to": "ops_regulatory_roadmap", "why": "Rework is prevented by early classification and standards mapping in the roadmap." }
+  ]
+}
