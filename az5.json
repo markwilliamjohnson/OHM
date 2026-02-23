@@ -1,0 +1,1382 @@
+{
+  "meta": {
+    "id": "ai_synbio_goguen_institution_proxy_v1",
+    "title": "AIWhatif \u2014 Goguen Institution Lab (AI in Synthetic Biology)",
+    "subtitle": "Monte Carlo proxy simulator mapping a Goguen-style institution (signatures \u2192 sentences \u2192 models \u2192 satisfaction) into adjustable socio-technical parameters. Tune data/compute/team/governance sliders and observe likely outcomes for AI-enabled synthetic biology DBTL projects.",
+    "footerNote": "This is a conceptual toy simulator for exploring trade-offs in AI+synthetic biology research management. It is not validated, not a substitute for biosafety/ethics review, and does not predict real-world outcomes."
+  },
+  "project": {
+    "name": "AI-enabled Synthetic Biology DBTL (Institution Proxy)",
+    "description": [
+      "This simulator treats the talk\u2019s mechanisms as an abstract institution: a signature of concepts (projects, datasets, methods, teams, institutions), sentences capturing mechanisms (e.g., prediction-before-lab, interdisciplinarity, institutional barriers), and models representing how projects instantiate those mechanisms.",
+      "The Monte Carlo engine below is a proxy semantics: slider settings parameterize a family of models; outcomes estimate satisfaction of key sentences (e.g., 'AI reduces wet-lab cost', 'interdisciplinary coordination is workable', 'responsible innovation constraints are met')."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Add real project details (organism/compound goal, datasets, lab throughput, partners, governance constraints). Click \u201cGenerate AI Prompt\u201d to produce a prompt for an AI assistant to write a short analysis under the current parameter settings.",
+      "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions consistent with AI-enabled synthetic biology in a university\u2013industry\u2013government collaboration context.]",
+      "promptText": [
+        "You are an expert mentor in AI-enabled synthetic biology, socio-technical systems, and responsible research & innovation.",
+        "Write a short report (700\u20131,000 words) interpreting the likely outcomes of an AI-enabled synthetic biology project under the current parameter settings.",
+        "",
+        "Institution framing (Goguen institution):",
+        "- Signature: Projects, Teams, DataSets (metabolomics/proteomics/time-series), ML/DL methods, Modifications, Wet-lab Experiments, Institutions (funding/cost centres), Infrastructure (cloud/HPC), Governance (RRI, biosafety), Training (CDT), and LLM use.",
+        "- Sentences/mechanisms: large-data \u2192 ML reliance; prediction-before-lab; interdisciplinarity; coordination costs; institutional barriers and informal workarounds; infrastructure dependence; responsible innovation; skills/training; open science tensions.",
+        "- Models: parameterized by the sliders; satisfaction is approximated by the outputs.",
+        "",
+        "Current parameter settings (0\u2013100):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Please do ALL of the following:",
+        "1) Explain how these settings shape DBTL acceleration and the likelihood that AI predictions translate into feasible wet-lab experiments.",
+        "2) Discuss coordination feasibility for interdisciplinary teams and the effect of institutional barriers (funding/admin/cost centres) including informal workarounds.",
+        "3) Discuss responsible innovation (RRI/biosafety), open science vs IP constraints, and LLM policy risks (leakage/verification).",
+        "4) Identify top failure modes (dataset problems, compute bottlenecks, workflow mismatch, drift, misaligned incentives, governance gaps) and the 3 biggest levers to mitigate them.",
+        "5) Recommend 5 practical next actions (technical + organisational) and what evidence would reduce uncertainty (pilots, audits, monitoring, validation).",
+        "",
+        "Project refinements supplied by the user (incorporate carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Likely Outcomes (distributions + summary stats)",
+      "chartsTitle": "Likely Outcomes (distributions)"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        {
+          "id": "btnRandomize",
+          "label": "Randomize params"
+        },
+        {
+          "id": "btnReset",
+          "label": "Reset defaults"
+        },
+        {
+          "id": "btnToggleLive",
+          "label": "Toggle live update"
+        },
+        {
+          "id": "btnRecompute",
+          "label": "Recompute now"
+        }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your AI+synthetic biology project here\u2026\nExamples:\n- Target compound(s) and organism chassis\n- Data types: metabolomics, proteomics, time-series growth; assay noise; missingness\n- Compute: cloud/HPC access, MLOps tooling, budget constraints\n- Team: wet-lab + comp + software; co-location; translation routines\n- Institutional context: cost centres, UK-style funding boundaries, admin friction\n- Partnerships: industry provider(s), government funder(s), NHS-style data sources\n- Governance: RRI/AREA, biosafety/biosecurity review, data governance, IP/publication plan\n- LLM use: what for, what not for, verification and leakage controls\n- Training: CDT-style program, novice skill retention",
+      "buttons": [
+        {
+          "id": "btnGenPrompt",
+          "label": "Generate AI Prompt"
+        },
+        {
+          "id": "btnCopyPrompt",
+          "label": "Copy Prompt"
+        },
+        {
+          "id": "btnClearRefinements",
+          "label": "Clear refinements"
+        }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here\u2026"
+    }
+  },
+  "parameters": [
+    {
+      "id": "dataScale",
+      "label": "Data scale & complexity (omics/time-series)",
+      "hint": "Higher means larger/more complex datasets; increases potential but also curation and modeling difficulty.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 70
+    },
+    {
+      "id": "dataQuality",
+      "label": "Dataset quality & provenance",
+      "hint": "Higher means cleaner data, better metadata, consistent protocols, and traceable provenance.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "id": "labelReliability",
+      "label": "Ground-truth reliability (assays/annotations)",
+      "hint": "Higher means more reliable measurements/labels; reduces noisy supervision and spurious correlations.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "wetLabThroughput",
+      "label": "Wet-lab throughput (build/test capacity)",
+      "hint": "Higher means experiments can be run faster; low throughput dominates cycle time regardless of AI speed.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "wetLabCostPressure",
+      "label": "Wet-lab cost pressure (cost per experiment)",
+      "hint": "Higher means each experiment is expensive; increases value of good predictions but raises stakes of mistakes.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "id": "computeCapacity",
+      "label": "Compute capacity (training + evaluation)",
+      "hint": "Higher supports larger experiments, robustness tests, and faster iteration.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "cloudPartnerSupport",
+      "label": "Industry partner support (cloud/HPC, tooling)",
+      "hint": "Higher improves infrastructure access and platform expertise; can add dependency/constraints.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "interdisciplinaryMaturity",
+      "label": "Interdisciplinary maturity (shared language, alignment)",
+      "hint": "Higher means better translation between wet-lab and computational cultures; lowers coordination friction.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "coLocation",
+      "label": "Co-location & shared-space access",
+      "hint": "Higher means easier informal coordination; lower increases handoff errors and delay.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "id": "institutionalBarriers",
+      "label": "Institutional barriers (funding/cost centres/admin)",
+      "hint": "Higher means stronger structural boundaries; increases overhead and slows interdisciplinary work.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "informalCoordination",
+      "label": "Informal coordination capacity (workarounds)",
+      "hint": "Higher means teams can bypass barriers via informal networks and pragmatic fixes.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "rriMaturity",
+      "label": "RRI/AREA governance maturity",
+      "hint": "Higher means stronger anticipation, reflection, engagement, and action loops for ethical/societal issues.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "biosafetyGovernance",
+      "label": "Biosafety & biosecurity governance",
+      "hint": "Higher means clearer risk classification, reviews, access controls, and incident response.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "id": "reproDiscipline",
+      "label": "Reproducibility discipline (versioning, documentation)",
+      "hint": "Higher means reproducible pipelines, dataset/model cards, and rerunnable experiments.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "skillsPipeline",
+      "label": "Skills pipeline (training/CDT, hybrid talent)",
+      "hint": "Higher means better availability of domain+AI skills and novice development pathways.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "llmPolicy",
+      "label": "LLM/ChatGPT policy maturity",
+      "hint": "Higher means clear disclosure/verification rules and controls against data leakage.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "openScienceCommitment",
+      "label": "Open science readiness (sharing within constraints)",
+      "hint": "Higher means clearer sharing pathways (FAIR, controlled access) balancing IP and safety.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500,
+      "max": 30000,
+      "step": 500,
+      "default": 8000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more \u201creal-time\u201d.",
+      "min": 0,
+      "max": 600,
+      "step": 20,
+      "default": 120,
+      "isMeta": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "acceleration",
+      "title": "DBTL acceleration probability",
+      "subtitle": "Proxy for meaningful cycle-time reduction (design\u2192test) given wet-lab throughput and integration.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "costAvoidance",
+      "title": "Wet-lab cost avoidance probability",
+      "subtitle": "Proxy for AI predictions reducing wasted experiments (value increases when experiments are expensive).",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "coordinationHealth",
+      "title": "Interdisciplinary coordination health probability",
+      "subtitle": "Proxy for sustained team effectiveness across wet-lab, compute, and management interfaces.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "governanceLegitimacy",
+      "title": "Responsible innovation & legitimacy probability",
+      "subtitle": "Proxy for satisfying RRI/biosafety/LLM policy expectations and maintaining trust with partners/public.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "researchQuality",
+      "title": "Research quality & reproducibility probability",
+      "subtitle": "Proxy for reliable, reproducible findings that survive revalidation and partner scrutiny.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "collabSustain",
+      "title": "Collaboration sustainment probability",
+      "subtitle": "Proxy for stable university\u2013industry\u2013government collaboration (compute/data/IP/publication) over time.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    }
+  ],
+  "engine": {
+    "bins": 44,
+    "random": {
+      "shocks": {
+        "epsData": {
+          "type": "normal",
+          "sigma": 0.22
+        },
+        "epsModel": {
+          "type": "normal",
+          "sigma": 0.2
+        },
+        "epsCoord": {
+          "type": "normal",
+          "sigma": 0.22
+        },
+        "epsGov": {
+          "type": "normal",
+          "sigma": 0.18
+        },
+        "epsQual": {
+          "type": "normal",
+          "sigma": 0.18
+        },
+        "epsCollab": {
+          "type": "normal",
+          "sigma": 0.2
+        }
+      }
+    },
+    "derived": {
+      "ds": {
+        "op": "div",
+        "args": [
+          {
+            "var": "dataScale"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "dq": {
+        "op": "div",
+        "args": [
+          {
+            "var": "dataQuality"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "lr": {
+        "op": "div",
+        "args": [
+          {
+            "var": "labelReliability"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "labT": {
+        "op": "div",
+        "args": [
+          {
+            "var": "wetLabThroughput"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "labC": {
+        "op": "div",
+        "args": [
+          {
+            "var": "wetLabCostPressure"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "comp": {
+        "op": "div",
+        "args": [
+          {
+            "var": "computeCapacity"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "cloud": {
+        "op": "div",
+        "args": [
+          {
+            "var": "cloudPartnerSupport"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "idm": {
+        "op": "div",
+        "args": [
+          {
+            "var": "interdisciplinaryMaturity"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "col": {
+        "op": "div",
+        "args": [
+          {
+            "var": "coLocation"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "bar": {
+        "op": "div",
+        "args": [
+          {
+            "var": "institutionalBarriers"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "inf": {
+        "op": "div",
+        "args": [
+          {
+            "var": "informalCoordination"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "rri": {
+        "op": "div",
+        "args": [
+          {
+            "var": "rriMaturity"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "bio": {
+        "op": "div",
+        "args": [
+          {
+            "var": "biosafetyGovernance"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "rep": {
+        "op": "div",
+        "args": [
+          {
+            "var": "reproDiscipline"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "skl": {
+        "op": "div",
+        "args": [
+          {
+            "var": "skillsPipeline"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "llm": {
+        "op": "div",
+        "args": [
+          {
+            "var": "llmPolicy"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "open": {
+        "op": "div",
+        "args": [
+          {
+            "var": "openScienceCommitment"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "computeSupply": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.65
+              },
+              {
+                "var": "comp"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.35
+              },
+              {
+                "var": "cloud"
+              }
+            ]
+          }
+        ]
+      },
+      "computeLoad": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.45
+              },
+              {
+                "var": "ds"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "rep"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "rri"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.15
+              },
+              {
+                "var": "open"
+              }
+            ]
+          }
+        ]
+      },
+      "computeGap": {
+        "op": "sub",
+        "args": [
+          {
+            "var": "computeSupply"
+          },
+          {
+            "var": "computeLoad"
+          }
+        ]
+      },
+      "dataBurden": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.7
+              },
+              {
+                "var": "ds"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.4
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "lit": 1.0
+                  },
+                  {
+                    "var": "dq"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "governanceStrength": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.55
+              },
+              {
+                "var": "rri"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.55
+              },
+              {
+                "var": "bio"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.25
+              },
+              {
+                "var": "llm"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "open"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.35
+              },
+              {
+                "var": "bar"
+              }
+            ]
+          }
+        ]
+      },
+      "teamEnablers": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.5
+              },
+              {
+                "var": "idm"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.3
+              },
+              {
+                "var": "col"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.25
+              },
+              {
+                "var": "inf"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.45
+              },
+              {
+                "var": "bar"
+              }
+            ]
+          }
+        ]
+      },
+      "scienceCapacity": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.45
+              },
+              {
+                "var": "skl"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.35
+              },
+              {
+                "var": "dq"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.25
+              },
+              {
+                "var": "lr"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "rep"
+              }
+            ]
+          }
+        ]
+      },
+      "negGap": {
+        "op": "clamp",
+        "args": [
+          {
+            "var": "computeGap"
+          },
+          {
+            "lit": -1.0
+          },
+          {
+            "lit": 0.0
+          }
+        ]
+      }
+    },
+    "perDraw": {
+      "usableSignal": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.3
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.1
+                  },
+                  {
+                    "var": "dq"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.7
+                  },
+                  {
+                    "var": "lr"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.75
+                  },
+                  {
+                    "var": "dataBurden"
+                  }
+                ]
+              },
+              {
+                "var": "epsData"
+              }
+            ]
+          }
+        ]
+      },
+      "predictionPower": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.25
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.05
+                  },
+                  {
+                    "var": "usableSignal"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "scienceCapacity"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.6
+                  },
+                  {
+                    "var": "computeGap"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "bar"
+                  }
+                ]
+              },
+              {
+                "var": "epsModel"
+              }
+            ]
+          }
+        ]
+      },
+      "coordHealth": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.1
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.25
+                  },
+                  {
+                    "var": "teamEnablers"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "skl"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.7
+                  },
+                  {
+                    "var": "negGap"
+                  }
+                ]
+              },
+              {
+                "var": "epsCoord"
+              }
+            ]
+          }
+        ]
+      },
+      "govLegit": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.2
+                  },
+                  {
+                    "var": "governanceStrength"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.2
+                  },
+                  {
+                    "var": "coordHealth"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.25
+                  },
+                  {
+                    "var": "dataBurden"
+                  }
+                ]
+              },
+              {
+                "var": "epsGov"
+              }
+            ]
+          }
+        ]
+      },
+      "qualityProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.15
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.85
+                  },
+                  {
+                    "var": "usableSignal"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "rep"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "var": "govLegit"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "computeGap"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "ds"
+                  }
+                ]
+              },
+              {
+                "var": "epsQual"
+              }
+            ]
+          }
+        ]
+      },
+      "accelProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.25
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.95
+                  },
+                  {
+                    "var": "predictionPower"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.65
+                  },
+                  {
+                    "var": "coordHealth"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "labT"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "computeGap"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.45
+                  },
+                  {
+                    "var": "bar"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.25
+                  },
+                  {
+                    "var": "ds"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.1
+                  },
+                  {
+                    "var": "randn"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "costAvoidProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.15
+                  },
+                  {
+                    "var": "labC"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "predictionPower"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "coordHealth"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.2
+                  },
+                  {
+                    "op": "sub",
+                    "args": [
+                      {
+                        "lit": 1.0
+                      },
+                      {
+                        "var": "qualityProb"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      },
+      "collabProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.85
+                  },
+                  {
+                    "var": "govLegit"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "coordHealth"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "var": "open"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "cloud"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "bar"
+                  }
+                ]
+              },
+              {
+                "var": "epsCollab"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "outputMapping": {
+      "acceleration": "accelProb",
+      "costAvoidance": "costAvoidProb",
+      "coordinationHealth": "coordHealth",
+      "governanceLegitimacy": "govLegit",
+      "researchQuality": "qualityProb",
+      "collabSustain": "collabProb"
+    }
+  }
+}
