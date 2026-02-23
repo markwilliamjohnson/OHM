@@ -1,0 +1,824 @@
+{
+  "meta": {
+    "title": "Hip Migration Surveillance \u2014 Institution Lattice (Wisdom \u2192 Standards \u2192 Practice \u2192 Cases)",
+    "subtitle": "A layered map from implementation wisdom down to standards, practices, and concrete cases for automated hip migration assessment in CP surveillance.",
+    "domainName": "clinical AI for paediatric hip surveillance",
+    "searchPlaceholder": "Search the hip surveillance lattice\u2026",
+    "userContextPlaceholder": "Describe your deployment setting (sites, scanners, workflow, stakeholders, constraints)\u2026",
+    "userContextLabel": "Your context (optional)",
+    "promptTemplate": "You are an expert in {{DOMAIN}}.\n\nWrite a narrative case study anchored on {{PRIMARY_CASE}} that connects the selected lattice nodes from high-level wisdom to concrete practices and outcomes.\n\nUser context:\n{{USER_CONTEXT}}\n\nSelected node titles:\n{{SELECTED_TITLES}}\n\nSelected node details:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver: (1) scenario + actors, (2) mechanism chain, (3) what goes wrong and why, (4) 3 leverage points with standards/practices, (5) minimal evaluation + governance plan.\n",
+    "howtoHtml": null,
+    "initialPrompt": ""
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Wisdom (north star)",
+      "hint": "General guidance that shapes everything downstream."
+    },
+    {
+      "id": 1,
+      "title": "Principles & goals",
+      "hint": "What \u2018good\u2019 looks like in clinical implementation and surveillance."
+    },
+    {
+      "id": 2,
+      "title": "Core concepts (institution primitives)",
+      "hint": "Key entities and relationships from the Goguen institution."
+    },
+    {
+      "id": 3,
+      "title": "Mechanisms & levers",
+      "hint": "Cause\u2013effect links: QC \u2192 reliability; validation \u2192 generalization; fit \u2192 adoption."
+    },
+    {
+      "id": 4,
+      "title": "Standards & frameworks",
+      "hint": "Formal standards/guidelines supporting safety, evidence, software, and interoperability."
+    },
+    {
+      "id": 5,
+      "title": "Practices & artefacts",
+      "hint": "Operational methods: datasets, annotation, monitoring, documentation, integration."
+    },
+    {
+      "id": 6,
+      "title": "Cases & challenges",
+      "hint": "Concrete scenarios, bottlenecks, and failure modes in real deployment."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "w_problem_first",
+      "label": "Start with the problem, not the solution",
+      "level": 0,
+      "kind": "wisdom",
+      "summary": "Clinical implementation succeeds when the clinical need drives the technology choices.",
+      "tags": [
+        "co-design",
+        "translation"
+      ],
+      "bodyHtml": "<p><b>Key message from the talk.</b> Avoid building a highly accurate method and then searching for an application. Begin by understanding the clinical bottleneck and co-design a solution that fits real workflows.</p>"
+    },
+    {
+      "id": "w_engage_early",
+      "label": "Engage stakeholders early and continuously",
+      "level": 0,
+      "kind": "wisdom",
+      "summary": "Clinicians, patients/carers, regulators, and engineers shape adoption and safety.",
+      "tags": [
+        "stakeholders",
+        "PPIE"
+      ],
+      "bodyHtml": "<p><b>Key message from the talk.</b> Engagement should run from problem framing through evaluation and deployment, ensuring the solution remains useful, safe, and usable.</p>"
+    },
+    {
+      "id": "w_transparency",
+      "label": "Communicate transparently and manage expectations",
+      "level": 0,
+      "kind": "wisdom",
+      "summary": "External collaborations work when goals, risks, and timelines are explicit.",
+      "tags": [
+        "collaboration",
+        "governance"
+      ],
+      "bodyHtml": "<p>Effective translation depends on shared language across technical experts, clinicians, patients, and regulators. Transparency reduces surprises and rework.</p>"
+    },
+    {
+      "id": "p_prevent_dislocation",
+      "label": "Prevent hip dislocation via surveillance",
+      "level": 1,
+      "kind": "concept",
+      "summary": "Regular monitoring enables earlier intervention and avoids invasive surgery.",
+      "tags": [
+        "clinical-goal",
+        "CP"
+      ],
+      "bodyHtml": "<p>Regular monitoring enables earlier intervention and avoids invasive surgery.</p>"
+    },
+    {
+      "id": "p_reduce_bottleneck",
+      "label": "Reduce the manual measurement bottleneck",
+      "level": 1,
+      "kind": "concept",
+      "summary": "Automation aims to shorten delays between imaging and recorded measurements.",
+      "tags": [
+        "workflow",
+        "timeliness"
+      ],
+      "bodyHtml": "<p>Automation aims to shorten delays between imaging and recorded measurements.</p>"
+    },
+    {
+      "id": "p_real_world_data",
+      "label": "Use clinical data for clinical tools",
+      "level": 1,
+      "kind": "concept",
+      "summary": "Tools should be trained/assessed on the data they will face in practice.",
+      "tags": [
+        "generalization"
+      ],
+      "bodyHtml": "<p>Tools should be trained/assessed on the data they will face in practice.</p>"
+    },
+    {
+      "id": "p_independent_trust",
+      "label": "Build trust through independent & external validation",
+      "level": 1,
+      "kind": "concept",
+      "summary": "Demonstrate generalization to new hospitals/scanners/populations.",
+      "tags": [
+        "validation"
+      ],
+      "bodyHtml": "<p>Demonstrate generalization to new hospitals/scanners/populations.</p>"
+    },
+    {
+      "id": "c_patient",
+      "label": "Patient (child with CP)",
+      "level": 2,
+      "kind": "concept",
+      "summary": "The subject of surveillance, with age/sex/diagnosis metadata.",
+      "tags": [
+        "Patient",
+        "ClinicalData"
+      ],
+      "bodyHtml": "<p>The subject of surveillance, with age/sex/diagnosis metadata.</p>"
+    },
+    {
+      "id": "c_image",
+      "label": "Clinical hip X\u2011ray image",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Real-world imaging input: variable resolution, positioning, and labels.",
+      "tags": [
+        "Image",
+        "XRay"
+      ],
+      "bodyHtml": "<p>Real-world imaging input: variable resolution, positioning, and labels.</p>"
+    },
+    {
+      "id": "c_qc",
+      "label": "Quality control (QC) status",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Screening step that determines whether an image is usable for training/evaluation.",
+      "tags": [
+        "QC"
+      ],
+      "bodyHtml": "<p>Screening step that determines whether an image is usable for training/evaluation.</p>"
+    },
+    {
+      "id": "c_gt",
+      "label": "Clinician ground truth landmarks",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Expert-placed points defining anatomy for learning and evaluation.",
+      "tags": [
+        "GroundTruth",
+        "Landmarks"
+      ],
+      "bodyHtml": "<p>Expert-placed points defining anatomy for learning and evaluation.</p>"
+    },
+    {
+      "id": "c_ml",
+      "label": "ML landmark predictor",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Learns to place points on new images to enable measurement.",
+      "tags": [
+        "ModelML"
+      ],
+      "bodyHtml": "<p>Learns to place points on new images to enable measurement.</p>"
+    },
+    {
+      "id": "c_measure",
+      "label": "Geometric migration measurement",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Clinically relevant measurements computed from landmarks.",
+      "tags": [
+        "Measurement"
+      ],
+      "bodyHtml": "<p>Clinically relevant measurements computed from landmarks.</p>"
+    },
+    {
+      "id": "c_db",
+      "label": "Surveillance database record (CPIP)",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Stores measurements over time for patient care and reporting.",
+      "tags": [
+        "Database",
+        "CPIP"
+      ],
+      "bodyHtml": "<p>Stores measurements over time for patient care and reporting.</p>"
+    },
+    {
+      "id": "c_validation",
+      "label": "Validation report (internal vs external)",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Evidence artifact describing performance and generalization.",
+      "tags": [
+        "Validation"
+      ],
+      "bodyHtml": "<p>Evidence artifact describing performance and generalization.</p>"
+    },
+    {
+      "id": "c_adoption",
+      "label": "Clinical adoption & sustained use",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Whether the tool is actually used in practice.",
+      "tags": [
+        "Adoption"
+      ],
+      "bodyHtml": "<p>Whether the tool is actually used in practice.</p>"
+    },
+    {
+      "id": "c_regulation",
+      "label": "Medical device regulatory pathway",
+      "level": 2,
+      "kind": "concept",
+      "summary": "Translational step requiring processes, documentation, and often a commercial partner.",
+      "tags": [
+        "Regulation"
+      ],
+      "bodyHtml": "<p>Translational step requiring processes, documentation, and often a commercial partner.</p>"
+    },
+    {
+      "id": "m_messy_data",
+      "label": "Messy clinical data \u2192 failure modes",
+      "level": 3,
+      "kind": "risk",
+      "summary": "Variability, label noise, shielding, pain positioning, and truncation degrade performance.",
+      "tags": [
+        "messiness",
+        "data-quality"
+      ],
+      "bodyHtml": "<p>Clinical images vary widely. Common issues: wrong label (knee vs hip), wrong side, obstruction by shield, part outside field of view, atypical positioning due to pain.</p>"
+    },
+    {
+      "id": "m_qc_gate",
+      "label": "QC gating improves usable data",
+      "level": 3,
+      "kind": "concept",
+      "summary": "More QC reduces harmful inputs reaching the model and evaluation.",
+      "tags": [
+        "QC",
+        "screening"
+      ],
+      "bodyHtml": "<p>More QC reduces harmful inputs reaching the model and evaluation.</p>"
+    },
+    {
+      "id": "m_gt_scarcity",
+      "label": "Ground truth scarcity limits learning",
+      "level": 3,
+      "kind": "risk",
+      "summary": "Without enough expert labels, ML cannot robustly learn rare/edge cases.",
+      "tags": [
+        "ground-truth",
+        "labels"
+      ],
+      "bodyHtml": "<p>Without enough expert labels, ML cannot robustly learn rare/edge cases.</p>"
+    },
+    {
+      "id": "m_landmarks_to_measure",
+      "label": "Landmarks \u2192 measurement \u2192 reporting",
+      "level": 3,
+      "kind": "concept",
+      "summary": "Point predictions are transformed into clinically meaningful measurements and sent to database.",
+      "tags": [
+        "pipeline"
+      ],
+      "bodyHtml": "<p>Point predictions are transformed into clinically meaningful measurements and sent to database.</p>"
+    },
+    {
+      "id": "m_validation_shift",
+      "label": "External validation tests distribution shift",
+      "level": 3,
+      "kind": "concept",
+      "summary": "New hospitals/scanners/populations can change performance.",
+      "tags": [
+        "generalization"
+      ],
+      "bodyHtml": "<p>New hospitals/scanners/populations can change performance.</p>"
+    },
+    {
+      "id": "m_workflow_fit",
+      "label": "Workflow fit drives adoption",
+      "level": 3,
+      "kind": "concept",
+      "summary": "If it doesn\u2019t fit clinician workflows, it won\u2019t be used even if accurate.",
+      "tags": [
+        "implementation"
+      ],
+      "bodyHtml": "<p>If it doesn\u2019t fit clinician workflows, it won\u2019t be used even if accurate.</p>"
+    },
+    {
+      "id": "m_ppie_growth_chart",
+      "label": "PPIE \u2192 longitudinal growth\u2011chart outputs",
+      "level": 3,
+      "kind": "concept",
+      "summary": "Parents/carers value trends over time; informs product requirements.",
+      "tags": [
+        "PPIE",
+        "UX"
+      ],
+      "bodyHtml": "<p>Parents/carers value trends over time; informs product requirements.</p>"
+    },
+    {
+      "id": "m_funding_perseverance",
+      "label": "Staged funding + perseverance",
+      "level": 3,
+      "kind": "concept",
+      "summary": "Use smaller grants to gather data/evidence, then iterate towards larger funding.",
+      "tags": [
+        "funding"
+      ],
+      "bodyHtml": "<p>Use smaller grants to gather data/evidence, then iterate towards larger funding.</p>"
+    },
+    {
+      "id": "s_iso13485",
+      "label": "ISO 13485 (Medical device QMS)",
+      "level": 4,
+      "kind": "standard",
+      "summary": "Quality management system requirements for medical devices.",
+      "tags": [
+        "QMS",
+        "ISO"
+      ],
+      "bodyHtml": "<p>Quality management system requirements for medical devices.</p>"
+    },
+    {
+      "id": "s_iso14971",
+      "label": "ISO 14971 (Risk management for medical devices)",
+      "level": 4,
+      "kind": "standard",
+      "summary": "Process for identifying hazards, evaluating and controlling risks.",
+      "tags": [
+        "risk",
+        "ISO"
+      ],
+      "bodyHtml": "<p>Process for identifying hazards, evaluating and controlling risks.</p>"
+    },
+    {
+      "id": "s_iec62304",
+      "label": "IEC 62304 (Medical device software lifecycle)",
+      "level": 4,
+      "kind": "standard",
+      "summary": "Lifecycle processes for medical device software (planning\u2192maintenance).",
+      "tags": [
+        "software",
+        "IEC"
+      ],
+      "bodyHtml": "<p>Lifecycle processes for medical device software (planning\u2192maintenance).</p>"
+    },
+    {
+      "id": "s_nice_esf",
+      "label": "NICE Evidence Standards Framework (digital health)",
+      "level": 4,
+      "kind": "standard",
+      "summary": "Evidence expectations for clinical and economic evaluation of digital health technologies.",
+      "tags": [
+        "NICE",
+        "evidence"
+      ],
+      "bodyHtml": "<p>Evidence expectations for clinical and economic evaluation of digital health technologies.</p>"
+    },
+    {
+      "id": "s_consort_ai",
+      "label": "CONSORT\u2011AI & SPIRIT\u2011AI (trial reporting)",
+      "level": 4,
+      "kind": "standard",
+      "summary": "Reporting guidance for clinical trials involving AI interventions.",
+      "tags": [
+        "EQUATOR",
+        "trials"
+      ],
+      "bodyHtml": "<p>Reporting guidance for clinical trials involving AI interventions.</p>"
+    },
+    {
+      "id": "s_claim",
+      "label": "CLAIM (AI in medical imaging reporting checklist)",
+      "level": 4,
+      "kind": "standard",
+      "summary": "Checklist for reporting AI medical imaging studies.",
+      "tags": [
+        "reporting",
+        "RSNA"
+      ],
+      "bodyHtml": "<p>Checklist for reporting AI medical imaging studies.</p>"
+    },
+    {
+      "id": "s_dicom",
+      "label": "DICOM (medical imaging interoperability)",
+      "level": 4,
+      "kind": "standard",
+      "summary": "Standard for storing/transmitting medical images and related information.",
+      "tags": [
+        "interoperability"
+      ],
+      "bodyHtml": "<p>Standard for storing/transmitting medical images and related information.</p>"
+    },
+    {
+      "id": "s_fhir",
+      "label": "HL7 FHIR (clinical data exchange)",
+      "level": 4,
+      "kind": "standard",
+      "summary": "Standard for exchanging healthcare information electronically.",
+      "tags": [
+        "interoperability",
+        "EHR"
+      ],
+      "bodyHtml": "<p>Standard for exchanging healthcare information electronically.</p>"
+    },
+    {
+      "id": "pr_qc_protocol",
+      "label": "QC protocol & audit trail",
+      "level": 5,
+      "kind": "concept",
+      "summary": "Define screening rules, record exclusions, and track QC decisions.",
+      "tags": [
+        "QC",
+        "process"
+      ],
+      "bodyHtml": "<p>Define screening rules, record exclusions, and track QC decisions.</p>"
+    },
+    {
+      "id": "pr_annotation",
+      "label": "Clinician annotation workflow",
+      "level": 5,
+      "kind": "concept",
+      "summary": "Create landmark ground truth with inter-rater checks and clear definitions.",
+      "tags": [
+        "annotation"
+      ],
+      "bodyHtml": "<p>Create landmark ground truth with inter-rater checks and clear definitions.</p>"
+    },
+    {
+      "id": "pr_internal_eval",
+      "label": "Internal validation against clinical ground truth",
+      "level": 5,
+      "kind": "concept",
+      "summary": "Compare tool vs expert measurements on local clinical data.",
+      "tags": [
+        "internal-validation"
+      ],
+      "bodyHtml": "<p>Compare tool vs expert measurements on local clinical data.</p>"
+    },
+    {
+      "id": "pr_external_eval",
+      "label": "External multi-site validation",
+      "level": 5,
+      "kind": "concept",
+      "summary": "Test on data from other hospitals/scanners/populations.",
+      "tags": [
+        "external-validation"
+      ],
+      "bodyHtml": "<p>Test on data from other hospitals/scanners/populations.</p>"
+    },
+    {
+      "id": "pr_db_pipeline",
+      "label": "Database integration & longitudinal dashboards",
+      "level": 5,
+      "kind": "concept",
+      "summary": "Automate reporting and provide trend views for clinicians/carers.",
+      "tags": [
+        "integration",
+        "dashboard"
+      ],
+      "bodyHtml": "<p>Automate reporting and provide trend views for clinicians/carers.</p>"
+    },
+    {
+      "id": "pr_monitoring",
+      "label": "Post-deployment monitoring (drift + safety)",
+      "level": 5,
+      "kind": "concept",
+      "summary": "Track drift and anomalies; maintain human oversight and feedback loops.",
+      "tags": [
+        "monitoring"
+      ],
+      "bodyHtml": "<p>Track drift and anomalies; maintain human oversight and feedback loops.</p>"
+    },
+    {
+      "id": "pr_documentation",
+      "label": "Technical & clinical documentation pack",
+      "level": 5,
+      "kind": "concept",
+      "summary": "Model card, data sheet, intended use, risk file, validation dossier.",
+      "tags": [
+        "documentation",
+        "regulation"
+      ],
+      "bodyHtml": "<p>Model card, data sheet, intended use, risk file, validation dossier.</p>"
+    },
+    {
+      "id": "case_cpip_bottleneck",
+      "label": "Case: CP hip surveillance manual backlog",
+      "level": 6,
+      "kind": "case",
+      "summary": "Months-long delays between X-ray acquisition and recorded measurements.",
+      "tags": [
+        "bottleneck",
+        "CPIP"
+      ],
+      "bodyHtml": "<p>Months-long delays between X-ray acquisition and recorded measurements.</p>"
+    },
+    {
+      "id": "case_external_scotland",
+      "label": "Case: External validation on Scotland data",
+      "level": 6,
+      "kind": "case",
+      "summary": "Independent site testing provides evidence of generalization.",
+      "tags": [
+        "external-validation"
+      ],
+      "bodyHtml": "<p>Independent site testing provides evidence of generalization.</p>"
+    },
+    {
+      "id": "risk_mislabel",
+      "label": "Risk: Mislabelled exams (hip vs knee; left vs right)",
+      "level": 6,
+      "kind": "risk",
+      "summary": "Label noise causes incorrect training/evaluation and unsafe outputs.",
+      "tags": [
+        "data-quality"
+      ],
+      "bodyHtml": "<p>Label noise causes incorrect training/evaluation and unsafe outputs.</p>"
+    },
+    {
+      "id": "risk_obstruction",
+      "label": "Risk: Shielding/obstruction or out-of-FOV anatomy",
+      "level": 6,
+      "kind": "risk",
+      "summary": "Missing anatomy prevents correct landmarking and measurement.",
+      "tags": [
+        "image-quality"
+      ],
+      "bodyHtml": "<p>Missing anatomy prevents correct landmarking and measurement.</p>"
+    },
+    {
+      "id": "risk_workflow_mismatch",
+      "label": "Risk: Workflow mismatch (accurate but unused)",
+      "level": 6,
+      "kind": "risk",
+      "summary": "A tool that doesn\u2019t fit practice won\u2019t be adopted.",
+      "tags": [
+        "implementation"
+      ],
+      "bodyHtml": "<p>A tool that doesn\u2019t fit practice won\u2019t be adopted.</p>"
+    },
+    {
+      "id": "risk_shift",
+      "label": "Risk: Distribution shift across scanners/hospitals",
+      "level": 6,
+      "kind": "risk",
+      "summary": "New protocols and populations can degrade performance.",
+      "tags": [
+        "generalization"
+      ],
+      "bodyHtml": "<p>New protocols and populations can degrade performance.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "w_problem_first",
+      "to": "p_prevent_dislocation",
+      "why": "Problem-first thinking anchors the work on preventing dislocation, not on maximizing benchmark scores."
+    },
+    {
+      "from": "w_problem_first",
+      "to": "p_reduce_bottleneck",
+      "why": "The \u2018problem\u2019 includes timeliness and workflow friction, so automation must target delay reduction."
+    },
+    {
+      "from": "w_engage_early",
+      "to": "p_independent_trust",
+      "why": "Engagement supports realistic evaluation goals and builds trust via independent evidence."
+    },
+    {
+      "from": "w_engage_early",
+      "to": "p_real_world_data",
+      "why": "Service input clarifies what clinical data look like and which constraints matter."
+    },
+    {
+      "from": "w_transparency",
+      "to": "p_reduce_bottleneck",
+      "why": "Clear expectations across teams reduce stalled handoffs that prolong reporting delays."
+    },
+    {
+      "from": "p_prevent_dislocation",
+      "to": "c_patient",
+      "why": "The surveillance target is the child with CP, tracked longitudinally."
+    },
+    {
+      "from": "p_prevent_dislocation",
+      "to": "c_measure",
+      "why": "Prevention depends on measuring migration and acting on trends."
+    },
+    {
+      "from": "p_reduce_bottleneck",
+      "to": "c_db",
+      "why": "Shorter delays require faster recording into the surveillance database."
+    },
+    {
+      "from": "p_real_world_data",
+      "to": "c_image",
+      "why": "Clinical tools must handle the variability of real clinical X-rays."
+    },
+    {
+      "from": "p_independent_trust",
+      "to": "c_validation",
+      "why": "Trust is formalized through internal and external validation reports."
+    },
+    {
+      "from": "c_image",
+      "to": "m_messy_data",
+      "why": "Clinical X-rays exhibit variability and errors that create failure modes."
+    },
+    {
+      "from": "c_qc",
+      "to": "m_qc_gate",
+      "why": "QC determines which images are safe/usable for training and measurement."
+    },
+    {
+      "from": "c_gt",
+      "to": "m_gt_scarcity",
+      "why": "Clinician labels are costly; scarcity limits learning and evaluation."
+    },
+    {
+      "from": "c_ml",
+      "to": "m_landmarks_to_measure",
+      "why": "Landmark predictions are the basis for automated geometric measurement."
+    },
+    {
+      "from": "c_measure",
+      "to": "m_landmarks_to_measure",
+      "why": "Measurements are computed from landmarks and forwarded downstream."
+    },
+    {
+      "from": "c_validation",
+      "to": "m_validation_shift",
+      "why": "External validation probes generalization under distribution shift."
+    },
+    {
+      "from": "c_adoption",
+      "to": "m_workflow_fit",
+      "why": "Adoption is primarily governed by workflow fit and trust."
+    },
+    {
+      "from": "c_regulation",
+      "to": "m_validation_shift",
+      "why": "Regulatory readiness depends heavily on generalization evidence."
+    },
+    {
+      "from": "m_ppie_growth_chart",
+      "to": "m_workflow_fit",
+      "why": "Growth-chart style outputs can improve fit for families and clinicians."
+    },
+    {
+      "from": "m_messy_data",
+      "to": "risk_mislabel",
+      "why": "Messy data includes label noise (hip vs knee; left vs right)."
+    },
+    {
+      "from": "m_messy_data",
+      "to": "risk_obstruction",
+      "why": "Messy data includes obstruction/truncation and pain-positioning issues."
+    },
+    {
+      "from": "m_validation_shift",
+      "to": "s_consort_ai",
+      "why": "If clinical trials are run, AI-specific trial reporting guidance improves transparency."
+    },
+    {
+      "from": "m_landmarks_to_measure",
+      "to": "s_claim",
+      "why": "Imaging-AI reporting checklists help document data, methods, and evaluation clearly."
+    },
+    {
+      "from": "m_qc_gate",
+      "to": "s_iso14971",
+      "why": "QC is a risk control that mitigates hazards from bad inputs and must be justified."
+    },
+    {
+      "from": "m_workflow_fit",
+      "to": "s_nice_esf",
+      "why": "Evidence/value frameworks shape what outcomes and usability matter."
+    },
+    {
+      "from": "c_regulation",
+      "to": "s_iso13485",
+      "why": "QMS requirements govern controlled development for regulated medical devices."
+    },
+    {
+      "from": "c_regulation",
+      "to": "s_iec62304",
+      "why": "Medical device software lifecycle processes structure development and maintenance."
+    },
+    {
+      "from": "c_db",
+      "to": "s_fhir",
+      "why": "Clinical data exchange is supported by interoperability standards like FHIR."
+    },
+    {
+      "from": "c_image",
+      "to": "s_dicom",
+      "why": "Medical images are typically managed and exchanged using DICOM."
+    },
+    {
+      "from": "s_iso14971",
+      "to": "pr_qc_protocol",
+      "why": "Risk management identifies hazards; QC protocol implements input-risk controls with traceability."
+    },
+    {
+      "from": "s_iec62304",
+      "to": "pr_documentation",
+      "why": "Software lifecycle processes require documented requirements, verification, and maintenance artefacts."
+    },
+    {
+      "from": "s_iso13485",
+      "to": "pr_documentation",
+      "why": "QMS demands controlled documentation, design controls, and evidence of compliance."
+    },
+    {
+      "from": "s_consort_ai",
+      "to": "pr_internal_eval",
+      "why": "Trial reporting standards encourage explicit evaluation protocols and endpoints."
+    },
+    {
+      "from": "s_claim",
+      "to": "pr_internal_eval",
+      "why": "Reporting checklists help structure reproducible internal validation."
+    },
+    {
+      "from": "s_claim",
+      "to": "pr_external_eval",
+      "why": "Reporting checklists also apply to external validation descriptions."
+    },
+    {
+      "from": "s_dicom",
+      "to": "pr_qc_protocol",
+      "why": "Imaging interoperability requires consistent metadata handling and QC of incoming studies."
+    },
+    {
+      "from": "s_fhir",
+      "to": "pr_db_pipeline",
+      "why": "FHIR-style interfaces can support reliable database/EHR integration and reporting workflows."
+    },
+    {
+      "from": "s_nice_esf",
+      "to": "pr_internal_eval",
+      "why": "Evidence standards influence what outcomes and economic considerations to assess."
+    },
+    {
+      "from": "pr_qc_protocol",
+      "to": "risk_mislabel",
+      "why": "QC checks catch mislabels and prevent incorrect training/measurement."
+    },
+    {
+      "from": "pr_qc_protocol",
+      "to": "risk_obstruction",
+      "why": "QC detects obstruction/out-of-FOV studies so they are excluded or flagged."
+    },
+    {
+      "from": "pr_db_pipeline",
+      "to": "case_cpip_bottleneck",
+      "why": "Automation + integration directly targets the manual backlog and reporting delays."
+    },
+    {
+      "from": "pr_external_eval",
+      "to": "case_external_scotland",
+      "why": "External validation practice produces multi-site evidence of generalization."
+    },
+    {
+      "from": "pr_monitoring",
+      "to": "risk_shift",
+      "why": "Monitoring detects drift/shift after deployment and triggers mitigation."
+    },
+    {
+      "from": "pr_documentation",
+      "to": "risk_workflow_mismatch",
+      "why": "Clear intended use, limitations, and training materials reduce workflow mismatch risk."
+    },
+    {
+      "from": "m_workflow_fit",
+      "to": "risk_workflow_mismatch",
+      "why": "Poor fit is a failure mode even with high accuracy."
+    },
+    {
+      "from": "m_validation_shift",
+      "to": "risk_shift",
+      "why": "Distribution shift is revealed by external validation and must be managed."
+    },
+    {
+      "from": "w_problem_first",
+      "to": "case_cpip_bottleneck",
+      "why": "The manual backlog case motivates the project and defines success metrics."
+    },
+    {
+      "from": "w_engage_early",
+      "to": "case_external_scotland",
+      "why": "Cross-site partnerships enable external validation cases and credible translation."
+    }
+  ]
+}
