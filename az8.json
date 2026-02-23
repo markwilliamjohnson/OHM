@@ -1,0 +1,1040 @@
+{
+  "meta": {
+    "title": "Responsible Innovation & AI-in-Organisations — Wisdom → Super-Concepts → Systems → Governance → Operations → Improvement → Cases",
+    "subtitle": "A socio-technical lattice for adopting emerging AI responsibly: anticipation/reflection/engagement/action shape design; incentives and uncertainty shape behaviour; governance creates guardrails; operations enact iteration + training; improvement closes feedback loops back to strategy.",
+    "domainName": "responsible innovation and organisational deployment of AI",
+    "searchPlaceholder": "AREA, responsible innovation, organisational fit, stakeholder engagement, human-in-the-loop, explainability, black box, iteration, scenario planning, risk mitigation, stage-gate, red team, skunkworks, hype cycle, drift, novelty, ROI, data governance…",
+    "userContextLabel": "Your organisational AI context (optional)",
+    "userContextPlaceholder": "e.g., enterprise team adopting LLM coding assistant; regulated domain; need governance, stakeholder engagement, evaluation harness, data security, and a path to novelty/distinctiveness…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert in responsible innovation, socio-technical systems, and organisational AI deployment.\n\nWrite a realistic narrative case study that connects upstream wisdom (judgement, reflexivity, ethics), through systems dynamics (incentives, drift, WAI/WAD), into governance (AREA, stage-gates, red-team/blue-team assessment), and down to operational mechanisms (iteration, evaluation, training, change management).\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nMake the tool INVITE specificity:\n- Ask the user to pick or invent a *case anchor* (industry + product + stakeholders + constraints).\n- Ask the user to name at least one *risk/pathology* (e.g., black-box mystification, cognitive narrowing, governance drift, data leakage, late-stage lock-in).\n- Ask the user to specify *one comparable historical case* (e.g., asbestos, social media, or another emerging tech) and explain what transfers.\n\nDeliver:\n- Scenario (organisation type, incentives, stakeholders, regulatory/ethical constraints)\n- AREA walk-through: Anticipation → Reflection → Engagement → Action\n- Technical plan: transparency + iteration/convergence + evaluation harness + data/security controls\n- Organisational plan: operating model, roles, training, communication, change management\n- Novelty/distinctiveness plan: how to keep cognitive space open while still moving fast\n- Measurement plan: leading + lagging indicators + learning loops + stop/go thresholds\n- 2 safe-to-fail experiments and 2 red-team test scenarios\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Management wisdom",
+      "hint": "Judgement-in-context: humility under uncertainty, reflexivity, dignity, and responsibility when technology meets organisational reality."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: uncertainty, legitimacy, incentives, organisational fit, stakeholder value, and the speed–safety–distinctiveness tension."
+    },
+    {
+      "id": 2,
+      "title": "Systems concepts",
+      "hint": "How socio-technical adoption behaves: feedback loops, drift, WAI/WAD gaps, interface failures, hype cycles, lock-in, and cognitive narrowing."
+    },
+    {
+      "id": 3,
+      "title": "Governance & programme architecture",
+      "hint": "Responsible innovation structures: AREA, stage-gates with reflection, stakeholder governance, red-team/blue-team assessment, and portfolio strategy."
+    },
+    {
+      "id": 4,
+      "title": "Operational delivery mechanisms",
+      "hint": "What teams do day-to-day: iteration, evaluation harnesses, explainability, user training, change management, monitoring, incident response, and collaboration patterns."
+    },
+    {
+      "id": 5,
+      "title": "Quality, performance & improvement",
+      "hint": "Assurance and learning: audit, KPIs, ROI vs novelty, post-deploy monitoring, model risk management, and continuous improvement loops."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios and common failure modes for tracing back to deeper roots."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_increase_possibilities",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Increase the number of possibilities",
+      "summary": "Act to expand option space—then use human judgement to select what to pursue.",
+      "tags": ["wisdom", "cybernetics", "novelty"],
+      "bodyHtml": "<p>Generative AI can produce many candidate solutions quickly. Wisdom is not accepting them as answers, but using them to expand the possibility space—and then applying human judgement to choose, test, and refine what matters.</p>"
+    },
+    {
+      "id": "wis_reflexivity",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Reflexivity (technology is part of the human system)",
+      "summary": "Back away from \"AI as answer\"; treat systems as socio-technical and redesign accordingly.",
+      "tags": ["wisdom", "reflection", "socio-technical"],
+      "bodyHtml": "<p>The talk emphasises that AI is not separate from the organisation: it reshapes work practices, roles, and meaning-making. Reflexivity is a design input, not a late-stage afterthought.</p>"
+    },
+    {
+      "id": "wis_transparency",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Transparency as a trust constraint",
+      "summary": "Open the black box as far as possible; explain results to technical and non-technical stakeholders.",
+      "tags": ["wisdom", "trust", "explainability"],
+      "bodyHtml": "<p>Even when mechanisms are complex or stochastic, organisations need explainable rationales for decisions, boundaries, and failures. Transparency protects legitimacy and improves adoption quality.</p>"
+    },
+    {
+      "id": "wis_humans_in_loop",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Human-in-the-loop responsibility",
+      "summary": "Keep humans accountable and able to intervene; AI collaborates, humans decide and own outcomes.",
+      "tags": ["wisdom", "accountability", "governance"],
+      "bodyHtml": "<p>The talk frames a choice: AI leads conceptual development vs humans remain in control with AI as collaborator. Responsible deployment keeps humans responsible, informed, and empowered to override.</p>"
+    },
+    {
+      "id": "wis_proportion_pacing",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Proportion & pacing (move fast, but don’t outrun learning)",
+      "summary": "Balance competitive speed with time for anticipation, reflection, testing, and engagement.",
+      "tags": ["wisdom", "tradeoffs", "execution"],
+      "bodyHtml": "<p>“Ship now, fix later” can work in some domains, but fails badly in high-stakes contexts. Wise pacing inserts learning gates before irreversible lock-in.</p>"
+    },
+    {
+      "id": "wis_listen_engage",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Listening & early engagement",
+      "summary": "Treat users and stakeholders as co-designers; engage early to avoid late-stage failure.",
+      "tags": ["wisdom", "engagement", "adoption"],
+      "bodyHtml": "<p>Engagement is not a marketing step at the end; it is an early design activity that reveals needs, constraints, and likely failure modes.</p>"
+    },
+
+    {
+      "id": "org_fit",
+      "level": 1,
+      "kind": "concept",
+      "label": "Organisational fit",
+      "summary": "Adoption requires fit with workflows, incentives, roles, and the organisation’s social reality.",
+      "tags": ["organisation", "adoption"],
+      "bodyHtml": "<p>Emerging technologies aren’t “just technical”: they must align with organisational context and be implementable within real constraints.</p>"
+    },
+    {
+      "id": "uncertainty_stochasticity",
+      "level": 1,
+      "kind": "concept",
+      "label": "Uncertainty & stochastic behaviour",
+      "summary": "AI outputs vary; treat results as contingent and test across scenarios rather than trusting single runs.",
+      "tags": ["uncertainty", "stochastic"],
+      "bodyHtml": "<p>Stochastic models can appear mystical. Teams should normalize variability and use disciplined iteration and evaluation to establish reliability envelopes.</p>"
+    },
+    {
+      "id": "legitimacy_trust",
+      "level": 1,
+      "kind": "concept",
+      "label": "Legitimacy & trust",
+      "summary": "Adoption depends on perceived fairness, transparency, and credible governance—especially when harms are plausible.",
+      "tags": ["trust", "stakeholders"],
+      "bodyHtml": "<p>Trust is an enabling condition: without it, users resist, work around, or sabotage systems—creating hidden risks and poor ROI.</p>"
+    },
+    {
+      "id": "incentives_pressure",
+      "level": 1,
+      "kind": "concept",
+      "label": "Incentives & competitive pressure",
+      "summary": "Speed-to-market incentives can squeeze reflexivity; measurement regimes can narrow thinking.",
+      "tags": ["incentives", "competition"],
+      "bodyHtml": "<p>Pressure for rapid shipping can create governance shortcuts and a \"fix later\" culture—often increasing downstream costs and risk.</p>"
+    },
+    {
+      "id": "distinctiveness_strategy",
+      "level": 1,
+      "kind": "concept",
+      "label": "Distinctiveness vs commoditisation",
+      "summary": "If everyone can build the same app quickly, advantage depends on novelty, integration, and user value.",
+      "tags": ["strategy", "novelty"],
+      "bodyHtml": "<p>LLM-enabled speed can reduce differentiation. Competitive strategy needs deliberate novelty and user-centred design rather than generic outputs.</p>"
+    },
+    {
+      "id": "stakeholder_value_harms",
+      "level": 1,
+      "kind": "concept",
+      "label": "Who benefits, who is harmed?",
+      "summary": "Responsible innovation asks: beneficiaries, excluded groups, and what could go wrong.",
+      "tags": ["ethics", "responsibility"],
+      "bodyHtml": "<p>Anticipation includes downstream impacts: distribution of benefits/harms, and the social consequences of deployment.</p>"
+    },
+    {
+      "id": "continuous_vs_disruptive",
+      "level": 1,
+      "kind": "concept",
+      "label": "Continuous vs disruptive innovation",
+      "summary": "Managers must choose between incremental improvement and high-risk disruptive bets; both need different organisational designs.",
+      "tags": ["innovation", "strategy"],
+      "bodyHtml": "<p>The talk contrasts continuous improvement with disruptive innovation and notes that disruption often needs different structures (e.g., skunkworks).</p>"
+    },
+
+    {
+      "id": "feedback_loops_sys",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops (learning vs late fixes)",
+      "summary": "Early feedback enables redesign; late feedback creates costly retrofits and political conflict.",
+      "tags": ["systems", "learning"],
+      "bodyHtml": "<p>Technologies become harder to fix after commercialisation. Design feedback loops early (testing, stakeholder input, incident learning) to avoid lock-in.</p>"
+    },
+    {
+      "id": "drift_normalisation",
+      "level": 2,
+      "kind": "concept",
+      "label": "Drift & normalisation of deviance",
+      "summary": "Shortcuts become normal under pressure; systems look fine on paper while risk accumulates.",
+      "tags": ["systems", "drift"],
+      "bodyHtml": "<p>When teams rush, governance and evaluation degrade. Over time the organisation normalises risky practices as “how we do things here.”</p>"
+    },
+    {
+      "id": "wai_wad_gap",
+      "level": 2,
+      "kind": "concept",
+      "label": "Work-as-imagined vs work-as-done (WAI/WAD)",
+      "summary": "Design assumptions diverge from real practice; adoption failures cluster in the gap.",
+      "tags": ["systems", "operations"],
+      "bodyHtml": "<p>LLM tools may look productive in demos but fail in real workflows (security constraints, team practices, handoffs, review rituals).</p>"
+    },
+    {
+      "id": "interfaces_handoffs_sys",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interfaces & handoffs",
+      "summary": "Failure clusters where people, teams, tools and governance meet: review gates, approvals, incident escalation, procurement.",
+      "tags": ["systems", "reliability"],
+      "bodyHtml": "<p>Many organisational failures are interface failures: unclear ownership, ambiguous requirements, missing training, poor escalation pathways.</p>"
+    },
+    {
+      "id": "hype_cycle",
+      "level": 2,
+      "kind": "concept",
+      "label": "Hype cycles & premature scaling",
+      "summary": "Hype encourages scaling before understanding; later fixes are harder and reputationally costly.",
+      "tags": ["systems", "innovation"],
+      "bodyHtml": "<p>Emerging tech often looks like a miracle early on. Responsible strategies slow down enough to learn before full deployment.</p>"
+    },
+    {
+      "id": "lock_in_path_dependence",
+      "level": 2,
+      "kind": "concept",
+      "label": "Lock-in & path dependence",
+      "summary": "As adoption spreads, redesign becomes expensive; choices made early constrain later options.",
+      "tags": ["systems", "architecture"],
+      "bodyHtml": "<p>Data formats, vendor contracts, workflow changes, and training investments can harden into constraints that block safer alternatives.</p>"
+    },
+    {
+      "id": "cognitive_narrowing",
+      "level": 2,
+      "kind": "concept",
+      "label": "Cognitive narrowing (option-space collapse)",
+      "summary": "LLMs can speed work but narrow the range of considered options; good for some tasks, harmful for novelty work.",
+      "tags": ["systems", "creativity"],
+      "bodyHtml": "<p>Studies and practitioner experience often report that assistance can converge teams on similar solutions. Countermeasures include diverse prompts, red-teaming, and explicit novelty goals.</p>"
+    },
+    {
+      "id": "black_box_mystification",
+      "level": 2,
+      "kind": "risk",
+      "label": "Black-box mystification",
+      "summary": "Treating AI as magical answers hides uncertainty and undermines responsible decision-making.",
+      "tags": ["risk", "explainability"],
+      "bodyHtml": "<p>The talk argues AI should not be treated as a black box: teams should open it via explanation, evaluation, and communication.</p>"
+    },
+
+    {
+      "id": "area_framework",
+      "level": 3,
+      "kind": "standard",
+      "label": "AREA framework (Anticipation, Reflection, Engagement, Action)",
+      "summary": "A responsible innovation scheme: anticipate consequences, reflect on assumptions, engage stakeholders, act to mitigate and govern.",
+      "tags": ["AREA", "responsible_innovation"],
+      "bodyHtml": "<p>AREA structures socio-technical design. It starts with anticipation (what could go wrong), then reflection (assumptions), engagement (stakeholders), and action (mitigation and governance).</p>"
+    },
+    {
+      "id": "stage_gates_reflection",
+      "level": 3,
+      "kind": "concept",
+      "label": "Stage-gates with reflection checkpoints",
+      "summary": "Insert explicit learning gates before scaling: scenario reviews, evaluation results, stakeholder feedback, and risk sign-off.",
+      "tags": ["governance", "process"],
+      "bodyHtml": "<p>Counteracts “ship now, fix later” by making learning and risk mitigation prerequisites for rollout.</p>"
+    },
+    {
+      "id": "rapid_early_assessment",
+      "level": 3,
+      "kind": "standard",
+      "label": "Rapid early assessment (internal red-team/blue-team)",
+      "summary": "Structured internal challenge process: present the tech, surface positives and failure modes, and feed issues back into redesign.",
+      "tags": ["red_team", "assessment"],
+      "bodyHtml": "<p>The transcript describes an internal tool (used in engineering biology) that simulates engagement and iteration inside the company before external rollout.</p>"
+    },
+    {
+      "id": "stakeholder_map_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Stakeholder mapping & engagement plan",
+      "summary": "Identify users and stakeholders early; plan cadence for co-design, feedback, and contested decisions.",
+      "tags": ["stakeholders", "engagement"],
+      "bodyHtml": "<p>Engagement fails when it is late. Governance defines who must be consulted, when, and how their input changes design.</p>"
+    },
+    {
+      "id": "data_security_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Data security, training data, and sharing governance",
+      "summary": "Rules for what data can be used, where it goes, and how customised models are trained and audited.",
+      "tags": ["data", "security"],
+      "bodyHtml": "<p>LLM adoption raises data leakage and compliance risks. Governance must define data boundaries and model training constraints.</p>"
+    },
+    {
+      "id": "portfolio_innovation",
+      "level": 3,
+      "kind": "concept",
+      "label": "Innovation portfolio (continuous + disruptive bets)",
+      "summary": "Balance incremental improvements with disruptive exploration; align structures and time horizons accordingly.",
+      "tags": ["portfolio", "strategy"],
+      "bodyHtml": "<p>Portfolio thinking prevents all effort going into “fast but generic” work, while still maintaining operational competitiveness.</p>"
+    },
+    {
+      "id": "skunkworks_mechanism",
+      "level": 3,
+      "kind": "concept",
+      "label": "Skunkworks / separate unit mechanism",
+      "summary": "Create time and space for radical work; shield exploration from short-term KPIs and bureaucracy.",
+      "tags": ["disruptive", "org_design"],
+      "bodyHtml": "<p>Disruptive innovation often requires separate units, autonomy, and longer-term sponsorship.</p>"
+    },
+    {
+      "id": "environment_scanning",
+      "level": 3,
+      "kind": "concept",
+      "label": "Environmental scanning (tech + competition + regulation)",
+      "summary": "Anticipation includes scanning: what competitors, startups, and new rules mean for the next period.",
+      "tags": ["foresight", "competition"],
+      "bodyHtml": "<p>Scanning reduces the risk of being blindsided and informs whether to pursue continuous improvements or disruptive bets.</p>"
+    },
+
+    {
+      "id": "iteration_convergence_ops",
+      "level": 4,
+      "kind": "standard",
+      "label": "Iteration + convergence workflow",
+      "summary": "Run multiple trials, fine-tune prompts/models, seek stable performance envelopes, and document variability.",
+      "tags": ["iteration", "evaluation"],
+      "bodyHtml": "<p>The talk highlights that AI outputs vary; teams should iterate, seek convergence, and understand limits before relying on outputs.</p>"
+    },
+    {
+      "id": "explainability_practice",
+      "level": 4,
+      "kind": "standard",
+      "label": "Explainability practice (technical + stakeholder language)",
+      "summary": "Translate model behaviour into usable explanations; communicate uncertainty; explain what the system can/can’t do.",
+      "tags": ["explainability", "communication"],
+      "bodyHtml": "<p>Explainability is both technical (mechanisms, evaluation) and social (clear narratives for managers and users).</p>"
+    },
+    {
+      "id": "scenario_planning_ops",
+      "level": 4,
+      "kind": "standard",
+      "label": "Scenario planning & risk mitigation playbook",
+      "summary": "Enumerate failure scenarios; estimate risks; choose mitigations (redesign, training, guardrails, escalation).",
+      "tags": ["scenarios", "mitigation"],
+      "bodyHtml": "<p>Anticipation is operationalised via scenarios: “what could go wrong” and “how do we mitigate?” before large-scale deployment.</p>"
+    },
+    {
+      "id": "user_training_ops",
+      "level": 4,
+      "kind": "standard",
+      "label": "User training & adoption enablement",
+      "summary": "Train users to interpret outputs, handle uncertainty, and follow safe-use protocols.",
+      "tags": ["training", "change_management"],
+      "bodyHtml": "<p>Mitigation is not only code changes—training users and designing workflows is often the decisive factor for safe adoption.</p>"
+    },
+    {
+      "id": "change_management_ops",
+      "level": 4,
+      "kind": "standard",
+      "label": "Change management (whole-organisation approach)",
+      "summary": "Define roles, workflows, review rituals, and team practices so AI augments rather than replaces sensemaking.",
+      "tags": ["operations", "org_change"],
+      "bodyHtml": "<p>Deploying LLMs requires organisational design: review gates, teamwork norms, escalation paths, and time for reflection.</p>"
+    },
+    {
+      "id": "custom_llm_ops",
+      "level": 4,
+      "kind": "concept",
+      "label": "Customised / domain-adapted models",
+      "summary": "Use controlled data and domain constraints to improve relevance and reduce leakage; pair with governance and audits.",
+      "tags": ["LLM", "customisation"],
+      "bodyHtml": "<p>The talk suggests considering customised LLMs alongside data security, training, and sharing constraints.</p>"
+    },
+    {
+      "id": "monitoring_incident_ops",
+      "level": 4,
+      "kind": "standard",
+      "label": "Monitoring + incident response",
+      "summary": "Detect failures in the wild; define escalation triggers; run post-incident learning loops back into redesign.",
+      "tags": ["monitoring", "incident_response"],
+      "bodyHtml": "<p>Because AI behaviour can drift with context, organisations need monitoring and incident response procedures that feed learning back into governance and design.</p>"
+    },
+
+    {
+      "id": "kpis_roi_novelty",
+      "level": 5,
+      "kind": "standard",
+      "label": "KPIs: ROI, quality, novelty & distinctiveness",
+      "summary": "Measure speed and cost, but also novelty, user value, safety, and downstream rework/incident costs.",
+      "tags": ["KPIs", "strategy"],
+      "bodyHtml": "<p>The talk notes many companies struggle to find ROI from LLMs and may lose novelty. Metrics must track both productivity and distinctiveness.</p>"
+    },
+    {
+      "id": "assurance_audit_ai",
+      "level": 5,
+      "kind": "standard",
+      "label": "Assurance & audit (evaluation evidence + governance compliance)",
+      "summary": "Audit that practice matches policy: evaluation coverage, stakeholder engagement, data governance, and incident learning.",
+      "tags": ["assurance", "audit"],
+      "bodyHtml": "<p>Assurance detects drift and compliance theatre by checking real work under pressure and examining evidence quality.</p>"
+    },
+    {
+      "id": "learning_loops_improvement",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning loops & continuous improvement",
+      "summary": "Post-deploy learning (from monitoring, users, incidents) drives redesign of models, workflows, and governance.",
+      "tags": ["learning", "improvement"],
+      "bodyHtml": "<p>Continuous improvement is the mechanism that keeps AI systems aligned with organisational reality over time.</p>"
+    },
+    {
+      "id": "model_risk_management",
+      "level": 5,
+      "kind": "standard",
+      "label": "Model risk management (MRM) mindset",
+      "summary": "Define acceptable use, validation, drift monitoring, change control, and accountability for model-driven decisions.",
+      "tags": ["risk_management", "controls"],
+      "bodyHtml": "<p>MRM treats models as organisational risk objects: document assumptions, test performance, monitor drift, and maintain change control.</p>"
+    },
+
+    {
+      "id": "pathology_fix_later",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: “Ship now, fix later” in high-stakes domains",
+      "summary": "Scaling before understanding creates harms and expensive retrofits; late fixes become politically and technically hard.",
+      "tags": ["risk", "governance"],
+      "bodyHtml": "<p>The transcript contrasts a Silicon-Valley-style scale-first approach with domains like drug development and self-driving, where early anticipation/reflection is critical.</p>"
+    },
+    {
+      "id": "pathology_cognitive_lock",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Cognitive lock-in (LLM narrows options)",
+      "summary": "Teams converge on similar solutions; distinctiveness erodes; innovation becomes incremental and homogeneous.",
+      "tags": ["risk", "novelty"],
+      "bodyHtml": "<p>Speed can come with a hidden cost: reduced exploration. Countermeasure: explicit novelty targets, diverse ideation, and red-team expansion of options.</p>"
+    },
+    {
+      "id": "pathology_black_box_trust_collapse",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Black-box trust collapse",
+      "summary": "Mystification + unexplained errors destroy legitimacy; adoption stalls or becomes performative.",
+      "tags": ["risk", "trust"],
+      "bodyHtml": "<p>When stakeholders cannot understand or challenge outputs, trust collapses. Transparency, explanation, and governance are required.</p>"
+    },
+    {
+      "id": "case_asbestos_pattern",
+      "level": 6,
+      "kind": "case",
+      "label": "Case pattern: Asbestos “wonder material” → later harms",
+      "summary": "Early benefits masked downstream harms; late-stage remediation became costly and complex.",
+      "tags": ["case", "history", "anticipation"],
+      "bodyHtml": "<p>Used in the talk as a pattern: emerging tech seems fantastic; harms appear later; earlier anticipation could have reduced damage.</p>"
+    },
+    {
+      "id": "case_social_media_pattern",
+      "level": 6,
+      "kind": "case",
+      "label": "Case pattern: Social media “fantastic” → later systemic problems",
+      "summary": "Scale-first logic produced downstream social harms and difficult retrofit governance.",
+      "tags": ["case", "history", "governance"],
+      "bodyHtml": "<p>The transcript cites social media as an example where problems were realised later and became hard to fix.</p>"
+    },
+    {
+      "id": "case_llm_coding_assistant",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Enterprise adopts LLM coding assistant; speed rises but novelty falls",
+      "summary": "Short-term productivity gains coincide with homogenised solutions and weaker reflection.",
+      "tags": ["case", "LLM", "strategy"],
+      "bodyHtml": "<p>Common situation: teams ship faster, but rely on similar patterns. Remedy: whole-organisation approach, time for reflection, and deliberate distinctiveness strategy.</p>"
+    },
+    {
+      "id": "case_drug_dev_explainability",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: AI-accelerated drug discovery needs explanation",
+      "summary": "Promising outputs require mechanistic explanation and validation to be trusted and approved.",
+      "tags": ["case", "high_stakes", "explainability"],
+      "bodyHtml": "<p>The talk uses drug development as an example where explanation and accountability are non-negotiable.</p>"
+    },
+    {
+      "id": "case_skunkworks_disruption",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Skunkworks explores disruptive AI product while core org runs continuous improvement",
+      "summary": "Separate unit protects exploration; portfolio balances risk and short-term performance.",
+      "tags": ["case", "disruptive", "org_design"],
+      "bodyHtml": "<p>Illustrates how large companies can emulate startup dynamics: time/space, autonomy, and longer-term sponsorship.</p>"
+    },
+    {
+      "id": "case_roi_disappointment",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Company can’t find ROI from LLM rollout",
+      "summary": "Tools deployed “mindlessly”; lack of fit, training, and evaluation leads to weak returns.",
+      "tags": ["case", "ROI", "adoption"],
+      "bodyHtml": "<p>Mirrors the transcript’s concern: without governance, engagement, and a whole-systems approach, LLM adoption may not deliver value.</p>"
+    },
+    {
+      "id": "case_internal_red_team",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Internal red-team/blue-team rapid assessment catches failures early",
+      "summary": "Simulated engagement surfaces risks and redesign needs before external deployment.",
+      "tags": ["case", "assessment", "governance"],
+      "bodyHtml": "<p>Directly from the talk: an internal structured review helps teams anticipate risks and fix issues early.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_increase_possibilities",
+      "to": "distinctiveness_strategy",
+      "why": "Expanding option space is how teams pursue novelty and differentiation rather than converging on generic solutions."
+    },
+    {
+      "from": "wis_increase_possibilities",
+      "to": "cognitive_narrowing",
+      "why": "Wisdom is noticing when tools reduce exploration and introducing countermeasures that reopen the space."
+    },
+    {
+      "from": "wis_increase_possibilities",
+      "to": "rapid_early_assessment",
+      "why": "Red-team/blue-team assessments are a structured way to generate and test alternative possibilities and failure modes."
+    },
+
+    {
+      "from": "wis_reflexivity",
+      "to": "org_fit",
+      "why": "Reflexivity centres organisational context as a design constraint: fit is necessary for adoption."
+    },
+    {
+      "from": "wis_reflexivity",
+      "to": "wai_wad_gap",
+      "why": "Reflexivity directs attention to real work practices rather than imagined workflows."
+    },
+    {
+      "from": "wis_reflexivity",
+      "to": "stage_gates_reflection",
+      "why": "Reflection checkpoints institutionalise sensemaking before scaling decisions become irreversible."
+    },
+
+    {
+      "from": "wis_transparency",
+      "to": "legitimacy_trust",
+      "why": "Transparent explanation is a core driver of legitimacy: stakeholders accept systems they can understand and contest."
+    },
+    {
+      "from": "wis_transparency",
+      "to": "black_box_mystification",
+      "why": "Transparency is the antidote to mystification—opening the black box socially and technically."
+    },
+    {
+      "from": "wis_transparency",
+      "to": "explainability_practice",
+      "why": "Wisdom becomes operational through explainability routines that work for both technical and non-technical audiences."
+    },
+
+    {
+      "from": "wis_humans_in_loop",
+      "to": "model_risk_management",
+      "why": "Human accountability requires defined controls: validation, drift monitoring, and change management."
+    },
+    {
+      "from": "wis_humans_in_loop",
+      "to": "change_management_ops",
+      "why": "Keeping humans responsible requires redesigned workflows, roles, and review practices—not just tooling."
+    },
+    {
+      "from": "wis_humans_in_loop",
+      "to": "stakeholder_value_harms",
+      "why": "Responsibility includes asking who benefits and who bears risks, then governing accordingly."
+    },
+
+    {
+      "from": "wis_proportion_pacing",
+      "to": "incentives_pressure",
+      "why": "Proportionate pacing manages speed pressure by inserting learning gates and resisting premature scaling."
+    },
+    {
+      "from": "wis_proportion_pacing",
+      "to": "hype_cycle",
+      "why": "Wise pacing reduces hype-driven overcommitment and protects time for evaluation and engagement."
+    },
+    {
+      "from": "wis_proportion_pacing",
+      "to": "pathology_fix_later",
+      "why": "Pacing is the preventive mechanism against ‘ship now, fix later’ failures in high-stakes domains."
+    },
+
+    {
+      "from": "wis_listen_engage",
+      "to": "stakeholder_map_governance",
+      "why": "Listening becomes systematic through stakeholder mapping and a planned engagement cadence."
+    },
+    {
+      "from": "wis_listen_engage",
+      "to": "interfaces_handoffs_sys",
+      "why": "Engagement reveals interface failures (handoffs, review gates, escalation paths) that teams miss internally."
+    },
+    {
+      "from": "wis_listen_engage",
+      "to": "org_fit",
+      "why": "Early engagement surfaces organisational constraints and enables fit before the design hardens."
+    },
+
+    {
+      "from": "org_fit",
+      "to": "change_management_ops",
+      "why": "Fit is achieved by redesigning workflows, roles, training, and review practices to match organisational reality."
+    },
+    {
+      "from": "org_fit",
+      "to": "case_roi_disappointment",
+      "why": "Poor fit (and lack of training/evaluation) is a common reason LLM rollouts fail to deliver ROI."
+    },
+
+    {
+      "from": "uncertainty_stochasticity",
+      "to": "iteration_convergence_ops",
+      "why": "Stochastic outputs require iteration, evaluation, and convergence practices to establish reliability envelopes."
+    },
+    {
+      "from": "uncertainty_stochasticity",
+      "to": "scenario_planning_ops",
+      "why": "Uncertainty motivates scenario-based thinking about downstream consequences and failure modes."
+    },
+    {
+      "from": "uncertainty_stochasticity",
+      "to": "black_box_mystification",
+      "why": "When uncertainty is not explained, variability becomes mystified and misread as authority or magic."
+    },
+
+    {
+      "from": "legitimacy_trust",
+      "to": "stakeholder_map_governance",
+      "why": "Legitimacy is sustained when stakeholders are identified, engaged, and can see how input shapes decisions."
+    },
+    {
+      "from": "legitimacy_trust",
+      "to": "assurance_audit_ai",
+      "why": "Trust requires evidence: audit trails and assurance that practice matches governance commitments."
+    },
+    {
+      "from": "legitimacy_trust",
+      "to": "pathology_black_box_trust_collapse",
+      "why": "When systems can’t be explained or contested, legitimacy collapses and adoption becomes brittle."
+    },
+
+    {
+      "from": "incentives_pressure",
+      "to": "drift_normalisation",
+      "why": "Speed pressure encourages shortcuts; over time these become normalised and risky."
+    },
+    {
+      "from": "incentives_pressure",
+      "to": "pathology_fix_later",
+      "why": "Scale-first incentives institutionalise late fixes, increasing harm and retrofit costs."
+    },
+    {
+      "from": "incentives_pressure",
+      "to": "kpis_roi_novelty",
+      "why": "Measurement regimes shape behaviour; KPIs must include novelty/quality not just speed/volume."
+    },
+
+    {
+      "from": "distinctiveness_strategy",
+      "to": "portfolio_innovation",
+      "why": "Distinctiveness often requires portfolio allocation: time and resources for exploration, not only throughput optimisation."
+    },
+    {
+      "from": "distinctiveness_strategy",
+      "to": "case_llm_coding_assistant",
+      "why": "The coding-assistant case illustrates speed gains without distinctiveness unless strategy explicitly protects novelty."
+    },
+    {
+      "from": "distinctiveness_strategy",
+      "to": "pathology_cognitive_lock",
+      "why": "Without deliberate distinctiveness, teams converge and lose advantage—cognitive lock-in becomes a strategic pathology."
+    },
+
+    {
+      "from": "stakeholder_value_harms",
+      "to": "area_framework",
+      "why": "AREA operationalises the question of beneficiaries, harms, and what could go wrong through structured steps."
+    },
+    {
+      "from": "stakeholder_value_harms",
+      "to": "scenario_planning_ops",
+      "why": "Distribution of harms/benefits is explored via scenarios and mitigations before rollout."
+    },
+
+    {
+      "from": "continuous_vs_disruptive",
+      "to": "portfolio_innovation",
+      "why": "Portfolio governance balances continuous improvement with disruptive experimentation and different time horizons."
+    },
+    {
+      "from": "continuous_vs_disruptive",
+      "to": "skunkworks_mechanism",
+      "why": "Disruptive innovation often needs skunkworks or separate units to protect exploration from bureaucracy."
+    },
+    {
+      "from": "continuous_vs_disruptive",
+      "to": "environment_scanning",
+      "why": "Scanning informs whether to invest in incremental improvement or pursue a radical shift to avoid being blindsided."
+    },
+
+    {
+      "from": "feedback_loops_sys",
+      "to": "learning_loops_improvement",
+      "why": "Learning loops are operational feedback loops that convert signals (users/incidents/metrics) into redesign and governance updates."
+    },
+    {
+      "from": "feedback_loops_sys",
+      "to": "stage_gates_reflection",
+      "why": "Reflection gates are a formal feedback loop that forces learning before scaling decisions."
+    },
+    {
+      "from": "feedback_loops_sys",
+      "to": "lock_in_path_dependence",
+      "why": "Without early feedback, systems lock in and later changes become expensive and contested."
+    },
+
+    {
+      "from": "drift_normalisation",
+      "to": "assurance_audit_ai",
+      "why": "Audit and assurance detect drift by checking real practice under pressure, not just policy on paper."
+    },
+    {
+      "from": "drift_normalisation",
+      "to": "monitoring_incident_ops",
+      "why": "Monitoring catches drift in the wild and triggers incident processes and remediation."
+    },
+
+    {
+      "from": "wai_wad_gap",
+      "to": "stakeholder_map_governance",
+      "why": "Engaging real users exposes the WAI/WAD gap early, enabling redesign before rollout."
+    },
+    {
+      "from": "wai_wad_gap",
+      "to": "change_management_ops",
+      "why": "Closing WAI/WAD requires workflow redesign, role clarification, and supportive training—not just better models."
+    },
+    {
+      "from": "wai_wad_gap",
+      "to": "case_llm_coding_assistant",
+      "why": "The real workflow (security, review culture, team practices) often differs from tool demos—WAI/WAD explains adoption friction."
+    },
+
+    {
+      "from": "interfaces_handoffs_sys",
+      "to": "rapid_early_assessment",
+      "why": "Red-team/blue-team reviews target interface failures: ownership, escalation, documentation, and cross-team coordination."
+    },
+    {
+      "from": "interfaces_handoffs_sys",
+      "to": "monitoring_incident_ops",
+      "why": "Interface failures create incidents; incident response needs clear handoffs, thresholds, and ownership."
+    },
+
+    {
+      "from": "hype_cycle",
+      "to": "stage_gates_reflection",
+      "why": "Stage-gates slow hype-driven scaling long enough to gather evidence and stakeholder feedback."
+    },
+    {
+      "from": "hype_cycle",
+      "to": "case_social_media_pattern",
+      "why": "Social media illustrates scale-first dynamics and late recognition of systemic harms."
+    },
+
+    {
+      "from": "lock_in_path_dependence",
+      "to": "data_security_governance",
+      "why": "Early data and vendor choices can lock the organisation into risky architectures; governance prevents irreversible bad bets."
+    },
+    {
+      "from": "lock_in_path_dependence",
+      "to": "pathology_fix_later",
+      "why": "Lock-in makes late fixes hard; ‘fix later’ becomes expensive and politically difficult."
+    },
+
+    {
+      "from": "cognitive_narrowing",
+      "to": "pathology_cognitive_lock",
+      "why": "When narrowing becomes organisationally normal, it turns into cognitive lock-in and strategic commoditisation."
+    },
+    {
+      "from": "cognitive_narrowing",
+      "to": "kpis_roi_novelty",
+      "why": "If metrics ignore novelty, teams optimise for speed and converge on similar solutions."
+    },
+    {
+      "from": "cognitive_narrowing",
+      "to": "rapid_early_assessment",
+      "why": "Structured challenge processes can deliberately expand the option space and surface alternatives."
+    },
+
+    {
+      "from": "black_box_mystification",
+      "to": "explainability_practice",
+      "why": "Explainability practices counter mystification by clarifying mechanisms, limits, and uncertainty in stakeholder language."
+    },
+    {
+      "from": "black_box_mystification",
+      "to": "scenario_planning_ops",
+      "why": "Scenario planning makes hidden failure modes discussable instead of mystified."
+    },
+    {
+      "from": "black_box_mystification",
+      "to": "pathology_black_box_trust_collapse",
+      "why": "When mystification persists, trust collapses and adoption becomes fragile or performative."
+    },
+
+    {
+      "from": "area_framework",
+      "to": "stage_gates_reflection",
+      "why": "AREA provides the conceptual scheme; stage-gates operationalise it as decision checkpoints."
+    },
+    {
+      "from": "area_framework",
+      "to": "stakeholder_map_governance",
+      "why": "Engagement in AREA is delivered via stakeholder mapping and early iterative participation."
+    },
+    {
+      "from": "area_framework",
+      "to": "scenario_planning_ops",
+      "why": "Anticipation is implemented through scenario planning and mitigation selection."
+    },
+    {
+      "from": "area_framework",
+      "to": "rapid_early_assessment",
+      "why": "Internal assessments simulate engagement and reflection early while keeping proprietary work in-house."
+    },
+
+    {
+      "from": "stage_gates_reflection",
+      "to": "assurance_audit_ai",
+      "why": "Gates require evidence; assurance checks that required evaluations and mitigations were performed."
+    },
+    {
+      "from": "stage_gates_reflection",
+      "to": "case_internal_red_team",
+      "why": "The internal red-team case is a practical mechanism for a reflection gate."
+    },
+
+    {
+      "from": "rapid_early_assessment",
+      "to": "iteration_convergence_ops",
+      "why": "Assessment findings often trigger re-iteration: retesting, fine-tuning, and convergence work."
+    },
+    {
+      "from": "rapid_early_assessment",
+      "to": "case_internal_red_team",
+      "why": "This case exemplifies internal challenge methods that catch issues before external rollouts."
+    },
+
+    {
+      "from": "stakeholder_map_governance",
+      "to": "user_training_ops",
+      "why": "Engagement identifies what users need to learn and what misconceptions training must correct."
+    },
+    {
+      "from": "stakeholder_map_governance",
+      "to": "change_management_ops",
+      "why": "Engagement clarifies workflow impacts and adoption barriers, shaping change management design."
+    },
+
+    {
+      "from": "data_security_governance",
+      "to": "custom_llm_ops",
+      "why": "Custom models require data boundaries, training rules, and auditability to prevent leakage and misuse."
+    },
+    {
+      "from": "data_security_governance",
+      "to": "assurance_audit_ai",
+      "why": "Security and data rules require evidence: access controls, logging, and compliance checks."
+    },
+
+    {
+      "from": "portfolio_innovation",
+      "to": "skunkworks_mechanism",
+      "why": "Portfolios allocate protected space for disruptive exploration via separate units or skunkworks."
+    },
+    {
+      "from": "portfolio_innovation",
+      "to": "case_skunkworks_disruption",
+      "why": "The skunkworks case shows how a portfolio can balance disruptive and continuous work."
+    },
+
+    {
+      "from": "skunkworks_mechanism",
+      "to": "environment_scanning",
+      "why": "Scanning helps skunkworks focus on emerging opportunities and threats rather than internal fashions."
+    },
+
+    {
+      "from": "environment_scanning",
+      "to": "continuous_vs_disruptive",
+      "why": "Scanning informs the choice: incremental improvement vs radical disruption to avoid being blindsided."
+    },
+
+    {
+      "from": "iteration_convergence_ops",
+      "to": "explainability_practice",
+      "why": "As models are iterated, explanations and boundary conditions must be updated and communicated."
+    },
+    {
+      "from": "iteration_convergence_ops",
+      "to": "assurance_audit_ai",
+      "why": "Assurance checks iteration discipline: evaluation coverage, reproducibility, and documented variability."
+    },
+
+    {
+      "from": "explainability_practice",
+      "to": "case_drug_dev_explainability",
+      "why": "High-stakes domains require explanation and validation before results are trusted and acted upon."
+    },
+
+    {
+      "from": "scenario_planning_ops",
+      "to": "pathology_fix_later",
+      "why": "Scenario planning finds risks early, enabling mitigation before costly late-stage retrofits."
+    },
+    {
+      "from": "scenario_planning_ops",
+      "to": "case_asbestos_pattern",
+      "why": "Asbestos illustrates the need to anticipate harms before widespread adoption hardens into lock-in."
+    },
+    {
+      "from": "scenario_planning_ops",
+      "to": "case_social_media_pattern",
+      "why": "Social media illustrates scale-first harms that could have been reduced with earlier anticipation and governance."
+    },
+
+    {
+      "from": "user_training_ops",
+      "to": "black_box_mystification",
+      "why": "Training reduces mystification by teaching users how outputs are produced, where they fail, and how to interpret uncertainty."
+    },
+    {
+      "from": "user_training_ops",
+      "to": "legitimacy_trust",
+      "why": "Competent use and clear boundaries reduce surprises and improve stakeholder trust."
+    },
+
+    {
+      "from": "change_management_ops",
+      "to": "org_fit",
+      "why": "Change management is the practical method for achieving fit between tool capabilities and organisational workflows."
+    },
+    {
+      "from": "change_management_ops",
+      "to": "case_roi_disappointment",
+      "why": "ROI failures often arise from missing operating model changes: no training, no review gates, no ownership, no fit."
+    },
+
+    {
+      "from": "monitoring_incident_ops",
+      "to": "learning_loops_improvement",
+      "why": "Incidents and monitoring signals are only valuable if they feed back into redesign and governance updates."
+    },
+
+    {
+      "from": "kpis_roi_novelty",
+      "to": "incentives_pressure",
+      "why": "KPIs create incentives; if they reward only speed, they squeeze reflexivity and novelty."
+    },
+    {
+      "from": "kpis_roi_novelty",
+      "to": "case_llm_coding_assistant",
+      "why": "The coding-assistant case needs metrics that track novelty/distinctiveness, not just throughput."
+    },
+
+    {
+      "from": "assurance_audit_ai",
+      "to": "drift_normalisation",
+      "why": "Audit detects governance drift and normalised shortcuts that accumulate risk."
+    },
+    {
+      "from": "assurance_audit_ai",
+      "to": "pathology_black_box_trust_collapse",
+      "why": "Assurance requires explainable evidence; without it, trust collapses and governance loses credibility."
+    },
+
+    {
+      "from": "learning_loops_improvement",
+      "to": "stage_gates_reflection",
+      "why": "Learning loops strengthen stage-gates by updating criteria and mitigations as evidence accumulates."
+    },
+    {
+      "from": "learning_loops_improvement",
+      "to": "wis_reflexivity",
+      "why": "Continuous learning reinforces reflexivity: the organisation updates beliefs and redesigns socio-technical practice."
+    },
+
+    {
+      "from": "case_asbestos_pattern",
+      "to": "lock_in_path_dependence",
+      "why": "Widespread early adoption created lock-in; later remediation became expensive and complex."
+    },
+    {
+      "from": "case_social_media_pattern",
+      "to": "hype_cycle",
+      "why": "Rapid scaling under hype preceded recognition of systemic harms."
+    },
+
+    {
+      "from": "case_llm_coding_assistant",
+      "to": "pathology_cognitive_lock",
+      "why": "Without deliberate novelty practices, teams converge on similar solutions and lose distinctiveness."
+    },
+    {
+      "from": "case_llm_coding_assistant",
+      "to": "incentives_pressure",
+      "why": "Throughput targets can squeeze reflection and discourage exploration of alternative designs."
+    },
+
+    {
+      "from": "case_roi_disappointment",
+      "to": "org_fit",
+      "why": "Poor fit and lack of integration with team workflows is a common root cause of weak returns."
+    },
+    {
+      "from": "case_internal_red_team",
+      "to": "rapid_early_assessment",
+      "why": "The case exemplifies internal structured review that surfaces risks and redesign opportunities early."
+    },
+
+    {
+      "from": "pathology_fix_later",
+      "to": "lock_in_path_dependence",
+      "why": "Fixing after scaling is hard because processes, contracts, and habits have already hardened."
+    },
+    {
+      "from": "pathology_black_box_trust_collapse",
+      "to": "legitimacy_trust",
+      "why": "Trust collapse is a downstream effect of missing transparency, explanation, and stakeholder engagement."
+    }
+  ]
+}
