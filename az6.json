@@ -1,0 +1,1385 @@
+{
+  "meta": {
+    "title": "Environmental Data Hub & Health Linkage — Wisdom → FAIR/Openness → Integration → Governance → Services → Improvement → Cases",
+    "subtitle": "A lattice for the NERC Digital Solutions Hub story: connect environmental archives to socio-economic & health questions via governance, UPRN services, TRE workflows, and metadata-grounded AI navigation.",
+    "domainName": "environmental data hubs and environment–health linkage",
+    "searchPlaceholder": "FAIR, NERC, DEFRA, Met Office, Environment Agency, raster vs vector, CRS, OGC, ISO 19115, DCAT, UPRN, TRE, GDPR, DPIA, RAG, ESRI Enterprise, Azure, FinOps, hotspot analysis, deprivation (IMD), asthma, cancer, UK Biobank…",
+    "userContextLabel": "Your context (optional)",
+    "userContextPlaceholder": "e.g., city/region; target outcome (asthma/cancer/heat); available health data (aggregate vs individual); your TRE constraints; budget limits; partner datasets…",
+    "initialPrompt": "",
+    "promptTemplate": "You're advising a cross-sector team building or using a data hub to study environment–health questions.\n\nGoal: produce a concrete narrative case study and an action plan grounded in the selected nodes.\n\nUSER CONTEXT (optional):\n{{USER_CONTEXT}}\n\nSELECTED NODES:\n{{SELECTED_TITLES}}\n\nDETAILS (with relationships):\n{{SELECTED_DETAILS}}\n\nTRACE PATHS:\n{{TRACE_SUMMARY}}\n\nINSTRUCTIONS:\n1) Start by asking the user to choose (or invent) a SPECIFIC CASE that matches their context. Offer 6–10 case prompts derived from the selected 'case' nodes (or propose plausible variants if none selected).\n   - Include choices like: city/region, time window, environmental indicators, health outcome, and whether linkage is aggregate or individual-level in a TRE.\n2) Write a realistic narrative of the chosen case, including stakeholders (e.g., local authority, NHS/TRE, DEFRA/Met Office, academics, community).\n3) Explain the technical pipeline (formats/resolutions, ETL, overlays, UPRN extraction) and the governance pipeline (FAIR/licensing, GDPR/DPIA, TRE boundaries).\n4) Identify 5–8 risks/pathologies (resolution misuse, cost runaway, AI hallucination, skills gaps) and mitigation controls (standards, observability, guardrails).\n5) Deliver an implementation playbook:\n   - Data acquisition & harmonisation steps\n   - Service/API design (including UPRN extraction)\n   - TRE workflow for sensitive analysis\n   - Metadata + RAG approach for user navigation\n   - Measurement plan (usage, cost, data quality, user satisfaction)\n6) End with 2 safe-to-fail experiments and clear success/backfire signals.\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Wisdom & stewardship",
+      "hint": "Judgement-in-context: public value, trust, humility, and long-term stewardship of data ecosystems."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: openness, privacy, legitimacy, uncertainty, incentives, user needs, and environmental justice."
+    },
+    {
+      "id": 2,
+      "title": "Systems & data-integration concepts",
+      "hint": "How data platforms behave: heterogeneity, pipelines, provenance, interoperability, feedback loops, and socio-technical coupling."
+    },
+    {
+      "id": 3,
+      "title": "Governance & programme architecture",
+      "hint": "Policies, standards, contracts, access models, and cross-organisation collaboration that make linkage possible."
+    },
+    {
+      "id": 4,
+      "title": "Operational delivery mechanisms",
+      "hint": "Data engineering + geospatial methods + services: ingest, harmonise, overlay, extract-by-UPRN, deploy, monitor."
+    },
+    {
+      "id": 5,
+      "title": "Quality, performance & improvement",
+      "hint": "Assurance, cost control, usability, auditability, evaluation, and learning cycles (including AI/RAG guardrails)."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios, failure modes and exemplar use cases (pollution, deprivation, cancer, asthma, cloud budgeting, TRE enablement)."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_public_value",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Public value over novelty",
+      "summary": "Optimise for societal use and decision impact, not just academic publication.",
+      "tags": [
+        "wisdom",
+        "public-good",
+        "impact"
+      ],
+      "bodyHtml": "<p>Design choices should prioritise real-world decisions (planning, health, policy) and equitable benefit—especially for non-academic users.</p>"
+    },
+    {
+      "id": "wis_trust_transparency",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Trust through transparency",
+      "summary": "Make provenance, limitations, and governance legible so users can rely on outputs.",
+      "tags": [
+        "wisdom",
+        "trust",
+        "transparency"
+      ],
+      "bodyHtml": "<p>Trust is earned by clearly communicating what data can/can’t say, how it was produced, and how access is governed—particularly at the environment–health boundary.</p>"
+    },
+    {
+      "id": "wis_user_led",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "User-led design (start with needs)",
+      "summary": "Workshops and co-design prevent ‘expert-built, unused’ platforms.",
+      "tags": [
+        "wisdom",
+        "user-research",
+        "co-design"
+      ],
+      "bodyHtml": "<p>Begin by eliciting user challenges (access, interpretation, formats). Build iteratively from those constraints rather than assuming what users need.</p>"
+    },
+    {
+      "id": "wis_humility_uncertainty",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Humility about uncertainty",
+      "summary": "Expose model limits; avoid false precision; invite critique and revision.",
+      "tags": [
+        "wisdom",
+        "uncertainty",
+        "integrity"
+      ],
+      "bodyHtml": "<p>Environmental models, gridded rasters, and linkage assumptions carry uncertainty. Honest framing prevents brittle decisions and reputational harm.</p>"
+    },
+    {
+      "id": "wis_boundary_respect",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Respect boundaries (privacy & purpose)",
+      "summary": "Move open data outward; keep sensitive health data inside TREs.",
+      "tags": [
+        "wisdom",
+        "privacy",
+        "purpose-limitation"
+      ],
+      "bodyHtml": "<p>Architecture should embody data minimisation: export environmental indicators to trusted environments rather than importing identifiable health records into open platforms.</p>"
+    },
+    {
+      "id": "wis_learning_over_delivery",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Learning loops over one-off delivery",
+      "summary": "Treat the platform as a living system; keep adapting via feedback.",
+      "tags": [
+        "wisdom",
+        "learning",
+        "iteration"
+      ],
+      "bodyHtml": "<p>Workshops, user testing, usage monitoring, and post-incident learning keep the system aligned with evolving needs and constraints.</p>"
+    },
+    {
+      "id": "fair_principles",
+      "level": 1,
+      "kind": "standard",
+      "label": "FAIR data principles",
+      "summary": "Findable, Accessible, Interoperable, Reusable—especially for non-academic audiences.",
+      "tags": [
+        "FAIR",
+        "metadata",
+        "reuse"
+      ],
+      "bodyHtml": "<p>FAIR is a design target: identifiers, rich metadata, open interfaces, and clear licensing enable reuse beyond academia.</p>"
+    },
+    {
+      "id": "open_data",
+      "level": 1,
+      "kind": "concept",
+      "label": "Open data (as default for environment)",
+      "summary": "Most environmental datasets are open; openness enables wide uptake.",
+      "tags": [
+        "openness",
+        "licensing"
+      ],
+      "bodyHtml": "<p>Open environmental data reduces friction for cross-sector use, but linkage with population data introduces governance complexity.</p>"
+    },
+    {
+      "id": "env_determinants_health",
+      "level": 1,
+      "kind": "concept",
+      "label": "Environmental determinants of health",
+      "summary": "Air pollution, temperature, noise and other exposures shape health outcomes.",
+      "tags": [
+        "public-health",
+        "exposure"
+      ],
+      "bodyHtml": "<p>Linking environmental indicators to health outcomes enables epidemiology, prevention, and urban policy evaluation.</p>"
+    },
+    {
+      "id": "environmental_justice",
+      "level": 1,
+      "kind": "concept",
+      "label": "Environmental justice & deprivation",
+      "summary": "Unequal exposure burdens intersect with deprivation and vulnerability.",
+      "tags": [
+        "equity",
+        "deprivation",
+        "justice"
+      ],
+      "bodyHtml": "<p>Analyses often ask: are deprived neighbourhoods disproportionately exposed to pollution or heat risk?</p>"
+    },
+    {
+      "id": "privacy_trust",
+      "level": 1,
+      "kind": "concept",
+      "label": "Privacy, trust & social licence",
+      "summary": "Legitimacy for linkage depends on perceived fairness and safeguards.",
+      "tags": [
+        "ethics",
+        "governance",
+        "trust"
+      ],
+      "bodyHtml": "<p>Even when legally permissible, linkage can fail socially if people believe data use is opaque, extractive or unsafe.</p>"
+    },
+    {
+      "id": "incentives_budget",
+      "level": 1,
+      "kind": "concept",
+      "label": "Incentives & fixed-budget constraints",
+      "summary": "Cloud scaling is attractive, but variable costs can threaten sustainability.",
+      "tags": [
+        "economics",
+        "cloud",
+        "sustainability"
+      ],
+      "bodyHtml": "<p>Universities and public projects often operate on fixed grants; cost uncertainty becomes a governance and design constraint.</p>"
+    },
+    {
+      "id": "information_to_wisdom",
+      "level": 1,
+      "kind": "concept",
+      "label": "Information → knowledge → wisdom ladder",
+      "summary": "More data ≠ better decisions; interpretation and context matter.",
+      "tags": [
+        "sensemaking",
+        "decision-quality"
+      ],
+      "bodyHtml": "<p>Data hubs must provide context, metadata, and tools so users can move from raw layers to actionable understanding.</p>"
+    },
+    {
+      "id": "user_diversity",
+      "level": 1,
+      "kind": "concept",
+      "label": "Non-academic user diversity",
+      "summary": "Public, private and third sector users have different questions and constraints.",
+      "tags": [
+        "users",
+        "workshops"
+      ],
+      "bodyHtml": "<p>Data products should support multiple skill levels: map-based exploration, APIs, and export workflows into specialist environments.</p>"
+    },
+    {
+      "id": "multi_source_linkage",
+      "level": 2,
+      "kind": "concept",
+      "label": "Multi-source data linkage",
+      "summary": "Value arises when environmental data connects with socio-economic and health datasets.",
+      "tags": [
+        "linkage",
+        "integration"
+      ],
+      "bodyHtml": "<p>Linkage enables richer causal questions than single-source analysis, but increases heterogeneity and governance complexity.</p>"
+    },
+    {
+      "id": "spatial_heterogeneity",
+      "level": 2,
+      "kind": "concept",
+      "label": "Spatial heterogeneity (raster vs vector)",
+      "summary": "Grid rasters, points (sensors/UPRNs), and polygons (neighbourhoods) must interoperate.",
+      "tags": [
+        "GIS",
+        "raster",
+        "vector"
+      ],
+      "bodyHtml": "<p>Different spatial representations require overlay/sampling methods and careful interpretation of resolution effects.</p>"
+    },
+    {
+      "id": "temporal_heterogeneity",
+      "level": 2,
+      "kind": "concept",
+      "label": "Temporal heterogeneity",
+      "summary": "Sensors stream frequently; models update on different cycles; health data has its own cadence.",
+      "tags": [
+        "time-series",
+        "aggregation"
+      ],
+      "bodyHtml": "<p>Analysis often requires alignment: aggregation, interpolation, windowing, and attention to lag/latency.</p>"
+    },
+    {
+      "id": "resolution_mismatch",
+      "level": 2,
+      "kind": "risk",
+      "label": "Resolution mismatch & ecological fallacy",
+      "summary": "Coarse grids can hide local variation; small-area inference can mislead.",
+      "tags": [
+        "risk",
+        "spatial-resolution"
+      ],
+      "bodyHtml": "<p>Using 5km gridded pollution for neighbourhood health inference can introduce misclassification and biased associations.</p>"
+    },
+    {
+      "id": "provenance_metadata",
+      "level": 2,
+      "kind": "concept",
+      "label": "Provenance & metadata as first-class",
+      "summary": "Trust depends on knowing lineage, methods, and coverage.",
+      "tags": [
+        "metadata",
+        "provenance",
+        "trust"
+      ],
+      "bodyHtml": "<p>Metadata enables fitness-for-purpose checks: spatial extent, time span, uncertainty, and collection method.</p>"
+    },
+    {
+      "id": "interoperability_standards",
+      "level": 2,
+      "kind": "standard",
+      "label": "Interoperability standards (OGC/DCAT/ISO 19115)",
+      "summary": "Common schemas and APIs reduce friction across organisations.",
+      "tags": [
+        "OGC",
+        "ISO19115",
+        "DCAT"
+      ],
+      "bodyHtml": "<p>Standards support discoverability and automated ingestion, but need consistent implementation and governance.</p>"
+    },
+    {
+      "id": "socio_technical_system",
+      "level": 2,
+      "kind": "concept",
+      "label": "Socio-technical platform thinking",
+      "summary": "The platform includes people, processes, incentives and tools—not just software.",
+      "tags": [
+        "systems",
+        "socio-technical"
+      ],
+      "bodyHtml": "<p>Workshops, training, support, and organisational agreements are as important as pipelines and cloud architecture.</p>"
+    },
+    {
+      "id": "data_engineering",
+      "level": 2,
+      "kind": "concept",
+      "label": "Data engineering (assimilation & harmonisation)",
+      "summary": "ETL/ELT, format conversion, QA, and indexing make data usable.",
+      "tags": [
+        "engineering",
+        "ETL",
+        "pipelines"
+      ],
+      "bodyHtml": "<p>Much effort sits ‘under the covers’: converting formats, aligning CRS, building indices, and managing storage/performance.</p>"
+    },
+    {
+      "id": "data_science_methods",
+      "level": 2,
+      "kind": "concept",
+      "label": "Geospatial & statistical methods",
+      "summary": "Overlay, hotspot analysis, exposure assignment and spatio-temporal modelling.",
+      "tags": [
+        "geostatistics",
+        "methods"
+      ],
+      "bodyHtml": "<p>Methods choice is constrained by data type, resolution, and availability inside user environments (e.g., TREs).</p>"
+    },
+    {
+      "id": "feedback_user_testing",
+      "level": 2,
+      "kind": "concept",
+      "label": "User feedback loops",
+      "summary": "Workshops → prototypes → testing → revision drives adoption and fit.",
+      "tags": [
+        "feedback",
+        "UX"
+      ],
+      "bodyHtml": "<p>User-led iteration reduces misfit, improves interface clarity, and surfaces governance concerns early.</p>"
+    },
+    {
+      "id": "ai_rag_grounding",
+      "level": 2,
+      "kind": "concept",
+      "label": "RAG grounding to reduce hallucination",
+      "summary": "LLM answers are constrained by retrieved metadata rather than free generation.",
+      "tags": [
+        "RAG",
+        "LLM",
+        "metadata"
+      ],
+      "bodyHtml": "<p>Retrieval-augmented generation uses a metadata index so summaries and answers are grounded in documented sources.</p>"
+    },
+    {
+      "id": "data_centres_federation",
+      "level": 3,
+      "kind": "concept",
+      "label": "Federated data centres (NERC)",
+      "summary": "Environmental data distributed across centres by type; federation requires coherent access patterns.",
+      "tags": [
+        "NERC",
+        "data-centres"
+      ],
+      "bodyHtml": "<p>Large-scale archives (tens of PB) span multiple centres. Federation needs consistent cataloguing and access interfaces.</p>"
+    },
+    {
+      "id": "licensing_access_model",
+      "level": 3,
+      "kind": "concept",
+      "label": "Licensing & access model",
+      "summary": "Open licensing for environment; constrained access pathways for sensitive linkage.",
+      "tags": [
+        "license",
+        "access"
+      ],
+      "bodyHtml": "<p>Governance defines what is openly accessible, what requires safeguards, and how users authenticate/authorise.</p>"
+    },
+    {
+      "id": "gdpr_dpia",
+      "level": 3,
+      "kind": "standard",
+      "label": "GDPR / DPIA / purpose limitation",
+      "summary": "Controls for personal data processing, risk assessment, and lawful basis.",
+      "tags": [
+        "GDPR",
+        "DPIA",
+        "privacy"
+      ],
+      "bodyHtml": "<p>When linkage approaches personal data, DPIAs and purpose limitation help maintain compliance and trust.</p>"
+    },
+    {
+      "id": "tre_governance",
+      "level": 3,
+      "kind": "standard",
+      "label": "Trusted Research Environments (TREs)",
+      "summary": "Secure enclaves for sensitive individual-level health data with controlled tools and outputs.",
+      "tags": [
+        "TRE",
+        "secure-analysis"
+      ],
+      "bodyHtml": "<p>Rather than exporting health data, users bring derived environmental indicators into the TRE for analysis under governance.</p>"
+    },
+    {
+      "id": "uprn_as_join_key",
+      "level": 3,
+      "kind": "concept",
+      "label": "UPRN as a join key (property-level linkage)",
+      "summary": "More precise than postcode; supports apartment-level differentiation and height-aware indicators.",
+      "tags": [
+        "UPRN",
+        "linkage",
+        "addressing"
+      ],
+      "bodyHtml": "<p>UPRNs anchor environmental indicator assignment to specific properties and enable joining to health records already keyed by UPRN.</p>"
+    },
+    {
+      "id": "cross_org_collaboration",
+      "level": 3,
+      "kind": "concept",
+      "label": "Cross-organisation collaboration",
+      "summary": "Met Office, DEFRA, Environment Agency, NHS, local authorities, academia—shared value requires coordination.",
+      "tags": [
+        "collaboration",
+        "stakeholders"
+      ],
+      "bodyHtml": "<p>Shared standards, aligned expectations, and joint workshops enable data reuse across sectors.</p>"
+    },
+    {
+      "id": "product_governance_roadmap",
+      "level": 3,
+      "kind": "concept",
+      "label": "Platform roadmap & release governance",
+      "summary": "Pilot → user testing → public release; manage expectations and change control.",
+      "tags": [
+        "product",
+        "release",
+        "change-control"
+      ],
+      "bodyHtml": "<p>Staged rollout reduces risk, supports training, and enables iterative improvement before wider launch.</p>"
+    },
+    {
+      "id": "skills_workforce",
+      "level": 3,
+      "kind": "risk",
+      "label": "Workforce scarcity & skill-mix risk",
+      "summary": "Hard to hire people who can span cloud, GIS, engineering and product delivery.",
+      "tags": [
+        "skills",
+        "hiring",
+        "risk"
+      ],
+      "bodyHtml": "<p>Pivots (on-prem → cloud) expose skills gaps; resilience requires redundancy, training and role clarity.</p>"
+    },
+    {
+      "id": "gis_platform_esri",
+      "level": 4,
+      "kind": "standard",
+      "label": "GIS platform stack (ESRI Enterprise)",
+      "summary": "Online-deployable GIS CMS for spatial data plus custom tools.",
+      "tags": [
+        "ESRI",
+        "GIS",
+        "platform"
+      ],
+      "bodyHtml": "<p>Enterprise GIS provides cataloguing, mapping, and service endpoints; custom tools sit on top for ingestion and extraction.</p>"
+    },
+    {
+      "id": "cloud_deployment_azure",
+      "level": 4,
+      "kind": "standard",
+      "label": "Cloud deployment (Azure) with scaling",
+      "summary": "Elastic compute and storage; scale with demand.",
+      "tags": [
+        "Azure",
+        "cloud",
+        "scaling"
+      ],
+      "bodyHtml": "<p>Cloud enables elasticity and rapid provisioning, but requires cost controls, monitoring, and governance.</p>"
+    },
+    {
+      "id": "cost_controls_scheduling",
+      "level": 4,
+      "kind": "concept",
+      "label": "Cost controls (runtime windows, monitoring)",
+      "summary": "Turn off services out of hours; monitor granular spend and usage.",
+      "tags": [
+        "FinOps",
+        "cost",
+        "monitoring"
+      ],
+      "bodyHtml": "<p>Operational levers include scheduled uptime, quotas, caching, and usage analytics to manage variable cloud bills.</p>"
+    },
+    {
+      "id": "etl_harmonisation",
+      "level": 4,
+      "kind": "concept",
+      "label": "ETL harmonisation pipeline",
+      "summary": "Format conversion, CRS alignment, metadata capture, and indexing into a common system.",
+      "tags": [
+        "ETL",
+        "harmonise",
+        "CRS"
+      ],
+      "bodyHtml": "<p>Includes raster tiling, vector normalisation, schema mapping, and provenance logging.</p>"
+    },
+    {
+      "id": "spatial_overlay_sampling",
+      "level": 4,
+      "kind": "concept",
+      "label": "Spatial overlay & sampling",
+      "summary": "Point-in-polygon, raster sampling at points, neighbourhood aggregation, hotspot methods.",
+      "tags": [
+        "overlay",
+        "sampling",
+        "analysis"
+      ],
+      "bodyHtml": "<p>Core operation for exposure assignment: attach environmental indicators to UPRNs or areas.</p>"
+    },
+    {
+      "id": "uprn_extraction_service",
+      "level": 4,
+      "kind": "concept",
+      "label": "UPRN extraction service",
+      "summary": "Select region + indicators → export UPRN-level environmental attributes.",
+      "tags": [
+        "service",
+        "UPRN",
+        "export"
+      ],
+      "bodyHtml": "<p>Users define an area, choose indicators (e.g., black carbon, noise, heat), and download a UPRN-keyed table for use inside a TRE.</p>"
+    },
+    {
+      "id": "tre_geospatial_enablement",
+      "level": 4,
+      "kind": "case",
+      "label": "Pilot TRE with geospatial tooling (AWS)",
+      "summary": "Deploy GIS inside a TRE to enable spatial work without heavy coding.",
+      "tags": [
+        "TRE",
+        "AWS",
+        "GIS"
+      ],
+      "bodyHtml": "<p>A pilot TRE includes geospatial software so researchers can bring in spatial layers and conduct GIS analyses securely.</p>"
+    },
+    {
+      "id": "ai_metadata_index",
+      "level": 4,
+      "kind": "concept",
+      "label": "Metadata indexing (40 PB → searchable catalogue)",
+      "summary": "Extract and store metadata centrally for discovery and AI-assisted summarisation.",
+      "tags": [
+        "catalogue",
+        "metadata",
+        "index"
+      ],
+      "bodyHtml": "<p>Centralised metadata enables search, filtering, and AI summaries without moving the underlying petabyte-scale datasets.</p>"
+    },
+    {
+      "id": "ask_ai_rag_ui",
+      "level": 4,
+      "kind": "concept",
+      "label": "Ask-AI interface (RAG summaries)",
+      "summary": "250-word grounded dataset summaries; Q&A over metadata.",
+      "tags": [
+        "LLM",
+        "RAG",
+        "UX"
+      ],
+      "bodyHtml": "<p>Users ask about coverage, resolution, timespan, provenance; answers are grounded in the metadata store to reduce hallucination.</p>"
+    },
+    {
+      "id": "training_workshops",
+      "level": 4,
+      "kind": "concept",
+      "label": "Training & enablement workshops",
+      "summary": "Hands-on sessions to teach extraction workflows and build confidence.",
+      "tags": [
+        "training",
+        "adoption"
+      ],
+      "bodyHtml": "<p>Workshops support new services (e.g., UPRN extraction), gather feedback, and accelerate uptake across sectors.</p>"
+    },
+    {
+      "id": "data_quality_assurance",
+      "level": 5,
+      "kind": "standard",
+      "label": "Data quality & uncertainty communication",
+      "summary": "Expose uncertainty, coverage and caveats; keep links to primary documentation.",
+      "tags": [
+        "quality",
+        "uncertainty",
+        "documentation"
+      ],
+      "bodyHtml": "<p>Quality is not only numeric accuracy: it’s clarity about limitations, provenance, and appropriate uses.</p>"
+    },
+    {
+      "id": "platform_observability",
+      "level": 5,
+      "kind": "concept",
+      "label": "Platform observability",
+      "summary": "Usage analytics, performance monitoring, and cost telemetry to support governance decisions.",
+      "tags": [
+        "monitoring",
+        "telemetry"
+      ],
+      "bodyHtml": "<p>Observability enables tuning (caching, scaling), cost control, and prioritisation of improvements based on real use.</p>"
+    },
+    {
+      "id": "usability_accessibility",
+      "level": 5,
+      "kind": "concept",
+      "label": "Usability for mixed-skill users",
+      "summary": "Map-first exploration plus export/API pathways; reduce expert-only barriers.",
+      "tags": [
+        "UX",
+        "accessibility"
+      ],
+      "bodyHtml": "<p>Non-academic users need clear workflows, help tools, and sensible defaults while still supporting advanced users.</p>"
+    },
+    {
+      "id": "ai_guardrails_eval",
+      "level": 5,
+      "kind": "standard",
+      "label": "AI guardrails & evaluation",
+      "summary": "Grounding, citation to metadata, prompt constraints, and continuous evaluation for failures.",
+      "tags": [
+        "AI",
+        "evaluation",
+        "safety"
+      ],
+      "bodyHtml": "<p>Measure hallucination rate, refusal correctness, and user trust. Keep a human-readable provenance trail for AI outputs.</p>"
+    },
+    {
+      "id": "interop_compliance_testing",
+      "level": 5,
+      "kind": "standard",
+      "label": "Interoperability compliance testing",
+      "summary": "Validate services against standards; prevent drift in schemas/APIs.",
+      "tags": [
+        "testing",
+        "standards",
+        "drift"
+      ],
+      "bodyHtml": "<p>Regular checks ensure that ingest/export and APIs remain compatible with partner systems and user pipelines.</p>"
+    },
+    {
+      "id": "continuous_improvement_pdca",
+      "level": 5,
+      "kind": "standard",
+      "label": "Continuous improvement (PDCA / agile delivery)",
+      "summary": "Iterate: plan → build → test → learn → release.",
+      "tags": [
+        "PDCA",
+        "agile",
+        "improvement"
+      ],
+      "bodyHtml": "<p>Combines user-led discovery with disciplined release management and post-release learning.</p>"
+    },
+    {
+      "id": "case_manchester_pollution",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Manchester local pollution estimation",
+      "summary": "Combine gridded model rasters with DEFRA point monitors for finer local insight.",
+      "tags": [
+        "air-pollution",
+        "Manchester",
+        "DEFRA"
+      ],
+      "bodyHtml": "<p>Use raster model outputs (e.g., 5km) alongside point-source monitors to improve local relevance for urban analyses.</p>"
+    },
+    {
+      "id": "case_deprivation_pollution",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Deprivation–pollution spatial relationship (IMD 2019→2025)",
+      "summary": "Overlay IMD neighbourhood polygons with air pollution layers to explore inequities over time.",
+      "tags": [
+        "IMD",
+        "equity",
+        "spatial-analysis"
+      ],
+      "bodyHtml": "<p>Analyse whether pollution burdens track deprivation, and whether patterns change after policy interventions.</p>"
+    },
+    {
+      "id": "case_christie_cancer",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Christie cancer records + UPRN environmental linkage",
+      "summary": "Export UPRN-keyed indicators to a TRE and join to cancer records for exposure–risk studies.",
+      "tags": [
+        "cancer",
+        "TRE",
+        "UPRN"
+      ],
+      "bodyHtml": "<p>Researchers join environmental indicator tables to individual cancer records within a secure environment to study spatial/temporal associations.</p>"
+    },
+    {
+      "id": "case_asthma_prescribing",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Asthma triggers via prescribing + pollution",
+      "summary": "Join prescribing/health indicators with rich environmental exposures to study triggers and hotspots.",
+      "tags": [
+        "asthma",
+        "prescribing",
+        "hotspots"
+      ],
+      "bodyHtml": "<p>Enable spatio-temporal analyses of asthma-related prescribing against pollution/noise/temperature indicators.</p>"
+    },
+    {
+      "id": "case_uk_biobank",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: UK Biobank UPRN attachment pipeline",
+      "summary": "Attach UPRNs to cohort participants so environmental indicators can be added consistently.",
+      "tags": [
+        "UKBiobank",
+        "cohort",
+        "linkage"
+      ],
+      "bodyHtml": "<p>UPRN attachment supports systematic enrichment of cohort data with environmental exposures for long-term studies.</p>"
+    },
+    {
+      "id": "challenge_onprem_to_cloud_pivot",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: On-prem → cloud pivot mid-project",
+      "summary": "Architecture change creates delays, skills gaps, and unexpected costs.",
+      "tags": [
+        "pivot",
+        "architecture",
+        "risk"
+      ],
+      "bodyHtml": "<p>Switching deployment model requires retooling, new roles, and revised governance around cost and security.</p>"
+    },
+    {
+      "id": "pathology_cost_runaway",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Runaway cloud costs",
+      "summary": "Popularity increases spend; fixed grants get squeezed; services risk being throttled or shut down.",
+      "tags": [
+        "FinOps",
+        "cost",
+        "pathology"
+      ],
+      "bodyHtml": "<p>Without quotas, scheduling, caching and governance, success can become financially unsustainable.</p>"
+    },
+    {
+      "id": "pathology_ai_hallucination",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: AI hallucination erodes trust",
+      "summary": "Ungrounded summaries can mislead; users may over-trust fluent answers.",
+      "tags": [
+        "AI",
+        "trust",
+        "risk"
+      ],
+      "bodyHtml": "<p>RAG grounding + evaluation + clear caveats are needed so AI helps navigation without inventing facts.</p>"
+    },
+    {
+      "id": "pathology_resolution_misuse",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Misuse of coarse rasters for fine decisions",
+      "summary": "Treating 5km grid values as street-level truth can drive wrong interventions.",
+      "tags": [
+        "resolution",
+        "misclassification",
+        "risk"
+      ],
+      "bodyHtml": "<p>Provide tooling and guidance for downscaling/validation, and communicate fitness-for-purpose prominently.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_public_value",
+      "to": "open_data",
+      "why": "Public value increases when environmental data is openly available for broad reuse."
+    },
+    {
+      "from": "wis_public_value",
+      "to": "env_determinants_health",
+      "why": "Impact focus prioritises environment–health questions that matter to people."
+    },
+    {
+      "from": "wis_trust_transparency",
+      "to": "provenance_metadata",
+      "why": "Transparency requires provenance and metadata as first-class artefacts."
+    },
+    {
+      "from": "wis_trust_transparency",
+      "to": "data_quality_assurance",
+      "why": "Trust is maintained when uncertainty and limitations are communicated."
+    },
+    {
+      "from": "wis_user_led",
+      "to": "user_diversity",
+      "why": "User-led work starts from understanding diverse non-academic users."
+    },
+    {
+      "from": "wis_user_led",
+      "to": "feedback_user_testing",
+      "why": "Co-design operationalises as feedback loops from workshops and testing."
+    },
+    {
+      "from": "wis_humility_uncertainty",
+      "to": "resolution_mismatch",
+      "why": "Acknowledging resolution limits prevents misleading local inference."
+    },
+    {
+      "from": "wis_boundary_respect",
+      "to": "privacy_trust",
+      "why": "Boundary-respecting architectures protect social licence for linkage."
+    },
+    {
+      "from": "wis_boundary_respect",
+      "to": "tre_governance",
+      "why": "TREs embody the boundary: sensitive data stays inside, derived indicators move in."
+    },
+    {
+      "from": "wis_learning_over_delivery",
+      "to": "continuous_improvement_pdca",
+      "why": "Learning loops are implemented via PDCA/agile iteration."
+    },
+    {
+      "from": "wis_learning_over_delivery",
+      "to": "platform_observability",
+      "why": "Learning requires observability: usage, performance and cost signals."
+    },
+    {
+      "from": "fair_principles",
+      "to": "open_data",
+      "why": "Open licensing supports the 'Accessible' and 'Reusable' aspects of FAIR."
+    },
+    {
+      "from": "fair_principles",
+      "to": "interoperability_standards",
+      "why": "Interoperability is operationalised via shared standards and APIs."
+    },
+    {
+      "from": "open_data",
+      "to": "multi_source_linkage",
+      "why": "Open data lowers barriers to cross-source linkage."
+    },
+    {
+      "from": "env_determinants_health",
+      "to": "multi_source_linkage",
+      "why": "Studying determinants requires linking environment, socio-economic and health data."
+    },
+    {
+      "from": "environmental_justice",
+      "to": "case_deprivation_pollution",
+      "why": "Justice questions motivate deprivation–pollution overlay studies."
+    },
+    {
+      "from": "privacy_trust",
+      "to": "gdpr_dpia",
+      "why": "Privacy expectations are formalised through GDPR compliance and DPIAs."
+    },
+    {
+      "from": "incentives_budget",
+      "to": "cloud_deployment_azure",
+      "why": "Cloud elasticity creates variable costs that must be governed under fixed budgets."
+    },
+    {
+      "from": "information_to_wisdom",
+      "to": "ask_ai_rag_ui",
+      "why": "AI summaries help convert complex metadata into usable understanding."
+    },
+    {
+      "from": "user_diversity",
+      "to": "usability_accessibility",
+      "why": "Mixed-skill users require interfaces that support both exploration and export."
+    },
+    {
+      "from": "multi_source_linkage",
+      "to": "spatial_heterogeneity",
+      "why": "Linkage must reconcile rasters, points and polygons."
+    },
+    {
+      "from": "multi_source_linkage",
+      "to": "temporal_heterogeneity",
+      "why": "Linkage must align different time granularities and lags."
+    },
+    {
+      "from": "spatial_heterogeneity",
+      "to": "spatial_overlay_sampling",
+      "why": "Overlay/sampling implements interoperability across spatial types."
+    },
+    {
+      "from": "temporal_heterogeneity",
+      "to": "etl_harmonisation",
+      "why": "ETL includes temporal alignment and aggregation strategies."
+    },
+    {
+      "from": "resolution_mismatch",
+      "to": "pathology_resolution_misuse",
+      "why": "Resolution mismatch becomes harm when coarse data is used for fine decisions."
+    },
+    {
+      "from": "provenance_metadata",
+      "to": "ai_metadata_index",
+      "why": "Centralised metadata indexing makes provenance searchable and reusable."
+    },
+    {
+      "from": "interoperability_standards",
+      "to": "etl_harmonisation",
+      "why": "Standards guide schema mapping, CRS practices, and service interfaces."
+    },
+    {
+      "from": "socio_technical_system",
+      "to": "training_workshops",
+      "why": "Adoption depends on training and support, not only software."
+    },
+    {
+      "from": "socio_technical_system",
+      "to": "cross_org_collaboration",
+      "why": "Social coordination across organisations is part of the system."
+    },
+    {
+      "from": "data_engineering",
+      "to": "etl_harmonisation",
+      "why": "Data engineering is realised through harmonisation pipelines."
+    },
+    {
+      "from": "data_engineering",
+      "to": "gis_platform_esri",
+      "why": "Engineering builds on GIS enterprise capabilities plus bespoke tooling."
+    },
+    {
+      "from": "data_science_methods",
+      "to": "spatial_overlay_sampling",
+      "why": "Methods like hotspot analysis rely on core overlay and sampling operations."
+    },
+    {
+      "from": "feedback_user_testing",
+      "to": "product_governance_roadmap",
+      "why": "Feedback shapes the roadmap and staged release governance."
+    },
+    {
+      "from": "ai_rag_grounding",
+      "to": "ai_guardrails_eval",
+      "why": "Grounding is a guardrail; evaluation checks it works in practice."
+    },
+    {
+      "from": "ai_rag_grounding",
+      "to": "pathology_ai_hallucination",
+      "why": "Without grounding, hallucination risk rises and trust erodes."
+    },
+    {
+      "from": "data_centres_federation",
+      "to": "fair_principles",
+      "why": "Federated archives need coherent catalogues to be findable and reusable."
+    },
+    {
+      "from": "licensing_access_model",
+      "to": "open_data",
+      "why": "Licensing determines whether datasets can be treated as open."
+    },
+    {
+      "from": "licensing_access_model",
+      "to": "privacy_trust",
+      "why": "Clear access models reduce fear and ambiguity around linkage."
+    },
+    {
+      "from": "gdpr_dpia",
+      "to": "tre_governance",
+      "why": "DPIAs often recommend TRE-like safeguards for sensitive processing."
+    },
+    {
+      "from": "tre_governance",
+      "to": "uprn_as_join_key",
+      "why": "UPRN-based joining enables linkage within TREs without exporting health records."
+    },
+    {
+      "from": "uprn_as_join_key",
+      "to": "uprn_extraction_service",
+      "why": "The service operationalises UPRN as the key for extracted indicators."
+    },
+    {
+      "from": "cross_org_collaboration",
+      "to": "interoperability_standards",
+      "why": "Collaboration is eased by shared standards and interface agreements."
+    },
+    {
+      "from": "cross_org_collaboration",
+      "to": "training_workshops",
+      "why": "Joint workshops build shared understanding and trust across partners."
+    },
+    {
+      "from": "product_governance_roadmap",
+      "to": "continuous_improvement_pdca",
+      "why": "Roadmaps need disciplined iteration and change control."
+    },
+    {
+      "from": "skills_workforce",
+      "to": "challenge_onprem_to_cloud_pivot",
+      "why": "Pivots expose skills gaps and require new roles and training."
+    },
+    {
+      "from": "skills_workforce",
+      "to": "cloud_deployment_azure",
+      "why": "Operating cloud GIS stacks requires scarce cloud+GIS engineering skills."
+    },
+    {
+      "from": "gis_platform_esri",
+      "to": "spatial_overlay_sampling",
+      "why": "GIS provides services used for overlay, sampling and mapping."
+    },
+    {
+      "from": "cloud_deployment_azure",
+      "to": "platform_observability",
+      "why": "Cloud operations depend on telemetry for performance and cost control."
+    },
+    {
+      "from": "cloud_deployment_azure",
+      "to": "cost_controls_scheduling",
+      "why": "Scheduling and quotas manage variable spend in elastic environments."
+    },
+    {
+      "from": "cost_controls_scheduling",
+      "to": "pathology_cost_runaway",
+      "why": "Without cost controls, popularity can trigger runaway spend."
+    },
+    {
+      "from": "etl_harmonisation",
+      "to": "provenance_metadata",
+      "why": "ETL must preserve provenance and attach metadata at each transformation."
+    },
+    {
+      "from": "spatial_overlay_sampling",
+      "to": "case_manchester_pollution",
+      "why": "Local pollution estimation uses overlay of rasters with point monitors."
+    },
+    {
+      "from": "uprn_extraction_service",
+      "to": "tre_governance",
+      "why": "The UPRN service exports derived environmental indicators for secure analysis inside TREs."
+    },
+    {
+      "from": "tre_geospatial_enablement",
+      "to": "tre_governance",
+      "why": "A pilot TRE demonstrates how to host geospatial tools within secure governance."
+    },
+    {
+      "from": "ai_metadata_index",
+      "to": "ask_ai_rag_ui",
+      "why": "Ask-AI uses the metadata index as its retrieval corpus."
+    },
+    {
+      "from": "ask_ai_rag_ui",
+      "to": "information_to_wisdom",
+      "why": "Grounded summaries help users understand datasets without reading long papers."
+    },
+    {
+      "from": "training_workshops",
+      "to": "uprn_extraction_service",
+      "why": "Workshops teach users how to define regions/indicators and export UPRN tables."
+    },
+    {
+      "from": "training_workshops",
+      "to": "feedback_user_testing",
+      "why": "Training sessions generate feedback that improves tooling and UX."
+    },
+    {
+      "from": "data_quality_assurance",
+      "to": "provenance_metadata",
+      "why": "Quality relies on provenance, coverage and uncertainty being explicit."
+    },
+    {
+      "from": "data_quality_assurance",
+      "to": "resolution_mismatch",
+      "why": "Assurance highlights resolution limits and appropriate uses."
+    },
+    {
+      "from": "platform_observability",
+      "to": "cost_controls_scheduling",
+      "why": "Telemetry enables fine-grained spend monitoring and runtime optimisation."
+    },
+    {
+      "from": "usability_accessibility",
+      "to": "user_diversity",
+      "why": "Usability work addresses different skills, contexts and access patterns."
+    },
+    {
+      "from": "ai_guardrails_eval",
+      "to": "ask_ai_rag_ui",
+      "why": "Guardrails constrain the Ask-AI interface and evaluate its outputs."
+    },
+    {
+      "from": "ai_guardrails_eval",
+      "to": "pathology_ai_hallucination",
+      "why": "Evaluation catches hallucination and mis-grounding failures early."
+    },
+    {
+      "from": "interop_compliance_testing",
+      "to": "interoperability_standards",
+      "why": "Compliance testing enforces standards and prevents interface drift."
+    },
+    {
+      "from": "continuous_improvement_pdca",
+      "to": "feedback_user_testing",
+      "why": "PDCA cycles incorporate workshop insights and user testing outcomes."
+    },
+    {
+      "from": "case_manchester_pollution",
+      "to": "spatial_heterogeneity",
+      "why": "Manchester analysis combines raster models with point monitors."
+    },
+    {
+      "from": "case_manchester_pollution",
+      "to": "resolution_mismatch",
+      "why": "Local questions expose the limits of coarse gridded rasters."
+    },
+    {
+      "from": "case_manchester_pollution",
+      "to": "multi_source_linkage",
+      "why": "The case demonstrates value from linking Met Office/NERC models with DEFRA monitors."
+    },
+    {
+      "from": "case_deprivation_pollution",
+      "to": "environmental_justice",
+      "why": "The case examines inequity in exposure across deprivation gradients."
+    },
+    {
+      "from": "case_deprivation_pollution",
+      "to": "spatial_overlay_sampling",
+      "why": "Requires overlay of IMD polygons with pollution layers."
+    },
+    {
+      "from": "case_deprivation_pollution",
+      "to": "temporal_heterogeneity",
+      "why": "Comparing IMD vintages and pollution time windows requires temporal alignment."
+    },
+    {
+      "from": "case_christie_cancer",
+      "to": "tre_governance",
+      "why": "Cancer records require TRE-based analysis for privacy and governance."
+    },
+    {
+      "from": "case_christie_cancer",
+      "to": "uprn_as_join_key",
+      "why": "UPRN enables joining environmental indicators to individual cancer records."
+    },
+    {
+      "from": "case_christie_cancer",
+      "to": "uprn_extraction_service",
+      "why": "Researchers extract relevant indicators by UPRN for the study region."
+    },
+    {
+      "from": "case_asthma_prescribing",
+      "to": "env_determinants_health",
+      "why": "Asthma triggers are a core determinants-of-health question."
+    },
+    {
+      "from": "case_asthma_prescribing",
+      "to": "data_science_methods",
+      "why": "Hotspot and spatio-temporal analyses are central to the case."
+    },
+    {
+      "from": "case_uk_biobank",
+      "to": "uprn_as_join_key",
+      "why": "Biobank enrichment depends on attaching a stable property identifier."
+    },
+    {
+      "from": "case_uk_biobank",
+      "to": "multi_source_linkage",
+      "why": "Cohort enrichment links environment to longitudinal outcomes."
+    },
+    {
+      "from": "tre_geospatial_enablement",
+      "to": "case_christie_cancer",
+      "why": "Geospatial-enabled TREs make the cancer linkage workflow feasible for analysts."
+    },
+    {
+      "from": "tre_geospatial_enablement",
+      "to": "case_asthma_prescribing",
+      "why": "TRE GIS tooling supports spatial joins and hotspot analysis under governance."
+    },
+    {
+      "from": "challenge_onprem_to_cloud_pivot",
+      "to": "incentives_budget",
+      "why": "Fixed-budget constraints shape pivot decisions and trade-offs."
+    },
+    {
+      "from": "challenge_onprem_to_cloud_pivot",
+      "to": "skills_workforce",
+      "why": "A pivot triggers staffing and competence challenges."
+    },
+    {
+      "from": "pathology_cost_runaway",
+      "to": "cloud_deployment_azure",
+      "why": "Elastic scaling can cause cost blowouts if unmanaged."
+    },
+    {
+      "from": "pathology_cost_runaway",
+      "to": "platform_observability",
+      "why": "Lack of telemetry and alerts accelerates cost surprises."
+    },
+    {
+      "from": "pathology_ai_hallucination",
+      "to": "information_to_wisdom",
+      "why": "Hallucinated 'knowledge' breaks the info→wisdom ladder and harms decisions."
+    },
+    {
+      "from": "pathology_resolution_misuse",
+      "to": "data_quality_assurance",
+      "why": "Quality processes must prevent or flag misuse in downstream decisions."
+    },
+    {
+      "from": "fair_principles",
+      "to": "ai_metadata_index",
+      "why": "FAIR requires rich metadata; indexing operationalises discoverability."
+    },
+    {
+      "from": "provenance_metadata",
+      "to": "data_centres_federation",
+      "why": "Federation needs consistent provenance/metadata across centres."
+    },
+    {
+      "from": "open_data",
+      "to": "data_centres_federation",
+      "why": "Open environmental archives are distributed; federation supports unified access."
+    },
+    {
+      "from": "gdpr_dpia",
+      "to": "privacy_trust",
+      "why": "DPIAs support legitimacy by showing risks were assessed and mitigated."
+    },
+    {
+      "from": "usability_accessibility",
+      "to": "ask_ai_rag_ui",
+      "why": "Ask-AI reduces cognitive load for non-specialists navigating complex catalogues."
+    },
+    {
+      "from": "interoperability_standards",
+      "to": "gis_platform_esri",
+      "why": "GIS enterprise services often implement OGC-style interfaces and cataloguing patterns."
+    },
+    {
+      "from": "interoperability_standards",
+      "to": "tre_geospatial_enablement",
+      "why": "Standards ease bringing spatial data into TRE tooling."
+    },
+    {
+      "from": "data_engineering",
+      "to": "platform_observability",
+      "why": "Engineering pipelines need observability to detect failures and regressions."
+    },
+    {
+      "from": "etl_harmonisation",
+      "to": "interop_compliance_testing",
+      "why": "Automated tests verify ETL outputs remain standards-compliant."
+    },
+    {
+      "from": "feedback_user_testing",
+      "to": "usability_accessibility",
+      "why": "Feedback identifies UX friction and missing workflows."
+    },
+    {
+      "from": "cross_org_collaboration",
+      "to": "multi_source_linkage",
+      "why": "Collaboration unlocks linkage with external datasets (DEFRA, Met Office, NHS)."
+    },
+    {
+      "from": "cross_org_collaboration",
+      "to": "case_manchester_pollution",
+      "why": "The case depends on partner datasets like monitors and models."
+    },
+    {
+      "from": "cross_org_collaboration",
+      "to": "case_deprivation_pollution",
+      "why": "Equity analysis relies on government statistics and environmental layers."
+    },
+    {
+      "from": "skills_workforce",
+      "to": "data_engineering",
+      "why": "Scarce spatial data engineers are key to assimilation and harmonisation."
+    },
+    {
+      "from": "skills_workforce",
+      "to": "gis_platform_esri",
+      "why": "Operating ESRI Enterprise requires specialised skills and support."
+    },
+    {
+      "from": "incentives_budget",
+      "to": "cost_controls_scheduling",
+      "why": "Budget constraints drive runtime windows and monitoring."
+    },
+    {
+      "from": "product_governance_roadmap",
+      "to": "training_workshops",
+      "why": "Release governance includes training and enablement plans."
+    },
+    {
+      "from": "ai_guardrails_eval",
+      "to": "data_quality_assurance",
+      "why": "AI summaries must inherit quality/uncertainty messaging from metadata."
+    },
+    {
+      "from": "ai_metadata_index",
+      "to": "data_quality_assurance",
+      "why": "Indexing metadata enables surfacing caveats, uncertainty and provenance at point of use."
+    },
+    {
+      "from": "resolution_mismatch",
+      "to": "data_science_methods",
+      "why": "Method choice must account for scale effects and misclassification risk."
+    },
+    {
+      "from": "temporal_heterogeneity",
+      "to": "data_science_methods",
+      "why": "Spatio-temporal modelling requires harmonised time axes and lags."
+    },
+    {
+      "from": "privacy_trust",
+      "to": "uprn_as_join_key",
+      "why": "UPRN linkage must be explained and safeguarded to maintain trust."
+    },
+    {
+      "from": "uprn_as_join_key",
+      "to": "environmental_justice",
+      "why": "UPRN-level indicators can reveal fine-grained inequities (e.g., tower blocks vs streets)."
+    },
+    {
+      "from": "data_quality_assurance",
+      "to": "case_manchester_pollution",
+      "why": "Quality notes should warn about local inference limits and validation options."
+    },
+    {
+      "from": "data_quality_assurance",
+      "to": "case_christie_cancer",
+      "why": "Epidemiology needs clear statements of uncertainty and exposure assignment assumptions."
+    },
+    {
+      "from": "ai_rag_grounding",
+      "to": "ask_ai_rag_ui",
+      "why": "Ask-AI relies on retrieval grounding to stay faithful to metadata."
+    },
+    {
+      "from": "pathology_ai_hallucination",
+      "to": "ai_guardrails_eval",
+      "why": "Guardrails and evaluation mitigate hallucination and over-confidence."
+    },
+    {
+      "from": "pathology_cost_runaway",
+      "to": "cost_controls_scheduling",
+      "why": "Scheduling/quotas are direct mitigations for runaway costs."
+    },
+    {
+      "from": "challenge_onprem_to_cloud_pivot",
+      "to": "cloud_deployment_azure",
+      "why": "Pivot involves choosing cloud services and re-architecting deployment."
+    },
+    {
+      "from": "challenge_onprem_to_cloud_pivot",
+      "to": "product_governance_roadmap",
+      "why": "Architecture changes must be managed via roadmap and change control."
+    },
+    {
+      "from": "user_diversity",
+      "to": "training_workshops",
+      "why": "Different users need tailored training to adopt services effectively."
+    },
+    {
+      "from": "user_diversity",
+      "to": "uprn_extraction_service",
+      "why": "Extraction workflows must accommodate epidemiologists, planners, analysts, and SMEs."
+    }
+  ]
+}
