@@ -1,0 +1,1086 @@
+{
+  "meta": {
+    "title": "AI in Synthetic Biology — Wisdom → Super-Concepts → Socio-Technical Systems → Governance → Research Practice → Learning → Cases",
+    "subtitle": "A dense concept lattice from high-level wisdom (humility, responsibility, collaboration) down to concrete AI+SynBio projects, institutional frictions, and case studies. Select nodes to generate a prompt that asks you to specify your own comparable case.",
+    "domainName": "AI-enabled synthetic biology research management and practice",
+    "searchPlaceholder": "synthetic biology, design-build-test-learn, ML/DL, metabolomics, proteomics, time-series, wet lab, HPC/cloud, interdisciplinarity, funding boundaries, cost centres, co-location, RRI, FAIR, model cards, reproducibility, dual-use, open science, skills, ChatGPT, LLM outputs, data governance…",
+    "userContextLabel": "Your AI+SynBio context (optional)",
+    "userContextPlaceholder": "e.g., university lab + industry partner; cloud credits; metabolomics dataset; wet-lab bottleneck; PI hiring comp bio; RRI review; LLM-assisted documentation; UKRI-style funding constraints…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert mentor for AI-enabled synthetic biology teams (PI + wet-lab + computational) with deep knowledge of socio-technical systems and responsible research & innovation.\n\nWrite a realistic narrative case study that connects upstream constraints (ethics, policy, incentives, institutional structure, infrastructure) to downstream scientific practice (data work, model building, experimental design, training).\n\nInvite the user to specify a *particular related case* by asking for: domain goal (compound/organism), dataset types, lab bottlenecks, compute/infrastructure situation, stakeholder mix (industry/government/NHS), and any governance/ethics constraints.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario (project aim, organism/compound, data sources, collaborators)\n- Mechanism map (how data/compute/team structure changes the DBTL cycle)\n- Interdisciplinary operating model (roles, handoffs, co-location/communication)\n- Governance plan (data access, IP, publication, responsible innovation, dual-use)\n- Technical plan (dataset curation, model choice, evaluation, uncertainty, reproducibility)\n- Wet-lab integration plan (prediction → experiment selection; cost/time constraints)\n- Skills & training plan (what novices must still learn; LLM policy)\n- Metrics & learning loops (what to track; how to adapt; two safe-to-fail experiments)\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Wisdom",
+      "hint": "Judgement-in-context: epistemic humility, responsibility, care for people, and long-term stewardship of powerful technologies."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: knowledge production, uncertainty, legitimacy, incentives, trust, and socio-technical alignment."
+    },
+    {
+      "id": 2,
+      "title": "Socio-technical systems concepts",
+      "hint": "How AI+science behaves in practice: feedback loops, bottlenecks, interfaces, drift, and work-as-done vs work-as-imagined."
+    },
+    {
+      "id": 3,
+      "title": "Governance, policy & infrastructure",
+      "hint": "Funding structures, data governance, collaboration agreements, RRI frameworks, compute platforms and organisational design."
+    },
+    {
+      "id": 4,
+      "title": "Research practice mechanisms",
+      "hint": "DBTL cycle, datasets, modeling, evaluation, lab integration, communication routines, and documentation."
+    },
+    {
+      "id": 5,
+      "title": "Quality, learning & capability building",
+      "hint": "Reproducibility, standards, competence, training, continuous improvement and open science practices."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete scenarios and common failure modes for tracing back to roots and generating prompts."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_humility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Epistemic humility",
+      "summary": "Treat models as fallible; surface uncertainty; resist hype.",
+      "tags": [
+        "wisdom",
+        "uncertainty",
+        "integrity"
+      ],
+      "bodyHtml": "<p>Make uncertainty explicit (data limits, distribution shift, causal ambiguity) and design decisions that remain safe when the model is wrong.</p>"
+    },
+    {
+      "id": "wis_stewardship",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Stewardship of powerful tech",
+      "summary": "Handle dual-use, misuse, and societal implications as design constraints.",
+      "tags": [
+        "wisdom",
+        "ethics",
+        "dual_use"
+      ],
+      "bodyHtml": "<p>Synthetic biology + AI amplifies capability; stewardship means anticipating harms, setting boundaries, and building accountability.</p>"
+    },
+    {
+      "id": "wis_collaboration",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Collaboration with respect",
+      "summary": "Bridge cultures (wet-lab, computation, management) without devaluing any craft.",
+      "tags": [
+        "wisdom",
+        "teaming",
+        "communication"
+      ],
+      "bodyHtml": "<p>Good outcomes depend on mutual understanding: what counts as evidence, what is expensive, what is automatable, and what must stay human-led.</p>"
+    },
+    {
+      "id": "wis_proportion",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Proportion & pragmatism",
+      "summary": "Right-size ambition, governance, and evaluation to resources and risk.",
+      "tags": [
+        "wisdom",
+        "practicability",
+        "management"
+      ],
+      "bodyHtml": "<p>Avoid ‘perfect model’ fantasies; choose interventions that fit compute, data quality, lab throughput and oversight capacity.</p>"
+    },
+    {
+      "id": "wis_learning",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Learning orientation",
+      "summary": "Prefer fast learning loops over brittle plans; reward candour and iteration.",
+      "tags": [
+        "wisdom",
+        "learning",
+        "complexity"
+      ],
+      "bodyHtml": "<p>Treat projects as evolving; build feedback from experiments, audits, and user experience into methods and governance.</p>"
+    },
+    {
+      "id": "wis_care_people",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Care for people & novices",
+      "summary": "Protect training pathways and psychological safety while adopting automation.",
+      "tags": [
+        "wisdom",
+        "training",
+        "culture"
+      ],
+      "bodyHtml": "<p>If AI automates key tasks, deliberately preserve skill-building experiences and safe spaces for questions and mistakes.</p>"
+    },
+    {
+      "id": "knowledge_practice",
+      "level": 1,
+      "kind": "concept",
+      "label": "Scientific practice transformation",
+      "summary": "AI changes how scientists design, decide, and justify work.",
+      "tags": [
+        "science_practice",
+        "ai_impact"
+      ],
+      "bodyHtml": "<p>Focus on observable shifts: what gets measured, who does what, what counts as ‘good evidence’, and what work becomes invisible.</p>"
+    },
+    {
+      "id": "dbtl_cycle",
+      "level": 1,
+      "kind": "concept",
+      "label": "Design–Build–Test–Learn (DBTL)",
+      "summary": "Core synthetic biology workflow that AI aims to accelerate.",
+      "tags": [
+        "synbio",
+        "workflow"
+      ],
+      "bodyHtml": "<p>AI typically affects Design and Learn stages, but value depends on integration into Build/Test constraints.</p>"
+    },
+    {
+      "id": "uncertainty_limits",
+      "level": 1,
+      "kind": "concept",
+      "label": "Uncertainty & model limits",
+      "summary": "Dataset bias, non-stationarity, and causal gaps constrain inference.",
+      "tags": [
+        "uncertainty",
+        "model_limits"
+      ],
+      "bodyHtml": "<p>Use calibrated uncertainty, robustness checks, and clear ‘conditions of validity’ to avoid false confidence.</p>"
+    },
+    {
+      "id": "value_alignment",
+      "level": 1,
+      "kind": "concept",
+      "label": "Responsible innovation & legitimacy",
+      "summary": "RRI: align research with societal values, rights, and acceptable risk.",
+      "tags": [
+        "rri",
+        "legitimacy",
+        "ethics"
+      ],
+      "bodyHtml": "<p>Legitimacy depends on transparency, engagement, and governance—especially for dual-use or sensitive datasets.</p>"
+    },
+    {
+      "id": "incentives_credit",
+      "level": 1,
+      "kind": "concept",
+      "label": "Incentives, credit & publication norms",
+      "summary": "Different fields reward different outputs; misalignment breaks teams.",
+      "tags": [
+        "incentives",
+        "publication",
+        "credit"
+      ],
+      "bodyHtml": "<p>Biology may value empirical novelty; CS may value methods; industry may value IP and timelines—align early.</p>"
+    },
+    {
+      "id": "interdisciplinarity_value",
+      "level": 1,
+      "kind": "concept",
+      "label": "Interdisciplinarity as capability",
+      "summary": "Teams need both domain science and AI skills—rare in one person.",
+      "tags": [
+        "interdisciplinarity",
+        "skills"
+      ],
+      "bodyHtml": "<p>Labs increasingly hire computational scientists/engineers; the coordination work becomes central, not peripheral.</p>"
+    },
+    {
+      "id": "infrastructure_dependence",
+      "level": 1,
+      "kind": "concept",
+      "label": "Infrastructure dependence",
+      "summary": "Cloud/HPC, data platforms, and tooling are structural dependencies.",
+      "tags": [
+        "compute",
+        "cloud",
+        "hpc"
+      ],
+      "bodyHtml": "<p>AI projects often rely on external providers for compute and MLOps, creating cost, governance, and lock-in considerations.</p>"
+    },
+    {
+      "id": "open_science",
+      "level": 1,
+      "kind": "concept",
+      "label": "Open science & data sharing norms",
+      "summary": "Collaboration and reuse need sharing, but constraints vary.",
+      "tags": [
+        "open_science",
+        "sharing"
+      ],
+      "bodyHtml": "<p>Balance openness with privacy, IP, biosafety, and partner agreements; decide what ‘open’ means for your project.</p>"
+    },
+    {
+      "id": "skills_gap",
+      "level": 1,
+      "kind": "concept",
+      "label": "Skills gap & training mismatch",
+      "summary": "Demand for AI skills outpaces education; ethics skills also needed.",
+      "tags": [
+        "skills",
+        "training",
+        "education"
+      ],
+      "bodyHtml": "<p>Domain scientists need enough AI literacy to use tools safely; computational staff need enough domain understanding to ask the right questions.</p>"
+    },
+    {
+      "id": "work_as_imagined_done",
+      "level": 2,
+      "kind": "concept",
+      "label": "Work-as-imagined vs work-as-done",
+      "summary": "Plans and grant narratives differ from real constraints and adaptations.",
+      "tags": [
+        "systems",
+        "real_work"
+      ],
+      "bodyHtml": "<p>AI ‘automation’ often shifts work to data wrangling, integration, and coordination; capture this gap explicitly.</p>"
+    },
+    {
+      "id": "bottlenecks_flow",
+      "level": 2,
+      "kind": "concept",
+      "label": "Bottlenecks & flow (DBTL throughput)",
+      "summary": "Wet-lab capacity, sample prep, and measurement pipelines constrain speed.",
+      "tags": [
+        "systems",
+        "flow",
+        "bottleneck"
+      ],
+      "bodyHtml": "<p>Even with fast models, lab build/test steps are slow/expensive; optimize the whole pipeline, not just prediction accuracy.</p>"
+    },
+    {
+      "id": "interfaces_handoffs",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interfaces & handoffs",
+      "summary": "Failures cluster at boundaries: data↔model, model↔lab, lab↔management.",
+      "tags": [
+        "systems",
+        "interfaces"
+      ],
+      "bodyHtml": "<p>Define handoff artifacts: dataset cards, experiment tickets, versioned protocols, and decision logs.</p>"
+    },
+    {
+      "id": "feedback_loops",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops & learning",
+      "summary": "Model performance and scientific value improve through iterative feedback.",
+      "tags": [
+        "systems",
+        "feedback"
+      ],
+      "bodyHtml": "<p>Close loops from wet-lab results back into dataset updates, model retraining, and revised hypotheses.</p>"
+    },
+    {
+      "id": "drift_entropy",
+      "level": 2,
+      "kind": "concept",
+      "label": "Drift & entropy",
+      "summary": "Pipelines degrade: data drift, tooling rot, staff turnover, changing objectives.",
+      "tags": [
+        "systems",
+        "drift",
+        "reliability"
+      ],
+      "bodyHtml": "<p>Without maintenance, models silently become invalid; introduce monitoring, ownership, and refresh triggers.</p>"
+    },
+    {
+      "id": "coordination_costs",
+      "level": 2,
+      "kind": "concept",
+      "label": "Coordination costs",
+      "summary": "Interdisciplinary work needs translation, alignment, and conflict resolution.",
+      "tags": [
+        "systems",
+        "coordination"
+      ],
+      "bodyHtml": "<p>Coordination is ‘real work’: shared vocabularies, meeting cadences, and joint success metrics prevent fragmentation.</p>"
+    },
+    {
+      "id": "institutional_boundaries",
+      "level": 2,
+      "kind": "concept",
+      "label": "Institutional boundaries",
+      "summary": "Cost centres, discipline silos, and funding rules create friction.",
+      "tags": [
+        "institutions",
+        "funding"
+      ],
+      "bodyHtml": "<p>Even when interdisciplinarity is encouraged, structures can penalize it; teams often rely on informal workarounds.</p>"
+    },
+    {
+      "id": "funding_structures",
+      "level": 3,
+      "kind": "concept",
+      "label": "Funding structures & administrative systems",
+      "summary": "Grant rules and reporting shape what collaboration is feasible.",
+      "tags": [
+        "funding",
+        "administration",
+        "uk"
+      ],
+      "bodyHtml": "<p>Interdisciplinary projects face boundary costs (budgets, overheads, staff lines); governance must anticipate these constraints.</p>"
+    },
+    {
+      "id": "data_governance",
+      "level": 3,
+      "kind": "standard",
+      "label": "Data governance & access control",
+      "summary": "Define ownership, consent, privacy, licensing, and access pathways.",
+      "tags": [
+        "data_governance",
+        "privacy"
+      ],
+      "bodyHtml": "<p>A clear data governance model enables collaboration while protecting rights and meeting legal/ethical requirements.</p>"
+    },
+    {
+      "id": "compute_partnerships",
+      "level": 3,
+      "kind": "concept",
+      "label": "Industry partnerships for compute",
+      "summary": "Cloud credits/HPC platforms enable scale but add dependencies.",
+      "tags": [
+        "industry",
+        "compute"
+      ],
+      "bodyHtml": "<p>Negotiate costs, security, export controls, and reproducibility (environment capture) when using external platforms.</p>"
+    },
+    {
+      "id": "collab_agreements",
+      "level": 3,
+      "kind": "standard",
+      "label": "Collaboration agreements (IP/publication/data)",
+      "summary": "Set expectations on IP, publication, and sharing early.",
+      "tags": [
+        "ip",
+        "publication",
+        "contracts"
+      ],
+      "bodyHtml": "<p>Explicit agreements reduce later conflict between universities, industry, and government partners.</p>"
+    },
+    {
+      "id": "rri_frameworks",
+      "level": 3,
+      "kind": "standard",
+      "label": "Responsible Research & Innovation (RRI) frameworks",
+      "summary": "Anticipate ethical/societal implications; include reflexivity and engagement.",
+      "tags": [
+        "rri",
+        "ethics",
+        "governance"
+      ],
+      "bodyHtml": "<p>CDTs and embedded social science can operationalise RRI: risk assessment, stakeholder engagement, and design constraints.</p>"
+    },
+    {
+      "id": "biosafety_biosecurity",
+      "level": 3,
+      "kind": "standard",
+      "label": "Biosafety & biosecurity governance",
+      "summary": "Controls for dual-use risk and safe handling of organisms/data.",
+      "tags": [
+        "biosafety",
+        "biosecurity",
+        "dual_use"
+      ],
+      "bodyHtml": "<p>Governance includes risk classification, access control, review boards, and incident response plans.</p>"
+    },
+    {
+      "id": "org_design_colocation",
+      "level": 3,
+      "kind": "concept",
+      "label": "Organisational design & co-location",
+      "summary": "Physical and social proximity reduces coordination friction.",
+      "tags": [
+        "colocation",
+        "organisation"
+      ],
+      "bodyHtml": "<p>Co-location (or well-designed virtual equivalents) improves shared understanding between wet-lab and computational staff.</p>"
+    },
+    {
+      "id": "cdt_training",
+      "level": 3,
+      "kind": "standard",
+      "label": "Centers for Doctoral Training (CDTs)",
+      "summary": "Structured interdisciplinary training including ethics/RRI components.",
+      "tags": [
+        "training",
+        "cdt"
+      ],
+      "bodyHtml": "<p>CDTs can embed social science, ethics, and domain+AI literacy to prepare researchers for real-world collaboration.</p>"
+    },
+    {
+      "id": "dataset_curation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Dataset curation & documentation",
+      "summary": "Create usable datasets: cleaning, metadata, provenance, versioning.",
+      "tags": [
+        "data",
+        "provenance"
+      ],
+      "bodyHtml": "<p>Most effort is in assembling reliable training data (metabolomics/proteomics/time-series); document assumptions and gaps.</p>"
+    },
+    {
+      "id": "ml_dl_methods",
+      "level": 4,
+      "kind": "concept",
+      "label": "ML/DL for high-dimensional biology",
+      "summary": "Use ML/DL to explore large molecular datasets and patterns.",
+      "tags": [
+        "ml",
+        "dl",
+        "omics"
+      ],
+      "bodyHtml": "<p>Methods support design hypotheses, feature discovery, and prediction—if aligned with biological meaning and constraints.</p>"
+    },
+    {
+      "id": "predict_modifications",
+      "level": 4,
+      "kind": "concept",
+      "label": "Predicting genetic modifications",
+      "summary": "Use models to propose DNA edits before costly lab work.",
+      "tags": [
+        "design",
+        "prediction",
+        "genetics"
+      ],
+      "bodyHtml": "<p>Prediction narrows the search space: which genes/pathways to modify to produce target compounds.</p>"
+    },
+    {
+      "id": "experiment_selection",
+      "level": 4,
+      "kind": "concept",
+      "label": "Experiment selection under cost",
+      "summary": "Choose which designs to build/test given limited lab budget/throughput.",
+      "tags": [
+        "active_learning",
+        "cost"
+      ],
+      "bodyHtml": "<p>Use uncertainty and expected value to pick experiments; integrate with lab schedules and measurement pipelines.</p>"
+    },
+    {
+      "id": "reproducible_pipelines",
+      "level": 4,
+      "kind": "concept",
+      "label": "Reproducible compute pipelines",
+      "summary": "Version data/code/models/environments so results can be rerun.",
+      "tags": [
+        "reproducibility",
+        "mLOps"
+      ],
+      "bodyHtml": "<p>Capture environments (containers), random seeds, data splits, and training logs; ensure others can reproduce key claims.</p>"
+    },
+    {
+      "id": "team_routines",
+      "level": 4,
+      "kind": "concept",
+      "label": "Interdisciplinary team routines",
+      "summary": "Shared language, meetings, artifacts, and decision logs.",
+      "tags": [
+        "team",
+        "routines"
+      ],
+      "bodyHtml": "<p>Examples: joint design reviews, lab–model handoff tickets, shared glossaries, and ‘definition of done’ for datasets.</p>"
+    },
+    {
+      "id": "llm_use_policy",
+      "level": 4,
+      "kind": "concept",
+      "label": "LLM/ChatGPT use in research",
+      "summary": "Manage benefits/risks of AI-generated text/code/analysis.",
+      "tags": [
+        "llm",
+        "policy"
+      ],
+      "bodyHtml": "<p>Set rules for disclosure, verification, data leakage, and appropriate use in documentation, coding, and communication.</p>"
+    },
+    {
+      "id": "fair_principles",
+      "level": 5,
+      "kind": "standard",
+      "label": "FAIR data principles",
+      "summary": "Findable, Accessible, Interoperable, Reusable data for science.",
+      "tags": [
+        "fair",
+        "data"
+      ],
+      "bodyHtml": "<p>FAIR practices improve reuse and collaboration; adopt metadata standards and persistent identifiers where possible.</p>"
+    },
+    {
+      "id": "model_cards",
+      "level": 5,
+      "kind": "standard",
+      "label": "Model cards & documentation",
+      "summary": "Standardized reporting of model purpose, data, metrics, and limits.",
+      "tags": [
+        "model_cards",
+        "transparency"
+      ],
+      "bodyHtml": "<p>Model documentation supports safe reuse, governance, and prevents misuse by making limits explicit.</p>"
+    },
+    {
+      "id": "evaluation_uncertainty",
+      "level": 5,
+      "kind": "standard",
+      "label": "Evaluation, validation & uncertainty",
+      "summary": "Use appropriate baselines, validation, and uncertainty reporting.",
+      "tags": [
+        "evaluation",
+        "validation"
+      ],
+      "bodyHtml": "<p>Select metrics that match scientific decisions; test robustness and communicate uncertainty to wet-lab and managers.</p>"
+    },
+    {
+      "id": "competence_planning",
+      "level": 5,
+      "kind": "concept",
+      "label": "Competence & workforce planning",
+      "summary": "Plan roles, training, and career paths for hybrid teams.",
+      "tags": [
+        "competence",
+        "workforce"
+      ],
+      "bodyHtml": "<p>Address scarcity of ‘bridge’ talent with mentoring, job design, and recognition of coordination work.</p>"
+    },
+    {
+      "id": "learning_loops_quality",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning loops (PDCA for research)",
+      "summary": "Plan–Do–Check–Act applied to methods, data, and collaboration.",
+      "tags": [
+        "pdca",
+        "improvement"
+      ],
+      "bodyHtml": "<p>Institutionalize retrospectives, incident reviews, and dataset/model refresh cycles.</p>"
+    },
+    {
+      "id": "open_artifacts",
+      "level": 5,
+      "kind": "concept",
+      "label": "Open artifacts & reproducible reporting",
+      "summary": "Share code/data/bench protocols as permissible to enable trust.",
+      "tags": [
+        "open_science",
+        "reproducibility"
+      ],
+      "bodyHtml": "<p>When full openness isn’t possible, share synthetic data, detailed methods, and controlled access pathways.</p>"
+    },
+    {
+      "id": "risk_hype_speed",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Automation hype vs real throughput",
+      "summary": "Expectations of ‘fast AI’ ignore wet-lab bottlenecks and coordination costs.",
+      "tags": [
+        "hype",
+        "bottleneck"
+      ],
+      "bodyHtml": "<p>Mismanaged expectations cause pressure, shortcuts, and disappointment; fix by mapping end-to-end DBTL constraints.</p>"
+    },
+    {
+      "id": "risk_data_leakage",
+      "level": 6,
+      "kind": "risk",
+      "label": "Risk: Data leakage & governance failure",
+      "summary": "Sensitive data leaks via tools, partners, or poorly controlled access.",
+      "tags": [
+        "privacy",
+        "governance"
+      ],
+      "bodyHtml": "<p>Common vectors: shared notebooks, misconfigured cloud storage, LLM prompts containing confidential data.</p>"
+    },
+    {
+      "id": "risk_dual_use",
+      "level": 6,
+      "kind": "risk",
+      "label": "Risk: Dual-use and misuse pathways",
+      "summary": "Models/datasets could enable harmful designs or unsafe dissemination.",
+      "tags": [
+        "dual_use",
+        "biosecurity"
+      ],
+      "bodyHtml": "<p>Require review, access controls, and publication decisions proportional to risk and benefit.</p>"
+    },
+    {
+      "id": "risk_silo_boundaries",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Interdisciplinarity blocked by structures",
+      "summary": "Cost centres, hiring lines, and funding categories impede collaboration.",
+      "tags": [
+        "institutions",
+        "barriers"
+      ],
+      "bodyHtml": "<p>Teams compensate with informal coordination; long-term fix needs governance changes (budgeting, shared spaces, joint KPIs).</p>"
+    },
+    {
+      "id": "risk_reproducibility",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Non-reproducible ML results",
+      "summary": "Untracked data versions, hidden preprocessing, or unstable training yields brittle claims.",
+      "tags": [
+        "reproducibility",
+        "ml"
+      ],
+      "bodyHtml": "<p>Reproducibility collapses trust between disciplines; counter with pipeline capture, documentation, and validation norms.</p>"
+    },
+    {
+      "id": "case_omics_design",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: DL on metabolomics to design biofuel-producing strain",
+      "summary": "Large omics dataset; model proposes pathway edits; wet-lab validation is costly.",
+      "tags": [
+        "case",
+        "omics",
+        "biofuel"
+      ],
+      "bodyHtml": "<p>Illustrates prediction-before-lab, dataset curation load, and experiment selection under scarce lab capacity.</p>"
+    },
+    {
+      "id": "case_colocation_gap",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Wet-lab and compute teams in different buildings",
+      "summary": "Limited shared space increases handoff errors and slows iteration.",
+      "tags": [
+        "case",
+        "coordination"
+      ],
+      "bodyHtml": "<p>Shows why co-location (or strong virtual rituals) matters for shared understanding and rapid debugging.</p>"
+    },
+    {
+      "id": "case_funding_boundary",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: UK-style funding encourages interdisciplinarity but budgeting blocks it",
+      "summary": "Admin systems enforce boundaries; hiring and cost allocation become painful.",
+      "tags": [
+        "case",
+        "funding"
+      ],
+      "bodyHtml": "<p>Demonstrates institutional barriers and informal workarounds; motivates redesign of governance and allocation rules.</p>"
+    },
+    {
+      "id": "case_llm_lab",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: ChatGPT used for lab protocol drafts and code snippets",
+      "summary": "Boosts speed but raises verification, attribution, and leakage risks.",
+      "tags": [
+        "case",
+        "llm"
+      ],
+      "bodyHtml": "<p>Requires a policy: disclosure, review, and restrictions on sensitive inputs; plus training for novices.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_humility",
+      "to": "uncertainty_limits",
+      "why": "Humility is operationalised by explicitly modelling and communicating limits and uncertainty."
+    },
+    {
+      "from": "wis_humility",
+      "to": "evaluation_uncertainty",
+      "why": "Humility demands strong validation, robustness checks, and calibrated uncertainty reporting."
+    },
+    {
+      "from": "wis_stewardship",
+      "to": "biosafety_biosecurity",
+      "why": "Stewardship requires biosafety/biosecurity controls and review processes for dual-use risks."
+    },
+    {
+      "from": "wis_stewardship",
+      "to": "rri_frameworks",
+      "why": "Stewardship is enacted through RRI practices: anticipation, reflexivity, inclusion and responsiveness."
+    },
+    {
+      "from": "wis_collaboration",
+      "to": "interdisciplinarity_value",
+      "why": "Respectful collaboration makes interdisciplinarity a lived capability rather than a slogan."
+    },
+    {
+      "from": "wis_collaboration",
+      "to": "team_routines",
+      "why": "Collaboration becomes real through routines and shared artifacts that reduce translation friction."
+    },
+    {
+      "from": "wis_proportion",
+      "to": "bottlenecks_flow",
+      "why": "Proportionate plans account for real bottlenecks and avoid over-optimising a single step (e.g., modeling)."
+    },
+    {
+      "from": "wis_proportion",
+      "to": "funding_structures",
+      "why": "Right-sized governance and deliverables must fit funding/admin constraints."
+    },
+    {
+      "from": "wis_learning",
+      "to": "feedback_loops",
+      "why": "A learning orientation builds explicit feedback loops from lab outcomes to models and decisions."
+    },
+    {
+      "from": "wis_learning",
+      "to": "learning_loops_quality",
+      "why": "Learning orientation is institutionalised via PDCA-style retrospectives and refresh cycles."
+    },
+    {
+      "from": "wis_care_people",
+      "to": "skills_gap",
+      "why": "Care for people includes addressing skills gaps without burning out staff or excluding novices."
+    },
+    {
+      "from": "wis_care_people",
+      "to": "llm_use_policy",
+      "why": "Caring adoption of LLMs preserves training value and sets safe norms for verification and disclosure."
+    },
+    {
+      "from": "knowledge_practice",
+      "to": "institutional_boundaries",
+      "why": "Observed practice changes are shaped by institutional boundaries and administrative realities."
+    },
+    {
+      "from": "knowledge_practice",
+      "to": "work_as_imagined_done",
+      "why": "Practice transformation is often the gap between imagined automation and real work."
+    },
+    {
+      "from": "dbtl_cycle",
+      "to": "bottlenecks_flow",
+      "why": "DBTL value is constrained by flow: build/test steps determine iteration speed."
+    },
+    {
+      "from": "dbtl_cycle",
+      "to": "feedback_loops",
+      "why": "DBTL is a feedback system: test results must update models and hypotheses."
+    },
+    {
+      "from": "uncertainty_limits",
+      "to": "experiment_selection",
+      "why": "Uncertainty estimates inform which experiments are worth paying for."
+    },
+    {
+      "from": "value_alignment",
+      "to": "data_governance",
+      "why": "Legitimacy depends on lawful/ethical data access, consent, and controlled sharing."
+    },
+    {
+      "from": "value_alignment",
+      "to": "open_science",
+      "why": "Responsible openness requires explicit choices about what can be shared and how."
+    },
+    {
+      "from": "incentives_credit",
+      "to": "collab_agreements",
+      "why": "Agreements convert incentive conflicts (IP/publication) into explicit, manageable rules."
+    },
+    {
+      "from": "interdisciplinarity_value",
+      "to": "coordination_costs",
+      "why": "Interdisciplinarity increases coordination work; planning for it is essential."
+    },
+    {
+      "from": "infrastructure_dependence",
+      "to": "compute_partnerships",
+      "why": "Infrastructure dependence often materialises as partnerships with industry platforms."
+    },
+    {
+      "from": "open_science",
+      "to": "fair_principles",
+      "why": "FAIR practices operationalise open/reusable data sharing."
+    },
+    {
+      "from": "skills_gap",
+      "to": "cdt_training",
+      "why": "CDTs are one pathway to close skills gaps through integrated domain+AI+ethics training."
+    },
+    {
+      "from": "work_as_imagined_done",
+      "to": "dataset_curation",
+      "why": "‘AI will automate’ narratives often hide the real work of dataset curation and documentation."
+    },
+    {
+      "from": "work_as_imagined_done",
+      "to": "team_routines",
+      "why": "Bridging WAI/WAD requires routines that surface adaptations and constraints early."
+    },
+    {
+      "from": "bottlenecks_flow",
+      "to": "experiment_selection",
+      "why": "Bottlenecks require explicit experiment selection strategies under limited throughput."
+    },
+    {
+      "from": "interfaces_handoffs",
+      "to": "reproducible_pipelines",
+      "why": "Clear interfaces need versioned pipelines so handoffs are reproducible and auditable."
+    },
+    {
+      "from": "interfaces_handoffs",
+      "to": "data_governance",
+      "why": "Handoffs are high-risk for privacy/IP; governance defines what can move where."
+    },
+    {
+      "from": "feedback_loops",
+      "to": "learning_loops_quality",
+      "why": "Feedback becomes organisational learning when captured in structured improvement loops."
+    },
+    {
+      "from": "drift_entropy",
+      "to": "model_cards",
+      "why": "Drift is mitigated when documentation states scope/limits and triggers for refresh."
+    },
+    {
+      "from": "drift_entropy",
+      "to": "reproducible_pipelines",
+      "why": "Reproducible pipelines allow monitoring and refreshing models when data/objectives drift."
+    },
+    {
+      "from": "coordination_costs",
+      "to": "org_design_colocation",
+      "why": "Co-location (or its virtual equivalent) reduces coordination costs and accelerates alignment."
+    },
+    {
+      "from": "institutional_boundaries",
+      "to": "funding_structures",
+      "why": "Boundaries are reinforced by how funding and administrative systems allocate money and credit."
+    },
+    {
+      "from": "institutional_boundaries",
+      "to": "org_design_colocation",
+      "why": "Institutional decisions about space/access can either enable or block interdisciplinary integration."
+    },
+    {
+      "from": "funding_structures",
+      "to": "competence_planning",
+      "why": "Funding constraints affect hiring, career paths, and retaining interdisciplinary talent."
+    },
+    {
+      "from": "data_governance",
+      "to": "dataset_curation",
+      "why": "Governance requirements shape what data can be curated, shared, and reused."
+    },
+    {
+      "from": "compute_partnerships",
+      "to": "reproducible_pipelines",
+      "why": "External compute requires environment capture (containers, infra-as-code) for reproducibility."
+    },
+    {
+      "from": "collab_agreements",
+      "to": "open_artifacts",
+      "why": "Agreements determine what artifacts can be opened, when, and under what licenses."
+    },
+    {
+      "from": "rri_frameworks",
+      "to": "llm_use_policy",
+      "why": "RRI expands governance to new tools (LLMs): disclosure, bias, and misuse considerations."
+    },
+    {
+      "from": "biosafety_biosecurity",
+      "to": "risk_dual_use",
+      "why": "Biosecurity governance directly addresses dual-use and misuse pathways."
+    },
+    {
+      "from": "org_design_colocation",
+      "to": "team_routines",
+      "why": "Co-location supports day-to-day routines: quick clarification, shared debugging, informal learning."
+    },
+    {
+      "from": "cdt_training",
+      "to": "competence_planning",
+      "why": "Training programs feed workforce planning by creating hybrid capability and shared language."
+    },
+    {
+      "from": "dataset_curation",
+      "to": "fair_principles",
+      "why": "FAIR principles guide metadata, identifiers, and reuse-ready dataset construction."
+    },
+    {
+      "from": "dataset_curation",
+      "to": "ml_dl_methods",
+      "why": "Model quality is bounded by dataset quality, representativeness, and labeling/provenance."
+    },
+    {
+      "from": "ml_dl_methods",
+      "to": "predict_modifications",
+      "why": "ML/DL methods are used to predict which genetic modifications are promising."
+    },
+    {
+      "from": "predict_modifications",
+      "to": "experiment_selection",
+      "why": "Predictions must be translated into a ranked experiment list under budget constraints."
+    },
+    {
+      "from": "experiment_selection",
+      "to": "bottlenecks_flow",
+      "why": "Selection must respect lab throughput, measurement cadence, and staffing constraints."
+    },
+    {
+      "from": "reproducible_pipelines",
+      "to": "evaluation_uncertainty",
+      "why": "Repeatable pipelines support trustworthy evaluation and uncertainty estimation."
+    },
+    {
+      "from": "team_routines",
+      "to": "interfaces_handoffs",
+      "why": "Routines define handoff artifacts and reduce boundary failures between disciplines."
+    },
+    {
+      "from": "llm_use_policy",
+      "to": "risk_data_leakage",
+      "why": "Policies reduce leakage risk by setting rules for sensitive inputs and secure workflows."
+    },
+    {
+      "from": "model_cards",
+      "to": "evaluation_uncertainty",
+      "why": "Model cards summarise evaluation, uncertainty, and known limits for downstream users."
+    },
+    {
+      "from": "evaluation_uncertainty",
+      "to": "uncertainty_limits",
+      "why": "Good evaluation makes uncertainty and limits visible to decision-makers."
+    },
+    {
+      "from": "learning_loops_quality",
+      "to": "drift_entropy",
+      "why": "Continuous improvement counters drift through monitoring and refresh triggers."
+    },
+    {
+      "from": "open_artifacts",
+      "to": "open_science",
+      "why": "Open artifacts are the operational layer of open science commitments."
+    },
+    {
+      "from": "risk_hype_speed",
+      "to": "work_as_imagined_done",
+      "why": "Hype is a WAI/WAD gap: promised automation vs experienced coordination and lab constraints."
+    },
+    {
+      "from": "risk_hype_speed",
+      "to": "bottlenecks_flow",
+      "why": "Hype collapses when bottlenecks dominate throughput despite fast modeling."
+    },
+    {
+      "from": "risk_data_leakage",
+      "to": "data_governance",
+      "why": "Leakage failures usually reflect weak governance: unclear access rules and insecure tooling."
+    },
+    {
+      "from": "risk_dual_use",
+      "to": "rri_frameworks",
+      "why": "RRI provides processes to anticipate and manage dual-use risk in a proportionate way."
+    },
+    {
+      "from": "risk_silo_boundaries",
+      "to": "institutional_boundaries",
+      "why": "Siloed structures are the direct cause of boundary friction and coordination overhead."
+    },
+    {
+      "from": "risk_reproducibility",
+      "to": "reproducible_pipelines",
+      "why": "Reproducibility pathologies are prevented by versioned pipelines and disciplined documentation."
+    },
+    {
+      "from": "case_omics_design",
+      "to": "ml_dl_methods",
+      "why": "The case centers on DL extracting signal from metabolomics/time-series data."
+    },
+    {
+      "from": "case_omics_design",
+      "to": "predict_modifications",
+      "why": "Model outputs propose specific pathway edits before wet-lab work."
+    },
+    {
+      "from": "case_omics_design",
+      "to": "experiment_selection",
+      "why": "Wet-lab costs force careful experiment choice, not brute-force testing."
+    },
+    {
+      "from": "case_omics_design",
+      "to": "dataset_curation",
+      "why": "Most time goes into curating omics datasets with usable metadata and provenance."
+    },
+    {
+      "from": "case_colocation_gap",
+      "to": "org_design_colocation",
+      "why": "The case illustrates how physical separation drives misunderstanding and handoff delay."
+    },
+    {
+      "from": "case_colocation_gap",
+      "to": "interfaces_handoffs",
+      "why": "Distance amplifies interface failures: unclear dataset assumptions, missing protocol details."
+    },
+    {
+      "from": "case_funding_boundary",
+      "to": "funding_structures",
+      "why": "Budgeting and reporting rules create friction despite interdisciplinary rhetoric."
+    },
+    {
+      "from": "case_funding_boundary",
+      "to": "risk_silo_boundaries",
+      "why": "The case exemplifies structural barriers and the informal workarounds teams adopt."
+    },
+    {
+      "from": "case_llm_lab",
+      "to": "llm_use_policy",
+      "why": "The case motivates explicit LLM governance: disclosure, verification, and no-sensitive-input rules."
+    },
+    {
+      "from": "case_llm_lab",
+      "to": "wis_care_people",
+      "why": "LLM adoption must preserve learning for novices and avoid deskilling critical judgement."
+    },
+    {
+      "from": "incentives_credit",
+      "to": "risk_hype_speed",
+      "why": "Hype can be incentivised by publication/marketing pressures that reward big claims over integration work."
+    },
+    {
+      "from": "coordination_costs",
+      "to": "competence_planning",
+      "why": "Recognise coordination as a skill; hire and train for translation and facilitation roles."
+    },
+    {
+      "from": "open_science",
+      "to": "collab_agreements",
+      "why": "Openness is negotiated through agreements: IP, embargoes, and controlled access."
+    },
+    {
+      "from": "biosafety_biosecurity",
+      "to": "open_science",
+      "why": "Biosafety considerations can constrain what is shared; design safe openness pathways."
+    },
+    {
+      "from": "data_governance",
+      "to": "llm_use_policy",
+      "why": "LLM policies should be consistent with data governance: what data is allowed where."
+    },
+    {
+      "from": "fair_principles",
+      "to": "open_artifacts",
+      "why": "FAIR-aligned artifacts (metadata, identifiers) improve reuse and trust in shared outputs."
+    },
+    {
+      "from": "rri_frameworks",
+      "to": "value_alignment",
+      "why": "RRI operationalises the super-concept of legitimacy and value alignment."
+    }
+  ]
+}
