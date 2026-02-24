@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Sick-Leave Tool – Monte Carlo Success Simulator</title>
+  <style>
+    :root { --bg:#0b0f14; --panel:#121924; --text:#e8eef7; --muted:#9fb0c3; --line:#223045; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--text); }
+    header { padding:18px 18px 0 18px; }
+    h1 { margin:0 0 6px 0; font-size:18px; font-weight:700; }
+    .sub { color:var(--muted); font-size:13px; line-height:1.35; max-width:1000px; }
+    .wrap { display:grid; grid-template-columns: 420px 1fr; gap:14px; padding:18px; align-items:start; }
+    @media (max-width: 980px){ .wrap{ grid-template-columns: 1fr; } }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px; }
+    .row { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+    .row strong { font-size:13px; }
+    .help { color:var(--muted); font-size:12px; margin-top:4px; line-height:1.35; }
+    .slider { margin:10px 0 14px; }
+    input[type="range"]{ width:100%; }
+    .val { font-variant-numeric: tabular-nums; color:var(--muted); font-size:12px; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .pill { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:999px; padding:7px 10px; }
+    .pill b { font-variant-numeric: tabular-nums; }
+    canvas { width:100%; height:300px; background:#0a0e13; border:1px solid var(--line); border-radius:12px; }
+    .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .small { color:var(--muted); font-size:12px; line-height:1.35; }
+    .btnrow { display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
+    button { background:#0a0e13; color:var(--text); border:1px solid var(--line); border-radius:10px; padding:8px 10px; cursor:pointer; }
+    button:hover { border-color:#35507a; }
+    .note { margin-top:10px; color:var(--muted); font-size:12px; }
+    .hr { height:1px; background:var(--line); margin:12px 0; }
+    .footer { padding:0 18px 18px 18px; color:var(--muted); font-size:12px; line-height:1.4; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Monte Carlo Simulator: “AI sick-leave advisor” likely success distribution</h1>
+    <div class="sub">
+      Move sliders to configure the underlying parameters/mechanisms (0–100). The simulator samples uncertainty around your settings
+      and updates the <span class="mono">predicted success probability distribution</span> live.
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="card" id="controls">
+      <div class="row">
+        <strong>Parameters</strong>
+        <span class="val" id="status">Ready</span>
+      </div>
+      <div class="help">
+        Each slider sets the “mean” configuration level. The simulation treats real-world deployment as noisy (policy drift, manager variance,
+        service availability swings, etc.).
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="slider">
+        <div class="row"><strong>Actionability ratio</strong><span class="val" id="v_actionability"></span></div>
+        <input id="actionability" type="range" min="0" max="100" value="65" />
+        <div class="help">How often recommendations are feasible given roles + service availability.</div>
+      </div>
+
+      <div class="slider">
+        <div class="row"><strong>Escalation calibration</strong><span class="val" id="v_escalation"></span></div>
+        <input id="escalation" type="range" min="0" max="100" value="55" />
+        <div class="help">Referral timing &amp; thresholds match clinical need and OH capacity (avoids both over- and under-escalation).</div>
+      </div>
+
+      <div class="slider">
+        <div class="row"><strong>Nudge strength (UX forcefulness)</strong><span class="val" id="v_nudge"></span></div>
+        <input id="nudge" type="range" min="0" max="100" value="50" />
+        <div class="help">Defaults, “accept all”, warning colours, ordering. Too strong can feel coercive; too weak can be ignored.</div>
+      </div>
+
+      <div class="slider">
+        <div class="row"><strong>Transparency of constraints</strong><span class="val" id="v_transparency"></span></div>
+        <input id="transparency" type="range" min="0" max="100" value="45" />
+        <div class="help">How clearly the tool distinguishes “best practice” from “capacity-driven routing” and shows who sees what.</div>
+      </div>
+
+      <div class="slider">
+        <div class="row"><strong>Equity guardrails</strong><span class="val" id="v_equity"></span></div>
+        <input id="equity" type="range" min="0" max="100" value="40" />
+        <div class="help">Monitoring + constraints to prevent disparate impact (role type, protected characteristics proxies, etc.).</div>
+      </div>
+
+      <div class="slider">
+        <div class="row"><strong>Audit trail purpose control</strong><span class="val" id="v_audit"></span></div>
+        <input id="audit" type="range" min="0" max="100" value="55" />
+        <div class="help">Logs used for support/learning vs discipline/surveillance. High control reduces “weaponisation” risk.</div>
+      </div>
+
+      <div class="slider">
+        <div class="row"><strong>Learning signal quality</strong><span class="val" id="v_learning"></span></div>
+        <input id="learning" type="range" min="0" max="100" value="50" />
+        <div class="help">Whether feedback optimises real outcomes (sustainable return, wellbeing) vs convenience proxies (acceptance rate).</div>
+      </div>
+
+      <div class="grid2">
+        <div class="slider">
+          <div class="row"><strong>Uncertainty level</strong><span class="val" id="v_uncertainty"></span></div>
+          <input id="uncertainty" type="range" min="0" max="100" value="35" />
+          <div class="help">How variable real-world execution is around the configured means.</div>
+        </div>
+
+        <div class="slider">
+          <div class="row"><strong>Simulations</strong><span class="val" id="v_sims"></span></div>
+          <input id="sims" type="range" min="500" max="30000" step="500" value="8000" />
+          <div class="help">More simulations = smoother distribution (slower updates).</div>
+        </div>
+      </div>
+
+      <div class="btnrow">
+        <button id="preset_good">Preset: Well-governed</button>
+        <button id="preset_patchy">Preset: Patchwork OH</button>
+        <button id="preset_coercive">Preset: Coercive KPI-driven</button>
+        <button id="preset_sparse">Preset: Sparse OH capacity</button>
+      </div>
+
+      <div class="note">
+        Model note: this is a lightweight exploratory simulator (a “toy model”) to help reason about trade-offs,
+        not a validated predictor of real outcomes.
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <strong>Predicted success probability distribution</strong>
+        <span class="val">Updated live</span>
+      </div>
+      <div class="help">
+        Each bar shows the proportion of Monte Carlo runs that yield a given <span class="mono">success probability</span> (0–100%).
+      </div>
+
+      <div style="margin-top:10px;">
+        <canvas id="hist" width="1000" height="360" aria-label="Histogram"></canvas>
+      </div>
+
+      <div class="meta" id="stats">
+        <span class="pill">Mean: <b id="mean">—</b></span>
+        <span class="pill">P5: <b id="p5">—</b></span>
+        <span class="pill">Median: <b id="p50">—</b></span>
+        <span class="pill">P95: <b id="p95">—</b></span>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="row"><strong>Outcome buckets (from the same Monte Carlo samples)</strong></div>
+      <div class="help">A simple categorisation based on simulated success probability.</div>
+      <div class="meta">
+        <span class="pill">Likely success (&ge; 70%): <b id="b_success">—</b></span>
+        <span class="pill">Mixed (40–70%): <b id="b_mixed">—</b></span>
+        <span class="pill">Likely harm/underperformance (&lt; 40%): <b id="b_harm">—</b></span>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="small">
+        <b>What drives the curve?</b> In the model below, success rises with actionability, good escalation calibration, transparency,
+        equity guardrails, audit purpose control, and learning signal quality. Nudge strength is “inverted-U”: moderate nudging helps,
+        but strong nudging without transparency/equity creates risk. When escalation is miscalibrated and OH is scarce, the model penalises
+        “displacement” (AI substituting for clinical judgement).
+      </div>
+    </section>
+  </div>
+
+  <div class="footer">
+    Tip: To explore which parameters matter most, change one slider at a time and watch how the distribution widens/narrows and shifts.
+  </div>
+
+<script>
+(() => {
+  // ---------- Utilities ----------
+  const clamp01 = x => Math.max(0, Math.min(1, x));
+  const lerp = (a,b,t) => a + (b-a)*t;
+
+  function sigmoid(x){ return 1 / (1 + Math.exp(-x)); }
+
+  // Fast-ish RNG (Mulberry32)
+  function mulberry32(seed) {
+    return function() {
+      let t = seed += 0x6D2B79F5;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // Approximate Beta-like sampling around a mean using bounded Gaussian
+  // (cheap and stable for UI; not mathematically perfect beta, but works well for exploration)
+  function sampleAroundMean(mean01, noise01, rand){
+    // bounded gaussian via Box-Muller then clamp
+    const u1 = Math.max(1e-9, rand());
+    const u2 = Math.max(1e-9, rand());
+    const z = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2*Math.PI*u2);
+    const x = mean01 + z * noise01;
+    return clamp01(x);
+  }
+
+  function percentile(sortedArr, p){
+    const n = sortedArr.length;
+    if(n === 0) return 0;
+    const idx = (n - 1) * p;
+    const lo = Math.floor(idx);
+    const hi = Math.ceil(idx);
+    if(lo === hi) return sortedArr[lo];
+    return sortedArr[lo] * (hi - idx) + sortedArr[hi] * (idx - lo);
+  }
+
+  // ---------- DOM ----------
+  const el = id => document.getElementById(id);
+
+  const sliders = {
+    actionability: el("actionability"),
+    escalation: el("escalation"),
+    nudge: el("nudge"),
+    transparency: el("transparency"),
+    equity: el("equity"),
+    audit: el("audit"),
+    learning: el("learning"),
+    uncertainty: el("uncertainty"),
+    sims: el("sims")
+  };
+
+  const valueLabels = {
+    actionability: el("v_actionability"),
+    escalation: el("v_escalation"),
+    nudge: el("v_nudge"),
+    transparency: el("v_transparency"),
+    equity: el("v_equity"),
+    audit: el("v_audit"),
+    learning: el("v_learning"),
+    uncertainty: el("v_uncertainty"),
+    sims: el("v_sims"),
+  };
+
+  const out = {
+    mean: el("mean"), p5: el("p5"), p50: el("p50"), p95: el("p95"),
+    b_success: el("b_success"), b_mixed: el("b_mixed"), b_harm: el("b_harm"),
+    status: el("status")
+  };
+
+  // Presets
+  el("preset_good").addEventListener("click", () => setPreset({
+    actionability: 80, escalation: 75, nudge: 55, transparency: 75, equity: 70, audit: 70, learning: 70, uncertainty: 25, sims: 10000
+  }));
+  el("preset_patchy").addEventListener("click", () => setPreset({
+    actionability: 55, escalation: 45, nudge: 55, transparency: 45, equity: 40, audit: 55, learning: 45, uncertainty: 45, sims: 9000
+  }));
+  el("preset_coercive").addEventListener("click", () => setPreset({
+    actionability: 65, escalation: 55, nudge: 85, transparency: 20, equity: 25, audit: 20, learning: 45, uncertainty: 35, sims: 9000
+  }));
+  el("preset_sparse").addEventListener("click", () => setPreset({
+    actionability: 45, escalation: 35, nudge: 50, transparency: 40, equity: 35, audit: 55, learning: 40, uncertainty: 55, sims: 11000
+  }));
+
+  function setPreset(vals){
+    Object.keys(vals).forEach(k => { if(sliders[k]) sliders[k].value = vals[k]; });
+    syncLabels();
+    scheduleSim();
+  }
+
+  function syncLabels(){
+    for(const k in sliders){
+      const v = Number(sliders[k].value);
+      if(valueLabels[k]){
+        valueLabels[k].textContent = (k === "sims") ? `${v.toLocaleString()} runs` : `${v}%`;
+      }
+    }
+  }
+
+  // ---------- Model ----------
+  // This is the "mechanism" layer turned into a score. Adjust weights/terms freely.
+  function computeSuccessProbability(params, rand){
+    // Unpack means (0..1)
+    const A = params.actionability;
+    const E = params.escalation;
+    const N = params.nudge;
+    const T = params.transparency;
+    const Q = params.equity;
+    const U = params.audit;
+    const L = params.learning;
+
+    // --- Mechanisms / interactions ---
+    // 1) Nudge: inverted-U (helpful around ~0.55), harmful when too strong esp if low transparency/equity
+    const nudge_opt = 0.55;
+    const nudgeBenefit = 1.0 - Math.pow((N - nudge_opt) / 0.55, 2); // ~[-? .. 1]
+    const nudgeHelp = clamp01((nudgeBenefit + 0.15)); // shift up slightly
+
+    // 2) Coercion risk: high N with low T or low Q
+    const coercion = clamp01(N * (1 - T) * 0.75 + N * (1 - Q) * 0.45);
+
+    // 3) Displacement risk: if escalation calibration is low and actionability is low, AI substitutes poorly
+    const displacement = clamp01((1 - E) * (1 - A) * 0.9);
+
+    // 4) Audit weaponisation: low purpose control combined with strong nudges increases adversarial use
+    const weaponisation = clamp01((1 - U) * N * 0.85);
+
+    // 5) Learning drift: low learning quality can amplify "proxy optimisation"
+    const proxyOptimisation = clamp01((1 - L) * (0.6 + 0.4*N));
+
+    // 6) Equity failure amplification: low equity with low transparency increases hidden disparate impact
+    const hiddenInequity = clamp01((1 - Q) * (1 - T) * 0.9);
+
+    // Base “capability” score: how effective the system is when applied
+    // (weights reflect plausible leverage; tune as needed)
+    let capability =
+      1.2*A +
+      1.0*E +
+      0.85*T +
+      0.75*Q +
+      0.70*U +
+      0.70*L +
+      0.55*nudgeHelp;
+
+    // Penalties (unintended consequence mechanisms)
+    let penalty =
+      1.10*coercion +
+      0.95*displacement +
+      0.85*weaponisation +
+      0.75*proxyOptimisation +
+      0.80*hiddenInequity;
+
+    // Add a small irreducible noise term (environment variance)
+    const envNoise = (rand() - 0.5) * 0.35;
+
+    // Score -> probability via sigmoid
+    // Centering/scale chosen so mid configs produce mid probabilities.
+    const score = (capability - penalty) + envNoise - 1.35; // bias term
+    const p = sigmoid(2.25 * score);
+    return clamp01(p);
+  }
+
+  function runMonteCarlo(){
+    const sims = Number(sliders.sims.value);
+    const unc = Number(sliders.uncertainty.value) / 100;   // 0..1
+    const noise = lerp(0.02, 0.22, unc);                   // bounded gaussian sd
+
+    // Means from sliders (0..1)
+    const means = {
+      actionability: Number(sliders.actionability.value)/100,
+      escalation: Number(sliders.escalation.value)/100,
+      nudge: Number(sliders.nudge.value)/100,
+      transparency: Number(sliders.transparency.value)/100,
+      equity: Number(sliders.equity.value)/100,
+      audit: Number(sliders.audit.value)/100,
+      learning: Number(sliders.learning.value)/100,
+    };
+
+    // Deterministic seed based on slider states (so small moves are stable-ish)
+    const seed =
+      123456 ^
+      (Number(sliders.actionability.value) << 1) ^
+      (Number(sliders.escalation.value) << 2) ^
+      (Number(sliders.nudge.value) << 3) ^
+      (Number(sliders.transparency.value) << 4) ^
+      (Number(sliders.equity.value) << 5) ^
+      (Number(sliders.audit.value) << 6) ^
+      (Number(sliders.learning.value) << 7) ^
+      (Number(sliders.uncertainty.value) << 8) ^
+      (Number(sliders.sims.value) << 9);
+
+    const rand = mulberry32(seed >>> 0);
+
+    const probs = new Float32Array(sims);
+
+    for(let i=0;i<sims;i++){
+      const p = {
+        actionability: sampleAroundMean(means.actionability, noise, rand),
+        escalation: sampleAroundMean(means.escalation, noise, rand),
+        nudge: sampleAroundMean(means.nudge, noise, rand),
+        transparency: sampleAroundMean(means.transparency, noise, rand),
+        equity: sampleAroundMean(means.equity, noise, rand),
+        audit: sampleAroundMean(means.audit, noise, rand),
+        learning: sampleAroundMean(means.learning, noise, rand),
+      };
+      probs[i] = computeSuccessProbability(p, rand);
+    }
+
+    // Stats
+    const arr = Array.from(probs);
+    arr.sort((a,b)=>a-b);
+
+    const mean = arr.reduce((s,x)=>s+x,0) / arr.length;
+    const p5  = percentile(arr, 0.05);
+    const p50 = percentile(arr, 0.50);
+    const p95 = percentile(arr, 0.95);
+
+    // Buckets
+    let bSuccess=0, bMixed=0, bHarm=0;
+    for(const x of arr){
+      if(x >= 0.70) bSuccess++;
+      else if(x >= 0.40) bMixed++;
+      else bHarm++;
+    }
+
+    return {
+      probs: arr,
+      mean, p5, p50, p95,
+      buckets: {
+        success: bSuccess/arr.length,
+        mixed: bMixed/arr.length,
+        harm: bHarm/arr.length
+      }
+    };
+  }
+
+  // ---------- Rendering ----------
+  const canvas = el("hist");
+  const ctx = canvas.getContext("2d");
+
+  function drawHistogram(probArray){
+    // Bins
+    const bins = 25;
+    const counts = new Array(bins).fill(0);
+    for(const p of probArray){
+      const idx = Math.min(bins-1, Math.floor(p * bins));
+      counts[idx]++;
+    }
+    const max = Math.max(...counts);
+
+    // Canvas coords
+    const W = canvas.width, H = canvas.height;
+    const padL = 55, padR = 18, padT = 18, padB = 40;
+    const plotW = W - padL - padR;
+    const plotH = H - padT - padB;
+
+    // Clear
+    ctx.clearRect(0,0,W,H);
+
+    // Axes
+    ctx.strokeStyle = "#223045";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT);
+    ctx.lineTo(padL, padT + plotH);
+    ctx.lineTo(padL + plotW, padT + plotH);
+    ctx.stroke();
+
+    // Gridlines + labels (y)
+    ctx.fillStyle = "#9fb0c3";
+    ctx.font = "12px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+    const yTicks = 4;
+    for(let i=0;i<=yTicks;i++){
+      const y = padT + plotH - (plotH * i / yTicks);
+      ctx.strokeStyle = "rgba(34,48,69,0.7)";
+      ctx.beginPath();
+      ctx.moveTo(padL, y);
+      ctx.lineTo(padL + plotW, y);
+      ctx.stroke();
+
+      const pct = Math.round((max * i / yTicks) / probArray.length * 100);
+      ctx.fillText(pct + "%", 10, y + 4);
+    }
+
+    // x labels
+    ctx.fillText("0%", padL - 10, padT + plotH + 28);
+    ctx.fillText("50%", padL + plotW/2 - 12, padT + plotH + 28);
+    ctx.fillText("100%", padL + plotW - 35, padT + plotH + 28);
+    ctx.fillText("Simulated success probability", padL + plotW/2 - 92, H - 8);
+
+    // Bars
+    const barW = plotW / bins;
+    for(let i=0;i<bins;i++){
+      const c = counts[i];
+      const h = (c / max) * plotH;
+      const x = padL + i * barW;
+      const y = padT + plotH - h;
+
+      // simple gradient-ish by position using alpha (no fixed colours requested; using neutral tint)
+      ctx.fillStyle = `rgba(160, 190, 235, ${0.18 + 0.55*(i/(bins-1))})`;
+      ctx.fillRect(x+1, y, barW-2, h);
+    }
+  }
+
+  function renderStats(res){
+    const fmtPct = x => (x*100).toFixed(1) + "%";
+    out.mean.textContent = fmtPct(res.mean);
+    out.p5.textContent = fmtPct(res.p5);
+    out.p50.textContent = fmtPct(res.p50);
+    out.p95.textContent = fmtPct(res.p95);
+
+    out.b_success.textContent = fmtPct(res.buckets.success);
+    out.b_mixed.textContent = fmtPct(res.buckets.mixed);
+    out.b_harm.textContent = fmtPct(res.buckets.harm);
+  }
+
+  // ---------- Live update loop with scheduling ----------
+  let scheduled = false;
+
+  function scheduleSim(){
+    if(scheduled) return;
+    scheduled = true;
+    // Run at next frame to keep UI responsive during slider drag
+    requestAnimationFrame(() => {
+      scheduled = false;
+      out.status.textContent = "Simulating…";
+      const t0 = performance.now();
+      const res = runMonteCarlo();
+      drawHistogram(res.probs);
+      renderStats(res);
+      const t1 = performance.now();
+      out.status.textContent = `Updated (${Math.round(t1 - t0)} ms)`;
+    });
+  }
+
+  // Bind
+  Object.values(sliders).forEach(s => {
+    s.addEventListener("input", () => {
+      syncLabels();
+      scheduleSim();
+    });
+  });
+
+  // Init
+  syncLabels();
+  scheduleSim();
+})();
+</script>
+</body>
+</html>
