@@ -1,0 +1,1314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wisdom → Super-Concepts → Systems Lattice (Speaker-Coloured)</title>
+  <style>
+    :root{
+      --bg:#f7fafc;
+      --text:#0f172a;
+      --muted:#475569;
+      --muted2:#64748b;
+      --border:rgba(15,23,42,.12);
+      --shadow: 0 14px 34px rgba(15,23,42,.10);
+      --radius:16px;
+
+      --edge:rgba(30,41,59,.18);
+      --edgeHi:rgba(2,132,199,.85);
+
+      --lvl0:#fff7ed;
+      --lvl1:#eff6ff;
+      --lvl2:#f5f3ff;
+      --lvl3:#ecfeff;
+      --lvl4:#f0fdf4;
+      --lvl5:#f8fafc;
+      --lvl6:#fff1f2;
+
+      /* Speaker provenance colours */
+      --srcShapira:#0ea5e9;  /* blue */
+      --srcIqbal:#a855f7;    /* purple */
+      --srcBuckley:#22c55e;  /* green */
+      --srcFerry:#f59e0b;    /* amber */
+      --srcKingston:#06b6d4; /* cyan */
+      --srcLindner:#ef4444;  /* red */
+      --srcFergie:#111827;   /* near-black */
+      --srcShared:#64748b;   /* slate */
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(900px 520px at 10% 10%, rgba(56,189,248,.20), transparent 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(34,197,94,.18), transparent 55%),
+        radial-gradient(900px 520px at 60% 100%, rgba(168,85,247,.14), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      overflow:hidden;
+    }
+
+    header{
+      padding:12px 14px;
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      border-bottom:1px solid var(--border);
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(10px);
+      position:sticky; top:0; z-index:20;
+    }
+    header .title{display:flex; flex-direction:column; gap:2px; min-width:260px}
+    header h1{margin:0; font-size:16px; letter-spacing:.2px}
+    header .sub{font-size:12px; color:var(--muted2); line-height:1.35}
+    header .toolbar{
+      display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;
+      justify-content:flex-end; flex:1;
+    }
+    .ctl{display:flex; flex-direction:column; gap:5px; min-width:220px}
+    .ctl label{font-size:11px; color:var(--muted2); font-weight:800}
+    input[type="text"], textarea, select{
+      width:100%;
+      background:#fff;
+      border:1px solid var(--border);
+      color:var(--text);
+      border-radius:12px;
+      padding:9px 10px;
+      outline:none;
+      font-size:13px;
+      box-shadow: 0 1px 0 rgba(15,23,42,.02);
+    }
+    textarea{min-height:110px; resize:vertical}
+    select{cursor:pointer}
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      color:var(--text);
+      background: rgba(15,23,42,.03);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:12px;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{background: rgba(15,23,42,.06); border-color:rgba(15,23,42,.18)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{background: rgba(2,132,199,.12); border-color: rgba(2,132,199,.28)}
+    .btn.primary:hover{background: rgba(2,132,199,.16)}
+    .btn.danger{background: rgba(225,29,72,.10); border-color: rgba(225,29,72,.22)}
+    .btn:disabled{opacity:.55; cursor:not-allowed}
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:11px; padding:2px 6px; border-radius:8px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+
+    .layout{
+      height: calc(100vh - 74px);
+      display:grid;
+      grid-template-columns: 1fr 430px;
+      gap:12px;
+      padding:12px;
+      min-height:0;
+    }
+    .stage{
+      position:relative;
+      overflow:auto;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,.78);
+      min-height:0;
+    }
+    .stageInner{
+      position:relative;
+      min-width:1100px;
+      padding:16px 16px 24px;
+    }
+
+    .howto{
+      border:1px solid rgba(2,132,199,.18);
+      background: rgba(2,132,199,.06);
+      border-radius: 16px;
+      padding:12px 12px 10px;
+      margin-bottom:12px;
+    }
+    .howto h2{margin:0 0 6px; font-size:13px}
+    .howto .grid{
+      display:grid; gap:8px;
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+    }
+    .howto .step{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.92);
+      border-radius: 14px;
+      padding:10px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+    @media (max-width: 1180px){
+      body{overflow:auto}
+      .layout{grid-template-columns: 1fr; height:auto}
+      .howto .grid{grid-template-columns: 1fr}
+    }
+
+    .level{
+      margin-top:12px;
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.90);
+    }
+    .level:first-child{margin-top:0}
+    .levelHeader{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; margin-bottom:10px;
+    }
+    .levelHeader .lhTitle{
+      display:flex; align-items:center; gap:10px;
+      font-weight:950; letter-spacing:.2px; font-size:13px;
+    }
+    .badge{
+      font-size:11px; padding:5px 9px; border-radius:999px;
+      background: rgba(15,23,42,.04);
+      border:1px solid var(--border);
+      color: var(--muted2);
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .lhHint{font-size:12px; color:var(--muted2)}
+    .row{display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start;}
+
+    .node{
+      position:relative;
+      border-radius:999px;
+      padding:9px 12px 9px 14px; /* a touch more room for the provenance stripe */
+      border:1px solid rgba(15,23,42,.14);
+      background: rgba(255,255,255,.92);
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease, box-shadow .12s ease, opacity .12s ease;
+      font-size:12px;
+      line-height:1;
+      white-space:nowrap;
+      touch-action: manipulation;
+      overflow:hidden;
+    }
+    /* Provenance stripe */
+    .node::before{
+      content:"";
+      position:absolute;
+      left:0; top:0; bottom:0;
+      width:7px;
+      background: var(--srcColor, var(--srcShared));
+      opacity:.9;
+    }
+    .node:hover{background: #fff; border-color:rgba(15,23,42,.22)}
+    .node:active{transform: translateY(1px)}
+    .node .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(2,132,199,.9);
+      box-shadow: 0 0 0 3px rgba(2,132,199,.12);
+    }
+    .node[data-kind="standard"] .dot{background: rgba(22,163,74,.9); box-shadow: 0 0 0 3px rgba(22,163,74,.12)}
+    .node[data-kind="case"] .dot{background: rgba(234,88,12,.9); box-shadow: 0 0 0 3px rgba(234,88,12,.12)}
+    .node[data-kind="risk"] .dot{background: rgba(225,29,72,.88); box-shadow: 0 0 0 3px rgba(225,29,72,.12)}
+    .node[data-kind="wisdom"] .dot{background: rgba(124,45,18,.90); box-shadow: 0 0 0 3px rgba(124,45,18,.12)}
+
+    .node[data-level="0"]{background: var(--lvl0); border-color: rgba(234,88,12,.22)}
+    .node[data-level="1"]{background: var(--lvl1); border-color: rgba(37,99,235,.22)}
+    .node[data-level="2"]{background: var(--lvl2); border-color: rgba(124,58,237,.20)}
+    .node[data-level="3"]{background: var(--lvl3); border-color: rgba(6,182,212,.22)}
+    .node[data-level="4"]{background: var(--lvl4); border-color: rgba(22,163,74,.22)}
+    .node[data-level="5"]{background: var(--lvl5); border-color: rgba(15,23,42,.14)}
+    .node[data-level="6"]{background: var(--lvl6); border-color: rgba(225,29,72,.18)}
+
+    .node .tag{
+      font-size:10px; padding:3px 7px; border-radius:999px;
+      border:1px solid rgba(15,23,42,.14);
+      background: rgba(255,255,255,.55);
+      color: var(--muted2);
+      font-weight:950;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .node.selected{
+      border-color: rgba(2,132,199,.75);
+      box-shadow: 0 0 0 5px rgba(2,132,199,.14);
+    }
+    .node.related{
+      border-color: rgba(15,23,42,.35);
+      box-shadow: 0 0 0 4px rgba(15,23,42,.06);
+    }
+    .node.dim{opacity:.35}
+
+    /* Speaker provenance mapping */
+    .node[data-source="Shapira"]{--srcColor: var(--srcShapira)}
+    .node[data-source="Iqbal"]{--srcColor: var(--srcIqbal)}
+    .node[data-source="Buckley"]{--srcColor: var(--srcBuckley)}
+    .node[data-source="Ferry"]{--srcColor: var(--srcFerry)}
+    .node[data-source="Kingston"]{--srcColor: var(--srcKingston)}
+    .node[data-source="Lindner"]{--srcColor: var(--srcLindner)}
+    .node[data-source="Fergie"]{--srcColor: var(--srcFergie)}
+    .node[data-source="Shared"]{--srcColor: var(--srcShared)}
+
+    svg#edges{
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      overflow:visible;
+    }
+    .edge{stroke: var(--edge); stroke-width: 2; fill:none}
+    .edge.hi{
+      stroke: var(--edgeHi);
+      stroke-width: 2.6;
+      filter: drop-shadow(0 1px 0 rgba(2,132,199,.10));
+    }
+    .edge.dim{opacity:.20}
+
+    .panel{
+      background: rgba(255,255,255,.88);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+      min-height:0;
+    }
+    .phead{
+      padding:12px;
+      border-bottom:1px solid var(--border);
+      background: rgba(15,23,42,.02);
+    }
+    .phead .ph{font-weight:950; font-size:13px}
+    .pbody{padding:12px; overflow:auto; min-height:0}
+
+    .hint{font-size:12px; color:var(--muted2); line-height:1.45}
+
+    .actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+
+    .card{
+      background: rgba(255,255,255,.96);
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding:12px;
+    }
+    .card h3{margin:0 0 6px; font-size:13px}
+    .card p, .card li{color: rgba(15,23,42,.92); font-size:12.5px; line-height:1.45}
+    .card ul{margin:8px 0 0 18px}
+    .metaLine{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .pill{
+      font-size:11px; padding:5px 9px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color:var(--muted2);
+      font-weight:850;
+    }
+
+    .legendGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:8px;
+      margin-top:10px;
+    }
+    .legendItem{
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.92);
+      border-radius: 14px;
+      padding:9px 10px;
+    }
+    .swatch{
+      width:12px; height:12px; border-radius:4px; flex:0 0 auto;
+      margin-top:2px;
+      border:1px solid rgba(15,23,42,.16);
+    }
+    .legendItem .t{font-weight:950; font-size:12px; line-height:1.2}
+    .legendItem .d{font-size:11.5px; color:var(--muted2); line-height:1.25; margin-top:2px}
+
+    .path{margin-top:10px; display:flex; flex-direction:column; gap:8px;}
+    .pathStep{
+      display:flex; gap:8px; align-items:flex-start;
+      padding:10px; border-radius: 16px;
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.02);
+      cursor:pointer; user-select:none;
+    }
+    .pathStep:hover{background: rgba(15,23,42,.04)}
+    .pathStep .n{
+      width:22px; height:22px; border-radius:999px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(2,132,199,.12);
+      border:1px solid rgba(2,132,199,.24);
+      color: rgba(2,132,199,.95);
+      font-weight:950; font-size:12px;
+      flex:0 0 auto;
+    }
+    .pathStep .t{font-weight:950; font-size:12px}
+    .pathStep .d{font-size:12px; color:var(--muted2); margin-top:2px; line-height:1.35}
+
+    .chips{display:flex; gap:6px; flex-wrap:wrap;}
+    .chip{
+      border:1px solid var(--border);
+      background: rgba(15,23,42,.03);
+      color:var(--text);
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      user-select:none;
+      font-weight:850;
+    }
+    .chip.active{border-color: rgba(2,132,199,.35); background: rgba(2,132,199,.10)}
+    .chip .x{margin-left:6px; color:var(--muted2); font-weight:950}
+
+    details summary{cursor:pointer; font-weight:900; color:var(--text); font-size:12.5px}
+    details .detailsBody{margin-top:10px}
+
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(255,255,255,.95);
+      border:1px solid var(--border);
+      padding:10px 12px; border-radius: 14px;
+      box-shadow: var(--shadow);
+      font-size:12px;
+      color: var(--text);
+      opacity:0; pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index:40;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="title">
+    <h1>Wisdom → Super-Concepts → Systems Constraint Lattice (Speaker-Coloured)</h1>
+    <div class="sub">Tap a lozenge to explore. Multi-select: <span class="kbd">Shift+Click</span> (desktop) or <span class="kbd">Long-press</span> (mobile). Left stripe = provenance (speaker).</div>
+  </div>
+
+  <div class="toolbar">
+    <div class="ctl">
+      <label for="search">Search</label>
+      <input id="search" type="text" placeholder="e.g., AREA, governance, FAIR, UPRN, validation, stain normalisation…" autocomplete="off"/>
+    </div>
+    <div class="ctl" style="min-width:190px">
+      <label for="filterKind">Filter</label>
+      <select id="filterKind">
+        <option value="all">All</option>
+        <option value="wisdom">Wisdom</option>
+        <option value="concept">Concepts</option>
+        <option value="standard">Standards / roadmaps</option>
+        <option value="case">Cases</option>
+        <option value="risk">Challenges / pathologies</option>
+      </select>
+    </div>
+    <button class="btn danger" id="btnClear" title="Clear selection (Esc)">Clear <span class="kbd">Esc</span></button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="stage" id="stage">
+    <div class="stageInner" id="stageInner">
+      <svg id="edges" aria-hidden="true"></svg>
+
+      <div class="howto">
+        <h2>How to use this map</h2>
+        <div class="grid">
+          <div class="step"><b>1)</b> Tap a lozenge to open details and highlight related links.</div>
+          <div class="step"><b>2)</b> Build a set: <span class="kbd">Shift+Click</span> (desktop) or <span class="kbd">Long-press</span> (mobile) to add/remove lozenges.</div>
+          <div class="step"><b>3)</b> Use the right panel to <b>Trace to top</b> and <b>Generate prompt</b> for a narrative connecting the chain.</div>
+        </div>
+      </div>
+
+      <div id="levels"></div>
+    </div>
+  </main>
+
+  <aside class="panel">
+    <div class="phead">
+      <div class="ph">Detail & actions</div>
+
+      <div class="actions">
+        <button class="btn" id="btnTrace" title="Trace selected node up to wisdom">Trace to top</button>
+        <button class="btn primary" id="btnPrompt" title="Generate an AI prompt from selected nodes">Generate prompt</button>
+        <button class="btn" id="btnCopyPrompt" title="Copy the generated prompt">Copy</button>
+      </div>
+
+      <div class="card" style="margin-top:10px">
+        <h3>Speaker colour key (provenance)</h3>
+        <div class="hint" style="margin-top:6px">Stripe colour shows where a concept is primarily drawn from.</div>
+        <div class="legendGrid">
+          <div class="legendItem"><div class="swatch" style="background:var(--srcShapira)"></div><div><div class="t">Shapira</div><div class="d">Responsible innovation, organisational context, AREA, anticipation/reflection</div></div></div>
+          <div class="legendItem"><div class="swatch" style="background:var(--srcIqbal)"></div><div><div class="t">Iqbal</div><div class="d">Spatial transcriptomics + multimodal pathology AI (DeepPathway)</div></div></div>
+          <div class="legendItem"><div class="swatch" style="background:var(--srcBuckley)"></div><div><div class="t">Buckley</div><div class="d">Digital health assurance, integrated governance, regulation as enabler</div></div></div>
+          <div class="legendItem"><div class="swatch" style="background:var(--srcFerry)"></div><div><div class="t">Ferry</div><div class="d">AI in synthetic biology; changing scientific practice; skills/policy</div></div></div>
+          <div class="legendItem"><div class="swatch" style="background:var(--srcKingston)"></div><div><div class="t">Kingston</div><div class="d">Environmental data hubs, FAIR, geospatial linkage, TRE/UPRN approach</div></div></div>
+          <div class="legendItem"><div class="swatch" style="background:var(--srcLindner)"></div><div><div class="t">Lindner</div><div class="d">Clinical imaging AI translation; workflow fit; validation; device pathway</div></div></div>
+          <div class="legendItem"><div class="swatch" style="background:var(--srcFergie)"></div><div><div class="t">Fergie</div><div class="d">Pathology AI startup; data governance; regulation; scale & deployment reality</div></div></div>
+          <div class="legendItem"><div class="swatch" style="background:var(--srcShared)"></div><div><div class="t">Shared</div><div class="d">Cross-cutting concepts (used when multiple speakers converge)</div></div></div>
+        </div>
+      </div>
+
+      <div class="hint" style="margin-top:10px">Tip: include a <b>case</b> (orange) or <b>challenge</b> (red) plus supporting concepts.</div>
+    </div>
+
+    <div class="pbody">
+      <div id="detailEmpty" class="hint">Tap a lozenge to see meaning, connections, and a trace.</div>
+
+      <div id="detail" style="display:none">
+        <div class="card">
+          <h3 id="dTitle"></h3>
+          <div class="metaLine" id="dMeta"></div>
+
+          <div style="margin-top:10px; font-size:12px; color:var(--muted2); font-weight:900">Meaning</div>
+          <div id="dBody" style="margin-top:6px; font-size:12.5px; color:rgba(15,23,42,.92); line-height:1.48"></div>
+
+          <div style="margin-top:12px; font-size:12px; color:var(--muted2); font-weight:900">Connections (tap to jump)</div>
+          <ul id="dConnections" style="margin:8px 0 0 18px; font-size:12.5px; color:rgba(15,23,42,.90); line-height:1.45"></ul>
+
+          <div style="margin-top:12px">
+            <div class="hint"><b>Selected for prompt</b></div>
+            <div class="chips" id="selectedChips" style="margin-top:8px"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:10px">
+          <h3>Trace to wisdom</h3>
+          <div class="hint">A constraint path: upstream wisdom → down to your selected node.</div>
+          <div class="path" id="path"></div>
+        </div>
+
+        <div class="card" style="margin-top:10px">
+          <h3>Generated prompt</h3>
+          <div class="hint" style="margin-top:6px">Optional: paste a real situation to tailor the story.</div>
+          <textarea id="userContext" placeholder="e.g., We’re deploying an AI tool into a clinic / lab / research workflow..." style="margin-top:8px"></textarea>
+          <div class="hint" style="margin-top:10px">AI prompt (generated from your selections + context)</div>
+          <textarea id="promptOut" placeholder="Tap “Generate prompt” above…" style="margin-top:6px"></textarea>
+        </div>
+
+        <details style="margin-top:10px">
+          <summary>Advanced: Export / import map JSON</summary>
+          <div class="detailsBody card">
+            <div class="hint">Use this to expand the lattice later with more document fragments.</div>
+            <textarea id="jsonIO" placeholder='{"levels":[...],"nodes":[...],"edges":[...]}' style="margin-top:10px"></textarea>
+            <div class="actions" style="margin-top:8px">
+              <button class="btn" id="btnLoadJson">Load JSON</button>
+              <button class="btn" id="btnDumpJson">Export JSON</button>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = {
+  levels: [
+    {id:0, title:"Wisdom", hint:"Judgement-in-context: safety, responsibility, proportion, trust"},
+    {id:1, title:"Super-concepts", hint:"Big shaping ideas: how AI lands in real organisations & workflows"},
+    {id:2, title:"Systems lenses", hint:"Deep constraints: data, governance, incentives, heterogeneity, skills"},
+    {id:3, title:"System patterns", hint:"Recurring patterns: iteration, co-design, validation, interoperability"},
+    {id:4, title:"Operational capabilities", hint:"What teams must be able to do consistently"},
+    {id:5, title:"Standards, roadmaps & techniques", hint:"Formal standards + concrete methods"},
+    {id:6, title:"Cases & technical challenges", hint:"Concrete bottlenecks, failure modes, and hard engineering problems"}
+  ],
+  nodes: [
+    /* Level 0 — Wisdom */
+    { id:"wis_patient_first", source:"Buckley", label:"Patient safety first", level:0, kind:"wisdom", tags:["wisdom"], summary:"Safety before scale; evidence that it’s safe + that it works.", bodyHtml:`<p>Build health technology around patient safety as the primary constraint. This shapes governance, evidence, and decisions about speed.</p>`},
+    { id:"wis_responsible_innovation", source:"Shapira", label:"Responsible innovation (AREA mindset)", level:0, kind:"wisdom", tags:["wisdom"], summary:"Anticipate, reflect, engage, act—early, not after deployment.", bodyHtml:`<p>Use anticipation/reflection/engagement/action to surface downstream consequences and redesign before risks harden into harm.</p>`},
+    { id:"wis_problem_first", source:"Lindner", label:"Start with the problem (not the tech)", level:0, kind:"wisdom", tags:["wisdom"], summary:"Clinical need and workflow fit first; then co-design the solution.", bodyHtml:`<p>High-accuracy tech without a real workflow home won’t be adopted. Start from the bottleneck, not the model.</p>`},
+    { id:"wis_trust_transparency", source:"Fergie", label:"Trust via transparency & early governance", level:0, kind:"wisdom", tags:["wisdom"], summary:"Be open about science, risks, and data handling; engage ethics early.", bodyHtml:`<p>Trust is earned by frank communication, clear governance, and stakeholder-appropriate explanations.</p>`},
+    { id:"wis_user_led", source:"Kingston", label:"User-led build (listen before building)", level:0, kind:"wisdom", tags:["wisdom"], summary:"Start from users’ problems; build platforms around their constraints.", bodyHtml:`<p>Workshops and iterative discovery prevent building a technically elegant system nobody can use.</p>`},
+    { id:"wis_skills_ethics", source:"Ferry", label:"Skills + ethics evolve with practice", level:0, kind:"wisdom", tags:["wisdom"], summary:"Policy and training must track how AI actually changes work.", bodyHtml:`<p>AI changes scientific practice; education and ethics training must evolve alongside tools.</p>`},
+    { id:"wis_validation_early", source:"Iqbal", label:"Plan validation early", level:0, kind:"wisdom", tags:["wisdom"], summary:"Dataset choice, preprocessing, domain interpretation, validation plan—set early.", bodyHtml:`<p>Validation planning early prevents false confidence and improves deployability.</p>`},
+
+    /* Level 1 — Super-concepts */
+    { id:"sup_sociotech", source:"Shared", label:"Sociotechnical adoption", level:1, kind:"concept", tags:["super"], summary:"AI is not a component; it reshapes roles, workflows, accountability.", bodyHtml:`<p>Adoption depends on organisational context, not just model accuracy.</p>`},
+    { id:"sup_human_in_loop", source:"Shapira", label:"Human-in-the-loop responsibility", level:1, kind:"concept", tags:["super"], summary:"Humans remain accountable; AI assists, doesn’t absolve.", bodyHtml:`<p>Decide explicitly who is responsible for outputs, decisions, and harms.</p>`},
+    { id:"sup_integrated_governance", source:"Buckley", label:"Integrated governance foundations", level:1, kind:"concept", tags:["super"], summary:"Clinical + info gov + HR + corporate/financial governance as one system.", bodyHtml:`<p>Strong foundations enable safe growth and reduce late-stage regulatory rework.</p>`},
+    { id:"sup_engagement_coproduction", source:"Shared", label:"Co-design & engagement", level:1, kind:"concept", tags:["super"], summary:"Bring clinicians/patients/users in early; iterate with them.", bodyHtml:`<p>Engagement is an engineering input, not a PR add-on.</p>`},
+    { id:"sup_translational_gap", source:"Iqbal", label:"Translational gap: routine data vs functional insight", level:1, kind:"concept", tags:["super"], summary:"Bridge routine images to biologically interpretable signals.", bodyHtml:`<p>DeepPathway aims to infer pathway activity from H&E rather than require expensive sequencing.</p>`},
+    { id:"sup_open_science_industry", source:"Ferry", label:"University–industry–public collaboration", level:1, kind:"concept", tags:["super"], summary:"AI research needs shared infrastructure, data, and governance.", bodyHtml:`<p>Collaboration enables access to compute, data, and deployment settings.</p>`},
+
+    /* Level 2 — Systems lenses */
+    { id:"sys_data_heterogeneity", source:"Shared", label:"Data heterogeneity & generalisation", level:2, kind:"concept", tags:["systems"], summary:"Clinical/research data are messy; generalisation is the hard part.", bodyHtml:`<p>Resolution, staining, artefacts, missing metadata, shifting protocols: design for variation.</p>`},
+    { id:"sys_data_governance", source:"Shared", label:"Data governance & identifiability risk", level:2, kind:"concept", tags:["systems"], summary:"What data is collected, why, anonymisation, access control, security.", bodyHtml:`<p>Governance constraints shape the feasible technical architecture.</p>`},
+    { id:"sys_interdisciplinarity", source:"Ferry", label:"Interdisciplinary teaming", level:2, kind:"concept", tags:["systems"], summary:"Domain + AI skills rarely co-located in one person; teams must span cultures.", bodyHtml:`<p>Different disciplines bring different priorities; management is a core technical risk.</p>`},
+    { id:"sys_infrastructure_limits", source:"Kingston", label:"Infrastructure constraints", level:2, kind:"concept", tags:["systems"], summary:"Cloud scaling, budgets, storage limits, and system availability constraints.", bodyHtml:`<p>Infrastructure choices (cloud vs on-prem) change cost and scalability trade-offs.</p>`},
+    { id:"sys_explainability", source:"Shapira", label:"Explainability & ‘open the black box’", level:2, kind:"concept", tags:["systems"], summary:"Explain results to technical and non-technical stakeholders.", bodyHtml:`<p>Transparency supports trust, adoption, and safe decision-making.</p>`},
+    { id:"sys_validation", source:"Shared", label:"Validation & evidence", level:2, kind:"concept", tags:["systems"], summary:"Internal + external validation; ground truth; performance under new conditions.", bodyHtml:`<p>Evidence must match the intended deployment environment.</p>`},
+
+    /* Level 3 — Patterns */
+    { id:"pat_iteration", source:"Shapira", label:"Iteration & convergence", level:3, kind:"concept", tags:["patterns"], summary:"Test repeatedly; tune for consistency; iterate with users.", bodyHtml:`<p>AI is stochastic; iteration and refinement are part of safety engineering.</p>`},
+    { id:"pat_workflow_fit", source:"Lindner", label:"Workflow fit & bottleneck removal", level:3, kind:"concept", tags:["patterns"], summary:"Automate the real bottleneck; integrate outputs where decisions happen.", bodyHtml:`<p>Tools succeed when they remove measured delays and workload.</p>`},
+    { id:"pat_external_validation", source:"Lindner", label:"External validation across sites", level:3, kind:"concept", tags:["patterns"], summary:"New hospital/scanner/population reveals real generalisation limits.", bodyHtml:`<p>External validation is a trust-building step for clinical adoption.</p>`},
+    { id:"pat_user_discovery", source:"Kingston", label:"User discovery workshops", level:3, kind:"concept", tags:["patterns"], summary:"Low-tech discovery (workshops) drives high-impact platform design.", bodyHtml:`<p>Gather needs before building features; update from real constraints.</p>`},
+    { id:"pat_redteam", source:"Shapira", label:"Internal challenge process (red team / blue team)", level:3, kind:"concept", tags:["patterns"], summary:"Structured internal critique surfaces failure modes early.", bodyHtml:`<p>A rapid early assessment process helps teams spot risks and redesign.</p>`},
+
+    /* Level 4 — Operational capabilities */
+    { id:"cap_team_composition", source:"Buckley", label:"Right team & culture", level:4, kind:"concept", tags:["capability"], summary:"Clinicians + data/AI + product + governance; aligned mission/values.", bodyHtml:`<p>Digital health needs diverse skills; culture reduces friction between disciplines.</p>`},
+    { id:"cap_quality_control", source:"Lindner", label:"Clinical QC & screening pipeline", level:4, kind:"concept", tags:["capability"], summary:"Screen messy clinical data; learn constraints that will appear in practice.", bodyHtml:`<p>QC is slow but reveals real-world failure modes (labels, obstruction, positioning).</p>`},
+    { id:"cap_anonymisation", source:"Fergie", label:"Anonymisation + secure handling", level:4, kind:"concept", tags:["capability"], summary:"Justify collection; strip identifiers; control access; secure storage.", bodyHtml:`<p>Governance teams + clear procedures reduce identifiability risk.</p>`},
+    { id:"cap_data_engineering", source:"Kingston", label:"Data engineering & interoperability", level:4, kind:"concept", tags:["capability"], summary:"Standardise formats; manage metadata/provenance; enable linkage.", bodyHtml:`<p>Spatial data engineering is as important as analytics for usable platforms.</p>`},
+    { id:"cap_domain_interpretation", source:"Iqbal", label:"Domain interpretation of outputs", level:4, kind:"concept", tags:["capability"], summary:"Biological/clinical interpretation is required for useful validation.", bodyHtml:`<p>Models need domain experts to interpret signals vs confounders.</p>`},
+
+    /* Level 5 — Standards, roadmaps & techniques */
+    { id:"std_area", source:"Shapira", label:"AREA framework", level:5, kind:"standard", tags:["framework"], summary:"Anticipation → Reflection → Engagement → Action", bodyHtml:`<p>A practical responsible-innovation scaffold for technology development and deployment.</p>`},
+    { id:"std_dcb", source:"Buckley", label:"Clinical safety standards (DCB0129 / DCB0160)", level:5, kind:"standard", tags:["standard"], summary:"Digital clinical risk management (health IT / deployments).", bodyHtml:`<p>Use early to avoid late-stage rework; align with commercial strategy.</p>`},
+    { id:"std_dtac", source:"Buckley", label:"NHS DTAC (Digital Technology Assessment Criteria)", level:5, kind:"standard", tags:["standard"], summary:"Assessment route for NHS-facing digital health products.", bodyHtml:`<p>Planning early can speed adoption and unlock routes to market.</p>`},
+    { id:"std_fair", source:"Kingston", label:"FAIR principles", level:5, kind:"standard", tags:["standard"], summary:"Findable, Accessible, Interoperable, Reusable data.", bodyHtml:`<p>Guides platform design so data can be used beyond specialist users.</p>`},
+    { id:"tech_uprn_tre", source:"Kingston", label:"UPRN → TRE linkage pattern", level:5, kind:"concept", tags:["technique"], summary:"Attach environmental indicators to UPRNs, then join inside TREs.", bodyHtml:`<p>Keep sensitive health data in TREs; move open environmental data outward for linkage.</p>`},
+    { id:"tech_ucell", source:"Iqbal", label:"UCell pathway scoring", level:5, kind:"concept", tags:["technique"], summary:"Quantify pathway activity from gene expression (less threshold-sensitive).", bodyHtml:`<p>Transforms spot-level gene expression into pathway scores for training targets.</p>`},
+    { id:"tech_stain_norm", source:"Iqbal", label:"H&E colour normalisation", level:5, kind:"concept", tags:["technique"], summary:"Reduce stain variation across datasets before training.", bodyHtml:`<p>Normalisation helps models learn morphology rather than batch artefacts.</p>`},
+    { id:"tech_contrastive", source:"Iqbal", label:"Bimodal contrastive learning", level:5, kind:"concept", tags:["technique"], summary:"Align image patches with expression/pathway embeddings.", bodyHtml:`<p>Pull matched image–expression pairs together; push mismatches apart.</p>`},
+    { id:"tech_external_validation_metrics", source:"Iqbal", label:"Validation plan & metrics", level:5, kind:"concept", tags:["technique"], summary:"Define evaluation early; show generalisation beyond training cohort.", bodyHtml:`<p>Use hold-out / LOO style evaluation; compare pathway vs gene-level prediction.</p>`},
+
+    /* Level 6 — Cases & technical challenges */
+    { id:"case_deep_pathway", source:"Iqbal", label:"Case: DeepPathway predicts pathways from H&E", level:6, kind:"case", tags:["case"], summary:"Routine histology → pathway activity maps; validate biological relevance.", bodyHtml:`<p>Links tumour morphology to functional pathways; aims to support biomarker discovery and stratification.</p>`},
+    { id:"risk_stain_resolution", source:"Iqbal", label:"Challenge: stain + resolution variation", level:6, kind:"risk", tags:["challenge"], summary:"Different stains/resolutions distort morphology; hurts generalisation.", bodyHtml:`<p>Requires preprocessing pipelines and resolution-aware patch extraction.</p>`},
+    { id:"risk_pathway_definitions", source:"Iqbal", label:"Challenge: pathway definition noise", level:6, kind:"risk", tags:["challenge"], summary:"Curated pathway sets may be incomplete/contain false positives.", bodyHtml:`<p>Impacts training targets; motivates pruning/refinement.</p>`},
+    { id:"case_hip_migration", source:"Lindner", label:"Case: Hip migration monitoring bottleneck", level:6, kind:"case", tags:["case"], summary:"Manual measurement delays; automate assessment and recording.", bodyHtml:`<p>Tool measures X-rays and feeds outputs to surveillance databases.</p>`},
+    { id:"risk_messy_clinical_data", source:"Lindner", label:"Challenge: messy clinical imaging data", level:6, kind:"risk", tags:["challenge"], summary:"Wrong labels, obstructions, positioning variability; QC is heavy.", bodyHtml:`<p>Clinical data is the reality; cohort data alone is insufficient for deployment readiness.</p>`},
+    { id:"case_pathology_workforce", source:"Fergie", label:"Case: Pathology workforce shortage", level:6, kind:"case", tags:["case"], summary:"AI tools to increase diagnostic throughput and reduce turnaround time.", bodyHtml:`<p>Target: help services do more with constrained workforce capacity.</p>`},
+    { id:"risk_gigapixel_scale", source:"Fergie", label:"Challenge: gigapixel slides + terabytes", level:6, kind:"risk", tags:["challenge"], summary:"Storage, processing time, distributed compute, and data quality issues.", bodyHtml:`<p>Artefacts, focus issues, missing metadata, and inconclusive diagnoses require cleaning and curation.</p>`},
+    { id:"case_uprn_env_health", source:"Kingston", label:"Case: Linking pollution to health via UPRN", level:6, kind:"case", tags:["case"], summary:"Extract environmental indicators and join to health records inside TREs.", bodyHtml:`<p>Handles governance by keeping sensitive health data in secure environments.</p>`},
+    { id:"risk_geo_mismatch", source:"Kingston", label:"Challenge: raster/vector + temporal mismatch", level:6, kind:"risk", tags:["challenge"], summary:"Different spatial resolutions, formats, and time scales complicate linkage.", bodyHtml:`<p>Requires engineering and careful aggregation decisions.</p>`},
+    { id:"risk_institutional_barriers", source:"Ferry", label:"Challenge: institutional barriers to interdisciplinarity", level:6, kind:"risk", tags:["challenge"], summary:"Cost centres, co-location, admin boundaries; informal workarounds.", bodyHtml:`<p>Interdisciplinary AI research is encouraged but structurally hard to run.</p>`}
+  ],
+  edges: [
+    /* Wisdom → Super-concepts */
+    {from:"wis_patient_first", to:"sup_integrated_governance", why:"Patient safety drives integrated governance foundations."},
+    {from:"wis_responsible_innovation", to:"std_area", why:"Responsible innovation is operationalised via AREA."},
+    {from:"wis_problem_first", to:"sup_engagement_coproduction", why:"Co-design follows from starting with the real problem."},
+    {from:"wis_trust_transparency", to:"sys_data_governance", why:"Trust requires explicit governance and secure data handling."},
+    {from:"wis_user_led", to:"pat_user_discovery", why:"User-led thinking becomes structured discovery practices."},
+    {from:"wis_validation_early", to:"sys_validation", why:"Early validation planning becomes a system constraint."},
+    {from:"wis_skills_ethics", to:"sys_interdisciplinarity", why:"Skills/ethics gaps show up as interdisciplinary constraints."},
+
+    /* Super-concepts → Systems lenses */
+    {from:"sup_sociotech", to:"sys_explainability", why:"Sociotechnical adoption needs explainability for stakeholders."},
+    {from:"sup_sociotech", to:"sys_infrastructure_limits", why:"Organisations constrain infra choices and budgets."},
+    {from:"sup_human_in_loop", to:"sys_validation", why:"Accountability requires evidence and known limits."},
+    {from:"sup_engagement_coproduction", to:"sys_validation", why:"Engagement defines what ‘useful performance’ means in practice."},
+    {from:"sup_integrated_governance", to:"sys_data_governance", why:"Governance integrates clinical, info, and organisational controls."},
+    {from:"sup_translational_gap", to:"sys_data_heterogeneity", why:"Bridging routine data to insight must handle heterogeneity."},
+
+    /* Systems lenses → Patterns */
+    {from:"sys_explainability", to:"pat_iteration", why:"Iteration helps reach consistent, communicable results."},
+    {from:"sys_validation", to:"pat_external_validation", why:"External validation tests generalisation and builds trust."},
+    {from:"sys_infrastructure_limits", to:"pat_user_discovery", why:"User needs must fit infra and cost constraints."},
+    {from:"sys_data_heterogeneity", to:"pat_workflow_fit", why:"Real-world variation forces workflow-aware design."},
+    {from:"sys_data_governance", to:"pat_redteam", why:"Structured challenge processes surface governance risks early."},
+    {from:"sys_interdisciplinarity", to:"cap_team_composition", why:"Interdisciplinary work requires deliberate team design."},
+
+    /* Patterns → Capabilities */
+    {from:"pat_user_discovery", to:"cap_data_engineering", why:"Discovery reveals interoperability and engineering requirements."},
+    {from:"pat_workflow_fit", to:"cap_quality_control", why:"Workflow fit depends on handling messy real data."},
+    {from:"pat_external_validation", to:"cap_domain_interpretation", why:"Interpreting generalisation needs domain expertise."},
+    {from:"pat_iteration", to:"cap_team_composition", why:"Iteration requires coordinated multi-skill teams."},
+
+    /* Capabilities → Standards/techniques */
+    {from:"cap_team_composition", to:"std_dcb", why:"Team readiness supports clinical safety standard compliance."},
+    {from:"cap_team_composition", to:"std_dtac", why:"Roadmaps align product, safety, and market access."},
+    {from:"cap_data_engineering", to:"std_fair", why:"FAIR guides interoperable data platforms."},
+    {from:"cap_data_engineering", to:"tech_uprn_tre", why:"Engineering enables safe linkage patterns with TREs."},
+    {from:"cap_quality_control", to:"pat_external_validation", why:"QC prepares internal data; external validation tests new settings."},
+    {from:"cap_anonymisation", to:"sys_data_governance", why:"Anonymisation operationalises governance constraints."},
+
+    /* Iqbal technical chain */
+    {from:"sup_translational_gap", to:"case_deep_pathway", why:"DeepPathway is one approach to bridging routine images to pathway insight."},
+    {from:"case_deep_pathway", to:"tech_ucell", why:"Pathway scores provide targets from expression data."},
+    {from:"tech_ucell", to:"tech_contrastive", why:"Aligned embeddings link image patches to pathway signals."},
+    {from:"risk_stain_resolution", to:"tech_stain_norm", why:"Normalisation mitigates stain variation; resolution awareness supports generalisation."},
+    {from:"tech_stain_norm", to:"case_deep_pathway", why:"Preprocessing supports stable training across cohorts."},
+    {from:"risk_pathway_definitions", to:"tech_ucell", why:"Target quality depends on pathway set quality."},
+    {from:"sys_validation", to:"tech_external_validation_metrics", why:"Validation constraints should be designed early with explicit metrics."},
+
+    /* Cases & challenges links */
+    {from:"cap_quality_control", to:"risk_messy_clinical_data", why:"QC is required because clinical data are messy and inconsistent."},
+    {from:"pat_workflow_fit", to:"case_hip_migration", why:"The hip project targets a real bottleneck (manual measurement delays)."},
+    {from:"sys_data_heterogeneity", to:"risk_stain_resolution", why:"Heterogeneity appears as stain/resolution drift in pathology."},
+    {from:"sys_data_heterogeneity", to:"risk_gigapixel_scale", why:"Scale and artefacts are common failure modes in real pathology data."},
+    {from:"sys_infrastructure_limits", to:"risk_geo_mismatch", why:"Infra limits compound linkage and alignment problems in geospatial stacks."},
+    {from:"std_fair", to:"case_uprn_env_health", why:"FAIR principles enable wider reuse and linkage for env-health research."},
+    {from:"tech_uprn_tre", to:"case_uprn_env_health", why:"UPRN linkage enables joining in TREs without moving sensitive data."},
+    {from:"sup_engagement_coproduction", to:"risk_institutional_barriers", why:"Engagement is hard when institutions structurally separate disciplines."}
+  ]
+};
+
+let data = structuredClone(DATA);
+
+const el = (q, root=document) => root.querySelector(q);
+const els = (q, root=document) => Array.from(root.querySelectorAll(q));
+
+const levelsEl = el("#levels");
+const edgesSvg = el("#edges");
+const stageInner = el("#stageInner");
+
+const searchEl = el("#search");
+const filterKindEl = el("#filterKind");
+const btnClear = el("#btnClear");
+const btnTrace = el("#btnTrace");
+const btnPrompt = el("#btnPrompt");
+const btnCopyPrompt = el("#btnCopyPrompt");
+
+const jsonIO = el("#jsonIO");
+const btnLoadJson = el("#btnLoadJson");
+const btnDumpJson = el("#btnDumpJson");
+
+const detailEmpty = el("#detailEmpty");
+const detail = el("#detail");
+const dTitle = el("#dTitle");
+const dMeta = el("#dMeta");
+const dBody = el("#dBody");
+const dConnections = el("#dConnections");
+const pathEl = el("#path");
+const selectedChipsEl = el("#selectedChips");
+const userContext = el("#userContext");
+const promptOut = el("#promptOut");
+const toastEl = el("#toast");
+
+let selected = new Set();
+let primary = null;
+let currentPath = [];
+let currentPaths = new Map();
+let edgeIndex = null;
+
+/* Long-press multi-select for mobile */
+let lpTimer = null;
+let lpTargetId = null;
+let lpFired = false;
+const LONGPRESS_MS = 480;
+
+// persist context
+try{
+  const savedCtx = localStorage.getItem("lattice_userContext");
+  if(savedCtx && userContext) userContext.value = savedCtx;
+  userContext?.addEventListener("input", ()=> localStorage.setItem("lattice_userContext", userContext.value || ""));
+}catch(_){}
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  setTimeout(()=>toastEl.classList.remove("show"), 1300);
+}
+
+function buildEdgeIndex(){
+  edgeIndex = { out:new Map(), into:new Map(), map:new Map() };
+  for(const e of data.edges){
+    if(!edgeIndex.out.has(e.from)) edgeIndex.out.set(e.from, []);
+    if(!edgeIndex.into.has(e.to)) edgeIndex.into.set(e.to, []);
+    edgeIndex.out.get(e.from).push(e);
+    edgeIndex.into.get(e.to).push(e);
+    edgeIndex.map.set(`${e.from}→${e.to}`, e);
+  }
+}
+
+function getNode(id){ return data.nodes.find(n=>n.id===id); }
+
+function kindTag(kind){
+  if(kind==="wisdom") return "WISDOM";
+  if(kind==="standard") return "STANDARD";
+  if(kind==="case") return "CASE";
+  if(kind==="risk") return "CHALLENGE";
+  return "CONCEPT";
+}
+
+function cssEscape(s){
+  return (window.CSS && CSS.escape) ? CSS.escape(s) : s.replace(/"/g,'\\"');
+}
+
+function stripHtml(html){
+  const d = document.createElement("div");
+  d.innerHTML = html;
+  return d.textContent || d.innerText || "";
+}
+
+function render(){
+  buildEdgeIndex();
+  levelsEl.innerHTML = "";
+  edgesSvg.innerHTML = "";
+
+  for(const lvl of data.levels){
+    const wrap = document.createElement("section");
+    wrap.className = "level";
+    wrap.dataset.level = lvl.id;
+    wrap.innerHTML = `
+      <div class="levelHeader">
+        <div class="lhTitle">
+          <span class="badge">Level ${lvl.id}</span>
+          <span>${lvl.title}</span>
+        </div>
+        <div class="lhHint">${lvl.hint}</div>
+      </div>
+      <div class="row" id="row-${lvl.id}"></div>
+    `;
+    levelsEl.appendChild(wrap);
+  }
+
+  const byLevel = new Map();
+  for(const n of data.nodes){
+    if(!byLevel.has(n.level)) byLevel.set(n.level, []);
+    byLevel.get(n.level).push(n);
+  }
+  for(const [lvl, arr] of byLevel){
+    arr.sort((a,b)=> (a.kind.localeCompare(b.kind) || a.label.localeCompare(b.label)));
+    const row = el(`#row-${lvl}`);
+    if(!row) continue;
+
+    for(const n of arr){
+      const nodeEl = document.createElement("div");
+      nodeEl.className = "node";
+      nodeEl.dataset.id = n.id;
+      nodeEl.dataset.kind = n.kind;
+      nodeEl.dataset.level = String(n.level);
+      nodeEl.dataset.source = n.source || "Shared";
+      nodeEl.innerHTML = `
+        <span class="dot"></span>
+        <span class="label">${n.label}</span>
+        <span class="tag">${kindTag(n.kind)}</span>
+      `;
+
+      // Desktop/pen pointerdown: capture modifier state reliably
+      nodeEl.addEventListener("pointerdown", (ev)=>{
+        if(ev.pointerType === "touch") return;
+        const multi = ev.shiftKey || ev.ctrlKey || ev.metaKey;
+        selectNode(n.id, {multi});
+        nodeEl.dataset.skipClick = "1";
+      });
+
+      nodeEl.addEventListener("click", (ev) => {
+        if(nodeEl.dataset.skipClick==="1"){ nodeEl.dataset.skipClick="0"; return; }
+        if(lpFired){ lpFired = false; return; }
+        const multi = ev.shiftKey || ev.ctrlKey || ev.metaKey;
+        selectNode(n.id, {multi});
+      });
+
+      nodeEl.addEventListener("pointerdown", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        try{ nodeEl.setPointerCapture(ev.pointerId); }catch(_){}
+        lpTargetId = n.id;
+        lpFired = false;
+        const startX = ev.clientX, startY = ev.clientY;
+        nodeEl.dataset.lpStartX = String(startX);
+        nodeEl.dataset.lpStartY = String(startY);
+
+        clearTimeout(lpTimer);
+        lpTimer = setTimeout(()=>{
+          lpFired = true;
+          selectNode(lpTargetId, {multi:true});
+          toast("Multi-select: toggled");
+        }, LONGPRESS_MS);
+      });
+
+      nodeEl.addEventListener("pointermove", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        if(!lpTimer) return;
+        const sx = Number(nodeEl.dataset.lpStartX || "0");
+        const sy = Number(nodeEl.dataset.lpStartY || "0");
+        const dx = ev.clientX - sx;
+        const dy = ev.clientY - sy;
+        const dist = Math.hypot(dx, dy);
+        if(dist > 10){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+      });
+
+      nodeEl.addEventListener("pointerup", (ev)=>{
+        if(ev.pointerType !== "touch") return;
+        if(lpTimer){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+        if(lpFired){
+          ev.preventDefault();
+        }
+      });
+
+      nodeEl.addEventListener("pointercancel", ()=>{
+        if(lpTimer){
+          clearTimeout(lpTimer);
+          lpTimer = null;
+        }
+      });
+
+      row.appendChild(nodeEl);
+    }
+  }
+
+  requestAnimationFrame(()=>{
+    drawEdges();
+    applyFilter();
+    applySelectionStyles();
+    renderSelectedChips();
+    renderDetail();
+  });
+}
+
+function drawEdges(){
+  edgesSvg.innerHTML = "";
+  const rect = stageInner.getBoundingClientRect();
+  edgesSvg.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+
+  const centers = new Map();
+  for(const nodeEl of els(".node", stageInner)){
+    const r = nodeEl.getBoundingClientRect();
+    const cx = (r.left - rect.left) + r.width/2;
+    const cy = (r.top - rect.top) + r.height/2;
+    centers.set(nodeEl.dataset.id, {cx, cy});
+  }
+
+  for(const e of data.edges){
+    const a = centers.get(e.from);
+    const b = centers.get(e.to);
+    if(!a || !b) continue;
+
+    const dx = (b.cx - a.cx);
+    const dy = (b.cy - a.cy);
+    const bend = Math.max(42, Math.abs(dy)*0.35);
+    const c1x = a.cx + dx*0.15;
+    const c1y = a.cy + (dy>=0 ? bend : -bend);
+    const c2x = b.cx - dx*0.15;
+    const c2y = b.cy - (dy>=0 ? bend : -bend);
+
+    const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+    p.setAttribute("d", `M ${a.cx} ${a.cy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${b.cx} ${b.cy}`);
+    p.setAttribute("class", "edge");
+    p.dataset.from = e.from;
+    p.dataset.to = e.to;
+    edgesSvg.appendChild(p);
+  }
+}
+
+function applyFilter(){
+  const q = (searchEl.value || "").trim().toLowerCase();
+  const kind = filterKindEl.value;
+
+  const matches = (n) => {
+    const txt = `${n.label} ${(n.summary||"")} ${(n.tags||[]).join(" ")} ${(stripHtml(n.bodyHtml||""))} ${(n.source||"")}`.toLowerCase();
+    const okQ = !q || txt.includes(q);
+    const okKind = (kind==="all") || n.kind===kind;
+    return okQ && okKind;
+  };
+
+  const matched = new Set(data.nodes.filter(matches).map(n=>n.id));
+
+  for(const nodeEl of els(".node", stageInner)){
+    const id = nodeEl.dataset.id;
+    const isMatch = matched.has(id);
+    nodeEl.classList.toggle("dim", !isMatch && q.length>0);
+    nodeEl.style.display = ((kind==="all" || nodeEl.dataset.kind===kind) ? "" : "none");
+  }
+
+  for(const p of els(".edge", edgesSvg)){
+    const a = el(`.node[data-id="${cssEscape(p.dataset.from)}"]`, stageInner);
+    const b = el(`.node[data-id="${cssEscape(p.dataset.to)}"]`, stageInner);
+    const hidden = (!a || !b || a.style.display==="none" || b.style.display==="none");
+    p.classList.toggle("dim", hidden);
+  }
+}
+
+function selectNode(id, {multi=false}={}){
+  if(!multi){
+    selected.clear();
+    selected.add(id);
+  }else{
+    if(selected.has(id)) selected.delete(id);
+    else selected.add(id);
+  }
+  primary = selected.size ? (selected.has(id) ? id : selected.values().next().value) : null;
+  currentPath = [];
+  currentPaths.clear();
+  applySelectionStyles();
+  renderSelectedChips();
+  renderDetail();
+  highlightRelated();
+  highlightEdges();
+}
+
+function clearSelection(){
+  selected.clear();
+  primary = null;
+  currentPath = [];
+  currentPaths.clear();
+  applySelectionStyles();
+  renderSelectedChips();
+  renderDetail();
+  highlightEdges();
+}
+
+function applySelectionStyles(){
+  for(const nodeEl of els(".node", stageInner)){
+    nodeEl.classList.toggle("selected", selected.has(nodeEl.dataset.id));
+  }
+}
+
+function highlightRelated(){
+  for(const nodeEl of els(".node", stageInner)) nodeEl.classList.remove("related");
+  if(!primary || !edgeIndex) return;
+
+  const rel = new Set();
+  for(const e of (edgeIndex.out.get(primary)||[])) rel.add(e.to);
+  for(const e of (edgeIndex.into.get(primary)||[])) rel.add(e.from);
+
+  for(const id of rel){
+    const nodeEl = el(`.node[data-id="${cssEscape(id)}"]`, stageInner);
+    if(nodeEl) nodeEl.classList.add("related");
+  }
+}
+
+function highlightEdges(){
+  const hi = new Set();
+
+  if(edgeIndex && selected && selected.size){
+    for(const sid of selected){
+      for(const e of (edgeIndex.out.get(sid)||[])) hi.add(`${e.from}→${e.to}`);
+      for(const e of (edgeIndex.into.get(sid)||[])) hi.add(`${e.from}→${e.to}`);
+    }
+  }
+
+  if(currentPaths && currentPaths.size){
+    for(const path of currentPaths.values()){
+      if(!path || path.length<2) continue;
+      for(let i=0;i<path.length-1;i++){
+        hi.add(`${path[i]}→${path[i+1]}`);
+      }
+    }
+  }else if(currentPath && currentPath.length>1){
+    for(let i=0;i<currentPath.length-1;i++){
+      hi.add(`${currentPath[i]}→${currentPath[i+1]}`);
+    }
+  }
+
+  for(const p of els(".edge", edgesSvg)){
+    const key = `${p.dataset.from}→${p.dataset.to}`;
+    const shouldHi = hi.has(key);
+    p.classList.toggle("hi", shouldHi);
+    p.classList.toggle("dim", (selected.size>0 || currentPaths.size>0 || (currentPath && currentPath.length>1)) && !shouldHi);
+  }
+}
+
+function renderSelectedChips(){
+  selectedChipsEl.innerHTML = "";
+  const arr = Array.from(selected).map(getNode).filter(Boolean);
+  if(arr.length===0){
+    const chip = document.createElement("div");
+    chip.className="hint";
+    chip.textContent = "Multi-select: Shift+Click (desktop) or Long-press (mobile).";
+    selectedChipsEl.appendChild(chip);
+    return;
+  }
+  for(const n of arr){
+    const c = document.createElement("div");
+    c.className = "chip active";
+    c.innerHTML = `${n.label}<span class="x">×</span>`;
+    c.onclick = () => {
+      selected.delete(n.id);
+      primary = selected.size ? selected.values().next().value : null;
+      currentPath = [];
+      currentPaths.clear();
+      applySelectionStyles();
+      renderSelectedChips();
+      renderDetail();
+      highlightRelated();
+      highlightEdges();
+    };
+    selectedChipsEl.appendChild(c);
+  }
+}
+
+function renderDetail(){
+  if(!primary){
+    detailEmpty.style.display = "";
+    detail.style.display = "none";
+    btnTrace.disabled = true;
+    btnPrompt.disabled = true;
+    btnCopyPrompt.disabled = true;
+    return;
+  }
+  const n = getNode(primary);
+  if(!n){
+    detailEmpty.style.display = "";
+    detail.style.display = "none";
+    btnTrace.disabled = true;
+    btnPrompt.disabled = true;
+    btnCopyPrompt.disabled = true;
+    return;
+  }
+  detailEmpty.style.display = "none";
+  detail.style.display = "";
+  btnTrace.disabled = false;
+  btnPrompt.disabled = false;
+  btnCopyPrompt.disabled = (promptOut.value.trim().length===0);
+
+  dTitle.textContent = n.label;
+
+  dMeta.innerHTML = "";
+  const pill1 = document.createElement("div");
+  pill1.className = "pill";
+  pill1.textContent = `Level ${n.level} • ${kindTag(n.kind)}`;
+  dMeta.appendChild(pill1);
+
+  const pillSrc = document.createElement("div");
+  pillSrc.className = "pill";
+  pillSrc.textContent = `Source: ${n.source || "Shared"}`;
+  dMeta.appendChild(pillSrc);
+
+  if(n.tags && n.tags.length){
+    for(const tag of n.tags){
+      const p = document.createElement("div");
+      p.className="pill";
+      p.textContent = tag;
+      dMeta.appendChild(p);
+    }
+  }
+  if(n.summary){
+    const p = document.createElement("div");
+    p.className="pill";
+    p.textContent = n.summary;
+    dMeta.appendChild(p);
+  }
+
+  dBody.innerHTML = n.bodyHtml || "<p>(No detail yet.)</p>";
+
+  dConnections.innerHTML = "";
+  const conn = [];
+  for(const e of (edgeIndex.out.get(primary)||[])){
+    const toN = getNode(e.to);
+    if(toN) conn.push({type:"down", other:toN, why:e.why});
+  }
+  for(const e of (edgeIndex.into.get(primary)||[])){
+    const fromN = getNode(e.from);
+    if(fromN) conn.push({type:"up", other:fromN, why:e.why});
+  }
+  conn.sort((a,b)=> (a.type.localeCompare(b.type) || a.other.level - b.other.level || a.other.label.localeCompare(b.other.label)));
+  for(const c of conn){
+    const li = document.createElement("li");
+    li.innerHTML = `<b>${c.type==="up" ? "Upstream" : "Downstream"}:</b> <span style="color:#0284c7; font-weight:950">${c.other.label}</span><br/><span style="color:var(--muted2)">${c.why}</span>`;
+    li.style.marginBottom = "8px";
+    li.onclick = () => { selectNode(c.other.id, {multi:false}); scrollToNode(c.other.id); };
+    li.style.cursor = "pointer";
+    dConnections.appendChild(li);
+  }
+
+  if(!currentPath.length) renderPath([]);
+}
+
+function findTopRoots(){
+  return data.nodes.filter(n=>n.level===0).map(n=>n.id);
+}
+
+function traceToTop(targetId){
+  if(!edgeIndex) buildEdgeIndex();
+  const roots = new Set(findTopRoots());
+  if(roots.has(targetId)) return [targetId];
+
+  const q = [targetId];
+  const prev = new Map();
+  const seen = new Set([targetId]);
+  let foundRoot = null;
+
+  while(q.length){
+    const cur = q.shift();
+    const incoming = edgeIndex.into.get(cur) || [];
+    for(const e of incoming){
+      const up = e.from;
+      if(seen.has(up)) continue;
+      seen.add(up);
+      prev.set(up, cur);
+      if(roots.has(up)){ foundRoot = up; q.length = 0; break; }
+      q.push(up);
+    }
+  }
+  if(!foundRoot) return [targetId];
+
+  const path = [foundRoot];
+  let cur = foundRoot;
+  while(cur !== targetId){
+    const next = prev.get(cur);
+    if(!next) break;
+    path.push(next);
+    cur = next;
+  }
+  return path;
+}
+
+function renderPath(path){
+  pathEl.innerHTML = "";
+  if(!primary) return;
+
+  if(path.length===0){
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = "Tap “Trace to top” to generate a step-by-step path.";
+    pathEl.appendChild(hint);
+    return;
+  }
+
+  currentPath = path;
+  highlightEdges();
+
+  for(let i=0;i<path.length;i++){
+    const id = path[i];
+    const n = getNode(id);
+    if(!n) continue;
+
+    let expl = "";
+    if(i < path.length-1){
+      const e = edgeIndex.map.get(`${id}→${path[i+1]}`);
+      if(e) expl = e.why;
+    }else{
+      expl = "Selected concept.";
+    }
+
+    const step = document.createElement("div");
+    step.className="pathStep";
+    step.innerHTML = `
+      <div class="n">${i+1}</div>
+      <div>
+        <div class="t">${n.label}</div>
+        <div class="d">${expl}</div>
+      </div>
+    `;
+    step.onclick = () => { selectNode(id, {multi:false}); scrollToNode(id); };
+    pathEl.appendChild(step);
+  }
+}
+
+function scrollToNode(id){
+  const nodeEl = el(`.node[data-id="${cssEscape(id)}"]`, stageInner);
+  if(!nodeEl) return;
+  nodeEl.scrollIntoView({behavior:"smooth", block:"center", inline:"center"});
+}
+
+function generatePrompt(){
+  const selectedNodes = Array.from(selected).map(getNode).filter(Boolean);
+  const ctx = (userContext?.value || "").trim();
+  if(selectedNodes.length===0){ toast("Select at least one node."); return ""; }
+
+  const cases = selectedNodes.filter(n=>n.kind==="case");
+  const risks = selectedNodes.filter(n=>n.kind==="risk");
+  const primaryCase = cases[0] || risks[0] || selectedNodes.find(n=>n.level===6) || selectedNodes[0];
+
+  const path = traceToTop(primaryCase.id);
+
+  const picked = new Map();
+  for(const id of path){ const n = getNode(id); if(n) picked.set(n.id, n); }
+  for(const n of selectedNodes) picked.set(n.id, n);
+
+  const bullet = (arr) => arr.map(x=>`- ${x}`).join("\n");
+  const nodesList = Array.from(picked.values());
+
+  return [
+`You are a systems-thinking AI implementation lead (health/research).`,
+`Write a clear, vivid narrative that starts with the concrete situation: "${primaryCase.label}".`,
+`Show how upstream wisdom and super-concepts shape the situation, and how better system design improves outcomes.`,
+ctx ? `\nUser context to incorporate (treat as true for the scenario):\n${ctx}` : ``,
+``,
+`Requirements:`,
+bullet([
+  `Use realistic stakeholders, pressures, incentives, and trade-offs.`,
+  `Explicitly weave in at least 8 nodes from the list below (name them and show how they appear).`,
+  `Show at least 3 “system moves” (governance, workflow integration, validation, data engineering, stakeholder engagement, standards).`,
+  `Include at least 2 “wisdom moves” (patient-first, responsible innovation/AREA, problem-first, trust/transparency, user-led build, validation-early).`,
+  `End with: (a) 5 bullet lessons, (b) 3 practical next actions, (c) 2 backfire risks and how to monitor them.`
+]),
+``,
+`Concept map nodes (pick the most relevant and connect them causally):`,
+bullet(nodesList.map(n=>`${n.label} (Level ${n.level}, ${kindTag(n.kind)}, Source: ${n.source||"Shared"}): ${n.summary || ""}`.trim())),
+``,
+`Constraint path to emphasise (top → selected):`,
+bullet(path.map((id,i)=>`${i+1}. ${getNode(id)?.label || id}`)),
+``,
+`Tone: practical, respectful, plain-language. Explain technical terms briefly and avoid jargon where possible.`
+  ].join("\n");
+}
+
+function copyToClipboard(text){
+  navigator.clipboard.writeText(text).then(()=>toast("Copied.")).catch(()=>toast("Could not copy (browser permissions)."));
+}
+
+btnClear.onclick = () => { clearSelection(); promptOut.value=""; btnCopyPrompt.disabled=true; };
+
+btnTrace.onclick = () => {
+  if(!primary){ toast("Select a node first."); return; }
+
+  currentPaths.clear();
+  for(const sid of selected){
+    const p = traceToTop(sid);
+    currentPaths.set(sid, p);
+  }
+
+  const primaryPath = currentPaths.get(primary) || traceToTop(primary);
+  renderPath(primaryPath);
+
+  highlightRelated();
+  highlightEdges();
+  toast(`Traced ${selected.size} selection${selected.size===1?"":"s"}.`);
+};
+
+btnPrompt.onclick = () => {
+  const p = generatePrompt();
+  if(!p) return;
+  promptOut.value = p;
+  btnCopyPrompt.disabled = false;
+  toast("Prompt generated.");
+};
+
+btnCopyPrompt.onclick = () => {
+  const txt = promptOut.value.trim();
+  if(!txt){ toast("Generate a prompt first."); return; }
+  copyToClipboard(txt);
+};
+
+searchEl.addEventListener("input", applyFilter);
+filterKindEl.addEventListener("change", ()=>{ applyFilter(); drawEdges(); highlightEdges(); });
+
+window.addEventListener("resize", ()=>{ drawEdges(); highlightEdges(); });
+document.addEventListener("keydown", (ev)=>{ if(ev.key==="Escape") clearSelection(); });
+
+btnLoadJson?.addEventListener("click", () => {
+  const txt = (jsonIO.value || "").trim();
+  if(!txt){ toast("Paste JSON first."); return; }
+  try{
+    const obj = JSON.parse(txt);
+    if(!obj.nodes || !obj.edges) throw new Error("JSON must include nodes and edges.");
+    data = {
+      levels: Array.isArray(obj.levels) ? obj.levels : data.levels,
+      nodes: obj.nodes,
+      edges: obj.edges
+    };
+    clearSelection();
+    promptOut.value="";
+    btnCopyPrompt.disabled=true;
+    render();
+    toast("Map loaded.");
+  }catch(e){ toast("Invalid JSON: " + e.message); }
+});
+
+btnDumpJson?.addEventListener("click", () => {
+  jsonIO.value = JSON.stringify({levels:data.levels, nodes:data.nodes, edges:data.edges}, null, 2);
+  toast("Exported.");
+});
+
+render();
+</script>
+</body>
+</html>
