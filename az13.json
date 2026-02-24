@@ -1,0 +1,1481 @@
+{
+  "meta": {
+    "id": "deep_pathway_goguen_institution_whatif_v1",
+    "title": "DeepPathway Institution — Goguen What-If Parameter Lab",
+    "subtitle": "A Monte Carlo proxy simulator for a Goguen-style institution that links H&E morphology to pathway activity via spatial transcriptomics supervision. Adjust signature/definition quality, preprocessing, alignment, deployment, and validation parameters to see likely outcome distributions.",
+    "footerNote": "Note: This is a toy proxy model for exploring trade-offs in multimodal computational pathology. It is not a validated biomedical model and must not be used for clinical decisions."
+  },
+  "project": {
+    "name": "DeepPathway / Morphology→Pathway Institution Simulator",
+    "description": [
+      "We model the core components of the Goguen institution used to describe DeepPathway-style systems: signatures (data types & operators), sentences (constraints/claims), models (dataset+pipeline instantiations), and satisfaction (whether validation criteria hold).",
+      "Sliders approximate how choices about pathway definitions, scoring, preprocessing (stain & resolution), multimodal contrastive alignment, two-stage deployment, and validation design affect the probability that the institution’s key sentences are satisfied in practice.",
+      "Outputs are proxies for: reliable pathway prediction from H&E, cross-cohort generalization (e.g., TCGA / hospital slides), biological concordance (e.g., hypoxia IHC), and translational usefulness in a routine workflow."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Describe your real project (cancer type, data sources, platform/resolution/stain, pathway library, intended use). Click “Generate AI Prompt” to get a structured prompt that interprets the current institution-parameter settings and proposes a validation + deployment plan.",
+      "defaultAssumptions": "[No additional refinements provided. Assume: Visium-like ST supervision; H&E stain variability across sites; Hallmark-style pathways scored with UCell; two-stage contrastive alignment → pathway predictor; internal CV + at least one external validation cohort.]",
+      "promptText": [
+        "You are an expert in multimodal computational pathology, spatial transcriptomics, and formal methods (Goguen institutions).",
+        "Write a short report (800–1,200 words) interpreting the likely behavior of a DeepPathway-style institution under the current parameter settings.",
+        "",
+        "Frame it explicitly using the institution components:",
+        "- Signature choices: modalities, preprocessing operators, pathway definition resources, scoring operators, alignment/training operators, and evaluation operators.",
+        "- Sentences: key constraints/claims (e.g., matched spot↔patch, valid pathway scoring, effective alignment, image-only deployment, generalization, biological concordance).",
+        "- Models: what a concrete instantiation looks like (datasets, cohorts, platforms, resolutions, stains, training regimen).",
+        "- Satisfaction: which sentences are likely satisfied and which fail; how validation evidence changes that assessment.",
+        "",
+        "Current parameter settings (0–100):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Ask the user to specify (or infer from refinements) a concrete case so the analysis is grounded:",
+        "1) Cancer type and clinical question (biomarker discovery, diagnosis/grading, treatment monitoring).",
+        "2) Training supervision source (spatial transcriptomics platform, cohort size/diversity; public repo vs in-house).",
+        "3) Deployment slides (TCGA/hospital), stain/scanner differences, magnifications/resolutions.",
+        "4) Pathway library choice (Hallmark/GO/custom) and pruning strategy; scoring method choice (UCell or alternative).",
+        "5) Validation plan (internal CV, external cohort, biological concordance like hypoxia IHC) and acceptance thresholds.",
+        "",
+        "Then do ALL of the following:",
+        "A) Explain which institution sentences are most fragile given the settings (domain shift, composition confounding, pathway noise).",
+        "B) Propose 5 concrete mitigation levers (preprocessing, pathway curation, alignment strategy, foundation models, uncertainty/calibration).",
+        "C) Recommend a staged validation plan and a deployment readiness checklist with go/no-go criteria.",
+        "D) Be explicit about uncertainty: what evidence would most reduce it and what failures would force redesign.",
+        "",
+        "Project refinements supplied by the user (incorporate carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Likely Outcomes (Monte Carlo distributions + summary stats)",
+      "chartsTitle": "Likely Outcomes (distributions)"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        {
+          "id": "btnRandomize",
+          "label": "Randomize params"
+        },
+        {
+          "id": "btnReset",
+          "label": "Reset defaults"
+        },
+        {
+          "id": "btnToggleLive",
+          "label": "Toggle live update"
+        },
+        {
+          "id": "btnRecompute",
+          "label": "Recompute now"
+        }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your DeepPathway-style project refinements…\nExamples:\n- Cancer type(s) + tissue (prostate, skin, glioblastoma)\n- Training data: ST platform (Visium/other), cohort size/diversity, Hest1K-like repo\n- Slide magnification/resolution (10×/20×/40×), stain protocols, scanners\n- Pathway sets (Hallmark/GO/custom) + pruning plan\n- Scoring method (UCell/AUCell/other) and composition controls\n- Validation plan: LOOCV, TCGA external, hospital slides, hypoxia IHC concordance\n- Deployment intent: biomarker discovery, stratification, monitoring; human-in-the-loop\n- Uncertainty/calibration and monitoring plan",
+      "buttons": [
+        {
+          "id": "btnGenPrompt",
+          "label": "Generate AI Prompt"
+        },
+        {
+          "id": "btnCopyPrompt",
+          "label": "Copy Prompt"
+        },
+        {
+          "id": "btnClearRefinements",
+          "label": "Clear refinements"
+        }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+  "parameters": [
+    {
+      "id": "cohortSize",
+      "label": "Spatial transcriptomics cohort size (effective)",
+      "hint": "Higher supports calibration and reduces overfitting; low size makes estimates brittle.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "cohortDiversity",
+      "label": "Cohort diversity (cancers, organs, platforms, sites)",
+      "hint": "Higher improves robustness and supports tumor-type specific generalization.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "stainVariation",
+      "label": "Stain/scanner variation severity (domain shift)",
+      "hint": "Higher makes morphology features less transferable unless normalization/robust encoders are used.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "resolutionMismatch",
+      "label": "Resolution/magnification mismatch severity",
+      "hint": "Higher increases failure risk when training and deployment magnifications differ.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "id": "stainNormalization",
+      "label": "H&E color normalization quality",
+      "hint": "Higher reduces stain-driven batch effects and improves transfer to hospital slides.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "id": "resolutionHarmonization",
+      "label": "Resolution harmonization & patching discipline",
+      "hint": "Higher means resolution-aware patch extraction/scaling and training that tolerates magnification shifts.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "pathwayDefQuality",
+      "label": "Pathway definition quality (false positives/incompleteness low)",
+      "hint": "Higher means cleaner gene sets; improves supervision signal and interpretability.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "pathwayPruning",
+      "label": "Pathway pruning/refinement effort",
+      "hint": "Higher reduces noisy targets and focuses learning on coherent pathway programs.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "scoringRobustness",
+      "label": "Pathway scoring robustness (e.g., UCell appropriateness)",
+      "hint": "Higher means pathway scores are stable and less threshold-sensitive.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "id": "compositionControl",
+      "label": "Control for cell-type composition confounding",
+      "hint": "Higher means better mitigation of spot-mixture bias (deconvolution-aware targets, higher-res data, controls).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "id": "contrastiveAlignment",
+      "label": "Contrastive alignment strength (image↔pathway)",
+      "hint": "Higher means embeddings better align matched pairs and separate mismatches, improving signal extraction.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "id": "twoStageReadiness",
+      "label": "Two-stage deployment readiness (image-only inference)",
+      "hint": "Higher means pipeline supports inference without ST reference and is engineered for deployment constraints.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "foundationModel",
+      "label": "Histology foundation model leverage",
+      "hint": "Higher uses pretrained/self-supervised encoders to improve sample efficiency and robustness.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "uncertaintyMaturity",
+      "label": "Uncertainty quantification & calibration maturity",
+      "hint": "Higher supports safe use under shift (flag OOD, calibrate scores, define abstain/review rules).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 45
+    },
+    {
+      "id": "internalValidation",
+      "label": "Internal validation rigor (splits, leakage control, LOOCV discipline)",
+      "hint": "Higher reduces optimism and detects brittle pathways early.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "id": "externalValidation",
+      "label": "External validation rigor (TCGA/hospital slides)",
+      "hint": "Higher increases confidence in satisfaction of generalization-related sentences.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "biologicalValidation",
+      "label": "Biological concordance validation strength (e.g., hypoxia IHC)",
+      "hint": "Higher strengthens claims that outputs correspond to real biology beyond dataset correlations.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "workflowFit",
+      "label": "Clinical workflow fit (usefulness of pathway maps)",
+      "hint": "Higher improves translational value (biomarkers/monitoring) and appropriate human-in-the-loop use.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "computeBudget",
+      "label": "Compute & engineering budget (training + harmonization + eval)",
+      "hint": "Higher supports larger experiments, stronger stress tests, and faster iteration.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500,
+      "max": 30000,
+      "step": 500,
+      "default": 8000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more “real-time”.",
+      "min": 0,
+      "max": 600,
+      "step": 20,
+      "default": 120,
+      "isMeta": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "pathwayReliability",
+      "title": "Reliable pathway prediction probability",
+      "subtitle": "Proxy for satisfying core sentences: valid scoring + effective alignment + accurate image-only pathway prediction.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "generalization",
+      "title": "External generalization probability",
+      "subtitle": "Proxy for transferring from ST training to TCGA/hospital slides under stain/resolution shift.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "bioConcordance",
+      "title": "Biological concordance probability",
+      "subtitle": "Proxy for alignment with orthogonal assays (e.g., hypoxia IHC) and pathway interpretability.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "translationalImpact",
+      "title": "Translational impact probability",
+      "subtitle": "Proxy for usable pathway maps in routine workflow (biomarkers/monitoring) with calibrated uncertainty and validation evidence.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    }
+  ],
+  "engine": {
+    "bins": 44,
+    "random": {
+      "shocks": {
+        "epsData": {
+          "type": "normal",
+          "sigma": 0.2
+        },
+        "epsLabel": {
+          "type": "normal",
+          "sigma": 0.2
+        },
+        "epsAlign": {
+          "type": "normal",
+          "sigma": 0.18
+        },
+        "epsGen": {
+          "type": "normal",
+          "sigma": 0.2
+        },
+        "epsBio": {
+          "type": "normal",
+          "sigma": 0.18
+        },
+        "epsTrans": {
+          "type": "normal",
+          "sigma": 0.22
+        }
+      }
+    },
+    "derived": {
+      "nSize": {
+        "op": "div",
+        "args": [
+          {
+            "var": "cohortSize"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nDiv": {
+        "op": "div",
+        "args": [
+          {
+            "var": "cohortDiversity"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nStainVar": {
+        "op": "div",
+        "args": [
+          {
+            "var": "stainVariation"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nResMis": {
+        "op": "div",
+        "args": [
+          {
+            "var": "resolutionMismatch"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nStainNorm": {
+        "op": "div",
+        "args": [
+          {
+            "var": "stainNormalization"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nResHarm": {
+        "op": "div",
+        "args": [
+          {
+            "var": "resolutionHarmonization"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nPwDef": {
+        "op": "div",
+        "args": [
+          {
+            "var": "pathwayDefQuality"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nPwPrune": {
+        "op": "div",
+        "args": [
+          {
+            "var": "pathwayPruning"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nScore": {
+        "op": "div",
+        "args": [
+          {
+            "var": "scoringRobustness"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nCompCtl": {
+        "op": "div",
+        "args": [
+          {
+            "var": "compositionControl"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nAlign": {
+        "op": "div",
+        "args": [
+          {
+            "var": "contrastiveAlignment"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nTwoStage": {
+        "op": "div",
+        "args": [
+          {
+            "var": "twoStageReadiness"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nFM": {
+        "op": "div",
+        "args": [
+          {
+            "var": "foundationModel"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nUQ": {
+        "op": "div",
+        "args": [
+          {
+            "var": "uncertaintyMaturity"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nValInt": {
+        "op": "div",
+        "args": [
+          {
+            "var": "internalValidation"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nValExt": {
+        "op": "div",
+        "args": [
+          {
+            "var": "externalValidation"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nValBio": {
+        "op": "div",
+        "args": [
+          {
+            "var": "biologicalValidation"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nWF": {
+        "op": "div",
+        "args": [
+          {
+            "var": "workflowFit"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "nCompBud": {
+        "op": "div",
+        "args": [
+          {
+            "var": "computeBudget"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "shiftRisk": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "nStainVar"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.45
+                  },
+                  {
+                    "var": "nResMis"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "nStainNorm"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.3
+                  },
+                  {
+                    "var": "nResHarm"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.25
+                  },
+                  {
+                    "var": "nDiv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      },
+      "supervisionQuality": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.45
+                  },
+                  {
+                    "var": "nPwDef"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "nPwPrune"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "var": "nScore"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.2
+                  },
+                  {
+                    "var": "nCompCtl"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.2
+                  },
+                  {
+                    "var": "nSize"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "shiftRisk"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      },
+      "modelCapacity": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.45
+                  },
+                  {
+                    "var": "nCompBud"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "nFM"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.2
+                  },
+                  {
+                    "var": "nAlign"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.2
+                  },
+                  {
+                    "var": "nSize"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.15
+                  },
+                  {
+                    "var": "nDiv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      },
+      "governanceStrength": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "var": "nValInt"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.45
+                  },
+                  {
+                    "var": "nValExt"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "var": "nValBio"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "nUQ"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.3
+                  },
+                  {
+                    "var": "shiftRisk"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      },
+      "overfitRisk": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.7
+                  },
+                  {
+                    "op": "sub",
+                    "args": [
+                      {
+                        "lit": 1.0
+                      },
+                      {
+                        "var": "nSize"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "op": "sub",
+                    "args": [
+                      {
+                        "lit": 1.0
+                      },
+                      {
+                        "var": "nDiv"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "modelCapacity"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "nValInt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      }
+    },
+    "perDraw": {
+      "dataFidelity": {
+        "op": "add",
+        "args": [
+          {
+            "lit": -0.1
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 1.1
+              },
+              {
+                "var": "nStainNorm"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.95
+              },
+              {
+                "var": "nResHarm"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.55
+              },
+              {
+                "var": "nDiv"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -1.1
+              },
+              {
+                "var": "shiftRisk"
+              }
+            ]
+          },
+          {
+            "var": "epsData"
+          }
+        ]
+      },
+      "labelQuality": {
+        "op": "add",
+        "args": [
+          {
+            "lit": -0.05
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 1.1
+              },
+              {
+                "var": "supervisionQuality"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.65
+              },
+              {
+                "var": "overfitRisk"
+              }
+            ]
+          },
+          {
+            "var": "epsLabel"
+          }
+        ]
+      },
+      "alignmentQuality": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.1
+                  },
+                  {
+                    "var": "nAlign"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.75
+                  },
+                  {
+                    "var": "nFM"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "dataFidelity"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.45
+                  },
+                  {
+                    "var": "labelQuality"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.95
+                  },
+                  {
+                    "var": "shiftRisk"
+                  }
+                ]
+              },
+              {
+                "var": "epsAlign"
+              }
+            ]
+          }
+        ]
+      },
+      "pathwayPredictorQuality": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.15
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.05
+                  },
+                  {
+                    "var": "alignmentQuality"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.65
+                  },
+                  {
+                    "var": "modelCapacity"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "nTwoStage"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "var": "labelQuality"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.55
+                  },
+                  {
+                    "var": "shiftRisk"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "overfitRisk"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "generalizationProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.25
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.05
+                  },
+                  {
+                    "var": "pathwayPredictorQuality"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "governanceStrength"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.3
+                  },
+                  {
+                    "var": "dataFidelity"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -1.1
+                  },
+                  {
+                    "var": "shiftRisk"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.35
+                  },
+                  {
+                    "var": "overfitRisk"
+                  }
+                ]
+              },
+              {
+                "var": "epsGen"
+              }
+            ]
+          }
+        ]
+      },
+      "bioConcordanceProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.95
+                  },
+                  {
+                    "var": "pathwayPredictorQuality"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "nValBio"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "var": "labelQuality"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.6
+                  },
+                  {
+                    "var": "shiftRisk"
+                  }
+                ]
+              },
+              {
+                "var": "epsBio"
+              }
+            ]
+          }
+        ]
+      },
+      "uqSafety": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 1.0
+                  },
+                  {
+                    "var": "nUQ"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "nValExt"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": -0.55
+                  },
+                  {
+                    "var": "shiftRisk"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.1
+                  },
+                  {
+                    "var": "randn"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "translationalImpactProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.34
+                  },
+                  {
+                    "var": "generalizationProb"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.22
+                  },
+                  {
+                    "var": "bioConcordanceProb"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.18
+                  },
+                  {
+                    "var": "pathwayPredictorQuality"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.16
+                  },
+                  {
+                    "var": "uqSafety"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.16
+                  },
+                  {
+                    "var": "nWF"
+                  }
+                ]
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "lit": 0.1
+                  },
+                  {
+                    "var": "governanceStrength"
+                  }
+                ]
+              },
+              {
+                "var": "epsTrans"
+              }
+            ]
+          },
+          {
+            "lit": 0.0
+          },
+          {
+            "lit": 1.0
+          }
+        ]
+      }
+    },
+    "outputMapping": {
+      "pathwayReliability": "pathwayPredictorQuality",
+      "generalization": "generalizationProb",
+      "bioConcordance": "bioConcordanceProb",
+      "translationalImpact": "translationalImpactProb"
+    }
+  }
+}
