@@ -275,22 +275,29 @@
     }
     .edge.dim{opacity:.20}
 
-    .panel{
-      background: rgba(255,255,255,.88);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      display:flex; flex-direction:column;
-      min-height:0;
-    }
+.panel{
+  height: 100%;
+  min-height: 0;           /* critical in grid layouts */
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: scroll;      /* forces a visible vertical scrollbar */
+  overflow-x: hidden;
+  scrollbar-gutter: stable; /* reserves space for the bar (modern browsers) */
+}
+
+/* The inner body should NOT also scroll */
+.pbody{
+  overflow: visible;       /* remove competing overflow */
+  min-height: 0;
+}
     .phead{
       padding:12px;
       border-bottom:1px solid var(--border);
       background: rgba(15,23,42,.02);
     }
     .phead .ph{font-weight:950; font-size:13px}
-    .pbody{padding:12px; overflow:auto; min-height:0}
+    .pbody{padding:12px; overflow:visible; min-height:0}
 
     .hint{font-size:12px; color:var(--muted2); line-height:1.45}
 
