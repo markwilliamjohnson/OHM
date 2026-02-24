@@ -1,0 +1,615 @@
+{
+  "meta": {
+    "title": "DeepPathway & Spatial Biology — Wisdom → Super-Concepts → Systems → Data/Governance → Methods → Evaluation → Cases",
+    "subtitle": "Dense lattice for multimodal AI in computational pathology: ethics/validation constrain modeling; systems dynamics explain domain shift; governance shapes reproducibility; methods align morphology↔biology; evaluation closes the loop back to strategy.",
+    "domainName": "multimodal AI for computational pathology (H&E ↔ spatial transcriptomics pathway activity)",
+    "searchPlaceholder": "DeepPathway, spatial transcriptomics, Visium, Hest1K, TCGA, UCell, Hallmark pathways, contrastive learning, multimodal alignment, stain normalization, resolution shift, pathway definition noise, cell-type confounding, Pearson correlation, hypoxia IHC validation, foundation models, uncertainty quantification…",
+    "userContextLabel": "Your project context (optional)",
+    "userContextPlaceholder": "e.g., cancer type, platform (Visium/others), slide resolution/scanner, stain variation, target pathways, deployment setting, available validation data (TCGA/IHC), constraints (time, cohort size)…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert multimodal computational pathologist and ML methodologist.\n\nWrite a realistic narrative case study showing how upstream constraints (scientific validity, dataset design, biology, domain shift, ethics, deployment) shape downstream model behavior and clinical usefulness.\nUse the selected nodes to connect morphology to functional biology through the DeepPathway-style pipeline (pathway scoring → patch extraction/preprocessing → contrastive alignment → two-stage pathway prediction → validation).\n\nIMPORTANT: Ask the user (or assume if provided) for a concrete case specification:\n- Cancer type + clinical question (diagnosis, grading, biomarker discovery, treatment monitoring)\n- Data sources (e.g., Hest1K/Visium cohort, TCGA H&E, hospital slides, IHC stains)\n- Platform/resolution/stain details and known domain shift risks\n- Pathway library choice (Hallmark, GO, curated sets) and any pruning strategy\n- Validation plan (LOOCV, external validation, biological concordance like hypoxia IHC)\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario description (data sources, stakeholders, translational goal)\n- Mechanism map (why morphology can predict pathway activity; where it fails)\n- Step-by-step pipeline plan (preprocessing, scoring, contrastive alignment, two-stage predictor)\n- Key risks & mitigations (resolution/stain shift, pathway noise, composition bias, calibration)\n- Validation plan (metrics + external + biological concordance)\n- 3 leverage points (what to change first to improve generalization)\n- 2 safe-to-fail experiments with explicit backfire checks\n- A short 'case specification checklist' the user can fill in next time\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Scientific & clinical wisdom",
+      "hint": "Judgement-in-context: validity, humility, interpretability, ethics, and translational fit under real data constraints."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Shaping ideas: morphology→function bridge, cooperative pathways vs genes, cost/workflow reality, and stakeholder legitimacy."
+    },
+    {
+      "id": 2,
+      "title": "Systems concepts (why models behave)",
+      "hint": "Domain shift, batch effects, alignment vs shortcut learning, confounding, feedback loops, and uncertainty."
+    },
+    {
+      "id": 3,
+      "title": "Data & governance architecture",
+      "hint": "Cohort selection, pathway libraries, preprocessing standardization, and reproducible pipelines across sites/platforms."
+    },
+    {
+      "id": 4,
+      "title": "Method pipeline mechanisms",
+      "hint": "Concrete steps: pathway scoring (UCell), patch extraction, stain normalization, contrastive multimodal alignment, two-stage prediction."
+    },
+    {
+      "id": 5,
+      "title": "Evaluation, assurance & deployment readiness",
+      "hint": "Metrics, validation design, external generalization, biological concordance, calibration, and uncertainty for clinical settings."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete datasets and failure modes to trace back to root causes and design better experiments."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_epistemic_humility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Epistemic humility (limits & assumptions)",
+      "summary": "Treat predictions as conditional on data and definitions; avoid false certainty about biology from images.",
+      "tags": ["wisdom", "uncertainty", "validity"],
+      "bodyHtml": "<p>Deep models can be persuasive even when wrong. Wise practice makes assumptions explicit (pathway definitions, scoring, resolution/stain) and communicates uncertainty.</p>"
+    },
+    {
+      "id": "wis_validation_first",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Validate early (plan before building)",
+      "summary": "Design the validation plan at project start: internal CV, external cohort, and biological relevance checks.",
+      "tags": ["wisdom", "validation", "planning"],
+      "bodyHtml": "<p>Validation is not an afterthought. Decide the stress-tests (domain shift, resolution mismatch, staining variation) before model iteration to avoid self-deception.</p>"
+    },
+    {
+      "id": "wis_interdisciplinary_language",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Common language across disciplines",
+      "summary": "Build shared abstractions so biologists, clinicians and ML researchers interpret inputs/outputs consistently.",
+      "tags": ["wisdom", "collaboration", "translation"],
+      "bodyHtml": "<p>Successful translational AI requires concepts everyone can reason about: pathway maps, uncertainty, and validation evidence that matches clinical intuition.</p>"
+    },
+    {
+      "id": "wis_proportionate_claims",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Proportionate claims (don’t oversell)",
+      "summary": "Match claims to evidence: correlation ≠ causation; pathway score ≠ pathway mechanism.",
+      "tags": ["wisdom", "ethics", "communication"],
+      "bodyHtml": "<p>Stated performance must reflect dataset scope and deployment conditions; avoid generalizing beyond platforms/cancers tested.</p>"
+    },
+    {
+      "id": "wis_translational_fit",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Translational fit to workflow",
+      "summary": "Aim for routine H&E utility: low-cost, scalable, retrospective archives, and clinically interpretable outputs.",
+      "tags": ["wisdom", "deployment", "clinical_workflow"],
+      "bodyHtml": "<p>The central promise is pathway-level insight from routine slides where sequencing is impractical. Design outputs for real decisions (biomarkers, monitoring, stratification).</p>"
+    },
+    {
+      "id": "wis_domain_expertise",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Domain expertise for interpretation",
+      "summary": "Biology and pathology expertise are required to interpret and sanity-check pathway maps.",
+      "tags": ["wisdom", "interpretation", "clinical"],
+      "bodyHtml": "<p>Models can learn shortcuts. Expert review helps detect implausible signals and guides meaningful validation targets (e.g., hypoxia).</p>"
+    },
+
+    {
+      "id": "bridge_morphology_function",
+      "level": 1,
+      "kind": "concept",
+      "label": "Bridge morphology → function",
+      "summary": "Relate tissue appearance in H&E to functional pathway activity rather than isolated gene expression.",
+      "tags": ["core_idea", "histology", "biology"],
+      "bodyHtml": "<p>The talk’s central gap: routine H&E is abundant but weakly linked to functional biology. DeepPathway aims to infer pathway activity from morphology.</p>"
+    },
+    {
+      "id": "pathways_as_cooperative_units",
+      "level": 1,
+      "kind": "concept",
+      "label": "Pathways as cooperative gene programs",
+      "summary": "Pathway-level scores capture coordinated effects and are often more stable and interpretable than gene-level predictions.",
+      "tags": ["pathways", "interpretability"],
+      "bodyHtml": "<p>Gene predictions can be noisy and biologically unintuitive. Pathways better reflect cooperative biological processes.</p>"
+    },
+    {
+      "id": "cost_workflow_gap",
+      "level": 1,
+      "kind": "concept",
+      "label": "Cost/workflow gap (sequencing vs routine H&E)",
+      "summary": "Genomic assays quantify biology but are costly; H&E is cheap and routine but lacks direct functional readouts.",
+      "tags": ["translation", "economics", "workflow"],
+      "bodyHtml": "<p>DeepPathway targets the ‘cheap slide, rich biology’ problem: use spatial transcriptomics for training and deploy on routine H&E.</p>"
+    },
+    {
+      "id": "biomarker_and_monitoring",
+      "level": 1,
+      "kind": "concept",
+      "label": "Biomarker discovery, diagnosis & treatment monitoring",
+      "summary": "Use predicted pathway maps for stratification, grading support, and monitoring when molecular assays are unavailable.",
+      "tags": ["clinical_value", "biomarkers", "monitoring"],
+      "bodyHtml": "<p>Translational targets: pathway-informed biomarkers, tumour vs normal contrasts, retrospective archive mining, and therapy response signals.</p>"
+    },
+    {
+      "id": "multimodal_learning_alignment",
+      "level": 1,
+      "kind": "concept",
+      "label": "Multimodal learning as alignment",
+      "summary": "Learn shared representations that link image patches with pathway scores from spatial transcriptomics.",
+      "tags": ["multimodal", "representation"],
+      "bodyHtml": "<p>Instead of predicting genes directly, align modalities in embedding space so morphology encodes pathway-relevant biology.</p>"
+    },
+    {
+      "id": "dataset_scale_matters",
+      "level": 1,
+      "kind": "concept",
+      "label": "Dataset scale & diversity are decisive",
+      "summary": "Limited, heterogeneous spatial cohorts constrain calibration and generalization; larger diverse cohorts improve robustness.",
+      "tags": ["data", "generalization"],
+      "bodyHtml": "<p>Spatial transcriptomics is growing, but still limited for deep learning. Repositories like Hest1K are key enablers.</p>"
+    },
+    {
+      "id": "pathway_definitions_are_models",
+      "level": 1,
+      "kind": "concept",
+      "label": "Pathway definitions are imperfect models",
+      "summary": "Curated gene sets can be incomplete or contain false positives; this shapes supervision and learned signals.",
+      "tags": ["pathway_db", "noise"],
+      "bodyHtml": "<p>Choice and pruning of pathway definitions can strongly affect learning quality and interpretability.</p>"
+    },
+
+    {
+      "id": "domain_shift_stain_resolution",
+      "level": 2,
+      "kind": "concept",
+      "label": "Domain shift (stain & resolution)",
+      "summary": "Models fail when stain color distributions or magnification/resolution differ from training data.",
+      "tags": ["domain_shift", "stain", "resolution"],
+      "bodyHtml": "<p>H&E varies by lab/scanner. Resolution mismatch changes morphology appearance. Both can break generalization if unhandled.</p>"
+    },
+    {
+      "id": "batch_effects_and_preprocessing",
+      "level": 2,
+      "kind": "concept",
+      "label": "Batch effects & preprocessing dependence",
+      "summary": "Uniform preprocessing can reduce spurious signals; inconsistent pipelines can encode dataset identity rather than biology.",
+      "tags": ["batch_effect", "reproducibility"],
+      "bodyHtml": "<p>Color normalization and standardized patch extraction reduce dataset-specific artifacts and help isolate biologically meaningful patterns.</p>"
+    },
+    {
+      "id": "shortcut_learning_risk",
+      "level": 2,
+      "kind": "risk",
+      "label": "Pathology: Shortcut learning (non-biological cues)",
+      "summary": "Model picks up scanner, stain, tissue processing artifacts, or cohort-specific patterns instead of biology.",
+      "tags": ["risk", "spurious", "generalization"],
+      "bodyHtml": "<p>Without careful validation, high correlations can come from confounds. Stress-test across cohorts and labs.</p>"
+    },
+    {
+      "id": "confounding_celltype_composition",
+      "level": 2,
+      "kind": "risk",
+      "label": "Risk: Cell-type composition confounding",
+      "summary": "Spot-level pathway scores can reflect cell-type mixtures rather than true activation states.",
+      "tags": ["risk", "confounding", "spatial"],
+      "bodyHtml": "<p>Visium spots aggregate multiple cells. A pathway may appear ‘active’ because a cell type expressing that program is present.</p>"
+    },
+    {
+      "id": "label_noise_pathway_scores",
+      "level": 2,
+      "kind": "risk",
+      "label": "Risk: Label noise in pathway scores",
+      "summary": "Pathway scoring and curated gene sets introduce noisy supervision; this limits achievable accuracy.",
+      "tags": ["risk", "supervision", "pathways"],
+      "bodyHtml": "<p>UCell scores depend on gene ranking and pathway gene sets. Errors in gene sets or measurement noise propagate to labels.</p>"
+    },
+    {
+      "id": "alignment_vs_prediction",
+      "level": 2,
+      "kind": "concept",
+      "label": "Alignment beats direct gene prediction (often)",
+      "summary": "Latent alignment at pathway level can generalize better than predicting individual genes directly from images.",
+      "tags": ["multimodal", "generalization"],
+      "bodyHtml": "<p>Pathway-focused alignment reduces noise and improves biological coherence, supporting cross-cohort robustness.</p>"
+    },
+    {
+      "id": "uncertainty_and_calibration",
+      "level": 2,
+      "kind": "concept",
+      "label": "Uncertainty, calibration & deployment safety",
+      "summary": "Clinical use needs confidence estimates and calibration under shift; uncertainty quantification helps safe escalation.",
+      "tags": ["uncertainty", "deployment"],
+      "bodyHtml": "<p>Even strong average metrics can hide failure regions. Uncertainty estimates guide review and additional testing.</p>"
+    },
+    {
+      "id": "feedback_loops_validation_learning",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops (validation → refinement)",
+      "summary": "Use validation failures (shift, confounding) to refine preprocessing, pathway sets, and training objectives.",
+      "tags": ["systems", "learning"],
+      "bodyHtml": "<p>Iterate based on where the model fails: resolution shifts, stains, or particular pathways with poor coherence.</p>"
+    },
+
+    {
+      "id": "spatial_transcriptomics_training_asset",
+      "level": 3,
+      "kind": "concept",
+      "label": "Spatial transcriptomics as training asset",
+      "summary": "Provides paired gene expression and H&E from the same tissue context for supervision and evaluation.",
+      "tags": ["spatial", "training_data"],
+      "bodyHtml": "<p>Spatial transcriptomics enables learning mappings between morphology and functional biology with spatial localization.</p>"
+    },
+    {
+      "id": "hest1k_repository",
+      "level": 3,
+      "kind": "standard",
+      "label": "Hest1K-style curated repository",
+      "summary": "Large, uniformly processed ST datasets (images + expression) enable reproducible training and benchmarking.",
+      "tags": ["data", "benchmark", "curation"],
+      "bodyHtml": "<p>Uniform processing reduces confounds and supports fair model comparison across diseases and organs.</p>"
+    },
+    {
+      "id": "visium_platform_constraints",
+      "level": 3,
+      "kind": "concept",
+      "label": "Visium platform constraints (spot aggregation)",
+      "summary": "55µm spot aggregation and varying imaging magnifications introduce biases and generalization challenges.",
+      "tags": ["Visium", "resolution", "bias"],
+      "bodyHtml": "<p>Spot-level labels are sensitive to composition. Also, image resolution differs across slides and acquisitions.</p>"
+    },
+    {
+      "id": "pathway_library_choice_hallmark",
+      "level": 3,
+      "kind": "standard",
+      "label": "Hallmark pathway library selection",
+      "summary": "Use cancer-relevant, commonly adopted gene sets as supervision targets for pathway scoring.",
+      "tags": ["Hallmark", "pathways"],
+      "bodyHtml": "<p>Hallmark pathways provide a pragmatic balance of interpretability and relevance for cancer applications.</p>"
+    },
+    {
+      "id": "preprocessing_standardization",
+      "level": 3,
+      "kind": "standard",
+      "label": "Uniform preprocessing pipeline (stain + resolution handling)",
+      "summary": "Standardize color space, patch extraction rules, and metadata so the model learns biology not dataset identity.",
+      "tags": ["preprocessing", "stain_norm", "reproducibility"],
+      "bodyHtml": "<p>Key governance: color normalization, consistent patch size, and careful resolution metadata usage.</p>"
+    },
+    {
+      "id": "cross_site_validation_governance",
+      "level": 3,
+      "kind": "standard",
+      "label": "Cross-site validation governance",
+      "summary": "Plan external validation on TCGA or hospital slides early; define acceptance criteria and failure triggers.",
+      "tags": ["governance", "external_validation"],
+      "bodyHtml": "<p>External cohorts test whether the model is learning transferable morphology→biology relationships.</p>"
+    },
+    {
+      "id": "pathway_pruning_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Pathway pruning & refinement strategy",
+      "summary": "Prune or refine gene sets to reduce false positives and improve learnability and interpretability.",
+      "tags": ["pathways", "curation", "future_direction"],
+      "bodyHtml": "<p>Improved pathway definitions can materially improve the supervision signal and downstream generalization.</p>"
+    },
+
+    {
+      "id": "ucell_scoring",
+      "level": 4,
+      "kind": "standard",
+      "label": "UCell pathway scoring (spot-level)",
+      "summary": "Compute pathway activity scores from ranked expression; less sensitive to arbitrary thresholds.",
+      "tags": ["UCell", "scoring"],
+      "bodyHtml": "<p>Transforms spot-level gene expression into pathway scores using curated gene sets.</p>"
+    },
+    {
+      "id": "patch_extraction_224",
+      "level": 4,
+      "kind": "standard",
+      "label": "Patch extraction (224×224 at sample resolution)",
+      "summary": "Extract image patches centered at spots with consistent size and resolution-aware scaling.",
+      "tags": ["patches", "224", "spatial_alignment"],
+      "bodyHtml": "<p>Patch extraction anchors morphology features to the same locations as expression/pathway labels.</p>"
+    },
+    {
+      "id": "he_color_normalization",
+      "level": 4,
+      "kind": "standard",
+      "label": "H&E color normalization",
+      "summary": "Normalize stain/color variation across cohorts to reduce batch effects in morphology features.",
+      "tags": ["H&E", "stain_norm"],
+      "bodyHtml": "<p>Reduces sensitivity to lab/scanner differences and supports generalization to routine hospital slides.</p>"
+    },
+    {
+      "id": "bimodal_contrastive_learning",
+      "level": 4,
+      "kind": "standard",
+      "label": "Bimodal contrastive learning (image ↔ pathway scores)",
+      "summary": "Pull matched image–expression pairs together and push mismatches apart in embedding space.",
+      "tags": ["contrastive", "alignment", "multimodal"],
+      "bodyHtml": "<p>Core mechanism: learn a shared latent space so H&E encodes information predictive of pathway activity.</p>"
+    },
+    {
+      "id": "two_stage_training",
+      "level": 4,
+      "kind": "standard",
+      "label": "Two-stage training (align → predict)",
+      "summary": "Stage 1: learn embeddings via contrastive alignment; Stage 2: train a simple predictor to output pathways from images only.",
+      "tags": ["two_stage", "deployment"],
+      "bodyHtml": "<p>Enables inference without requiring spatial transcriptomics reference data at deployment time.</p>"
+    },
+    {
+      "id": "image_only_inference",
+      "level": 4,
+      "kind": "concept",
+      "label": "Image-only inference for deployment",
+      "summary": "After training, predict pathway activity directly from routine H&E images without sequencing.",
+      "tags": ["deployment", "clinical_workflow"],
+      "bodyHtml": "<p>Matches translational goal: scalable pathway maps from standard low-cost slides.</p>"
+    },
+    {
+      "id": "foundation_models_extension",
+      "level": 4,
+      "kind": "concept",
+      "label": "Extension: self-supervised histology foundation models",
+      "summary": "Use pretrained histology encoders to improve representations and reduce data requirements.",
+      "tags": ["future_direction", "foundation_models"],
+      "bodyHtml": "<p>Foundation models may enhance robustness to stain/resolution shifts and improve sample efficiency.</p>"
+    },
+    {
+      "id": "uncertainty_quantification_method",
+      "level": 4,
+      "kind": "concept",
+      "label": "Method: uncertainty quantification",
+      "summary": "Estimate predictive uncertainty to support safe clinical deployment and identify out-of-domain samples.",
+      "tags": ["uncertainty", "safety"],
+      "bodyHtml": "<p>Could include ensembles, Bayesian approximations, or conformal prediction to flag unreliable pathway maps.</p>"
+    },
+    {
+      "id": "extend_to_spatial_proteomics",
+      "level": 4,
+      "kind": "concept",
+      "label": "Extension: single-cell spatial proteomics",
+      "summary": "Move beyond spot-level transcriptomics to higher-resolution protein-level pathway learning.",
+      "tags": ["future_direction", "proteomics", "resolution"],
+      "bodyHtml": "<p>Higher resolution could reduce composition bias and align more directly with functional protein activity.</p>"
+    },
+
+    {
+      "id": "loocv_evaluation",
+      "level": 5,
+      "kind": "standard",
+      "label": "Internal validation: leave-one-out cross validation",
+      "summary": "Train on ST samples and evaluate held-out sample prediction of pathway scores from H&E patches.",
+      "tags": ["CV", "internal_validation"],
+      "bodyHtml": "<p>LOOCV tests generalization within the available spatial cohort while controlling leakage.</p>"
+    },
+    {
+      "id": "pearson_correlation_metric",
+      "level": 5,
+      "kind": "standard",
+      "label": "Primary metric: Pearson correlation",
+      "summary": "Assess correlation between predicted and ground-truth pathway scores per pathway/spot.",
+      "tags": ["metric", "Pearson"],
+      "bodyHtml": "<p>Useful for continuous pathway score prediction; complement with calibration and error distribution checks.</p>"
+    },
+    {
+      "id": "gene_level_baseline",
+      "level": 5,
+      "kind": "standard",
+      "label": "Baseline: gene-level prediction comparison",
+      "summary": "Compare pathway prediction to gene-level models to demonstrate reduced noise and improved biological coherence.",
+      "tags": ["baseline", "comparison"],
+      "bodyHtml": "<p>Supports the claim that pathway-focused learning is more stable and interpretable than gene-by-gene prediction.</p>"
+    },
+    {
+      "id": "external_validation_tcga",
+      "level": 5,
+      "kind": "standard",
+      "label": "External validation: TCGA H&E reproduction of tumour vs normal shifts",
+      "summary": "Apply model to TCGA prostate slides to reproduce expected tumour/normal pathway differences.",
+      "tags": ["TCGA", "external_validation"],
+      "bodyHtml": "<p>Tests portability from ST training domain to routine whole-slide data used in practice.</p>"
+    },
+    {
+      "id": "biological_concordance_ihc",
+      "level": 5,
+      "kind": "standard",
+      "label": "Biological validation: hypoxia concordance with IHC staining",
+      "summary": "Validate hypoxia pathway predictions against hypoxia marker staining on clinical glioblastoma samples.",
+      "tags": ["hypoxia", "IHC", "glioblastoma"],
+      "bodyHtml": "<p>Links predicted pathway maps to an orthogonal biological assay, strengthening credibility beyond correlation alone.</p>"
+    },
+    {
+      "id": "deployment_readiness_checklist",
+      "level": 5,
+      "kind": "standard",
+      "label": "Deployment readiness checklist",
+      "summary": "Assess generalization, calibration, shift detection, interpretability, and monitoring plan before clinical use.",
+      "tags": ["deployment", "assurance"],
+      "bodyHtml": "<p>Includes stain/resolution stress tests, uncertainty thresholds, human review workflows, and post-deployment monitoring.</p>"
+    },
+    {
+      "id": "calibration_and_reliability",
+      "level": 5,
+      "kind": "concept",
+      "label": "Calibration & reliability under shift",
+      "summary": "Check whether score magnitudes are meaningful across cohorts; detect drift and recalibrate if needed.",
+      "tags": ["calibration", "robustness"],
+      "bodyHtml": "<p>Models may remain correlated yet systematically biased across sites. Calibration improves decision safety.</p>"
+    },
+
+    {
+      "id": "case_prostate_visium_training",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Prostate cancer (Visium ST → DeepPathway training)",
+      "summary": "Train on paired ST + H&E; evaluate pathway predictions and compare to gene-level baselines.",
+      "tags": ["prostate", "Visium", "training"],
+      "bodyHtml": "<p>Use spot-level pathway scores (UCell + Hallmark), extract 224×224 patches, align modalities with contrastive learning, and train an image-only predictor.</p>"
+    },
+    {
+      "id": "case_tcga_external_prostate",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: External validation on TCGA prostate H&E",
+      "summary": "Apply trained model to routine TCGA slides; check tumour vs normal pathway patterns.",
+      "tags": ["TCGA", "prostate", "generalization"],
+      "bodyHtml": "<p>Stress-test domain shift: whole-slide scanning differences, staining variability, and absence of paired ST at inference.</p>"
+    },
+    {
+      "id": "case_gbm_hypoxia_ihc",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Glioblastoma hypoxia pathway map vs hypoxia IHC staining",
+      "summary": "Validate predicted hypoxia signatures against hypoxia marker staining on serial sections.",
+      "tags": ["glioblastoma", "hypoxia", "IHC"],
+      "bodyHtml": "<p>Use concordance between predicted hypoxia pathways and stained hypoxic regions as an orthogonal validation of biological relevance.</p>"
+    },
+    {
+      "id": "case_stain_shift_hospital",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Hospital slides with stain/scanner shift",
+      "summary": "Model trained on public ST may fail on hospital H&E; evaluate stain normalization and foundation-model features.",
+      "tags": ["domain_shift", "hospital", "stain"],
+      "bodyHtml": "<p>Assess whether stain normalization and robust encoders reduce spurious failure. Use uncertainty to flag out-of-domain slides.</p>"
+    },
+    {
+      "id": "case_resolution_mismatch",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Resolution mismatch (10× vs 20× vs 40×)",
+      "summary": "Training on one magnification can degrade performance on another; test scaling and resolution-aware patching.",
+      "tags": ["resolution", "generalization", "patching"],
+      "bodyHtml": "<p>Evaluate performance drop when patch morphology changes with magnification. Use resolution harmonization strategies.</p>"
+    },
+    {
+      "id": "pathology_pathway_noise",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Poor pathway definitions (false positives/incomplete sets)",
+      "summary": "Bad gene sets corrupt supervision; model learns inconsistent targets and loses interpretability.",
+      "tags": ["risk", "pathway_db", "supervision"],
+      "bodyHtml": "<p>Mitigate via pathway pruning, literature review, cross-dataset stability checks, and biological validation (IHC/orthogonal assays).</p>"
+    },
+    {
+      "id": "pathology_composition_bias",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Composition bias masquerading as activation",
+      "summary": "Predictions reflect cell-type mixture differences rather than pathway activation within cell types.",
+      "tags": ["risk", "composition", "spatial"],
+      "bodyHtml": "<p>Mitigate via higher-resolution platforms, deconvolution-aware targets, or validation designs that separate composition from activation.</p>"
+    },
+    {
+      "id": "pathology_overfit_small_cohort",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Small heterogeneous ST cohorts (overfit risk)",
+      "summary": "Limited ST data can inflate internal performance; requires careful CV, external tests, and conservative claims.",
+      "tags": ["risk", "data_limit", "overfitting"],
+      "bodyHtml": "<p>Use strict splits, robust preprocessing, and external validation. Consider foundation models and larger cohort integration.</p>"
+    }
+  ],
+  "edges": [
+    { "from": "wis_epistemic_humility", "to": "uncertainty_and_calibration", "why": "Humility turns into practice via uncertainty estimation and calibrated claims under shift." },
+    { "from": "wis_epistemic_humility", "to": "wis_proportionate_claims", "why": "Recognizing limits prevents overselling correlation as mechanism or clinical readiness." },
+    { "from": "wis_validation_first", "to": "cross_site_validation_governance", "why": "Early planning establishes external validation rules and acceptance thresholds before model tuning." },
+    { "from": "wis_validation_first", "to": "loocv_evaluation", "why": "Internal validation design (e.g., LOOCV) must be specified upfront to avoid leakage and optimism." },
+    { "from": "wis_interdisciplinary_language", "to": "bridge_morphology_function", "why": "Shared abstractions (pathway maps) help diverse stakeholders reason about morphology→biology links." },
+    { "from": "wis_interdisciplinary_language", "to": "biomarker_and_monitoring", "why": "Clinically useful outputs require common interpretive language for decisions and monitoring." },
+    { "from": "wis_proportionate_claims", "to": "deployment_readiness_checklist", "why": "Proportionate claims demand explicit readiness criteria (shift tests, calibration, monitoring)." },
+    { "from": "wis_translational_fit", "to": "cost_workflow_gap", "why": "Workflow fit is driven by making functional insight available from routine low-cost H&E." },
+    { "from": "wis_translational_fit", "to": "image_only_inference", "why": "Translation requires inference without sequencing; image-only prediction is the operational requirement." },
+    { "from": "wis_domain_expertise", "to": "biological_concordance_ihc", "why": "Expert-guided validation chooses meaningful orthogonal assays (e.g., hypoxia IHC) and interprets concordance." },
+    { "from": "wis_domain_expertise", "to": "shortcut_learning_risk", "why": "Domain experts can spot implausible shortcuts and propose targeted stress-tests to reveal spurious cues." },
+
+    { "from": "bridge_morphology_function", "to": "multimodal_learning_alignment", "why": "The bridge is built by aligning image morphology with functional pathway activity in a shared representation." },
+    { "from": "pathways_as_cooperative_units", "to": "alignment_vs_prediction", "why": "Pathway targets reduce noise and encourage biologically coherent alignment compared with gene-level prediction." },
+    { "from": "pathways_as_cooperative_units", "to": "gene_level_baseline", "why": "Gene-level models provide a contrast case showing why pathway-level prediction can be more stable." },
+    { "from": "cost_workflow_gap", "to": "spatial_transcriptomics_training_asset", "why": "Spatial transcriptomics supplies supervision for training even if deployment uses only routine slides." },
+    { "from": "biomarker_and_monitoring", "to": "external_validation_tcga", "why": "Clinical relevance is supported by reproducing known tumour vs normal pathway patterns in external routine cohorts." },
+    { "from": "multimodal_learning_alignment", "to": "bimodal_contrastive_learning", "why": "Alignment is operationalized via contrastive learning that brings matched image–label pairs together." },
+    { "from": "dataset_scale_matters", "to": "hest1k_repository", "why": "Large curated repositories enable better calibration, broader coverage, and less brittle models." },
+    { "from": "dataset_scale_matters", "to": "pathology_overfit_small_cohort", "why": "Limited cohort size increases overfitting risk and motivates conservative validation and augmentation." },
+    { "from": "pathway_definitions_are_models", "to": "pathway_library_choice_hallmark", "why": "Choosing Hallmark is a governance decision about supervision quality and interpretability." },
+    { "from": "pathway_definitions_are_models", "to": "pathway_pruning_strategy", "why": "Imperfect gene sets motivate pruning/refinement to reduce false positives and improve learnability." },
+    { "from": "pathway_definitions_are_models", "to": "pathology_pathway_noise", "why": "Bad gene sets translate directly into noisy targets and degraded biological coherence." },
+
+    { "from": "domain_shift_stain_resolution", "to": "he_color_normalization", "why": "Color normalization reduces stain-driven shift and helps transfer from public to hospital slides." },
+    { "from": "domain_shift_stain_resolution", "to": "case_resolution_mismatch", "why": "Resolution mismatch is a canonical stress-test for domain shift in computational pathology." },
+    { "from": "domain_shift_stain_resolution", "to": "case_stain_shift_hospital", "why": "Hospital slides expose real-world stain/scanner variance that can break trained models." },
+    { "from": "batch_effects_and_preprocessing", "to": "preprocessing_standardization", "why": "Standardized preprocessing reduces batch artifacts and increases reproducibility across datasets." },
+    { "from": "batch_effects_and_preprocessing", "to": "shortcut_learning_risk", "why": "When preprocessing differs, models may latch onto batch signals as shortcuts instead of biology." },
+    { "from": "shortcut_learning_risk", "to": "external_validation_tcga", "why": "External validation helps detect shortcuts because cohort-specific artifacts are less likely to transfer." },
+    { "from": "confounding_celltype_composition", "to": "visium_platform_constraints", "why": "Spot aggregation and mixture effects are inherent platform constraints that confound label interpretation." },
+    { "from": "confounding_celltype_composition", "to": "pathology_composition_bias", "why": "Composition confounding is the mechanism behind composition bias masquerading as activation." },
+    { "from": "label_noise_pathway_scores", "to": "ucell_scoring", "why": "Score computation and gene set choice determine label noise; scoring method properties matter." },
+    { "from": "alignment_vs_prediction", "to": "bimodal_contrastive_learning", "why": "Contrastive alignment operationalizes the 'alignment beats direct prediction' strategy." },
+    { "from": "uncertainty_and_calibration", "to": "calibration_and_reliability", "why": "Uncertainty and calibration are complementary: quantify confidence and correct systematic bias." },
+    { "from": "uncertainty_and_calibration", "to": "uncertainty_quantification_method", "why": "Deployment safety often requires method-level UQ, not just narrative caution." },
+    { "from": "feedback_loops_validation_learning", "to": "wis_validation_first", "why": "Learning cycles work best when validation constraints are defined early and drive iteration." },
+    { "from": "feedback_loops_validation_learning", "to": "pathway_pruning_strategy", "why": "Validation failures can motivate pruning/refinement of pathway definitions and targets." },
+    { "from": "feedback_loops_validation_learning", "to": "preprocessing_standardization", "why": "Observed shift failures often require revising preprocessing to suppress batch signals." },
+
+    { "from": "spatial_transcriptomics_training_asset", "to": "visium_platform_constraints", "why": "The platform determines label resolution and composition effects, shaping how supervision should be interpreted." },
+    { "from": "spatial_transcriptomics_training_asset", "to": "patch_extraction_224", "why": "Paired ST provides spot coordinates that anchor patch extraction at matching tissue locations." },
+    { "from": "hest1k_repository", "to": "case_prostate_visium_training", "why": "Curated paired ST+H&E cohorts are a natural starting point for prostate training experiments." },
+    { "from": "visium_platform_constraints", "to": "domain_shift_stain_resolution", "why": "Variability in acquisition and magnification introduces a major generalization challenge for learned morphology features." },
+    { "from": "pathway_library_choice_hallmark", "to": "ucell_scoring", "why": "Hallmark gene sets provide the gene lists needed for UCell pathway activity scoring." },
+    { "from": "preprocessing_standardization", "to": "he_color_normalization", "why": "Color normalization is a key preprocessing element for suppressing stain variation artifacts." },
+    { "from": "preprocessing_standardization", "to": "patch_extraction_224", "why": "Standardized patch extraction rules ensure consistent input geometry across cohorts." },
+    { "from": "cross_site_validation_governance", "to": "external_validation_tcga", "why": "Governance mandates external tests (e.g., TCGA) as a gate for credible translational claims." },
+    { "from": "pathway_pruning_strategy", "to": "pathology_pathway_noise", "why": "Pruning/refinement directly addresses false positives and incompleteness in pathway gene sets." },
+
+    { "from": "ucell_scoring", "to": "bimodal_contrastive_learning", "why": "Pathway scores supply the expression-side target representation for contrastive alignment with images." },
+    { "from": "patch_extraction_224", "to": "bimodal_contrastive_learning", "why": "Image patches provide the morphology-side inputs aligned to the same locations as pathway labels." },
+    { "from": "he_color_normalization", "to": "bimodal_contrastive_learning", "why": "Reducing stain noise helps the contrastive objective focus on morphology relevant to biology." },
+    { "from": "bimodal_contrastive_learning", "to": "two_stage_training", "why": "Contrastive alignment produces embeddings used in stage-2 training of the pathway predictor." },
+    { "from": "two_stage_training", "to": "image_only_inference", "why": "The two-stage design enables deployment where only H&E is available (no ST at inference)." },
+    { "from": "foundation_models_extension", "to": "domain_shift_stain_resolution", "why": "Pretrained histology encoders can improve robustness to stain/resolution shifts and reduce data hunger." },
+    { "from": "extend_to_spatial_proteomics", "to": "confounding_celltype_composition", "why": "Higher-resolution modalities can reduce mixture confounding and support more specific pathway interpretation." },
+    { "from": "uncertainty_quantification_method", "to": "deployment_readiness_checklist", "why": "Readiness assessments should include uncertainty thresholds and out-of-domain detection policies." },
+
+    { "from": "loocv_evaluation", "to": "pearson_correlation_metric", "why": "LOOCV commonly summarizes performance via correlation between predicted and ground-truth pathway scores." },
+    { "from": "pearson_correlation_metric", "to": "gene_level_baseline", "why": "Correlation can be compared across pathway-level vs gene-level targets to demonstrate stability gains." },
+    { "from": "external_validation_tcga", "to": "calibration_and_reliability", "why": "External cohorts reveal systematic bias; calibration checks whether magnitudes transfer across domains." },
+    { "from": "biological_concordance_ihc", "to": "case_gbm_hypoxia_ihc", "why": "Hypoxia IHC concordance is instantiated in the glioblastoma case study." },
+    { "from": "deployment_readiness_checklist", "to": "wis_proportionate_claims", "why": "Readiness criteria constrain what can be claimed and what must remain exploratory." },
+
+    { "from": "case_prostate_visium_training", "to": "loocv_evaluation", "why": "The prostate Visium setting is a canonical place to run LOOCV on ST samples and evaluate pathway prediction." },
+    { "from": "case_prostate_visium_training", "to": "gene_level_baseline", "why": "Prostate training can demonstrate pathway prediction outperforming gene-level baselines in stability and coherence." },
+    { "from": "case_tcga_external_prostate", "to": "external_validation_tcga", "why": "This case operationalizes external generalization to routine slides and tumour vs normal contrasts." },
+    { "from": "case_stain_shift_hospital", "to": "he_color_normalization", "why": "Hospital shift stress-tests whether stain normalization is sufficient or whether deeper representation changes are needed." },
+    { "from": "case_stain_shift_hospital", "to": "foundation_models_extension", "why": "Foundation-model features may reduce fragility under stain/scanner shift compared to training-from-scratch." },
+    { "from": "case_resolution_mismatch", "to": "patch_extraction_224", "why": "Resolution-aware patching and scaling choices determine whether morphology is comparable across magnifications." },
+
+    { "from": "pathology_overfit_small_cohort", "to": "wis_validation_first", "why": "Small cohorts require stricter validation discipline to avoid overly optimistic conclusions." },
+    { "from": "pathology_overfit_small_cohort", "to": "dataset_scale_matters", "why": "Overfit risk motivates integrating larger, more diverse cohorts and platforms." },
+    { "from": "pathology_composition_bias", "to": "extend_to_spatial_proteomics", "why": "Higher-resolution modalities are a strategic response to composition bias limitations." },
+    { "from": "pathology_pathway_noise", "to": "pathway_pruning_strategy", "why": "Noisy pathway definitions are mitigated through pruning, refinement, and stability checks." },
+
+    { "from": "bridge_morphology_function", "to": "case_prostate_visium_training", "why": "The prostate Visium case exemplifies learning morphology→pathway mappings from paired ST+H&E." },
+    { "from": "bridge_morphology_function", "to": "case_gbm_hypoxia_ihc", "why": "Hypoxia mapping tests whether morphology can indicate a specific functional program in glioblastoma." },
+    { "from": "cost_workflow_gap", "to": "case_tcga_external_prostate", "why": "TCGA H&E is routine-slide-like and represents the intended low-cost deployment setting." },
+    { "from": "pathways_as_cooperative_units", "to": "ucell_scoring", "why": "Pathway-level supervision begins with scoring cooperative gene programs (e.g., Hallmark) from expression data." },
+    { "from": "alignment_vs_prediction", "to": "two_stage_training", "why": "Alignment-first makes downstream prediction easier and often more robust than direct end-to-end gene prediction." },
+
+    { "from": "shortcut_learning_risk", "to": "case_stain_shift_hospital", "why": "Hospital stain/scanner differences can reveal whether the model relied on shortcuts rather than biology." },
+    { "from": "domain_shift_stain_resolution", "to": "deployment_readiness_checklist", "why": "Deployment readiness must include explicit stain/resolution stress tests and shift monitoring." },
+    { "from": "calibration_and_reliability", "to": "deployment_readiness_checklist", "why": "Calibration and reliability checks are part of assurance gates before clinical use." },
+
+    { "from": "wis_safe_to_fail_anchor", "to": "feedback_loops_validation_learning", "why": "Safe-to-fail experimentation accelerates learning and reduces risk when uncertainty is high." }
+  ]
+}
