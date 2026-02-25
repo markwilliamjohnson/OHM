@@ -1,423 +1,580 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>VSM Builder — Stage 1 → Stage 2 (Org Chart → System 1)</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Org Chart (Scrollable + Zoom/Pan)</title>
   <style>
     :root{
-      --bg:#0b1020;
-      --panel:#111a33;
-      --stroke:rgba(255,255,255,.12);
-      --text:#eef2ff;
-      --muted:#b7c4ff;
-      --accent:#66e3ff;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-    }
-    body{ margin:0; background:var(--bg); color:var(--text); }
-    header{ padding:14px 16px; border-bottom:1px solid var(--stroke); }
-    header h1{ margin:0; font-size:16px; }
-    header p{ margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.35; }
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted:#64748b;
+      --border:#e2e8f0;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --accent:#2563eb;
+      --accent2:#0ea5e9;
 
-    .wrap{
+      --node-bg:#ffffff;
+      --node-border:#cbd5e1;
+      --node-shadow: 0 8px 18px rgba(15, 23, 42, 0.10);
+      --node-text:#0f172a;
+      --node-sub:#475569;
+
+      --edge:#94a3b8;
+
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --node-font-size: 13px; /* uniform across all nodes */
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--font);
+      color:var(--text);
+      background:var(--bg);
+      height:100vh;
+      overflow:hidden; /* app controls scroll inside canvas */
+    }
+
+    .app{
       display:grid;
-      grid-template-columns: 420px 1fr;
-      gap:12px;
-      padding:12px;
-      box-sizing:border-box;
+      grid-template-rows: auto 1fr;
+      height:100vh;
     }
-    @media (max-width: 980px){ .wrap{ grid-template-columns: 1fr; } }
 
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--stroke);
-      border-radius:14px;
-      padding:12px;
+    header{
+      background:var(--panel);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(15,23,42,.04);
+      padding:10px 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
     }
-    h2{ margin:0 0 10px; font-size:13px; color:var(--accent); }
-    label{ display:block; font-size:12px; color:var(--muted); margin:10px 0 6px; }
-    textarea, input[type="text"]{
-      width:100%; box-sizing:border-box;
-      border-radius:12px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
-      color:var(--text);
-      padding:10px;
-      font-size:12px;
-      outline:none;
+
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      margin-right:10px;
+      min-width: 180px;
     }
-    textarea{ min-height: 260px; resize: vertical; line-height:1.35; }
-    .row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-    button{
-      cursor:pointer;
-      border-radius:12px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
+    .title strong{font-size:14px; letter-spacing:.2px}
+    .title span{font-size:12px; color:var(--muted)}
+
+    .controls{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:1px solid var(--border);
+      background: #fff;
       color:var(--text);
+      border-radius:10px;
       padding:8px 10px;
       font-size:12px;
+      cursor:pointer;
+      box-shadow: 0 2px 10px rgba(15,23,42,.04);
+      transition: transform .05s ease, border-color .15s ease, box-shadow .15s ease;
+      user-select:none;
+      display:flex;
+      align-items:center;
+      gap:8px;
     }
-    button.primary{
-      border-color: rgba(102,227,255,.6);
-      background: rgba(102,227,255,.12);
+    .btn:hover{
+      border-color:#c7d2fe;
+      box-shadow: 0 6px 16px rgba(15,23,42,.08);
     }
-    .hint{ color:var(--muted); font-size:12px; line-height:1.35; }
+    .btn:active{ transform: translateY(1px); }
 
-    /* Simple diagram */
-    .diagram{
-      border:1px solid var(--stroke);
-      border-radius:14px;
-      padding:12px;
-      background: rgba(0,0,0,.14);
-      min-height: 320px;
+    .btn.primary{
+      border-color: #bfdbfe;
+      background: linear-gradient(180deg, #ffffff, #f0f7ff);
     }
-    .box{
-      border:1px solid rgba(255,255,255,.16);
-      border-radius:14px;
-      padding:10px;
-      background: rgba(0,0,0,.16);
-      margin:10px 0;
+
+    .search{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:12px;
+      padding:8px 10px;
+      box-shadow: 0 2px 10px rgba(15,23,42,.04);
     }
-    .box .title{ font-weight:900; font-size:13px; }
-    .box .meta{ color:var(--muted); font-size:11px; margin-top:4px; }
-    .s1Grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap:10px;
-      margin-top: 10px;
-    }
-    .pill{
-      display:inline-block;
-      padding:2px 8px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.14);
-      font-size:11px;
-      color:var(--muted);
-      margin-left:8px;
-    }
-    .list{
-      margin:0; padding-left: 16px;
-      color:var(--muted); font-size:12px; line-height:1.35;
-    }
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width: 980px){ .split{ grid-template-columns:1fr; } }
-    .smallCard{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.12);
-      border-radius:14px;
-      padding:10px;
-    }
-    .smallCard h3{
-      margin:0 0 8px;
+    .search input{
+      border:none;
+      outline:none;
       font-size:12px;
+      width:220px;
+      background:transparent;
       color:var(--text);
     }
-    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
+    .search .hint{ color: var(--muted); font-size:12px; }
+
+    .status{
+      margin-left:auto;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      white-space:nowrap;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:11px;
+      border:1px solid var(--border);
+      border-bottom-width:2px;
+      background:#fff;
+      padding:2px 6px;
+      border-radius:8px;
+      color:var(--muted);
+    }
+
+    /* Scrollable stage (both directions) */
+    .viewport{
+      position:relative;
+      overflow:auto; /* <-- enables left-right and up-down scrolling */
+      background: radial-gradient(circle at 1px 1px, rgba(148,163,184,.25) 1px, transparent 0) 0 0/18px 18px,
+                  linear-gradient(#ffffff, #ffffff);
+    }
+
+    /* Big content area to allow scrolling */
+    .stage{
+      position:relative;
+      width: 4200px;
+      height: 2600px;
+      padding: 40px;
+    }
+
+    /* Zoom container */
+    .zoomLayer{
+      position:absolute;
+      inset:0;
+      transform-origin: 0 0;
+      /* transform set via JS */
+    }
+
+    /* Edges behind nodes */
+    svg.edges{
+      position:absolute;
+      inset:0;
+      overflow:visible;
+      pointer-events:none;
+    }
+    .edge{
+      stroke: var(--edge);
+      stroke-width: 2;
+      fill: none;
+      opacity: .85;
+    }
+
+    /* Nodes as lozenges */
+    .node{
+      position:absolute;
+      min-width: 180px;
+      max-width: 220px;
+      padding: 10px 12px;
+      background: var(--node-bg);
+      border: 1px solid var(--node-border);
+      border-radius: 999px;          /* lozenge */
+      box-shadow: var(--node-shadow);
+      font-size: var(--node-font-size); /* uniform */
+      line-height: 1.2;
+      color: var(--node-text);
+      cursor: pointer;
+      user-select:none;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .node .name{
+      font-weight: 650;
+      letter-spacing: .2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .node .role{
+      color: var(--node-sub);
+      font-weight: 520;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .node:focus{ outline: 3px solid rgba(37,99,235,.25); outline-offset:2px; }
+    .node.selected{
+      border-color: #93c5fd;
+      box-shadow: 0 14px 28px rgba(37,99,235,.18);
+    }
+
+    /* Tiny tooltip */
+    .toast{
+      position:absolute;
+      right:16px;
+      bottom:16px;
+      background: rgba(255,255,255,.95);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+      box-shadow: var(--shadow);
+      color:var(--muted);
+      font-size:12px;
+    }
   </style>
 </head>
 <body>
-<header>
-  <h1>VSM Builder (Simple) — Org Chart → System 1</h1>
-  <p>
-    Stage 1: paste your org chart components. Stage 2: the tool suggests <span class="mono">System 1</span> (value-creating) units and shows a starter VSM layout.
-    (Rule-based mapping you can tweak.)
-  </p>
-</header>
-
-<div class="wrap">
-  <!-- LEFT: stages -->
-  <section class="card">
-    <h2>Stage 1 — Enter org chart components</h2>
-
-    <label for="orgInput">Org chart (one item per line)</label>
-    <textarea id="orgInput" placeholder="Examples:
-CEO
-  Operations
-    Fulfilment
-    Customer Support
-  Sales
-  Marketing
-  Finance
-  HR
-  IT
-  Legal
-
-Tip: indent with 2+ spaces to show nesting. Bullets like '-' or '*' are ok too."></textarea>
-
-    <label for="systemName">System name (optional)</label>
-    <input id="systemName" type="text" placeholder="e.g., 'Acme Ltd'"/>
-
-    <div class="row">
-      <button class="primary" id="transformBtn">Stage 2 — Suggest System 1</button>
-      <button id="loadExampleBtn">Load example</button>
-      <button id="resetBtn">Reset</button>
+<div class="app">
+  <header>
+    <div class="title">
+      <strong>Org Chart</strong>
+      <span>Scroll + Pan + Zoom (light theme)</span>
     </div>
 
-    <div class="hint" style="margin-top:10px;">
-      <b>How the mapping works (simple heuristic):</b><br/>
-      Anything that looks like delivery/operations/service is treated as <b>System 1</b>.
-      Anything that looks like support/management/governance is treated as <b>System 2–5 / support</b> (kept as “non-S1” for now).
-      You can tweak the keyword lists in the script.
-    </div>
+    <div class="controls">
+      <button class="btn primary" id="fitBtn">Fit</button>
+      <button class="btn" id="centerBtn">Center</button>
+      <button class="btn" id="zoomInBtn">Zoom +</button>
+      <button class="btn" id="zoomOutBtn">Zoom −</button>
+      <button class="btn" id="resetBtn">Reset</button>
 
-    <div class="split" style="margin-top:12px;">
-      <div class="smallCard">
-        <h3>Detected System 1 (candidate)</h3>
-        <ul class="list" id="s1List"><li>—</li></ul>
-      </div>
-      <div class="smallCard">
-        <h3>Non-S1 (support / management)</h3>
-        <ul class="list" id="nonS1List"><li>—</li></ul>
+      <div class="search">
+        <span class="hint">Search</span>
+        <input id="searchInput" placeholder="e.g. CFO, Alex, Marketing…" />
+        <button class="btn" id="searchBtn">Go</button>
       </div>
     </div>
-  </section>
 
-  <!-- RIGHT: diagram -->
-  <section class="card">
-    <h2>Stage 2 — Starter VSM diagram (System 1 set)</h2>
+    <div class="status">
+      <span>Pan: <span class="kbd">drag</span></span>
+      <span>Zoom: <span class="kbd">wheel</span></span>
+      <span>Keys: <span class="kbd">←↑→↓</span></span>
+    </div>
+  </header>
 
-    <div class="diagram">
-      <div class="box" id="rootBox">
-        <div class="title">ROOT (Container) <span class="pill">System boundary</span></div>
-        <div class="meta" id="rootMeta">No org chart loaded yet.</div>
-      </div>
-
-      <div class="box">
-        <div class="title">System 1 units (operations that “do the work”) <span class="pill">S1</span></div>
-        <div class="hint" style="margin-top:6px;">
-          This is the beginning of the VSM diagram: identify the operational units first. Later stages would add S2/S3/S4/S5.
-        </div>
-        <div class="s1Grid" id="s1Grid"></div>
-      </div>
-
-      <div class="box">
-        <div class="title">Mapping notes <span class="pill">Explainability</span></div>
-        <div class="hint" id="mappingNotes">—</div>
+  <div class="viewport" id="viewport" tabindex="0" aria-label="Org chart viewport">
+    <div class="stage" id="stage">
+      <div class="zoomLayer" id="zoomLayer">
+        <svg class="edges" id="edges"></svg>
+        <div id="nodes"></div>
       </div>
     </div>
-  </section>
+
+    <div class="toast">
+      Tip: use <b>Fit</b> after loading data, then search a name/role to jump.
+    </div>
+  </div>
 </div>
 
 <script>
-  const $ = (id) => document.getElementById(id);
+  // Example data (replace with your JSON)
+  const data = {
+    nodes: [
+      { id:"ceo", name:"Alex Morgan", role:"CEO" },
+      { id:"cfo", name:"Sam Patel", role:"CFO" },
+      { id:"cto", name:"Jordan Lee", role:"CTO" },
+      { id:"coo", name:"Priya Singh", role:"COO" },
+      { id:"hr",  name:"Taylor Kim", role:"Head of HR" },
+      { id:"eng1",name:"Morgan Chen", role:"Engineering Manager" },
+      { id:"eng2",name:"Casey Jones", role:"Engineering Manager" },
+      { id:"fin1",name:"Ava Brown", role:"Finance Manager" },
+      { id:"ops1",name:"Noah Wilson", role:"Operations Manager" },
+      { id:"mkt1",name:"Riley Garcia", role:"Marketing Lead" }
+    ],
+    edges: [
+      ["ceo","cfo"], ["ceo","cto"], ["ceo","coo"], ["coo","hr"], ["cto","eng1"], ["cto","eng2"],
+      ["cfo","fin1"], ["coo","ops1"], ["ceo","mkt1"]
+    ]
+  };
 
-  // --- Simple parsing: indentation => hierarchy
-  function parseOrgLines(text){
-    const raw = text
-      .split(/\r?\n/)
-      .map(l => l.replace(/\t/g, "  "))
-      .map(l => l.replace(/^\s*[-*•]\s+/, "")) // allow bullets
-      .filter(l => l.trim().length > 0);
+  // Layout config
+  const NODE_W = 210;      // approximate max width for lozenges
+  const NODE_H = 56;       // fixed-ish height
+  const H_GAP  = 70;
+  const V_GAP  = 110;
+  const ORIGIN = { x: 260, y: 120 };
 
-    // Each item: { name, indent, children: [] }
-    const items = raw.map(line => {
-      const indent = (line.match(/^\s*/)?.[0].length) || 0;
-      const name = line.trim();
-      return { name, indent, children: [] };
-    });
+  const viewport  = document.getElementById("viewport");
+  const zoomLayer = document.getElementById("zoomLayer");
+  const nodesHost = document.getElementById("nodes");
+  const edgesSvg  = document.getElementById("edges");
 
-    // Build tree using indent stack
-    const root = { name: "ROOT", indent: -1, children: [] };
-    const stack = [root];
+  const fitBtn    = document.getElementById("fitBtn");
+  const centerBtn = document.getElementById("centerBtn");
+  const zoomInBtn = document.getElementById("zoomInBtn");
+  const zoomOutBtn= document.getElementById("zoomOutBtn");
+  const resetBtn  = document.getElementById("resetBtn");
+  const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
 
-    for (const item of items){
-      while (stack.length > 1 && item.indent <= stack[stack.length-1].indent){
-        stack.pop();
+  let scale = 1;
+  let selectedId = null;
+
+  // Build parent -> children map
+  function buildTree(edges){
+    const children = new Map();
+    const parents  = new Map();
+    for (const [p,c] of edges){
+      if(!children.has(p)) children.set(p, []);
+      children.get(p).push(c);
+      parents.set(c, p);
+    }
+    // root = a node that is never a child
+    const childSet = new Set(edges.map(e => e[1]));
+    const root = data.nodes.find(n => !childSet.has(n.id))?.id ?? data.nodes[0]?.id;
+    return { root, children, parents };
+  }
+
+  // Simple tidy-ish tree layout (level-order with sibling spacing)
+  function layout(){
+    const { root, children } = buildTree(data.edges);
+
+    const levels = [];
+    const q = [{ id: root, depth: 0 }];
+    const seen = new Set();
+
+    while(q.length){
+      const { id, depth } = q.shift();
+      if(seen.has(id)) continue;
+      seen.add(id);
+      if(!levels[depth]) levels[depth] = [];
+      levels[depth].push(id);
+      const kids = children.get(id) || [];
+      for(const k of kids) q.push({ id: k, depth: depth + 1 });
+    }
+
+    // Assign x positions within each level
+    const pos = new Map();
+    for(let depth=0; depth<levels.length; depth++){
+      const ids = levels[depth];
+      // center the level around ORIGIN.x
+      const totalW = ids.length * NODE_W + (ids.length - 1) * H_GAP;
+      let x = ORIGIN.x - totalW / 2;
+      const y = ORIGIN.y + depth * (NODE_H + V_GAP);
+      for(const id of ids){
+        pos.set(id, { x, y });
+        x += NODE_W + H_GAP;
       }
-      stack[stack.length-1].children.push(item);
-      stack.push(item);
     }
-    return root;
+    return pos;
   }
 
-  // --- Flatten nodes with path for reporting
-  function flattenTree(node, path = []){
-    const out = [];
-    for (const child of node.children || []){
-      const childPath = [...path, child.name];
-      out.push({ name: child.name, path: childPath.join(" > "), node: child });
-      out.push(...flattenTree(child, childPath));
+  function render(){
+    nodesHost.innerHTML = "";
+    edgesSvg.innerHTML = "";
+
+    const pos = layout();
+
+    // Nodes
+    for(const n of data.nodes){
+      const p = pos.get(n.id) || { x: ORIGIN.x, y: ORIGIN.y };
+      const el = document.createElement("div");
+      el.className = "node";
+      el.style.left = p.x + "px";
+      el.style.top  = p.y + "px";
+      el.tabIndex = 0;
+      el.dataset.id = n.id;
+
+      el.innerHTML = `
+        <div class="name" title="${escapeHtml(n.name)}">${escapeHtml(n.name)}</div>
+        <div class="role" title="${escapeHtml(n.role)}">${escapeHtml(n.role)}</div>
+      `;
+
+      el.addEventListener("click", () => selectNode(n.id, true));
+      el.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " ") selectNode(n.id, true);
+      });
+
+      nodesHost.appendChild(el);
     }
-    return out;
-  }
 
-  // --- Heuristic classifier for System 1 vs non-S1
-  // You can tweak these lists to match your org style.
-  const S1_KEYWORDS = [
-    "operations","ops","delivery","fulfilment","fulfillment","service","production","manufacturing",
-    "support","customer","success","care","clinic","ward","frontline","field","project","product delivery",
-    "engineering","dev","development","platform","run","run team","service desk"
-  ];
+    // Edges (draw center-bottom of parent to center-top of child)
+    const svgW = 5000, svgH = 3200; // big enough for stage
+    edgesSvg.setAttribute("width", svgW);
+    edgesSvg.setAttribute("height", svgH);
 
-  const NON_S1_KEYWORDS = [
-    "hr","people","finance","legal","compliance","risk","audit","it","security","governance",
-    "strategy","ceo","cfo","coo","cto","vp","director","management","admin","procurement",
-    "marketing","brand","sales ops","operations management","pmo"
-  ];
-
-  function classifyAsS1(name){
-    const s = name.toLowerCase();
-    const hitsNon = NON_S1_KEYWORDS.some(k => s.includes(k));
-    const hitsS1 = S1_KEYWORDS.some(k => s.includes(k));
-
-    // If it matches both, prefer Non-S1 (conservative), unless it strongly looks like frontline delivery.
-    if (hitsNon && hitsS1){
-      const frontline = ["delivery","fulfil","fulfill","production","manufacturing","ward","clinic","frontline","field","service desk"];
-      if (frontline.some(k => s.includes(k))) return true;
-      return false;
-    }
-    if (hitsNon) return false;
-    if (hitsS1) return true;
-
-    // Default: treat as non-S1 unless it sits under an obvious ops branch in the hierarchy later.
-    return null; // unknown
-  }
-
-  // --- Promote "unknown" nodes to S1 if their parent looks like ops/delivery
-  function inferByParent(flat){
-    const byNamePath = new Map(flat.map(x => [x.path, x]));
-    const isOpsish = (name) => {
-      const s = name.toLowerCase();
-      return ["operations","ops","delivery","service","production","manufacturing","frontline","field","fulfil","fulfill"]
-        .some(k => s.includes(k));
+    const nodeCenter = (id) => {
+      const p = pos.get(id);
+      if(!p) return null;
+      return {
+        x: p.x + NODE_W/2,
+        yTop: p.y,
+        yBottom: p.y + NODE_H
+      };
     };
 
-    return flat.map(x => {
-      const direct = classifyAsS1(x.name);
-      if (direct !== null) return { ...x, s1: direct, reason: direct ? "keyword:S1" : "keyword:nonS1" };
+    for(const [pId, cId] of data.edges){
+      const p = nodeCenter(pId);
+      const c = nodeCenter(cId);
+      if(!p || !c) continue;
 
-      // infer from parent segment in path
-      const parts = x.path.split(" > ");
-      const parentName = parts.length >= 2 ? parts[parts.length-2] : "";
-      if (parentName && isOpsish(parentName)){
-        return { ...x, s1: true, reason: "inferred:under-ops-parent" };
-      }
-      return { ...x, s1: false, reason: "default:unknown→nonS1" };
+      const x1 = p.x, y1 = p.yBottom;
+      const x2 = c.x, y2 = c.yTop;
+
+      const midY = y1 + (y2 - y1) * 0.55;
+      const d = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+      path.setAttribute("d", d);
+      path.setAttribute("class", "edge");
+      edgesSvg.appendChild(path);
+    }
+
+    // Default select root
+    const root = buildTree(data.edges).root;
+    selectNode(root, false);
+  }
+
+  function setScale(next){
+    scale = Math.max(0.35, Math.min(2.2, next));
+    zoomLayer.style.transform = `scale(${scale})`;
+  }
+
+  function selectNode(id, scrollIntoView){
+    selectedId = id;
+    document.querySelectorAll(".node").forEach(n => {
+      n.classList.toggle("selected", n.dataset.id === id);
+    });
+    if(scrollIntoView) centerOnNode(id);
+  }
+
+  function centerOnNode(id){
+    const el = document.querySelector(`.node[data-id="${CSS.escape(id)}"]`);
+    if(!el) return;
+
+    // node box in unscaled coords
+    const nodeLeft = el.offsetLeft;
+    const nodeTop  = el.offsetTop;
+
+    // center coordinates considering scale
+    const cx = (nodeLeft + NODE_W/2) * scale;
+    const cy = (nodeTop + NODE_H/2) * scale;
+
+    const targetLeft = cx - viewport.clientWidth / 2;
+    const targetTop  = cy - viewport.clientHeight / 2;
+
+    viewport.scrollTo({
+      left: Math.max(0, targetLeft),
+      top:  Math.max(0, targetTop),
+      behavior: "smooth"
     });
   }
 
-  function uniq(arr){ return [...new Set(arr)]; }
+  function fitToScreen(){
+    // Find bounding box of nodes (in unscaled coords)
+    const nodes = Array.from(document.querySelectorAll(".node"));
+    if(!nodes.length) return;
 
-  // --- Render
-  function renderLists(s1, nonS1){
-    const s1List = $("s1List");
-    const nonList = $("nonS1List");
-    s1List.innerHTML = s1.length ? s1.map(x => `<li>${escapeHtml(x.name)} <span class="pill">${escapeHtml(x.reason)}</span></li>`).join("") : "<li>—</li>";
-    nonList.innerHTML = nonS1.length ? nonS1.map(x => `<li>${escapeHtml(x.name)} <span class="pill">${escapeHtml(x.reason)}</span></li>`).join("") : "<li>—</li>";
-  }
-
-  function renderDiagram(systemName, s1){
-    const title = systemName?.trim() ? systemName.trim() : "ROOT";
-    $("rootBox").querySelector(".title").innerHTML =
-      `${escapeHtml(title)} (Container) <span class="pill">System boundary</span>`;
-
-    $("rootMeta").textContent =
-      s1.length ? `Identified ${s1.length} candidate System 1 unit(s) from your org chart.` : "No System 1 units identified yet.";
-
-    const grid = $("s1Grid");
-    grid.innerHTML = "";
-
-    if (!s1.length){
-      grid.innerHTML = `<div class="hint">Nothing classified as System 1 yet. Add more operational components (e.g., Delivery, Fulfilment, Service) or tweak keywords in the script.</div>`;
-      return;
+    let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+    for(const el of nodes){
+      minX = Math.min(minX, el.offsetLeft);
+      minY = Math.min(minY, el.offsetTop);
+      maxX = Math.max(maxX, el.offsetLeft + NODE_W);
+      maxY = Math.max(maxY, el.offsetTop + NODE_H);
     }
 
-    for (const unit of s1){
-      const el = document.createElement("div");
-      el.className = "box";
-      el.innerHTML = `
-        <div class="title">${escapeHtml(unit.name)} <span class="pill">S1</span></div>
-        <div class="meta">from: ${escapeHtml(unit.path)}</div>
-      `;
-      grid.appendChild(el);
-    }
+    const contentW = (maxX - minX);
+    const contentH = (maxY - minY);
+
+    const sx = viewport.clientWidth  / (contentW + 140);
+    const sy = viewport.clientHeight / (contentH + 140);
+    setScale(Math.min(sx, sy, 1.5));
+
+    // center on bounding box center
+    const centerId = selectedId || data.nodes[0]?.id;
+    if(centerId) centerOnNode(centerId);
   }
 
-  function renderNotes(s1, nonS1){
-    const reasons = uniq([...s1, ...nonS1].map(x => x.reason));
-    $("mappingNotes").innerHTML = `
-      <b>Rules used:</b>
-      <ul class="list">
-        <li><span class="mono">keyword:S1</span> → matched an ops/delivery keyword</li>
-        <li><span class="mono">keyword:nonS1</span> → matched a support/management keyword</li>
-        <li><span class="mono">inferred:under-ops-parent</span> → unknown item nested under an ops-like parent</li>
-        <li><span class="mono">default:unknown→nonS1</span> → conservatively treated as non-S1</li>
-      </ul>
-      <div class="hint" style="margin-top:8px;">
-        Reasons present in this run: <span class="mono">${escapeHtml(reasons.join(", "))}</span>
-      </div>
-    `;
+  function resetView(){
+    setScale(1);
+    viewport.scrollTo({ left: 0, top: 0, behavior: "smooth" });
   }
 
-  function escapeHtml(s){
-    return String(s)
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;");
+  // Pan by dragging on empty space
+  let isPanning = false;
+  let panStart = { x:0, y:0, left:0, top:0 };
+  viewport.addEventListener("pointerdown", (e) => {
+    // Only pan when clicking background (not node)
+    if(e.target.closest(".node")) return;
+    isPanning = true;
+    viewport.setPointerCapture(e.pointerId);
+    panStart = { x:e.clientX, y:e.clientY, left: viewport.scrollLeft, top: viewport.scrollTop };
+  });
+  viewport.addEventListener("pointermove", (e) => {
+    if(!isPanning) return;
+    const dx = e.clientX - panStart.x;
+    const dy = e.clientY - panStart.y;
+    viewport.scrollLeft = panStart.left - dx;
+    viewport.scrollTop  = panStart.top  - dy;
+  });
+  viewport.addEventListener("pointerup", () => { isPanning = false; });
+
+  // Zoom with wheel (keeps cursor position stable-ish)
+  viewport.addEventListener("wheel", (e) => {
+    // trackpads send small deltas; allow smooth zoom with Ctrl or plain wheel
+    const isZoomGesture = e.ctrlKey || Math.abs(e.deltaY) > 0;
+    if(!isZoomGesture) return;
+    e.preventDefault();
+
+    const rect = viewport.getBoundingClientRect();
+    const mx = e.clientX - rect.left + viewport.scrollLeft;
+    const my = e.clientY - rect.top  + viewport.scrollTop;
+
+    const prev = scale;
+    const delta = -e.deltaY;
+    const factor = Math.exp(delta * 0.0012);
+    setScale(prev * factor);
+
+    // Adjust scroll to keep mouse point consistent
+    const ratio = scale / prev;
+    viewport.scrollLeft = mx * ratio - (e.clientX - rect.left);
+    viewport.scrollTop  = my * ratio - (e.clientY - rect.top);
+  }, { passive:false });
+
+  // Buttons
+  zoomInBtn.addEventListener("click", () => setScale(scale * 1.15));
+  zoomOutBtn.addEventListener("click", () => setScale(scale / 1.15));
+  resetBtn.addEventListener("click", resetView);
+  fitBtn.addEventListener("click", fitToScreen);
+  centerBtn.addEventListener("click", () => selectedId && centerOnNode(selectedId));
+
+  // Search
+  function doSearch(){
+    const q = (searchInput.value || "").trim().toLowerCase();
+    if(!q) return;
+    const match = data.nodes.find(n =>
+      n.name.toLowerCase().includes(q) || n.role.toLowerCase().includes(q) || n.id.toLowerCase() === q
+    );
+    if(match) selectNode(match.id, true);
   }
+  searchBtn.addEventListener("click", doSearch);
+  searchInput.addEventListener("keydown", (e) => { if(e.key === "Enter") doSearch(); });
 
-  // --- Stage 2 action
-  function transform(){
-    const text = $("orgInput").value.trim();
-    const systemName = $("systemName").value;
-
-    if (!text){
-      renderLists([], []);
-      renderDiagram(systemName, []);
-      $("rootMeta").textContent = "Paste your org chart on the left, then run Stage 2.";
-      $("mappingNotes").textContent = "—";
-      return;
-    }
-
-    const tree = parseOrgLines(text);
-    const flat = flattenTree(tree);
-    const classified = inferByParent(flat);
-
-    // Turn into S1 candidates. Optional: de-duplicate by name.
-    const s1 = classified.filter(x => x.s1);
-    const nonS1 = classified.filter(x => !x.s1);
-
-    renderLists(s1, nonS1);
-    renderDiagram(systemName, s1);
-    renderNotes(s1, nonS1);
-  }
-
-  // --- Buttons
-  $("transformBtn").addEventListener("click", transform);
-
-  $("loadExampleBtn").addEventListener("click", () => {
-    $("systemName").value = "ExampleCo";
-    $("orgInput").value = `CEO
-  Operations
-    Fulfilment
-    Customer Support
-    Field Service
-  Sales
-  Marketing
-  Finance
-  HR
-  IT
-  Legal`;
-    transform();
+  // Keyboard panning
+  viewport.addEventListener("keydown", (e) => {
+    const step = 70;
+    if(e.key === "ArrowLeft") viewport.scrollLeft -= step;
+    if(e.key === "ArrowRight") viewport.scrollLeft += step;
+    if(e.key === "ArrowUp") viewport.scrollTop -= step;
+    if(e.key === "ArrowDown") viewport.scrollTop += step;
   });
 
-  $("resetBtn").addEventListener("click", () => {
-    $("systemName").value = "";
-    $("orgInput").value = "";
-    renderLists([], []);
-    renderDiagram("", []);
-    $("mappingNotes").textContent = "—";
-  });
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[s]));
+  }
 
-  // Initial blank render
-  renderLists([], []);
-  renderDiagram("", []);
+  // Initial render
+  render();
+  // Start reasonably centered and fitted
+  setTimeout(() => fitToScreen(), 0);
 </script>
 </body>
 </html>
