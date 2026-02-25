@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>VSM Builder — Stage 1 → Stage 2 (Org Chart → System 1)</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#111a33;
+      --stroke:rgba(255,255,255,.12);
+      --text:#eef2ff;
+      --muted:#b7c4ff;
+      --accent:#66e3ff;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+    body{ margin:0; background:var(--bg); color:var(--text); }
+    header{ padding:14px 16px; border-bottom:1px solid var(--stroke); }
+    header h1{ margin:0; font-size:16px; }
+    header p{ margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.35; }
+
+    .wrap{
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap:12px;
+      padding:12px;
+      box-sizing:border-box;
+    }
+    @media (max-width: 980px){ .wrap{ grid-template-columns: 1fr; } }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      padding:12px;
+    }
+    h2{ margin:0 0 10px; font-size:13px; color:var(--accent); }
+    label{ display:block; font-size:12px; color:var(--muted); margin:10px 0 6px; }
+    textarea, input[type="text"]{
+      width:100%; box-sizing:border-box;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      color:var(--text);
+      padding:10px;
+      font-size:12px;
+      outline:none;
+    }
+    textarea{ min-height: 260px; resize: vertical; line-height:1.35; }
+    .row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    button{
+      cursor:pointer;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      color:var(--text);
+      padding:8px 10px;
+      font-size:12px;
+    }
+    button.primary{
+      border-color: rgba(102,227,255,.6);
+      background: rgba(102,227,255,.12);
+    }
+    .hint{ color:var(--muted); font-size:12px; line-height:1.35; }
+
+    /* Simple diagram */
+    .diagram{
+      border:1px solid var(--stroke);
+      border-radius:14px;
+      padding:12px;
+      background: rgba(0,0,0,.14);
+      min-height: 320px;
+    }
+    .box{
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:14px;
+      padding:10px;
+      background: rgba(0,0,0,.16);
+      margin:10px 0;
+    }
+    .box .title{ font-weight:900; font-size:13px; }
+    .box .meta{ color:var(--muted); font-size:11px; margin-top:4px; }
+    .s1Grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap:10px;
+      margin-top: 10px;
+    }
+    .pill{
+      display:inline-block;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.14);
+      font-size:11px;
+      color:var(--muted);
+      margin-left:8px;
+    }
+    .list{
+      margin:0; padding-left: 16px;
+      color:var(--muted); font-size:12px; line-height:1.35;
+    }
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 980px){ .split{ grid-template-columns:1fr; } }
+    .smallCard{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      border-radius:14px;
+      padding:10px;
+    }
+    .smallCard h3{
+      margin:0 0 8px;
+      font-size:12px;
+      color:var(--text);
+    }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>VSM Builder (Simple) — Org Chart → System 1</h1>
+  <p>
+    Stage 1: paste your org chart components. Stage 2: the tool suggests <span class="mono">System 1</span> (value-creating) units and shows a starter VSM layout.
+    (Rule-based mapping you can tweak.)
+  </p>
+</header>
+
+<div class="wrap">
+  <!-- LEFT: stages -->
+  <section class="card">
+    <h2>Stage 1 — Enter org chart components</h2>
+
+    <label for="orgInput">Org chart (one item per line)</label>
+    <textarea id="orgInput" placeholder="Examples:
+CEO
+  Operations
+    Fulfilment
+    Customer Support
+  Sales
+  Marketing
+  Finance
+  HR
+  IT
+  Legal
+
+Tip: indent with 2+ spaces to show nesting. Bullets like '-' or '*' are ok too."></textarea>
+
+    <label for="systemName">System name (optional)</label>
+    <input id="systemName" type="text" placeholder="e.g., 'Acme Ltd'"/>
+
+    <div class="row">
+      <button class="primary" id="transformBtn">Stage 2 — Suggest System 1</button>
+      <button id="loadExampleBtn">Load example</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+
+    <div class="hint" style="margin-top:10px;">
+      <b>How the mapping works (simple heuristic):</b><br/>
+      Anything that looks like delivery/operations/service is treated as <b>System 1</b>.
+      Anything that looks like support/management/governance is treated as <b>System 2–5 / support</b> (kept as “non-S1” for now).
+      You can tweak the keyword lists in the script.
+    </div>
+
+    <div class="split" style="margin-top:12px;">
+      <div class="smallCard">
+        <h3>Detected System 1 (candidate)</h3>
+        <ul class="list" id="s1List"><li>—</li></ul>
+      </div>
+      <div class="smallCard">
+        <h3>Non-S1 (support / management)</h3>
+        <ul class="list" id="nonS1List"><li>—</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT: diagram -->
+  <section class="card">
+    <h2>Stage 2 — Starter VSM diagram (System 1 set)</h2>
+
+    <div class="diagram">
+      <div class="box" id="rootBox">
+        <div class="title">ROOT (Container) <span class="pill">System boundary</span></div>
+        <div class="meta" id="rootMeta">No org chart loaded yet.</div>
+      </div>
+
+      <div class="box">
+        <div class="title">System 1 units (operations that “do the work”) <span class="pill">S1</span></div>
+        <div class="hint" style="margin-top:6px;">
+          This is the beginning of the VSM diagram: identify the operational units first. Later stages would add S2/S3/S4/S5.
+        </div>
+        <div class="s1Grid" id="s1Grid"></div>
+      </div>
+
+      <div class="box">
+        <div class="title">Mapping notes <span class="pill">Explainability</span></div>
+        <div class="hint" id="mappingNotes">—</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  // --- Simple parsing: indentation => hierarchy
+  function parseOrgLines(text){
+    const raw = text
+      .split(/\r?\n/)
+      .map(l => l.replace(/\t/g, "  "))
+      .map(l => l.replace(/^\s*[-*•]\s+/, "")) // allow bullets
+      .filter(l => l.trim().length > 0);
+
+    // Each item: { name, indent, children: [] }
+    const items = raw.map(line => {
+      const indent = (line.match(/^\s*/)?.[0].length) || 0;
+      const name = line.trim();
+      return { name, indent, children: [] };
+    });
+
+    // Build tree using indent stack
+    const root = { name: "ROOT", indent: -1, children: [] };
+    const stack = [root];
+
+    for (const item of items){
+      while (stack.length > 1 && item.indent <= stack[stack.length-1].indent){
+        stack.pop();
+      }
+      stack[stack.length-1].children.push(item);
+      stack.push(item);
+    }
+    return root;
+  }
+
+  // --- Flatten nodes with path for reporting
+  function flattenTree(node, path = []){
+    const out = [];
+    for (const child of node.children || []){
+      const childPath = [...path, child.name];
+      out.push({ name: child.name, path: childPath.join(" > "), node: child });
+      out.push(...flattenTree(child, childPath));
+    }
+    return out;
+  }
+
+  // --- Heuristic classifier for System 1 vs non-S1
+  // You can tweak these lists to match your org style.
+  const S1_KEYWORDS = [
+    "operations","ops","delivery","fulfilment","fulfillment","service","production","manufacturing",
+    "support","customer","success","care","clinic","ward","frontline","field","project","product delivery",
+    "engineering","dev","development","platform","run","run team","service desk"
+  ];
+
+  const NON_S1_KEYWORDS = [
+    "hr","people","finance","legal","compliance","risk","audit","it","security","governance",
+    "strategy","ceo","cfo","coo","cto","vp","director","management","admin","procurement",
+    "marketing","brand","sales ops","operations management","pmo"
+  ];
+
+  function classifyAsS1(name){
+    const s = name.toLowerCase();
+    const hitsNon = NON_S1_KEYWORDS.some(k => s.includes(k));
+    const hitsS1 = S1_KEYWORDS.some(k => s.includes(k));
+
+    // If it matches both, prefer Non-S1 (conservative), unless it strongly looks like frontline delivery.
+    if (hitsNon && hitsS1){
+      const frontline = ["delivery","fulfil","fulfill","production","manufacturing","ward","clinic","frontline","field","service desk"];
+      if (frontline.some(k => s.includes(k))) return true;
+      return false;
+    }
+    if (hitsNon) return false;
+    if (hitsS1) return true;
+
+    // Default: treat as non-S1 unless it sits under an obvious ops branch in the hierarchy later.
+    return null; // unknown
+  }
+
+  // --- Promote "unknown" nodes to S1 if their parent looks like ops/delivery
+  function inferByParent(flat){
+    const byNamePath = new Map(flat.map(x => [x.path, x]));
+    const isOpsish = (name) => {
+      const s = name.toLowerCase();
+      return ["operations","ops","delivery","service","production","manufacturing","frontline","field","fulfil","fulfill"]
+        .some(k => s.includes(k));
+    };
+
+    return flat.map(x => {
+      const direct = classifyAsS1(x.name);
+      if (direct !== null) return { ...x, s1: direct, reason: direct ? "keyword:S1" : "keyword:nonS1" };
+
+      // infer from parent segment in path
+      const parts = x.path.split(" > ");
+      const parentName = parts.length >= 2 ? parts[parts.length-2] : "";
+      if (parentName && isOpsish(parentName)){
+        return { ...x, s1: true, reason: "inferred:under-ops-parent" };
+      }
+      return { ...x, s1: false, reason: "default:unknown→nonS1" };
+    });
+  }
+
+  function uniq(arr){ return [...new Set(arr)]; }
+
+  // --- Render
+  function renderLists(s1, nonS1){
+    const s1List = $("s1List");
+    const nonList = $("nonS1List");
+    s1List.innerHTML = s1.length ? s1.map(x => `<li>${escapeHtml(x.name)} <span class="pill">${escapeHtml(x.reason)}</span></li>`).join("") : "<li>—</li>";
+    nonList.innerHTML = nonS1.length ? nonS1.map(x => `<li>${escapeHtml(x.name)} <span class="pill">${escapeHtml(x.reason)}</span></li>`).join("") : "<li>—</li>";
+  }
+
+  function renderDiagram(systemName, s1){
+    const title = systemName?.trim() ? systemName.trim() : "ROOT";
+    $("rootBox").querySelector(".title").innerHTML =
+      `${escapeHtml(title)} (Container) <span class="pill">System boundary</span>`;
+
+    $("rootMeta").textContent =
+      s1.length ? `Identified ${s1.length} candidate System 1 unit(s) from your org chart.` : "No System 1 units identified yet.";
+
+    const grid = $("s1Grid");
+    grid.innerHTML = "";
+
+    if (!s1.length){
+      grid.innerHTML = `<div class="hint">Nothing classified as System 1 yet. Add more operational components (e.g., Delivery, Fulfilment, Service) or tweak keywords in the script.</div>`;
+      return;
+    }
+
+    for (const unit of s1){
+      const el = document.createElement("div");
+      el.className = "box";
+      el.innerHTML = `
+        <div class="title">${escapeHtml(unit.name)} <span class="pill">S1</span></div>
+        <div class="meta">from: ${escapeHtml(unit.path)}</div>
+      `;
+      grid.appendChild(el);
+    }
+  }
+
+  function renderNotes(s1, nonS1){
+    const reasons = uniq([...s1, ...nonS1].map(x => x.reason));
+    $("mappingNotes").innerHTML = `
+      <b>Rules used:</b>
+      <ul class="list">
+        <li><span class="mono">keyword:S1</span> → matched an ops/delivery keyword</li>
+        <li><span class="mono">keyword:nonS1</span> → matched a support/management keyword</li>
+        <li><span class="mono">inferred:under-ops-parent</span> → unknown item nested under an ops-like parent</li>
+        <li><span class="mono">default:unknown→nonS1</span> → conservatively treated as non-S1</li>
+      </ul>
+      <div class="hint" style="margin-top:8px;">
+        Reasons present in this run: <span class="mono">${escapeHtml(reasons.join(", "))}</span>
+      </div>
+    `;
+  }
+
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;");
+  }
+
+  // --- Stage 2 action
+  function transform(){
+    const text = $("orgInput").value.trim();
+    const systemName = $("systemName").value;
+
+    if (!text){
+      renderLists([], []);
+      renderDiagram(systemName, []);
+      $("rootMeta").textContent = "Paste your org chart on the left, then run Stage 2.";
+      $("mappingNotes").textContent = "—";
+      return;
+    }
+
+    const tree = parseOrgLines(text);
+    const flat = flattenTree(tree);
+    const classified = inferByParent(flat);
+
+    // Turn into S1 candidates. Optional: de-duplicate by name.
+    const s1 = classified.filter(x => x.s1);
+    const nonS1 = classified.filter(x => !x.s1);
+
+    renderLists(s1, nonS1);
+    renderDiagram(systemName, s1);
+    renderNotes(s1, nonS1);
+  }
+
+  // --- Buttons
+  $("transformBtn").addEventListener("click", transform);
+
+  $("loadExampleBtn").addEventListener("click", () => {
+    $("systemName").value = "ExampleCo";
+    $("orgInput").value = `CEO
+  Operations
+    Fulfilment
+    Customer Support
+    Field Service
+  Sales
+  Marketing
+  Finance
+  HR
+  IT
+  Legal`;
+    transform();
+  });
+
+  $("resetBtn").addEventListener("click", () => {
+    $("systemName").value = "";
+    $("orgInput").value = "";
+    renderLists([], []);
+    renderDiagram("", []);
+    $("mappingNotes").textContent = "—";
+  });
+
+  // Initial blank render
+  renderLists([], []);
+  renderDiagram("", []);
+</script>
+</body>
+</html>
