@@ -1,1732 +1,1957 @@
 {
   "meta": {
-    "title": "COVID-19 Occupational Exposure & Morbidity — Constraint Lattice (Ethics → Structures → Context → Governance → Mitigations → Outcomes → Cases)",
-    "subtitle": "Re-mapped from the original knowledge graph so concepts are ordered by constraint: most general (ethics/rights) at the top through to specific occupational dilemmas and cases at the bottom. Designed for exploring how pandemic epidemiology intersected with occupation and social strata.",
-    "domainName": "COVID-19 occupational exposure, mitigations, and morbidity risk",
-    "searchPlaceholder": "variants, community prevalence, essential work, ventilation, masking, sick pay, paid leave, precarious work, crowding, PPE fit, testing, equity, long COVID, hospitalisation, moral injury",
-    "userContextLabel": "Your pandemic workplace context (optional)",
-    "userContextPlaceholder": "e.g., retail shift worker; hospital porter; teacher; warehouse picker; office; gig-economy driver; multi-generational household; limited sick pay…",
-    "initialPrompt": "",
-    "promptTemplate": "You are an expert occupational health service director with occupational hygiene literacy and systems-thinking capability.\n\nWrite a realistic narrative case-study showing how upstream constraints (ethics, law, systems dynamics, incentives) shape downstream OH service performance.\nUse the selected concepts to explain what to do, why it works, and how to govern it.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario description (industry, hazards, stakeholders, constraints)\n- Diagnosis of failure modes (interfaces, drift, incentives, work-as-done)\n- OH operating model + programme portfolio (chemicals/noise/vibration/thermal/lighting + case management)\n- Legal + ethical compliance plan (consent/confidentiality, reporting, COSHH/RIDDOR duties)\n- Operational playbook (triage, consultation, report, escalation)\n- Measurement plan: leading + lagging indicators + learning loops\n- 2 safe-to-fail experiments with backfire checks\n",
-    "sourceMeta": {
-      "title": "Occupational Health Service Management — Wisdom → Super-Concepts → Systems → Governance → Operations → Improvement → Cases",
-      "subtitle": "Expanded lattice with dense, meaningful interconnections: ethics/law/trust constrain information flows; systems dynamics shape service reliability; governance structures programmes; operations create outputs; quality closes feedback loops back to strategy.",
-      "domainName": "occupational health service management"
-    }
+    "title": "COVID-19 Occupational Exposure & Morbidity — Concept Lattice (Rewritten)",
+    "subtitle": "A fully rewritten knowledge graph mapping pandemic challenges from general ethical principles down to specific occupational dilemmas and outcomes.",
+    "domainName": "COVID-19 epidemiology, occupation, mitigations, and morbidity risk across social strata",
+    "searchPlaceholder": "ethics, equity, reciprocity, precarious work, ventilation, respirators, variants, superspreading, sick pay, care homes, schools, long COVID…",
+    "userContextLabel": "Your context (optional)",
+    "userContextPlaceholder": "e.g., 'care home worker in shared housing', 'teacher with poor ventilation', 'gig driver without sick pay'…",
+    "initialPrompt": "Explore how ethical principles and social stratification shape occupational exposure, mitigations, and morbidity risks during COVID-19. Click concepts to trace from general principles to concrete dilemmas.",
+    "promptTemplate": "Given the user's context: {{userContext}}, explain the most relevant pathway from principles → structures → epidemiology → governance → occupation → mitigations → outcomes. Provide practical questions to ask and the main trade-offs."
   },
   "levels": [
     {
       "id": 0,
-      "title": "Ethics, legitimacy & rights",
-      "hint": "Most general constraints: dignity, justice, autonomy, solidarity, proportionality, lawful and trustworthy practice."
+      "title": "Ethics, rights & legitimacy (most general)",
+      "hint": "Foundational principles that constrain all decisions: dignity, justice, reciprocity, transparency, proportionality, trust."
     },
     {
       "id": 1,
-      "title": "Social structure, power & inequality",
-      "hint": "Who bears risk: social strata, job security, income, housing, discrimination, ability to refuse work, sick pay."
+      "title": "Social structure & stratification",
+      "hint": "How power, resources, and social position shape exposure, options, and downstream harm (income, housing, discrimination, job security)."
     },
     {
       "id": 2,
-      "title": "Epidemiological context & uncertainty",
-      "hint": "Variant/period, community transmission, uncertainty, risk perception, communication and decision-making under imperfect information."
+      "title": "Epidemiological system & uncertainty",
+      "hint": "Transmission dynamics, variants, measurement limits, and decision-making under uncertainty (prevalence, R, aerosols, superspreading)."
     },
     {
       "id": 3,
-      "title": "Institutional governance & accountability",
-      "hint": "Duties, governance, information stewardship, commissioning, workforce planning, integration across systems."
+      "title": "Institutions, policy & governance",
+      "hint": "Public health, labour regulation, organisational duty of care, and accountability mechanisms that translate principles into rules."
     },
     {
       "id": 4,
-      "title": "Occupational exposure pathways & mitigations",
-      "hint": "How exposure happens at work and how it is reduced: tasks, contacts, setting, ventilation, PPE, testing, policies."
+      "title": "Occupations, settings & constraints",
+      "hint": "Sectors, roles, and work realities: task mix, contact patterns, physical environments, and ability to adopt controls."
     },
     {
       "id": 5,
-      "title": "Health outcomes, service performance & improvement",
-      "hint": "Morbidity burden, reliability of services and controls, measurement, audit, learning loops and continuous improvement."
+      "title": "Exposure pathways & mitigations (operational)",
+      "hint": "Mechanisms of exposure and layered controls (engineering/admin/PPE/testing/vaccination), including implementation quality."
     },
     {
       "id": 6,
-      "title": "Specific dilemmas & cases",
-      "hint": "Concrete scenarios, trade-offs and failures experienced by particular workers/roles under pandemic pressures."
+      "title": "Specific outcomes, dilemmas & cases (most specific)",
+      "hint": "Concrete consequences and real-world trade-offs: infection/morbidity, long COVID, moral injury, and case-level decision points."
     }
   ],
   "nodes": [
     {
-      "id": "wis_listening",
+      "id": "ethics_core",
       "level": 0,
-      "kind": "wisdom",
-      "label": "Listening (serious attention)",
-      "summary": "Listen beyond dashboards: worker stories, near-miss narratives, complaint themes, and \"unease\" signals.",
-      "tags": [
-        "wisdom",
-        "sensing",
-        "trust"
-      ],
-      "bodyHtml": "<p>Wise OH management treats lived experience as system data. Listening surfaces friction, adaptations, and weak signals that metrics miss—especially around confidentiality, trust, and control usability.</p>",
-      "original_level": 0,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "wis_grace",
-      "level": 0,
-      "kind": "wisdom",
-      "label": "Grace (non-blame + dignity)",
-      "summary": "Protect dignity; reduce shame; keep reporting safe so weak signals keep flowing.",
-      "tags": [
-        "wisdom",
-        "culture",
-        "justice"
-      ],
-      "bodyHtml": "<p>OH programmes fail when people fear punishment or humiliation. Non-blame practice preserves trust and makes early reporting possible (symptoms, near misses, control failures).</p>",
-      "original_level": 0,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "wis_proportion",
-      "level": 0,
-      "kind": "wisdom",
-      "label": "Proportion & timing",
-      "summary": "Right-sized action; don’t flood the system with rules; match interventions to capacity and risk.",
-      "tags": [
-        "wisdom",
-        "governance",
-        "practicability"
-      ],
-      "bodyHtml": "<p>OH management is full of trade-offs (surveillance intensity, sampling depth, clinic capacity). Proportionate decisions are ethically and legally defensible and prevent compliance theatre.</p>",
-      "original_level": 0,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "wis_ethics_fairness",
-      "level": 0,
-      "kind": "wisdom",
-      "label": "Ethics & fairness as design constraints",
-      "summary": "Consent, confidentiality, justice and autonomy are structural constraints that stabilise trust and legitimacy.",
-      "tags": [
-        "wisdom",
-        "ethics",
-        "confidentiality"
-      ],
-      "bodyHtml": "<p>Ethical practice is not a “soft extra”. It determines whether employees engage with OH, accept surveillance, and trust advice—directly affecting system performance.</p>",
-      "original_level": 0,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "wis_holism",
-      "level": 1,
-      "kind": "wisdom",
-      "label": "Holism (whole-system view)",
-      "summary": "Don’t optimise one metric at the expense of health; outcomes emerge from interactions across the system.",
-      "tags": [
-        "wisdom",
-        "systems",
-        "integration"
-      ],
-      "bodyHtml": "<p>OH success depends on procurement, engineering, rostering, supervision, culture, and incentives—not only clinics and reports.</p>",
-      "original_level": 0,
-      "constraintScope": "Structural determinant"
-    },
-    {
-      "id": "wis_safe_to_fail",
-      "level": 5,
-      "kind": "wisdom",
-      "label": "Safe-to-fail experiments",
-      "summary": "Test → learn → adapt in short cycles; prevent backfire in complex problems.",
-      "tags": [
-        "wisdom",
-        "improvement",
-        "complexity"
-      ],
-      "bodyHtml": "<p>Many OH interventions backfire when rolled out as one big change. Safe-to-fail pilots use leading indicators and explicit backfire checks before scaling.</p>",
-      "original_level": 0,
-      "constraintScope": "Outcomes & improvement"
-    },
-    {
-      "id": "wis_reflection_sensemaking",
-      "level": 3,
-      "kind": "wisdom",
-      "label": "Reflection & sensemaking",
-      "summary": "Turn information into understanding; check assumptions; avoid blaming individuals for system problems.",
-      "tags": [
-        "wisdom",
-        "learning",
-        "governance"
-      ],
-      "bodyHtml": "<p>Reflection converts exposure data, surveillance outcomes, complaints, and audit findings into improvements in controls, interfaces, and governance.</p>",
-      "original_level": 0,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "risk_based_prioritisation",
-      "level": 2,
-      "kind": "concept",
-      "label": "Risk-based prioritisation",
-      "summary": "Allocate OH attention where harm is most likely/severe, using defensible criteria (hazard, exposure, vulnerability, uncertainty).",
-      "tags": [
-        "risk",
-        "prioritisation"
-      ],
-      "bodyHtml": "<p>OH management prioritises programmes and casework based on risk—not volume or loudest stakeholder.</p>",
-      "original_level": 1,
-      "constraintScope": "Epi/decision context"
-    },
-    {
-      "id": "two_master_ethics",
-      "level": 0,
-      "kind": "concept",
-      "label": "Two-master ethics (worker–employer tension)",
-      "summary": "Balance individual welfare, public/colleague safety, organisational needs and fairness.",
+      "kind": "principle",
+      "label": "Ethical foundations in a pandemic",
+      "summary": "Core ethical commitments that guide and limit action when lives, livelihoods, and liberties conflict.",
       "tags": [
         "ethics",
-        "stakeholders",
-        "conflict"
+        "legitimacy",
+        "public trust"
       ],
-      "bodyHtml": "<p>OH managers must design processes that keep independence credible: consent, confidentiality, relevance in reports, appeal pathways.</p>",
-      "original_level": 1,
-      "constraintScope": "Principle"
+      "bodyHtml": "<p>A pandemic creates unavoidable trade-offs. Ethical principles set the outer boundaries of what is acceptable, and help justify burdens placed on different groups.</p><p><b>Key idea:</b> decisions are not only technical; they must be <i>legitimate</i> to those who bear the risks.</p>"
     },
     {
-      "id": "law_and_accountability",
+      "id": "dignity",
       "level": 0,
-      "kind": "concept",
-      "label": "Law, dutyholders & accountability",
-      "summary": "Translate statutory/common-law duties and enforcement expectations into operational governance.",
+      "kind": "principle",
+      "label": "Dignity & non‑maleficence",
+      "summary": "Avoid preventable harm; treat workers and patients as ends in themselves, not expendable inputs.",
       "tags": [
-        "law",
-        "compliance",
-        "dutyholders"
+        "ethics",
+        "dignity",
+        "harm"
       ],
-      "bodyHtml": "<p>Core themes: ‘reasonably practicable’, COSHH duties, RIDDOR reporting, consultation duties, and data protection.</p>",
-      "original_level": 1,
-      "constraintScope": "Principle"
+      "bodyHtml": "<p>Even under emergency, workers are not 'disposable'. Policies should reduce avoidable exposure and avoid shifting risk onto those with least power.</p>"
     },
     {
-      "id": "consent_confidentiality",
+      "id": "justice",
       "level": 0,
-      "kind": "concept",
-      "label": "Consent & confidentiality governance",
-      "summary": "Consistent rules for consent, information sharing, report access, and exceptional disclosures.",
+      "kind": "principle",
+      "label": "Justice & equity",
+      "summary": "Fair distribution of risk, protection, and care—especially for those already disadvantaged.",
       "tags": [
-        "confidentiality",
-        "consent",
-        "information_governance"
-      ],
-      "bodyHtml": "<p>Operationalise consent: what will be shared, with whom, why, and rights—while managing lawful exceptions and expectations.</p>",
-      "original_level": 1,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "risk_communication",
-      "level": 1,
-      "kind": "concept",
-      "label": "Stakeholder communication & risk perception",
-      "summary": "Turn technical risk into actionable, comprehensible messages for workers, managers, unions and regulators.",
-      "tags": [
-        "communication",
-        "risk_perception"
-      ],
-      "bodyHtml": "<p>Miscommunication can destroy trust even when technical work is sound. OH management needs templates and escalation pathways.</p>",
-      "original_level": 1,
-      "constraintScope": "Structural determinant"
-    },
-    {
-      "id": "uncertainty_limits",
-      "level": 2,
-      "kind": "concept",
-      "label": "Uncertainty & model limits",
-      "summary": "Prognosis and exposure–effect relationships can be uncertain; false certainty creates brittleness and distrust.",
-      "tags": [
-        "uncertainty",
-        "decision_quality"
-      ],
-      "bodyHtml": "<p>Express uncertainty honestly (ranges, conditions). Build policies tolerant to variation and revise via feedback.</p>",
-      "original_level": 1,
-      "constraintScope": "Epi/decision context"
-    },
-    {
-      "id": "information_to_wisdom",
-      "level": 0,
-      "kind": "concept",
-      "label": "Information → Knowledge → Wisdom ladder",
-      "summary": "More data ≠ better decisions; interpretation and judgement matter.",
-      "tags": [
-        "meta",
-        "decision_quality"
-      ],
-      "bodyHtml": "<p>OH generates lots of data (surveillance, exposure measurements, absence metrics). The management challenge is converting it into action without ethical drift.</p>",
-      "original_level": 1,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "multidisciplinary_teaming",
-      "level": 4,
-      "kind": "concept",
-      "label": "Multidisciplinary teaming",
-      "summary": "Coordinate clinicians, hygienists, H&S, engineering, HR and leadership as one risk-control system.",
-      "tags": [
-        "team",
-        "integration"
-      ],
-      "bodyHtml": "<p>Noise/vibration/heat/chemicals/lighting require shared ownership. OH managers align roles, escalation rules and shared KPIs.</p>",
-      "original_level": 1,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "work_as_imagined_vs_done",
-      "level": 4,
-      "kind": "concept",
-      "label": "Work-as-imagined vs work-as-done",
-      "summary": "Policies are simplified models; real work adapts under constraint. The gap explains many control failures.",
-      "tags": [
-        "systems",
-        "real_work",
-        "controls"
-      ],
-      "bodyHtml": "<p>LEV ‘passes’ but exposure spikes on busy days; PPE is specified but not wearable at pace; surveillance exists but follow-up fails.</p>",
-      "original_level": 2,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "feedback_loops",
-      "level": 4,
-      "kind": "concept",
-      "label": "Feedback loops",
-      "summary": "Measure → learn → adapt; weak signals become actionable when captured and acted on.",
-      "tags": [
-        "systems",
-        "learning"
-      ],
-      "bodyHtml": "<p>Design feedback loops from surveillance, monitoring, incidents and complaints into engineering controls, training and policies.</p>",
-      "original_level": 2,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "entropy_and_drift",
-      "level": 4,
-      "kind": "concept",
-      "label": "Entropy / drift",
-      "summary": "Controls and processes degrade unless actively maintained; drift silently increases risk.",
-      "tags": [
-        "systems",
-        "maintenance",
-        "reliability"
-      ],
-      "bodyHtml": "<p>Examples: expired calibration, outdated templates, informal workarounds, delayed maintenance, role ambiguity, surveillance backlogs.</p>",
-      "original_level": 2,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "interfaces_and_handoffs",
-      "level": 0,
-      "kind": "concept",
-      "label": "Interfaces & handoffs",
-      "summary": "Where failure clusters: referral forms, portals, report delivery, lab results, surveillance clinics, contractor chains.",
-      "tags": [
-        "systems",
-        "risk",
-        "reliability"
-      ],
-      "bodyHtml": "<p>Many OH failures are interface failures: wrong recipient, missing consent, unclear questions, lost follow-up.</p>",
-      "original_level": 2,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "boundaries_and_coverage",
-      "level": 0,
-      "kind": "concept",
-      "label": "System boundaries (who is covered)",
-      "summary": "Boundary choices decide who is included in care/accountability (employees vs contractors, sites, remote workers, supply chain).",
-      "tags": [
-        "systems",
+        "ethics",
         "equity",
-        "governance"
+        "inequality"
       ],
-      "bodyHtml": "<p>OH managers must explicitly decide coverage boundaries and ensure consistent protections and reporting across them.</p>",
-      "original_level": 2,
-      "constraintScope": "Principle"
+      "bodyHtml": "<p>Equity asks: <i>who is more exposed</i>, <i>who is protected</i>, and <i>who pays the price</i> when protections fail?</p>"
     },
     {
-      "id": "flow_and_capacity",
-      "level": 4,
-      "kind": "concept",
-      "label": "Flow (time, attention, clinic capacity, data)",
-      "summary": "Bottlenecks create pressure; pressure drives unsafe adaptations and degraded quality.",
-      "tags": [
-        "systems",
-        "capacity",
-        "operations"
-      ],
-      "bodyHtml": "<p>Backlogs, rushed assessments, delayed controls and missing follow-up are flow problems.</p>",
-      "original_level": 2,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "power_and_incentives",
-      "level": 1,
-      "kind": "concept",
-      "label": "Power & incentives",
-      "summary": "Contracts, KPIs and reputational pressures reshape behaviour and can create perverse outcomes (under-reporting, compliance theatre).",
-      "tags": [
-        "systems",
-        "commissioning",
-        "metrics"
-      ],
-      "bodyHtml": "<p>Measure what matters (controls, follow-up, outcomes) not just speed/volume; avoid punishment signals that suppress reporting.</p>",
-      "original_level": 2,
-      "constraintScope": "Structural determinant"
-    },
-    {
-      "id": "problem_types",
-      "level": 3,
-      "kind": "concept",
-      "label": "Problem types: simple / complicated / complex",
-      "summary": "Intervention choice should match problem type: checklist fixes vs engineered solutions vs adaptive learning cycles.",
-      "tags": [
-        "systems",
-        "complexity"
-      ],
-      "bodyHtml": "<p>Noise mapping is complicated; culture and trust repair is complex.</p>",
-      "original_level": 2,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "commissioning_scope",
-      "level": 3,
-      "kind": "concept",
-      "label": "Commissioning, scope & operating model",
-      "summary": "Define what OH provides, referral pathways, turnaround times, surveillance programmes, and integration responsibilities.",
-      "tags": [
-        "commissioning",
-        "SLA",
-        "scope"
-      ],
-      "bodyHtml": "<p>Clear scope prevents dysfunctional demand and makes performance measurable and defensible.</p>",
-      "original_level": 3,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "clinical_governance",
-      "level": 3,
-      "kind": "concept",
-      "label": "Clinical governance",
-      "summary": "Policies, supervision, competence, audit, safe practice, and escalation across clinicians and the wider OH team.",
-      "tags": [
-        "governance",
-        "quality"
-      ],
-      "bodyHtml": "<p>Includes consent scripts, record standards, report templates, and handling disputes/complaints.</p>",
-      "original_level": 3,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "information_governance",
-      "level": 3,
-      "kind": "concept",
-      "label": "Information governance (records, access, security, retention)",
-      "summary": "Operational controls for confidentiality and data protection: access control, secure delivery, retention schedules, incident response.",
-      "tags": [
-        "IG",
-        "data_protection",
-        "records"
-      ],
-      "bodyHtml": "<p>Information governance is where ethics and law become daily operational practice.</p>",
-      "original_level": 3,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "legal_compliance_backbone",
+      "id": "reciprocity",
       "level": 0,
-      "kind": "concept",
-      "label": "Legal compliance backbone (HASAWA/COSHH/RIDDOR/consultation)",
-      "summary": "Ensure statutory duties are translated into processes, evidence and accountability.",
+      "kind": "principle",
+      "label": "Reciprocity for essential workers",
+      "summary": "If society requires some people to face higher risk, it owes them stronger protections and supports.",
       "tags": [
-        "law",
-        "HASAWA",
-        "COSHH",
-        "RIDDOR"
+        "ethics",
+        "essential work",
+        "duty of care"
       ],
-      "bodyHtml": "<p>Risk assessment, prevention/control, maintenance, monitoring/surveillance, incident planning, training and reporting.</p>",
-      "original_level": 3,
-      "constraintScope": "Principle"
+      "bodyHtml": "<p>Reciprocity motivates priority access to PPE, vaccination, sick pay, compensation, and mental health support for frontline roles.</p>"
     },
     {
-      "id": "integration_with_hs",
-      "level": 3,
-      "kind": "concept",
-      "label": "Integration with H&S risk systems",
-      "summary": "Connect OH outputs to risk registers, engineering controls, management review and consultation structures.",
-      "tags": [
-        "integration",
-        "risk_register"
-      ],
-      "bodyHtml": "<p>OH must not be an isolated clinic. Surveillance and exposure findings should drive control improvements and policy changes.</p>",
-      "original_level": 3,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "programme_portfolio",
-      "level": 4,
-      "kind": "concept",
-      "label": "Programme portfolio management",
-      "summary": "Run coherent hazard programmes (chemicals, noise, vibration, thermal, lighting) plus case management and health promotion.",
-      "tags": [
-        "portfolio",
-        "programmes"
-      ],
-      "bodyHtml": "<p>Each programme needs an owner, monitoring plan, surveillance criteria, training plan, documentation, and review cadence.</p>",
-      "original_level": 3,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "hygiene_cycle_arec",
-      "level": 4,
-      "kind": "concept",
-      "label": "Anticipate–Recognise–Evaluate–Control (AREC)",
-      "summary": "Hygiene management cycle used to structure hazard programmes and change management.",
-      "tags": [
-        "hygiene",
-        "AREC"
-      ],
-      "bodyHtml": "<p>AREC connects change to exposure evaluation and control verification. Backbone of prevention-first OH management.</p>",
-      "original_level": 3,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "risk_assessment_management",
-      "level": 4,
-      "kind": "concept",
-      "label": "Risk assessment → risk management",
-      "summary": "Risk assessment characterises risk; risk management ensures controls are implemented, maintained, communicated and reviewed.",
-      "tags": [
-        "risk",
-        "management"
-      ],
-      "bodyHtml": "<p>OH managers ensure assessment outputs turn into real controls and sustained outcomes.</p>",
-      "original_level": 3,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "hierarchy_of_control",
-      "level": 4,
-      "kind": "concept",
-      "label": "Hierarchy of control",
-      "summary": "Prefer elimination/substitution/engineering, then administrative controls, then PPE.",
-      "tags": [
-        "controls",
-        "engineering",
-        "PPE"
-      ],
-      "bodyHtml": "<p>OH management must avoid PPE-only responses and ensure engineering and procurement are engaged.</p>",
-      "original_level": 3,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "exposure_monitoring_strategy",
-      "level": 4,
-      "kind": "concept",
-      "label": "Exposure monitoring & survey strategy",
-      "summary": "Plan initial/basic/detailed surveys, personal vs static sampling, and resurvey triggers.",
-      "tags": [
-        "monitoring",
-        "sampling"
-      ],
-      "bodyHtml": "<p>Monitoring should drive control decisions and verify effectiveness—not as a ritual.</p>",
-      "original_level": 3,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "health_surveillance_strategy",
-      "level": 4,
-      "kind": "concept",
-      "label": "Health surveillance strategy (targeted, actionable)",
-      "summary": "Deploy surveillance where disease is plausible, detectable, and results trigger action.",
-      "tags": [
-        "surveillance",
-        "screening"
-      ],
-      "bodyHtml": "<p>Surveillance is justified only when it can prevent harm via early detection and response.</p>",
-      "original_level": 3,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "toxicology_foundations",
-      "level": 2,
-      "kind": "concept",
-      "label": "Toxicology foundations (dose, route, ADME, target organs)",
-      "summary": "Use toxicology to interpret hazards, limits, combined exposures, and health effects for decision-making.",
-      "tags": [
-        "toxicology",
-        "dose_response"
-      ],
-      "bodyHtml": "<p>Supports justified monitoring, surveillance, and prioritisation for hazardous substances.</p>",
-      "original_level": 3,
-      "constraintScope": "Epi/decision context"
-    },
-    {
-      "id": "hazard_info_sds_clp",
-      "level": 3,
-      "kind": "concept",
-      "label": "Hazard information systems (SDS/labels/CLP-GHS)",
-      "summary": "Use labels/SDS/classification to understand hazard types; treat SDS as input, not a risk assessment.",
-      "tags": [
-        "SDS",
-        "CLP",
-        "GHS",
-        "COSHH"
-      ],
-      "bodyHtml": "<p>Management ensures competent interpretation and integration into exposure scenarios and controls.</p>",
-      "original_level": 3,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "coshh_programme",
-      "level": 3,
-      "kind": "standard",
-      "label": "COSHH / hazardous substances programme delivery",
-      "summary": "Assess risks; prevent/control exposure; maintain controls; monitor exposure where needed; surveillance where required; train and plan for incidents.",
-      "tags": [
-        "COSHH",
-        "chemicals",
-        "WELs"
-      ],
-      "bodyHtml": "<p>Includes inventories, exposure scenarios, control banding, sampling plans, LEV testing/maintenance, PPE governance, incident readiness.</p>",
-      "original_level": 4,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "noise_programme",
-      "level": 3,
-      "kind": "standard",
-      "label": "Noise programme (hearing conservation)",
-      "summary": "Noise surveys, engineering controls, hearing protection governance, training, audiometry, and feedback to controls.",
-      "tags": [
-        "noise",
-        "audiometry"
-      ],
-      "bodyHtml": "<p>Requires senior commitment, competent measurement, and a closed loop from surveillance to control improvement.</p>",
-      "original_level": 4,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "vibration_programme",
-      "level": 4,
-      "kind": "standard",
-      "label": "Vibration programme (HAV/WBV)",
-      "summary": "Identify exposures, prioritise tool/process controls, train workers, and provide monitoring and response pathways for symptoms/findings.",
-      "tags": [
-        "vibration",
-        "HAVS",
-        "WBV"
-      ],
-      "bodyHtml": "<p>Controls include tool procurement/maintenance, exposure estimation, supervision, and rapid action on early symptoms.</p>",
-      "original_level": 4,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "thermal_programme",
-      "level": 4,
-      "kind": "standard",
-      "label": "Thermal stress management (heat/cold)",
-      "summary": "Assess exposures, implement controls (work-rest, hydration, engineering), and protect vulnerable workers with clear triggers.",
-      "tags": [
-        "heat",
-        "cold",
-        "WBGT",
-        "PHS"
-      ],
-      "bodyHtml": "<p>Plans need thresholds, supervision routines, and stop/go rules under extremes.</p>",
-      "original_level": 4,
-      "constraintScope": "Exposure/mitigation mechanism"
-    },
-    {
-      "id": "lighting_programme",
-      "level": 3,
-      "kind": "standard",
-      "label": "Lighting & visual environment management",
-      "summary": "Manage illuminance, glare, contrast, flicker and task needs; integrate with task design and DSE.",
-      "tags": [
-        "lighting",
-        "glare",
-        "illuminance"
-      ],
-      "bodyHtml": "<p>Often neglected; poor lighting contributes to errors, discomfort, fatigue and complaints.</p>",
-      "original_level": 4,
-      "constraintScope": "Governance layer"
-    },
-    {
-      "id": "consultation_standards",
+      "id": "proportionality",
       "level": 0,
-      "kind": "standard",
-      "label": "Consultation standards & triage",
-      "summary": "Right case to right clinician at right time; role clarity; informed consent; documentation and escalation.",
+      "kind": "principle",
+      "label": "Proportionality & least‑restrictive means",
+      "summary": "Interventions should match the level of risk and use the least restrictive effective option.",
       "tags": [
-        "consultation",
-        "triage"
+        "ethics",
+        "proportionality",
+        "liberty"
       ],
-      "bodyHtml": "<p>Standards reduce complaints and ethical drift; ensure consistency across providers and sites.</p>",
-      "original_level": 4,
-      "constraintScope": "Principle"
+      "bodyHtml": "<p>Restrictions on movement or work should be evidence-informed, time-limited, and revisable as conditions change.</p>"
     },
     {
-      "id": "teleconsultation",
+      "id": "transparency",
       "level": 0,
-      "kind": "standard",
-      "label": "Teleconsultation governance (phone/video)",
-      "summary": "Identity verification, adapted consent, limitations management, equity/IT barriers, and safe documentation.",
+      "kind": "principle",
+      "label": "Transparency & explainability",
+      "summary": "People comply more when they understand why decisions are made and what evidence is used.",
       "tags": [
-        "telehealth",
-        "consent"
-      ],
-      "bodyHtml": "<p>Operationalise safe teleconsultation with checklists and boundaries.</p>",
-      "original_level": 4,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "report_writing",
-      "level": 0,
-      "kind": "standard",
-      "label": "Report writing (decision-ready, relevant, minimal disclosure)",
-      "summary": "Answer the question; focus on function, adjustments and prognosis ranges; protect confidentiality; document consent.",
-      "tags": [
-        "reports",
-        "fitness_for_work"
-      ],
-      "bodyHtml": "<p>Reports are the tangible output of OH. Governance must prevent pressure for unnecessary diagnoses and ensure secure delivery.</p>",
-      "original_level": 4,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "fitness_for_work",
-      "level": 0,
-      "kind": "standard",
-      "label": "Fitness for work & adjustments",
-      "summary": "Assess capacity, restrictions, accommodations, redeployment, and safe return-to-work pathways while balancing fairness and safety.",
-      "tags": [
-        "RTW",
-        "adjustments",
-        "capacity"
-      ],
-      "bodyHtml": "<p>Links clinical judgement to work design and management decisions within ethical/legal constraints.</p>",
-      "original_level": 4,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "training_information",
-      "level": 4,
-      "kind": "standard",
-      "label": "Training, information & health promotion",
-      "summary": "Make hazards and controls understandable; support behaviour change; increase informed participation in surveillance and controls.",
-      "tags": [
-        "training",
+        "ethics",
+        "trust",
         "communication"
       ],
-      "bodyHtml": "<p>Training supports control sustainability and builds trust by explaining what OH does and why.</p>",
-      "original_level": 4,
-      "constraintScope": "Exposure/mitigation mechanism"
+      "bodyHtml": "<p>Explain assumptions, uncertainty, and trade-offs. Hidden rationing or inconsistent rules erode trust.</p>"
     },
     {
-      "id": "incident_response",
+      "id": "solidarity",
+      "level": 0,
+      "kind": "principle",
+      "label": "Solidarity & collective responsibility",
+      "summary": "Infection risk is shared; individual choices affect others, especially in interdependent workplaces.",
+      "tags": [
+        "ethics",
+        "solidarity",
+        "collective action"
+      ],
+      "bodyHtml": "<p>Solidarity supports mutual obligations: employers to protect, workers to follow controls, government to resource systems.</p>"
+    },
+    {
+      "id": "rights",
+      "level": 0,
+      "kind": "principle",
+      "label": "Rights: safety, privacy, and non-discrimination",
+      "summary": "Balancing workplace safety with privacy (testing data) and protection from discrimination.",
+      "tags": [
+        "ethics",
+        "rights",
+        "privacy",
+        "discrimination"
+      ],
+      "bodyHtml": "<p>Testing and contact tracing can reduce risk but can also stigmatise or penalise workers without safeguards.</p>"
+    },
+    {
+      "id": "social_gradient",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Social gradient of risk",
+      "summary": "Exposure and harm follow social gradients: lower income and marginalised groups often face higher risk and fewer buffers.",
+      "tags": [
+        "inequality",
+        "income",
+        "housing"
+      ],
+      "bodyHtml": "<p>Risk is not evenly distributed. Social position shapes where you work, how you travel, where you live, and access to healthcare.</p>"
+    },
+    {
+      "id": "precarity",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Precarious work & bargaining power",
+      "summary": "Insecure contracts, gig work, and probation periods reduce the ability to refuse unsafe work or take leave.",
+      "tags": [
+        "gig economy",
+        "job security",
+        "power"
+      ],
+      "bodyHtml": "<p>When missing a shift means missing rent, 'choice' to isolate is constrained. Protections must account for these realities.</p>"
+    },
+    {
+      "id": "housing_crowding",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Housing crowding & household transmission",
+      "summary": "Crowded or multi-generational housing increases within-household spread and makes isolation difficult.",
+      "tags": [
+        "housing",
+        "crowding",
+        "household"
+      ],
+      "bodyHtml": "<p>Workplace exposure can translate into household outbreaks, amplifying harm in already crowded living situations.</p>"
+    },
+    {
+      "id": "structural_racism",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Discrimination & structural racism",
+      "summary": "Disparities in job types, healthcare access, and treatment lead to unequal exposure and outcomes.",
+      "tags": [
+        "racism",
+        "equity",
+        "access"
+      ],
+      "bodyHtml": "<p>Discrimination can affect assignment to higher-risk tasks, ability to raise concerns, and quality of healthcare received.</p>"
+    },
+    {
+      "id": "care_burden",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Caregiving burden",
+      "summary": "Unpaid care responsibilities (children, elders) affect exposure networks and economic vulnerability during isolation.",
+      "tags": [
+        "care",
+        "schools",
+        "household"
+      ],
+      "bodyHtml": "<p>School closures and illness increase care needs; this can force job loss or risky attendance when alternatives are limited.</p>"
+    },
+    {
+      "id": "digital_divide",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Digital divide & remote work inequality",
+      "summary": "Ability to work remotely is stratified by occupation, education, and income.",
+      "tags": [
+        "remote work",
+        "technology",
+        "inequality"
+      ],
+      "bodyHtml": "<p>Remote work reduces exposure for some while concentrating in-person risk among others.</p>"
+    },
+    {
+      "id": "transport_dependence",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Dependence on public transport",
+      "summary": "Commuting constraints can add exposure for workers who cannot drive or shift schedules.",
+      "tags": [
+        "commute",
+        "transport",
+        "exposure"
+      ],
+      "bodyHtml": "<p>Crowded buses/trains add contacts outside the workplace and can compound risk for lower-paid essential roles.</p>"
+    },
+    {
+      "id": "transmission_modes",
       "level": 2,
-      "kind": "standard",
-      "label": "Incidents, escalation & emergency planning",
-      "summary": "Protocols for acute exposures, heat illness events, data breaches, and serious risk disclosures; connect to organisational incident systems.",
+      "kind": "epi",
+      "label": "Transmission pathways (airborne, droplets, contact)",
+      "summary": "Understanding how SARS‑CoV‑2 spreads is essential for matching controls to mechanisms.",
       "tags": [
-        "incident",
-        "escalation"
+        "aerosols",
+        "droplets",
+        "fomites"
       ],
-      "bodyHtml": "<p>Requires clear thresholds, communications plans, and documentation expectations.</p>",
-      "original_level": 4,
-      "constraintScope": "Epi/decision context"
+      "bodyHtml": "<p>Airborne transmission dominates in many indoor settings; close-range droplets and contaminated hands can contribute in specific contexts.</p>"
     },
     {
-      "id": "records_management",
+      "id": "superspreading",
+      "level": 2,
+      "kind": "epi",
+      "label": "Overdispersion & superspreading",
+      "summary": "A small fraction of events can account for many infections, especially indoors with poor ventilation.",
+      "tags": [
+        "superspreading",
+        "overdispersion",
+        "events"
+      ],
+      "bodyHtml": "<p>Risk is uneven: crowded, prolonged, indoor interactions can create large outbreaks even if average risk seems moderate.</p>"
+    },
+    {
+      "id": "prevalence_metrics",
+      "level": 2,
+      "kind": "epi",
+      "label": "Measuring community prevalence",
+      "summary": "Case counts, test positivity, wastewater and syndromic surveillance each have biases and delays.",
+      "tags": [
+        "surveillance",
+        "measurement",
+        "uncertainty"
+      ],
+      "bodyHtml": "<p>Decisions are made with imperfect signals. Under-testing and delayed reporting can hide rapid growth.</p>"
+    },
+    {
+      "id": "variant_shift",
+      "level": 2,
+      "kind": "epi",
+      "label": "Variants, immune escape & changing severity",
+      "summary": "Variants can increase transmissibility and partially evade immunity, shifting which mitigations matter most.",
+      "tags": [
+        "variants",
+        "immune escape",
+        "severity"
+      ],
+      "bodyHtml": "<p>Controls need to adapt: when transmissibility rises, higher-grade masks and ventilation become more important.</p>"
+    },
+    {
+      "id": "asymptomatic",
+      "level": 2,
+      "kind": "epi",
+      "label": "Asymptomatic & presymptomatic spread",
+      "summary": "People can transmit without feeling ill, weakening symptom-based controls.",
+      "tags": [
+        "asymptomatic",
+        "screening",
+        "testing"
+      ],
+      "bodyHtml": "<p>If you only send home visibly sick workers, infectious people can still be present—especially early in infection.</p>"
+    },
+    {
+      "id": "dose_response",
+      "level": 2,
+      "kind": "epi",
+      "label": "Dose, duration & risk",
+      "summary": "Risk rises with inhaled dose: time in shared air, proximity, vocalisation, and ventilation.",
+      "tags": [
+        "dose",
+        "duration",
+        "ventilation"
+      ],
+      "bodyHtml": "<p>Many mitigations work by reducing dose: fewer contacts, less time, better air, better masks.</p>"
+    },
+    {
+      "id": "uncertainty_decisions",
+      "level": 2,
+      "kind": "epi",
+      "label": "Decision-making under uncertainty",
+      "summary": "Policy must balance incomplete evidence, delayed outcomes, and competing harms.",
+      "tags": [
+        "uncertainty",
+        "risk tradeoffs",
+        "communication"
+      ],
+      "bodyHtml": "<p>When evidence is evolving, adaptive policies with clear triggers and feedback can outperform rigid rules.</p>"
+    },
+    {
+      "id": "public_health_law",
       "level": 3,
-      "kind": "standard",
-      "label": "Records management (secure, auditable, useful)",
-      "summary": "Secure, consistent records for consultations, surveillance, exposure monitoring and follow-up; define access and retention.",
+      "kind": "governance",
+      "label": "Public health powers & limits",
+      "summary": "Legal authorities for closures, mandates, and quarantine—and the safeguards that maintain legitimacy.",
       "tags": [
-        "records",
-        "audit",
-        "IG"
+        "law",
+        "mandates",
+        "accountability"
       ],
-      "bodyHtml": "<p>Records are the evidence layer for ethics, law, quality, and learning.</p>",
-      "original_level": 4,
-      "constraintScope": "Governance layer"
+      "bodyHtml": "<p>Emergency powers must be proportionate, transparent, and time-limited; otherwise trust and compliance decline.</p>"
     },
     {
-      "id": "complaints_handling",
-      "level": 0,
-      "kind": "standard",
-      "label": "Complaints handling & learning",
-      "summary": "Timely acknowledgement, fair investigation, honest explanation, and changes that prevent recurrence.",
-      "tags": [
-        "complaints",
-        "learning"
-      ],
-      "bodyHtml": "<p>Complaints are weak signals. Good handling increases legitimacy and improves service design.</p>",
-      "original_level": 4,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "seqohs",
+      "id": "workplace_duty",
       "level": 3,
-      "kind": "standard",
-      "label": "SEQOHS (OH service quality standard)",
-      "summary": "Governance domains: business probity, information governance, people/competence, facilities/equipment, purchaser & worker relationships.",
+      "kind": "governance",
+      "label": "Employer duty of care",
+      "summary": "Organisations have obligations to assess risks and implement reasonable controls.",
       "tags": [
-        "standard",
-        "quality"
+        "duty of care",
+        "risk assessment",
+        "H&S"
       ],
-      "bodyHtml": "<p>Use SEQOHS domains as an OH management checklist for outsourced or in-house services.</p>",
-      "original_level": 5,
-      "constraintScope": "Governance layer"
+      "bodyHtml": "<p>A practical duty: identify hazards, consult workers, apply controls, and monitor whether controls actually work.</p>"
     },
     {
-      "id": "iso45001",
-      "level": 0,
-      "kind": "standard",
-      "label": "ISO 45001 / OHSMS integration",
-      "summary": "Framework for managing OH&S responsibilities with continual improvement and leadership accountability.",
-      "tags": [
-        "standard",
-        "OHSMS"
-      ],
-      "bodyHtml": "<p>Align OH programmes with risk registers, consultation, management review, and continual improvement processes.</p>",
-      "original_level": 5,
-      "constraintScope": "Principle"
-    },
-    {
-      "id": "pdca_hsg65",
+      "id": "worker_voice",
       "level": 3,
-      "kind": "standard",
-      "label": "PDCA / HSG65-style management cycle",
-      "summary": "Plan–Do–Check–Act: policy, organisation, planning, implementing, monitoring, audit & review.",
+      "kind": "governance",
+      "label": "Worker voice, consultation & whistleblowing",
+      "summary": "Channels to raise concerns without retaliation are critical in fast-changing risk environments.",
       "tags": [
-        "PDCA",
-        "management"
+        "consultation",
+        "retaliation",
+        "safety culture"
       ],
-      "bodyHtml": "<p>Applies to OH services: plan programmes, deliver, check effectiveness, and act on learning.</p>",
-      "original_level": 5,
-      "constraintScope": "Governance layer"
+      "bodyHtml": "<p>Where worker voice is weak, hazards persist and outbreaks can smoulder until they explode.</p>"
     },
     {
-      "id": "kpis_metrics",
-      "level": 1,
-      "kind": "standard",
-      "label": "KPIs & indicators (leading + lagging)",
-      "summary": "Measure programme maturity and outcomes, not just activity: controls implemented, coverage, follow-up timeliness, trends.",
-      "tags": [
-        "KPIs",
-        "measurement"
-      ],
-      "bodyHtml": "<p>Combine quantitative metrics with narrative intelligence (listening loops). Use metrics for learning, not punishment.</p>",
-      "original_level": 5,
-      "constraintScope": "Structural determinant"
-    },
-    {
-      "id": "audit_assurance",
+      "id": "supply_chain",
       "level": 3,
-      "kind": "standard",
-      "label": "Audit, assurance & governance review",
-      "summary": "Test whether practice matches standards and whether programmes work under real conditions (including peak load).",
+      "kind": "governance",
+      "label": "Supply chain & allocation of scarce protections",
+      "summary": "Shortages of PPE/tests create rationing; allocation criteria must reflect reciprocity and risk.",
       "tags": [
-        "audit",
-        "assurance"
+        "PPE",
+        "scarcity",
+        "allocation"
       ],
-      "bodyHtml": "<p>Audit should detect drift, interface failure, and WAI/WAD gaps—not just paperwork completeness.</p>",
-      "original_level": 5,
-      "constraintScope": "Governance layer"
+      "bodyHtml": "<p>Scarcity turns technical choices into ethical decisions: who gets N95s, when, and on what basis?</p>"
     },
     {
-      "id": "competence_workforce",
-      "level": 1,
-      "kind": "standard",
-      "label": "Competence & workforce planning",
-      "summary": "Right competency mix, supervision, CPD and safe delegation—especially across outsourcing chains.",
+      "id": "data_governance",
+      "level": 3,
+      "kind": "governance",
+      "label": "Data governance: privacy vs protection",
+      "summary": "Testing/trace data can protect coworkers but also create stigma and surveillance risk.",
       "tags": [
-        "competence",
+        "privacy",
+        "testing",
+        "stigma"
+      ],
+      "bodyHtml": "<p>Good governance clarifies what is collected, who sees it, how long it is kept, and how it is used.</p>"
+    },
+    {
+      "id": "risk_comm",
+      "level": 3,
+      "kind": "governance",
+      "label": "Risk communication & trust",
+      "summary": "Clear, consistent communication affects adherence more than rules on paper.",
+      "tags": [
+        "communication",
+        "trust",
+        "misinformation"
+      ],
+      "bodyHtml": "<p>Conflicting messages (e.g., 'masks don't work' → 'masks required') can reduce credibility unless uncertainty is explained.</p>"
+    },
+    {
+      "id": "sick_pay_policy",
+      "level": 3,
+      "kind": "governance",
+      "label": "Sick pay & isolation support policy",
+      "summary": "Financial support makes isolation feasible, reducing workplace introduction of infection.",
+      "tags": [
+        "sick pay",
+        "isolation",
+        "policy"
+      ],
+      "bodyHtml": "<p>Without income protection, isolation guidance becomes inequitable and less effective.</p>"
+    },
+    {
+      "id": "school_policy",
+      "level": 3,
+      "kind": "governance",
+      "label": "Schools, childcare & workforce continuity",
+      "summary": "Education policy affects exposure networks and worker availability across sectors.",
+      "tags": [
+        "schools",
+        "childcare",
         "workforce"
       ],
-      "bodyHtml": "<p>Competence is a reliability control; align demand (flow) with capacity and safe practice.</p>",
-      "original_level": 5,
-      "constraintScope": "Structural determinant"
+      "bodyHtml": "<p>Closing schools reduces contacts for some but increases care burden and can shift risk to carers and informal networks.</p>"
     },
     {
-      "id": "learning_loops",
-      "level": 3,
-      "kind": "standard",
-      "label": "Learning loops & continuous improvement",
-      "summary": "Convert surveillance findings, exposure data, incidents and complaints into redesigned controls, training and governance.",
+      "id": "healthcare_frontline",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Healthcare: patient-facing clinical staff",
+      "summary": "High exposure probability: close contact, aerosol-generating procedures, high prevalence among patients.",
       "tags": [
-        "learning",
-        "improvement"
+        "healthcare",
+        "frontline",
+        "patients"
       ],
-      "bodyHtml": "<p>Institutional memory is maintained by structured review cadence and disciplined change control.</p>",
-      "original_level": 5,
-      "constraintScope": "Governance layer"
+      "bodyHtml": "<p>Exposure is shaped by patient volume, ventilation, PPE supply, and training/fit-testing.</p>"
     },
     {
-      "id": "challenge_outsourcing",
-      "level": 6,
-      "kind": "risk",
-      "label": "Challenge: Outsourcing & accountability drift",
-      "summary": "Supply chains multiply interfaces; accountability and QA must be explicit or learning collapses.",
+      "id": "care_homes",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Long-term care & care homes",
+      "summary": "Concentrated vulnerability: residents at high risk; staff often under-resourced with heavy care demands.",
       "tags": [
-        "outsourcing",
-        "risk"
+        "care homes",
+        "elder care",
+        "vulnerability"
       ],
-      "bodyHtml": "<p>Without strong commissioning, supervision and audit, outsourced OH can optimise for speed/volume rather than quality, ethics and outcomes.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>Staffing shortages and agency work can connect facilities. Consistent cohorting and paid leave are pivotal.</p>"
     },
     {
-      "id": "pathology_underreporting",
-      "level": 6,
-      "kind": "risk",
-      "label": "Pathology: Under-reporting & weak-signal collapse",
-      "summary": "When reporting is punished or ignored, signals vanish and risk accumulates silently.",
+      "id": "public_transport",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Public transport workers",
+      "summary": "High contact with the public; constrained ventilation and difficulty enforcing masking.",
       "tags": [
-        "culture",
-        "risk"
+        "transport",
+        "public-facing",
+        "enforcement"
       ],
-      "bodyHtml": "<p>Affects symptoms, near misses, surveillance participation, and incident reporting—destroying self-regulation.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>Drivers/conductors face repeated short contacts; barriers, air flow, and policy enforcement matter.</p>"
     },
     {
-      "id": "pathology_normalised_deviance",
-      "level": 6,
-      "kind": "risk",
-      "label": "Pathology: Normalisation of deviance",
-      "summary": "Workarounds become ‘normal’ under pressure; controls appear compliant while real risk increases.",
+      "id": "retail",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Retail & grocery workers",
+      "summary": "Continuous public-facing interactions and crowding peaks; limited control over customer behaviour.",
       "tags": [
-        "drift",
-        "risk"
+        "retail",
+        "essential work",
+        "customers"
       ],
-      "bodyHtml": "<p>Common in LEV use, PPE shortcuts, missed breaks in heat, and rushed surveillance follow-up.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>Queue management, ventilation, and paid sick leave are often more impactful than signage alone.</p>"
     },
     {
-      "id": "case_lev_spikes",
-      "level": 6,
-      "kind": "case",
-      "label": "Case: LEV passes tests but exposures spike on busy days",
-      "summary": "WAI/WAD mismatch under throughput pressure; needs friction audit, flow redesign, and verification under load.",
+      "id": "hospitality",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Hospitality (restaurants, bars)",
+      "summary": "High-risk settings when crowded indoors; loud speech and poor ventilation can amplify aerosol load.",
       "tags": [
-        "COSHH",
-        "LEV",
-        "WAI/WAD"
+        "hospitality",
+        "crowding",
+        "voice"
       ],
-      "bodyHtml": "<p>Investigate staging, peak-load practices, maintenance, supervision, and incentives. Fix the system, not the worker.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>Mitigation depends on air quality, occupancy, and worker protections during surges.</p>"
     },
     {
-      "id": "case_noise_programme",
-      "level": 6,
-      "kind": "case",
-      "label": "Case: Hearing conservation programme stagnates",
-      "summary": "Audiometry shows shifts but controls don’t improve; feedback loop is broken between surveillance and engineering.",
+      "id": "education_workers",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Education (teachers, support staff)",
+      "summary": "Prolonged indoor time with groups; differing risks for teachers vs aides vs custodial staff.",
       "tags": [
-        "noise",
-        "audiometry",
-        "feedback"
+        "schools",
+        "teachers",
+        "indoor time"
       ],
-      "bodyHtml": "<p>Strengthen governance: assign owners, action thresholds, engineering prioritisation, and worker engagement.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>Classroom ventilation and masking policies influence risk; inequities appear across job roles.</p>"
     },
     {
-      "id": "case_heat_extremes",
-      "level": 6,
-      "kind": "case",
-      "label": "Case: Heat stress escalation during extreme temperatures",
-      "summary": "Triggers and work-rest controls fail; needs thresholds, supervision routines, and protection of vulnerable workers.",
+      "id": "warehouse",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Warehousing & logistics",
+      "summary": "Dense staffing, shared air, fixed quotas; sometimes limited break rooms/ventilation.",
       "tags": [
-        "heat",
-        "operations"
+        "warehouse",
+        "logistics",
+        "quotas"
       ],
-      "bodyHtml": "<p>Use practical escalation, hydration and rest governance, plus monitoring of early symptoms and near misses.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>Operational constraints (speed targets) can undermine distancing, sick leave uptake, and cohorting.</p>"
     },
     {
-      "id": "case_report_dispute",
-      "level": 6,
-      "kind": "case",
-      "label": "Case: ‘We pay so we own the report’ dispute",
-      "summary": "Manager demands diagnosis; worker fears disclosure. Requires consent governance and decision-ready functional reporting.",
+      "id": "manufacturing_meat",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Meatpacking & cold manufacturing lines",
+      "summary": "Cold, noisy environments can increase aerosol persistence and vocalisation; workers often face precarity.",
       "tags": [
-        "confidentiality",
-        "reports"
+        "manufacturing",
+        "meatpacking",
+        "crowding"
       ],
-      "bodyHtml": "<p>Reinforce minimal necessary disclosure, informed consent, and clear explanation of OH role and boundaries.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>Crowded lines and shared transport/housing can generate large outbreaks without strong controls.</p>"
     },
     {
-      "id": "case_wrong_recipient",
-      "level": 6,
-      "kind": "case",
-      "label": "Case: Report sent to the wrong person (data breach)",
-      "summary": "Interface failure in secure delivery; needs incident response, root cause analysis, and stronger information governance.",
+      "id": "gig_delivery",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Gig economy: delivery & rideshare",
+      "summary": "Variable contacts; often little access to PPE, sick pay, or clear guidance; risk shifted onto workers.",
       "tags": [
-        "IG",
-        "interface",
-        "incident"
+        "gig work",
+        "precarity",
+        "public-facing"
       ],
-      "bodyHtml": "<p>Fix verification steps, secure channels, access control, and staff training; apply learning loop and audit re-check.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>Risk depends on ventilation (car windows), masking norms, and the ability to refuse unsafe jobs.</p>"
     },
     {
-      "id": "case_dermatitis_compliance_theatre",
-      "level": 6,
-      "kind": "case",
-      "label": "Case: Audit scores rose but dermatitis increased",
-      "summary": "Paper compliance hides real exposure; investigate glove availability, friction, onboarding gaps, pressure and substitutions.",
+      "id": "custodial",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Cleaning & custodial roles",
+      "summary": "Exposure to contaminated spaces and high-traffic areas; often overlooked in PPE allocation.",
       "tags": [
-        "COSHH",
-        "skin",
+        "cleaning",
+        "essential work",
+        "inequality"
+      ],
+      "bodyHtml": "<p>Cleaning staff may enter rooms after infectious occupancy; ventilation time and respirators can matter.</p>"
+    },
+    {
+      "id": "prisons",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Congregate settings (prisons, shelters)",
+      "summary": "High density, limited ability to distance, and constrained healthcare access elevate risk.",
+      "tags": [
+        "congregate",
+        "crowding",
+        "access"
+      ],
+      "bodyHtml": "<p>Outbreak control relies heavily on ventilation, cohorting, testing, and decarceration/alternatives where possible.</p>"
+    },
+    {
+      "id": "office",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Office & knowledge work",
+      "summary": "Greater remote-work potential; risk clusters in meetings, shared spaces, and commuting.",
+      "tags": [
+        "office",
+        "remote",
+        "meetings"
+      ],
+      "bodyHtml": "<p>Hybrid policies, ventilation, and sick leave determine how much risk remains when returning.</p>"
+    },
+    {
+      "id": "shared_air",
+      "level": 5,
+      "kind": "pathway",
+      "label": "Shared indoor air time",
+      "summary": "Cumulative time spent breathing the same indoor air as others is a strong driver of risk.",
+      "tags": [
+        "airborne",
+        "duration",
+        "indoor"
+      ],
+      "bodyHtml": "<p>This connects occupancy, duration, and ventilation. Reduce shared air time or improve air quality to lower dose.</p>"
+    },
+    {
+      "id": "crowding_path",
+      "level": 5,
+      "kind": "pathway",
+      "label": "Crowding & contact network size",
+      "summary": "More people in the same space increases both aerosol accumulation and the number of potential sources.",
+      "tags": [
+        "crowding",
+        "contacts",
+        "networks"
+      ],
+      "bodyHtml": "<p>Crowding elevates the chance an infectious person is present and increases opportunities for transmission.</p>"
+    },
+    {
+      "id": "vocalization_path",
+      "level": 5,
+      "kind": "pathway",
+      "label": "Vocalization & emission source strength",
+      "summary": "Speaking loudly, shouting, or singing increases aerosol emission.",
+      "tags": [
+        "voice",
+        "aerosols",
+        "source control"
+      ],
+      "bodyHtml": "<p>This is why hospitality, gyms, and some manufacturing lines can be disproportionately risky indoors.</p>"
+    },
+    {
+      "id": "ventilation_control",
+      "level": 5,
+      "kind": "control",
+      "label": "Ventilation and fresh-air exchange",
+      "summary": "Dilutes and removes infectious aerosols; effectiveness depends on airflow patterns and maintenance.",
+      "tags": [
+        "engineering",
+        "ventilation",
+        "IAQ"
+      ],
+      "bodyHtml": "<p>Measure with CO₂ as a proxy for rebreathed air; increase outdoor air and ensure systems perform as intended.</p>"
+    },
+    {
+      "id": "filtration_control",
+      "level": 5,
+      "kind": "control",
+      "label": "Filtration (MERV/HEPA) & air cleaning",
+      "summary": "Removes aerosol particles from recirculated air; works when sized and placed appropriately.",
+      "tags": [
+        "engineering",
+        "HEPA",
+        "filtration"
+      ],
+      "bodyHtml": "<p>Portable HEPA units can materially reduce risk in poorly ventilated rooms when used correctly.</p>"
+    },
+    {
+      "id": "masking_control",
+      "level": 5,
+      "kind": "control",
+      "label": "Respiratory protection (mask type & fit)",
+      "summary": "High-quality respirators reduce inhaled dose; fit and consistent use determine real performance.",
+      "tags": [
+        "PPE",
+        "respirators",
+        "fit"
+      ],
+      "bodyHtml": "<p>Fit-tested respirators outperform loose masks, especially for long indoor exposure.</p>"
+    },
+    {
+      "id": "testing_control",
+      "level": 5,
+      "kind": "control",
+      "label": "Testing, screening & rapid isolation",
+      "summary": "Detects infectious people earlier, reducing introductions to workplaces.",
+      "tags": [
+        "testing",
+        "screening",
+        "isolation"
+      ],
+      "bodyHtml": "<p>Testing works best with rapid turnaround and support that makes isolation feasible.</p>"
+    },
+    {
+      "id": "vaccination_control",
+      "level": 5,
+      "kind": "control",
+      "label": "Vaccination and hybrid immunity",
+      "summary": "Reduces infection risk and substantially reduces severe outcomes, though protection can wane and vary by variant.",
+      "tags": [
+        "vaccination",
+        "immunity",
+        "severity"
+      ],
+      "bodyHtml": "<p>Vaccination is a key layer but not a standalone solution in high-exposure settings.</p>"
+    },
+    {
+      "id": "cohorting",
+      "level": 5,
+      "kind": "control",
+      "label": "Cohorting & network segmentation",
+      "summary": "Limits outbreak size by reducing cross-team mixing and repeated exposures across groups.",
+      "tags": [
+        "administrative",
+        "cohorting",
+        "segmentation"
+      ],
+      "bodyHtml": "<p>Stable teams and staggered shifts reduce the number of unique contacts, lowering spread potential.</p>"
+    },
+    {
+      "id": "paid_leave_control",
+      "level": 5,
+      "kind": "control",
+      "label": "Paid sick leave & isolation support (implementation)",
+      "summary": "Operationalising reciprocity: workers must be able to stay home without financial catastrophe.",
+      "tags": [
+        "sick pay",
+        "implementation",
+        "equity"
+      ],
+      "bodyHtml": "<p>Supports reduce presenteeism, especially in precarious work, and can be among the most effective interventions.</p>"
+    },
+    {
+      "id": "remote_work",
+      "level": 5,
+      "kind": "control",
+      "label": "Remote/hybrid work arrangements",
+      "summary": "Substitutes physical proximity with virtual work where feasible.",
+      "tags": [
+        "remote work",
+        "substitution",
+        "hierarchy of controls"
+      ],
+      "bodyHtml": "<p>Remote work is a strong control when feasible; inequity arises when only higher-paid roles can access it.</p>"
+    },
+    {
+      "id": "ppe_allocation_ops",
+      "level": 5,
+      "kind": "control",
+      "label": "PPE allocation & prioritisation rules",
+      "summary": "Translates scarcity into practice: who gets higher-grade protection, and when.",
+      "tags": [
+        "scarcity",
+        "allocation",
+        "reciprocity"
+      ],
+      "bodyHtml": "<p>Allocation should follow exposure risk and reciprocity, and be revisited as supply changes.</p>"
+    },
+    {
+      "id": "implementation_quality",
+      "level": 5,
+      "kind": "control",
+      "label": "Implementation quality & fatigue",
+      "summary": "Controls degrade over time: inconsistent use, poor maintenance, and 'pandemic fatigue' reduce effectiveness.",
+      "tags": [
+        "adherence",
+        "fatigue",
         "drift"
       ],
-      "bodyHtml": "<p>Use listening and WAI/WAD analysis; redesign controls and verify under real working conditions.</p>",
-      "original_level": 6,
-      "constraintScope": "Case/dilemma"
+      "bodyHtml": "<p>A control that exists on paper is not the same as a control that is functioning in practice.</p>"
+    },
+    {
+      "id": "infection_outcome",
+      "level": 6,
+      "kind": "outcome",
+      "label": "Infection event",
+      "summary": "A specific worker becomes infected—linking exposure pathways and controls to an individual outcome.",
+      "tags": [
+        "infection",
+        "outcome"
+      ],
+      "bodyHtml": "<p>Infections can be mild or severe; even mild cases can cause long COVID or household spread.</p>"
+    },
+    {
+      "id": "severe_disease",
+      "level": 6,
+      "kind": "outcome",
+      "label": "Severe disease (hospitalisation/ICU)",
+      "summary": "High-consequence outcomes concentrated among older people and those with comorbidities, but not exclusive to them.",
+      "tags": [
+        "hospitalisation",
+        "ICU",
+        "morbidity"
+      ],
+      "bodyHtml": "<p>Vaccination, early treatment, and reduced dose all reduce the probability of severe disease.</p>"
+    },
+    {
+      "id": "long_covid",
+      "level": 6,
+      "kind": "outcome",
+      "label": "Long COVID and chronic impairment",
+      "summary": "Persistent symptoms affecting work capacity and quality of life; risk depends on infection, reinfection, and individual factors.",
+      "tags": [
+        "long COVID",
+        "disability",
+        "work capacity"
+      ],
+      "bodyHtml": "<p>Long COVID can disproportionately affect workers with repeated exposures and limited ability to rest or access care.</p>"
+    },
+    {
+      "id": "mental_health",
+      "level": 6,
+      "kind": "outcome",
+      "label": "Mental health burden & moral injury",
+      "summary": "Stress, bereavement, burnout, and moral injury, especially in frontline and constrained roles.",
+      "tags": [
+        "burnout",
+        "moral injury",
+        "mental health"
+      ],
+      "bodyHtml": "<p>Repeated high-stakes exposure plus perceived neglect or coercion can cause long-term harm even without infection.</p>"
+    },
+    {
+      "id": "household_spread_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: essential worker brings infection home",
+      "summary": "A retail worker with no sick pay continues working while mildly ill; household members in crowded housing are infected.",
+      "tags": [
+        "case",
+        "retail",
+        "housing",
+        "sick pay"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Individual isolation guidance conflicts with financial survival.</p><p><b>Key constraints:</b> precarious work + crowded housing amplify harm beyond the workplace.</p>"
+    },
+    {
+      "id": "ppe_shortage_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: PPE scarcity in a hospital surge",
+      "summary": "During a surge, staff are asked to reuse respirators; conflicting guidance creates distrust and inconsistent practice.",
+      "tags": [
+        "case",
+        "healthcare",
+        "PPE",
+        "scarcity"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Maintain care capacity vs protect staff.</p><p><b>Key constraints:</b> supply chain limits, unclear communication, and varying exposure risk across roles.</p>"
+    },
+    {
+      "id": "warehouse_quota_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: warehouse speed quotas undermine controls",
+      "summary": "Workers skip breaks and work while symptomatic to meet quotas; distancing collapses in break rooms.",
+      "tags": [
+        "case",
+        "warehouse",
+        "quotas",
+        "adherence"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Productivity targets vs infection control.</p><p><b>Key constraints:</b> power imbalance, limited leave, and crowded shared spaces.</p>"
+    },
+    {
+      "id": "school_vent_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: school with poor ventilation",
+      "summary": "Teachers report stale air and repeated outbreaks; upgrades are delayed by procurement and unclear responsibility.",
+      "tags": [
+        "case",
+        "schools",
+        "ventilation",
+        "governance"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Keep schools open for social benefit vs protect staff/students.</p><p><b>Key constraints:</b> building infrastructure, funding, and governance clarity.</p>"
+    },
+    {
+      "id": "rideshare_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: rideshare driver risk transfer",
+      "summary": "A driver is penalised for cancelling rides when passengers refuse masks; income depends on acceptance rate.",
+      "tags": [
+        "case",
+        "gig work",
+        "masking",
+        "power"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Enforce safety vs keep income.</p><p><b>Key constraints:</b> platform incentives, weak worker protections, and variable passenger behaviour.</p>"
+    },
+    {
+      "id": "equity_priority_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: vaccine prioritisation controversy",
+      "summary": "A debate emerges: prioritise by age (mortality reduction) vs by occupation (transmission + reciprocity).",
+      "tags": [
+        "case",
+        "vaccination",
+        "equity",
+        "policy"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Maximise lives saved vs reduce inequity and protect those required to face exposure.</p><p><b>Key constraints:</b> limited supply, public legitimacy, and competing ethical frameworks.</p>"
+    },
+    {
+      "id": "precautionary",
+      "level": 0,
+      "kind": "principle",
+      "label": "Precautionary principle",
+      "summary": "Act to prevent serious harm when evidence is incomplete, while continuously updating actions as evidence improves.",
+      "tags": [
+        "ethics",
+        "precaution",
+        "uncertainty"
+      ],
+      "bodyHtml": "<p>When stakes are high and evidence is evolving, waiting for perfect certainty can cost lives.</p><p>Precaution supports early action paired with monitoring and revision.</p>"
+    },
+    {
+      "id": "stewardship",
+      "level": 0,
+      "kind": "principle",
+      "label": "Stewardship of shared resources",
+      "summary": "Manage scarce resources (PPE, tests, hospital beds) responsibly and transparently.",
+      "tags": [
+        "ethics",
+        "stewardship",
+        "scarcity"
+      ],
+      "bodyHtml": "<p>Stewardship connects allocation decisions to accountability: who decides, using what criteria, and with what review?</p>"
+    },
+    {
+      "id": "accountability_principle",
+      "level": 0,
+      "kind": "principle",
+      "label": "Accountability & auditability",
+      "summary": "Decisions should be reviewable; harm should trigger learning and remedy, not denial.",
+      "tags": [
+        "ethics",
+        "accountability",
+        "learning"
+      ],
+      "bodyHtml": "<p>Accountability enables course correction and maintains legitimacy when errors occur.</p>"
+    },
+    {
+      "id": "migrant_status",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Immigration status & access barriers",
+      "summary": "Fear of enforcement, language barriers, and eligibility rules can delay care and testing.",
+      "tags": [
+        "migration",
+        "access",
+        "language"
+      ],
+      "bodyHtml": "<p>Barriers can increase undetected spread and worsen outcomes for marginalised communities.</p>"
+    },
+    {
+      "id": "disability",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Disability & chronic illness constraints",
+      "summary": "Higher baseline vulnerability and barriers to accommodations can increase harm and reduce agency.",
+      "tags": [
+        "disability",
+        "accommodation",
+        "health equity"
+      ],
+      "bodyHtml": "<p>Protection measures must include accessible communication, workplace adjustments, and healthcare access.</p>"
+    },
+    {
+      "id": "community_support",
+      "level": 1,
+      "kind": "determinant",
+      "label": "Community mutual aid & social capital",
+      "summary": "Local support networks can buffer isolation and economic shocks, improving feasibility of protective behaviors.",
+      "tags": [
+        "mutual aid",
+        "social capital",
+        "support"
+      ],
+      "bodyHtml": "<p>Mutual aid can substitute for absent institutional supports, but is unevenly available.</p>"
+    },
+    {
+      "id": "incubation",
+      "level": 2,
+      "kind": "epi",
+      "label": "Incubation period & timing of infectiousness",
+      "summary": "Timing affects when screening/testing can prevent workplace introduction.",
+      "tags": [
+        "incubation",
+        "infectiousness",
+        "timing"
+      ],
+      "bodyHtml": "<p>Peak infectiousness can occur before symptoms, making rapid testing and masking important.</p>"
+    },
+    {
+      "id": "reinfection",
+      "level": 2,
+      "kind": "epi",
+      "label": "Reinfection and cumulative risk",
+      "summary": "Repeated exposure over waves increases cumulative infection and long-term morbidity risk.",
+      "tags": [
+        "reinfection",
+        "cumulative risk",
+        "waves"
+      ],
+      "bodyHtml": "<p>Occupations with repeated close contact may face multiple infections over time without sustained controls.</p>"
+    },
+    {
+      "id": "test_limits",
+      "level": 2,
+      "kind": "epi",
+      "label": "Test sensitivity, timing & false negatives",
+      "summary": "Testing can miss early infection; reliance on tests alone can produce false reassurance.",
+      "tags": [
+        "testing",
+        "false negatives",
+        "sensitivity"
+      ],
+      "bodyHtml": "<p>Testing works best as part of layered mitigations with clear interpretation rules.</p>"
+    },
+    {
+      "id": "seasonality",
+      "level": 2,
+      "kind": "epi",
+      "label": "Seasonality & indoor congregation",
+      "summary": "Winter indoor crowding and low ventilation can increase transmission.",
+      "tags": [
+        "seasonality",
+        "winter",
+        "indoor"
+      ],
+      "bodyHtml": "<p>Seasonality shifts the effectiveness needs of ventilation and crowding controls.</p>"
+    },
+    {
+      "id": "healthcare_capacity",
+      "level": 2,
+      "kind": "epi",
+      "label": "Healthcare capacity & system strain",
+      "summary": "When hospitals are overloaded, mortality can rise and non-COVID care is delayed.",
+      "tags": [
+        "capacity",
+        "surge",
+        "system strain"
+      ],
+      "bodyHtml": "<p>System strain links population-level transmission to individual outcomes beyond infection probability.</p>"
+    },
+    {
+      "id": "enforcement",
+      "level": 3,
+      "kind": "governance",
+      "label": "Enforcement and inspection capacity",
+      "summary": "Rules without enforcement can leave workers unprotected and create uneven compliance across workplaces.",
+      "tags": [
+        "enforcement",
+        "inspection",
+        "compliance"
+      ],
+      "bodyHtml": "<p>Effective governance includes inspection, complaint handling, and credible consequences for neglect.</p>"
+    },
+    {
+      "id": "procurement",
+      "level": 3,
+      "kind": "governance",
+      "label": "Procurement & logistics for controls",
+      "summary": "Buying and distributing PPE/filters/monitors at scale is a governance challenge.",
+      "tags": [
+        "procurement",
+        "logistics",
+        "implementation"
+      ],
+      "bodyHtml": "<p>Delays and poor specifications can make technical solutions fail in practice.</p>"
+    },
+    {
+      "id": "guidance_alignment",
+      "level": 3,
+      "kind": "governance",
+      "label": "Alignment of guidance across agencies",
+      "summary": "Conflicting guidance across institutions erodes trust and complicates implementation.",
+      "tags": [
+        "guidance",
+        "coordination",
+        "trust"
+      ],
+      "bodyHtml": "<p>Alignment does not require certainty—just transparent explanation of differences and updates.</p>"
+    },
+    {
+      "id": "workforce_planning",
+      "level": 3,
+      "kind": "governance",
+      "label": "Workforce planning & surge staffing",
+      "summary": "Staffing shortfalls can increase exposure (overtime, burnout) and degrade mitigation adherence.",
+      "tags": [
+        "workforce",
+        "staffing",
+        "surge"
+      ],
+      "bodyHtml": "<p>Surge planning includes redeployment training, rest, and protections for high-risk staff.</p>"
+    },
+    {
+      "id": "compensation",
+      "level": 3,
+      "kind": "governance",
+      "label": "Compensation, injury recognition & support",
+      "summary": "Recognition of occupational COVID and long-term disability affects equity and recovery.",
+      "tags": [
+        "compensation",
+        "occupational disease",
+        "support"
+      ],
+      "bodyHtml": "<p>Access to compensation can determine whether harmed workers recover financially or fall into poverty.</p>"
+    },
+    {
+      "id": "home_care",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Home care workers",
+      "summary": "Care delivered in private homes: variable environments, limited control of ventilation, high vulnerability of clients.",
+      "tags": [
+        "home care",
+        "clients",
+        "variable settings"
+      ],
+      "bodyHtml": "<p>Travel between homes can link households; PPE, scheduling, and support for isolation are critical.</p>"
+    },
+    {
+      "id": "emergency_services",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Emergency services (police, fire, paramedics)",
+      "summary": "Unpredictable exposures, close contact during emergencies, limited time for controls.",
+      "tags": [
+        "emergency",
+        "unpredictable",
+        "PPE"
+      ],
+      "bodyHtml": "<p>Respiratory protection and protocols for confined spaces can reduce risk.</p>"
+    },
+    {
+      "id": "food_processing",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Food processing beyond meatpacking",
+      "summary": "Shift work, shared break rooms, and sometimes shared transport; mixed indoor environments.",
+      "tags": [
+        "food processing",
+        "shift work",
+        "break rooms"
+      ],
+      "bodyHtml": "<p>Controls often hinge on break room ventilation, cohorting, and paid leave.</p>"
+    },
+    {
+      "id": "construction_outdoor",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Construction (mixed indoor/outdoor)",
+      "summary": "Often outdoors but includes indoor tasks, shared vehicles, and crowded changing areas.",
+      "tags": [
+        "construction",
+        "outdoors",
+        "vehicles"
+      ],
+      "bodyHtml": "<p>Risk can concentrate in vehicles and indoor briefings rather than the outdoor worksite.</p>"
+    },
+    {
+      "id": "remote_customer_service",
+      "level": 4,
+      "kind": "occupation",
+      "label": "Call centers & shared offices",
+      "summary": "High vocalization indoors, dense seating, and long shifts; outbreaks observed historically.",
+      "tags": [
+        "call center",
+        "voice",
+        "indoor"
+      ],
+      "bodyHtml": "<p>Air quality and spacing are crucial; masking and filtration can materially reduce risk.</p>"
+    },
+    {
+      "id": "co2_monitoring",
+      "level": 5,
+      "kind": "control",
+      "label": "CO₂ monitoring & ventilation management",
+      "summary": "Operational feedback tool for air quality and occupancy decisions.",
+      "tags": [
+        "CO2",
+        "monitoring",
+        "IAQ"
+      ],
+      "bodyHtml": "<p>CO₂ is a proxy for rebreathed air; targets and actions must be predefined to be useful.</p>"
+    },
+    {
+      "id": "uvgi",
+      "level": 5,
+      "kind": "control",
+      "label": "Upper-room UVGI and germicidal UV",
+      "summary": "Engineering control that inactivates airborne virus under proper design and safety.",
+      "tags": [
+        "UVGI",
+        "engineering",
+        "air disinfection"
+      ],
+      "bodyHtml": "<p>UVGI can complement ventilation/filtration in high-risk rooms when designed correctly.</p>"
+    },
+    {
+      "id": "barriers",
+      "level": 5,
+      "kind": "control",
+      "label": "Physical barriers & source shielding",
+      "summary": "Screens can reduce short-range droplets but may impede airflow if poorly placed.",
+      "tags": [
+        "barriers",
+        "droplets",
+        "airflow"
+      ],
+      "bodyHtml": "<p>Barriers should be evaluated for unintended airflow effects; they are not a substitute for ventilation.</p>"
+    },
+    {
+      "id": "staggering",
+      "level": 5,
+      "kind": "control",
+      "label": "Staggered schedules & occupancy reduction",
+      "summary": "Administrative control that reduces density and contact network size.",
+      "tags": [
+        "scheduling",
+        "occupancy",
+        "contacts"
+      ],
+      "bodyHtml": "<p>Staggering shifts breaks and start times can reduce crowding in entrances and break rooms.</p>"
+    },
+    {
+      "id": "transport_controls",
+      "level": 5,
+      "kind": "control",
+      "label": "Commute risk controls",
+      "summary": "Measures like increased service, masking, and ventilation on transport; employer support for alternatives.",
+      "tags": [
+        "commute",
+        "transport",
+        "policy"
+      ],
+      "bodyHtml": "<p>Reducing commute crowding can materially lower exposure for workers without remote options.</p>"
+    },
+    {
+      "id": "hand_hygiene",
+      "level": 5,
+      "kind": "control",
+      "label": "Hand hygiene & surface cleaning (targeted)",
+      "summary": "Important for general infection prevention, though less dominant for SARS‑CoV‑2 compared to airborne controls.",
+      "tags": [
+        "hygiene",
+        "surfaces",
+        "targeted"
+      ],
+      "bodyHtml": "<p>Cleaning is most valuable when targeted to shared touchpoints and paired with hand hygiene, not as theater.</p>"
+    },
+    {
+      "id": "training_fit_testing",
+      "level": 5,
+      "kind": "control",
+      "label": "Training, fit-testing & donning/doffing",
+      "summary": "Quality of PPE use is shaped by training and fit-testing; errors can erase benefits.",
+      "tags": [
+        "training",
+        "fit testing",
+        "PPE"
+      ],
+      "bodyHtml": "<p>Fit-testing improves respirator performance; training reduces self-contamination and improves adherence.</p>"
+    },
+    {
+      "id": "early_treatment",
+      "level": 5,
+      "kind": "control",
+      "label": "Early treatment access and care pathways",
+      "summary": "Rapid access to antivirals and clinical care can reduce severe outcomes.",
+      "tags": [
+        "treatment",
+        "access",
+        "care pathways"
+      ],
+      "bodyHtml": "<p>Equitable access is critical; delayed care can worsen outcomes, especially in marginalised groups.</p>"
+    },
+    {
+      "id": "economic_harm",
+      "level": 6,
+      "kind": "outcome",
+      "label": "Economic harm and insecurity",
+      "summary": "Income loss, debt, and job loss can be long-lasting outcomes of isolation, illness, and closures.",
+      "tags": [
+        "economics",
+        "insecurity",
+        "outcome"
+      ],
+      "bodyHtml": "<p>Economic harm can feed back into risk by reducing the ability to take protective actions.</p>"
+    },
+    {
+      "id": "education_loss",
+      "level": 6,
+      "kind": "outcome",
+      "label": "Educational disruption",
+      "summary": "Learning loss and widening gaps due to remote schooling and repeated closures/outbreaks.",
+      "tags": [
+        "education",
+        "inequality",
+        "outcome"
+      ],
+      "bodyHtml": "<p>Educational disruption can have long-term health and economic consequences, and is unevenly distributed.</p>"
+    },
+    {
+      "id": "outbreak_cluster_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: superspreading event in hospitality",
+      "summary": "A crowded indoor venue with loud speech and poor ventilation leads to a large cluster affecting workers and patrons.",
+      "tags": [
+        "case",
+        "superspreading",
+        "hospitality"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Economic survival of venues vs rapid amplification risk.</p><p><b>Key constraints:</b> crowding, vocalization, and low air exchange.</p>"
+    },
+    {
+      "id": "transport_strike_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: bus driver protection dispute",
+      "summary": "Drivers demand barriers and enforcement; policy delays lead to walkouts and disrupted services.",
+      "tags": [
+        "case",
+        "transport",
+        "governance",
+        "enforcement"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Maintain public services vs protect workers facing daily public exposure.</p><p><b>Key constraints:</b> enforcement feasibility and procurement delays.</p>"
+    },
+    {
+      "id": "care_home_staffing_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: care home staffing shortage",
+      "summary": "Agency staffing across facilities increases cross-site spread; limiting agency use worsens staffing gaps.",
+      "tags": [
+        "case",
+        "care homes",
+        "staffing",
+        "cohorting"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Staffing continuity vs reducing cross-facility transmission.</p><p><b>Key constraints:</b> workforce planning, pay, and employment structures.</p>"
+    },
+    {
+      "id": "privacy_testing_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: punitive use of test data",
+      "summary": "Workers avoid testing because positive results trigger discipline or lost shifts, increasing workplace spread.",
+      "tags": [
+        "case",
+        "testing",
+        "privacy",
+        "retaliation"
+      ],
+      "bodyHtml": "<p><b>Dilemma:</b> Use data to protect coworkers vs avoid coercion and stigma.</p><p><b>Key constraints:</b> rights, data governance, and employer incentives.</p>"
     }
   ],
   "edges": [
     {
-      "from": "wis_listening",
-      "to": "risk_communication",
-      "why": "Listening reveals stakeholder misunderstandings and fears, improving message targeting and trust."
+      "from": "ethics_core",
+      "to": "justice",
+      "why": "Ethical foundations specify fairness obligations."
     },
     {
-      "from": "wis_listening",
-      "to": "feedback_loops",
-      "why": "Listening generates weak-signal inputs that can be turned into actionable feedback."
+      "from": "ethics_core",
+      "to": "reciprocity",
+      "why": "Essential work creates reciprocal duties."
     },
     {
-      "from": "wis_listening",
-      "to": "complaints_handling",
-      "why": "Listening reduces escalation by surfacing dissatisfaction early and shaping fair responses."
+      "from": "ethics_core",
+      "to": "proportionality",
+      "why": "Legitimacy depends on proportional response."
     },
     {
-      "from": "wis_listening",
-      "to": "work_as_imagined_vs_done",
-      "why": "Listening uncovers adaptations and workarounds that widen the WAI/WAD gap."
+      "from": "ethics_core",
+      "to": "transparency",
+      "why": "Trust requires explainable decisions."
     },
     {
-      "from": "wis_grace",
-      "to": "pathology_underreporting",
-      "why": "Non-blame climates reduce fear and restore reporting of symptoms, near misses and control failures."
+      "from": "ethics_core",
+      "to": "solidarity",
+      "why": "Collective action frames shared responsibility."
     },
     {
-      "from": "wis_grace",
-      "to": "complaints_handling",
-      "why": "Grace supports respectful complaint resolution and reduces defensive organisational behaviour."
+      "from": "ethics_core",
+      "to": "rights",
+      "why": "Rights constrain what can be collected/enforced."
     },
     {
-      "from": "wis_proportion",
-      "to": "risk_based_prioritisation",
-      "why": "Proportionate action depends on prioritising by risk rather than volume, habit or politics."
+      "from": "justice",
+      "to": "social_gradient",
+      "why": "Equity requires seeing stratified risk patterns."
     },
     {
-      "from": "wis_proportion",
-      "to": "commissioning_scope",
-      "why": "Scope and service levels must be right-sized to risk profile and organisational capacity."
+      "from": "rights",
+      "to": "data_governance",
+      "why": "Privacy/safety trade-offs appear in health data use."
     },
     {
-      "from": "wis_proportion",
-      "to": "kpis_metrics",
-      "why": "Right-sizing metrics avoids target overload and focuses measurement on decision usefulness."
+      "from": "reciprocity",
+      "to": "sick_pay_policy",
+      "why": "Reciprocity motivates income protection during isolation."
     },
     {
-      "from": "wis_ethics_fairness",
-      "to": "consent_confidentiality",
-      "why": "Ethical constraints are operationalised through consistent consent and confidentiality governance."
+      "from": "proportionality",
+      "to": "public_health_law",
+      "why": "Proportionality guides emergency powers and limits."
     },
     {
-      "from": "wis_ethics_fairness",
-      "to": "two_master_ethics",
-      "why": "Ethical judgement frames how OH navigates worker–employer tensions without losing independence."
+      "from": "transparency",
+      "to": "risk_comm",
+      "why": "Explainability drives effective risk communication."
     },
     {
-      "from": "wis_ethics_fairness",
-      "to": "information_governance",
-      "why": "Dignity and autonomy require secure, minimal-disclosure information handling."
+      "from": "solidarity",
+      "to": "workplace_duty",
+      "why": "Solidarity implies duty of care in workplaces."
     },
     {
-      "from": "wis_holism",
-      "to": "multidisciplinary_teaming",
-      "why": "Whole-system outcomes require coordinated roles across OH, hygiene, engineering, HR and H&S."
+      "from": "social_gradient",
+      "to": "precarity",
+      "why": "Lower social position often means more insecure work."
     },
     {
-      "from": "wis_holism",
-      "to": "integration_with_hs",
-      "why": "Holism demands connecting clinical outputs to risk registers, controls, and management review."
+      "from": "social_gradient",
+      "to": "housing_crowding",
+      "why": "Material conditions influence household transmission."
     },
     {
-      "from": "wis_safe_to_fail",
-      "to": "problem_types",
-      "why": "Safe-to-fail experimentation fits complex problems better than one-shot rollouts."
+      "from": "social_gradient",
+      "to": "transport_dependence",
+      "why": "Transport constraints add exposure outside work."
     },
     {
-      "from": "wis_safe_to_fail",
-      "to": "learning_loops",
-      "why": "Safe-to-fail cycles need structured learning loops and backfire checks."
+      "from": "structural_racism",
+      "to": "social_gradient",
+      "why": "Discrimination contributes to unequal risk and outcomes."
     },
     {
-      "from": "wis_reflection_sensemaking",
-      "to": "information_to_wisdom",
-      "why": "Reflection converts data and documents into understanding and wise action."
+      "from": "precarity",
+      "to": "gig_delivery",
+      "why": "Insecure platform work limits control and sick leave."
     },
     {
-      "from": "wis_reflection_sensemaking",
-      "to": "audit_assurance",
-      "why": "Reflection prevents audit becoming ritual by focusing on meaning, causes and improvement."
+      "from": "precarity",
+      "to": "warehouse",
+      "why": "Power imbalance shapes ability to isolate or refuse unsafe work."
     },
     {
-      "from": "information_to_wisdom",
-      "to": "kpis_metrics",
-      "why": "Indicators are information; without interpretation they become noise or incentives."
+      "from": "housing_crowding",
+      "to": "household_spread_case",
+      "why": "Crowded housing turns workplace infection into wider harm."
     },
     {
-      "from": "information_to_wisdom",
-      "to": "audit_assurance",
-      "why": "Audit evidence must be interpreted to inform governance decisions."
+      "from": "digital_divide",
+      "to": "office",
+      "why": "Remote-capable roles are unevenly distributed."
     },
     {
-      "from": "risk_based_prioritisation",
-      "to": "programme_portfolio",
-      "why": "Programme intensity (noise/chemicals/vibration/thermal/lighting) should follow risk profile and uncertainty."
+      "from": "care_burden",
+      "to": "school_policy",
+      "why": "Childcare constraints shape policy impact across strata."
     },
     {
-      "from": "risk_based_prioritisation",
-      "to": "exposure_monitoring_strategy",
-      "why": "Monitoring depth (basic vs detailed) should match severity, variability and uncertainty."
+      "from": "transmission_modes",
+      "to": "shared_air",
+      "why": "Airborne spread links to shared indoor air time."
     },
     {
-      "from": "risk_based_prioritisation",
-      "to": "health_surveillance_strategy",
-      "why": "Surveillance should be targeted where harm is plausible, detectable, and actionable."
+      "from": "superspreading",
+      "to": "crowding_path",
+      "why": "Overdispersion makes crowding and events critical."
     },
     {
-      "from": "risk_based_prioritisation",
-      "to": "flow_and_capacity",
-      "why": "Prioritisation is how you manage capacity bottlenecks and prevent unsafe throughput pressure."
+      "from": "dose_response",
+      "to": "shared_air",
+      "why": "Dose increases with time and rebreathed air."
     },
     {
-      "from": "uncertainty_limits",
-      "to": "report_writing",
-      "why": "Reports should avoid false precision; use ranges/conditions and acknowledge limits."
+      "from": "dose_response",
+      "to": "masking_control",
+      "why": "Masks reduce inhaled/emitted dose."
     },
     {
-      "from": "uncertainty_limits",
-      "to": "risk_assessment_management",
-      "why": "Uncertainty requires adaptive risk management with review triggers and verification."
+      "from": "dose_response",
+      "to": "ventilation_control",
+      "why": "Ventilation reduces airborne concentration."
     },
     {
-      "from": "uncertainty_limits",
-      "to": "health_surveillance_strategy",
-      "why": "Uncertain effect pathways increase the value of targeted surveillance and trend review (where actionable)."
+      "from": "prevalence_metrics",
+      "to": "testing_control",
+      "why": "Testing changes what prevalence signals mean locally."
     },
     {
-      "from": "two_master_ethics",
-      "to": "report_writing",
-      "why": "Ethical tension is most visible in reporting: relevance, fairness and restraint in disclosure."
+      "from": "variant_shift",
+      "to": "vaccination_control",
+      "why": "Variant/immune escape changes vaccine effectiveness for infection."
     },
     {
-      "from": "two_master_ethics",
-      "to": "fitness_for_work",
-      "why": "Fitness decisions require balancing welfare, safety, fairness, and operational constraints."
+      "from": "variant_shift",
+      "to": "masking_control",
+      "why": "Higher transmissibility increases value of respirators."
     },
     {
-      "from": "two_master_ethics",
-      "to": "consultation_standards",
-      "why": "Role clarity and consent in the consultation reduces mistrust and prevents ethical drift."
+      "from": "asymptomatic",
+      "to": "testing_control",
+      "why": "Asymptomatic spread weakens symptom-only screening."
     },
     {
-      "from": "two_master_ethics",
-      "to": "risk_communication",
-      "why": "Explaining OH’s role and boundaries is essential to maintain legitimacy with all stakeholders."
+      "from": "uncertainty_decisions",
+      "to": "risk_comm",
+      "why": "Uncertainty must be communicated to sustain trust."
     },
     {
-      "from": "law_and_accountability",
-      "to": "legal_compliance_backbone",
-      "why": "Law becomes real through defined duties, processes, evidence and accountability."
+      "from": "workplace_duty",
+      "to": "implementation_quality",
+      "why": "Duty of care requires ensuring controls work in practice."
     },
     {
-      "from": "law_and_accountability",
-      "to": "commissioning_scope",
-      "why": "Commissioning must reflect legal responsibilities even when delivery is outsourced."
+      "from": "worker_voice",
+      "to": "implementation_quality",
+      "why": "Worker feedback detects failing controls and drift."
     },
     {
-      "from": "law_and_accountability",
-      "to": "incident_response",
-      "why": "Legal/reporting duties and urgent risk scenarios require clear escalation pathways."
+      "from": "supply_chain",
+      "to": "ppe_allocation_ops",
+      "why": "Scarcity leads to allocation rules for PPE."
     },
     {
-      "from": "law_and_accountability",
-      "to": "information_governance",
-      "why": "Data protection, confidentiality and lawful disclosure rules constrain information handling."
+      "from": "sick_pay_policy",
+      "to": "paid_leave_control",
+      "why": "Policy becomes effective through operational implementation."
     },
     {
-      "from": "consent_confidentiality",
-      "to": "information_governance",
-      "why": "Consent and confidentiality are enforced via access control, secure delivery, and retention rules."
+      "from": "data_governance",
+      "to": "testing_control",
+      "why": "Rules shape how testing data is collected/used."
     },
     {
-      "from": "consent_confidentiality",
-      "to": "consultation_standards",
-      "why": "Consent is obtained and recorded in consultations; governance requires consistent scripts and documentation."
+      "from": "school_policy",
+      "to": "education_workers",
+      "why": "School policy directly shapes teacher/staff exposure."
     },
     {
-      "from": "consent_confidentiality",
-      "to": "records_management",
-      "why": "Records must reflect consent decisions and limit disclosure to what is necessary."
+      "from": "public_health_law",
+      "to": "cohorting",
+      "why": "Mandates and guidance enable cohorting/occupancy limits."
     },
     {
-      "from": "consent_confidentiality",
-      "to": "teleconsultation",
-      "why": "Teleconsultation needs extra safeguards: identity checks, consent confirmation, and limitation management."
+      "from": "healthcare_frontline",
+      "to": "masking_control",
+      "why": "Clinical exposure often requires respirators."
     },
     {
-      "from": "risk_communication",
-      "to": "training_information",
-      "why": "Communication becomes durable when embedded in training, briefings, and accessible materials."
+      "from": "healthcare_frontline",
+      "to": "ppe_shortage_case",
+      "why": "Surges can create scarcity dilemmas."
     },
     {
-      "from": "risk_communication",
-      "to": "commissioning_scope",
-      "why": "Clear external and internal communications set realistic expectations about what OH can and cannot do."
+      "from": "care_homes",
+      "to": "cohorting",
+      "why": "Segmentation and stable staffing reduce cross-resident spread."
     },
     {
-      "from": "risk_communication",
-      "to": "complaints_handling",
-      "why": "Better communication reduces complaint load and improves perceived fairness."
+      "from": "public_transport",
+      "to": "crowding_path",
+      "why": "Passenger density affects contact network and dose."
     },
     {
-      "from": "multidisciplinary_teaming",
-      "to": "integration_with_hs",
-      "why": "Teaming requires shared governance through risk registers, control ownership, and management review."
+      "from": "retail",
+      "to": "public_transport",
+      "why": "Many retail workers rely on public transport, compounding risk."
     },
     {
-      "from": "multidisciplinary_teaming",
-      "to": "programme_portfolio",
-      "why": "Programmes need clinical + hygiene + engineering + HR roles working as one system."
+      "from": "retail",
+      "to": "crowding_path",
+      "why": "Queueing and peak shopping increase crowding."
     },
     {
-      "from": "multidisciplinary_teaming",
-      "to": "hierarchy_of_control",
-      "why": "Upstream controls require engineering/procurement involvement, not clinician-only action."
+      "from": "hospitality",
+      "to": "vocalization_path",
+      "why": "Loud speech increases emissions in hospitality venues."
     },
     {
-      "from": "power_and_incentives",
-      "to": "commissioning_scope",
-      "why": "Contracts and SLAs shape behaviour; unclear incentives create quality drift and gaming."
+      "from": "education_workers",
+      "to": "shared_air",
+      "why": "Prolonged shared indoor air drives risk."
     },
     {
-      "from": "power_and_incentives",
-      "to": "kpis_metrics",
-      "why": "What you measure and reward is what the system will optimise—even if it harms trust or outcomes."
+      "from": "warehouse",
+      "to": "implementation_quality",
+      "why": "Quota pressure can degrade adherence to controls."
     },
     {
-      "from": "power_and_incentives",
-      "to": "pathology_underreporting",
-      "why": "Punitive metrics and blame cultures suppress reporting and destroy learning."
+      "from": "manufacturing_meat",
+      "to": "vocalization_path",
+      "why": "Noise drives shouting; cold air may affect persistence."
     },
     {
-      "from": "power_and_incentives",
-      "to": "challenge_outsourcing",
-      "why": "Outsourcing chains amplify misaligned incentives and accountability gaps."
+      "from": "gig_delivery",
+      "to": "masking_control",
+      "why": "Masking and ventilation are main personal controls for drivers."
     },
     {
-      "from": "flow_and_capacity",
-      "to": "consultation_standards",
-      "why": "Backlogs and time pressure degrade consultation quality unless standards and triage protect critical steps."
+      "from": "custodial",
+      "to": "ppe_allocation_ops",
+      "why": "Cleaning roles are often under-prioritised despite exposure."
     },
     {
-      "from": "flow_and_capacity",
-      "to": "health_surveillance_strategy",
-      "why": "Surveillance capacity must be planned; otherwise coverage becomes inequitable and follow-up fails."
+      "from": "prisons",
+      "to": "crowding_path",
+      "why": "Congregate density constrains distancing and isolation."
     },
     {
-      "from": "flow_and_capacity",
-      "to": "entropy_and_drift",
-      "why": "Sustained overload accelerates drift: shortcuts, missed follow-ups, delayed maintenance."
+      "from": "office",
+      "to": "remote_work",
+      "why": "Knowledge work can substitute physical proximity with remote work."
     },
     {
-      "from": "interfaces_and_handoffs",
-      "to": "records_management",
-      "why": "Reliable handoffs require structured records and clear routing/verification steps."
+      "from": "shared_air",
+      "to": "infection_outcome",
+      "why": "More shared air time increases probability of infection."
     },
     {
-      "from": "interfaces_and_handoffs",
-      "to": "report_writing",
-      "why": "Report production/delivery is a high-risk interface: wrong recipient, ambiguous wording, missing consent."
+      "from": "crowding_path",
+      "to": "infection_outcome",
+      "why": "Crowding increases likelihood of exposure and transmission."
     },
     {
-      "from": "interfaces_and_handoffs",
-      "to": "incident_response",
-      "why": "Interface failures produce incidents (breaches, missed escalations) requiring response playbooks."
+      "from": "vocalization_path",
+      "to": "infection_outcome",
+      "why": "Higher emission increases dose for others."
     },
     {
-      "from": "interfaces_and_handoffs",
-      "to": "complaints_handling",
-      "why": "Many complaints originate from handoff failures: delays, unclear outcomes, miscommunication."
+      "from": "ventilation_control",
+      "to": "infection_outcome",
+      "why": "Better ventilation reduces infection probability."
     },
     {
-      "from": "entropy_and_drift",
-      "to": "audit_assurance",
-      "why": "Audit detects drift and tests whether controls and processes are still working as intended."
+      "from": "filtration_control",
+      "to": "infection_outcome",
+      "why": "Filtration reduces aerosol concentration and risk."
     },
     {
-      "from": "entropy_and_drift",
-      "to": "competence_workforce",
-      "why": "Turnover and poor supervision accelerate drift; competence planning stabilises practice."
+      "from": "masking_control",
+      "to": "infection_outcome",
+      "why": "Respirators reduce inhaled dose and infection risk."
     },
     {
-      "from": "entropy_and_drift",
-      "to": "pathology_normalised_deviance",
-      "why": "Uncorrected drift becomes 'normal' and hides growing risk."
+      "from": "testing_control",
+      "to": "infection_outcome",
+      "why": "Testing reduces introductions by earlier isolation."
     },
     {
-      "from": "feedback_loops",
-      "to": "learning_loops",
-      "why": "Learning loops are structured feedback loops that translate signals into sustained system change."
+      "from": "vaccination_control",
+      "to": "severe_disease",
+      "why": "Vaccination substantially reduces severe outcomes."
     },
     {
-      "from": "feedback_loops",
-      "to": "kpis_metrics",
-      "why": "Indicators are the sensor layer of feedback loops; they must be meaningful and non-punitive."
+      "from": "vaccination_control",
+      "to": "long_covid",
+      "why": "Vaccination can reduce risk of long COVID via fewer/less severe infections."
     },
     {
-      "from": "feedback_loops",
-      "to": "audit_assurance",
-      "why": "Audit is a formal feedback mechanism: check reality, then change the system and re-check."
+      "from": "implementation_quality",
+      "to": "infection_outcome",
+      "why": "Poor implementation makes nominal controls ineffective."
     },
     {
-      "from": "work_as_imagined_vs_done",
-      "to": "audit_assurance",
-      "why": "Audit must test work-as-done under load, not just documented compliance."
+      "from": "paid_leave_control",
+      "to": "household_spread_case",
+      "why": "Leave support enables staying home, preventing household spread."
     },
     {
-      "from": "work_as_imagined_vs_done",
-      "to": "risk_assessment_management",
-      "why": "Risk assessment must model real tasks and adaptations, otherwise controls will fail."
+      "from": "ppe_allocation_ops",
+      "to": "ppe_shortage_case",
+      "why": "Allocation rules determine who faces risk during shortages."
     },
     {
-      "from": "work_as_imagined_vs_done",
-      "to": "hierarchy_of_control",
-      "why": "Controls must be usable in real work; otherwise the system drifts toward weaker, behaviour-dependent controls."
+      "from": "infection_outcome",
+      "to": "severe_disease",
+      "why": "Some infections progress to severe acute disease."
     },
     {
-      "from": "boundaries_and_coverage",
-      "to": "commissioning_scope",
-      "why": "Coverage decisions must be explicit in scope (contractors, multi-site, remote workers) to avoid inequity and hidden risk."
+      "from": "infection_outcome",
+      "to": "long_covid",
+      "why": "Some infections lead to persistent symptoms and impairment."
     },
     {
-      "from": "boundaries_and_coverage",
-      "to": "legal_compliance_backbone",
-      "why": "Legal responsibilities and reporting can extend beyond direct employees depending on context and dutyholder roles."
+      "from": "infection_outcome",
+      "to": "mental_health",
+      "why": "Illness, fear, and repeated outbreaks add psychological burden."
     },
     {
-      "from": "boundaries_and_coverage",
-      "to": "programme_portfolio",
-      "why": "Programme design must reflect who is exposed and where work happens, including contractors and distributed sites."
+      "from": "warehouse",
+      "to": "warehouse_quota_case",
+      "why": "Quota-driven workflow can undermine controls."
     },
     {
-      "from": "commissioning_scope",
-      "to": "clinical_governance",
-      "why": "Commissioning should require governance: supervision, templates, consent practices, and audit rights."
+      "from": "education_workers",
+      "to": "school_vent_case",
+      "why": "Poor ventilation and governance delays create repeated outbreaks."
     },
     {
-      "from": "commissioning_scope",
-      "to": "challenge_outsourcing",
-      "why": "Weak commissioning creates accountability drift and inconsistent standards across providers."
+      "from": "gig_delivery",
+      "to": "rideshare_case",
+      "why": "Platform incentives can transfer risk to workers."
     },
     {
-      "from": "commissioning_scope",
-      "to": "flow_and_capacity",
-      "why": "Service levels and scope determine demand; demand determines waiting times and quality risk."
+      "from": "vaccination_control",
+      "to": "equity_priority_case",
+      "why": "Allocation of vaccines creates ethical controversies."
     },
     {
-      "from": "clinical_governance",
-      "to": "consultation_standards",
-      "why": "Governance sets consultation norms: consent, documentation, escalation and fairness."
+      "from": "public_health_law",
+      "to": "equity_priority_case",
+      "why": "Prioritisation is a policy/legal design choice under scarcity."
     },
     {
-      "from": "clinical_governance",
-      "to": "report_writing",
-      "why": "Governance enforces report quality: relevance, clarity, consent, and secure handling."
+      "from": "justice",
+      "to": "equity_priority_case",
+      "why": "Equity frames prioritisation trade-offs."
     },
     {
-      "from": "clinical_governance",
-      "to": "competence_workforce",
-      "why": "Governance relies on competence, supervision, CPD and safe delegation."
+      "from": "reciprocity",
+      "to": "equity_priority_case",
+      "why": "Reciprocity argues for protecting those required to face exposure."
     },
     {
-      "from": "clinical_governance",
-      "to": "complaints_handling",
-      "why": "A governed complaints process protects legitimacy and yields structured learning."
+      "from": "precautionary",
+      "to": "uncertainty_decisions",
+      "why": "Precaution informs decisions when evidence is incomplete."
     },
     {
-      "from": "information_governance",
-      "to": "records_management",
-      "why": "IG policies are implemented through record structure, access control, retention and secure delivery."
+      "from": "stewardship",
+      "to": "supply_chain",
+      "why": "Stewardship frames allocation during scarcity."
     },
     {
-      "from": "information_governance",
-      "to": "audit_assurance",
-      "why": "IG requires assurance: access logs, breach drills, template checks, and delivery verification."
+      "from": "accountability_principle",
+      "to": "enforcement",
+      "why": "Accountability requires mechanisms to detect and correct failures."
     },
     {
-      "from": "information_governance",
-      "to": "case_wrong_recipient",
-      "why": "A data breach is a direct stress-test of IG controls and interface design."
+      "from": "accountability_principle",
+      "to": "worker_voice",
+      "why": "Worker voice enables accountability in practice."
     },
     {
-      "from": "legal_compliance_backbone",
-      "to": "programme_portfolio",
-      "why": "Legal duties determine which programmes must exist and what evidence is required."
+      "from": "migrant_status",
+      "to": "risk_comm",
+      "why": "Language and trust barriers affect communication reach."
     },
     {
-      "from": "legal_compliance_backbone",
-      "to": "training_information",
-      "why": "Duties include information/instruction/training so controls are understood and sustained."
+      "from": "migrant_status",
+      "to": "testing_control",
+      "why": "Access barriers can reduce testing uptake and timeliness."
     },
     {
-      "from": "legal_compliance_backbone",
-      "to": "incident_response",
-      "why": "Incident planning and escalation are required where serious harm could occur."
+      "from": "disability",
+      "to": "workplace_duty",
+      "why": "Duty of care includes accommodations and protection for vulnerable staff."
     },
     {
-      "from": "integration_with_hs",
-      "to": "risk_assessment_management",
-      "why": "Risk management requires controls to be owned, resourced, tracked and reviewed in the organisational system."
+      "from": "community_support",
+      "to": "paid_leave_control",
+      "why": "Mutual aid can complement formal isolation support."
     },
     {
-      "from": "integration_with_hs",
-      "to": "audit_assurance",
-      "why": "Integration enables assurance: close-out of actions, management review, and control verification."
+      "from": "incubation",
+      "to": "testing_control",
+      "why": "Timing determines when tests prevent workplace introduction."
     },
     {
-      "from": "integration_with_hs",
-      "to": "programme_portfolio",
-      "why": "Integration keeps programmes aligned with operational reality and engineering priorities."
+      "from": "test_limits",
+      "to": "testing_control",
+      "why": "False negatives require layered controls beyond testing."
     },
     {
-      "from": "programme_portfolio",
-      "to": "coshh_programme",
-      "why": "Hazard portfolios require explicit programmes with owners, monitoring, controls, and surveillance pathways."
+      "from": "reinfection",
+      "to": "long_covid",
+      "why": "Repeated infections can increase long-term morbidity burden."
     },
     {
-      "from": "programme_portfolio",
-      "to": "noise_programme",
-      "why": "Noise is a core programme requiring survey-control-surveillance loops."
+      "from": "seasonality",
+      "to": "ventilation_control",
+      "why": "Seasonal indoor congregation increases the importance of ventilation."
     },
     {
-      "from": "programme_portfolio",
-      "to": "vibration_programme",
-      "why": "Vibration requires coordinated tool/process controls and health monitoring pathways."
+      "from": "healthcare_capacity",
+      "to": "severe_disease",
+      "why": "System strain can increase severity outcomes and reduce care quality."
     },
     {
-      "from": "programme_portfolio",
-      "to": "thermal_programme",
-      "why": "Thermal stress requires operational triggers, controls, and vulnerable-worker safeguards."
+      "from": "enforcement",
+      "to": "workplace_duty",
+      "why": "Inspections and penalties make duty-of-care requirements meaningful."
     },
     {
-      "from": "programme_portfolio",
-      "to": "lighting_programme",
-      "why": "Lighting affects comfort, errors and fatigue; include as a managed environment programme."
+      "from": "procurement",
+      "to": "ventilation_control",
+      "why": "Procurement determines whether ventilation upgrades occur on time."
     },
     {
-      "from": "programme_portfolio",
-      "to": "fitness_for_work",
-      "why": "Case management and adjustments are a programme stream needing standards and capacity planning."
+      "from": "procurement",
+      "to": "co2_monitoring",
+      "why": "Buying monitors and specifying use supports ventilation management."
     },
     {
-      "from": "hygiene_cycle_arec",
-      "to": "risk_assessment_management",
-      "why": "AREC provides the structure to move from hazard recognition to evaluation and control decisions."
+      "from": "guidance_alignment",
+      "to": "risk_comm",
+      "why": "Aligned guidance reduces confusion and distrust."
     },
     {
-      "from": "hygiene_cycle_arec",
-      "to": "exposure_monitoring_strategy",
-      "why": "Evaluation requires a monitoring strategy: baseline, post-control verification, and change-triggered monitoring."
+      "from": "workforce_planning",
+      "to": "care_homes",
+      "why": "Staffing strategy affects cross-facility movement and cohorting feasibility."
     },
     {
-      "from": "hygiene_cycle_arec",
-      "to": "hierarchy_of_control",
-      "why": "Control selection should follow hierarchy; AREC ensures controls are implemented and reviewed."
+      "from": "workforce_planning",
+      "to": "healthcare_frontline",
+      "why": "Surge staffing influences exposure, fatigue, and adherence."
     },
     {
-      "from": "hygiene_cycle_arec",
-      "to": "health_surveillance_strategy",
-      "why": "Where exposures remain, surveillance can provide early warning and test whether controls are adequate."
+      "from": "compensation",
+      "to": "long_covid",
+      "why": "Recognition and support affect recovery and financial stability after chronic impairment."
     },
     {
-      "from": "risk_assessment_management",
-      "to": "hierarchy_of_control",
-      "why": "Risk management prioritises upstream controls; the hierarchy guides investment decisions."
+      "from": "compensation",
+      "to": "economic_harm",
+      "why": "Compensation can mitigate economic harm when illness is occupational."
     },
     {
-      "from": "risk_assessment_management",
-      "to": "training_information",
-      "why": "Risk management includes administrative controls and training so controls work in practice."
+      "from": "home_care",
+      "to": "shared_air",
+      "why": "Home environments vary; shared air time with clients matters."
     },
     {
-      "from": "risk_assessment_management",
-      "to": "incident_response",
-      "why": "Residual risk requires emergency planning, escalation triggers, and practice drills."
+      "from": "home_care",
+      "to": "masking_control",
+      "why": "Home care often depends on worker PPE as primary control."
     },
     {
-      "from": "exposure_monitoring_strategy",
-      "to": "coshh_programme",
-      "why": "Chemical exposure evaluation and verification is delivered through monitoring and survey strategy."
+      "from": "emergency_services",
+      "to": "masking_control",
+      "why": "Unpredictable close contact requires reliable PPE."
     },
     {
-      "from": "exposure_monitoring_strategy",
-      "to": "noise_programme",
-      "why": "Noise surveys are exposure monitoring for a physical agent; they inform and verify controls."
+      "from": "food_processing",
+      "to": "crowding_path",
+      "why": "Shared spaces and break rooms drive crowding risk."
     },
     {
-      "from": "exposure_monitoring_strategy",
-      "to": "vibration_programme",
-      "why": "Vibration exposure estimation and tool inventories inform risk and surveillance triggers."
+      "from": "construction_outdoor",
+      "to": "transport_controls",
+      "why": "Shared vehicles and transport can dominate exposure even if work is outdoors."
     },
     {
-      "from": "exposure_monitoring_strategy",
-      "to": "thermal_programme",
-      "why": "Environmental measurement and indices inform triggers and work-rest controls."
+      "from": "remote_customer_service",
+      "to": "vocalization_path",
+      "why": "High vocalization in dense indoor seating increases emissions."
     },
     {
-      "from": "exposure_monitoring_strategy",
-      "to": "audit_assurance",
-      "why": "Monitoring quality and representativeness should be assurance-tested (methods, triggers, response)."
+      "from": "remote_customer_service",
+      "to": "outbreak_cluster_case",
+      "why": "Call-center-like settings can generate large clusters without air controls."
     },
     {
-      "from": "health_surveillance_strategy",
-      "to": "noise_programme",
-      "why": "Audiometry is the surveillance arm of hearing conservation and should feed back to controls."
+      "from": "co2_monitoring",
+      "to": "ventilation_control",
+      "why": "Monitoring provides feedback to manage ventilation and occupancy."
     },
     {
-      "from": "health_surveillance_strategy",
-      "to": "vibration_programme",
-      "why": "HAVS symptom surveillance and staging enables early action and tool/process control escalation."
+      "from": "uvgi",
+      "to": "infection_outcome",
+      "why": "UVGI can reduce airborne transmission in high-risk rooms when designed well."
     },
     {
-      "from": "health_surveillance_strategy",
-      "to": "coshh_programme",
-      "why": "Where justified, surveillance (e.g., skin/respiratory) detects early harm and tests control adequacy."
+      "from": "barriers",
+      "to": "transmission_modes",
+      "why": "Barriers target droplets but interact with airflow; must match transmission mechanisms."
     },
     {
-      "from": "health_surveillance_strategy",
-      "to": "feedback_loops",
-      "why": "Surveillance outcomes are signals that should trigger control improvement and policy review."
+      "from": "staggering",
+      "to": "crowding_path",
+      "why": "Staggering reduces density and contact network size."
     },
     {
-      "from": "toxicology_foundations",
-      "to": "hazard_info_sds_clp",
-      "why": "Toxicology explains why substances are classified and how to interpret hazard types and endpoints."
+      "from": "transport_controls",
+      "to": "transport_dependence",
+      "why": "Commute controls address exposure added by transport dependence."
     },
     {
-      "from": "toxicology_foundations",
-      "to": "risk_based_prioritisation",
-      "why": "Dose-response and endpoint severity inform prioritisation (high-consequence hazards get more control/monitoring)."
+      "from": "hand_hygiene",
+      "to": "infection_outcome",
+      "why": "Hygiene can reduce some transmission routes; complements airborne controls."
     },
     {
-      "from": "hazard_info_sds_clp",
-      "to": "coshh_programme",
-      "why": "SDS/labels feed inventory, exposure scenarios, control selection and training content."
+      "from": "training_fit_testing",
+      "to": "masking_control",
+      "why": "Training and fit-testing improve PPE effectiveness."
     },
     {
-      "from": "hazard_info_sds_clp",
-      "to": "training_information",
-      "why": "Label/SDS literacy is needed so workers and supervisors understand hazards and precautions."
+      "from": "early_treatment",
+      "to": "severe_disease",
+      "why": "Rapid access to treatment reduces progression to severe disease."
     },
     {
-      "from": "hazard_info_sds_clp",
-      "to": "risk_assessment_management",
-      "why": "Hazard information is an input to risk assessment but must be contextualised to real tasks and exposures."
+      "from": "infection_outcome",
+      "to": "economic_harm",
+      "why": "Illness and isolation can trigger income loss, especially without support."
     },
     {
-      "from": "consultation_standards",
-      "to": "report_writing",
-      "why": "High-quality consultations produce clear, defensible, consented reports."
+      "from": "school_policy",
+      "to": "education_loss",
+      "why": "School policy and outbreaks drive educational disruption."
     },
     {
-      "from": "consultation_standards",
-      "to": "fitness_for_work",
-      "why": "Fitness decisions rely on structured assessment of function and work demands."
+      "from": "hospitality",
+      "to": "outbreak_cluster_case",
+      "why": "Hospitality conditions can produce superspreading events."
     },
     {
-      "from": "consultation_standards",
-      "to": "records_management",
-      "why": "Consultations must be documented to evidence consent, reasoning, and advice."
+      "from": "public_transport",
+      "to": "transport_strike_case",
+      "why": "Protection disputes can arise where exposure is high and enforcement is hard."
     },
     {
-      "from": "teleconsultation",
-      "to": "records_management",
-      "why": "Teleconsultation requires extra documentation of identity verification and limitations."
+      "from": "care_homes",
+      "to": "care_home_staffing_case",
+      "why": "Staffing structures and agency work create cross-facility transmission dilemmas."
     },
     {
-      "from": "report_writing",
-      "to": "risk_communication",
-      "why": "Reports are a form of risk communication translating health information into management actions."
+      "from": "data_governance",
+      "to": "privacy_testing_case",
+      "why": "Weak safeguards can lead to punitive use of health data."
     },
     {
-      "from": "report_writing",
-      "to": "case_report_dispute",
-      "why": "Disputes stress-test relevance, consent and confidentiality boundaries."
+      "from": "worker_voice",
+      "to": "privacy_testing_case",
+      "why": "Fear of retaliation suppresses reporting/testing."
     },
     {
-      "from": "fitness_for_work",
-      "to": "risk_assessment_management",
-      "why": "Work restrictions and adjustments must align with risk assessment and control feasibility."
+      "from": "rights",
+      "to": "privacy_testing_case",
+      "why": "Rights constrain punitive surveillance and discriminatory practices."
     },
     {
-      "from": "fitness_for_work",
-      "to": "multidisciplinary_teaming",
-      "why": "Effective adjustments require coordination between OH, HR, line management and sometimes engineering/ergonomics."
-    },
-    {
-      "from": "training_information",
-      "to": "work_as_imagined_vs_done",
-      "why": "Training must be designed for real work; otherwise it becomes “work-as-imagined” theatre."
-    },
-    {
-      "from": "training_information",
-      "to": "pathology_normalised_deviance",
-      "why": "When training is unrealistic, workarounds become normal and hide real risk."
-    },
-    {
-      "from": "incident_response",
-      "to": "learning_loops",
-      "why": "Incidents and near misses are learning opportunities if investigated and converted into system change."
-    },
-    {
-      "from": "records_management",
-      "to": "audit_assurance",
-      "why": "Records allow assurance testing: consent documented, follow-up done, referrals closed, controls verified."
-    },
-    {
-      "from": "complaints_handling",
-      "to": "learning_loops",
-      "why": "Complaints are weak signals; converting them into fixes requires structured learning loops."
-    },
-    {
-      "from": "seqohs",
-      "to": "clinical_governance",
-      "why": "SEQOHS domains constrain governance expectations for clinicians, processes and relationships."
-    },
-    {
-      "from": "seqohs",
-      "to": "information_governance",
-      "why": "SEQOHS explicitly requires robust information governance and worker relationship protections."
-    },
-    {
-      "from": "iso45001",
-      "to": "integration_with_hs",
-      "why": "OHSMS frameworks expect integration of monitoring, consultation, and continual improvement."
-    },
-    {
-      "from": "pdca_hsg65",
-      "to": "audit_assurance",
-      "why": "PDCA requires checking and auditing, not just planning and doing."
-    },
-    {
-      "from": "kpis_metrics",
-      "to": "power_and_incentives",
-      "why": "Metrics create incentives; design KPIs to support learning and prevention rather than gaming."
-    },
-    {
-      "from": "audit_assurance",
-      "to": "learning_loops",
-      "why": "Audit is valuable only when it changes the system and is re-checked."
-    },
-    {
-      "from": "competence_workforce",
-      "to": "flow_and_capacity",
-      "why": "Workforce planning is how you match demand to capacity and reduce unsafe throughput pressure."
-    },
-    {
-      "from": "competence_workforce",
-      "to": "challenge_outsourcing",
-      "why": "Outsourcing requires explicit competence and supervision requirements across provider chains."
-    },
-    {
-      "from": "challenge_outsourcing",
-      "to": "interfaces_and_handoffs",
-      "why": "Outsourcing multiplies interfaces (referrals, labs, report routing) and increases failure probability."
-    },
-    {
-      "from": "challenge_outsourcing",
-      "to": "audit_assurance",
-      "why": "Outsourced delivery requires stronger assurance (audit rights, sampling of reports, supervision evidence)."
-    },
-    {
-      "from": "pathology_underreporting",
-      "to": "feedback_loops",
-      "why": "Under-reporting breaks the sensing layer; feedback loops cannot regulate the system."
-    },
-    {
-      "from": "pathology_normalised_deviance",
-      "to": "work_as_imagined_vs_done",
-      "why": "Normalised deviance is sustained WAI/WAD mismatch that becomes culturally invisible."
-    },
-    {
-      "from": "coshh_programme",
-      "to": "case_lev_spikes",
-      "why": "Exposure spikes under load are a classic control verification failure mode in COSHH."
-    },
-    {
-      "from": "noise_programme",
-      "to": "case_noise_programme",
-      "why": "A stagnating programme reveals broken feedback from audiometry to engineering controls."
-    },
-    {
-      "from": "thermal_programme",
-      "to": "case_heat_extremes",
-      "why": "Extreme heat exposes weaknesses in triggers, supervision and work-rest governance."
-    },
-    {
-      "from": "report_writing",
-      "to": "case_wrong_recipient",
-      "why": "Report delivery is a high-risk interface; weak controls can cause breaches."
-    },
-    {
-      "from": "work_as_imagined_vs_done",
-      "to": "case_dermatitis_compliance_theatre",
-      "why": "Paper compliance can hide real exposure pathways and friction (gloves, time pressure, substitutions)."
-    },
-    {
-      "from": "information_governance",
-      "to": "case_wrong_recipient",
-      "why": "A data breach stress-tests IG controls: access, verification, secure channels, and incident response."
-    },
-    {
-      "from": "wis_listening",
-      "to": "case_dermatitis_compliance_theatre",
-      "why": "Listening finds supply, workflow and onboarding realities that audits and SDS training often miss."
-    },
-    {
-      "from": "wis_safe_to_fail",
-      "to": "case_lev_spikes",
-      "why": "Pilot small workflow and staging changes under peak load with backfire checks before scaling."
-    },
-    {
-      "from": "wis_grace",
-      "to": "case_report_dispute",
-      "why": "Respectful, non-blaming communication reduces escalation and preserves trust in a contested situation."
-    },
-    {
-      "from": "wis_proportion",
-      "to": "case_heat_extremes",
-      "why": "Extreme conditions require proportionate, decisive thresholds rather than perfect-but-late analysis."
+      "from": "justice",
+      "to": "education_loss",
+      "why": "Educational disruption often widens inequities."
     }
   ]
 }
