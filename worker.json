@@ -1,0 +1,1001 @@
+{
+  "meta": {
+    "title": "Hospital Worker Safety Under COVID Surge & PPE Scarcity \u2014 Wisdom \u2192 Concepts \u2192 Systems \u2192 Governance \u2192 Operations \u2192 Improvement \u2192 Cases",
+    "subtitle": "Constraint lattice for a hospital worker during a local COVID surge with scarce PPE: upstream ethics/law/scarcity constrain decisions; system dynamics (surge, drift, bottlenecks) shape exposure; governance sets policies; operations enact controls; improvement loops update constraints via learning.",
+    "domainName": "hospital worker safety (COVID surge / PPE scarcity)",
+    "searchPlaceholder": "FFP2/N95, FFP3, fit testing, don/doff, AGPs, ventilation, cohorting, surge capacity, redeployment, duty of care, moral injury, incident reporting, PPE stock, audit, IPC, hierarchy of controls\u2026",
+    "userContextLabel": "Your ward/role context (optional)",
+    "userContextPlaceholder": "e.g., ICU nurse; ED doctor; ward HCA; frequent AGPs; shortages; long shifts; vulnerability; what controls exist\u2026",
+    "initialPrompt": "",
+    "promptTemplate": "You are an infection prevention & control (IPC) and occupational health advisor with systems-thinking capability.\n\nWrite a realistic narrative case-study showing how upstream constraints (ethics, law, scarcity, system dynamics, incentives) shape downstream worker safety and service continuity during a COVID surge with PPE scarcity.\nUse the selected concepts to explain what to do, why it works, and how to govern it.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario (surge, PPE scarcity, AGPs, staffing pressure)\n- Risk diagnosis (exposure drivers, WAI/WAD gaps, bottlenecks, drift)\n- Control strategy (hierarchy: eliminate/substitute/engineering/admin/PPE)\n- Ethical/legal decision frame (duty of care, fair allocation, consent/confidentiality, whistleblowing)\n- Operational playbook (don/doff, fit, cohorting, breaks, escalation, redeployment)\n- Measurement and learning loops (leading indicators + backfire checks)\n- 2 safe-to-fail experiments (e.g., rapid fit-check buddy system; entry reduction bundle)\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Judgement-in-context: protect life, dignity, and trust under scarcity and time pressure."
+    },
+    {
+      "id": 1,
+      "title": "Super-concepts",
+      "hint": "Risk, uncertainty, duty of care, fairness under scarcity, communication, worker\u2013patient\u2013organisation tensions."
+    },
+    {
+      "id": 2,
+      "title": "Systems concepts",
+      "hint": "How safety behaves under surge: drift, bottlenecks, feedback loops, WAI/WAD gaps, coupling, resilience."
+    },
+    {
+      "id": 3,
+      "title": "Governance & programme architecture",
+      "hint": "IPC/OH governance: PPE procurement & allocation, fit-testing programme, redeployment policy, escalation pathways."
+    },
+    {
+      "id": 4,
+      "title": "Operational delivery mechanisms",
+      "hint": "Controls in practice: ventilation/cohorting, AGP workflows, don/doff, shift design, testing, vaccination, remote care."
+    },
+    {
+      "id": 5,
+      "title": "Quality, performance & improvement",
+      "hint": "Assurance and learning: audits, KPIs, incident/near-miss review, stock monitoring, training competence loops."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete surge+scarcity scenarios and failure modes (moral injury, unsafe assignments, protocol erosion)."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_dignity",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Dignity under risk",
+      "summary": "Protect worker dignity and autonomy while acknowledging real danger and fear.",
+      "tags": [
+        "wisdom",
+        "ethics",
+        "dignity"
+      ],
+      "bodyHtml": "<p>In a surge, fear and fatigue rise. Preserve dignity: listen, avoid blame, and treat safety concerns as legitimate system data.</p>"
+    },
+    {
+      "id": "wis_proportion_timecritical",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Proportion & time-critical action",
+      "summary": "Act with imperfect info; match intervention intensity to risk and available time.",
+      "tags": [
+        "wisdom",
+        "proportion",
+        "decision"
+      ],
+      "bodyHtml": "<p>When PPE is scarce, waiting for perfect certainty can be harmful. Use thresholds and staged actions that are defensible and fast.</p>"
+    },
+    {
+      "id": "wis_fairness_scarcity",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Fairness under scarcity",
+      "summary": "Allocate scarce PPE and staff exposure fairly, transparently, and consistently.",
+      "tags": [
+        "wisdom",
+        "fairness",
+        "scarcity"
+      ],
+      "bodyHtml": "<p>Scarcity creates moral injury when allocation feels arbitrary. Explicit criteria reduce conflict and improve adherence.</p>"
+    },
+    {
+      "id": "wis_truth_uncertainty",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Truthfulness about uncertainty",
+      "summary": "Communicate uncertainty honestly; avoid false reassurance that undermines trust.",
+      "tags": [
+        "wisdom",
+        "uncertainty",
+        "trust"
+      ],
+      "bodyHtml": "<p>Risk estimates vary with surge and practice. Use ranges and \u2018if/then\u2019 contingencies to keep plans adaptable.</p>"
+    },
+    {
+      "id": "wis_learning_over_blame",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Learning over blame",
+      "summary": "Treat breaches and near misses as learning opportunities; fix the system, not the person.",
+      "tags": [
+        "wisdom",
+        "learning",
+        "just_culture"
+      ],
+      "bodyHtml": "<p>Under surge, shortcuts happen. A just culture keeps weak signals flowing so controls can be improved.</p>"
+    },
+    {
+      "id": "risk_triage_exposure_vulnerability",
+      "level": 1,
+      "kind": "concept",
+      "label": "Risk triage (hazard \u00d7 exposure \u00d7 vulnerability)",
+      "summary": "Prioritise protection and redeployment using hazard severity, exposure intensity, and worker vulnerability.",
+      "tags": [
+        "risk",
+        "triage",
+        "vulnerability"
+      ],
+      "bodyHtml": "<p>Combine AGP frequency, surge, time-in-room, and vulnerability to decide PPE priority, role changes, and additional controls.</p>"
+    },
+    {
+      "id": "duty_of_care",
+      "level": 1,
+      "kind": "concept",
+      "label": "Duty of care (worker + patient)",
+      "summary": "Employers owe reasonably practicable protection; clinicians also face patient-care duties\u2014tension must be governed.",
+      "tags": [
+        "ethics",
+        "law",
+        "duty"
+      ],
+      "bodyHtml": "<p>Duty of care is multi-directional: to the worker, colleagues, and patients. Policies must recognise this tension explicitly.</p>"
+    },
+    {
+      "id": "two_master_tension",
+      "level": 1,
+      "kind": "concept",
+      "label": "Two-master tension (worker\u2013patient\u2013organisation)",
+      "summary": "Conflicts between service continuity, patient care, and individual safety shape real decisions.",
+      "tags": [
+        "ethics",
+        "stakeholders",
+        "conflict"
+      ],
+      "bodyHtml": "<p>Without clear rules, workers are forced into ad-hoc moral decisions, increasing burnout and inconsistency.</p>"
+    },
+    {
+      "id": "scarcity_allocation",
+      "level": 1,
+      "kind": "concept",
+      "label": "Scarce resource allocation",
+      "summary": "Explicit criteria for distributing PPE, staffing, and high-risk tasks to minimise harm and inequity.",
+      "tags": [
+        "scarcity",
+        "allocation",
+        "fairness"
+      ],
+      "bodyHtml": "<p>Allocation should reflect risk and task criticality, with escalation options when minimum safety cannot be met.</p>"
+    },
+    {
+      "id": "risk_communication_surge",
+      "level": 1,
+      "kind": "concept",
+      "label": "Risk communication under surge",
+      "summary": "Fast, clear messages that translate risk into actionable steps and escalation triggers.",
+      "tags": [
+        "communication",
+        "risk"
+      ],
+      "bodyHtml": "<p>Messaging must work at pace: briefings, signage, checklists, and channels for raising shortages and breaches.</p>"
+    },
+    {
+      "id": "uncertainty_model_limits_covid",
+      "level": 1,
+      "kind": "concept",
+      "label": "Uncertainty & model limits (COVID)",
+      "summary": "Transmission varies by variant, ventilation, behaviour; treat models as guides, not truth.",
+      "tags": [
+        "uncertainty",
+        "decision_quality"
+      ],
+      "bodyHtml": "<p>Use scenario ranges and update with local data (ward outbreaks, test positivity, ventilation checks).</p>"
+    },
+    {
+      "id": "wai_wad_ipc",
+      "level": 2,
+      "kind": "concept",
+      "label": "Work-as-imagined vs work-as-done (IPC)",
+      "summary": "Protocols assume ideal time/PPE; real work adapts under load and scarcity.",
+      "tags": [
+        "systems",
+        "WAI/WAD",
+        "IPC"
+      ],
+      "bodyHtml": "<p>Identify where don/doff steps are skipped, reuse happens, or room-entry minimisation fails under pressure.</p>"
+    },
+    {
+      "id": "drift_protocol_erosion",
+      "level": 2,
+      "kind": "concept",
+      "label": "Protocol erosion (drift)",
+      "summary": "Under sustained surge, adherence and control maintenance degrade unless actively supported.",
+      "tags": [
+        "systems",
+        "drift",
+        "reliability"
+      ],
+      "bodyHtml": "<p>Drift shows up as \u2018normal\u2019 reuse, rushed don/doff, crowded breakrooms, and ventilation workarounds.</p>"
+    },
+    {
+      "id": "bottlenecks_ppe_fit",
+      "level": 2,
+      "kind": "concept",
+      "label": "Bottlenecks (PPE, fit testing, time)",
+      "summary": "Constraints on PPE supply, fit-testing slots, and time create unsafe adaptations.",
+      "tags": [
+        "systems",
+        "capacity",
+        "bottleneck"
+      ],
+      "bodyHtml": "<p>When fit testing lags procurement, respirators exist but are unusable; when time is scarce, steps are skipped.</p>"
+    },
+    {
+      "id": "feedback_outbreak_signals",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops (outbreaks, staff illness, near misses)",
+      "summary": "Signals from cases, staff absences, and incidents must trigger rapid control changes.",
+      "tags": [
+        "systems",
+        "feedback",
+        "learning"
+      ],
+      "bodyHtml": "<p>Design fast loops: ward cluster \u2192 ventilation review \u2192 cohorting change \u2192 PPE escalation \u2192 re-check.</p>"
+    },
+    {
+      "id": "coupling_and_cascades",
+      "level": 2,
+      "kind": "concept",
+      "label": "Tight coupling & cascading failures",
+      "summary": "One shortage (PPE) cascades into staffing loss and higher exposure, worsening surge.",
+      "tags": [
+        "systems",
+        "cascades",
+        "risk"
+      ],
+      "bodyHtml": "<p>Shortages increase infections \u2192 absences \u2192 higher workload \u2192 more breaches \u2192 more infections.</p>"
+    },
+    {
+      "id": "resilience_buffers",
+      "level": 2,
+      "kind": "concept",
+      "label": "Resilience via buffers",
+      "summary": "Create buffers (stock, staffing, time) to prevent drift and allow safe practice.",
+      "tags": [
+        "systems",
+        "resilience",
+        "buffers"
+      ],
+      "bodyHtml": "<p>Buffers include protected don/doff time, break capacity, reserve PPE, and surge staffing plans.</p>"
+    },
+    {
+      "id": "gov_ipc_command",
+      "level": 3,
+      "kind": "concept",
+      "label": "IPC governance & incident command",
+      "summary": "Clear authority for IPC decisions, escalation, and rapid policy updates during surge.",
+      "tags": [
+        "governance",
+        "IPC"
+      ],
+      "bodyHtml": "<p>Define who can halt unsafe work, escalate PPE level, and reconfigure wards. Avoid ambiguity in emergencies.</p>"
+    },
+    {
+      "id": "gov_ppe_procurement_allocation",
+      "level": 3,
+      "kind": "concept",
+      "label": "PPE procurement + allocation rules",
+      "summary": "Stock monitoring, ordering, and transparent allocation criteria tied to task risk.",
+      "tags": [
+        "governance",
+        "PPE",
+        "procurement"
+      ],
+      "bodyHtml": "<p>Track burn rate, set minimum stock thresholds, and prioritise respirators for AGPs/high-surge units.</p>"
+    },
+    {
+      "id": "gov_fit_testing_programme",
+      "level": 3,
+      "kind": "concept",
+      "label": "Fit testing & respirator programme",
+      "summary": "Programme for fit testing, seal-check training, and model availability to match faces.",
+      "tags": [
+        "governance",
+        "fit_testing",
+        "training"
+      ],
+      "bodyHtml": "<p>Governance must ensure respirators are fit-tested, compatible, and refreshed when models change.</p>"
+    },
+    {
+      "id": "gov_redeployment_policy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Redeployment & accommodation policy",
+      "summary": "Rules for moving high-vulnerability workers away from high-risk exposure, with fair processes.",
+      "tags": [
+        "governance",
+        "redeployment",
+        "equity"
+      ],
+      "bodyHtml": "<p>Define triggers: high surge + AGPs + inadequate PPE \u2192 redeploy (especially for vulnerable workers).</p>"
+    },
+    {
+      "id": "gov_training_competence",
+      "level": 3,
+      "kind": "concept",
+      "label": "Competence governance (don/doff, AGP workflows)",
+      "summary": "Assure competence via training, buddy checks, and supervision; track coverage.",
+      "tags": [
+        "governance",
+        "competence",
+        "training"
+      ],
+      "bodyHtml": "<p>Competence is a control: without it, PPE effectiveness collapses. Govern refreshers and observation audits.</p>"
+    },
+    {
+      "id": "gov_testing_isolation_policy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Testing, isolation & reporting policy",
+      "summary": "Rules for staff testing, symptom reporting, isolation, and return-to-work during surge.",
+      "tags": [
+        "governance",
+        "testing",
+        "RTW"
+      ],
+      "bodyHtml": "<p>Policies must balance staffing pressure with outbreak control; provide non-punitive reporting pathways.</p>"
+    },
+    {
+      "id": "ops_ventilation_cohorting",
+      "level": 4,
+      "kind": "standard",
+      "label": "Ventilation, filtration & cohorting",
+      "summary": "Engineering/admin controls: ventilation checks, HEPA where feasible, cohorting and zoning.",
+      "tags": [
+        "operations",
+        "engineering",
+        "controls"
+      ],
+      "bodyHtml": "<p>Reduce airborne concentration with ventilation/filtration; separate COVID/non-COVID pathways; minimise mixing.</p>"
+    },
+    {
+      "id": "ops_agp_workflow",
+      "level": 4,
+      "kind": "standard",
+      "label": "AGP workflow redesign",
+      "summary": "Reduce AGP frequency/duration; use barriers, room controls, and staffing patterns to limit exposure.",
+      "tags": [
+        "operations",
+        "AGP",
+        "workflow"
+      ],
+      "bodyHtml": "<p>Bundle tasks, limit room entries, use experienced staff, and schedule AGPs in better-ventilated rooms.</p>"
+    },
+    {
+      "id": "ops_ppe_use_reuse",
+      "level": 4,
+      "kind": "standard",
+      "label": "PPE use, reuse and contingency practice",
+      "summary": "Practical rules for extended use/reuse (if unavoidable), safe storage, and when to stop work.",
+      "tags": [
+        "operations",
+        "PPE",
+        "contingency"
+      ],
+      "bodyHtml": "<p>Contingency standards should define acceptable reuse practices and red-line conditions requiring escalation.</p>"
+    },
+    {
+      "id": "ops_don_doff_buddy",
+      "level": 4,
+      "kind": "standard",
+      "label": "Don/doff + buddy checking",
+      "summary": "Structured don/doff with buddy checks, dedicated areas, and time protection.",
+      "tags": [
+        "operations",
+        "don_doff",
+        "training"
+      ],
+      "bodyHtml": "<p>Buddy checks catch errors, reduce self-contamination, and stabilise practice under fatigue.</p>"
+    },
+    {
+      "id": "ops_shift_break_design",
+      "level": 4,
+      "kind": "standard",
+      "label": "Shift, break & fatigue management",
+      "summary": "Operational rostering, breaks, hydration, and decompression to reduce errors and exposure.",
+      "tags": [
+        "operations",
+        "fatigue",
+        "roster"
+      ],
+      "bodyHtml": "<p>Control fatigue to protect adherence; avoid crowded breakrooms; stagger breaks; protect rest periods.</p>"
+    },
+    {
+      "id": "ops_vaccination_boosters",
+      "level": 4,
+      "kind": "standard",
+      "label": "Vaccination/booster delivery + tracking",
+      "summary": "Operational delivery of vaccines/boosters and tracking uptake as a severity-control lever.",
+      "tags": [
+        "operations",
+        "vaccination",
+        "prevention"
+      ],
+      "bodyHtml": "<p>Vaccination reduces severe outcomes; combine with exposure controls rather than substituting for them.</p>"
+    },
+    {
+      "id": "ops_rapid_escalation",
+      "level": 4,
+      "kind": "standard",
+      "label": "Escalation triggers in the moment",
+      "summary": "Clear stop/go triggers: PPE below minimum for task, ventilation failure, cluster outbreak, etc.",
+      "tags": [
+        "operations",
+        "escalation",
+        "safety"
+      ],
+      "bodyHtml": "<p>Define who to call, what changes immediately (PPE upgrade, task stop, redeploy), and how to document.</p>"
+    },
+    {
+      "id": "qi_kpis_leading",
+      "level": 5,
+      "kind": "standard",
+      "label": "Leading indicators (fit-test coverage, stock, observations)",
+      "summary": "Track controls that predict safety: respirator availability, fit-test coverage, buddy-check compliance, ventilation status.",
+      "tags": [
+        "quality",
+        "KPIs",
+        "leading"
+      ],
+      "bodyHtml": "<p>Leading indicators change faster than infection rates. Use them to prevent drift and catch shortages early.</p>"
+    },
+    {
+      "id": "qi_incident_nearmiss",
+      "level": 5,
+      "kind": "standard",
+      "label": "Incident & near-miss learning loop",
+      "summary": "Non-punitive reporting, rapid review, and visible fixes for PPE breaches and exposure incidents.",
+      "tags": [
+        "quality",
+        "learning",
+        "incidents"
+      ],
+      "bodyHtml": "<p>Convert near misses into process changes (layout, staffing, signage, procurement) and re-check effectiveness.</p>"
+    },
+    {
+      "id": "qi_audit_under_load",
+      "level": 5,
+      "kind": "standard",
+      "label": "Audit under peak load (WAI/WAD test)",
+      "summary": "Test controls during busy periods: do don/doff areas cope, are breaks safe, does cohorting hold?",
+      "tags": [
+        "quality",
+        "audit",
+        "WAI/WAD"
+      ],
+      "bodyHtml": "<p>Audits must stress-test reality during surge, not only paperwork or quiet shifts.</p>"
+    },
+    {
+      "id": "qi_moral_injury_support",
+      "level": 5,
+      "kind": "standard",
+      "label": "Moral injury & psychological support",
+      "summary": "Support for distress from unsafe conditions and ethical conflict; reduces burnout and turnover.",
+      "tags": [
+        "quality",
+        "wellbeing",
+        "moral_injury"
+      ],
+      "bodyHtml": "<p>Visible support and fair processes protect retention and safety by reducing disengagement and hidden suffering.</p>"
+    },
+    {
+      "id": "case_surge_scarce_ppe",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: High surge + scarce respirators",
+      "summary": "AGPs in high surge while only surgical masks available; risk escalates; redeployment/escalation needed.",
+      "tags": [
+        "case",
+        "surge",
+        "PPE_scarcity"
+      ],
+      "bodyHtml": "<p>Constraint: task risk exceeds available PPE. Options: stop AGPs, move worker, engineer controls, or procure respirators.</p>"
+    },
+    {
+      "id": "case_unfit_respirators",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Respirators without fit testing",
+      "summary": "FFP2 stock exists but fit testing backlog makes protection uncertain; workarounds emerge.",
+      "tags": [
+        "case",
+        "fit_testing",
+        "bottleneck"
+      ],
+      "bodyHtml": "<p>Constraint: programme capacity lags supply. Solutions: rapid fit-test clinics, alternate models, buddy seal-checks.</p>"
+    },
+    {
+      "id": "case_long_shifts_drift",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: 14-hour shifts and protocol drift",
+      "summary": "Fatigue leads to don/doff shortcuts and crowded breaks; infections rise among staff.",
+      "tags": [
+        "case",
+        "fatigue",
+        "drift"
+      ],
+      "bodyHtml": "<p>Constraint: staffing shortage drives long shifts \u2192 drift \u2192 more infections \u2192 worse staffing shortage.</p>"
+    },
+    {
+      "id": "case_high_vulnerability_worker",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Vulnerable worker assigned high-risk tasks",
+      "summary": "Worker vulnerability (health/household) conflicts with high exposure assignment during surge.",
+      "tags": [
+        "case",
+        "redeployment",
+        "ethics"
+      ],
+      "bodyHtml": "<p>Constraint: safety policy should trigger accommodation/redeployment; lack of policy causes ad-hoc conflict.</p>"
+    },
+    {
+      "id": "ppe_adequacy_threshold",
+      "level": 1,
+      "kind": "concept",
+      "label": "PPE adequacy threshold for task",
+      "summary": "Define minimum PPE by task context (e.g., AGPs in high surge require respirator-level protection).",
+      "tags": [
+        "PPE",
+        "threshold",
+        "policy"
+      ],
+      "bodyHtml": "<p>Encodes the institutional constraint: high surge + AGPs + PPE below FFP2 implies high risk; adequate PPE plus fit/training blocks extreme risk escalation.</p>"
+    },
+    {
+      "id": "worker_vulnerability_invariant",
+      "level": 1,
+      "kind": "concept",
+      "label": "Vulnerability accommodation invariant",
+      "summary": "If a worker is vulnerable, high-or-worse exposure assignments are not acceptable; triggers redeployment/accommodation.",
+      "tags": [
+        "vulnerability",
+        "safety_policy",
+        "equity"
+      ],
+      "bodyHtml": "<p>Represents a safety policy constraint: high vulnerability + high exposure demands accommodation, not normalization.</p>"
+    },
+    {
+      "id": "surge_and_prevalence_driver",
+      "level": 1,
+      "kind": "concept",
+      "label": "Surge as prevalence/exposure driver",
+      "summary": "Local surge increases probability that contacts are infectious and increases environmental viral load.",
+      "tags": [
+        "surge",
+        "prevalence",
+        "risk_driver"
+      ],
+      "bodyHtml": "<p>Surge level amplifies exposure risk even when individual behaviours stay constant; requires scaling controls and staffing buffers.</p>"
+    },
+    {
+      "id": "fit_and_training_as_multipliers",
+      "level": 2,
+      "kind": "concept",
+      "label": "Fit and training as effectiveness multipliers",
+      "summary": "Respirator performance depends on fit and don/doff; training is a multiplicative constraint on protection.",
+      "tags": [
+        "fit_testing",
+        "training",
+        "multipliers"
+      ],
+      "bodyHtml": "<p>Models how fit testing and don/doff competence shape the real protection delivered by PPE.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_dignity",
+      "to": "risk_communication_surge",
+      "why": "Dignity-preserving communication keeps safety concerns reportable and actionable."
+    },
+    {
+      "from": "wis_truth_uncertainty",
+      "to": "uncertainty_model_limits_covid",
+      "why": "Truthfulness about uncertainty prevents brittle policies and loss of trust."
+    },
+    {
+      "from": "wis_fairness_scarcity",
+      "to": "scarcity_allocation",
+      "why": "Fairness principles become explicit allocation rules for PPE and high-risk tasks."
+    },
+    {
+      "from": "wis_proportion_timecritical",
+      "to": "risk_triage_exposure_vulnerability",
+      "why": "Time-critical proportionality operationalises as triage by hazard/exposure/vulnerability."
+    },
+    {
+      "from": "wis_learning_over_blame",
+      "to": "risk_communication_surge",
+      "why": "A just culture supports reporting and constructive conversations about breaches."
+    },
+    {
+      "from": "risk_triage_exposure_vulnerability",
+      "to": "bottlenecks_ppe_fit",
+      "why": "Triage reveals where PPE/fit capacity is insufficient for the risk profile."
+    },
+    {
+      "from": "uncertainty_model_limits_covid",
+      "to": "feedback_outbreak_signals",
+      "why": "Uncertainty requires rapid feedback from local outbreak signals to update decisions."
+    },
+    {
+      "from": "scarcity_allocation",
+      "to": "coupling_and_cascades",
+      "why": "Poor allocation can trigger cascades (illness\u2192absence\u2192more risk); good allocation dampens them."
+    },
+    {
+      "from": "two_master_tension",
+      "to": "wai_wad_ipc",
+      "why": "Conflicting demands widen the gap between protocol and practice under pressure."
+    },
+    {
+      "from": "duty_of_care",
+      "to": "resilience_buffers",
+      "why": "Duty of care motivates buffers (stock/time/staff) to keep practice safe."
+    },
+    {
+      "from": "risk_communication_surge",
+      "to": "feedback_outbreak_signals",
+      "why": "Communication channels are the sensor layer for feedback (breaches, shortages, clusters)."
+    },
+    {
+      "from": "bottlenecks_ppe_fit",
+      "to": "gov_ppe_procurement_allocation",
+      "why": "Bottleneck analysis drives procurement thresholds and allocation rules."
+    },
+    {
+      "from": "bottlenecks_ppe_fit",
+      "to": "gov_fit_testing_programme",
+      "why": "Fit-testing capacity is governed as a programme, not left to ad-hoc effort."
+    },
+    {
+      "from": "drift_protocol_erosion",
+      "to": "gov_training_competence",
+      "why": "Drift is countered by competence governance, refreshers, and supervision."
+    },
+    {
+      "from": "wai_wad_ipc",
+      "to": "gov_ipc_command",
+      "why": "WAI/WAD gaps require empowered IPC command to redesign policy to match reality."
+    },
+    {
+      "from": "coupling_and_cascades",
+      "to": "gov_testing_isolation_policy",
+      "why": "Cascades are dampened by clear testing/isolation rules that prevent ward-wide spread."
+    },
+    {
+      "from": "resilience_buffers",
+      "to": "gov_ppe_procurement_allocation",
+      "why": "Buffers include stock and staffing plans maintained through governance."
+    },
+    {
+      "from": "feedback_outbreak_signals",
+      "to": "gov_ipc_command",
+      "why": "Outbreak signals must trigger fast decisions through incident command structures."
+    },
+    {
+      "from": "two_master_tension",
+      "to": "gov_redeployment_policy",
+      "why": "Governed redeployment resolves individual\u2013service conflicts more fairly than ad-hoc decisions."
+    },
+    {
+      "from": "gov_ppe_procurement_allocation",
+      "to": "ops_ppe_use_reuse",
+      "why": "Allocation rules define what PPE practice is possible and safe under scarcity."
+    },
+    {
+      "from": "gov_fit_testing_programme",
+      "to": "ops_don_doff_buddy",
+      "why": "Fit testing and seal-check practice are reinforced by buddy systems."
+    },
+    {
+      "from": "gov_training_competence",
+      "to": "ops_don_doff_buddy",
+      "why": "Training governance enables consistent don/doff practice at the point of care."
+    },
+    {
+      "from": "gov_ipc_command",
+      "to": "ops_ventilation_cohorting",
+      "why": "IPC command sets zoning/cohorting/ventilation priorities for operational teams."
+    },
+    {
+      "from": "gov_redeployment_policy",
+      "to": "ops_shift_break_design",
+      "why": "Redeployment and roster decisions reduce exposure and fatigue for vulnerable workers."
+    },
+    {
+      "from": "gov_testing_isolation_policy",
+      "to": "ops_rapid_escalation",
+      "why": "Operational escalation relies on consistent rules for symptoms/tests and isolation."
+    },
+    {
+      "from": "gov_ipc_command",
+      "to": "ops_agp_workflow",
+      "why": "Governance authorises changes to AGP workflows and task reallocation."
+    },
+    {
+      "from": "ops_don_doff_buddy",
+      "to": "qi_kpis_leading",
+      "why": "Buddy-check adherence and don/doff observations are leading indicators."
+    },
+    {
+      "from": "ops_ventilation_cohorting",
+      "to": "qi_kpis_leading",
+      "why": "Ventilation status and cohort integrity can be measured as leading indicators."
+    },
+    {
+      "from": "ops_ppe_use_reuse",
+      "to": "qi_incident_nearmiss",
+      "why": "Contingency PPE use increases breach risk; near-miss reporting must catch it early."
+    },
+    {
+      "from": "ops_shift_break_design",
+      "to": "qi_audit_under_load",
+      "why": "Fatigue and break arrangements should be audited during peak load."
+    },
+    {
+      "from": "ops_agp_workflow",
+      "to": "qi_audit_under_load",
+      "why": "AGP redesign must be checked in real conditions, not only on paper."
+    },
+    {
+      "from": "ops_rapid_escalation",
+      "to": "qi_incident_nearmiss",
+      "why": "Escalations generate incident data that powers rapid learning loops."
+    },
+    {
+      "from": "ops_shift_break_design",
+      "to": "qi_moral_injury_support",
+      "why": "Fatigue and conflict amplify moral injury; support improves safety and retention."
+    },
+    {
+      "from": "qi_incident_nearmiss",
+      "to": "gov_ipc_command",
+      "why": "Incident learning informs policy updates and immediate operational changes."
+    },
+    {
+      "from": "qi_audit_under_load",
+      "to": "gov_training_competence",
+      "why": "Audit findings identify training gaps and where competence governance must tighten."
+    },
+    {
+      "from": "qi_kpis_leading",
+      "to": "gov_ppe_procurement_allocation",
+      "why": "Stock and fit-test coverage metrics trigger procurement and allocation changes."
+    },
+    {
+      "from": "qi_kpis_leading",
+      "to": "bottlenecks_ppe_fit",
+      "why": "KPIs expose bottlenecks in real time (fit-test backlog, stock dips)."
+    },
+    {
+      "from": "qi_incident_nearmiss",
+      "to": "drift_protocol_erosion",
+      "why": "Repeated near misses reveal drift patterns requiring system redesign."
+    },
+    {
+      "from": "qi_moral_injury_support",
+      "to": "wis_dignity",
+      "why": "Support programmes operationalise dignity and preserve trust in leadership."
+    },
+    {
+      "from": "qi_audit_under_load",
+      "to": "wai_wad_ipc",
+      "why": "Peak-load audits measure the protocol-practice gap and guide redesign."
+    },
+    {
+      "from": "qi_kpis_leading",
+      "to": "feedback_outbreak_signals",
+      "why": "Leading indicators provide fast feedback before infection rates rise."
+    },
+    {
+      "from": "case_surge_scarce_ppe",
+      "to": "scarcity_allocation",
+      "why": "The case is driven by scarce PPE allocation under high surge."
+    },
+    {
+      "from": "case_surge_scarce_ppe",
+      "to": "ops_rapid_escalation",
+      "why": "Unsafe conditions require escalation triggers and stop/go rules."
+    },
+    {
+      "from": "case_surge_scarce_ppe",
+      "to": "gov_redeployment_policy",
+      "why": "If minimum PPE cannot be met, redeployment policy must activate."
+    },
+    {
+      "from": "case_surge_scarce_ppe",
+      "to": "ops_ventilation_cohorting",
+      "why": "Engineering controls can partially compensate when PPE is limited."
+    },
+    {
+      "from": "case_unfit_respirators",
+      "to": "bottlenecks_ppe_fit",
+      "why": "Fit-testing backlog is the bottleneck causing ineffective respirator use."
+    },
+    {
+      "from": "case_unfit_respirators",
+      "to": "gov_fit_testing_programme",
+      "why": "Programme scaling resolves the mismatch between stock and usability."
+    },
+    {
+      "from": "case_long_shifts_drift",
+      "to": "drift_protocol_erosion",
+      "why": "Fatigue accelerates drift in don/doff and breakroom controls."
+    },
+    {
+      "from": "case_long_shifts_drift",
+      "to": "coupling_and_cascades",
+      "why": "Infections reduce staffing, increasing hours and creating cascades."
+    },
+    {
+      "from": "case_high_vulnerability_worker",
+      "to": "risk_triage_exposure_vulnerability",
+      "why": "Vulnerability must factor into risk triage decisions."
+    },
+    {
+      "from": "case_high_vulnerability_worker",
+      "to": "duty_of_care",
+      "why": "Duty of care requires accommodations for vulnerable workers."
+    },
+    {
+      "from": "case_high_vulnerability_worker",
+      "to": "gov_redeployment_policy",
+      "why": "A clear redeployment policy prevents ad-hoc conflict and unfairness."
+    },
+    {
+      "from": "risk_triage_exposure_vulnerability",
+      "to": "ops_agp_workflow",
+      "why": "Risk triage prioritises AGP workflow changes to reduce exposure."
+    },
+    {
+      "from": "risk_triage_exposure_vulnerability",
+      "to": "gov_ppe_procurement_allocation",
+      "why": "Triage informs PPE prioritisation for high-risk tasks."
+    },
+    {
+      "from": "risk_triage_exposure_vulnerability",
+      "to": "gov_redeployment_policy",
+      "why": "Triage triggers redeployment when risk exceeds safe thresholds."
+    },
+    {
+      "from": "uncertainty_model_limits_covid",
+      "to": "qi_audit_under_load",
+      "why": "Uncertainty increases the need to test controls under real conditions."
+    },
+    {
+      "from": "duty_of_care",
+      "to": "gov_ppe_procurement_allocation",
+      "why": "Duty of care requires reasonably practicable PPE provision and monitoring."
+    },
+    {
+      "from": "scarcity_allocation",
+      "to": "risk_communication_surge",
+      "why": "Allocation rules must be communicated transparently to sustain trust and adherence."
+    },
+    {
+      "from": "two_master_tension",
+      "to": "qi_moral_injury_support",
+      "why": "Ethical conflict without resolution increases moral injury; support mitigates harm."
+    },
+    {
+      "from": "resilience_buffers",
+      "to": "ops_shift_break_design",
+      "why": "Buffers include protected breaks and staffing patterns that reduce fatigue-driven breaches."
+    },
+    {
+      "from": "feedback_outbreak_signals",
+      "to": "ops_rapid_escalation",
+      "why": "Outbreak signals must translate into immediate operational escalations."
+    },
+    {
+      "from": "wai_wad_ipc",
+      "to": "ops_ppe_use_reuse",
+      "why": "WAI/WAD analysis surfaces unsafe reuse patterns and where to redesign workflow."
+    },
+    {
+      "from": "wis_fairness_scarcity",
+      "to": "gov_ppe_procurement_allocation",
+      "why": "Fair allocation principles must be implemented as governed procurement and distribution rules."
+    },
+    {
+      "from": "wis_learning_over_blame",
+      "to": "qi_incident_nearmiss",
+      "why": "Just culture is required for meaningful near-miss reporting and learning."
+    },
+    {
+      "from": "risk_communication_surge",
+      "to": "ops_rapid_escalation",
+      "why": "Clear comms make escalation pathways usable at pace."
+    },
+    {
+      "from": "drift_protocol_erosion",
+      "to": "qi_kpis_leading",
+      "why": "Drift can be detected early via observation KPIs and compliance sampling."
+    },
+    {
+      "from": "coupling_and_cascades",
+      "to": "resilience_buffers",
+      "why": "Buffers reduce tight coupling and stop cascades."
+    },
+    {
+      "from": "gov_training_competence",
+      "to": "qi_kpis_leading",
+      "why": "Training coverage and observed competence are measurable leading indicators."
+    },
+    {
+      "from": "gov_testing_isolation_policy",
+      "to": "feedback_outbreak_signals",
+      "why": "Testing policy provides data streams that drive outbreak feedback loops."
+    },
+    {
+      "from": "ops_vaccination_boosters",
+      "to": "qi_kpis_leading",
+      "why": "Uptake rates are leading indicators for severity mitigation."
+    },
+    {
+      "from": "ops_vaccination_boosters",
+      "to": "duty_of_care",
+      "why": "Offering vaccination is part of reasonably practicable harm reduction (with consent)."
+    },
+    {
+      "from": "surge_and_prevalence_driver",
+      "to": "coupling_and_cascades",
+      "why": "Higher surge increases infections, creating staffing cascades and higher pressure."
+    },
+    {
+      "from": "surge_and_prevalence_driver",
+      "to": "risk_triage_exposure_vulnerability",
+      "why": "Surge level is a primary input to triage for PPE and redeployment."
+    },
+    {
+      "from": "ppe_adequacy_threshold",
+      "to": "gov_ppe_procurement_allocation",
+      "why": "Minimum PPE thresholds define what must be procured and how it is allocated by task."
+    },
+    {
+      "from": "ppe_adequacy_threshold",
+      "to": "ops_ppe_use_reuse",
+      "why": "Thresholds define red-line conditions and contingency reuse rules."
+    },
+    {
+      "from": "ppe_adequacy_threshold",
+      "to": "ops_agp_workflow",
+      "why": "If PPE cannot meet thresholds, workflows must change to reduce/avoid AGPs."
+    },
+    {
+      "from": "fit_and_training_as_multipliers",
+      "to": "gov_fit_testing_programme",
+      "why": "Multiplicative dependence on fit motivates robust fit-testing programmes."
+    },
+    {
+      "from": "fit_and_training_as_multipliers",
+      "to": "gov_training_competence",
+      "why": "Training governance ensures don/doff competence that preserves PPE effectiveness."
+    },
+    {
+      "from": "fit_and_training_as_multipliers",
+      "to": "ops_don_doff_buddy",
+      "why": "Buddy checks operationalise and sustain competence under fatigue."
+    },
+    {
+      "from": "worker_vulnerability_invariant",
+      "to": "gov_redeployment_policy",
+      "why": "Safety invariant is implemented through governed accommodation and redeployment pathways."
+    },
+    {
+      "from": "worker_vulnerability_invariant",
+      "to": "case_high_vulnerability_worker",
+      "why": "The case tests whether the invariant is respected or violated."
+    }
+  ]
+}
