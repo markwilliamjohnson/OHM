@@ -1,0 +1,1370 @@
+{
+  "meta": {
+    "title": "Clinical Psychology Supervision & Generative AI — Wisdom → Meta-Concepts → Relational Dynamics → Governance → Practices → Evaluation → Cases",
+    "subtitle": "A lattice for thinking about how generative AI reshapes supervision: from wisdom and ethics, through distributed cognition and relational process, down to concrete supervisory practices, safeguards, and cases.",
+    "domainName": "clinical psychology supervision in the context of generative AI",
+    "searchPlaceholder": "supervision, generative AI, cognitive offloading, reflection, confidentiality, formulation, clinician-in-the-loop, distributed cognition, anthropomorphism, governance, audit, competence, countertransference…",
+    "userContextLabel": "Your supervision context (optional)",
+    "userContextPlaceholder": "e.g., doctoral trainee in adult services; supervisor worries AI is masking understanding; team wants policy for note drafting, formulation support, and reflective use…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert supervisor in clinical psychology with deep knowledge of reflective practice, ethics, and the use of generative AI in mental health settings.\n\nWrite a realistic supervision case study that shows how higher-order supervisory values and relational dynamics shape lower-level decisions about AI use.\nUse the selected concepts to explain what is happening, what is at stake, and how the supervisor should respond.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario description (setting, training stage, pressures, technology use, supervisory climate)\n- Formulation of the supervisory problem (developmental, ethical, epistemic, relational)\n- Distinction between supportive AI use and problematic substitution/bypass\n- Supervisor response plan (questions, boundaries, repairs, documentation, teaching)\n- Risk management and governance plan (privacy, accountability, escalation, transparency)\n- Evaluation plan (learning indicators, process markers, review cadence)\n- 2 safe-to-fail experiments with possible backfire effects and checks\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Supervisory judgement in context: humility, dignity, prudence, courage, and care under clinical and institutional pressure."
+    },
+    {
+      "id": 1,
+      "title": "Supervisory meta-concepts",
+      "hint": "High-level shaping ideas: distributed cognition, relational accountability, uncertainty, authority, and developmental learning."
+    },
+    {
+      "id": 2,
+      "title": "Relational & systems dynamics",
+      "hint": "How supervision behaves when AI enters the room: offloading, projection, trust, triangulation, and work-as-presented versus work-as-lived."
+    },
+    {
+      "id": 3,
+      "title": "Governance & supervision architecture",
+      "hint": "Policies, boundaries, consent/confidentiality, documentation, competence, and the formal design of AI-informed supervision."
+    },
+    {
+      "id": 4,
+      "title": "Standards, practices & supervisory moves",
+      "hint": "Concrete practices: reflective drafting, formulation checks, disclosure routines, case review, note-use boundaries, and rupture repair."
+    },
+    {
+      "id": 5,
+      "title": "Evaluation, assurance & learning",
+      "hint": "How to tell whether AI use is helping or harming supervision: audit, indicators, capability development, review loops, and research-informed safeguards."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete supervisory scenarios and failure modes for tracing back to their roots."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_humility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Epistemic humility",
+      "summary": "Hold AI output as suggestive, not definitive; supervisees and supervisors remain answerable for judgment.",
+      "tags": [
+        "wisdom",
+        "uncertainty",
+        "judgment"
+      ],
+      "bodyHtml": "<p>Clinical supervision depends on the capacity to tolerate not-knowing while still making responsible decisions. Epistemic humility prevents fluent AI output from being mistaken for clinical understanding and keeps interpretation, accountability, and care anchored in human professional judgment.</p>"
+    },
+    {
+      "id": "wis_dignity",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Dignity-preserving supervision",
+      "summary": "Protect the supervisee’s and client’s dignity so reflection can remain honest, not defensive.",
+      "tags": [
+        "wisdom",
+        "dignity",
+        "trust"
+      ],
+      "bodyHtml": "<p>Supervision deepens when difficult material can be brought without humiliation. In an AI context this means neither shaming all use nor normalising careless use, but keeping discussion safe enough for trainees to disclose dependence, uncertainty, and mistakes.</p>"
+    },
+    {
+      "id": "wis_prudence",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Prudence & proportion",
+      "summary": "Use technology in right-sized ways that fit the task, the trainee’s development, and the clinical stakes.",
+      "tags": [
+        "wisdom",
+        "proportion",
+        "risk"
+      ],
+      "bodyHtml": "<p>Not every supervisory task benefits from AI. Prudence asks what level of assistance is appropriate: grammar support may be low risk, whereas formulation, crisis reasoning, or risk decisions demand stronger human scrutiny and sometimes deliberate non-use.</p>"
+    },
+    {
+      "id": "wis_presence",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Human presence",
+      "summary": "Keep supervision as a live encounter where people can affect and answer to one another.",
+      "tags": [
+        "wisdom",
+        "presence",
+        "relationship"
+      ],
+      "bodyHtml": "<p>Supervision is not only information exchange. It is an embodied, responsive relationship in which pauses, anxiety, defensiveness, and emotional resonance matter. AI can support preparation, but should not replace the human encounter where professional formation occurs.</p>"
+    },
+    {
+      "id": "wis_reflection",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Reflective courage",
+      "summary": "Be willing to examine why AI felt easier, safer, or more compelling than speaking directly in supervision.",
+      "tags": [
+        "wisdom",
+        "reflection",
+        "courage"
+      ],
+      "bodyHtml": "<p>The deepest supervisory value is not efficiency but reflexivity. When AI is used before supervision, the key question is not just what it produced but why it became the preferred space for thinking, disclosure, rehearsal, or self-soothing.</p>"
+    },
+    {
+      "id": "wis_learning",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Learning over performance",
+      "summary": "Prioritise growth in thinking and ethical capacity, not merely polished outputs.",
+      "tags": [
+        "wisdom",
+        "learning",
+        "development"
+      ],
+      "bodyHtml": "<p>Supervision must distinguish genuine competence from the appearance of competence. AI can improve presentation quality while obscuring developmental gaps; wise supervision keeps the focus on how the supervisee is learning to think, not just how finished the work looks.</p>"
+    },
+    {
+      "id": "wis_safe_experiment",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Safe-to-fail experimentation",
+      "summary": "Introduce AI uses in bounded, reviewable ways, with explicit backfire checks.",
+      "tags": [
+        "wisdom",
+        "experimentation",
+        "improvement"
+      ],
+      "bodyHtml": "<p>Because AI’s effects in supervision are often relational and indirect, small pilots are safer than broad adoption. Supervisors can trial narrow uses—such as reflective question generation or de-identified summary drafting—then review for hidden costs like over-reliance or reduced openness.</p>"
+    },
+    {
+      "id": "distributed_cognition",
+      "level": 1,
+      "kind": "concept",
+      "label": "Distributed cognition",
+      "summary": "Supervisory thinking is spread across people, texts, tools, and now AI systems.",
+      "tags": [
+        "meta",
+        "thinking",
+        "ecology"
+      ],
+      "bodyHtml": "<p>Clinical reasoning has never been purely individual; it is scaffolded by theory, notes, team discussion, policy, and institutional discourse. Generative AI intensifies this distribution by becoming an active participant in drafting, reframing, and prompting supervisory thought.</p>"
+    },
+    {
+      "id": "relational_accountability",
+      "level": 1,
+      "kind": "concept",
+      "label": "Relational accountability",
+      "summary": "Even when cognition is distributed, responsibility for clients and supervision remains human and relational.",
+      "tags": [
+        "meta",
+        "accountability",
+        "ethics"
+      ],
+      "bodyHtml": "<p>AI may assist, but it does not bear professional responsibility. Supervisors and supervisees remain accountable for formulations, boundaries, risk decisions, and the quality of the supervisory relationship.</p>"
+    },
+    {
+      "id": "developmental_scaffolding",
+      "level": 1,
+      "kind": "concept",
+      "label": "Developmental scaffolding",
+      "summary": "Support should extend the supervisee’s learning without replacing the effort from which competence grows.",
+      "tags": [
+        "meta",
+        "development",
+        "education"
+      ],
+      "bodyHtml": "<p>Good supervision provides enough support to enable growth, not so much that the supervisee never has to compose, discriminate, or tolerate uncertainty. AI can scaffold learning, but it can also short-circuit it if used too early or too heavily.</p>"
+    },
+    {
+      "id": "uncertainty_management",
+      "level": 1,
+      "kind": "concept",
+      "label": "Uncertainty management",
+      "summary": "AI can reduce felt uncertainty quickly, but supervision must teach how to think with uncertainty, not merely suppress it.",
+      "tags": [
+        "meta",
+        "uncertainty",
+        "tolerance"
+      ],
+      "bodyHtml": "<p>A central supervisory task is helping trainees tolerate ambiguity in diagnosis, formulation, alliance, and risk. AI may soothe uncertainty by producing coherent language, but that can conceal unresolved clinical questions that still need human judgment.</p>"
+    },
+    {
+      "id": "authority_legitimacy",
+      "level": 1,
+      "kind": "concept",
+      "label": "Authority & legitimacy",
+      "summary": "AI introduces a third source of apparent knowing that can support, challenge, or destabilise supervisory authority.",
+      "tags": [
+        "meta",
+        "authority",
+        "triangulation"
+      ],
+      "bodyHtml": "<p>Once AI enters supervision, the field is no longer simply supervisee and supervisor. The technology can become an alternative authority, a hidden consultant, or a legitimising prop, changing how expertise and trust are negotiated.</p>"
+    },
+    {
+      "id": "ethical_boundary",
+      "level": 1,
+      "kind": "concept",
+      "label": "Ethical boundary-work",
+      "summary": "Privacy, transparency, consent, and minimal disclosure are design requirements, not add-ons.",
+      "tags": [
+        "meta",
+        "ethics",
+        "privacy"
+      ],
+      "bodyHtml": "<p>Supervision involving AI must determine what material may be entered into tools, how it is de-identified, what is disclosed, and what uses are prohibited. Ethical boundary-work stabilises trust and protects clients, trainees, and organisations.</p>"
+    },
+    {
+      "id": "epistemic_fluency_vs_understanding",
+      "level": 1,
+      "kind": "concept",
+      "label": "Fluency versus understanding",
+      "summary": "AI can produce clinical-sounding coherence without equivalent depth of grasp.",
+      "tags": [
+        "meta",
+        "epistemic",
+        "assessment"
+      ],
+      "bodyHtml": "<p>One of the core supervisory challenges is distinguishing articulate output from real comprehension. AI-generated text may be elegant, but supervision must still test whether the supervisee can justify, adapt, and own the reasoning.</p>"
+    },
+    {
+      "id": "reflective_use_of_technology",
+      "level": 1,
+      "kind": "concept",
+      "label": "Reflective use of technology",
+      "summary": "The key question is not whether AI was used, but how, why, and with what relational effects.",
+      "tags": [
+        "meta",
+        "technology",
+        "reflection"
+      ],
+      "bodyHtml": "<p>A mature supervisory stance avoids both naive enthusiasm and blanket prohibition. It asks what kind of use occurred—offloading, prompting, rehearsal, disclosure support, substitution—and whether that use advanced or undermined supervision.</p>"
+    },
+    {
+      "id": "cognitive_offloading",
+      "level": 2,
+      "kind": "concept",
+      "label": "Cognitive offloading",
+      "summary": "AI reduces memory and drafting load, potentially freeing attention but also obscuring thinking.",
+      "tags": [
+        "systems",
+        "efficiency",
+        "offloading"
+      ],
+      "bodyHtml": "<p>Common uses include summarising notes, organising themes, improving wording, and structuring agendas. These can be beneficial, but in supervision the work of composing a summary or formulation is often itself diagnostically revealing of the trainee’s understanding.</p>"
+    },
+    {
+      "id": "dialogic_cothinking",
+      "level": 2,
+      "kind": "concept",
+      "label": "Dialogic co-thinking",
+      "summary": "Some supervisees use AI as an iterative thinking partner to test, revise, and clarify ideas before supervision.",
+      "tags": [
+        "systems",
+        "dialogue",
+        "thinking"
+      ],
+      "bodyHtml": "<p>Iterative prompting can help transform vague concern into discussable language. Used well, this can enrich supervision; used unreflectively, it can pre-process the supervisee’s mind and reduce the immediacy of the supervisory encounter.</p>"
+    },
+    {
+      "id": "ai_as_transitional_space",
+      "level": 2,
+      "kind": "concept",
+      "label": "AI as transitional space",
+      "summary": "AI can become an intermediate object onto which uncertainty, shame, or desire for understanding are projected.",
+      "tags": [
+        "systems",
+        "projection",
+        "transitional"
+      ],
+      "bodyHtml": "<p>Because AI feels responsive but non-judging, some users disclose to it material they struggle to bring to a person. In supervision this can help articulation, but it can also redirect early reflection away from the human relationship that supervision is meant to cultivate.</p>"
+    },
+    {
+      "id": "anthropomorphic_trust",
+      "level": 2,
+      "kind": "concept",
+      "label": "Anthropomorphic trust",
+      "summary": "Linguistic fluency encourages people to feel understood by a system that does not understand in human terms.",
+      "tags": [
+        "systems",
+        "trust",
+        "anthropomorphism"
+      ],
+      "bodyHtml": "<p>Users may experience AI as empathic, wise, or containing because it mirrors language smoothly. That subjective feeling matters clinically, even though the system lacks lived accountability, embodiment, and moral participation.</p>"
+    },
+    {
+      "id": "triangulation_dynamics",
+      "level": 2,
+      "kind": "concept",
+      "label": "Triangulation dynamics",
+      "summary": "Supervisor, supervisee, and AI can form stabilising or conflictual triangles around knowledge and authority.",
+      "tags": [
+        "systems",
+        "authority",
+        "triangle"
+      ],
+      "bodyHtml": "<p>AI can become a hidden ally, a rival authority, or a shared object of inquiry. Supervisors must notice when AI is being used to avoid dependency, contest authority, or shield the supervisee from exposure.</p>"
+    },
+    {
+      "id": "work_as_presented_vs_thought",
+      "level": 2,
+      "kind": "concept",
+      "label": "Work-as-presented versus work-as-thought",
+      "summary": "AI can make material cleaner and more coherent than the supervisee’s actual internal process.",
+      "tags": [
+        "systems",
+        "presentation",
+        "assessment"
+      ],
+      "bodyHtml": "<p>The supervisee may arrive with polished formulations, tidy process notes, or structured reflections that no longer show the hesitations, omissions, and confusions supervision needs in order to teach effectively.</p>"
+    },
+    {
+      "id": "bypass_of_vulnerability",
+      "level": 2,
+      "kind": "concept",
+      "label": "Bypass of vulnerability",
+      "summary": "AI may become the safer first recipient of shameful, conflictual, or confusing material.",
+      "tags": [
+        "systems",
+        "vulnerability",
+        "disclosure"
+      ],
+      "bodyHtml": "<p>What historically emerged between supervisee and supervisor may first be metabolised with AI. This can support later honesty, but it can also deprive supervision of the live relational work involved in speaking difficult truths to another person.</p>"
+    },
+    {
+      "id": "institutional_pressure",
+      "level": 2,
+      "kind": "concept",
+      "label": "Institutional pressure & productivity capture",
+      "summary": "Efficiency gains are often captured by services, potentially shrinking rather than expanding reflective space.",
+      "tags": [
+        "systems",
+        "institution",
+        "productivity"
+      ],
+      "bodyHtml": "<p>Organisations often promise that AI will free time for reflection, but under workload pressure that saved time may be redirected to throughput, documentation, or audit demands. Supervision can then drift further toward managerial oversight.</p>"
+    },
+    {
+      "id": "privacy_and_data_risk",
+      "level": 2,
+      "kind": "concept",
+      "label": "Privacy and data risk",
+      "summary": "Entering client or supervisee material into AI tools creates risks around confidentiality, retention, and secondary use.",
+      "tags": [
+        "systems",
+        "privacy",
+        "governance"
+      ],
+      "bodyHtml": "<p>Even when names are removed, case material may remain identifiable. Supervision must address what counts as sufficiently de-identified material, which tools are approved, and which uses are prohibited altogether.</p>"
+    },
+    {
+      "id": "bias_context_loss",
+      "level": 2,
+      "kind": "concept",
+      "label": "Bias & context loss",
+      "summary": "AI output can flatten culture, context, power, and lived relational detail into generic patterns.",
+      "tags": [
+        "systems",
+        "bias",
+        "context"
+      ],
+      "bodyHtml": "<p>Research on mental-health GenAI points to strengths in psychoeducation and summarisation, but weaker performance in contextual reasoning, cultural sensitivity, and emotionally engaged understanding. These limitations matter in supervision, where nuance is central.</p>"
+    },
+    {
+      "id": "supervision_policy",
+      "level": 3,
+      "kind": "concept",
+      "label": "AI-informed supervision policy",
+      "summary": "Define what AI may be used for, what requires disclosure, and what is prohibited in supervision and casework.",
+      "tags": [
+        "governance",
+        "policy",
+        "boundaries"
+      ],
+      "bodyHtml": "<p>A workable policy distinguishes low-risk uses (for example grammar support or de-identified agenda drafting) from higher-risk uses (for example case formulation, risk assessment support, or entering identifiable material). It should also require transparency about significant AI use.</p>"
+    },
+    {
+      "id": "confidentiality_protocol",
+      "level": 3,
+      "kind": "concept",
+      "label": "Confidentiality & de-identification protocol",
+      "summary": "Operational rules for entering material into AI systems: de-identify, minimise, document, or do not enter.",
+      "tags": [
+        "governance",
+        "confidentiality",
+        "protocol"
+      ],
+      "bodyHtml": "<p>Ethics become practice through explicit protocols: remove identifiers, avoid rare contextual details, use only approved systems, and specify categories of material that must never be uploaded.</p>"
+    },
+    {
+      "id": "disclosure_norms",
+      "level": 3,
+      "kind": "concept",
+      "label": "Disclosure & transparency norms",
+      "summary": "Supervisees and supervisors should disclose material AI involvement that shaped supervision-relevant outputs.",
+      "tags": [
+        "governance",
+        "transparency",
+        "norms"
+      ],
+      "bodyHtml": "<p>If AI substantially shaped a formulation, reflection, report draft, or supervision agenda, that should be sayable. Hidden use undermines trust and distorts assessment of competence and authorship.</p>"
+    },
+    {
+      "id": "competence_framework",
+      "level": 3,
+      "kind": "concept",
+      "label": "AI competence framework",
+      "summary": "Both supervisors and trainees need literacy in tool limits, privacy, prompting, and critical evaluation.",
+      "tags": [
+        "governance",
+        "competence",
+        "literacy"
+      ],
+      "bodyHtml": "<p>Competence is not just technical skill. It includes knowing when not to use AI, how to evaluate outputs, how to recognise hallucinated authority, and how to maintain ethical and relational boundaries.</p>"
+    },
+    {
+      "id": "developmental_staging",
+      "level": 3,
+      "kind": "concept",
+      "label": "Developmental staging of AI use",
+      "summary": "Permitted uses should vary by training stage, task complexity, and supervisory capacity.",
+      "tags": [
+        "governance",
+        "development",
+        "staging"
+      ],
+      "bodyHtml": "<p>Novices may need tighter limits because they are still forming internal models of clinical reasoning. More advanced trainees may use AI more reflectively, but still require supervision around subtle dependence and confirmation bias.</p>"
+    },
+    {
+      "id": "supervisory_contract",
+      "level": 3,
+      "kind": "concept",
+      "label": "Supervisory contracting around AI",
+      "summary": "Discuss expectations early: permitted uses, disclosure, documentation, and how AI use itself will be reflected on.",
+      "tags": [
+        "governance",
+        "contract",
+        "expectations"
+      ],
+      "bodyHtml": "<p>Explicit contracting reduces secrecy and moral panic. It also makes AI use a legitimate topic of supervision rather than a hidden practice discovered only after a problem arises.</p>"
+    },
+    {
+      "id": "documentation_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Documentation & authorship governance",
+      "summary": "Clarify what can be drafted with AI, what must be authored by the clinician, and how outputs are checked.",
+      "tags": [
+        "governance",
+        "documentation",
+        "authorship"
+      ],
+      "bodyHtml": "<p>Supervision should specify authorship expectations for case summaries, reflective logs, formulations, and letters. Human review must remain substantive rather than a perfunctory sign-off on machine-generated text.</p>"
+    },
+    {
+      "id": "risk_escalation_pathway",
+      "level": 3,
+      "kind": "concept",
+      "label": "Risk escalation pathway",
+      "summary": "High-stakes clinical material must move rapidly from AI-mediated spaces into human review and direct supervision.",
+      "tags": [
+        "governance",
+        "risk",
+        "escalation"
+      ],
+      "bodyHtml": "<p>AI should never be the terminal container for crisis, safeguarding, or major ethical concern. Governance should require immediate human escalation when high-risk clinical material is involved.</p>"
+    },
+    {
+      "id": "service_design_alignment",
+      "level": 3,
+      "kind": "concept",
+      "label": "Service design alignment",
+      "summary": "Supervision policy must fit the service’s legal environment, digital infrastructure, workload, and training culture.",
+      "tags": [
+        "governance",
+        "service",
+        "implementation"
+      ],
+      "bodyHtml": "<p>A thoughtful policy is only workable if aligned with approved platforms, privacy controls, local documentation standards, and the amount of supervisory time available to review AI-related practice.</p>"
+    },
+    {
+      "id": "bounded_admin_use",
+      "level": 4,
+      "kind": "standard",
+      "label": "Bounded administrative use",
+      "summary": "Permit low-risk uses such as spelling, formatting, agenda organisation, and de-identified note structuring within clear limits.",
+      "tags": [
+        "practice",
+        "low-risk",
+        "admin"
+      ],
+      "bodyHtml": "<p>These uses can reduce friction without meaningfully replacing clinical thought, provided they do not introduce identifiable client content into unapproved systems and do not substitute for clinical judgment.</p>"
+    },
+    {
+      "id": "reflective_drafting",
+      "level": 4,
+      "kind": "standard",
+      "label": "Reflective drafting before supervision",
+      "summary": "AI may be used to help articulate uncertainty, but the supervisee should disclose this and preserve their own wording where possible.",
+      "tags": [
+        "practice",
+        "reflection",
+        "drafting"
+      ],
+      "bodyHtml": "<p>When AI helps put words to shame, confusion, or conflict, supervisors can treat that draft as useful material rather than final truth. The point is to ask what became speakable and what still feels hard to say directly.</p>"
+    },
+    {
+      "id": "formulation_authenticity_check",
+      "level": 4,
+      "kind": "standard",
+      "label": "Formulation authenticity check",
+      "summary": "Test whether the supervisee can explain, adapt, and defend a polished formulation in their own words.",
+      "tags": [
+        "practice",
+        "formulation",
+        "assessment"
+      ],
+      "bodyHtml": "<p>If a supervisee brings a highly polished conceptualisation, the supervisor should explore how it was produced and whether the trainee can justify key hypotheses, link them to process data, and revise them when challenged.</p>"
+    },
+    {
+      "id": "process_note_check",
+      "level": 4,
+      "kind": "standard",
+      "label": "Process note and session-summary check",
+      "summary": "Use supervision to recover the affective and relational texture that AI summaries often flatten.",
+      "tags": [
+        "practice",
+        "notes",
+        "process"
+      ],
+      "bodyHtml": "<p>Ask what the room felt like, where uncertainty arose, what was omitted, and what bodily or emotional reactions accompanied the work. This helps supervision reintroduce what structured text often leaves out.</p>"
+    },
+    {
+      "id": "ai_use_disclosure_routine",
+      "level": 4,
+      "kind": "standard",
+      "label": "AI-use disclosure routine",
+      "summary": "Normalise a simple disclosure question in supervision: what role did AI play here, if any?",
+      "tags": [
+        "practice",
+        "disclosure",
+        "routine"
+      ],
+      "bodyHtml": "<p>A brief, non-punitive check supports transparency. It also gives supervisors data about when AI is becoming a hidden co-author or a preferred recipient of difficult material.</p>"
+    },
+    {
+      "id": "reflective_question_generation",
+      "level": 4,
+      "kind": "standard",
+      "label": "Reflective question generation",
+      "summary": "Use AI to generate supervision questions or alternative hypotheses, but treat them as prompts for thought, not answers.",
+      "tags": [
+        "practice",
+        "questions",
+        "prompting"
+      ],
+      "bodyHtml": "<p>This is one of the safer higher-value uses of AI. It can broaden reflective space without collapsing responsibility, especially if the supervisee evaluates which questions are actually relevant and why.</p>"
+    },
+    {
+      "id": "role_play_rehearsal",
+      "level": 4,
+      "kind": "standard",
+      "label": "Role-play and rehearsal support",
+      "summary": "AI can be used to rehearse difficult conversations, provided authenticity limits and transfer to human supervision are recognised.",
+      "tags": [
+        "practice",
+        "rehearsal",
+        "communication"
+      ],
+      "bodyHtml": "<p>Supervisees may practise naming ruptures, giving feedback, or presenting difficult cases. Supervisors should then explore what felt easier in rehearsal than in relationship, and what still requires live interpersonal work.</p>"
+    },
+    {
+      "id": "countertransference_reflection",
+      "level": 4,
+      "kind": "standard",
+      "label": "Countertransference and affect reflection",
+      "summary": "Use supervision, not AI alone, to metabolise shame, boredom, rescue fantasies, irritation, attraction, and dread.",
+      "tags": [
+        "practice",
+        "affect",
+        "countertransference"
+      ],
+      "bodyHtml": "<p>AI may help a trainee first name difficult feelings, but these require human containment and ethical processing. Supervision should explicitly reclaim this territory from purely private AI-mediated reflection.</p>"
+    },
+    {
+      "id": "rupture_repair_conversation",
+      "level": 4,
+      "kind": "standard",
+      "label": "Supervisory rupture and repair conversation",
+      "summary": "If AI use has become hidden, defensive, or conflictual, address it as a relational event rather than only a rule breach.",
+      "tags": [
+        "practice",
+        "rupture",
+        "repair"
+      ],
+      "bodyHtml": "<p>The conversation should ask what the supervisee feared, what the supervisor assumed, and how trust can be restored while still clarifying boundaries and responsibilities.</p>"
+    },
+    {
+      "id": "client_facing_boundary",
+      "level": 4,
+      "kind": "standard",
+      "label": "Client-facing boundary and explanation",
+      "summary": "Have a clear stance on whether, when, and how client-related AI use is disclosed or discussed.",
+      "tags": [
+        "practice",
+        "clients",
+        "boundary"
+      ],
+      "bodyHtml": "<p>Where AI contributes to clinical workflow or psychoeducational material, services need consistent language about what is and is not being used, and how clients’ privacy and rights are protected.</p>"
+    },
+    {
+      "id": "case_review_human_override",
+      "level": 4,
+      "kind": "standard",
+      "label": "Case review with human override",
+      "summary": "High-stakes reasoning should always end in human review, especially around risk, safeguarding, and diagnostic complexity.",
+      "tags": [
+        "practice",
+        "review",
+        "override"
+      ],
+      "bodyHtml": "<p>AI may contribute prompts or draft options, but supervisors should verify reasoning against actual clinical material and retain the authority to reject or rework AI-derived suggestions.</p>"
+    },
+    {
+      "id": "minimal_data_entry",
+      "level": 4,
+      "kind": "standard",
+      "label": "Minimal necessary data entry",
+      "summary": "Only the least necessary de-identified material should ever be entered, and sometimes none at all.",
+      "tags": [
+        "practice",
+        "privacy",
+        "minimisation"
+      ],
+      "bodyHtml": "<p>This is the operational expression of confidentiality in AI use. Trainees should learn to minimise, paraphrase, abstract, or avoid entry entirely when detail is not required.</p>"
+    },
+    {
+      "id": "ai_literacy_audit",
+      "level": 5,
+      "kind": "standard",
+      "label": "AI literacy and competence audit",
+      "summary": "Assess whether supervisors and trainees understand tool limits, approved uses, and red flags.",
+      "tags": [
+        "evaluation",
+        "competence",
+        "audit"
+      ],
+      "bodyHtml": "<p>Useful review questions include: Can the trainee explain why a use is permitted? Do they recognise hallucinated citations, generic cultural assumptions, or privacy risks? Can the supervisor model critical rather than passive use?</p>"
+    },
+    {
+      "id": "supervision_quality_indicators",
+      "level": 5,
+      "kind": "standard",
+      "label": "Supervision quality indicators",
+      "summary": "Track whether AI use is improving reflection or merely improving polish and throughput.",
+      "tags": [
+        "evaluation",
+        "indicators",
+        "quality"
+      ],
+      "bodyHtml": "<p>Indicators might include disclosure rates, evidence of independent reasoning, quality of reflective dialogue, frequency of hidden use, client-safety incidents, and whether AI-related efficiencies actually create more supervisory space.</p>"
+    },
+    {
+      "id": "documentation_audit",
+      "level": 5,
+      "kind": "standard",
+      "label": "Documentation and authorship audit",
+      "summary": "Review whether AI-shaped records remain accurate, clinically meaningful, and genuinely owned by the clinician.",
+      "tags": [
+        "evaluation",
+        "documentation",
+        "assurance"
+      ],
+      "bodyHtml": "<p>Audits should look beyond grammar and formatting to ask whether the note reflects the real session, whether key ambiguities are preserved, and whether the trainee can stand behind the clinical reasoning.</p>"
+    },
+    {
+      "id": "learning_loop_review",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning-loop review",
+      "summary": "Use incidents, disclosures, and supervisory discomfort as inputs for redesigning policy and teaching.",
+      "tags": [
+        "evaluation",
+        "learning",
+        "review"
+      ],
+      "bodyHtml": "<p>AI-related supervision should be iterative. Near misses, confusion, and complaints are not only problems; they are data about where the system needs clearer norms, more training, or stronger boundaries.</p>"
+    },
+    {
+      "id": "research_guardrails",
+      "level": 5,
+      "kind": "standard",
+      "label": "Research-informed guardrails",
+      "summary": "Use evidence and guidance to constrain adoption: clinician-in-the-loop, privacy protection, contextual limits, and human oversight.",
+      "tags": [
+        "evaluation",
+        "research",
+        "guardrails"
+      ],
+      "bodyHtml": "<p>Recent mental-health literature suggests generative AI can support psychoeducation, drafting, and user engagement, but remains weaker in contextual reasoning, cultural sensitivity, and accountable emotional understanding. Guidance therefore emphasises transparency, human oversight, and careful boundaries.</p>"
+    },
+    {
+      "id": "capability_maturity_model",
+      "level": 5,
+      "kind": "standard",
+      "label": "Capability maturity model for AI in supervision",
+      "summary": "Move from ad hoc use toward explicit, reviewable, developmentally appropriate capability.",
+      "tags": [
+        "evaluation",
+        "maturity",
+        "implementation"
+      ],
+      "bodyHtml": "<p>Early stages often involve hidden or inconsistent use. Mature practice includes explicit contracting, approved tools, competence checks, reflective use categories, audit, and revision based on actual supervisory outcomes.</p>"
+    },
+    {
+      "id": "equity_bias_review",
+      "level": 5,
+      "kind": "standard",
+      "label": "Equity and bias review",
+      "summary": "Check whether AI-assisted supervision reproduces stereotypes, flattens cultural meaning, or privileges dominant discourse.",
+      "tags": [
+        "evaluation",
+        "equity",
+        "bias"
+      ],
+      "bodyHtml": "<p>Because AI systems can reproduce biases in training data and generic clinical language, supervision needs periodic review of whether outputs are contextually sensitive and just, especially for marginalised clients and trainees.</p>"
+    },
+    {
+      "id": "risk_hidden_dependence",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Hidden dependence on AI",
+      "summary": "The trainee increasingly cannot formulate, write, or reflect without AI, but this remains undisclosed.",
+      "tags": [
+        "risk",
+        "dependence",
+        "secrecy"
+      ],
+      "bodyHtml": "<p>This pathology often presents as unusually polished work with reduced spontaneity, weaker ownership, and difficulty thinking aloud when challenged. It threatens both competence development and supervisory trust.</p>"
+    },
+    {
+      "id": "risk_fluency_mask",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Fluency masking developmental gaps",
+      "summary": "Elegant AI-assisted output conceals fragmented understanding, uncertainty, or poor case contact.",
+      "tags": [
+        "risk",
+        "fluency",
+        "assessment"
+      ],
+      "bodyHtml": "<p>The supervisor may overestimate competence because the written work is coherent. The real issue appears when the trainee is asked to justify, adapt, or emotionally inhabit the formulation.</p>"
+    },
+    {
+      "id": "risk_privacy_breach",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Privacy breach through AI use",
+      "summary": "Identifiable client or supervisee material is entered into an unapproved system or retained insecurely.",
+      "tags": [
+        "risk",
+        "privacy",
+        "governance"
+      ],
+      "bodyHtml": "<p>This is not only a technical event but a trust event. It signals failures in policy, competence, disclosure norms, and possibly organisational digital governance.</p>"
+    },
+    {
+      "id": "risk_supervision_bypass",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Supervisory bypass",
+      "summary": "The trainee processes difficult feelings primarily with AI and brings only a cleaned-up version to supervision.",
+      "tags": [
+        "risk",
+        "bypass",
+        "relationship"
+      ],
+      "bodyHtml": "<p>What is lost is not only rawness but developmental work: learning to risk disclosure, negotiate evaluation, and be thought about by another professional mind.</p>"
+    },
+    {
+      "id": "risk_managerial_capture",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Managerial capture of AI efficiency",
+      "summary": "AI is adopted to increase throughput, and supervision becomes more administrative and less reflective.",
+      "tags": [
+        "risk",
+        "institution",
+        "productivity"
+      ],
+      "bodyHtml": "<p>Services may celebrate faster note production or standardised summaries while shrinking reflective dialogue. The result can be apparent efficiency with reduced depth, weakened learning, and increased hidden risk.</p>"
+    },
+    {
+      "id": "case_formulation_polished",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Brilliant formulation, fragile understanding",
+      "summary": "A trainee brings an elegant AI-assisted formulation but cannot defend or revise it in discussion.",
+      "tags": [
+        "case",
+        "formulation",
+        "assessment"
+      ],
+      "bodyHtml": "<p>The supervisor notices that the written account is sophisticated, yet when asked about process data, alternatives, and countertransference, the trainee becomes vague. The task is to assess without shaming and to reset the learning frame.</p>"
+    },
+    {
+      "id": "case_ai_confession",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: ‘I told the chatbot before I told you’",
+      "summary": "A trainee used AI to disclose dread, boredom, or resentment before feeling able to say it in supervision.",
+      "tags": [
+        "case",
+        "disclosure",
+        "relationship"
+      ],
+      "bodyHtml": "<p>This case can become punitive or deeply productive. The key is to explore what made AI feel safer, what this reveals about shame and authority, and how the supervisory relationship can now hold the material more directly.</p>"
+    },
+    {
+      "id": "case_privacy_incident",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Identifiable case notes pasted into AI",
+      "summary": "A supervisee uploads recognisable client material to a non-approved system while trying to get help with a summary.",
+      "tags": [
+        "case",
+        "privacy",
+        "incident"
+      ],
+      "bodyHtml": "<p>The immediate task is containment and governance response; the deeper task is understanding how workload, low AI literacy, and poor policy created the condition for the breach.</p>"
+    },
+    {
+      "id": "case_supervisor_overreliance",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Supervisor leans on AI-generated feedback",
+      "summary": "A supervisor uses generic AI-produced comments that the trainee experiences as depersonalised and evasive.",
+      "tags": [
+        "case",
+        "supervisor",
+        "feedback"
+      ],
+      "bodyHtml": "<p>This reverses the usual direction of concern. The issue is not only trainee overuse; supervisors can also outsource educational labour and weaken the relational specificity that makes feedback transformative.</p>"
+    },
+    {
+      "id": "case_prompt_partner",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: AI as productive prompt partner",
+      "summary": "A trainee uses AI to generate supervision questions and arrives more able to think, not less.",
+      "tags": [
+        "case",
+        "positive-use",
+        "reflection"
+      ],
+      "bodyHtml": "<p>This is a constructive case where AI broadens inquiry without replacing ownership. The supervisor’s task is to name what made the use supportive rather than substitutive and to preserve those boundaries.</p>"
+    },
+    {
+      "id": "case_service_rollout",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Service-wide rollout without supervision policy",
+      "summary": "A service encourages AI use for efficiency, but supervisors receive no framework for confidentiality, disclosure, or competence.",
+      "tags": [
+        "case",
+        "service",
+        "implementation"
+      ],
+      "bodyHtml": "<p>The result is uneven practice, hidden experimentation, and anxiety about what is allowed. This case traces quickly back to governance, contracting, and capability maturity rather than individual fault alone.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_humility",
+      "to": "uncertainty_management",
+      "why": "Humility keeps uncertainty visible rather than allowing AI fluency to foreclose thought prematurely."
+    },
+    {
+      "from": "wis_humility",
+      "to": "epistemic_fluency_vs_understanding",
+      "why": "Humility helps supervisors test whether polished language reflects genuine understanding."
+    },
+    {
+      "from": "wis_dignity",
+      "to": "disclosure_norms",
+      "why": "Non-shaming supervision makes it more likely that trainees will disclose meaningful AI use honestly."
+    },
+    {
+      "from": "wis_dignity",
+      "to": "bypass_of_vulnerability",
+      "why": "When dignity is protected, the trainee has less need to route difficult feelings through AI first."
+    },
+    {
+      "from": "wis_prudence",
+      "to": "developmental_staging",
+      "why": "Right-sized use depends on training stage, task complexity, and clinical stakes."
+    },
+    {
+      "from": "wis_prudence",
+      "to": "bounded_admin_use",
+      "why": "Prudence supports allowing limited, lower-risk uses while restricting higher-risk substitution."
+    },
+    {
+      "from": "wis_presence",
+      "to": "countertransference_reflection",
+      "why": "Human presence is especially necessary where feeling, countertransference, and moral responsibility are central."
+    },
+    {
+      "from": "wis_presence",
+      "to": "rupture_repair_conversation",
+      "why": "Repair requires a live human relationship rather than purely technical correction."
+    },
+    {
+      "from": "wis_reflection",
+      "to": "reflective_use_of_technology",
+      "why": "Reflective courage turns AI use itself into an object of supervision rather than a hidden background process."
+    },
+    {
+      "from": "wis_reflection",
+      "to": "ai_as_transitional_space",
+      "why": "Reflection helps the pair think about why AI became a preferred holding space for uncertainty or shame."
+    },
+    {
+      "from": "wis_learning",
+      "to": "developmental_scaffolding",
+      "why": "Keeping learning primary prevents support from collapsing into substitution."
+    },
+    {
+      "from": "wis_learning",
+      "to": "formulation_authenticity_check",
+      "why": "Learning-focused supervision tests ownership and reasoning, not just polished output."
+    },
+    {
+      "from": "wis_safe_experiment",
+      "to": "capability_maturity_model",
+      "why": "Bounded trials with review help services move toward mature and explicit AI use."
+    },
+    {
+      "from": "wis_safe_experiment",
+      "to": "learning_loop_review",
+      "why": "Small pilots need structured review of benefits, harms, and backfire effects."
+    },
+    {
+      "from": "distributed_cognition",
+      "to": "cognitive_offloading",
+      "why": "Offloading is one concrete way supervisory thinking becomes distributed across tool and person."
+    },
+    {
+      "from": "distributed_cognition",
+      "to": "dialogic_cothinking",
+      "why": "Iterative prompting turns AI into a participant in the supervisee’s thought process."
+    },
+    {
+      "from": "distributed_cognition",
+      "to": "documentation_governance",
+      "why": "If cognition is distributed, governance must still clarify authorship and review responsibilities."
+    },
+    {
+      "from": "relational_accountability",
+      "to": "case_review_human_override",
+      "why": "Human clinicians remain responsible for high-stakes judgment even when AI assists."
+    },
+    {
+      "from": "relational_accountability",
+      "to": "risk_escalation_pathway",
+      "why": "Accountability requires clear escalation from tool-assisted thought into human review when risk is high."
+    },
+    {
+      "from": "developmental_scaffolding",
+      "to": "developmental_staging",
+      "why": "Scaffolding should vary with the trainee’s stage and capacity for independent reasoning."
+    },
+    {
+      "from": "developmental_scaffolding",
+      "to": "reflective_question_generation",
+      "why": "Prompt generation can scaffold reflection without replacing thinking if used carefully."
+    },
+    {
+      "from": "uncertainty_management",
+      "to": "reflective_drafting",
+      "why": "Some trainees use AI to transform diffuse uncertainty into discussable language before supervision."
+    },
+    {
+      "from": "uncertainty_management",
+      "to": "risk_fluency_mask",
+      "why": "Fast reduction of uncertainty through fluent output can hide unresolved clinical questions."
+    },
+    {
+      "from": "authority_legitimacy",
+      "to": "triangulation_dynamics",
+      "why": "AI introduces a third node in the field, reshaping how expertise and legitimacy are negotiated."
+    },
+    {
+      "from": "authority_legitimacy",
+      "to": "supervisory_contract",
+      "why": "Clear early contracting reduces covert rivalry and ambiguity about AI’s place in supervision."
+    },
+    {
+      "from": "ethical_boundary",
+      "to": "confidentiality_protocol",
+      "why": "Ethical principles become operational through concrete rules for de-identification and permitted entry."
+    },
+    {
+      "from": "ethical_boundary",
+      "to": "client_facing_boundary",
+      "why": "Ethical boundary-work includes how client-facing uses are explained, limited, or prohibited."
+    },
+    {
+      "from": "epistemic_fluency_vs_understanding",
+      "to": "formulation_authenticity_check",
+      "why": "Authenticity checks help distinguish articulate machine-assisted prose from owned understanding."
+    },
+    {
+      "from": "epistemic_fluency_vs_understanding",
+      "to": "work_as_presented_vs_thought",
+      "why": "The central assessment problem is that what is presented may exceed what is actually thought through."
+    },
+    {
+      "from": "reflective_use_of_technology",
+      "to": "ai_use_disclosure_routine",
+      "why": "A reflective stance is sustained by simple routines that make AI use discussable."
+    },
+    {
+      "from": "reflective_use_of_technology",
+      "to": "supervision_policy",
+      "why": "Reflective use becomes more durable when services name categories of use and corresponding boundaries."
+    },
+    {
+      "from": "cognitive_offloading",
+      "to": "bounded_admin_use",
+      "why": "Administrative support is the most straightforward and usually lowest-risk form of offloading."
+    },
+    {
+      "from": "cognitive_offloading",
+      "to": "process_note_check",
+      "why": "When notes are summarised by AI, supervisors may need to recover missing emotional and temporal detail."
+    },
+    {
+      "from": "dialogic_cothinking",
+      "to": "reflective_question_generation",
+      "why": "AI can productively generate alternative questions and hypotheses that expand discussion."
+    },
+    {
+      "from": "dialogic_cothinking",
+      "to": "role_play_rehearsal",
+      "why": "Iterative exchange lends itself to rehearsal of difficult presentations and conversations."
+    },
+    {
+      "from": "ai_as_transitional_space",
+      "to": "reflective_drafting",
+      "why": "A trainee may first use AI to put words to difficult internal states before bringing them to supervision."
+    },
+    {
+      "from": "ai_as_transitional_space",
+      "to": "case_ai_confession",
+      "why": "The dynamic becomes visible when a trainee reveals they disclosed to AI before telling the supervisor."
+    },
+    {
+      "from": "anthropomorphic_trust",
+      "to": "risk_hidden_dependence",
+      "why": "Feeling deeply understood by AI can support growing attachment and unexamined reliance."
+    },
+    {
+      "from": "anthropomorphic_trust",
+      "to": "case_prompt_partner",
+      "why": "Trust can be productive when it remains bounded and explicitly subordinate to human supervision."
+    },
+    {
+      "from": "triangulation_dynamics",
+      "to": "rupture_repair_conversation",
+      "why": "When AI becomes a rival or hidden ally, the resulting tension often needs relational repair."
+    },
+    {
+      "from": "triangulation_dynamics",
+      "to": "case_supervisor_overreliance",
+      "why": "Triangulation can arise from the supervisor’s use too, especially when feedback becomes generic and depersonalised."
+    },
+    {
+      "from": "work_as_presented_vs_thought",
+      "to": "documentation_audit",
+      "why": "Audit can compare polished records with demonstrated reasoning to detect presentation inflating competence."
+    },
+    {
+      "from": "work_as_presented_vs_thought",
+      "to": "case_formulation_polished",
+      "why": "A classic sign is the elegant formulation that collapses when probed in real dialogue."
+    },
+    {
+      "from": "bypass_of_vulnerability",
+      "to": "countertransference_reflection",
+      "why": "Bypassed feeling needs to be reclaimed in a human supervisory space where it can be thought about safely."
+    },
+    {
+      "from": "bypass_of_vulnerability",
+      "to": "risk_supervision_bypass",
+      "why": "Repeated routing of difficult material through AI can become a durable pathology of supervisory avoidance."
+    },
+    {
+      "from": "institutional_pressure",
+      "to": "risk_managerial_capture",
+      "why": "Efficiency pressures can redirect AI benefits into throughput rather than reflection."
+    },
+    {
+      "from": "institutional_pressure",
+      "to": "service_design_alignment",
+      "why": "Policy will fail unless it fits actual service pressures, time, infrastructure, and incentives."
+    },
+    {
+      "from": "privacy_and_data_risk",
+      "to": "minimal_data_entry",
+      "why": "The basic control for privacy risk is strong minimisation of what is entered at all."
+    },
+    {
+      "from": "privacy_and_data_risk",
+      "to": "risk_privacy_breach",
+      "why": "Where privacy norms are weak, breaches become a predictable failure mode."
+    },
+    {
+      "from": "bias_context_loss",
+      "to": "equity_bias_review",
+      "why": "Periodic review is needed because AI outputs can flatten culture, context, and power relations."
+    },
+    {
+      "from": "bias_context_loss",
+      "to": "research_guardrails",
+      "why": "Known limitations in contextual and cultural reasoning justify guardrails around use."
+    },
+    {
+      "from": "supervision_policy",
+      "to": "bounded_admin_use",
+      "why": "Policy should specify which lower-risk uses are allowed and where the limits are."
+    },
+    {
+      "from": "supervision_policy",
+      "to": "case_service_rollout",
+      "why": "Absent policy, service-wide encouragement of AI use produces inconsistency and hidden risk."
+    },
+    {
+      "from": "confidentiality_protocol",
+      "to": "minimal_data_entry",
+      "why": "Protocols become real through minimisation, de-identification, and explicit non-entry rules."
+    },
+    {
+      "from": "confidentiality_protocol",
+      "to": "case_privacy_incident",
+      "why": "Breaches usually reveal weak or absent protocols rather than isolated error alone."
+    },
+    {
+      "from": "disclosure_norms",
+      "to": "ai_use_disclosure_routine",
+      "why": "Cultural norms are sustained by small, repeated supervisory practices of disclosure."
+    },
+    {
+      "from": "disclosure_norms",
+      "to": "risk_hidden_dependence",
+      "why": "Where disclosure is absent or punitive, problematic reliance is more likely to stay hidden."
+    },
+    {
+      "from": "competence_framework",
+      "to": "ai_literacy_audit",
+      "why": "Competence needs reviewable criteria rather than assumed familiarity."
+    },
+    {
+      "from": "competence_framework",
+      "to": "research_guardrails",
+      "why": "Knowing tool limits is part of using evidence-informed constraints on adoption."
+    },
+    {
+      "from": "developmental_staging",
+      "to": "bounded_admin_use",
+      "why": "Novices may need tighter limits, with more advanced uses introduced only when reasoning capacity is stronger."
+    },
+    {
+      "from": "developmental_staging",
+      "to": "formulation_authenticity_check",
+      "why": "Assessment of authenticity matters especially when trainees are still consolidating conceptual skills."
+    },
+    {
+      "from": "supervisory_contract",
+      "to": "ai_use_disclosure_routine",
+      "why": "Routines work best when grounded in an explicit supervisory agreement."
+    },
+    {
+      "from": "supervisory_contract",
+      "to": "case_ai_confession",
+      "why": "The absence or failure of contracting often becomes visible when hidden AI use is finally disclosed."
+    },
+    {
+      "from": "documentation_governance",
+      "to": "documentation_audit",
+      "why": "Governance around authorship and review should be tested in actual notes and supervisory records."
+    },
+    {
+      "from": "documentation_governance",
+      "to": "process_note_check",
+      "why": "If records are AI-shaped, supervision must examine what they leave out as well as what they include."
+    },
+    {
+      "from": "risk_escalation_pathway",
+      "to": "case_review_human_override",
+      "why": "Escalation pathways ensure AI-assisted thinking does not end without substantive human review."
+    },
+    {
+      "from": "risk_escalation_pathway",
+      "to": "risk_privacy_breach",
+      "why": "High-risk events require immediate human containment, reporting, and remediation rather than ad hoc handling."
+    },
+    {
+      "from": "service_design_alignment",
+      "to": "capability_maturity_model",
+      "why": "Maturity depends on alignment between policy, tools, workload, training, and oversight."
+    },
+    {
+      "from": "bounded_admin_use",
+      "to": "case_prompt_partner",
+      "why": "A productive use case often begins with bounded, clearly low-stakes support rather than global substitution."
+    },
+    {
+      "from": "reflective_drafting",
+      "to": "case_ai_confession",
+      "why": "Drafting for self-revelation can become visible when the trainee admits AI helped them find words first."
+    },
+    {
+      "from": "formulation_authenticity_check",
+      "to": "case_formulation_polished",
+      "why": "This practice is designed precisely for the polished-but-fragile formulation scenario."
+    },
+    {
+      "from": "process_note_check",
+      "to": "risk_fluency_mask",
+      "why": "Recovering omitted affect and process helps expose where fluency is masking incomplete understanding."
+    },
+    {
+      "from": "ai_use_disclosure_routine",
+      "to": "learning_loop_review",
+      "why": "Routine transparency creates the data needed to refine policy and teaching over time."
+    },
+    {
+      "from": "reflective_question_generation",
+      "to": "case_prompt_partner",
+      "why": "When AI is used to widen questions rather than provide answers, supervision often gains depth."
+    },
+    {
+      "from": "role_play_rehearsal",
+      "to": "case_prompt_partner",
+      "why": "Rehearsal can support confidence and articulation when it remains clearly preparatory rather than substitutive."
+    },
+    {
+      "from": "countertransference_reflection",
+      "to": "risk_supervision_bypass",
+      "why": "If difficult feelings stay with AI rather than entering human supervision, the reflective task is bypassed."
+    },
+    {
+      "from": "rupture_repair_conversation",
+      "to": "case_supervisor_overreliance",
+      "why": "Generic AI-mediated feedback may require explicit repair if the trainee experiences it as impersonal or evasive."
+    },
+    {
+      "from": "client_facing_boundary",
+      "to": "privacy_and_data_risk",
+      "why": "Clarity about client-facing uses helps prevent covert or over-broad technological involvement in care."
+    },
+    {
+      "from": "case_review_human_override",
+      "to": "relational_accountability",
+      "why": "The practical expression of accountability is that a person reviews, owns, and can overrule the tool."
+    },
+    {
+      "from": "minimal_data_entry",
+      "to": "risk_privacy_breach",
+      "why": "Failure to minimise data is one of the clearest routes to confidentiality incidents."
+    },
+    {
+      "from": "ai_literacy_audit",
+      "to": "learning_loop_review",
+      "why": "Audit findings should feed back into training, contracting, and policy revision."
+    },
+    {
+      "from": "supervision_quality_indicators",
+      "to": "risk_managerial_capture",
+      "why": "Good indicators help detect when apparent efficiency is degrading reflective quality."
+    },
+    {
+      "from": "supervision_quality_indicators",
+      "to": "risk_hidden_dependence",
+      "why": "Changes in spontaneity, ownership, or disclosure can signal growing concealed dependence."
+    },
+    {
+      "from": "documentation_audit",
+      "to": "risk_fluency_mask",
+      "why": "Review of notes and formulations can reveal when writing quality exceeds demonstrated conceptual grasp."
+    },
+    {
+      "from": "learning_loop_review",
+      "to": "supervision_policy",
+      "why": "Policies should evolve in response to actual supervisory experience, incidents, and near misses."
+    },
+    {
+      "from": "research_guardrails",
+      "to": "reflective_question_generation",
+      "why": "Evidence supports bounded uses like prompting and psychoeducation more than autonomous clinical reasoning."
+    },
+    {
+      "from": "research_guardrails",
+      "to": "case_review_human_override",
+      "why": "Current guidance emphasises clinician-in-the-loop oversight rather than autonomous substitution."
+    },
+    {
+      "from": "capability_maturity_model",
+      "to": "case_service_rollout",
+      "why": "Immature systems often reveal themselves through inconsistent service-wide rollout and anxiety about boundaries."
+    },
+    {
+      "from": "equity_bias_review",
+      "to": "bias_context_loss",
+      "why": "Bias review keeps generic or culturally flattening AI outputs visible rather than normalised."
+    },
+    {
+      "from": "risk_hidden_dependence",
+      "to": "case_formulation_polished",
+      "why": "Hidden dependence often first appears as work that is polished but not truly owned."
+    },
+    {
+      "from": "risk_fluency_mask",
+      "to": "case_formulation_polished",
+      "why": "The polished formulation case exemplifies fluency outstripping understanding."
+    },
+    {
+      "from": "risk_privacy_breach",
+      "to": "case_privacy_incident",
+      "why": "The incident is the concrete form of a broader confidentiality pathology."
+    },
+    {
+      "from": "risk_supervision_bypass",
+      "to": "case_ai_confession",
+      "why": "The bypass dynamic becomes discussable when the trainee says AI heard it first."
+    },
+    {
+      "from": "risk_managerial_capture",
+      "to": "case_service_rollout",
+      "why": "Service-wide efficiency narratives without reflective safeguards are a common manifestation of managerial capture."
+    },
+    {
+      "from": "wis_presence",
+      "to": "case_supervisor_overreliance",
+      "why": "When supervisors outsource too much of their response, trainees experience the loss of human presence directly."
+    },
+    {
+      "from": "wis_prudence",
+      "to": "case_privacy_incident",
+      "why": "Prudence would have recognised summary help as a low-level need that did not justify uploading identifiable material."
+    },
+    {
+      "from": "wis_reflection",
+      "to": "case_ai_confession",
+      "why": "The confession becomes clinically valuable when the pair can reflect on its relational meaning rather than merely punish it."
+    }
+  ]
+}
