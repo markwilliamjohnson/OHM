@@ -1,0 +1,1220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Organizational Health & Structure Lab</title>
+  <style>
+    :root {
+      --bg: #07111a;
+      --panel: rgba(8, 22, 34, 0.84);
+      --border: rgba(140, 201, 255, 0.18);
+      --text: #dcecff;
+      --muted: #8fb0ca;
+      --accent: #7fd6ff;
+      --good: #9dff9d;
+      --warn: #ffca7a;
+      --bad: #ff8e8e;
+      --health: #9af0ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(61, 124, 177, 0.18), transparent 25%),
+        radial-gradient(circle at 80% 0%, rgba(90, 168, 196, 0.1), transparent 28%),
+        linear-gradient(180deg, #08111a 0%, #091723 52%, #061018 100%);
+      display: grid;
+      grid-template-columns: 355px 1fr;
+    }
+
+    .sidebar {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(9, 23, 36, 0.96), rgba(6, 17, 27, 0.92));
+      border-right: 1px solid rgba(149, 196, 232, 0.14);
+      overflow: auto;
+      max-height: 100vh;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+    }
+
+    h1 { font-size: 1.28rem; margin: 0 0 10px; }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    p {
+      margin: 0 0 10px;
+      line-height: 1.44;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .control-row { margin-bottom: 14px; }
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: 0.9rem;
+    }
+
+    .value {
+      color: var(--accent);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      appearance: none;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(127,214,255,0.85), rgba(127,214,255,0.16));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(127,214,255,0.16);
+      cursor: pointer;
+    }
+
+    button, select, input[type="text"], textarea {
+      border: 1px solid rgba(140, 201, 255, 0.2);
+      background: linear-gradient(180deg, rgba(20, 66, 92, 0.92), rgba(11, 37, 52, 0.92));
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+    }
+
+    input[type="text"], textarea {
+      background: rgba(9, 25, 38, 0.92);
+      width: 100%;
+    }
+
+    textarea {
+      min-height: 220px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    button { cursor: pointer; font-weight: 700; }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .stat .k {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat .v {
+      font-size: 1.02rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 3px;
+    }
+
+    .stage {
+      min-height: 100vh;
+      padding: 16px;
+      overflow: auto;
+    }
+
+    .layout {
+      display: block;
+    }
+
+    .viz-shell {
+      position: relative;
+      min-height: calc(100vh - 32px);
+      margin-bottom: 16px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 600px;
+      display: block;
+      border-radius: 20px;
+      border: 1px solid rgba(140, 201, 255, 0.12);
+      background: rgba(5, 14, 22, 0.4);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+    }
+
+    .panel-column {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .bubble {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      max-width: none;
+      backdrop-filter: none;
+      line-height: 1.4;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .bubble b { color: var(--text); }
+
+    .prompt-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+      max-height: 210px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .list-item {
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.42;
+    }
+
+    .list-item b { color: var(--text); }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    th, td {
+      text-align: left;
+      padding: 9px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      vertical-align: top;
+    }
+
+    th {
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .table-wrap {
+      max-height: 320px;
+      overflow: auto;
+    }
+
+    .status-good { color: var(--good); }
+    .status-warn { color: var(--warn); }
+    .status-bad { color: var(--bad); }
+
+    .small {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1040px) {
+      body { grid-template-columns: 1fr; }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid rgba(149,196,232,0.16);
+        max-height: none;
+      }
+      .prompt-row { grid-template-columns: 1fr; }
+      .viz-shell { min-height: 70vh; }
+      canvas { height: 70vh; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="card">
+      <h1>Organizational Health & Structure Lab</h1>
+      <p>
+        Explore how organizational depth, communication quality, and occupational health capacity interact under pressure. The diagram is back: it shows organizational structure, escalation paths, and the relationship between central OH and recursively embedded support.
+      </p>
+      <p>
+        In this version, <b>organizational depth</b> represents the <b>potential for autonomy</b> among different components handling business complexity. Whether that potential becomes usable depends on <b>communication quality</b>. When components are overloaded, more cases are referred to central OH; if embedded OH support is weak, central OH is overloaded too.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Experiment controls</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Organizational depth</span><span class="value" id="depthValue">3.60 / 5</span></div>
+        <input id="depthSlider" type="range" min="0" max="5" step="0.01" value="3.6" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Business complexity</span><span class="value" id="complexityValue">0.62</span></div>
+        <input id="complexitySlider" type="range" min="0" max="1" step="0.01" value="0.62" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Communication quality</span><span class="value" id="communicationValue">0.58</span></div>
+        <input id="communicationSlider" type="range" min="0" max="1" step="0.01" value="0.58" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Central OH capacity</span><span class="value" id="serviceValue">0.60</span></div>
+        <input id="serviceSlider" type="range" min="0" max="1" step="0.01" value="0.6" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Embedded OH support</span><span class="value" id="embedValue">0.35</span></div>
+        <input id="embedSlider" type="range" min="0" max="1" step="0.01" value="0.35" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Operating environment</span><span class="value" id="scenarioValue">Mixed volatility</span></div>
+        <select id="scenarioSelect" style="width:100%">
+          <option>Mixed volatility</option>
+          <option>Competitive shock</option>
+          <option>Demand surge</option>
+          <option>Staff shortage</option>
+        </select>
+      </div>
+      <div class="button-grid">
+        <button id="resetBtn">Reset</button>
+        <button id="shockBtn">Inject crisis</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Live measures</h2>
+      <div class="stats">
+        <div class="stat"><div class="k">Autonomy potential</div><div class="v" id="autonomyPotentialValue">0.00</div></div>
+        <div class="stat"><div class="k">Communication</div><div class="v" id="coordValue">0.00</div></div>
+        <div class="stat"><div class="k">Local overload</div><div class="v" id="overloadValue">0.00</div></div>
+        <div class="stat"><div class="k">Central referrals</div><div class="v" id="referralValue">0.00</div></div>
+        <div class="stat"><div class="k">Org viability</div><div class="v" id="orgViabilityValue">0.00</div></div>
+        <div class="stat"><div class="k">OH viability</div><div class="v" id="ohViabilityValue">0.00</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Reading the picture</h2>
+      <div class="legend-item"><span class="dot" style="background:#7fd6ff"></span><span><b>Blue links</b>: coordination and escalation across reporting lines.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#9dff9d"></span><span><b>Green teams</b>: healthier teams with manageable load.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#ffca7a"></span><span><b>Amber teams</b>: rising fatigue or pressure.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#ff8e8e"></span><span><b>Red teams</b>: unresolved overload and health risk.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#9af0ff"></span><span><b>Central OH</b>: specialist support service outside the hierarchy.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#b0f7ff"></span><span><b>Embedded OH halos</b>: recursively distributed health support inside management and teams.</span></div>
+    </div>
+
+    <div class="card">
+      <h2>Interpretation</h2>
+      <div class="bubble" id="summaryBubble"></div>
+    </div>
+
+    <div class="card">
+      <h2>What to try</h2>
+      <div class="bubble" id="probeBubble"></div>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <div class="layout">
+      <section class="viz-shell">
+        <canvas id="canvas"></canvas>
+      </section>
+
+      <section class="panel-column">
+        <div class="card">
+          <h2>Event log</h2>
+          <div class="list" id="eventLog"></div>
+          <div class="chip-row" id="actionChips"></div>
+        </div>
+
+        <div class="card">
+          <h2>Prompt generator</h2>
+          <div class="prompt-row">
+            <input id="caseInput" type="text" placeholder="Occupational Health Case" value="Employee with repeated stress-related absence in a high-pressure service team" />
+            <button id="generatePromptBtn">Generate Prompt</button>
+          </div>
+          <textarea id="promptOutput" placeholder="Generated prompt will appear here..."></textarea>
+          <div class="small">Generates a prompt asking AI to write a short 300-word scenario using the case description, recorded events, viability data, and any actions to embed OH.</div>
+        </div>
+
+        <div class="card">
+          <h2>Time series of events and viability</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Step</th>
+                  <th>Event</th>
+                  <th>Org viability</th>
+                  <th>OH viability</th>
+                  <th>Action to embed OH</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const depthSlider = document.getElementById('depthSlider');
+    const complexitySlider = document.getElementById('complexitySlider');
+    const communicationSlider = document.getElementById('communicationSlider');
+    const serviceSlider = document.getElementById('serviceSlider');
+    const embedSlider = document.getElementById('embedSlider');
+    const scenarioSelect = document.getElementById('scenarioSelect');
+
+    const depthValue = document.getElementById('depthValue');
+    const complexityValue = document.getElementById('complexityValue');
+    const communicationValue = document.getElementById('communicationValue');
+    const serviceValue = document.getElementById('serviceValue');
+    const embedValue = document.getElementById('embedValue');
+    const scenarioValue = document.getElementById('scenarioValue');
+
+    const autonomyPotentialValue = document.getElementById('autonomyPotentialValue');
+    const coordValue = document.getElementById('coordValue');
+    const overloadValue = document.getElementById('overloadValue');
+    const referralValue = document.getElementById('referralValue');
+    const orgViabilityValue = document.getElementById('orgViabilityValue');
+    const ohViabilityValue = document.getElementById('ohViabilityValue');
+
+    const summaryBubble = document.getElementById('summaryBubble');
+    const probeBubble = document.getElementById('probeBubble');
+    const eventLog = document.getElementById('eventLog');
+    const historyTableBody = document.getElementById('historyTableBody');
+    const actionChips = document.getElementById('actionChips');
+    const caseInput = document.getElementById('caseInput');
+    const promptOutput = document.getElementById('promptOutput');
+    const generatePromptBtn = document.getElementById('generatePromptBtn');
+
+    const state = {
+      w: 0,
+      h: 0,
+      t: 0,
+      depth: 3.6,
+      complexity: 0.62,
+      communication: 0.58,
+      serviceCapacity: 0.6,
+      embeddedOH: 0.35,
+      scenario: 'Mixed volatility',
+      particles: [],
+      crises: [],
+      tick: 0,
+      metrics: {
+        autonomyPotential: 0,
+        communicationEffectiveness: 0,
+        localOverload: 0,
+        referralsToCentralOH: 0,
+        organizationViability: 0,
+        ohServiceViability: 0,
+        complexityAbsorbedLocally: 0,
+        centralOHLoad: 0,
+        unresolvedStrain: 0
+      },
+      events: [],
+      history: [],
+      actionTrail: [],
+      previousParams: null
+    };
+
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+    function dist(ax, ay, bx, by) { return Math.hypot(ax - bx, ay - by); }
+    function avg(arr) { return arr.length ? arr.reduce((s, n) => s + n, 0) / arr.length : 0; }
+    function rgba(r, g, b, a) { return `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${a})`; }
+
+    class Node {
+      constructor(id, label, level, x, y, type = 'team') {
+        this.id = id;
+        this.label = label;
+        this.level = level;
+        this.x = x;
+        this.y = y;
+        this.tx = x;
+        this.ty = y;
+        this.vx = 0;
+        this.vy = 0;
+        this.type = type;
+        this.parent = null;
+        this.children = [];
+        this.peers = [];
+        this.baseDemand = rand(0.25, 0.55);
+        this.load = rand(0.25, 0.5);
+        this.strain = rand(0.08, 0.18);
+        this.health = rand(0.7, 0.9);
+        this.absenceRisk = 0.05;
+        this.coordination = 0.5;
+        this.signal = 0;
+        this.integratedSignal = 0;
+        this.noise = 0;
+        this.shock = 0;
+        this.supportNeed = 0;
+        this.ohSupport = 0;
+        this.embeddedSupport = 0;
+        this.size = { w: 110, h: 42 };
+        this.referralPressure = 0;
+      }
+    }
+
+    class OccupationalHealthService {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.load = 0.2;
+        this.capacity = 0.6;
+        this.overload = 0;
+      }
+
+      update(company) {
+        this.capacity = state.serviceCapacity;
+        const teams = company.nodes.filter(n => n.type === 'team');
+        const totalReferrals = teams.reduce((sum, n) => sum + n.referralPressure, 0);
+        this.load = lerp(this.load, totalReferrals / Math.max(teams.length * 0.85, 1), 0.1);
+        this.overload = clamp((this.load - this.capacity) / Math.max(0.15, 1 - this.capacity * 0.35), 0, 1.8);
+
+        let available = Math.max(0, this.capacity * 1.45 - this.overload * 0.45);
+        const sorted = [...teams].sort((a, b) => b.referralPressure - a.referralPressure);
+        for (const node of sorted) {
+          const unmet = Math.max(0, node.referralPressure);
+          const granted = Math.min(unmet, Math.max(0, available * 0.18));
+          node.ohSupport = lerp(node.ohSupport, granted, 0.18);
+          available -= granted;
+          if (available <= 0) break;
+        }
+        for (const node of teams) {
+          if (node.ohSupport < 0.001) node.ohSupport *= 0.9;
+        }
+      }
+
+      draw(ctx) {
+        const overload = this.overload;
+        const color = overload > 0.55
+          ? rgba(255, 160 - overload * 50, 160 - overload * 60, 0.95)
+          : rgba(154, 240, 255, 0.95);
+        const g = ctx.createRadialGradient(this.x, this.y, 6, this.x, this.y, 70);
+        g.addColorStop(0, overload > 0.55 ? 'rgba(255,145,145,0.45)' : 'rgba(154,240,255,0.4)');
+        g.addColorStop(1, 'rgba(154,240,255,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 70 + overload * 20, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = color;
+        roundRect(ctx, this.x - 60, this.y - 28, 120, 56, 18, true, false);
+        ctx.fillStyle = '#05111a';
+        ctx.font = '700 13px Inter, system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Central OH', this.x, this.y - 3);
+        ctx.font = '600 11px Inter, system-ui, sans-serif';
+        ctx.fillText(overload > 0.55 ? 'Service overloaded' : 'Support available', this.x, this.y + 14);
+      }
+    }
+
+    class Company {
+      constructor() {
+        this.nodes = [];
+        this.root = null;
+        this.oh = new OccupationalHealthService(0, 0);
+        this.build();
+      }
+
+      build() {
+        this.nodes = [];
+        let id = 0;
+        const makeNode = (label, level, x, y, type='team') => {
+          const node = new Node(id++, label, level, x, y, type);
+          node.size = { w: level === 0 ? 134 : level === 1 ? 122 : 108, h: level === 0 ? 48 : 42 };
+          this.nodes.push(node);
+          return node;
+        };
+
+        this.root = makeNode('Executive Team', 0, 0, 0, 'leadership');
+        const functions = [
+          makeNode('Operations', 1, 0, 0, 'management'),
+          makeNode('Commercial', 1, 0, 0, 'management'),
+          makeNode('Technology', 1, 0, 0, 'management'),
+          makeNode('People & Support', 1, 0, 0, 'management')
+        ];
+        functions.forEach(fn => { fn.parent = this.root; this.root.children.push(fn); });
+
+        const teamLabels = [
+          ['Production', 'Logistics', 'Quality'],
+          ['Sales', 'Customer Success', 'Marketing'],
+          ['Platform', 'Data', 'Service Desk'],
+          ['HR', 'Facilities', 'Finance Ops']
+        ];
+
+        functions.forEach((fn, i) => {
+          teamLabels[i].forEach(label => {
+            const team = makeNode(label, 2, 0, 0, 'team');
+            team.parent = fn;
+            fn.children.push(team);
+          });
+        });
+
+        const allByLevel = [0,1,2].map(level => this.nodes.filter(n => n.level === level));
+        for (const levelNodes of allByLevel) {
+          levelNodes.forEach((node, idx) => {
+            node.peers = levelNodes.filter((_, i) => i !== idx);
+          });
+        }
+
+        this.layout(true);
+      }
+
+      layout(initial = false) {
+        const cx = state.w * 0.58;
+        const top = 92;
+        const levelGap = 80;
+        const levels = [0,1,2].map(level => this.nodes.filter(n => n.level === level));
+        levels.forEach((levelNodes, level) => {
+          const span = Math.min(state.w * 0.7, 220 + levelNodes.length * 118);
+          levelNodes.forEach((node, i) => {
+            const x = cx + (levelNodes.length === 1 ? 0 : (-span / 2 + (span * i) / (levelNodes.length - 1)));
+            const y = top + level * levelGap;
+            node.tx = x;
+            node.ty = y;
+            if (initial) {
+              node.x = x;
+              node.y = y;
+            }
+          });
+        });
+        this.oh.x = state.w * 0.16;
+        this.oh.y = state.h * 0.42;
+      }
+
+      resolveCollisions() {
+        for (let iter = 0; iter < 8; iter++) {
+          for (let i = 0; i < this.nodes.length; i++) {
+            for (let j = i + 1; j < this.nodes.length; j++) {
+              const a = this.nodes[i];
+              const b = this.nodes[j];
+              const minX = (a.size.w + b.size.w) / 2 + 18;
+              const minY = (a.size.h + b.size.h) / 2 + 20;
+              const dx = b.x - a.x;
+              const dy = b.y - a.y;
+              const overlapX = minX - Math.abs(dx);
+              const overlapY = minY - Math.abs(dy);
+              if (overlapX > 0 && overlapY > 0) {
+                if (overlapX < overlapY) {
+                  const push = overlapX * 0.5 * (dx >= 0 ? 1 : -1);
+                  if (a.level === b.level) {
+                    a.x -= push;
+                    b.x += push;
+                  } else {
+                    a.x -= push * 0.35;
+                    b.x += push * 0.35;
+                  }
+                } else {
+                  const push = overlapY * 0.5 * (dy >= 0 ? 1 : -1);
+                  if (a.level === b.level) {
+                    a.y -= push * 0.25;
+                    b.y += push * 0.25;
+                  }
+                }
+              }
+            }
+          }
+          for (const node of this.nodes) {
+            node.x = clamp(node.x, 230, state.w - 90);
+            node.y = clamp(node.y, 70, state.h - 250);
+          }
+        }
+      }
+
+      applyEmbeddedOH() {
+        const embed = state.embeddedOH;
+        const structure = state.depth / 5;
+        const communication = state.communication;
+        for (const node of this.nodes) {
+          const roleFactor = node.level === 0 ? 0.2 : node.level === 1 ? 0.55 : 1;
+          const localNeed = clamp(node.supportNeed * roleFactor, 0, 1.5);
+          node.embeddedSupport = clamp(
+            embed * (0.14 + structure * 0.18 + communication * 0.16) * (0.5 + localNeed * 0.85),
+            0,
+            1.2
+          );
+        }
+      }
+
+      update() {
+        this.layout();
+        for (const node of this.nodes) {
+          node.vx += (node.tx - node.x) * 0.02;
+          node.vy += (node.ty - node.y) * 0.02;
+          node.vx *= 0.72;
+          node.vy *= 0.72;
+          node.x += node.vx;
+          node.y += node.vy;
+        }
+        this.resolveCollisions();
+
+        const depthPotential = clamp((state.depth / 5) * (0.35 + state.communication * 0.65), 0, 1);
+        const communicationEffectiveness = clamp(state.communication - scenarioDrag(state.scenario) + (state.depth / 5) * 0.1, 0, 1);
+
+        for (const node of this.nodes) {
+          const env = environmentAt(node.x, node.y, state.t, state.scenario, state.complexity);
+          node.noise = env.noise;
+          node.shock = env.shock;
+
+          const parentSignal = node.parent ? node.parent.integratedSignal : 0.58;
+          const peerSignal = node.peers.length ? node.peers.reduce((s, p) => s + p.integratedSignal, 0) / node.peers.length : parentSignal;
+          const localRead = env.useful * (0.45 + depthPotential * 0.25 + communicationEffectiveness * 0.3) - env.shock * 0.72;
+          const recursiveBlend = parentSignal * (0.12 + depthPotential * 0.35) + peerSignal * (0.08 + communicationEffectiveness * 0.18);
+          node.signal = localRead + recursiveBlend - node.noise * (0.2 + (1 - communicationEffectiveness) * 0.18);
+        }
+
+        const passCount = Math.max(1, Math.round(state.depth));
+        for (let pass = 0; pass < passCount; pass++) {
+          const fraction = pass === passCount - 1 ? (state.depth - Math.floor(state.depth) || 1) : 1;
+          for (const node of this.nodes) {
+            const childSignal = node.children.length ? node.children.reduce((s, c) => s + c.signal, 0) / node.children.length : node.signal;
+            const peerSignal = node.peers.length ? node.peers.reduce((s, p) => s + p.signal, 0) / node.peers.length : node.signal;
+            const integrated = node.signal * (0.62 + communicationEffectiveness * 0.16)
+              + childSignal * (0.08 + depthPotential * 0.24)
+              + peerSignal * (0.08 + communicationEffectiveness * 0.14)
+              - node.noise * (0.1 + (1 - communicationEffectiveness) * 0.14);
+            node.integratedSignal = lerp(node.integratedSignal, integrated, fraction * 0.28);
+          }
+        }
+
+        for (const node of this.nodes) {
+          const managerialBuffer = node.parent ? clamp(node.parent.integratedSignal * 0.08, 0, 0.12) : 0.08;
+          node.load = clamp(
+            lerp(
+              node.load,
+              node.baseDemand
+                + node.noise * (0.4 + state.complexity * 0.6)
+                + node.shock * 0.82
+                + (1 - depthPotential) * 0.2
+                + (1 - communicationEffectiveness) * 0.2
+                - managerialBuffer,
+              0.06
+            ),
+            0,
+            2.2
+          );
+          node.supportNeed = clamp(node.load * 0.45 + node.strain * 0.35 - (depthPotential * 0.12 + communicationEffectiveness * 0.08), 0, 1.8);
+        }
+
+        this.applyEmbeddedOH();
+
+        for (const node of this.nodes) {
+          const overload = Math.max(0, node.load - (0.68 + depthPotential * 0.28 + communicationEffectiveness * 0.12));
+          node.referralPressure = clamp(overload * (0.5 + (1 - node.embeddedSupport) * 0.55 + (1 - communicationEffectiveness) * 0.22), 0, 1.8);
+        }
+
+        this.oh.update(this);
+
+        for (const node of this.nodes) {
+          const embeddedHelp = node.embeddedSupport * (0.04 + (state.depth / 5) * 0.04 + state.communication * 0.02);
+          const recovery = 0.012 + (state.depth / 5) * 0.008 + state.communication * 0.01 + node.ohSupport * 0.08 + embeddedHelp;
+          const harm = node.load * 0.018 + node.shock * 0.02 + Math.max(0, node.noise - 0.35) * 0.012;
+          node.strain = clamp(node.strain + harm - recovery, 0, 1.8);
+          node.health = clamp(node.health - harm * 1.02 + recovery * 0.9, 0, 1);
+          node.absenceRisk = clamp(node.strain * 0.55 + (1 - node.health) * 0.45 + this.oh.overload * 0.18, 0, 1.8);
+          node.coordination = clamp(0.42 + depthPotential * 0.28 + communicationEffectiveness * 0.4 + node.integratedSignal * 0.06 - node.noise * 0.22, 0, 1.4);
+        }
+
+        const teamNodes = this.nodes.filter(n => n.type === 'team');
+        const meanCoord = this.nodes.reduce((s, n) => s + n.coordination, 0) / this.nodes.length;
+        const meanHealth = teamNodes.reduce((s, n) => s + n.health, 0) / teamNodes.length;
+        const meanReferral = teamNodes.reduce((s, n) => s + n.referralPressure, 0) / teamNodes.length;
+        const meanLoad = teamNodes.reduce((s, n) => s + n.load, 0) / teamNodes.length;
+        const meanStrain = teamNodes.reduce((s, n) => s + n.strain, 0) / teamNodes.length;
+
+        const organizationViability = clamp(1 - Math.max(0, meanLoad - (0.9 + depthPotential * 0.18)) * 0.35 - meanStrain * 0.18 + depthPotential * 0.22 + communicationEffectiveness * 0.2, 0, 1);
+        const ohServiceViability = clamp(1 - this.oh.overload * 0.65 - meanReferral * 0.12 + state.embeddedOH * 0.22, 0, 1);
+
+        state.metrics.autonomyPotential = depthPotential;
+        state.metrics.communicationEffectiveness = clamp(meanCoord * 0.65 + communicationEffectiveness * 0.35, 0, 1.5);
+        state.metrics.localOverload = clamp(meanLoad - (0.8 + depthPotential * 0.18), 0, 2);
+        state.metrics.referralsToCentralOH = clamp(meanReferral + this.oh.overload * 0.2, 0, 2);
+        state.metrics.organizationViability = organizationViability;
+        state.metrics.ohServiceViability = ohServiceViability;
+        state.metrics.complexityAbsorbedLocally = clamp(depthPotential * 0.4 + communicationEffectiveness * 0.28 + state.embeddedOH * 0.22 - state.metrics.localOverload * 0.2, 0, 1.3);
+        state.metrics.centralOHLoad = clamp(this.oh.load + this.oh.overload * 0.45, 0, 2);
+        state.metrics.unresolvedStrain = clamp(meanStrain + this.oh.overload * 0.15, 0, 2);
+      }
+
+      drawLinks(ctx) {
+        for (const node of this.nodes) {
+          if (node.parent) {
+            ctx.beginPath();
+            ctx.strokeStyle = rgba(110 + node.strain * 60, 150 + node.coordination * 40, 255, 0.26);
+            ctx.lineWidth = 1.8 + node.coordination * 1.1;
+            ctx.moveTo(node.parent.x, node.parent.y + node.parent.size.h / 2);
+            ctx.lineTo(node.x, node.y - node.size.h / 2);
+            ctx.stroke();
+          }
+        }
+      }
+
+      drawEmbeddedHalos(ctx) {
+        if (state.embeddedOH < 0.03) return;
+        for (const node of this.nodes.filter(n => n.level >= 1)) {
+          const r = 16 + node.embeddedSupport * 22;
+          ctx.beginPath();
+          ctx.strokeStyle = rgba(176, 247, 255, 0.06 + node.embeddedSupport * 0.14);
+          ctx.lineWidth = 2;
+          ctx.arc(node.x, node.y, r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+
+      drawNodes(ctx) {
+        this.drawEmbeddedHalos(ctx);
+        this.oh.draw(ctx);
+        for (const node of this.nodes) {
+          const healthColor = node.health > 0.72 ? [110, 220, 145] : node.health > 0.45 ? [255, 197, 110] : [255, 135, 135];
+          const glow = ctx.createRadialGradient(node.x, node.y, 5, node.x, node.y, 44 + node.strain * 16);
+          glow.addColorStop(0, rgba(healthColor[0], healthColor[1], healthColor[2], 0.24));
+          glow.addColorStop(1, rgba(healthColor[0], healthColor[1], healthColor[2], 0));
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, 44 + node.strain * 16, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = rgba(healthColor[0], healthColor[1], healthColor[2], 0.95);
+          roundRect(ctx, node.x - node.size.w / 2, node.y - node.size.h / 2, node.size.w, node.size.h, 14, true, false);
+
+          if (node.ohSupport > 0.08) {
+            ctx.strokeStyle = rgba(154, 240, 255, 0.35 + node.ohSupport * 0.3);
+            ctx.lineWidth = 2.2;
+            roundRect(ctx, node.x - node.size.w / 2 - 4, node.y - node.size.h / 2 - 4, node.size.w + 8, node.size.h + 8, 16, false, true);
+            ctx.beginPath();
+            ctx.strokeStyle = rgba(154, 240, 255, 0.15 + node.ohSupport * 0.24);
+            ctx.lineWidth = 2;
+            ctx.moveTo(this.oh.x + 62, this.oh.y);
+            ctx.lineTo(node.x - node.size.w / 2 - 8, node.y);
+            ctx.stroke();
+          }
+
+          ctx.fillStyle = '#07111a';
+          ctx.textAlign = 'center';
+          ctx.font = node.level === 0 ? '700 13px Inter, system-ui, sans-serif' : '700 12px Inter, system-ui, sans-serif';
+          ctx.fillText(node.label, node.x, node.y - 2);
+          ctx.font = '600 10px Inter, system-ui, sans-serif';
+          const sub = node.type === 'team' ? `health ${(node.health * 100).toFixed(0)}%` : node.type;
+          ctx.fillText(sub, node.x, node.y + 12);
+        }
+      }
+
+      draw(ctx) {
+        this.drawLinks(ctx);
+        this.drawNodes(ctx);
+      }
+    }
+
+    function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    function scenarioDrag(scenario) {
+      if (scenario === 'Competitive shock') return 0.16;
+      if (scenario === 'Demand surge') return 0.08;
+      if (scenario === 'Staff shortage') return 0.2;
+      return 0.1;
+    }
+
+    function environmentAt(x, y, t, scenario, complexity) {
+      const nx = x / Math.max(state.w, 1);
+      const ny = y / Math.max(state.h, 1);
+      let useful = 0;
+      let shock = 0;
+      let noise = 0;
+
+      if (scenario === 'Competitive shock') {
+        const sx = state.w * (0.28 + 0.44 * (0.5 + 0.5 * Math.sin(t * 0.22)));
+        const sy = state.h * 0.22;
+        const d = dist(x, y, sx, sy);
+        shock = clamp(1.35 - d / 250, 0, 1.35) * (0.72 + complexity * 0.52);
+        useful = 0.56 + Math.sin(nx * 6 + t) * 0.24 - shock * 0.22;
+        noise = (0.18 + Math.abs(Math.sin(nx * 15 + ny * 11 + t * 3.1)) * 0.72) * complexity;
+      } else if (scenario === 'Demand surge') {
+        const px = state.w * 0.78;
+        const py = state.h * 0.35;
+        const d = dist(x, y, px + Math.sin(t * 0.5) * 42, py + Math.cos(t * 0.4) * 28);
+        useful = clamp(1.2 - d / 260, 0, 1.25);
+        noise = Math.abs(Math.sin(nx * 12 + t * 2.1) * Math.cos(ny * 8 - t * 1.4)) * complexity * 0.62;
+        shock = Math.max(0, useful - 0.78) * (0.35 + complexity * 0.5);
+      } else if (scenario === 'Staff shortage') {
+        useful = 0.46 + Math.sin(nx * 7 + t * 0.8) * 0.15;
+        noise = (0.28 + Math.abs(Math.cos(nx * 11 - ny * 9 + t * 1.8)) * 0.8) * complexity;
+        shock = (0.35 + Math.abs(Math.sin(nx * 3 + ny * 5 + t * 0.45)) * 0.7) * (0.5 + complexity * 0.45);
+      } else {
+        const a = Math.sin(nx * 11 + t * 1.4);
+        const b = Math.cos(ny * 10 - t * 1.1);
+        const c = Math.sin((nx + ny) * 14 - t * 2.2);
+        useful = 0.56 + a * 0.2 + b * 0.18 + c * 0.12;
+        noise = (Math.abs(a - b) + Math.abs(c)) * 0.45 * complexity;
+        shock = Math.max(0, Math.sin(nx * 6 - ny * 8 + t * 0.95)) * 0.75 * complexity;
+      }
+
+      for (const crisis of state.crises) {
+        const d = dist(x, y, crisis.x, crisis.y);
+        const pulse = clamp(1 - d / crisis.r, 0, 1) * crisis.strength;
+        shock += pulse * 0.55;
+        noise += pulse * 0.75;
+      }
+
+      return {
+        useful: clamp(useful, -1.1, 1.3),
+        shock: clamp(shock, 0, 1.7),
+        noise: clamp(noise, 0, 1.8)
+      };
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      state.w = canvas.clientWidth;
+      state.h = canvas.clientHeight;
+      if (company) company.layout(true);
+    }
+
+    function resetBackground() {
+      state.particles = [];
+      for (let i = 0; i < 70; i++) {
+        state.particles.push({ x: rand(0, state.w), y: rand(0, state.h), s: rand(0.5, 1.6), p: rand(0, Math.PI * 2) });
+      }
+      state.crises = [];
+    }
+
+    function injectCrisis() {
+      state.crises.push({
+        x: rand(state.w * 0.35, state.w * 0.9),
+        y: rand(state.h * 0.16, state.h * 0.65),
+        r: rand(120, 210),
+        strength: rand(0.9, 1.35),
+        life: 1
+      });
+      state.events.unshift('A crisis was injected, sharply increasing complexity and referral pressure.');
+      state.events = state.events.slice(0, 10);
+      recordTimeStep('Crisis injected.');
+    }
+
+    function drawBackground() {
+      const g = ctx.createLinearGradient(0, 0, 0, state.h);
+      g.addColorStop(0, '#07131c');
+      g.addColorStop(1, '#091c29');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, state.w, state.h);
+
+      for (const p of state.particles) {
+        p.p += 0.006 + state.complexity * 0.004;
+        p.x += Math.sin(p.p) * 0.45;
+        p.y += Math.cos(p.p * 0.8) * 0.28;
+        if (p.x < -5) p.x = state.w + 5;
+        if (p.x > state.w + 5) p.x = -5;
+        if (p.y < -5) p.y = state.h + 5;
+        if (p.y > state.h + 5) p.y = -5;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(170, 214, 255, 0.1)';
+        ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      for (let i = state.crises.length - 1; i >= 0; i--) {
+        const c = state.crises[i];
+        c.life -= 0.008;
+        c.r += 0.9;
+        ctx.beginPath();
+        ctx.strokeStyle = rgba(255, 145, 145, c.life * 0.42);
+        ctx.lineWidth = 2;
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.stroke();
+        if (c.life <= 0) state.crises.splice(i, 1);
+      }
+    }
+
+    function detectParameterChangeText() {
+      const current = {
+        depth: state.depth,
+        complexity: state.complexity,
+        communication: state.communication,
+        serviceCapacity: state.serviceCapacity,
+        embeddedOH: state.embeddedOH,
+        scenario: state.scenario
+      };
+      const prev = state.previousParams;
+      state.previousParams = { ...current };
+      if (!prev) return '';
+      const parts = [];
+      if (Math.abs(prev.depth - current.depth) >= 0.05) parts.push(`organizational depth ${prev.depth.toFixed(2)}→${current.depth.toFixed(2)}`);
+      if (Math.abs(prev.complexity - current.complexity) >= 0.05) parts.push(`business complexity ${prev.complexity.toFixed(2)}→${current.complexity.toFixed(2)}`);
+      if (Math.abs(prev.communication - current.communication) >= 0.05) parts.push(`communication quality ${prev.communication.toFixed(2)}→${current.communication.toFixed(2)}`);
+      if (Math.abs(prev.serviceCapacity - current.serviceCapacity) >= 0.05) parts.push(`central OH capacity ${prev.serviceCapacity.toFixed(2)}→${current.serviceCapacity.toFixed(2)}`);
+      if (Math.abs(prev.embeddedOH - current.embeddedOH) >= 0.05) parts.push(`embedded OH ${prev.embeddedOH.toFixed(2)}→${current.embeddedOH.toFixed(2)}`);
+      if (prev.scenario !== current.scenario) parts.push(`operating environment changed to ${current.scenario}`);
+      return parts.length ? `Parameter change: ${parts.join('; ')}.` : '';
+    }
+
+    function recordTimeStep(triggerText = '') {
+      state.tick += 1;
+
+      let embedAction = 'None';
+      if (state.metrics.localOverload > 0.72 && state.embeddedOH < 0.8) {
+        const increment = state.metrics.ohServiceViability < 0.45 ? 0.08 : 0.04;
+        state.embeddedOH = clamp(state.embeddedOH + increment, 0, 1);
+        embedSlider.value = state.embeddedOH.toFixed(2);
+        embedAction = `Embedded OH increased by ${increment.toFixed(2)} to ${state.embeddedOH.toFixed(2)} to absorb more cases locally.`;
+        state.actionTrail.unshift(embedAction);
+        state.actionTrail = state.actionTrail.slice(0, 8);
+      }
+
+      const eventParts = [];
+      if (triggerText) eventParts.push(triggerText.replace(/\.$/, ''));
+      if (state.metrics.localOverload > 0.8) eventParts.push('business components are overloaded');
+      else if (state.metrics.localOverload > 0.35) eventParts.push('local pressure is rising');
+      else eventParts.push('most business components are coping locally');
+
+      if (state.metrics.referralsToCentralOH > state.serviceCapacity) eventParts.push('case referrals are overloading central OH');
+      else if (state.metrics.referralsToCentralOH > state.serviceCapacity * 0.65) eventParts.push('central OH is under visible escalation pressure');
+      else eventParts.push('central OH is coping with current referrals');
+
+      if (state.metrics.communicationEffectiveness < 0.45) eventParts.push('communication quality is weakening distributed autonomy');
+      else if (state.metrics.communicationEffectiveness > 0.75) eventParts.push('communication quality is enabling distributed autonomy');
+
+      const event = eventParts.join('; ') + '.';
+      state.events.unshift(event);
+      state.events = state.events.slice(0, 10);
+
+      state.history.push({
+        step: state.tick,
+        event,
+        organizationViability: state.metrics.organizationViability,
+        ohServiceViability: state.metrics.ohServiceViability,
+        embedAction
+      });
+      state.history = state.history.slice(-40);
+    }
+
+    function statusClass(value) {
+      if (value >= 0.7) return 'status-good';
+      if (value >= 0.45) return 'status-warn';
+      return 'status-bad';
+    }
+
+    function updateUI() {
+      depthValue.textContent = `${state.depth.toFixed(2)} / 5`;
+      complexityValue.textContent = state.complexity.toFixed(2);
+      communicationValue.textContent = state.communication.toFixed(2);
+      serviceValue.textContent = state.serviceCapacity.toFixed(2);
+      embedValue.textContent = state.embeddedOH.toFixed(2);
+      scenarioValue.textContent = state.scenario;
+
+      autonomyPotentialValue.textContent = state.metrics.autonomyPotential.toFixed(2);
+      coordValue.textContent = state.metrics.communicationEffectiveness.toFixed(2);
+      overloadValue.textContent = state.metrics.localOverload.toFixed(2);
+      referralValue.textContent = state.metrics.referralsToCentralOH.toFixed(2);
+      orgViabilityValue.textContent = state.metrics.organizationViability.toFixed(2);
+      ohViabilityValue.textContent = state.metrics.ohServiceViability.toFixed(2);
+
+      summaryBubble.innerHTML = `
+        Organizational depth is being treated as the <b>potential for autonomy</b> across components. That potential is currently <b>${state.metrics.autonomyPotential.toFixed(2)}</b>, but whether teams can actually absorb complexity depends on communication quality, currently <b>${state.metrics.communicationEffectiveness.toFixed(2)}</b>.`;
+
+      const overloaded = company ? company.oh.overload > 0.55 : false;
+      probeBubble.innerHTML = `
+        Raise <b>business complexity</b>, lower <b>communication quality</b>, and reduce <b>embedded OH support</b>. Watch how more overloaded components start referring cases to central OH. Central OH is currently ${overloaded ? '<b>overloaded</b>' : '<b>coping</b>'}.<br><br>
+        Organization viability is <b>${state.metrics.organizationViability.toFixed(2)}</b> and OH service viability is <b>${state.metrics.ohServiceViability.toFixed(2)}</b>.`;
+
+      eventLog.innerHTML = state.events.map(item => `<div class="list-item">${item}</div>`).join('');
+      actionChips.innerHTML = state.actionTrail.length
+        ? state.actionTrail.map(action => `<span class="chip">${action}</span>`).join('')
+        : '<span class="chip">No embedding actions taken yet.</span>';
+
+      historyTableBody.innerHTML = state.history.slice().reverse().map(row => `
+        <tr>
+          <td><b>${row.step}</b></td>
+          <td>${row.event}</td>
+          <td class="${statusClass(row.organizationViability)}">${row.organizationViability.toFixed(2)}</td>
+          <td class="${statusClass(row.ohServiceViability)}">${row.ohServiceViability.toFixed(2)}</td>
+          <td>${row.embedAction}</td>
+        </tr>
+      `).join('');
+    }
+
+    function generatePrompt() {
+      const caseText = caseInput.value.trim() || 'Occupational Health Case';
+      const recentHistory = state.history.slice(-8);
+      const avgOrg = avg(recentHistory.map(row => row.organizationViability));
+      const avgOH = avg(recentHistory.map(row => row.ohServiceViability));
+      const timeSeriesSummary = recentHistory.map(row =>
+        `Step ${row.step}: ${row.event} Organization viability ${row.organizationViability.toFixed(2)}. OH viability ${row.ohServiceViability.toFixed(2)}. Embedded OH action: ${row.embedAction}`
+      ).join('\n');
+
+      promptOutput.value = `Write a short scenario of about 300 words based on this Occupational Health case: "${caseText}".\n\nUse the following simulation data to describe how the OH situation develops over time. Keep the scenario realistic and written in clear prose. Make the sequence of events consistent with the data below. Show that organizational depth creates the potential for local autonomy, but whether that potential works in practice depends on communication quality. Also show that when local components are overloaded, more cases are referred to central OH, and if embedded OH support is insufficient, central OH becomes overloaded too.\n\nCurrent parameters:\n- Organizational depth: ${state.depth.toFixed(2)} / 5\n- Business complexity: ${state.complexity.toFixed(2)}\n- Communication quality: ${state.communication.toFixed(2)}\n- Central OH capacity: ${state.serviceCapacity.toFixed(2)}\n- Embedded OH support: ${state.embeddedOH.toFixed(2)}\n- Operating environment: ${state.scenario}\n\nRecent time-series data:\n${timeSeriesSummary || 'No time-series records available yet.'}\n\nOverall viability summary:\n- Average organization viability across recent steps: ${avgOrg.toFixed(2)}\n- Average OH service viability across recent steps: ${avgOH.toFixed(2)}\n- Latest autonomy potential: ${state.metrics.autonomyPotential.toFixed(2)}\n- Latest communication effectiveness: ${state.metrics.communicationEffectiveness.toFixed(2)}\n- Latest local overload: ${state.metrics.localOverload.toFixed(2)}\n- Latest referrals to central OH: ${state.metrics.referralsToCentralOH.toFixed(2)}\n- Latest central OH load: ${state.metrics.centralOHLoad.toFixed(2)}\n- Latest unresolved strain: ${state.metrics.unresolvedStrain.toFixed(2)}\n\nIn the scenario, explicitly reflect any actions taken to embed OH more deeply in the business. End with a brief note on whether the organization and the OH service remain viable.`;
+    }
+
+    let company = null;
+    let last = performance.now();
+    let recordAccumulator = 0;
+
+    function animate(now) {
+      const dt = Math.min(0.033, (now - last) / 1000);
+      last = now;
+      state.t += dt;
+      state.depth = parseFloat(depthSlider.value);
+      state.complexity = parseFloat(complexitySlider.value);
+      state.communication = parseFloat(communicationSlider.value);
+      state.serviceCapacity = parseFloat(serviceSlider.value);
+      state.embeddedOH = parseFloat(embedSlider.value);
+      state.scenario = scenarioSelect.value;
+
+      drawBackground();
+      company.update();
+      company.draw(ctx);
+
+      const changeText = detectParameterChangeText();
+      recordAccumulator += dt;
+      if (recordAccumulator >= 1.4 || changeText) {
+        recordTimeStep(changeText);
+        recordAccumulator = 0;
+      }
+
+      updateUI();
+      requestAnimationFrame(animate);
+    }
+
+    depthSlider.addEventListener('input', updateUI);
+    complexitySlider.addEventListener('input', updateUI);
+    communicationSlider.addEventListener('input', updateUI);
+    serviceSlider.addEventListener('input', updateUI);
+    embedSlider.addEventListener('input', updateUI);
+    scenarioSelect.addEventListener('change', updateUI);
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      state.tick = 0;
+      state.events = [];
+      state.history = [];
+      state.actionTrail = [];
+      state.previousParams = null;
+      state.depth = 3.6;
+      state.complexity = 0.62;
+      state.communication = 0.58;
+      state.serviceCapacity = 0.6;
+      state.embeddedOH = 0.35;
+      state.scenario = 'Mixed volatility';
+      depthSlider.value = state.depth;
+      complexitySlider.value = state.complexity;
+      communicationSlider.value = state.communication;
+      serviceSlider.value = state.serviceCapacity;
+      embedSlider.value = state.embeddedOH;
+      scenarioSelect.value = state.scenario;
+      company = new Company();
+      resetBackground();
+      recordAccumulator = 0;
+      recordTimeStep('System reset');
+      updateUI();
+    });
+
+    document.getElementById('shockBtn').addEventListener('click', injectCrisis);
+    generatePromptBtn.addEventListener('click', generatePrompt);
+    window.addEventListener('resize', resize);
+
+    resize();
+    company = new Company();
+    resetBackground();
+    updateUI();
+    recordTimeStep('Simulation started');
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
