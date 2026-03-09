@@ -1,0 +1,972 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company Organization & Autonomy Lab</title>
+  <style>
+    :root {
+      --bg: #07111a;
+      --panel: rgba(8, 22, 34, 0.82);
+      --border: rgba(140, 201, 255, 0.2);
+      --text: #dcecff;
+      --muted: #8fb0ca;
+      --accent: #7fd6ff;
+      --good: #9dff9d;
+      --warn: #ffb480;
+      --bad: #ff8e8e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(61, 124, 177, 0.2), transparent 25%),
+        radial-gradient(circle at 80% 0%, rgba(90, 168, 196, 0.12), transparent 28%),
+        linear-gradient(180deg, #08111a 0%, #091723 52%, #061018 100%);
+      display: grid;
+      grid-template-columns: 430px 1fr;
+    }
+    .sidebar {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(9, 23, 36, 0.96), rgba(6, 17, 27, 0.9));
+      border-right: 1px solid rgba(149, 196, 232, 0.16);
+      overflow: auto;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+    }
+    h1 {
+      font-size: 1.32rem;
+      margin: 0 0 10px;
+    }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 0.92rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    p {
+      margin: 0 0 10px;
+      line-height: 1.45;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+    .control-row { margin-bottom: 14px; }
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: 0.9rem;
+    }
+    .value {
+      color: var(--accent);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      appearance: none;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(127,214,255,0.85), rgba(127,214,255,0.16));
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(127,214,255,0.16);
+      cursor: pointer;
+    }
+    button, select, textarea, input[type="text"] {
+      width: 100%;
+      border: 1px solid rgba(140, 201, 255, 0.2);
+      background: linear-gradient(180deg, rgba(20, 66, 92, 0.92), rgba(11, 37, 52, 0.92));
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+    }
+    button { cursor: pointer; font-weight: 700; }
+    textarea {
+      min-height: 108px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .stat .k {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .stat .v {
+      font-size: 1.08rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .legend-item {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 3px; }
+    .stage {
+      position: relative;
+      overflow: hidden;
+    }
+    canvas {
+      width: 100%;
+      height: 100vh;
+      display: block;
+    }
+    .overlay {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+    }
+    .bubble {
+      max-width: 460px;
+      background: rgba(7, 18, 29, 0.68);
+      border: 1px solid rgba(140, 201, 255, 0.18);
+      border-radius: 16px;
+      padding: 10px 12px;
+      backdrop-filter: blur(8px);
+      line-height: 1.4;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .bubble b { color: var(--text); }
+    .small-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-top: 8px;
+    }
+    .history-box {
+      max-height: 150px;
+      overflow: auto;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      white-space: pre-wrap;
+    }
+    @media (max-width: 1120px) {
+      body { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid rgba(149,196,232,0.16); }
+      canvas { height: 66vh; }
+      .overlay { position: absolute; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="card">
+      <h1>Company Organization & Autonomy Lab</h1>
+      <p>
+        This simulator treats the octopus as an <b>organization</b>. Each arm is a semi-autonomous workstream made up of local cells that sense, interpret, and act.
+      </p>
+      <p>
+        <b>Recursion depth</b> now represents the extent to which intelligence is distributed across nested levels inside each arm. <b>Higher recursion</b> means stronger local self-governance, more adaptability, and more autonomy <b>when coupling is good</b>. <b>Lower recursion</b> means more central command-and-control, with less discretion and less capacity to adapt locally.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Experiment controls</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Recursion level</span><span class="value" id="recursionValue">5.00 / 5</span></div>
+        <input id="recursionSlider" type="range" min="0" max="5" step="0.01" value="5" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Environmental complexity</span><span class="value" id="complexityValue">0.62</span></div>
+        <input id="complexitySlider" type="range" min="0" max="1" step="0.01" value="0.62" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Inter-cell coupling</span><span class="value" id="couplingValue">0.70</span></div>
+        <input id="couplingSlider" type="range" min="0" max="1" step="0.01" value="0.7" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Operating environment</span><span class="value" id="scenarioValue">Cross-functional load</span></div>
+        <select id="scenarioSelect">
+          <option>Cross-functional load</option>
+          <option>Competitive shock</option>
+          <option>Demand signal</option>
+          <option>Mixed volatility</option>
+        </select>
+      </div>
+      <div class="button-grid">
+        <button id="resetBtn">Reset</button>
+        <button id="burstBtn">Inject Shock</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Live measures</h2>
+      <div class="stats">
+        <div class="stat"><div class="k">Adaptability</div><div class="v" id="flexValue">0.00</div></div>
+        <div class="stat"><div class="k">Autonomy</div><div class="v" id="autonomyValue">0.00</div></div>
+        <div class="stat"><div class="k">Coupled coherence</div><div class="v" id="coherenceValue">0.00</div></div>
+        <div class="stat"><div class="k">Survival fit</div><div class="v" id="survivalValue">0.00</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>How the arms behave</h2>
+      <div class="legend-item"><span class="dot" style="background:#7fd6ff"></span><span><b>Blue glow</b>: recursive intelligence distributed through the arm. With good coupling, higher recursion increases local autonomy without losing alignment.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#9dff9d"></span><span><b>Green tint</b>: adaptive coordination. Local cells act independently but remain mutually informative and coherent.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#ff8e8e"></span><span><b>Red tint</b>: fragility. This appears when complexity outruns autonomy, or when cells are badly coupled and cannot coordinate their local decisions.</span></div>
+      <p>
+        In this version, <b>higher recursion is not more bureaucracy</b>. It is deeper distributed organization inside the arm. If coupling is strong, the arm becomes both more autonomous and more adaptive. If recursion is low, control collapses back toward the center and local cells lose discretion.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>What changes with recursion</h2>
+      <p id="consequenceText"></p>
+    </div>
+
+    <div class="card">
+      <h2>OH scenario prompt builder</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Input OH scenario</span><span class="value" id="historyCountValue">0 samples</span></div>
+        <textarea id="ohScenarioInput" placeholder="Describe the occupational health management scenario here. For example: rising musculoskeletal complaints across sites, delayed case escalation, uneven manager capability, and a regulatory inspection after a supplier shock."></textarea>
+      </div>
+      <div class="button-grid">
+        <button id="generatePromptBtn">Generate Prompt</button>
+        <button id="copyPromptBtn">Copy Prompt</button>
+      </div>
+      <div class="control-row" style="margin-top:12px">
+        <div class="label-row"><span>Generated AI prompt</span><span class="value" id="historyWindowValue">Last 12 events</span></div>
+        <textarea id="promptOutput" placeholder="Generated prompt will appear here."></textarea>
+      </div>
+      <div class="small-note">
+        The model records a time series whenever sliders change, the scenario changes, shocks are injected, and at regular simulation intervals. The generated prompt combines that time series with your OH scenario description.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Recent time-series events</h2>
+      <div class="history-box" id="historyPreview">No samples recorded yet.</div>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <canvas id="canvas"></canvas>
+    <div class="overlay">
+      <div class="bubble" id="summaryBubble"></div>
+      <div class="bubble" id="probeBubble"></div>
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const recursionSlider = document.getElementById('recursionSlider');
+    const complexitySlider = document.getElementById('complexitySlider');
+    const couplingSlider = document.getElementById('couplingSlider');
+    const scenarioSelect = document.getElementById('scenarioSelect');
+
+    const recursionValue = document.getElementById('recursionValue');
+    const complexityValue = document.getElementById('complexityValue');
+    const couplingValue = document.getElementById('couplingValue');
+    const scenarioValue = document.getElementById('scenarioValue');
+    const consequenceText = document.getElementById('consequenceText');
+
+    const flexValue = document.getElementById('flexValue');
+    const autonomyValue = document.getElementById('autonomyValue');
+    const coherenceValue = document.getElementById('coherenceValue');
+    const survivalValue = document.getElementById('survivalValue');
+
+    const summaryBubble = document.getElementById('summaryBubble');
+    const probeBubble = document.getElementById('probeBubble');
+
+    const ohScenarioInput = document.getElementById('ohScenarioInput');
+    const generatePromptBtn = document.getElementById('generatePromptBtn');
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+    const promptOutput = document.getElementById('promptOutput');
+    const historyPreview = document.getElementById('historyPreview');
+    const historyCountValue = document.getElementById('historyCountValue');
+    const historyWindowValue = document.getElementById('historyWindowValue');
+
+    const state = {
+      w: 0,
+      h: 0,
+      t: 0,
+      recursion: 5,
+      complexity: 0.62,
+      coupling: 0.7,
+      scenario: 'Cross-functional load',
+      particles: [],
+      bursts: [],
+      metrics: {
+        adaptability: 0,
+        autonomy: 0,
+        coherence: 0,
+        survival: 0,
+        fragility: 0
+      },
+      history: [],
+      maxHistory: 240,
+      lastRecordedSnapshotAt: 0
+    };
+
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+    function dist(ax, ay, bx, by) { return Math.hypot(ax - bx, ay - by); }
+
+    function formatSimTime(t) {
+      return `t=${t.toFixed(2)}s`;
+    }
+
+    function recordHistory(reason) {
+      const entry = {
+        step: state.history.length + 1,
+        time: Number(state.t.toFixed(2)),
+        reason,
+        scenario: state.scenario,
+        recursion: Number(state.recursion.toFixed(3)),
+        complexity: Number(state.complexity.toFixed(3)),
+        coupling: Number(state.coupling.toFixed(3)),
+        adaptability: Number(state.metrics.adaptability.toFixed(3)),
+        autonomy: Number(state.metrics.autonomy.toFixed(3)),
+        coherence: Number(state.metrics.coherence.toFixed(3)),
+        survival: Number(state.metrics.survival.toFixed(3)),
+        fragility: Number(state.metrics.fragility.toFixed(3))
+      };
+
+      const prev = state.history[state.history.length - 1];
+      const materiallyDifferent = !prev ||
+        prev.reason !== entry.reason ||
+        Math.abs(prev.recursion - entry.recursion) > 0.015 ||
+        Math.abs(prev.complexity - entry.complexity) > 0.015 ||
+        Math.abs(prev.coupling - entry.coupling) > 0.015 ||
+        prev.scenario !== entry.scenario ||
+        Math.abs(prev.survival - entry.survival) > 0.03 ||
+        Math.abs(prev.adaptability - entry.adaptability) > 0.03 ||
+        Math.abs(prev.autonomy - entry.autonomy) > 0.03;
+
+      if (!materiallyDifferent) return;
+
+      state.history.push(entry);
+      if (state.history.length > state.maxHistory) state.history.shift();
+      updateHistoryUI();
+    }
+
+    function updateHistoryUI() {
+      historyCountValue.textContent = `${state.history.length} samples`;
+      const recent = state.history.slice(-12);
+      historyPreview.textContent = recent.length
+        ? recent.map(e =>
+            `[${e.step}] ${formatSimTime(e.time)} | ${e.reason}\n` +
+            `scenario=${e.scenario}, recursion=${e.recursion}, complexity=${e.complexity}, coupling=${e.coupling}, adaptability=${e.adaptability}, autonomy=${e.autonomy}, coherence=${e.coherence}, survival=${e.survival}, fragility=${e.fragility}`
+          ).join('\n\n')
+        : 'No samples recorded yet.';
+    }
+
+    class Component {
+      constructor(stream, index, count) {
+        this.stream = stream;
+        this.index = index;
+        this.count = count;
+        this.angle = stream.baseAngle + rand(-0.2, 0.2);
+        this.angularVelocity = 0;
+        this.length = lerp(22, 12, index / (count - 1));
+        this.pos = { x: 0, y: 0 };
+        this.baseSignal = 0;
+        this.peerSignal = 0;
+        this.marketGradient = 0;
+        this.noise = 0;
+        this.shock = 0;
+        this.recursiveSignal = 0;
+        this.localAutonomy = 0;
+        this.coupledStrength = 0;
+        this.adaptability = 0;
+        this.fragility = 0;
+      }
+    }
+
+    class Workstream {
+      constructor(centerX, centerY, baseAngle, index) {
+        this.centerX = centerX;
+        this.centerY = centerY;
+        this.baseAngle = baseAngle;
+        this.index = index;
+        this.components = Array.from({ length: 18 }, (_, i) => new Component(this, i, 18));
+        this.tip = { x: centerX, y: centerY };
+      }
+
+      updateKinematics() {
+        let x = this.centerX;
+        let y = this.centerY;
+        let a = this.baseAngle;
+        for (const c of this.components) {
+          a += c.angle * 0.21;
+          x += Math.cos(a) * c.length;
+          y += Math.sin(a) * c.length;
+          c.pos.x = x;
+          c.pos.y = y;
+        }
+        this.tip.x = x;
+        this.tip.y = y;
+      }
+
+      sampleEnvironment(world) {
+        this.updateKinematics();
+        for (const c of this.components) {
+          const env = environmentAt(c.pos.x, c.pos.y, world.t, world.scenario, world.complexity);
+          c.marketGradient = env.gradient;
+          c.noise = env.noise;
+          c.shock = env.shock;
+          c.baseSignal = env.useful - env.shock * 0.75;
+        }
+      }
+
+      recursivePasses(world) {
+        const depth = world.recursion;
+        const passes = Math.max(1, Math.round(depth));
+        const fineFraction = depth - Math.floor(depth);
+        const comps = this.components;
+        const coupling = world.coupling;
+        const recursionNorm = depth / 5;
+        const centralizedControl = 1 - recursionNorm;
+
+        for (let i = 0; i < comps.length; i++) {
+          const left = comps[i - 1]?.baseSignal ?? comps[i].baseSignal;
+          const right = comps[i + 1]?.baseSignal ?? comps[i].baseSignal;
+          comps[i].peerSignal = (left + right) * 0.5;
+          comps[i].recursiveSignal = comps[i].baseSignal;
+        }
+
+        for (let pass = 0; pass < passes; pass++) {
+          const next = new Array(comps.length).fill(0);
+
+          for (let i = 0; i < comps.length; i++) {
+            const c = comps[i];
+            const left = comps[i - 1]?.recursiveSignal ?? c.recursiveSignal;
+            const right = comps[i + 1]?.recursiveSignal ?? c.recursiveSignal;
+            const grandLeft = comps[i - 2]?.recursiveSignal ?? left;
+            const grandRight = comps[i + 2]?.recursiveSignal ?? right;
+
+            const localConsensus = (left + right) * 0.5;
+            const wideConsensus = (grandLeft + grandRight) * 0.5;
+            const coherence = 1 - clamp(Math.abs(localConsensus - wideConsensus), 0, 1.5) / 1.5;
+            const usefulPattern = clamp((c.marketGradient * 0.65 + coherence * 0.75 + Math.abs(localConsensus) * 0.2), 0, 2);
+            const complexityLoad = clamp(world.complexity * 0.8 + c.noise * 0.65 + c.shock * 0.75, 0, 2.4);
+
+            const recursionEnabledAutonomy = recursionNorm * (0.35 + coupling * 0.95);
+            const couplingEnabledLearning = recursionNorm * coupling * (0.45 + pass * 0.06);
+            const commandPenalty = centralizedControl * (0.25 + world.complexity * 0.55);
+
+            c.localAutonomy = lerp(
+              c.localAutonomy,
+              clamp(0.1 + recursionEnabledAutonomy - commandPenalty - c.shock * 0.14, 0, 1.6),
+              0.18
+            );
+
+            c.coupledStrength = lerp(
+              c.coupledStrength,
+              clamp(0.12 + couplingEnabledLearning + coherence * 0.4 - Math.abs(left - right) * 0.08, 0, 1.6),
+              0.18
+            );
+
+            const adaptiveIntegration =
+              c.baseSignal * (0.52 + c.localAutonomy * 0.18) +
+              localConsensus * (0.12 + c.coupledStrength * 0.22) +
+              wideConsensus * (0.08 + recursionNorm * coupling * 0.22 + pass * 0.02) +
+              usefulPattern * (0.08 + c.coupledStrength * 0.12) -
+              complexityLoad * (0.07 + centralizedControl * 0.08);
+
+            const commandFilteredIntegration =
+              c.baseSignal * (0.68 - centralizedControl * 0.22) +
+              localConsensus * (0.2 + coupling * 0.08) +
+              wideConsensus * (0.08 + centralizedControl * 0.16) -
+              complexityLoad * (0.08 + centralizedControl * 0.14);
+
+            const recursionBlend = clamp(recursionNorm * (0.55 + coupling * 0.45), 0, 1);
+            next[i] = lerp(commandFilteredIntegration, adaptiveIntegration, recursionBlend);
+          }
+
+          for (let i = 0; i < comps.length; i++) {
+            comps[i].recursiveSignal = lerp(
+              comps[i].recursiveSignal,
+              next[i],
+              pass === passes - 1 ? (fineFraction || 1) : 1
+            );
+          }
+        }
+
+        for (let i = 0; i < comps.length; i++) {
+          const c = comps[i];
+          const peerFit = 1 - clamp(Math.abs(c.recursiveSignal - c.peerSignal), 0, 1.3) / 1.3;
+          const autonomyGain = c.localAutonomy;
+          const couplingGain = c.coupledStrength;
+          const complexityPressure = world.complexity * 0.6 + c.shock * 0.45 + c.noise * 0.35;
+
+          c.adaptability = clamp(
+            0.18 + autonomyGain * 0.52 + couplingGain * 0.42 + peerFit * 0.26 - complexityPressure * 0.24,
+            0,
+            1.8
+          );
+
+          c.fragility = clamp(
+            complexityPressure * (0.75 + world.complexity * 0.4) -
+            autonomyGain * 0.35 -
+            couplingGain * 0.34 -
+            peerFit * 0.18,
+            0,
+            1.8
+          );
+        }
+      }
+
+      move(world) {
+        let cumulative = 0;
+        for (let i = 0; i < this.components.length; i++) {
+          const c = this.components[i];
+          const tipBias = i / (this.components.length - 1);
+          const localAgency = c.localAutonomy;
+          const coupledAgency = c.coupledStrength;
+          const commandWeight = 1 - world.recursion / 5;
+
+          const localInitiative = c.baseSignal * (0.16 + localAgency * 0.18);
+          const peerAlignment = (c.peerSignal - c.baseSignal) * (0.04 + coupledAgency * 0.12);
+          const recursiveDrive = c.recursiveSignal * (0.06 + localAgency * 0.06 + coupledAgency * 0.04);
+          const centralConstraint = -commandWeight * (0.02 + tipBias * 0.05) * Math.sign(c.angle);
+          const volatilityPenalty = -c.fragility * 0.085;
+          const drift = Math.sin(state.t * 1.45 + i * 0.42 + this.index * 0.75) * (0.006 + state.complexity * 0.018);
+
+          const target = localInitiative + peerAlignment + recursiveDrive + centralConstraint + volatilityPenalty + drift;
+          const softness = 0.42 + c.adaptability * 0.32 + localAgency * 0.16;
+
+          cumulative += target;
+          c.angularVelocity += target * softness * 0.035;
+          c.angularVelocity *= 0.87 - tipBias * 0.03;
+          c.angle += c.angularVelocity;
+          c.angle = clamp(c.angle, -1.8, 1.8);
+        }
+        this.updateKinematics();
+        return cumulative / this.components.length;
+      }
+
+      draw(ctx) {
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        for (let i = 0; i < this.components.length; i++) {
+          const c = this.components[i];
+          const prev = i === 0 ? { x: this.centerX, y: this.centerY } : this.components[i - 1].pos;
+          const width = lerp(15, 3.2, i / (this.components.length - 1));
+          const blue = Math.round(150 + clamp(c.localAutonomy, 0, 1.5) * 58 + clamp(c.coupledStrength, 0, 1.5) * 26);
+          const green = Math.round(92 + clamp(c.adaptability, 0, 1.6) * 92);
+          const red = Math.round(92 + clamp(c.fragility, 0, 1.6) * 88 + clamp(c.shock, 0, 1.2) * 24);
+
+          ctx.strokeStyle = `rgba(${red},${green},${blue},0.9)`;
+          ctx.lineWidth = width;
+          ctx.beginPath();
+          ctx.moveTo(prev.x, prev.y);
+          ctx.lineTo(c.pos.x, c.pos.y);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(240,248,255,${0.06 + c.coupledStrength * 0.09})`;
+          ctx.arc(c.pos.x, c.pos.y, 1.5 + c.adaptability * 0.9, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    class CompanyNetwork {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.radius = 35;
+        this.streams = Array.from({ length: 8 }, (_, i) => new Workstream(x, y, (Math.PI * 2 * i) / 8, i));
+      }
+
+      update(world) {
+        for (const stream of this.streams) stream.sampleEnvironment(world);
+        for (const stream of this.streams) stream.recursivePasses(world);
+        for (const stream of this.streams) stream.move(world);
+
+        const allComponents = this.streams.flatMap(s => s.components);
+        const meanAdaptability = allComponents.reduce((n, c) => n + c.adaptability, 0) / allComponents.length;
+        const meanAutonomy = allComponents.reduce((n, c) => n + c.localAutonomy, 0) / allComponents.length;
+        const meanCoupling = allComponents.reduce((n, c) => n + c.coupledStrength, 0) / allComponents.length;
+        const meanFragility = allComponents.reduce((n, c) => n + c.fragility, 0) / allComponents.length;
+        const coherence = clamp(
+          1 - allComponents.reduce((n, c) => n + Math.abs(c.recursiveSignal - c.peerSignal), 0) / allComponents.length / 1.25,
+          0,
+          1
+        );
+
+        const complexityDemand = 0.38 + world.complexity * 0.95;
+        const survivalFitRaw =
+          meanAdaptability * 0.55 +
+          meanAutonomy * 0.34 +
+          meanCoupling * 0.35 +
+          coherence * 0.36 -
+          complexityDemand * 0.42 -
+          meanFragility * 0.34;
+
+        state.metrics.adaptability = clamp(meanAdaptability, 0, 2);
+        state.metrics.autonomy = clamp(meanAutonomy, 0, 1.6);
+        state.metrics.coherence = clamp((coherence + meanCoupling * 0.28), 0, 1.6);
+        state.metrics.survival = clamp(survivalFitRaw, 0, 2);
+        state.metrics.fragility = clamp(meanFragility, 0, 1.8);
+      }
+
+      draw(ctx) {
+        for (const stream of this.streams) stream.draw(ctx);
+
+        const g = ctx.createRadialGradient(this.x, this.y, 6, this.x, this.y, 70);
+        g.addColorStop(0, 'rgba(152, 215, 255, 0.55)');
+        g.addColorStop(1, 'rgba(72, 125, 176, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 70, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(90, 140, 185, 0.96)';
+        ctx.ellipse(this.x, this.y, this.radius + 8, this.radius, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(230,245,255,0.95)';
+        ctx.font = '700 13px Inter, system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Company Core', this.x, this.y + 4);
+      }
+    }
+
+    function environmentAt(x, y, t, scenario, complexity) {
+      const nx = x / Math.max(state.w, 1);
+      const ny = y / Math.max(state.h, 1);
+      let useful = 0;
+      let shock = 0;
+      let noise = 0;
+      let gradient = 0;
+
+      if (scenario === 'Cross-functional load') {
+        const waveA = Math.sin(nx * 9 + t * 1.1);
+        const waveB = Math.cos(ny * 8 - t * 0.8);
+        useful = 0.7 + waveA * 0.45 + waveB * 0.3;
+        noise = Math.abs(Math.sin(nx * 18 - ny * 13 + t * 2.1)) * complexity;
+        gradient = Math.abs(waveA - waveB);
+        shock = Math.max(0, 0.2 + Math.sin(nx * 4 + ny * 7 + t * 0.6) * 0.25) * complexity * 0.7;
+      } else if (scenario === 'Competitive shock') {
+        const sx = state.w * (0.25 + 0.5 * (0.5 + 0.5 * Math.sin(t * 0.22)));
+        const sy = state.h * (0.18 + 0.14 * Math.cos(t * 0.18));
+        const d = dist(x, y, sx, sy);
+        shock = clamp(1.3 - d / 230, 0, 1.3) * (0.7 + complexity * 0.5);
+        useful = 0.55 + Math.sin(nx * 6 + t) * 0.25 - shock * 0.2;
+        noise = (0.18 + Math.abs(Math.sin(nx * 16 + ny * 11 + t * 3.1)) * 0.75) * complexity;
+        gradient = clamp((230 - d) / 230, 0, 1);
+      } else if (scenario === 'Demand signal') {
+        const px = state.w * 0.72;
+        const py = state.h * 0.42;
+        const d = dist(x, y, px + Math.sin(t * 0.5) * 40, py + Math.cos(t * 0.4) * 32);
+        useful = clamp(1.25 - d / 260, 0, 1.3);
+        gradient = clamp(1.1 - d / 220, 0, 1.1);
+        noise = Math.abs(Math.sin(nx * 14 + t * 2.2) * Math.cos(ny * 9 - t * 1.5)) * complexity * 0.6;
+        shock = Math.max(0, Math.sin(nx * 4 - ny * 3 + t * 0.3) * 0.2) * complexity * 0.45;
+      } else {
+        const a = Math.sin(nx * 12 + t * 1.6);
+        const b = Math.cos(ny * 11 - t * 1.25);
+        const c = Math.sin((nx + ny) * 16 - t * 2.4);
+        useful = 0.55 + a * 0.22 + b * 0.18 + c * 0.12;
+        noise = (Math.abs(a - b) + Math.abs(c)) * 0.45 * complexity;
+        gradient = Math.abs(a + b) * 0.5;
+        shock = Math.max(0, Math.sin(nx * 7 - ny * 8 + t)) * 0.8 * complexity;
+      }
+
+      for (const burst of state.bursts) {
+        const d = dist(x, y, burst.x, burst.y);
+        const pulse = clamp(1 - d / burst.r, 0, 1) * burst.strength;
+        shock += pulse * 0.4;
+        noise += pulse * 0.8;
+      }
+
+      return {
+        useful: clamp(useful, -1.2, 1.4),
+        shock: clamp(shock, 0, 1.5),
+        noise: clamp(noise, 0, 1.7),
+        gradient: clamp(gradient, 0, 1.6)
+      };
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      state.w = canvas.clientWidth;
+      state.h = canvas.clientHeight;
+      if (network) {
+        network.x = state.w * 0.5;
+        network.y = state.h * 0.56;
+        for (const stream of network.streams) {
+          stream.centerX = network.x;
+          stream.centerY = network.y;
+        }
+      }
+    }
+
+    function resetParticles() {
+      state.particles = [];
+      for (let i = 0; i < 80; i++) {
+        state.particles.push({ x: rand(0, state.w), y: rand(0, state.h), s: rand(0.5, 1.5), p: rand(0, Math.PI * 2) });
+      }
+      state.bursts = [];
+    }
+
+    function injectBurst() {
+      state.bursts.push({
+        x: rand(state.w * 0.18, state.w * 0.82),
+        y: rand(state.h * 0.18, state.h * 0.82),
+        r: rand(110, 190),
+        strength: rand(0.8, 1.25),
+        life: 1
+      });
+      recordHistory('Injected shock');
+    }
+
+    function drawBackground() {
+      const g = ctx.createLinearGradient(0, 0, 0, state.h);
+      g.addColorStop(0, '#07131c');
+      g.addColorStop(1, '#091c29');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, state.w, state.h);
+
+      for (const p of state.particles) {
+        p.p += 0.007 + state.complexity * 0.006;
+        p.x += Math.sin(p.p) * 0.5;
+        p.y += Math.cos(p.p * 0.8) * 0.35;
+        if (p.x < -5) p.x = state.w + 5;
+        if (p.x > state.w + 5) p.x = -5;
+        if (p.y < -5) p.y = state.h + 5;
+        if (p.y > state.h + 5) p.y = -5;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(170, 214, 255, 0.12)';
+        ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      for (let i = state.bursts.length - 1; i >= 0; i--) {
+        const b = state.bursts[i];
+        b.life -= 0.01;
+        b.r += 0.8;
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(255,150,150,${b.life * 0.4})`;
+        ctx.lineWidth = 2;
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.stroke();
+        if (b.life <= 0) state.bursts.splice(i, 1);
+      }
+    }
+
+    function drawFieldHints() {
+      for (let x = 60; x < state.w; x += 90) {
+        for (let y = 70; y < state.h; y += 80) {
+          const env = environmentAt(x, y, state.t, state.scenario, state.complexity);
+          const len = 10 + env.gradient * 12 + env.useful * 4;
+          const ang = Math.sin(x * 0.01 + state.t) + Math.cos(y * 0.015 - state.t * 0.8);
+          const x2 = x + Math.cos(ang) * len;
+          const y2 = y + Math.sin(ang) * len;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${120 + env.shock * 80}, ${120 + env.useful * 60}, 255, 0.16)`;
+          ctx.lineWidth = 1.2;
+          ctx.moveTo(x, y);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function updateUI() {
+      recursionValue.textContent = `${state.recursion.toFixed(2)} / 5`;
+      complexityValue.textContent = state.complexity.toFixed(2);
+      couplingValue.textContent = state.coupling.toFixed(2);
+      scenarioValue.textContent = state.scenario;
+
+      flexValue.textContent = state.metrics.adaptability.toFixed(2);
+      autonomyValue.textContent = state.metrics.autonomy.toFixed(2);
+      coherenceValue.textContent = state.metrics.coherence.toFixed(2);
+      survivalValue.textContent = state.metrics.survival.toFixed(2);
+
+      const recursionNorm = state.recursion / 5;
+      const coupling = state.coupling;
+      const complexity = state.complexity;
+
+      let consequence = '';
+      if (recursionNorm > 0.72 && coupling > 0.6) {
+        consequence = 'High recursion with good coupling creates distributed autonomy. Different arms can interpret and act locally while remaining coherent with one another. As complexity rises, this combination supports survival because local adaptation is fast and coordination is preserved.';
+      } else if (recursionNorm > 0.72 && coupling <= 0.6) {
+        consequence = 'Recursion is high, but weak coupling prevents the autonomous cells from coordinating well. The organization has local intelligence, but not enough shared connectivity to convert that intelligence into survival under rising complexity.';
+      } else if (recursionNorm > 0.35) {
+        consequence = 'At intermediate recursion, the organization mixes some local discretion with some central steering. This can work in moderate complexity, but once the environment becomes more turbulent the system may need stronger autonomy and stronger coupling to remain viable.';
+      } else {
+        consequence = 'Low recursion means more centralized command-and-control. Local units have less autonomy, so adaptability falls. In simple conditions this may look orderly, but under high complexity it becomes fragile because survival requires autonomous, well-coupled components.';
+      }
+      consequenceText.textContent = consequence;
+
+      summaryBubble.innerHTML = `<b>Interpretation</b><br>
+        Higher recursion now means deeper <b>distributed intelligence</b> inside the arms. When coupling is good, that produces more autonomy, more adaptability, and better survival under complexity. Lower recursion shifts behavior toward central control, reducing local discretion.`;
+
+      probeBubble.innerHTML = `<b>What to try</b><br>
+        Raise <b>complexity</b> above 0.75. First keep <b>recursion</b> high and <b>coupling</b> high. Then lower either one. Watch how green/blue weaken and red increases. Survival here depends on <b>autonomy + coupling</b>, not on command alone.`;
+    }
+
+    function generateScenarioPrompt() {
+      const scenarioText = ohScenarioInput.value.trim() || 'No occupational health scenario description was provided.';
+      const recent = state.history.slice(-12);
+
+      const seriesText = recent.length
+        ? recent.map((e, idx) =>
+            `${idx + 1}. ${formatSimTime(e.time)} | ${e.reason} | scenario=${e.scenario} | recursion=${e.recursion} | complexity=${e.complexity} | coupling=${e.coupling} | adaptability=${e.adaptability} | autonomy=${e.autonomy} | coherence=${e.coherence} | survival=${e.survival} | fragility=${e.fragility}`
+          ).join('\n')
+        : 'No time-series data has been recorded yet.';
+
+      const prompt = `You are analysing an occupational health management simulation.
+
+Occupational health scenario:
+${scenarioText}
+
+Time series from the simulation:
+${seriesText}
+
+Interpretation rules for the model:
+- Higher recursion means greater distributed autonomy and adaptability across different arms of the organization, provided coupling between local cells is good.
+- Lower recursion means more centralised command and control, with reduced local autonomy and reduced adaptability.
+- As complexity rises, survival depends on both higher autonomy and stronger coupling between components.
+- Higher fragility indicates that complexity is exceeding the organization’s ability to adapt coherently.
+
+Task:
+Write a brief response of about 300 words explaining how this time series can be understood as a sequence of events within the occupational health scenario. Describe what appears to be happening over time, how changes in recursion, complexity, and coupling shape the organisation’s behaviour, and what the resulting occupational health management outcomes are. Use the time series explicitly and keep the explanation concrete rather than abstract.`;
+
+      promptOutput.value = prompt;
+    }
+
+    let network = null;
+    let last = performance.now();
+
+    function animate(now) {
+      const dt = Math.min(0.033, (now - last) / 1000);
+      last = now;
+      state.t += dt;
+      state.recursion = parseFloat(recursionSlider.value);
+      state.complexity = parseFloat(complexitySlider.value);
+      state.coupling = parseFloat(couplingSlider.value);
+      state.scenario = scenarioSelect.value;
+
+      drawBackground();
+      drawFieldHints();
+      network.update(state);
+      network.draw(ctx);
+      updateUI();
+
+      if (state.t - state.lastRecordedSnapshotAt >= 1.6) {
+        state.lastRecordedSnapshotAt = state.t;
+        recordHistory('Periodic snapshot');
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    recursionSlider.addEventListener('input', () => {
+      updateUI();
+      recordHistory('Changed recursion');
+    });
+
+    complexitySlider.addEventListener('input', () => {
+      updateUI();
+      recordHistory('Changed complexity');
+    });
+
+    couplingSlider.addEventListener('input', () => {
+      updateUI();
+      recordHistory('Changed coupling');
+    });
+
+    scenarioSelect.addEventListener('change', () => {
+      updateUI();
+      recordHistory('Changed scenario');
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      network = new CompanyNetwork(state.w * 0.5, state.h * 0.56);
+      resetParticles();
+      state.lastRecordedSnapshotAt = state.t;
+      recordHistory('Reset simulation');
+    });
+
+    document.getElementById('burstBtn').addEventListener('click', injectBurst);
+
+    generatePromptBtn.addEventListener('click', generateScenarioPrompt);
+
+    copyPromptBtn.addEventListener('click', async () => {
+      try {
+        if (!promptOutput.value.trim()) generateScenarioPrompt();
+        await navigator.clipboard.writeText(promptOutput.value);
+        copyPromptBtn.textContent = 'Copied';
+        setTimeout(() => { copyPromptBtn.textContent = 'Copy Prompt'; }, 1200);
+      } catch {
+        copyPromptBtn.textContent = 'Copy failed';
+        setTimeout(() => { copyPromptBtn.textContent = 'Copy Prompt'; }, 1200);
+      }
+    });
+
+    window.addEventListener('resize', resize);
+
+    resize();
+    network = new CompanyNetwork(state.w * 0.5, state.h * 0.56);
+    resetParticles();
+    updateUI();
+    recordHistory('Initial state');
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
