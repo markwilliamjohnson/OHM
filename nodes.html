@@ -1,0 +1,1366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attenuation & Amplification Relationship Lab V4</title>
+  <style>
+    :root {
+      --bg: #07111a;
+      --panel: rgba(8, 22, 34, 0.84);
+      --border: rgba(140, 201, 255, 0.18);
+      --text: #dcecff;
+      --muted: #8fb0ca;
+      --accent: #7fd6ff;
+      --good: #9dff9d;
+      --warn: #ffca7a;
+      --bad: #ff8e8e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(61, 124, 177, 0.16), transparent 25%),
+        radial-gradient(circle at 80% 0%, rgba(90, 168, 196, 0.1), transparent 28%),
+        linear-gradient(180deg, #08111a 0%, #091723 52%, #061018 100%);
+      display: grid;
+      grid-template-columns: 410px 1fr;
+    }
+    .sidebar {
+      padding: 18px;
+      height: 100vh;
+      background: linear-gradient(180deg, rgba(9, 23, 36, 0.96), rgba(6, 17, 27, 0.92));
+      border-right: 1px solid rgba(149, 196, 232, 0.14);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+    }
+    h1 { font-size: 1.28rem; margin: 0 0 10px; }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    p {
+      margin: 0 0 10px;
+      line-height: 1.44;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .control-row { margin-bottom: 14px; }
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: 0.9rem;
+    }
+    .value {
+      color: var(--accent);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    input[type="range"], input[type="text"], textarea, select, button {
+      width: 100%;
+      border: 1px solid rgba(140, 201, 255, 0.2);
+      background: linear-gradient(180deg, rgba(20,66,92,0.92), rgba(11,37,52,0.92));
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+    }
+    textarea {
+      min-height: 156px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+    input[type="range"] {
+      padding: 0;
+      height: 6px;
+      appearance: none;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(127,214,255,0.85), rgba(127,214,255,0.16));
+      outline: none;
+      border: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(127,214,255,0.16);
+      cursor: pointer;
+    }
+    button { cursor: pointer; font-weight: 700; }
+    .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .stat .k {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .stat .v {
+      font-size: 1.02rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .legend-item {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 3px; }
+    .stage {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+    canvas { width: 100%; height: 100vh; display: block; }
+    .overlay {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+      align-items: flex-end;
+    }
+    .bubble {
+      max-width: 460px;
+      background: rgba(7, 18, 29, 0.72);
+      border: 1px solid rgba(140, 201, 255, 0.18);
+      border-radius: 16px;
+      padding: 10px 12px;
+      backdrop-filter: blur(8px);
+      line-height: 1.4;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .bubble b { color: var(--text); }
+    .mini-log {
+      max-height: 260px;
+      overflow: auto;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.42;
+    }
+    .mini-log div { margin-bottom: 10px; }
+    .mini-log b { color: var(--text); }
+    .mini-log span { color: var(--accent); }
+    @media (max-width: 1100px) {
+      body {
+        height: auto;
+        overflow: auto;
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        height: auto;
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid rgba(149,196,232,0.16);
+        overflow: visible;
+      }
+      .stage {
+        height: 72vh;
+      }
+      canvas { height: 72vh; }
+      .overlay { flex-direction: column; }
+      .bubble { max-width: 100%; }
+    }
+      .sidebar { border-right: none; border-bottom: 1px solid rgba(149,196,232,0.16); }
+      canvas { height: 72vh; }
+      .overlay { flex-direction: column; }
+      .bubble { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="card">
+      <h1>Attenuation & Amplification Relationship Lab</h1>
+      <p>This version records intervention timepoints, including slider shifts, structural recursion changes, and the measured response that follows each intervention.</p>
+      <p>The generated prompt turns those recorded transitions into a natural-language brief for AI to write a 300-word occupational health management scenario.</p>
+    </div>
+
+    <div class="card">
+      <h2>Relationship controls by link</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Edit link</span><span class="value" id="selectedLinkLabel">A → B</span></div>
+        <select id="linkSelect"></select>
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Attenuation</span><span class="value" id="attenValue">0.42</span></div>
+        <input id="attenSlider" type="range" min="0" max="1" step="0.01" value="0.42" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Selection pressure</span><span class="value" id="selectionValue">0.56</span></div>
+        <input id="selectionSlider" type="range" min="0" max="1" step="0.01" value="0.56" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Return amplification at receiving node</span><span class="value" id="ampValue">0.54</span></div>
+        <input id="ampSlider" type="range" min="0" max="1.4" step="0.01" value="0.54" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Scenario mode</span><span class="value" id="scenarioValue">Mixed signal</span></div>
+        <select id="scenarioSelect">
+          <option>Mixed signal</option>
+          <option>Critical omission</option>
+          <option>Management forcing</option>
+          <option>Niche failure</option>
+        </select>
+      </div>
+      <div class="button-grid">
+        <button id="addBtn">Add node</button>
+        <button id="removeBtn">Remove node</button>
+      </div>
+      <div class="button-grid" style="margin-top:10px">
+        <button id="resetBtn" style="grid-column:1 / -1">Reset chain</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Experiment controls by node</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Edit node</span><span class="value" id="selectedNodeLabel">A</span></div>
+        <select id="nodeSelect"></select>
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Node name</span><span class="value">label</span></div>
+        <input id="nodeNameInput" type="text" value="A" maxlength="24" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Own complexity</span><span class="value" id="nodeComplexityValue">0.95</span></div>
+        <input id="nodeComplexitySlider" type="range" min="0.2" max="1.2" step="0.01" value="0.95" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Local knowledge</span><span class="value" id="nodeKnowledgeValue">0.70</span></div>
+        <input id="nodeKnowledgeSlider" type="range" min="0.1" max="1.2" step="0.01" value="0.70" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Niche receptivity</span><span class="value" id="nodeNicheValue">0.55</span></div>
+        <input id="nodeNicheSlider" type="range" min="0" max="1" step="0.01" value="0.55" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Redundancy style</span><span class="value" id="nodeRedundancyValue">0.40</span></div>
+        <input id="nodeRedundancySlider" type="range" min="0" max="1.4" step="0.01" value="0.40" />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Scenario prompt generator</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Scenario brief</span><span class="value" id="promptStatusValue">Awaiting input</span></div>
+        <input id="scenarioPromptInput" type="text" placeholder="e.g. occupational health response to fatigue reporting breakdown during subcontractor expansion" maxlength="180" />
+      </div>
+      <div class="button-grid">
+        <button id="generatePromptBtn">Generate Prompt</button>
+        <button id="copyPromptBtn">Copy Prompt</button>
+      </div>
+      <div class="control-row" style="margin-top:10px">
+        <div class="label-row"><span>Generated prompt</span><span class="value" id="eventCountValue">0 events</span></div>
+        <textarea id="generatedPromptOutput" placeholder="Your AI prompt will appear here."></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Live measures</h2>
+      <div class="stats">
+        <div class="stat"><div class="k">Relationship success</div><div class="v" id="successValue">0.00</div></div>
+        <div class="stat"><div class="k">Information loss</div><div class="v" id="lossValue">0.00</div></div>
+        <div class="stat"><div class="k">Niche creation</div><div class="v" id="nicheOutValue">0.00</div></div>
+        <div class="stat"><div class="k">Management burden</div><div class="v" id="burdenValue">0.00</div></div>
+        <div class="stat"><div class="k">Chain size</div><div class="v" id="chainSizeValue">2</div></div>
+        <div class="stat"><div class="k">Node failures</div><div class="v" id="failureValue">0</div></div>
+        <div class="stat"><div class="k">Recursive flex</div><div class="v" id="recursiveFlexValue">0.00</div></div>
+        <div class="stat"><div class="k">Recursion cost</div><div class="v" id="recursionCostValue">0.00</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Recorded interventions and responses</h2>
+      <div class="mini-log" id="eventLogPreview"></div>
+    </div>
+
+    <div class="card">
+      <h2>Reading the arrows</h2>
+      <div class="legend-item"><span class="dot" style="background:#7fd6ff"></span><span><b>Top curved arrow</b>: attenuation. Thicker means more complexity is being cut down before it reaches the next node.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#ffca7a"></span><span><b>Bottom curved arrow</b>: amplification. Thicker means a stronger, more redundant, or more forceful return upward.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#9dff9d"></span><span><b>Green node</b>: managed complexity fits inside effective capacity.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#ff8e8e"></span><span><b>Red node</b>: managed complexity exceeds effective capacity.</span></div>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <canvas id="canvas"></canvas>
+    <div class="overlay">
+      <div class="bubble" id="summaryBubble"></div>
+      <div class="bubble" id="probeBubble"></div>
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const linkSelect = document.getElementById('linkSelect');
+    const attenSlider = document.getElementById('attenSlider');
+    const selectionSlider = document.getElementById('selectionSlider');
+    const ampSlider = document.getElementById('ampSlider');
+    const scenarioSelect = document.getElementById('scenarioSelect');
+
+    const nodeSelect = document.getElementById('nodeSelect');
+    const nodeNameInput = document.getElementById('nodeNameInput');
+    const nodeComplexitySlider = document.getElementById('nodeComplexitySlider');
+    const nodeKnowledgeSlider = document.getElementById('nodeKnowledgeSlider');
+    const nodeNicheSlider = document.getElementById('nodeNicheSlider');
+    const nodeRedundancySlider = document.getElementById('nodeRedundancySlider');
+
+    const selectedLinkLabel = document.getElementById('selectedLinkLabel');
+    const attenValue = document.getElementById('attenValue');
+    const selectionValue = document.getElementById('selectionValue');
+    const ampValue = document.getElementById('ampValue');
+    const scenarioValue = document.getElementById('scenarioValue');
+
+    const selectedNodeLabel = document.getElementById('selectedNodeLabel');
+    const nodeComplexityValue = document.getElementById('nodeComplexityValue');
+    const nodeKnowledgeValue = document.getElementById('nodeKnowledgeValue');
+    const nodeNicheValue = document.getElementById('nodeNicheValue');
+    const nodeRedundancyValue = document.getElementById('nodeRedundancyValue');
+
+    const successValue = document.getElementById('successValue');
+    const lossValue = document.getElementById('lossValue');
+    const nicheOutValue = document.getElementById('nicheOutValue');
+    const burdenValue = document.getElementById('burdenValue');
+    const chainSizeValue = document.getElementById('chainSizeValue');
+    const failureValue = document.getElementById('failureValue');
+    const recursiveFlexValue = document.getElementById('recursiveFlexValue');
+    const recursionCostValue = document.getElementById('recursionCostValue');
+    const summaryBubble = document.getElementById('summaryBubble');
+    const probeBubble = document.getElementById('probeBubble');
+
+    const scenarioPromptInput = document.getElementById('scenarioPromptInput');
+    const generatePromptBtn = document.getElementById('generatePromptBtn');
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+    const generatedPromptOutput = document.getElementById('generatedPromptOutput');
+    const promptStatusValue = document.getElementById('promptStatusValue');
+    const eventCountValue = document.getElementById('eventCountValue');
+    const eventLogPreview = document.getElementById('eventLogPreview');
+
+    const state = {
+      w: 0,
+      h: 0,
+      t: 0,
+      frame: 0,
+      scenario: 'Mixed signal',
+      selectedNodeIndex: 0,
+      selectedLinkIndex: 0,
+      history: { success: [], burden: [] },
+      metrics: { success: 0, loss: 0, niche: 0, burden: 0, failures: 0, recursiveFlex: 0, recursionCost: 0 },
+      particles: [],
+      timeSeries: [],
+      responseTracks: [],
+      promptText: ''
+    };
+
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+    function formatNum(v) { return Number(v).toFixed(2); }
+
+    class Node {
+      constructor(label, level) {
+        this.label = label;
+        this.level = level;
+        this.x = 0;
+        this.y = 0;
+        this.w = 170;
+        this.h = 68;
+        this.complexity = clamp(0.95 - level * 0.14, 0.25, 1.15);
+        this.localKnowledge = rand(0.45, 0.85);
+        this.nicheCapacity = clamp(0.55 - level * 0.05, 0.15, 0.9);
+        this.redundancyStyle = rand(0.2, 0.6);
+        this.outAttenuation = 0.42;
+        this.outSelection = 0.56;
+        this.returnAmplification = 0.54;
+        this.managedComplexity = 0.2;
+        this.failed = false;
+        this.pressure = 0.1;
+        this.lastPair = null;
+        this.effectiveCapacity = this.complexity;
+      }
+    }
+
+    class Chain {
+      constructor() {
+        this.nodes = [];
+        this.reset();
+      }
+
+      reset() {
+        this.nodes = [new Node('A', 0), new Node('B', 1)];
+        this.layout();
+      }
+
+      addNode() {
+        const label = String.fromCharCode(65 + this.nodes.length);
+        const node = new Node(label, this.nodes.length);
+        this.nodes.push(node);
+        this.layout();
+        return node;
+      }
+
+      removeNode() {
+        if (this.nodes.length <= 2) return null;
+        const removed = this.nodes.pop();
+        this.layout();
+        return removed;
+      }
+
+      layout() {
+        const count = this.nodes.length;
+        const startX = state.w * 0.18;
+        const endX = state.w * 0.84;
+        const y = state.h * 0.4;
+        this.nodes.forEach((node, i) => {
+          node.x = count === 1 ? state.w * 0.5 : lerp(startX, endX, i / (count - 1));
+          node.y = y + Math.sin(i * 0.8) * 12;
+          node.level = i;
+        });
+      }
+
+      pairScenarioBias(index) {
+        const base = { omission: 0, forcing: 0, nicheFail: 0 };
+        if (state.scenario === 'Critical omission') base.omission = 0.28 + index * 0.04;
+        else if (state.scenario === 'Management forcing') base.forcing = 0.34 + index * 0.05;
+        else if (state.scenario === 'Niche failure') base.nicheFail = 0.34 + index * 0.04;
+        else {
+          base.omission = 0.1 + Math.sin(state.t * 1.1 + index) * 0.05;
+          base.forcing = 0.08 + Math.cos(state.t * 0.8 + index * 0.7) * 0.04;
+          base.nicheFail = 0.1 + Math.sin(state.t * 0.6 + index * 0.8) * 0.05;
+        }
+        return base;
+      }
+
+      update() {
+        let totalSuccess = 0;
+        let totalLoss = 0;
+        let totalNiche = 0;
+        let totalBurden = 0;
+        let failures = 0;
+
+        const recursionDepth = this.nodes.length;
+        const recursiveFlexBase = clamp((recursionDepth - 1) * 0.18, 0, 1.2);
+        const recursionCostBase = clamp((recursionDepth - 1) * 0.09 + Math.max(0, recursionDepth - 3) * 0.07, 0, 1.4);
+
+        this.nodes.forEach((node, idx) => {
+          const supportFromAbove = recursiveFlexBase * (idx / Math.max(1, recursionDepth - 1));
+          node.managedComplexity = Math.max(0.05, node.localKnowledge * 0.18 - supportFromAbove * 0.08 + recursionCostBase * 0.03);
+          node.lastPair = null;
+        });
+
+        for (let i = 0; i < this.nodes.length - 1; i++) {
+          const A = this.nodes[i];
+          const B = this.nodes[i + 1];
+          const bias = this.pairScenarioBias(i);
+
+          const complexityGap = clamp(A.complexity - B.complexity, 0, 1.4);
+          const upstreamLayers = i;
+          const downstreamLayers = this.nodes.length - i - 1;
+          const recursiveRelief = clamp(upstreamLayers * 0.12 + Math.max(0, upstreamLayers - 1) * 0.05, 0, 0.65);
+          const recursionCoordinationCost = clamp(0.03 * this.nodes.length + 0.025 * upstreamLayers + 0.015 * downstreamLayers, 0, 0.55);
+
+          const incomingToB = clamp(
+            0.48 + A.complexity * 0.42 + A.managedComplexity * 0.54 + Math.sin(state.t + i * 0.5) * 0.1 + recursionCoordinationCost * 0.6,
+            0,
+            2.8
+          );
+
+          const attenuationAmount = clamp(
+            A.outAttenuation * (0.4 + A.outSelection * 0.6) * (0.55 + complexityGap * 0.45) + bias.omission * 0.25,
+            0,
+            1.5
+          );
+
+          const managedByB = clamp(
+            incomingToB * (1 - attenuationAmount * 0.6) + 0.12 * B.localKnowledge - recursiveRelief * 0.42,
+            0,
+            3.0
+          );
+
+          const informationLoss = clamp(
+            attenuationAmount * incomingToB * 0.55 + bias.omission - B.localKnowledge * 0.12,
+            0,
+            2.0
+          );
+
+          const preservedMeaning = clamp(
+            incomingToB - informationLoss * 0.72 - managedByB * 0.08,
+            0,
+            1.9
+          );
+
+          const amplificationAmount = clamp(
+            B.returnAmplification * (0.45 + B.redundancyStyle * 0.4),
+            0,
+            1.9
+          );
+
+          const amplificationYield = clamp(
+            preservedMeaning * amplificationAmount * (0.45 + B.localKnowledge * 0.3),
+            0,
+            2.3
+          );
+
+          const nicheCreation = clamp(
+            amplificationYield * (A.nicheCapacity * 0.7 + 0.2 + recursiveRelief * 0.18) - bias.nicheFail,
+            0,
+            2.1
+          );
+
+          const managementBurden = clamp(
+            amplificationYield * (1 - A.nicheCapacity) * 0.82 + B.redundancyStyle * B.returnAmplification * 0.32 + bias.forcing + recursionCoordinationCost,
+            0,
+            2.5
+          );
+
+          A.managedComplexity = clamp(
+            A.managedComplexity + managementBurden * 0.32 + amplificationYield * 0.16 - nicheCreation * 0.2 - recursiveRelief * 0.22,
+            0,
+            3.0
+          );
+          B.managedComplexity = clamp(managedByB, 0, 3.0);
+
+          const pairSuccess = clamp(
+            nicheCreation + preservedMeaning * 0.34 - informationLoss * 0.48 - managementBurden * 0.58,
+            0,
+            1.9
+          );
+
+          A.lastPair = {
+            attenuationAmount,
+            amplificationAmount,
+            informationLoss,
+            nicheCreation,
+            managementBurden,
+            pairSuccess,
+            preservedMeaning,
+            incomingToB,
+            amplificationYield
+          };
+
+          totalSuccess += pairSuccess;
+          totalLoss += informationLoss;
+          totalNiche += nicheCreation;
+          totalBurden += managementBurden;
+        }
+
+        this.nodes.forEach((node, idx) => {
+          const supportFromHigher = clamp(idx * 0.11, 0, 0.45);
+          node.effectiveCapacity = node.complexity + supportFromHigher;
+          node.failed = node.managedComplexity > node.effectiveCapacity;
+          node.pressure = lerp(node.pressure, Math.max(0, node.managedComplexity - node.effectiveCapacity) + node.managedComplexity * 0.08 + recursionCostBase * 0.12, 0.08);
+          if (node.failed) failures += 1;
+        });
+
+        const pairs = Math.max(1, this.nodes.length - 1);
+        state.metrics.recursiveFlex = recursiveFlexBase;
+        state.metrics.recursionCost = recursionCostBase;
+        state.metrics.success = clamp(totalSuccess / pairs + recursiveFlexBase * 0.18 - recursionCostBase * 0.12, 0, 2.2);
+        state.metrics.loss = totalLoss / pairs;
+        state.metrics.niche = clamp(totalNiche / pairs + recursiveFlexBase * 0.08, 0, 2.4);
+        state.metrics.burden = clamp(totalBurden / pairs + recursionCostBase * 0.22 - recursiveFlexBase * 0.14, 0, 2.8);
+        state.metrics.failures = failures;
+
+        pushHistory(state.history.success, state.metrics.success, 220);
+        pushHistory(state.history.burden, state.metrics.burden, 220);
+      }
+
+      draw() {
+        this.drawArrows();
+        this.drawNodes();
+        this.drawChart();
+      }
+
+      drawArrows() {
+        for (let i = 0; i < this.nodes.length - 1; i++) {
+          const A = this.nodes[i];
+          const B = this.nodes[i + 1];
+          const d = A.lastPair;
+          if (!d) continue;
+
+          const sx1 = A.x + A.w * 0.14;
+          const sy1 = A.y - A.h * 0.5;
+          const ex1 = B.x - B.w * 0.14;
+          const ey1 = B.y - B.h * 0.5;
+          const c1x = (sx1 + ex1) / 2;
+          const c1y = Math.min(sy1, ey1) - 78 - i * 10;
+          drawCurvedArrow(ctx, sx1, sy1, ex1, ey1, c1x, c1y, `rgba(127,214,255,${0.35 + d.attenuationAmount * 0.28})`, 2 + d.attenuationAmount * 7.2, `attenuate ${d.attenuationAmount.toFixed(2)}`, c1y - 10);
+
+          const sx2 = B.x - B.w * 0.14;
+          const sy2 = B.y + B.h * 0.5;
+          const ex2 = A.x + A.w * 0.14;
+          const ey2 = A.y + A.h * 0.5;
+          const c2x = (sx2 + ex2) / 2;
+          const c2y = Math.max(sy2, ey2) + 82 + i * 10;
+          drawCurvedArrow(ctx, sx2, sy2, ex2, ey2, c2x, c2y, `rgba(255,202,122,${0.35 + d.amplificationAmount * 0.22})`, 2 + d.amplificationAmount * 6.8, `amplify ${d.amplificationAmount.toFixed(2)}`, c2y + 18);
+        }
+      }
+
+      drawNodes() {
+        this.nodes.forEach(node => {
+          const over = clamp(node.managedComplexity - node.effectiveCapacity, 0, 1.8);
+          const color = over <= 0.02 ? [110,220,145] : over <= 0.25 ? [255,197,110] : [255,135,135];
+
+          const glow = ctx.createRadialGradient(node.x, node.y, 5, node.x, node.y, 60 + node.pressure * 18);
+          glow.addColorStop(0, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.18)`);
+          glow.addColorStop(1, `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0)`);
+          ctx.fillStyle = glow;
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, 60 + node.pressure * 18, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.96)`;
+          roundRect(ctx, node.x - node.w / 2, node.y - node.h / 2, node.w, node.h, 20, true, false);
+
+          ctx.fillStyle = '#07111a';
+          ctx.textAlign = 'center';
+          ctx.font = '700 16px Inter, system-ui, sans-serif';
+          ctx.fillText(node.label, node.x, node.y - 16);
+          ctx.font = '600 11px Inter, system-ui, sans-serif';
+          ctx.fillText(`own ${node.complexity.toFixed(2)} · managing ${node.managedComplexity.toFixed(2)}`, node.x, node.y + 2);
+          ctx.fillText(node.failed ? `FAILED: cap ${node.effectiveCapacity.toFixed(2)}` : `knowledge ${node.localKnowledge.toFixed(2)} · cap ${node.effectiveCapacity.toFixed(2)}`, node.x, node.y + 20);
+        });
+      }
+
+      drawChart() {
+        const x = 70;
+        const y = state.h - 170;
+        const w = state.w - 140;
+        const h = 118;
+        ctx.fillStyle = 'rgba(7,18,29,0.72)';
+        roundRect(ctx, x, y, w, h, 16, true, false);
+        ctx.strokeStyle = 'rgba(140,201,255,0.18)';
+        ctx.lineWidth = 1;
+        roundRect(ctx, x, y, w, h, 16, false, true);
+        ctx.fillStyle = '#dcecff';
+        ctx.font = '700 12px Inter, system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Relationship success over time', x + 12, y + 18);
+        ctx.font = '600 10px Inter, system-ui, sans-serif';
+        ctx.fillStyle = '#8fb0ca';
+        ctx.fillText('Green: success. Red: management burden.', x + 12, y + 34);
+        drawSeries(ctx, state.history.success, x + 12, y + 46, w - 24, h - 58, 2.2, 'rgba(157,255,157,0.95)');
+        drawSeries(ctx, state.history.burden, x + 12, y + 46, w - 24, h - 58, 2.8, 'rgba(255,142,142,0.92)');
+      }
+    }
+
+    function drawCurvedArrow(ctx, x1, y1, x2, y2, cx, cy, strokeStyle, width, label, labelY) {
+      ctx.beginPath();
+      ctx.strokeStyle = strokeStyle;
+      ctx.lineWidth = width;
+      ctx.moveTo(x1, y1);
+      ctx.quadraticCurveTo(cx, cy, x2, y2);
+      ctx.stroke();
+
+      const t = 0.92;
+      const qx = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * cx + t * t * x2;
+      const qy = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * cy + t * t * y2;
+      const dx = 2 * (1 - t) * (cx - x1) + 2 * t * (x2 - cx);
+      const dy = 2 * (1 - t) * (cy - y1) + 2 * t * (y2 - cy);
+      const ang = Math.atan2(dy, dx);
+      const size = 9 + width * 0.35;
+      ctx.beginPath();
+      ctx.fillStyle = strokeStyle;
+      ctx.moveTo(qx, qy);
+      ctx.lineTo(qx - Math.cos(ang - 0.5) * size, qy - Math.sin(ang - 0.5) * size);
+      ctx.lineTo(qx - Math.cos(ang + 0.5) * size, qy - Math.sin(ang + 0.5) * size);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = 'rgba(220,236,255,0.92)';
+      ctx.font = '600 11px Inter, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(label, (x1 + x2) / 2, labelY);
+    }
+
+    function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    function drawSeries(ctx, arr, x, y, w, h, maxV, stroke) {
+      if (arr.length < 2) return;
+      ctx.beginPath();
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 2;
+      arr.forEach((v, i) => {
+        const px = x + (i / (arr.length - 1)) * w;
+        const py = y + h - (clamp(v, 0, maxV) / maxV) * h;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+    }
+
+    function pushHistory(arr, value, maxLen) {
+      arr.push(value);
+      if (arr.length > maxLen) arr.shift();
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      state.w = canvas.clientWidth;
+      state.h = canvas.clientHeight;
+      if (chain) chain.layout();
+    }
+
+    function resetBackground() {
+      state.particles = [];
+      for (let i = 0; i < 60; i++) {
+        state.particles.push({ x: rand(0, state.w), y: rand(0, state.h), s: rand(0.5, 1.5), p: rand(0, Math.PI * 2) });
+      }
+      state.history.success = [];
+      state.history.burden = [];
+    }
+
+    function drawBackground() {
+      const g = ctx.createLinearGradient(0, 0, 0, state.h);
+      g.addColorStop(0, '#07131c');
+      g.addColorStop(1, '#091c29');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, state.w, state.h);
+      state.particles.forEach(p => {
+        p.p += 0.006;
+        p.x += Math.sin(p.p) * 0.35;
+        p.y += Math.cos(p.p * 0.8) * 0.24;
+        if (p.x < -5) p.x = state.w + 5;
+        if (p.x > state.w + 5) p.x = -5;
+        if (p.y < -5) p.y = state.h + 5;
+        if (p.y > state.h + 5) p.y = -5;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(170,214,255,0.08)';
+        ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    const chain = new Chain();
+
+    function selectedNode() {
+      return chain.nodes[state.selectedNodeIndex] || chain.nodes[0];
+    }
+
+    function selectedLinkSource() {
+      return chain.nodes[state.selectedLinkIndex] || null;
+    }
+
+    function selectedLinkTarget() {
+      return chain.nodes[state.selectedLinkIndex + 1] || null;
+    }
+
+    function nodeSnapshot(node) {
+      return {
+        label: node.label,
+        level: node.level,
+        complexity: Number(formatNum(node.complexity)),
+        localKnowledge: Number(formatNum(node.localKnowledge)),
+        nicheCapacity: Number(formatNum(node.nicheCapacity)),
+        redundancyStyle: Number(formatNum(node.redundancyStyle)),
+        managedComplexity: Number(formatNum(node.managedComplexity)),
+        effectiveCapacity: Number(formatNum(node.effectiveCapacity || node.complexity)),
+        failed: Boolean(node.failed)
+      };
+    }
+
+    function linkSnapshot(i) {
+      const src = chain.nodes[i];
+      const dst = chain.nodes[i + 1];
+      if (!src || !dst) return null;
+      return {
+        link: `${src.label}→${dst.label}`,
+        source: src.label,
+        target: dst.label,
+        attenuation: Number(formatNum(src.outAttenuation)),
+        selectionPressure: Number(formatNum(src.outSelection)),
+        returnAmplification: Number(formatNum(dst.returnAmplification)),
+        pairMetrics: src.lastPair ? {
+          attenuationAmount: Number(formatNum(src.lastPair.attenuationAmount)),
+          amplificationAmount: Number(formatNum(src.lastPair.amplificationAmount)),
+          informationLoss: Number(formatNum(src.lastPair.informationLoss)),
+          nicheCreation: Number(formatNum(src.lastPair.nicheCreation)),
+          managementBurden: Number(formatNum(src.lastPair.managementBurden)),
+          pairSuccess: Number(formatNum(src.lastPair.pairSuccess)),
+          preservedMeaning: Number(formatNum(src.lastPair.preservedMeaning)),
+          amplificationYield: Number(formatNum(src.lastPair.amplificationYield))
+        } : null
+      };
+    }
+
+    function metricsSnapshot() {
+      return {
+        success: Number(formatNum(state.metrics.success)),
+        loss: Number(formatNum(state.metrics.loss)),
+        niche: Number(formatNum(state.metrics.niche)),
+        burden: Number(formatNum(state.metrics.burden)),
+        failures: state.metrics.failures,
+        recursiveFlex: Number(formatNum(state.metrics.recursiveFlex)),
+        recursionCost: Number(formatNum(state.metrics.recursionCost)),
+        chainSize: chain.nodes.length,
+        scenario: state.scenario
+      };
+    }
+
+    function systemSnapshot() {
+      return {
+        frame: state.frame,
+        t: Number(formatNum(state.t)),
+        metrics: metricsSnapshot(),
+        nodes: chain.nodes.map(nodeSnapshot),
+        links: chain.nodes.slice(0, -1).map((_, i) => linkSnapshot(i))
+      };
+    }
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function summarizeDelta(before, after) {
+      return {
+        success: Number(formatNum(after.metrics.success - before.metrics.success)),
+        loss: Number(formatNum(after.metrics.loss - before.metrics.loss)),
+        niche: Number(formatNum(after.metrics.niche - before.metrics.niche)),
+        burden: Number(formatNum(after.metrics.burden - before.metrics.burden)),
+        failures: after.metrics.failures - before.metrics.failures,
+        recursiveFlex: Number(formatNum(after.metrics.recursiveFlex - before.metrics.recursiveFlex)),
+        recursionCost: Number(formatNum(after.metrics.recursionCost - before.metrics.recursionCost))
+      };
+    }
+
+    function captureImmediateResponse() {
+      const after = clone(systemSnapshot());
+      return after;
+    }
+
+    function registerEvent(type, detail, beforeSnapshot, afterSnapshot) {
+      const event = {
+        step: state.timeSeries.length + 1,
+        type,
+        frame: state.frame,
+        t: Number(formatNum(state.t)),
+        detail,
+        before: beforeSnapshot ? clone(beforeSnapshot) : null,
+        after: afterSnapshot ? clone(afterSnapshot) : clone(systemSnapshot()),
+        responseSamples: [],
+        responseSummary: null
+      };
+      state.timeSeries.push(event);
+      if (state.timeSeries.length > 240) state.timeSeries.shift();
+      if (type === 'slider-shift' || type === 'add-node' || type === 'remove-node' || type === 'scenario-select' || type === 'reset-chain' || type === 'rename-node') {
+        state.responseTracks.push({ step: event.step, remaining: 3 });
+      }
+      renderEventLog();
+      return event;
+    }
+
+    function collectResponseSamples() {
+      if (!state.responseTracks.length) return;
+      const live = [];
+      for (const tracker of state.responseTracks) {
+        const event = state.timeSeries.find(e => e.step === tracker.step);
+        if (!event) continue;
+        const sample = clone(systemSnapshot());
+        event.responseSamples.push(sample);
+        if (event.responseSamples.length >= 3) {
+          const last = event.responseSamples[event.responseSamples.length - 1];
+          event.responseSummary = summarizeDelta(event.after || event.before || sample, last);
+        } else {
+          live.push({ step: tracker.step, remaining: tracker.remaining - 1 });
+          continue;
+        }
+        tracker.remaining -= 1;
+        if (tracker.remaining > 0) live.push({ step: tracker.step, remaining: tracker.remaining });
+      }
+      state.responseTracks = live.filter(t => t.remaining > 0);
+    }
+
+    function renderEventLog() {
+      eventCountValue.textContent = `${state.timeSeries.length} events`;
+      const latest = state.timeSeries.slice(-10).reverse();
+      if (!latest.length) {
+        eventLogPreview.innerHTML = '<div>No recorded events yet.</div>';
+        return;
+      }
+      eventLogPreview.innerHTML = latest.map(evt => {
+        return `<div><b>#${evt.step} ${evt.type}</b><br>${eventDescription(evt)}</div>`;
+      }).join('');
+    }
+
+    function eventDescription(evt) {
+      const d = evt.detail || {};
+      if (evt.type === 'slider-shift') {
+        const resp = evt.responseSummary ? ` Response: success ${signed(evt.responseSummary.success)}, burden ${signed(evt.responseSummary.burden)}, loss ${signed(evt.responseSummary.loss)}, failures ${signedInt(evt.responseSummary.failures)}.` : ' Response still being sampled.';
+        return `<span>${d.control}</span> on ${d.scope} moved from ${d.from} to ${d.to}.${resp}`;
+      }
+      if (evt.type === 'add-node') {
+        const resp = evt.responseSummary ? ` Response: recursive flex ${signed(evt.responseSummary.recursiveFlex)}, recursion cost ${signed(evt.responseSummary.recursionCost)}, burden ${signed(evt.responseSummary.burden)}.` : ' Response still being sampled.';
+        return `Added node ${d.nodeLabel}; chain depth became ${d.chainSize}.${resp}`;
+      }
+      if (evt.type === 'remove-node') {
+        const resp = evt.responseSummary ? ` Response: recursive flex ${signed(evt.responseSummary.recursiveFlex)}, recursion cost ${signed(evt.responseSummary.recursionCost)}, burden ${signed(evt.responseSummary.burden)}.` : ' Response still being sampled.';
+        return `Removed node ${d.nodeLabel}; chain depth became ${d.chainSize}.${resp}`;
+      }
+      if (evt.type === 'scenario-select') {
+        const resp = evt.responseSummary ? ` Response: success ${signed(evt.responseSummary.success)}, loss ${signed(evt.responseSummary.loss)}, burden ${signed(evt.responseSummary.burden)}.` : ' Response still being sampled.';
+        return `Scenario mode changed from ${d.from} to ${d.to}.${resp}`;
+      }
+      if (evt.type === 'rename-node') return `Renamed node ${d.from} to ${d.to}.`;
+      if (evt.type === 'reset-chain') return `Reset the structure to the baseline chain.${evt.responseSummary ? ` Response: success ${signed(evt.responseSummary.success)}, burden ${signed(evt.responseSummary.burden)}.` : ''}`;
+      if (evt.type === 'baseline-sample') return `Baseline sample: success ${evt.after.metrics.success}, burden ${evt.after.metrics.burden}, loss ${evt.after.metrics.loss}, failures ${evt.after.metrics.failures}.`;
+      if (evt.type === 'generate-prompt') return `Generated prompt from ${d.eventCount} recorded events.`;
+      return JSON.stringify(d);
+    }
+
+    function signed(v) {
+      return `${v >= 0 ? '+' : ''}${Number(v).toFixed(2)}`;
+    }
+
+    function signedInt(v) {
+      return `${v >= 0 ? '+' : ''}${v}`;
+    }
+
+    function updateValueLabels() {
+      attenValue.textContent = parseFloat(attenSlider.value).toFixed(2);
+      selectionValue.textContent = parseFloat(selectionSlider.value).toFixed(2);
+      ampValue.textContent = parseFloat(ampSlider.value).toFixed(2);
+      nodeComplexityValue.textContent = parseFloat(nodeComplexitySlider.value).toFixed(2);
+      nodeKnowledgeValue.textContent = parseFloat(nodeKnowledgeSlider.value).toFixed(2);
+      nodeNicheValue.textContent = parseFloat(nodeNicheSlider.value).toFixed(2);
+      nodeRedundancyValue.textContent = parseFloat(nodeRedundancySlider.value).toFixed(2);
+    }
+
+    function syncControls() {
+      const node = selectedNode();
+      const src = selectedLinkSource();
+      const dst = selectedLinkTarget();
+
+      if (node) {
+        selectedNodeLabel.textContent = node.label;
+        nodeNameInput.value = node.label;
+        nodeComplexitySlider.value = node.complexity.toFixed(2);
+        nodeKnowledgeSlider.value = node.localKnowledge.toFixed(2);
+        nodeNicheSlider.value = node.nicheCapacity.toFixed(2);
+        nodeRedundancySlider.value = node.redundancyStyle.toFixed(2);
+        nodeComplexityValue.textContent = node.complexity.toFixed(2);
+        nodeKnowledgeValue.textContent = node.localKnowledge.toFixed(2);
+        nodeNicheValue.textContent = node.nicheCapacity.toFixed(2);
+        nodeRedundancyValue.textContent = node.redundancyStyle.toFixed(2);
+      }
+
+      if (src && dst) {
+        selectedLinkLabel.textContent = `${src.label} → ${dst.label}`;
+        attenSlider.value = src.outAttenuation.toFixed(2);
+        selectionSlider.value = src.outSelection.toFixed(2);
+        ampSlider.value = dst.returnAmplification.toFixed(2);
+        attenValue.textContent = src.outAttenuation.toFixed(2);
+        selectionValue.textContent = src.outSelection.toFixed(2);
+        ampValue.textContent = dst.returnAmplification.toFixed(2);
+      } else {
+        selectedLinkLabel.textContent = 'No link';
+      }
+    }
+
+    function refreshSelectors() {
+      nodeSelect.innerHTML = '';
+      chain.nodes.forEach((node, i) => {
+        const opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = `${node.label} (node ${i + 1})`;
+        nodeSelect.appendChild(opt);
+      });
+      state.selectedNodeIndex = Math.min(state.selectedNodeIndex, chain.nodes.length - 1);
+      nodeSelect.value = String(state.selectedNodeIndex);
+
+      linkSelect.innerHTML = '';
+      chain.nodes.slice(0, -1).forEach((node, i) => {
+        const next = chain.nodes[i + 1];
+        const opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = `${node.label} → ${next.label}`;
+        linkSelect.appendChild(opt);
+      });
+      state.selectedLinkIndex = Math.min(state.selectedLinkIndex, Math.max(0, chain.nodes.length - 2));
+      linkSelect.value = String(state.selectedLinkIndex);
+    }
+
+    function commitIntervention(type, detail, mutator) {
+      const before = clone(systemSnapshot());
+      mutator();
+      chain.update();
+      const after = captureImmediateResponse();
+      registerEvent(type, detail, before, after);
+      updateUI();
+    }
+
+    function recordSliderIfChanged(control, scope, from, to, mutator) {
+      if (Math.abs(Number(from) - Number(to)) < 0.0001) return;
+      commitIntervention('slider-shift', {
+        control,
+        scope,
+        from: formatNum(from),
+        to: formatNum(to)
+      }, mutator);
+    }
+
+    function applyNodeControlChange(controlName, node, oldValue, newValue, setter) {
+      if (Math.abs(Number(oldValue) - Number(newValue)) < 0.0001) return;
+      commitIntervention('slider-shift', {
+        control: controlName,
+        scope: `node ${node.label}`,
+        from: formatNum(oldValue),
+        to: formatNum(newValue)
+      }, () => {
+        setter(newValue);
+        refreshSelectors();
+        syncControls();
+      });
+    }
+
+    function createPromptFromTimeSeries(userScenario) {
+      const events = state.timeSeries.filter(e => e.type !== 'baseline-sample' && e.type !== 'generate-prompt');
+      const interventions = events.filter(e => ['slider-shift', 'add-node', 'remove-node', 'scenario-select', 'reset-chain', 'rename-node'].includes(e.type));
+      const current = systemSnapshot();
+      const peakBurden = Math.max(...state.timeSeries.map(e => e.after?.metrics?.burden ?? 0), 0);
+      const peakLoss = Math.max(...state.timeSeries.map(e => e.after?.metrics?.loss ?? 0), 0);
+      const peakFailures = Math.max(...state.timeSeries.map(e => e.after?.metrics?.failures ?? 0), 0);
+
+      const timeline = interventions.slice(-24).map(evt => {
+        if (evt.type === 'slider-shift') {
+          const r = evt.responseSummary;
+          return `Step ${evt.step}: ${evt.detail.control} at ${evt.detail.scope} shifted from ${evt.detail.from} to ${evt.detail.to}. Subsequent response: success ${r ? signed(r.success) : 'n/a'}, burden ${r ? signed(r.burden) : 'n/a'}, information loss ${r ? signed(r.loss) : 'n/a'}, failures ${r ? signedInt(r.failures) : 'n/a'}.`;
+        }
+        if (evt.type === 'add-node') {
+          const r = evt.responseSummary;
+          return `Step ${evt.step}: an extra recursive layer was added as node ${evt.detail.nodeLabel}, increasing chain size to ${evt.detail.chainSize}. Subsequent response: recursive flex ${r ? signed(r.recursiveFlex) : 'n/a'}, recursion cost ${r ? signed(r.recursionCost) : 'n/a'}, burden ${r ? signed(r.burden) : 'n/a'}.`;
+        }
+        if (evt.type === 'remove-node') {
+          const r = evt.responseSummary;
+          return `Step ${evt.step}: node ${evt.detail.nodeLabel} was removed, reducing chain size to ${evt.detail.chainSize}. Subsequent response: recursive flex ${r ? signed(r.recursiveFlex) : 'n/a'}, recursion cost ${r ? signed(r.recursionCost) : 'n/a'}, burden ${r ? signed(r.burden) : 'n/a'}.`;
+        }
+        if (evt.type === 'scenario-select') {
+          const r = evt.responseSummary;
+          return `Step ${evt.step}: operating condition changed from ${evt.detail.from} to ${evt.detail.to}. Subsequent response: success ${r ? signed(r.success) : 'n/a'}, loss ${r ? signed(r.loss) : 'n/a'}, burden ${r ? signed(r.burden) : 'n/a'}.`;
+        }
+        if (evt.type === 'rename-node') return `Step ${evt.step}: node ${evt.detail.from} was renamed ${evt.detail.to}.`;
+        if (evt.type === 'reset-chain') {
+          const r = evt.responseSummary;
+          return `Step ${evt.step}: the structure reset to the baseline chain. Subsequent response: success ${r ? signed(r.success) : 'n/a'}, burden ${r ? signed(r.burden) : 'n/a'}.`;
+        }
+        return `Step ${evt.step}: ${evt.type}.`;
+      }).join('\n');
+
+      const nodesText = current.nodes.map(node => `${node.label}: own complexity ${node.complexity}, managed complexity ${node.managedComplexity}, effective capacity ${node.effectiveCapacity}, local knowledge ${node.localKnowledge}, niche receptivity ${node.nicheCapacity}, redundancy style ${node.redundancyStyle}, failed ${node.failed ? 'yes' : 'no'}.`).join('\n');
+
+      const linksText = current.links.map(link => `${link.link}: attenuation ${link.attenuation}, selection pressure ${link.selectionPressure}, return amplification ${link.returnAmplification}, pair burden ${link.pairMetrics ? link.pairMetrics.managementBurden : 'n/a'}, pair loss ${link.pairMetrics ? link.pairMetrics.informationLoss : 'n/a'}, pair success ${link.pairMetrics ? link.pairMetrics.pairSuccess : 'n/a'}.`).join('\n');
+
+      return `Write a single scenario of about 300 words in occupational health management based on this brief: "${userScenario}".
+
+Translate the recorded system events into realistic organizational terms. Treat nodes as organizational roles, teams, layers, committees, or coordination units. Treat attenuation as filtering, simplification, withholding, or loss of case detail. Treat selection pressure as triage stringency or gatekeeping. Treat return amplification as escalation intensity, repeated reporting, stronger challenge upward, or reinforced feedback. Treat recursion as added layers of review, oversight, escalation, or management. Treat management burden, information loss, niche creation, and node failure as practical workplace consequences.
+
+Your scenario must:
+1. Be about occupational health management.
+2. Be roughly 300 words.
+3. Reflect not only the intervention events themselves but also the measured response after those events.
+4. Use the timeline below as causal material: when a slider shifted, show what that change meant in practice and what happened afterward; when a node was added or removed, show how added oversight or reduced layering changed coordination, burden, or flexibility afterward.
+5. Avoid mentioning code, sliders, variables, simulation, or metrics labels directly.
+6. Read like a plausible case example that could be used for teaching, consulting, or analysis.
+
+Current system state to remain consistent with:
+- Scenario mode: ${current.metrics.scenario}
+- Chain size: ${current.metrics.chainSize}
+- Current success: ${current.metrics.success}
+- Current information loss: ${current.metrics.loss}
+- Current niche creation: ${current.metrics.niche}
+- Current management burden: ${current.metrics.burden}
+- Current recursive flex: ${current.metrics.recursiveFlex}
+- Current recursion cost: ${current.metrics.recursionCost}
+- Current failures: ${current.metrics.failures}
+- Peak burden observed: ${formatNum(peakBurden)}
+- Peak information loss observed: ${formatNum(peakLoss)}
+- Maximum failures observed: ${peakFailures}
+
+Current nodes:
+${nodesText}
+
+Current links:
+${linksText}
+
+Intervention timeline with recorded responses:
+${timeline}
+
+Make the scenario concrete, with recognizable actors such as occupational health clinicians, supervisors, safety leads, HR, line managers, senior managers, contractors, union representatives, and reporting channels. Show how filtering, escalation, workload, coordination costs, and adaptive capacity changed over time.`;
+    }
+
+    function updateUI() {
+      scenarioValue.textContent = state.scenario;
+      successValue.textContent = state.metrics.success.toFixed(2);
+      lossValue.textContent = state.metrics.loss.toFixed(2);
+      nicheOutValue.textContent = state.metrics.niche.toFixed(2);
+      burdenValue.textContent = state.metrics.burden.toFixed(2);
+      chainSizeValue.textContent = String(chain.nodes.length);
+      failureValue.textContent = String(state.metrics.failures);
+      recursiveFlexValue.textContent = state.metrics.recursiveFlex.toFixed(2);
+      recursionCostValue.textContent = state.metrics.recursionCost.toFixed(2);
+
+      let summary = '';
+      if (state.metrics.failures > 0) summary = 'At least one node is failing because the complexity being managed still exceeds effective capacity.';
+      else if (state.metrics.recursiveFlex > state.metrics.recursionCost && state.metrics.burden < 0.9) summary = 'Recursive layering is currently helping: extra structure is absorbing overload faster than coordination cost is rising.';
+      else if (state.metrics.burden > 0.72) summary = 'The return path is now adding management burden, and extra layers are producing visible coordination cost.';
+      else if (state.metrics.loss > 0.7) summary = 'Too much relevant information is being attenuated, so the chain is underusing available support.';
+      else summary = 'The chain is mixed: recursion is distributing overload, but coordination costs remain real.';
+
+      summaryBubble.innerHTML = `<b>Interpretation</b><br>${summary}`;
+      probeBubble.innerHTML = `<b>What to try</b><br>Shift a slider, then watch the recorded response. Add or remove a node and compare the logged change in recursive flex, coordination cost, burden, and failures.`;
+      renderEventLog();
+    }
+
+    function animate() {
+      state.t += 0.016;
+      state.frame += 1;
+      state.scenario = scenarioSelect.value;
+      drawBackground();
+      chain.update();
+      collectResponseSamples();
+      chain.draw();
+      updateUI();
+      requestAnimationFrame(animate);
+    }
+
+    linkSelect.addEventListener('change', () => {
+      state.selectedLinkIndex = parseInt(linkSelect.value, 10) || 0;
+      syncControls();
+    });
+
+    attenSlider.addEventListener('input', () => {
+      const src = selectedLinkSource();
+      const dst = selectedLinkTarget();
+      if (!src || !dst) return;
+      const oldValue = src.outAttenuation;
+      const newValue = parseFloat(attenSlider.value);
+      updateValueLabels();
+      recordSliderIfChanged('Attenuation', `link ${src.label}→${dst.label}`, oldValue, newValue, () => {
+        src.outAttenuation = newValue;
+        syncControls();
+      });
+    });
+
+    selectionSlider.addEventListener('input', () => {
+      const src = selectedLinkSource();
+      const dst = selectedLinkTarget();
+      if (!src || !dst) return;
+      const oldValue = src.outSelection;
+      const newValue = parseFloat(selectionSlider.value);
+      updateValueLabels();
+      recordSliderIfChanged('Selection pressure', `link ${src.label}→${dst.label}`, oldValue, newValue, () => {
+        src.outSelection = newValue;
+        syncControls();
+      });
+    });
+
+    ampSlider.addEventListener('input', () => {
+      const src = selectedLinkSource();
+      const dst = selectedLinkTarget();
+      if (!src || !dst) return;
+      const oldValue = dst.returnAmplification;
+      const newValue = parseFloat(ampSlider.value);
+      updateValueLabels();
+      recordSliderIfChanged('Return amplification', `receiving node ${dst.label} on link ${src.label}→${dst.label}`, oldValue, newValue, () => {
+        dst.returnAmplification = newValue;
+        syncControls();
+      });
+    });
+
+    nodeSelect.addEventListener('change', () => {
+      state.selectedNodeIndex = parseInt(nodeSelect.value, 10) || 0;
+      syncControls();
+    });
+
+    nodeNameInput.addEventListener('change', () => {
+      const node = selectedNode();
+      if (!node) return;
+      const next = nodeNameInput.value.trim() || `Node ${state.selectedNodeIndex + 1}`;
+      if (next === node.label) return;
+      commitIntervention('rename-node', { from: node.label, to: next }, () => {
+        node.label = next;
+        refreshSelectors();
+        syncControls();
+      });
+    });
+
+    nodeComplexitySlider.addEventListener('input', () => {
+      const node = selectedNode();
+      if (!node) return;
+      const oldValue = node.complexity;
+      const newValue = parseFloat(nodeComplexitySlider.value);
+      updateValueLabels();
+      applyNodeControlChange('Own complexity', node, oldValue, newValue, v => { node.complexity = v; });
+    });
+
+    nodeKnowledgeSlider.addEventListener('input', () => {
+      const node = selectedNode();
+      if (!node) return;
+      const oldValue = node.localKnowledge;
+      const newValue = parseFloat(nodeKnowledgeSlider.value);
+      updateValueLabels();
+      applyNodeControlChange('Local knowledge', node, oldValue, newValue, v => { node.localKnowledge = v; });
+    });
+
+    nodeNicheSlider.addEventListener('input', () => {
+      const node = selectedNode();
+      if (!node) return;
+      const oldValue = node.nicheCapacity;
+      const newValue = parseFloat(nodeNicheSlider.value);
+      updateValueLabels();
+      applyNodeControlChange('Niche receptivity', node, oldValue, newValue, v => { node.nicheCapacity = v; });
+    });
+
+    nodeRedundancySlider.addEventListener('input', () => {
+      const node = selectedNode();
+      if (!node) return;
+      const oldValue = node.redundancyStyle;
+      const newValue = parseFloat(nodeRedundancySlider.value);
+      updateValueLabels();
+      applyNodeControlChange('Redundancy style', node, oldValue, newValue, v => { node.redundancyStyle = v; });
+    });
+
+    scenarioSelect.addEventListener('change', () => {
+      const prev = state.scenario;
+      const next = scenarioSelect.value;
+      if (prev === next) return;
+      commitIntervention('scenario-select', { from: prev, to: next }, () => {
+        state.scenario = next;
+        scenarioValue.textContent = next;
+      });
+    });
+
+    document.getElementById('addBtn').addEventListener('click', () => {
+      if (chain.nodes.length >= 6) return;
+      commitIntervention('add-node', { nodeLabel: String.fromCharCode(65 + chain.nodes.length), chainSize: chain.nodes.length + 1 }, () => {
+        const added = chain.addNode();
+        state.selectedNodeIndex = chain.nodes.length - 1;
+        state.selectedLinkIndex = Math.max(0, chain.nodes.length - 2);
+        refreshSelectors();
+        syncControls();
+        if (added) {
+          const lastEvent = state.timeSeries[state.timeSeries.length - 1];
+          if (lastEvent) lastEvent.detail.nodeLabel = added.label;
+        }
+      });
+    });
+
+    document.getElementById('removeBtn').addEventListener('click', () => {
+      if (chain.nodes.length <= 2) return;
+      const removedLabel = chain.nodes[chain.nodes.length - 1].label;
+      commitIntervention('remove-node', { nodeLabel: removedLabel, chainSize: chain.nodes.length - 1 }, () => {
+        chain.removeNode();
+        state.selectedNodeIndex = Math.min(state.selectedNodeIndex, chain.nodes.length - 1);
+        state.selectedLinkIndex = Math.min(state.selectedLinkIndex, Math.max(0, chain.nodes.length - 2));
+        refreshSelectors();
+        syncControls();
+      });
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      commitIntervention('reset-chain', { chainSize: 2 }, () => {
+        chain.reset();
+        state.selectedNodeIndex = 0;
+        state.selectedLinkIndex = 0;
+        resetBackground();
+        refreshSelectors();
+        syncControls();
+      });
+      promptStatusValue.textContent = 'Chain reset';
+      generatedPromptOutput.value = '';
+      state.promptText = '';
+    });
+
+    generatePromptBtn.addEventListener('click', () => {
+      const brief = scenarioPromptInput.value.trim() || 'an occupational health management situation involving overload, escalation, filtering, and changing oversight layers';
+      const prompt = createPromptFromTimeSeries(brief);
+      generatedPromptOutput.value = prompt;
+      state.promptText = prompt;
+      promptStatusValue.textContent = 'Prompt generated';
+      registerEvent('generate-prompt', { eventCount: state.timeSeries.length, userScenario: brief }, systemSnapshot(), systemSnapshot());
+    });
+
+    copyPromptBtn.addEventListener('click', async () => {
+      const text = generatedPromptOutput.value.trim();
+      if (!text) {
+        promptStatusValue.textContent = 'Nothing to copy';
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        promptStatusValue.textContent = 'Prompt copied';
+      } catch (err) {
+        generatedPromptOutput.select();
+        document.execCommand('copy');
+        promptStatusValue.textContent = 'Prompt copied';
+      }
+    });
+
+    window.addEventListener('resize', resize);
+
+    resize();
+    resetBackground();
+    refreshSelectors();
+    syncControls();
+    updateValueLabels();
+    chain.update();
+    registerEvent('baseline-sample', { note: 'Initial baseline state' }, systemSnapshot(), systemSnapshot());
+    updateUI();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
