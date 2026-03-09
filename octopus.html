@@ -1,0 +1,1460 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Octopus Recursion Simulator</title>
+  <style>
+    :root {
+      --bg: #08131d;
+      --panel: rgba(7, 22, 34, 0.82);
+      --panel-border: rgba(125, 192, 255, 0.24);
+      --text: #d8ecff;
+      --muted: #86a8c4;
+      --accent: #74d4ff;
+      --danger: #ff8c8c;
+      --food: #90ff8a;
+      --ok: #98f5c2;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(53, 114, 164, 0.24), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(88, 162, 166, 0.18), transparent 35%),
+        linear-gradient(180deg, #071019 0%, #091723 45%, #06121a 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+    }
+
+    .sidebar {
+      padding: 18px;
+      border-right: 1px solid rgba(140, 187, 231, 0.16);
+      background: linear-gradient(180deg, rgba(9, 24, 38, 0.95), rgba(6, 18, 28, 0.88));
+      backdrop-filter: blur(10px);
+      overflow: auto;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      padding: 14px 14px 12px;
+      margin-bottom: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+      letter-spacing: 0.02em;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    p {
+      margin: 0 0 10px;
+      line-height: 1.45;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .control-row {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .value {
+      color: var(--accent);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(116,212,255,0.8), rgba(116,212,255,0.15));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(116,212,255,0.18);
+      cursor: pointer;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      border: 1px solid rgba(140, 214, 255, 0.18);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      outline: none;
+      resize: vertical;
+    }
+
+    textarea { min-height: 110px; }
+
+    button {
+      border: 1px solid rgba(140, 214, 255, 0.25);
+      background: linear-gradient(180deg, rgba(24, 70, 92, 0.95), rgba(13, 42, 58, 0.95));
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, opacity 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(144, 234, 255, 0.48);
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .button-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .stat .k {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat .v {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .legend { display: grid; gap: 8px; }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 3px;
+    }
+
+    .stage {
+      position: relative;
+      overflow: hidden;
+    }
+
+    canvas#canvas {
+      display: block;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(7, 18, 29, 0.68);
+      border: 1px solid rgba(140, 187, 231, 0.18);
+      border-radius: 16px;
+      padding: 10px 12px;
+      max-width: 460px;
+      backdrop-filter: blur(8px);
+      color: var(--muted);
+      line-height: 1.4;
+      font-size: 0.9rem;
+    }
+
+    .overlay b { color: var(--text); }
+
+    .mini-chart {
+      width: 100%;
+      height: 130px;
+      display: block;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 10px;
+    }
+
+    .small {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .output {
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: var(--text);
+      max-height: 320px;
+      overflow: auto;
+    }
+
+    @media (max-width: 1100px) {
+      body { grid-template-columns: 1fr; }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid rgba(140, 187, 231, 0.16);
+      }
+      canvas#canvas { height: 65vh; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="card">
+      <h1>Octopus Recursion Simulator</h1>
+      <p>
+        This app treats the octopus as a distributed intelligence: recursive organization lets different environmental
+        challenges be handled autonomously by local components that still work coherently together.
+      </p>
+      <p>
+        More recursion means more adaptive autonomy across the body. Less recursion means more rigid top-down management
+        and lower adaptability, but death should come only after prolonged inability to manage complexity.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Control</h2>
+      <div class="control-row">
+        <div class="label-row">
+          <span>Recursive autonomy depth</span>
+          <span class="value" id="recursionValue">4.00 / 4</span>
+        </div>
+        <input id="recursionSlider" type="range" min="0" max="4" step="0.01" value="4" />
+      </div>
+      <div class="control-row">
+        <div class="label-row">
+          <span>Challenge intensity</span>
+          <span class="value" id="challengeValue">0.60</span>
+        </div>
+        <input id="challengeSlider" type="range" min="0" max="1" step="0.01" value="0.6" />
+      </div>
+      <div class="button-grid">
+        <button id="resetBtn">Reset World</button>
+        <button id="pulseBtn">Pulse Hazards</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Viability</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="k">Adaptation score</div>
+          <div class="v" id="adaptationScore">0.00</div>
+        </div>
+        <div class="stat">
+          <div class="k">Food captured</div>
+          <div class="v" id="foodScore">0</div>
+        </div>
+        <div class="stat">
+          <div class="k">Hazards avoided</div>
+          <div class="v" id="avoidScore">0</div>
+        </div>
+        <div class="stat">
+          <div class="k">Stress load</div>
+          <div class="v" id="stressScore">0.00</div>
+        </div>
+        <div class="stat">
+          <div class="k">Viability</div>
+          <div class="v" id="viabilityScore">1.00</div>
+        </div>
+        <div class="stat">
+          <div class="k">Chronic strain</div>
+          <div class="v" id="strainScore">0.00</div>
+        </div>
+        <div class="stat">
+          <div class="k">State</div>
+          <div class="v" id="lifeState">Alive</div>
+        </div>
+        <div class="stat">
+          <div class="k">Speed</div>
+          <div class="v" id="speedScore">0.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Time Series</h2>
+      <canvas id="historyCanvas" class="mini-chart" width="360" height="130"></canvas>
+      <p class="small">
+        The chart tracks recursion depth, challenge intensity, viability, chronic strain, and stress over time.
+        These records are used to build a prompt about an occupational health management situation.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Occupational Health Prompt</h2>
+      <div class="control-row">
+        <div class="label-row">
+          <span>Scenario details</span>
+          <span class="value">User context</span>
+        </div>
+        <textarea id="scenarioInput" placeholder="Example: A manufacturing site is trying to manage rising sickness absence, inconsistent line supervision, return-to-work delays, union pressure, and a recent restructure."></textarea>
+      </div>
+      <div class="button-stack">
+        <button id="generatePromptBtn">Generate Prompt</button>
+        <button id="copyPromptBtn">Copy Prompt</button>
+      </div>
+      <div class="control-row" style="margin-top:10px;">
+        <div class="label-row">
+          <span>Generated prompt</span>
+          <span class="value" id="historySummaryLabel">No prompt yet</span>
+        </div>
+        <div id="promptOutput" class="output"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>What the slider does</h2>
+      <div class="legend">
+        <div class="legend-item">
+          <span class="dot" style="background:#90ff8a"></span>
+          <span><b>Food attractors</b>: local recursive components can identify opportunities and coordinate movement toward them.</span>
+        </div>
+        <div class="legend-item">
+          <span class="dot" style="background:#ff8c8c"></span>
+          <span><b>Hazards</b>: trigger local avoidance, but recursion allows many distributed responses to integrate seamlessly.</span>
+        </div>
+        <div class="legend-item">
+          <span class="dot" style="background:#74d4ff"></span>
+          <span><b>Current field</b>: recursive layers let posture and sensing adapt fluidly to changing flow.</span>
+        </div>
+      </div>
+      <p style="margin-top:10px">
+        High recursion increases distributed autonomy and adaptability. Low recursion still permits survival more often than before,
+        but it produces reduced adaptability, slower recovery, and greater chronic strain under sustained challenge.
+      </p>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <canvas id="canvas"></canvas>
+    <div class="overlay" id="overlayText"></div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const historyCanvas = document.getElementById('historyCanvas');
+    const historyCtx = historyCanvas.getContext('2d');
+
+    const recursionSlider = document.getElementById('recursionSlider');
+    const challengeSlider = document.getElementById('challengeSlider');
+    const recursionValue = document.getElementById('recursionValue');
+    const challengeValue = document.getElementById('challengeValue');
+    const adaptationScoreEl = document.getElementById('adaptationScore');
+    const foodScoreEl = document.getElementById('foodScore');
+    const avoidScoreEl = document.getElementById('avoidScore');
+    const stressScoreEl = document.getElementById('stressScore');
+    const viabilityScoreEl = document.getElementById('viabilityScore');
+    const strainScoreEl = document.getElementById('strainScore');
+    const lifeStateEl = document.getElementById('lifeState');
+    const speedScoreEl = document.getElementById('speedScore');
+    const overlayText = document.getElementById('overlayText');
+
+    const scenarioInput = document.getElementById('scenarioInput');
+    const generatePromptBtn = document.getElementById('generatePromptBtn');
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+    const promptOutput = document.getElementById('promptOutput');
+    const historySummaryLabel = document.getElementById('historySummaryLabel');
+
+    const world = {
+      w: 0,
+      h: 0,
+      time: 0,
+      challenge: parseFloat(challengeSlider.value),
+      recursion: parseFloat(recursionSlider.value),
+      foods: [],
+      hazards: [],
+      ripples: [],
+      stats: {
+        food: 0,
+        avoided: 0,
+        stress: 0,
+        adaptation: 0
+      },
+      history: [],
+      historyAccumulator: 0
+    };
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      world.w = canvas.clientWidth;
+      world.h = canvas.clientHeight;
+
+      if (octopus) octopus.setHome(world.w * 0.48, world.h * 0.52);
+    }
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function dist2(ax, ay, bx, by) {
+      const dx = bx - ax;
+      const dy = by - ay;
+      return dx * dx + dy * dy;
+    }
+    function length(x, y) { return Math.hypot(x, y); }
+    function normalize(x, y) {
+      const len = Math.hypot(x, y) || 1;
+      return { x: x / len, y: y / len };
+    }
+    function avg(arr) {
+      if (!arr.length) return 0;
+      return arr.reduce((a, b) => a + b, 0) / arr.length;
+    }
+    function minOf(arr) {
+      if (!arr.length) return 0;
+      return Math.min(...arr);
+    }
+    function maxOf(arr) {
+      if (!arr.length) return 0;
+      return Math.max(...arr);
+    }
+
+    class Segment {
+      constructor(arm, index, total) {
+        this.arm = arm;
+        this.index = index;
+        this.total = total;
+        this.angle = arm.baseAngle + rand(-0.25, 0.25);
+        this.angularVelocity = 0;
+        this.localMemory = 0;
+        this.foodSignal = 0;
+        this.hazardSignal = 0;
+        this.flowSignal = 0;
+        this.recursiveSignal = 0;
+        this.pos = { x: 0, y: 0 };
+      }
+
+      sense(world) {
+        const p = this.pos;
+        let food = 0;
+        let hazard = 0;
+
+        for (const f of world.foods) {
+          const dx = f.x - p.x;
+          const dy = f.y - p.y;
+          const d2 = dx * dx + dy * dy + 1;
+          food += f.value / d2 * 1800;
+        }
+
+        for (const h of world.hazards) {
+          const dx = h.x - p.x;
+          const dy = h.y - p.y;
+          const d2 = dx * dx + dy * dy + 1;
+          hazard += h.value / d2 * 2800;
+        }
+
+        const flow = currentField(p.x, p.y, world.time);
+        const flowAlignment = Math.cos(flow.angle - this.angle) * flow.mag;
+
+        this.foodSignal = clamp(food, 0, 2.2);
+        this.hazardSignal = clamp(hazard, 0, 2.7);
+        this.flowSignal = clamp((flowAlignment + 1.5) / 3, 0, 1.2);
+      }
+    }
+
+    class Arm {
+      constructor(owner, index, total) {
+        this.owner = owner;
+        this.index = index;
+        this.total = total;
+        this.baseAngle = (Math.PI * 2 * index) / total + rand(-0.08, 0.08);
+        this.length = 16;
+        this.spacing = 18;
+        this.segments = Array.from({ length: this.length }, (_, i) => new Segment(this, i, this.length));
+        this.localExcitation = 0;
+        this.tip = { x: 0, y: 0 };
+      }
+
+      forwardKinematics() {
+        let x = this.owner.x;
+        let y = this.owner.y;
+        let a = this.baseAngle + this.owner.bodyHeading * 0.15;
+
+        for (let i = 0; i < this.segments.length; i++) {
+          const seg = this.segments[i];
+          a += seg.angle * 0.22;
+          x += Math.cos(a) * this.spacing;
+          y += Math.sin(a) * this.spacing;
+          seg.pos.x = x;
+          seg.pos.y = y;
+        }
+
+        this.tip.x = x;
+        this.tip.y = y;
+      }
+
+      computeRecursiveSignals(depthNormalized) {
+        const segs = this.segments;
+        const recursionPower = depthNormalized / 4;
+
+        const localWeight = lerp(0.35, 1.15, recursionPower);
+        const globalWeight = lerp(0.12, 1.05, recursionPower);
+        const crossWeight = lerp(0.02, 0.85, recursionPower);
+        const memoryRate = 0.04 + recursionPower * 0.2;
+
+        let downstreamFood = 0;
+        let downstreamHazard = 0;
+        let downstreamFlow = 0;
+
+        for (let i = segs.length - 1; i >= 0; i--) {
+          const s = segs[i];
+          downstreamFood = lerp(s.foodSignal, downstreamFood, 0.45);
+          downstreamHazard = lerp(s.hazardSignal, downstreamHazard, 0.4);
+          downstreamFlow = lerp(s.flowSignal, downstreamFlow, 0.6);
+
+          const parentInfluence = i > 0 ? segs[i - 1].localMemory : this.owner.centralSignal;
+          const siblingInfluence = this.owner.getNeighborSignal(this.index, i) * crossWeight;
+
+          const localAutonomy =
+            s.foodSignal * 1.25 -
+            s.hazardSignal * 1.1 +
+            s.flowSignal * 0.9;
+
+          const recursiveCoordination =
+            downstreamFood * 1.0 -
+            downstreamHazard * 1.0 +
+            downstreamFlow * 0.65 +
+            parentInfluence * 0.9 +
+            siblingInfluence * 0.85;
+
+          const centralRigidityPenalty = this.owner.rigidity * (0.18 + i / segs.length * 0.12);
+
+          const recursiveMix =
+            localAutonomy * localWeight +
+            recursiveCoordination * globalWeight -
+            centralRigidityPenalty;
+
+          s.recursiveSignal = recursiveMix;
+          s.localMemory = lerp(s.localMemory, recursiveMix, memoryRate);
+        }
+
+        this.localExcitation =
+          segs.reduce((acc, s) => acc + Math.max(0, s.recursiveSignal), 0) / segs.length;
+      }
+
+      update(dt, world, depthNormalized) {
+        this.forwardKinematics();
+        for (const seg of this.segments) seg.sense(world);
+        this.computeRecursiveSignals(depthNormalized);
+
+        const depthFactor = depthNormalized / 4;
+        let aggregateTarget = 0;
+
+        for (let i = 0; i < this.segments.length; i++) {
+          const seg = this.segments[i];
+          const tipBias = i / (this.segments.length - 1);
+
+          const reflex = seg.foodSignal * 0.30 - seg.hazardSignal * 0.56 + (seg.flowSignal - 0.4) * 0.14;
+          const recursiveBias = seg.recursiveSignal * (0.07 + depthFactor * 0.30);
+          const homeBias = -Math.sin(this.baseAngle + this.owner.bodyHeading - seg.angle) * (0.02 + this.owner.rigidity * 0.05);
+          const undulate = Math.sin(world.time * 1.4 + i * 0.45 + this.index) * (0.003 + depthFactor * 0.014 + world.challenge * 0.006);
+
+          const target = reflex + recursiveBias + homeBias + undulate;
+          aggregateTarget += target * (0.4 + tipBias * 0.6);
+
+          seg.angularVelocity += target * dt * (0.9 + depthFactor * 1.5);
+          seg.angularVelocity *= 0.92 - depthFactor * 0.04 - tipBias * 0.01;
+          seg.angle += seg.angularVelocity * dt * (1.1 + depthFactor * 1.2);
+
+          const maxAngle = lerp(0.7, 1.45, depthFactor);
+          seg.angle = clamp(seg.angle, -maxAngle, maxAngle);
+        }
+
+        this.forwardKinematics();
+        return aggregateTarget / this.segments.length;
+      }
+    }
+
+    class Octopus {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.homeX = x;
+        this.homeY = y;
+        this.radius = 34;
+        this.bodyHeading = 0;
+        this.velocity = { x: 0, y: 0 };
+        this.centralSignal = 0;
+        this.stress = 0;
+        this.viability = 1;
+        this.alive = true;
+        this.rigidity = 0;
+        this.chronicStrain = 0;
+        this.intent = { x: 0, y: 0 };
+        this.arms = Array.from({ length: 8 }, (_, i) => new Arm(this, i, 8));
+      }
+
+      setHome(x, y) {
+        this.homeX = x;
+        this.homeY = y;
+        this.x = x;
+        this.y = y;
+      }
+
+      getNeighborSignal(armIndex, segIndex) {
+        const left = this.arms[(armIndex + this.arms.length - 1) % this.arms.length].segments[segIndex]?.localMemory || 0;
+        const right = this.arms[(armIndex + 1) % this.arms.length].segments[segIndex]?.localMemory || 0;
+        return (left + right) * 0.5;
+      }
+
+      computeEnvironmentalIntent(world, recursive) {
+        let foodVec = { x: 0, y: 0 };
+        let hazardVec = { x: 0, y: 0 };
+        let nearestFood = Infinity;
+        let nearestHazard = Infinity;
+
+        const foodSenseRadius = 340;
+        const hazardSenseRadius = 220;
+
+        let bestFood = null;
+        let bestFoodScore = -Infinity;
+
+        for (const f of world.foods) {
+          const dx = f.x - this.x;
+          const dy = f.y - this.y;
+          const d = Math.hypot(dx, dy) + 1;
+          nearestFood = Math.min(nearestFood, d);
+
+          if (d < foodSenseRadius) {
+            const score = f.value * (1 - d / foodSenseRadius);
+            if (score > bestFoodScore) {
+              bestFoodScore = score;
+              bestFood = { dx, dy, d, value: f.value };
+            }
+          }
+        }
+
+        if (bestFood) {
+          foodVec.x += (bestFood.dx / bestFood.d) * (1.6 + bestFood.value * 0.9);
+          foodVec.y += (bestFood.dy / bestFood.d) * (1.6 + bestFood.value * 0.9);
+        }
+
+        for (const f of world.foods) {
+          const dx = f.x - this.x;
+          const dy = f.y - this.y;
+          const d = Math.hypot(dx, dy) + 1;
+
+          if (d < foodSenseRadius) {
+            const weight = (1 - d / foodSenseRadius) * f.value * 0.18;
+            foodVec.x += (dx / d) * weight;
+            foodVec.y += (dy / d) * weight;
+          }
+        }
+
+        for (const h of world.hazards) {
+          const dx = this.x - h.x;
+          const dy = this.y - h.y;
+          const d = Math.hypot(dx, dy) + 1;
+          const edgeDistance = d - h.radius;
+          nearestHazard = Math.min(nearestHazard, edgeDistance);
+
+          if (d < hazardSenseRadius + h.radius) {
+            const weight = (1 - edgeDistance / (hazardSenseRadius + h.radius)) * h.value;
+            hazardVec.x += (dx / d) * weight * 1.55;
+            hazardVec.y += (dy / d) * weight * 1.55;
+          }
+        }
+
+        const flow = currentField(this.x, this.y, world.time);
+        const flowVec = { x: flow.vx, y: flow.vy };
+
+        const homeDx = this.homeX - this.x;
+        const homeDy = this.homeY - this.y;
+        const homeD = Math.hypot(homeDx, homeDy) + 1;
+
+        const homeVec = {
+          x: (homeDx / homeD) * this.rigidity * 0.08,
+          y: (homeDy / homeD) * this.rigidity * 0.08
+        };
+
+        const dangerOverride = nearestHazard < 55 ? 1.35 : 1.0;
+
+        const intent = {
+          x:
+            foodVec.x * (1.2 + recursive * 0.9) +
+            hazardVec.x * (0.75 + recursive * 0.55) * dangerOverride +
+            flowVec.x * (0.04 + recursive * 0.06) +
+            homeVec.x,
+          y:
+            foodVec.y * (1.2 + recursive * 0.9) +
+            hazardVec.y * (0.75 + recursive * 0.55) * dangerOverride +
+            flowVec.y * (0.04 + recursive * 0.06) +
+            homeVec.y
+        };
+
+        return {
+          intent,
+          nearestFood: isFinite(nearestFood) ? nearestFood : null,
+          nearestHazard: isFinite(nearestHazard) ? nearestHazard : null
+        };
+      }
+
+      update(dt, world) {
+        const depth = world.recursion;
+        const recursive = depth / 4;
+        this.rigidity = 1 - recursive;
+
+        if (!this.alive) {
+          this.velocity.x *= 0.975;
+          this.velocity.y *= 0.975;
+          this.x += this.velocity.x * dt;
+          this.y += this.velocity.y * dt;
+          this.bodyHeading += 0.002;
+          return;
+        }
+
+        const armOutputs = [];
+        let globalFood = 0;
+        let globalHazard = 0;
+
+        for (const arm of this.arms) {
+          arm.forwardKinematics();
+          for (const seg of arm.segments) {
+            seg.sense(world);
+            globalFood += seg.foodSignal;
+            globalHazard += seg.hazardSignal;
+          }
+        }
+
+        const totalSegs = this.arms.length * this.arms[0].segments.length;
+        const meanFood = globalFood / totalSegs;
+        const meanHazard = globalHazard / totalSegs;
+
+        this.centralSignal = lerp(
+          this.centralSignal,
+          meanFood * (0.42 + recursive * 0.76) -
+          meanHazard * (0.52 + recursive * 0.42) -
+          this.rigidity * 0.62 -
+          this.stress * 0.28,
+          0.12
+        );
+
+        for (const arm of this.arms) {
+          armOutputs.push(arm.update(dt, world, depth));
+        }
+
+        const coherence = armOutputs.reduce((acc, v) => acc + v, 0) / armOutputs.length;
+        const lateralBalance = armOutputs.reduce((acc, v, i) => acc + v * Math.cos(this.arms[i].baseAngle), 0);
+        const verticalBalance = armOutputs.reduce((acc, v, i) => acc + v * Math.sin(this.arms[i].baseAngle), 0);
+
+        const env = this.computeEnvironmentalIntent(world, recursive);
+        this.intent = env.intent;
+
+        const armIntent = normalize(lateralBalance, verticalBalance);
+        const envIntentLen = length(env.intent.x, env.intent.y);
+        const envIntent = envIntentLen > 0.0001 ? normalize(env.intent.x, env.intent.y) : { x: 0, y: 0 };
+
+        const combinedDirection = {
+          x: envIntent.x * (0.88 + recursive * 0.10) + armIntent.x * (0.12 + recursive * 0.08),
+          y: envIntent.y * (0.88 + recursive * 0.10) + armIntent.y * (0.12 + recursive * 0.08)
+        };
+
+        const dirLen = Math.hypot(combinedDirection.x, combinedDirection.y);
+        const desiredDir = dirLen > 0.0001
+          ? { x: combinedDirection.x / dirLen, y: combinedDirection.y / dirLen }
+          : { x: Math.cos(this.bodyHeading), y: Math.sin(this.bodyHeading) };
+
+        const nearestFoodFactor = env.nearestFood == null
+          ? 0
+          : clamp(1 - env.nearestFood / 340, 0, 1);
+
+        const nearestHazardFactor = env.nearestHazard == null
+          ? 0
+          : clamp(1 - env.nearestHazard / 140, 0, 1);
+
+        const foodDrive = nearestFoodFactor * (0.28 + recursive * 0.18);
+        const threatBoost = nearestHazardFactor * 0.22;
+
+        const maxSpeed = 8 + recursive * 14 + foodDrive * 14 + threatBoost * 10;
+        const desiredSpeed = maxSpeed * clamp(0.22 + foodDrive + threatBoost, 0.14, 0.9);
+
+        const desiredVelocity = {
+          x: desiredDir.x * desiredSpeed,
+          y: desiredDir.y * desiredSpeed
+        };
+
+        const steering = 0.5 + recursive * 0.75;
+        this.velocity.x = lerp(this.velocity.x, desiredVelocity.x, clamp(dt * steering, 0, 1));
+        this.velocity.y = lerp(this.velocity.y, desiredVelocity.y, clamp(dt * steering, 0, 1));
+
+        const wallMargin = 90;
+        if (this.x < wallMargin) this.velocity.x += (wallMargin - this.x) * 0.03 * dt;
+        if (this.x > world.w - wallMargin) this.velocity.x -= (this.x - (world.w - wallMargin)) * 0.03 * dt;
+        if (this.y < wallMargin) this.velocity.y += (wallMargin - this.y) * 0.03 * dt;
+        if (this.y > world.h - wallMargin) this.velocity.y -= (this.y - (world.h - wallMargin)) * 0.03 * dt;
+
+        const vMag = Math.hypot(this.velocity.x, this.velocity.y);
+        const hardCap = 28;
+        if (vMag > hardCap) {
+          this.velocity.x = this.velocity.x / vMag * hardCap;
+          this.velocity.y = this.velocity.y / vMag * hardCap;
+        }
+
+        this.x += this.velocity.x * dt;
+        this.y += this.velocity.y * dt;
+        this.x = clamp(this.x, 80, world.w - 80);
+        this.y = clamp(this.y, 80, world.h - 80);
+
+        const targetHeading = Math.atan2(
+          this.velocity.y || Math.sin(this.bodyHeading),
+          this.velocity.x || Math.cos(this.bodyHeading)
+        );
+        let delta = targetHeading - this.bodyHeading;
+        while (delta > Math.PI) delta -= Math.PI * 2;
+        while (delta < -Math.PI) delta += Math.PI * 2;
+        this.bodyHeading += delta * clamp(dt * 2.0, 0, 1);
+
+        this.stress = clamp(
+          lerp(this.stress, meanHazard * (0.65 + this.rigidity * 0.75) + this.rigidity * 0.24, 0.04),
+          0,
+          4
+        );
+
+        this.interact(world, recursive, coherence);
+        this.updateViability(dt, world, recursive, meanFood, meanHazard, coherence);
+      }
+
+      updateViability(dt, world, recursive, meanFood, meanHazard, coherence) {
+        const rigidity = 1 - recursive;
+
+        const complexityGap = Math.max(0, world.challenge - (recursive * 0.8 + 0.08));
+
+        const acuteLoad =
+          complexityGap * 0.34 +
+          meanHazard * 0.10 +
+          this.stress * 0.08 +
+          Math.max(0, 0.08 - coherence) * 0.14;
+
+        const recoverySupport =
+          recursive * 0.28 +
+          meanFood * 0.07 +
+          Math.max(0, coherence) * 0.04 +
+          0.018;
+
+        const strainRise = Math.max(0, acuteLoad - recoverySupport) * 0.018;
+        const strainRecovery = 0.018 + recursive * 0.028 + meanFood * 0.01;
+
+        this.chronicStrain = clamp(
+          this.chronicStrain + strainRise * dt - strainRecovery * dt,
+          0,
+          1.6
+        );
+
+        const vitalityGain =
+          0.012 +
+          recursive * 0.012 +
+          meanFood * 0.006 +
+          Math.max(0, coherence) * 0.003;
+
+        const vitalityLoss =
+          this.chronicStrain * 0.02 +
+          Math.max(0, this.stress - 2.4) * 0.003 +
+          rigidity * Math.max(0, world.challenge - 0.88) * 0.004;
+
+        this.viability = clamp(
+          this.viability + (vitalityGain - vitalityLoss) * dt,
+          0,
+          1
+        );
+
+        if (this.viability <= 0.01 && this.chronicStrain > 1.28 && this.stress > 2.7) {
+          this.viability = 0;
+          this.alive = false;
+        }
+      }
+
+      interact(world, recursive, coherence) {
+        if (!this.alive) return;
+
+        for (const arm of this.arms) {
+          for (const seg of arm.segments) {
+            for (let i = world.foods.length - 1; i >= 0; i--) {
+              const f = world.foods[i];
+              const d2 = dist2(f.x, f.y, seg.pos.x, seg.pos.y);
+
+              if (d2 < 160 && Math.random() < 0.09 + recursive * 0.26) {
+                world.stats.food += 1;
+                this.viability = clamp(this.viability + 0.01 + recursive * 0.006, 0, 1);
+                world.ripples.push({ x: f.x, y: f.y, r: 8, life: 1, type: 'food' });
+                world.foods.splice(i, 1);
+                spawnFood(1);
+              }
+            }
+
+            for (const h of world.hazards) {
+              const d2 = dist2(h.x, h.y, seg.pos.x, seg.pos.y);
+
+              if (d2 < (h.radius + 10) * (h.radius + 10)) {
+                world.stats.stress += 0.02 * (1.1 + (1 - recursive) * 0.7);
+                this.chronicStrain = clamp(
+                  this.chronicStrain + 0.0008 + (1 - recursive) * 0.0015,
+                  0,
+                  1.6
+                );
+              } else if (d2 < (h.radius + 36) * (h.radius + 36) && coherence > 0.05) {
+                world.stats.avoided += 0.001 + recursive * 0.0035;
+              }
+            }
+          }
+        }
+      }
+
+      draw(ctx, world) {
+        const recursive = world.recursion / 4;
+        const deadFade = this.alive ? 1 : 0.4;
+
+        for (const arm of this.arms) {
+          ctx.beginPath();
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          for (let i = 0; i < arm.segments.length; i++) {
+            const s = arm.segments[i];
+            const width = lerp(13, 3, i / (arm.segments.length - 1));
+            ctx.strokeStyle = `rgba(${Math.round(90 + 70 * (s.foodSignal + recursive * 0.3))}, ${Math.round(90 + 95 * (s.flowSignal + recursive * 0.15))}, ${Math.round(130 + 110 * recursive)}, ${0.78 * deadFade})`;
+            ctx.lineWidth = width;
+            if (i === 0) ctx.moveTo(this.x, this.y);
+            ctx.lineTo(s.pos.x, s.pos.y);
+          }
+
+          ctx.stroke();
+
+          for (let i = 1; i < arm.segments.length; i += 2) {
+            const s = arm.segments[i];
+            const radius = 1.3 + Math.max(0, s.foodSignal - s.hazardSignal) * 1.2 + recursive * 0.5;
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(235,245,255,${(0.12 + i / arm.segments.length * 0.25) * deadFade})`;
+            ctx.arc(s.pos.x, s.pos.y, radius, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        const mantleGlow = 10 + this.stress * 8 + world.recursion * 5 + this.viability * 10;
+        const g = ctx.createRadialGradient(this.x, this.y, 5, this.x, this.y, mantleGlow + 36);
+        g.addColorStop(0, `rgba(160, 220, 255, ${(0.18 + recursive * 0.45 + this.viability * 0.18) * deadFade})`);
+        g.addColorStop(1, 'rgba(90, 150, 210, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, mantleGlow + 36, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(${Math.round(70 + this.stress * 35 + (1 - this.viability) * 60)}, ${Math.round(85 + recursive * 90 + this.viability * 30)}, ${Math.round(120 + recursive * 60)}, ${0.96 * deadFade})`;
+        ctx.ellipse(this.x, this.y, this.radius + 5, this.radius - 1, this.bodyHeading * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+
+        const eyeOffset = 11;
+        for (const side of [-1, 1]) {
+          const ex = this.x + Math.cos(this.bodyHeading + side * 0.9) * eyeOffset;
+          const ey = this.y + Math.sin(this.bodyHeading + side * 0.9) * eyeOffset - 2;
+
+          ctx.beginPath();
+          ctx.fillStyle = this.alive ? '#eff8ff' : 'rgba(200,210,220,0.6)';
+          ctx.arc(ex, ey, 4.3, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.fillStyle = '#071019';
+          const pupilY = this.alive ? ey + Math.sin(this.bodyHeading) * 1.5 : ey + 2.2;
+          ctx.arc(ex + Math.cos(this.bodyHeading) * 1.5, pupilY, this.alive ? 1.8 : 0.8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    function currentField(x, y, t) {
+      const nx = x / Math.max(world.w, 1);
+      const ny = y / Math.max(world.h, 1);
+      const angle = Math.sin(nx * 7 + t * 0.7) * 0.9 + Math.cos(ny * 8 - t * 0.9) * 0.7;
+      const mag = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * 0.3 + nx * 5 - ny * 6));
+      return {
+        angle,
+        mag,
+        vx: Math.cos(angle) * mag,
+        vy: Math.sin(angle) * mag
+      };
+    }
+
+    function spawnFood(n = 1) {
+      for (let i = 0; i < n; i++) {
+        world.foods.push({
+          x: rand(70, world.w - 70),
+          y: rand(70, world.h - 70),
+          value: rand(0.7, 1.35),
+          phase: rand(0, Math.PI * 2)
+        });
+      }
+    }
+
+    function spawnHazard(n = 1) {
+      for (let i = 0; i < n; i++) {
+        world.hazards.push({
+          x: rand(90, world.w - 90),
+          y: rand(90, world.h - 90),
+          value: rand(0.8, 1.5) * (0.7 + world.challenge * 0.9),
+          radius: rand(18, 34),
+          drift: rand(-0.18, 0.18),
+          phase: rand(0, Math.PI * 2)
+        });
+      }
+    }
+
+    function resetWorld() {
+      world.foods = [];
+      world.hazards = [];
+      world.ripples = [];
+      world.stats = { food: 0, avoided: 0, stress: 0, adaptation: 0 };
+      world.history = [];
+      world.historyAccumulator = 0;
+      promptOutput.textContent = '';
+      historySummaryLabel.textContent = 'No prompt yet';
+
+      for (let i = 0; i < 18; i++) spawnFood(1);
+      for (let i = 0; i < 7 + Math.round(world.challenge * 8); i++) spawnHazard(1);
+
+      octopus = new Octopus(world.w * 0.48, world.h * 0.52);
+    }
+
+    function pulseHazards() {
+      for (const h of world.hazards) {
+        h.value *= 1.18;
+        h.radius *= 1.08;
+      }
+
+      for (let i = 0; i < 4; i++) {
+        world.ripples.push({
+          x: rand(60, world.w - 60),
+          y: rand(60, world.h - 60),
+          r: 6,
+          life: 1,
+          type: 'hazard'
+        });
+      }
+    }
+
+    function drawBackground() {
+      const g = ctx.createLinearGradient(0, 0, 0, world.h);
+      g.addColorStop(0, '#07131c');
+      g.addColorStop(1, '#0a1f2b');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, world.w, world.h);
+
+      for (let y = 0; y < world.h; y += 30) {
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(120, 180, 210, 0.06)';
+        ctx.moveTo(0, y + Math.sin(world.time + y * 0.04) * 4);
+
+        for (let x = 0; x <= world.w; x += 24) {
+          const yy = y + Math.sin(world.time * 0.9 + x * 0.02 + y * 0.05) * 4;
+          ctx.lineTo(x, yy);
+        }
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = 'rgba(29, 57, 72, 0.28)';
+      ctx.fillRect(0, world.h - 74, world.w, 74);
+
+      for (let x = 0; x < world.w; x += 28) {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(170, 188, 198, ${0.03 + ((x % 56) / 56) * 0.06})`;
+        ctx.arc(x + 6, world.h - 18 - (x % 3) * 4, 2 + (x % 5) * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawEnvironment() {
+      for (const f of world.foods) {
+        f.phase += 0.03;
+        f.y += Math.sin(f.phase) * 0.18;
+
+        const r = 4 + f.value * 4;
+        const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, r * 3);
+        g.addColorStop(0, 'rgba(160, 255, 160, 0.9)');
+        g.addColorStop(1, 'rgba(110, 255, 150, 0)');
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, r * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(180,255,180,0.95)';
+        ctx.arc(f.x, f.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      for (const h of world.hazards) {
+        h.phase += 0.01 + world.challenge * 0.01;
+        h.x += Math.sin(h.phase) * h.drift;
+        h.y += Math.cos(h.phase * 0.8) * h.drift * 0.6;
+        h.x = clamp(h.x, 60, world.w - 60);
+        h.y = clamp(h.y, 60, world.h - 90);
+
+        const pulse = 1 + Math.sin(h.phase * 2) * 0.08;
+        const radius = h.radius * pulse;
+        const g = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, radius * 2.2);
+        g.addColorStop(0, 'rgba(255,120,120,0.35)');
+        g.addColorStop(1, 'rgba(255,120,120,0)');
+
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(h.x, h.y, radius * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(255,140,140,0.7)';
+        ctx.lineWidth = 2;
+        ctx.arc(h.x, h.y, radius, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      for (let i = world.ripples.length - 1; i >= 0; i--) {
+        const r = world.ripples[i];
+        r.r += 1.5;
+        r.life -= 0.02;
+
+        ctx.beginPath();
+        ctx.strokeStyle = r.type === 'food'
+          ? `rgba(160,255,160,${r.life * 0.8})`
+          : `rgba(255,120,120,${r.life * 0.8})`;
+        ctx.lineWidth = 2;
+        ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        if (r.life <= 0) world.ripples.splice(i, 1);
+      }
+    }
+
+    function updateStats() {
+      const recursive = world.recursion / 4;
+      const rigidity = 1 - recursive;
+      const stressPenalty = clamp(world.stats.stress * 0.06 + octopus.stress * 0.6, 0, 8);
+
+      world.stats.adaptation =
+        (
+          world.stats.food * 1.4 +
+          world.stats.avoided * 26 +
+          recursive * 14 +
+          octopus.viability * 18 -
+          rigidity * 18 -
+          octopus.chronicStrain * 10
+        ) / (1 + world.challenge * 0.6) - stressPenalty;
+
+      adaptationScoreEl.textContent = world.stats.adaptation.toFixed(2);
+      foodScoreEl.textContent = world.stats.food.toFixed(0);
+      avoidScoreEl.textContent = world.stats.avoided.toFixed(1);
+      stressScoreEl.textContent = (world.stats.stress + octopus.stress).toFixed(2);
+      viabilityScoreEl.textContent = octopus.viability.toFixed(2);
+      strainScoreEl.textContent = octopus.chronicStrain.toFixed(2);
+      lifeStateEl.textContent = octopus.alive ? 'Alive' : 'Dead';
+      speedScoreEl.textContent = Math.hypot(octopus.velocity.x, octopus.velocity.y).toFixed(2);
+
+      let quality = '';
+      if (!octopus.alive) {
+        quality = 'Recursion stayed too low for too long under pressure. Chronic strain accumulated until viability finally collapsed.';
+      } else if (recursive > 0.75) {
+        quality = 'Adaptability is high: local components handle different challenges autonomously and stay well coordinated.';
+      } else if (recursive > 0.4) {
+        quality = 'Adaptability is moderate: the octopus still copes, but coordination and recovery are less fluid.';
+      } else {
+        quality = 'Adaptability is reduced: the octopus can still survive, but low recursion makes responses more rigid, foraging less efficient, and chronic strain easier to accumulate under challenge.';
+      }
+
+      overlayText.innerHTML =
+        `<b>Depth:</b> ${world.recursion.toFixed(2)} / 4 · ` +
+        `<b>Challenge:</b> ${world.challenge.toFixed(2)} · ` +
+        `<b>Viability:</b> ${octopus.viability.toFixed(2)} · ` +
+        `<b>Strain:</b> ${octopus.chronicStrain.toFixed(2)}<br>` +
+        `<b>Interpretation:</b> ${quality}`;
+    }
+
+    function recordHistory(dt) {
+      world.historyAccumulator += dt;
+      if (world.historyAccumulator < 0.5) return;
+      world.historyAccumulator = 0;
+
+      world.history.push({
+        t: world.time,
+        recursion: world.recursion,
+        challenge: world.challenge,
+        viability: octopus.viability,
+        stress: octopus.stress,
+        strain: octopus.chronicStrain,
+        adaptation: world.stats.adaptation,
+        alive: octopus.alive ? 1 : 0
+      });
+
+      if (world.history.length > 240) world.history.shift();
+    }
+
+    function drawHistoryChart() {
+      const w = historyCanvas.width;
+      const h = historyCanvas.height;
+
+      historyCtx.clearRect(0, 0, w, h);
+      historyCtx.fillStyle = 'rgba(255,255,255,0.03)';
+      historyCtx.fillRect(0, 0, w, h);
+
+      for (let y = 0; y <= 4; y++) {
+        const yy = 8 + (h - 16) * (y / 4);
+        historyCtx.beginPath();
+        historyCtx.strokeStyle = 'rgba(255,255,255,0.06)';
+        historyCtx.moveTo(0, yy);
+        historyCtx.lineTo(w, yy);
+        historyCtx.stroke();
+      }
+
+      if (world.history.length < 2) return;
+
+      const seriesDefs = [
+        { key: 'recursion', max: 4, color: '#74d4ff' },
+        { key: 'challenge', max: 1, color: '#ffd166' },
+        { key: 'viability', max: 1, color: '#98f5c2' },
+        { key: 'strain', max: 1.6, color: '#ff8c8c' },
+        { key: 'stress', max: 4, color: '#c69bff' }
+      ];
+
+      for (const def of seriesDefs) {
+        historyCtx.beginPath();
+        historyCtx.lineWidth = 1.8;
+        historyCtx.strokeStyle = def.color;
+
+        world.history.forEach((point, i) => {
+          const x = (i / (world.history.length - 1)) * (w - 10) + 5;
+          const y = h - 8 - (clamp(point[def.key], 0, def.max) / def.max) * (h - 16);
+          if (i === 0) historyCtx.moveTo(x, y);
+          else historyCtx.lineTo(x, y);
+        });
+
+        historyCtx.stroke();
+      }
+
+      const legend = [
+        ['Rec', '#74d4ff'],
+        ['Chal', '#ffd166'],
+        ['Via', '#98f5c2'],
+        ['Strn', '#ff8c8c'],
+        ['Stress', '#c69bff']
+      ];
+
+      let lx = 8;
+      for (const [label, color] of legend) {
+        historyCtx.fillStyle = color;
+        historyCtx.fillRect(lx, 8, 8, 8);
+        historyCtx.fillStyle = '#d8ecff';
+        historyCtx.font = '10px Inter, system-ui, sans-serif';
+        historyCtx.fillText(label, lx + 12, 15);
+        lx += 48;
+      }
+    }
+
+    function summarizeHistory() {
+      if (!world.history.length) {
+        return {
+          text: 'No time series data has been collected yet.',
+          label: 'No data'
+        };
+      }
+
+      const rec = world.history.map(p => p.recursion);
+      const chal = world.history.map(p => p.challenge);
+      const via = world.history.map(p => p.viability);
+      const stress = world.history.map(p => p.stress);
+      const strain = world.history.map(p => p.strain);
+      const adapt = world.history.map(p => p.adaptation);
+
+      const start = world.history[0];
+      const end = world.history[world.history.length - 1];
+
+      const lowRecCount = world.history.filter(p => p.recursion < 1.5).length;
+      const highChallengeCount = world.history.filter(p => p.challenge > 0.7).length;
+      const lowViabilityCount = world.history.filter(p => p.viability < 0.55).length;
+
+      const text =
+        `Time series summary:\n` +
+        `- Duration observed: ${end.t.toFixed(1)} seconds\n` +
+        `- Recursion depth: start ${start.recursion.toFixed(2)}, end ${end.recursion.toFixed(2)}, mean ${avg(rec).toFixed(2)}, min ${minOf(rec).toFixed(2)}, max ${maxOf(rec).toFixed(2)}\n` +
+        `- Challenge intensity: start ${start.challenge.toFixed(2)}, end ${end.challenge.toFixed(2)}, mean ${avg(chal).toFixed(2)}\n` +
+        `- Viability: start ${start.viability.toFixed(2)}, end ${end.viability.toFixed(2)}, mean ${avg(via).toFixed(2)}, min ${minOf(via).toFixed(2)}\n` +
+        `- Stress: mean ${avg(stress).toFixed(2)}, max ${maxOf(stress).toFixed(2)}\n` +
+        `- Chronic strain: mean ${avg(strain).toFixed(2)}, max ${maxOf(strain).toFixed(2)}\n` +
+        `- Adaptation score: mean ${avg(adapt).toFixed(2)}, min ${minOf(adapt).toFixed(2)}, max ${maxOf(adapt).toFixed(2)}\n` +
+        `- Low-recursion intervals (<1.5): ${lowRecCount} samples\n` +
+        `- High-challenge intervals (>0.7): ${highChallengeCount} samples\n` +
+        `- Reduced-viability intervals (<0.55): ${lowViabilityCount} samples\n` +
+        `- Final state: ${octopus.alive ? 'alive' : 'dead'}\n` +
+        `- Interpretation: decreased recursion is associated with decreased adaptability, slower recovery, weaker food-seeking coordination, and greater strain exposure, even when survival is maintained.`;
+
+      return {
+        text,
+        label: `${world.history.length} samples`
+      };
+    }
+
+    function generatePrompt() {
+      const userContext = scenarioInput.value.trim() || 'An occupational health management situation involving organisational pressure, uneven management capability, workload stress, and the need to coordinate a response across multiple teams.';
+      const historySummary = summarizeHistory();
+
+      const prompt =
+`Write a brief synopsis of around 300 words describing an occupational health management situation and the events which unfold.
+
+Frame the synopsis around this user-provided situation:
+${userContext}
+
+Also incorporate the following time-series pattern from a simulation as an analogy for how the situation develops over time:
+${historySummary.text}
+
+Instructions:
+- Treat recursion depth as a proxy for distributed autonomy, local decision-making capacity, and adaptive coordination.
+- Treat decreased recursion as decreased adaptability, greater rigidity, slower recovery, weaker opportunity capture, and increased dependence on top-down control.
+- Treat viability, strain, stress, and adaptation as unfolding organisational conditions across time.
+- Use the time-series pattern to shape the sequence of events, tensions, responses, and consequences in the occupational health management situation.
+- Keep the tone analytical but readable.
+- Keep the output to roughly 300 words.
+- Make the narrative clearly tied both to the user context and to the evolving time-series dynamics.`;
+
+      promptOutput.textContent = prompt;
+      historySummaryLabel.textContent = historySummary.label;
+    }
+
+    async function copyPrompt() {
+      const text = promptOutput.textContent.trim();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        historySummaryLabel.textContent = 'Copied';
+        setTimeout(() => {
+          historySummaryLabel.textContent = `${world.history.length} samples`;
+        }, 1200);
+      } catch {
+        historySummaryLabel.textContent = 'Copy failed';
+      }
+    }
+
+    let octopus;
+    let last = performance.now();
+
+    function animate(now) {
+      const dt = Math.min(0.033, (now - last) / 1000);
+      last = now;
+
+      world.time += dt;
+      world.recursion = parseFloat(recursionSlider.value);
+      world.challenge = parseFloat(challengeSlider.value);
+
+      drawBackground();
+      drawEnvironment();
+
+      if (Math.random() < 0.01 + world.challenge * 0.02 && world.foods.length < 22) spawnFood(1);
+      if (Math.random() < 0.005 + world.challenge * 0.012 && world.hazards.length < 18) spawnHazard(1);
+
+      octopus.update(dt, world);
+      octopus.draw(ctx, world);
+      updateStats();
+      recordHistory(dt);
+      drawHistoryChart();
+
+      requestAnimationFrame(animate);
+    }
+
+    recursionSlider.addEventListener('input', () => {
+      recursionValue.textContent = `${parseFloat(recursionSlider.value).toFixed(2)} / 4`;
+    });
+
+    challengeSlider.addEventListener('input', () => {
+      challengeValue.textContent = parseFloat(challengeSlider.value).toFixed(2);
+      const targetHazards = 7 + Math.round(parseFloat(challengeSlider.value) * 8);
+
+      while (world.hazards.length < targetHazards) spawnHazard(1);
+      while (world.hazards.length > targetHazards && world.hazards.length > 3) world.hazards.pop();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', resetWorld);
+    document.getElementById('pulseBtn').addEventListener('click', pulseHazards);
+    generatePromptBtn.addEventListener('click', generatePrompt);
+    copyPromptBtn.addEventListener('click', copyPrompt);
+    window.addEventListener('resize', resize);
+
+    resize();
+    resetWorld();
+    recursionValue.textContent = `${parseFloat(recursionSlider.value).toFixed(2)} / 4`;
+    challengeValue.textContent = parseFloat(challengeSlider.value).toFixed(2);
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
