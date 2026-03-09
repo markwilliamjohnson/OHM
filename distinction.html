@@ -1,0 +1,956 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distinction-Making Lab</title>
+  <style>
+    :root {
+      --bg: #07111a;
+      --panel: rgba(8, 22, 34, 0.84);
+      --border: rgba(140, 201, 255, 0.18);
+      --text: #dcecff;
+      --muted: #8fb0ca;
+      --accent: #7fd6ff;
+      --good: #9dff9d;
+      --warn: #ffca7a;
+      --bad: #ff8e8e;
+      --observer: #c8b6ff;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(61, 124, 177, 0.16), transparent 25%),
+        radial-gradient(circle at 80% 0%, rgba(90, 168, 196, 0.1), transparent 28%),
+        linear-gradient(180deg, #08111a 0%, #091723 52%, #061018 100%);
+      display: grid;
+      grid-template-columns: 380px 1fr;
+    }
+
+    .sidebar {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(9, 23, 36, 0.96), rgba(6, 17, 27, 0.92));
+      border-right: 1px solid rgba(149, 196, 232, 0.14);
+      overflow: auto;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+    }
+
+    h1 { font-size: 1.28rem; margin: 0 0 10px; }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    p {
+      margin: 0 0 10px;
+      line-height: 1.44;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .control-row { margin-bottom: 14px; }
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: 0.9rem;
+    }
+    .value {
+      color: var(--accent);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    input[type="range"], input[type="text"], select, button {
+      width: 100%;
+      border: 1px solid rgba(140, 201, 255, 0.2);
+      background: linear-gradient(180deg, rgba(20,66,92,0.92), rgba(11,37,52,0.92));
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+    }
+    input[type="range"] {
+      padding: 0;
+      height: 6px;
+      appearance: none;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(127,214,255,0.85), rgba(127,214,255,0.16));
+      outline: none;
+      border: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(127,214,255,0.16);
+      cursor: pointer;
+    }
+    button { cursor: pointer; font-weight: 700; }
+    .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .stat .k {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .stat .v {
+      font-size: 1.02rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 3px; }
+
+    .stage { position: relative; overflow: hidden; }
+    canvas { width: 100%; height: 100vh; display: block; }
+
+    .overlay {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+      align-items: flex-end;
+    }
+    .bubble {
+      max-width: 430px;
+      background: rgba(7, 18, 29, 0.72);
+      border: 1px solid rgba(140, 201, 255, 0.18);
+      border-radius: 16px;
+      padding: 10px 12px;
+      backdrop-filter: blur(8px);
+      line-height: 1.4;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .bubble b { color: var(--text); }
+
+    @media (max-width: 1100px) {
+      body { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid rgba(149,196,232,0.16); }
+      canvas { height: 72vh; }
+      .overlay { flex-direction: column; }
+      .bubble { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="card">
+      <h1>Distinction-Making Lab</h1>
+      <p>
+        This app treats a distinction not as a thing, but as a relationship between an <b>observer</b> and what gets included or excluded.
+        A box or circle is therefore not just an object on the screen: it is a way an observer marks a difference between what is <b>inside</b> and what is <b>outside</b>.
+      </p>
+      <p>
+        When you create multiple distinctions, you are not only observing individual distinctions, but also observing the <b>relationships between distinctions</b>.
+        Those relationships can start as simple lines, then be reinterpreted as processes of <b>attenuation</b> and <b>amplification</b>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Create distinctions</h2>
+      <div class="control-row">
+        <div class="label-row"><span>New distinction label</span><span class="value" id="newLabelEcho">Distinction</span></div>
+        <input id="newLabelInput" type="text" value="Distinction" maxlength="28" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Shape</span><span class="value" id="shapeValue">Box</span></div>
+        <select id="shapeSelect">
+          <option>Box</option>
+          <option>Circle</option>
+        </select>
+      </div>
+      <div class="button-grid">
+        <button id="addWorldBtn">Add in world</button>
+        <button id="addInsideBtn">Add inside selected</button>
+      </div>
+      <div class="button-grid" style="margin-top:10px">
+        <button id="addOutsideBtn">Add outside selected</button>
+        <button id="removeBtn">Remove selected</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Selected distinction</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Selected</span><span class="value" id="selectedLabel">None</span></div>
+        <select id="distinctionSelect"></select>
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Edit label</span><span class="value">name</span></div>
+        <input id="editLabelInput" type="text" value="" maxlength="28" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Observer salience</span><span class="value" id="salienceValue">0.60</span></div>
+        <input id="salienceSlider" type="range" min="0" max="1.4" step="0.01" value="0.6" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Boundary strength</span><span class="value" id="boundaryValue">0.55</span></div>
+        <input id="boundarySlider" type="range" min="0" max="1.4" step="0.01" value="0.55" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Inside emphasis</span><span class="value" id="insideValue">0.58</span></div>
+        <input id="insideSlider" type="range" min="0" max="1.4" step="0.01" value="0.58" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Outside emphasis</span><span class="value" id="outsideValue">0.42</span></div>
+        <input id="outsideSlider" type="range" min="0" max="1.4" step="0.01" value="0.42" />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Relationship mode</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Interpret links as</span><span class="value" id="modeValue">Line</span></div>
+        <select id="modeSelect">
+          <option>Line</option>
+          <option>Attenuation/Amplification</option>
+        </select>
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Attenuation</span><span class="value" id="attenuationValue">0.48</span></div>
+        <input id="attenuationSlider" type="range" min="0" max="1.4" step="0.01" value="0.48" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Amplification</span><span class="value" id="amplificationValue">0.52</span></div>
+        <input id="amplificationSlider" type="range" min="0" max="1.4" step="0.01" value="0.52" />
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Link source</span><span class="value" id="linkSourceEcho">None</span></div>
+        <select id="linkSourceSelect"></select>
+      </div>
+      <div class="control-row">
+        <div class="label-row"><span>Link target</span><span class="value" id="linkTargetEcho">None</span></div>
+        <select id="linkTargetSelect"></select>
+      </div>
+      <div class="button-grid">
+        <button id="linkBtn">Create/update link</button>
+        <button id="unlinkBtn">Remove link</button>
+      </div>
+      <div class="button-grid" style="margin-top:10px">
+        <button id="observerBtn" style="grid-column:1 / -1">Move observer</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Live measures</h2>
+      <div class="stats">
+        <div class="stat"><div class="k">Distinctions</div><div class="v" id="distinctionCount">0</div></div>
+        <div class="stat"><div class="k">Relations</div><div class="v" id="relationCount">0</div></div>
+        <div class="stat"><div class="k">Inside load</div><div class="v" id="insideLoad">0.00</div></div>
+        <div class="stat"><div class="k">Outside load</div><div class="v" id="outsideLoad">0.00</div></div>
+        <div class="stat"><div class="k">Attenuation flow</div><div class="v" id="attenFlow">0.00</div></div>
+        <div class="stat"><div class="k">Amplification flow</div><div class="v" id="ampFlow">0.00</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Reading the diagram</h2>
+      <div class="legend-item"><span class="dot" style="background:#c8b6ff"></span><span><b>Observer</b>: the distinction exists as a relationship between the observer and a marked difference.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#7fd6ff"></span><span><b>Boundary</b>: not a thing in itself, but a mark that separates inside from outside.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#9dff9d"></span><span><b>Inside</b>: what the distinction includes or privileges.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#ffca7a"></span><span><b>Outside</b>: what the distinction excludes, backgrounds, or treats as environment.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#ff8e8e"></span><span><b>Attenuation/Amplification</b>: every relation between distinctions can be read as filtering some differences and enlarging others.</span></div>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <canvas id="canvas"></canvas>
+    <div class="overlay">
+      <div class="bubble" id="summaryBubble"></div>
+      <div class="bubble" id="probeBubble"></div>
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const newLabelInput = document.getElementById('newLabelInput');
+    const newLabelEcho = document.getElementById('newLabelEcho');
+    const shapeSelect = document.getElementById('shapeSelect');
+    const shapeValue = document.getElementById('shapeValue');
+
+    const distinctionSelect = document.getElementById('distinctionSelect');
+    const selectedLabel = document.getElementById('selectedLabel');
+    const editLabelInput = document.getElementById('editLabelInput');
+    const salienceSlider = document.getElementById('salienceSlider');
+    const boundarySlider = document.getElementById('boundarySlider');
+    const insideSlider = document.getElementById('insideSlider');
+    const outsideSlider = document.getElementById('outsideSlider');
+    const salienceValue = document.getElementById('salienceValue');
+    const boundaryValue = document.getElementById('boundaryValue');
+    const insideValue = document.getElementById('insideValue');
+    const outsideValue = document.getElementById('outsideValue');
+
+    const modeSelect = document.getElementById('modeSelect');
+    const linkSourceSelect = document.getElementById('linkSourceSelect');
+    const linkTargetSelect = document.getElementById('linkTargetSelect');
+    const modeValue = document.getElementById('modeValue');
+    const linkSourceEcho = document.getElementById('linkSourceEcho');
+    const linkTargetEcho = document.getElementById('linkTargetEcho');
+    const attenuationSlider = document.getElementById('attenuationSlider');
+    const amplificationSlider = document.getElementById('amplificationSlider');
+    const attenuationValue = document.getElementById('attenuationValue');
+    const amplificationValue = document.getElementById('amplificationValue');
+
+    const distinctionCount = document.getElementById('distinctionCount');
+    const relationCount = document.getElementById('relationCount');
+    const insideLoad = document.getElementById('insideLoad');
+    const outsideLoad = document.getElementById('outsideLoad');
+    const attenFlow = document.getElementById('attenFlow');
+    const ampFlow = document.getElementById('ampFlow');
+    const summaryBubble = document.getElementById('summaryBubble');
+    const probeBubble = document.getElementById('probeBubble');
+
+    const state = {
+      w: 0,
+      h: 0,
+      t: 0,
+      mode: 'Line',
+      selectedId: null,
+      targetId: null,
+      linkSourceId: null,
+      linkTargetId: null,
+      observer: { x: 120, y: 110, moving: false },
+      distinctions: [],
+      relations: [],
+      metrics: {
+        inside: 0,
+        outside: 0,
+        attenuation: 0,
+        amplification: 0
+      }
+    };
+
+    let nextId = 1;
+
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+
+    class Distinction {
+      constructor(label, shape, x, y, parentId = null, placement = 'world') {
+        this.id = nextId++;
+        this.label = label;
+        this.shape = shape;
+        this.x = x;
+        this.y = y;
+        this.w = shape === 'Box' ? 170 : 130;
+        this.h = shape === 'Box' ? 100 : 130;
+        this.baseW = this.w;
+        this.baseH = this.h;
+        this.parentId = parentId;
+        this.placement = placement;
+        this.salience = 0.6;
+        this.boundary = 0.55;
+        this.insideEmphasis = 0.58;
+        this.outsideEmphasis = 0.42;
+      }
+    }
+
+    class Relation {
+      constructor(sourceId, targetId) {
+        this.sourceId = sourceId;
+        this.targetId = targetId;
+        this.attenuation = 0.48;
+        this.amplification = 0.52;
+      }
+    }
+
+    function addDistinction(label, placement) {
+      const shape = shapeSelect.value;
+      let x = rand(state.w * 0.35, state.w * 0.8);
+      let y = rand(state.h * 0.22, state.h * 0.68);
+      let parentId = null;
+
+      if ((placement === 'inside' || placement === 'outside') && state.selectedId) {
+        const parent = getDistinction(state.selectedId);
+        if (parent) {
+          parentId = parent.id;
+          if (placement === 'inside') {
+            x = parent.x + rand(-parent.w * 0.12, parent.w * 0.12);
+            y = parent.y + rand(-parent.h * 0.12, parent.h * 0.12);
+          } else {
+            x = parent.x + parent.w * 0.75 + rand(40, 110);
+            y = parent.y + rand(-80, 80);
+          }
+        }
+      }
+
+      const d = new Distinction(label, shape, x, y, parentId, placement);
+      state.distinctions.push(d);
+      recomputeContainers();
+      state.selectedId = d.id;
+      if (!state.targetId) state.targetId = d.id;
+      refreshSelector();
+      syncSelectedControls();
+    }
+
+    function removeSelected() {
+      if (!state.selectedId) return;
+      state.distinctions = state.distinctions.filter(d => d.id !== state.selectedId && d.parentId !== state.selectedId);
+      state.relations = state.relations.filter(r => r.sourceId !== state.selectedId && r.targetId !== state.selectedId);
+      recomputeContainers();
+      state.selectedId = state.distinctions[0]?.id ?? null;
+      state.targetId = state.distinctions[1]?.id ?? state.selectedId;
+      refreshSelector();
+      syncSelectedControls();
+    }
+
+    function getDistinction(id) {
+      return state.distinctions.find(d => d.id === id) || null;
+    }
+
+    function getChildren(parentId) {
+      return state.distinctions.filter(d => d.parentId === parentId);
+    }
+
+    function moveSubtree(node, dx, dy) {
+      node.x += dx;
+      node.y += dy;
+      for (const child of getChildren(node.id)) {
+        moveSubtree(child, dx, dy);
+      }
+    }
+
+    function constrainChildToParent(child, parent) {
+      const pad = 18;
+      if (parent.shape === 'Box') {
+        const minX = parent.x - parent.w / 2 + child.w / 2 + pad;
+        const maxX = parent.x + parent.w / 2 - child.w / 2 - pad;
+        const minY = parent.y - parent.h / 2 + child.h / 2 + pad;
+        const maxY = parent.y + parent.h / 2 - child.h / 2 - pad;
+        child.x = clamp(child.x, minX, maxX);
+        child.y = clamp(child.y, minY, maxY);
+      } else {
+        const radius = parent.w / 2 - Math.max(child.w, child.h) / 2 - pad;
+        const dx = child.x - parent.x;
+        const dy = child.y - parent.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        if (dist > radius) {
+          child.x = parent.x + dx / dist * radius;
+          child.y = parent.y + dy / dist * radius;
+        }
+      }
+    }
+
+    function recomputeContainers() {
+      const ordered = [...state.distinctions].sort((a, b) => b.id - a.id);
+      for (const d of state.distinctions) {
+        d.w = d.baseW;
+        d.h = d.baseH;
+      }
+      for (const parent of ordered) {
+        const children = getChildren(parent.id);
+        if (!children.length) continue;
+        if (parent.shape === 'Box') {
+          let maxDx = parent.baseW / 2 - 24;
+          let maxDy = parent.baseH / 2 - 24;
+          for (const child of children) {
+            maxDx = Math.max(maxDx, Math.abs(child.x - parent.x) + child.w / 2 + 26);
+            maxDy = Math.max(maxDy, Math.abs(child.y - parent.y) + child.h / 2 + 26);
+          }
+          parent.w = Math.max(parent.baseW, maxDx * 2);
+          parent.h = Math.max(parent.baseH, maxDy * 2);
+        } else {
+          let radius = parent.baseW / 2;
+          for (const child of children) {
+            radius = Math.max(radius, Math.hypot(child.x - parent.x, child.y - parent.y) + Math.max(child.w, child.h) / 2 + 26);
+          }
+          parent.w = radius * 2;
+          parent.h = radius * 2;
+        }
+        for (const child of children) {
+          constrainChildToParent(child, parent);
+        }
+      }
+    }
+
+    function getSelected() {
+      return getDistinction(state.selectedId);
+    }
+
+    function refreshSelector() {
+      distinctionSelect.innerHTML = '';
+      linkSourceSelect.innerHTML = '';
+      linkTargetSelect.innerHTML = '';
+      state.distinctions.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = String(d.id);
+        opt.textContent = d.label;
+        distinctionSelect.appendChild(opt);
+
+        const srcOpt = document.createElement('option');
+        srcOpt.value = String(d.id);
+        srcOpt.textContent = d.label;
+        linkSourceSelect.appendChild(srcOpt);
+
+        const tgtOpt = document.createElement('option');
+        tgtOpt.value = String(d.id);
+        tgtOpt.textContent = d.label;
+        linkTargetSelect.appendChild(tgtOpt);
+      });
+      if (state.selectedId) distinctionSelect.value = String(state.selectedId);
+      state.linkSourceId = state.linkSourceId ?? state.selectedId;
+      state.linkTargetId = state.linkTargetId ?? state.targetId ?? state.selectedId;
+      if (state.linkSourceId) linkSourceSelect.value = String(state.linkSourceId);
+      if (state.linkTargetId) linkTargetSelect.value = String(state.linkTargetId);
+    }
+
+    function syncSelectedControls() {
+      const d = getSelected();
+      if (!d) {
+        selectedLabel.textContent = 'None';
+        editLabelInput.value = '';
+        return;
+      }
+      selectedLabel.textContent = d.label;
+      editLabelInput.value = d.label;
+      salienceSlider.value = d.salience.toFixed(2);
+      boundarySlider.value = d.boundary.toFixed(2);
+      insideSlider.value = d.insideEmphasis.toFixed(2);
+      outsideSlider.value = d.outsideEmphasis.toFixed(2);
+      salienceValue.textContent = d.salience.toFixed(2);
+      boundaryValue.textContent = d.boundary.toFixed(2);
+      insideValue.textContent = d.insideEmphasis.toFixed(2);
+      outsideValue.textContent = d.outsideEmphasis.toFixed(2);
+
+      const src = getDistinction(state.linkSourceId);
+      const tgt = getDistinction(state.linkTargetId);
+      linkSourceEcho.textContent = src ? src.label : 'None';
+      linkTargetEcho.textContent = tgt ? tgt.label : 'None';
+    }
+
+    function applySelectedControls() {
+      const d = getSelected();
+      if (!d) return;
+      d.salience = parseFloat(salienceSlider.value);
+      d.boundary = parseFloat(boundarySlider.value);
+      d.insideEmphasis = parseFloat(insideSlider.value);
+      d.outsideEmphasis = parseFloat(outsideSlider.value);
+      syncSelectedControls();
+    }
+
+    function applySelectedLabel() {
+      const d = getSelected();
+      if (!d) return;
+      d.label = editLabelInput.value.trim() || 'Distinction';
+      refreshSelector();
+      syncSelectedControls();
+    }
+
+    function ensureRelation(sourceId, targetId) {
+      if (!sourceId || !targetId || sourceId === targetId) return null;
+      let rel = state.relations.find(r => r.sourceId === sourceId && r.targetId === targetId);
+      if (!rel) {
+        rel = new Relation(sourceId, targetId);
+        rel.attenuation = parseFloat(attenuationSlider.value);
+        rel.amplification = parseFloat(amplificationSlider.value);
+        state.relations.push(rel);
+      }
+      return rel;
+    }
+
+    function linkSelectedToTarget() {
+      const sourceId = state.linkSourceId;
+      const targetId = state.linkTargetId;
+      if (!sourceId || !targetId || sourceId === targetId) return;
+      state.targetId = targetId;
+      ensureRelation(sourceId, targetId);
+      const rel = state.relations.find(r => r.sourceId === sourceId && r.targetId === targetId);
+      if (rel) {
+        rel.attenuation = parseFloat(attenuationSlider.value);
+        rel.amplification = parseFloat(amplificationSlider.value);
+      }
+    }
+
+    function removeSelectedLink() {
+      const sourceId = state.linkSourceId;
+      const targetId = state.linkTargetId;
+      state.relations = state.relations.filter(r => !(r.sourceId === sourceId && r.targetId === targetId));
+    }
+
+    function updateMetrics() {
+      let insideSum = 0;
+      let outsideSum = 0;
+      for (const d of state.distinctions) {
+        insideSum += d.insideEmphasis * d.salience;
+        outsideSum += d.outsideEmphasis * d.boundary;
+      }
+      let atten = 0;
+      let amp = 0;
+      for (const r of state.relations) {
+        atten += r.attenuation;
+        amp += r.amplification;
+      }
+      state.metrics.inside = state.distinctions.length ? insideSum / state.distinctions.length : 0;
+      state.metrics.outside = state.distinctions.length ? outsideSum / state.distinctions.length : 0;
+      state.metrics.attenuation = state.relations.length ? atten / state.relations.length : 0;
+      state.metrics.amplification = state.relations.length ? amp / state.relations.length : 0;
+    }
+
+    function drawObserver() {
+      const x = state.observer.x;
+      const y = state.observer.y;
+      const g = ctx.createRadialGradient(x, y, 5, x, y, 44);
+      g.addColorStop(0, 'rgba(200,182,255,0.45)');
+      g.addColorStop(1, 'rgba(200,182,255,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, 44, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(200,182,255,0.95)';
+      ctx.beginPath();
+      ctx.arc(x, y, 12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#07111a';
+      ctx.font = '700 12px Inter, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Observer', x, y + 28);
+    }
+
+    function drawDistinction(d) {
+      const selected = d.id === state.selectedId;
+      const borderAlpha = 0.35 + d.boundary * 0.4;
+      const insideAlpha = 0.08 + d.insideEmphasis * 0.15;
+      const outsideAlpha = 0.06 + d.outsideEmphasis * 0.12;
+
+      if (d.shape === 'Box') {
+        ctx.fillStyle = `rgba(157,255,157,${insideAlpha})`;
+        roundRect(ctx, d.x - d.w / 2, d.y - d.h / 2, d.w, d.h, 18, true, false);
+        ctx.strokeStyle = `rgba(127,214,255,${borderAlpha + (selected ? 0.25 : 0)})`;
+        ctx.lineWidth = selected ? 3.4 : 2.2;
+        roundRect(ctx, d.x - d.w / 2, d.y - d.h / 2, d.w, d.h, 18, false, true);
+      } else {
+        ctx.fillStyle = `rgba(157,255,157,${insideAlpha})`;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.w / 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = `rgba(127,214,255,${borderAlpha + (selected ? 0.25 : 0)})`;
+        ctx.lineWidth = selected ? 3.4 : 2.2;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.w / 2, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      const glow = ctx.createRadialGradient(d.x, d.y, 5, d.x, d.y, d.w * 0.7);
+      glow.addColorStop(0, `rgba(255,202,122,${outsideAlpha})`);
+      glow.addColorStop(1, 'rgba(255,202,122,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.w * 0.7, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#dcecff';
+      ctx.textAlign = 'center';
+      ctx.font = '700 14px Inter, system-ui, sans-serif';
+      ctx.fillText(d.label, d.x, d.y - 6);
+      ctx.font = '600 11px Inter, system-ui, sans-serif';
+      ctx.fillText(`inside ${d.insideEmphasis.toFixed(2)} · outside ${d.outsideEmphasis.toFixed(2)}`, d.x, d.y + 14);
+    }
+
+    function drawObserverRelation(d) {
+      const dx = d.x - state.observer.x;
+      const dy = d.y - state.observer.y;
+      const mx = state.observer.x + dx * 0.5;
+      const my = state.observer.y + dy * 0.5 - 26;
+      ctx.beginPath();
+      ctx.strokeStyle = `rgba(200,182,255,${0.18 + d.salience * 0.22})`;
+      ctx.lineWidth = 1.5 + d.salience * 1.6;
+      ctx.moveTo(state.observer.x, state.observer.y);
+      ctx.quadraticCurveTo(mx, my, d.x, d.y);
+      ctx.stroke();
+    }
+
+    function drawRelations() {
+      for (const rel of state.relations) {
+        const a = getDistinction(rel.sourceId);
+        const b = getDistinction(rel.targetId);
+        if (!a || !b) continue;
+
+        if (state.mode === 'Line') {
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(127,214,255,0.38)';
+          ctx.lineWidth = 2;
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        } else {
+          const topCtrlX = (a.x + b.x) / 2;
+          const topCtrlY = Math.min(a.y, b.y) - 58;
+          drawCurvedArrow(ctx, a.x, a.y - 10, b.x, b.y - 10, topCtrlX, topCtrlY, `rgba(127,214,255,${0.3 + rel.attenuation * 0.3})`, 2 + rel.attenuation * 5.5, `attenuate ${rel.attenuation.toFixed(2)}`, topCtrlY - 8);
+
+          const bottomCtrlX = (a.x + b.x) / 2;
+          const bottomCtrlY = Math.max(a.y, b.y) + 64;
+          drawCurvedArrow(ctx, b.x, b.y + 12, a.x, a.y + 12, bottomCtrlX, bottomCtrlY, `rgba(255,140,140,${0.3 + rel.amplification * 0.28})`, 2 + rel.amplification * 5.5, `amplify ${rel.amplification.toFixed(2)}`, bottomCtrlY + 18);
+        }
+      }
+    }
+
+    function drawCurvedArrow(ctx, x1, y1, x2, y2, cx, cy, strokeStyle, width, label, labelY) {
+      ctx.beginPath();
+      ctx.strokeStyle = strokeStyle;
+      ctx.lineWidth = width;
+      ctx.moveTo(x1, y1);
+      ctx.quadraticCurveTo(cx, cy, x2, y2);
+      ctx.stroke();
+
+      const t = 0.92;
+      const qx = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * cx + t * t * x2;
+      const qy = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * cy + t * t * y2;
+      const dx = 2 * (1 - t) * (cx - x1) + 2 * t * (x2 - cx);
+      const dy = 2 * (1 - t) * (cy - y1) + 2 * t * (y2 - cy);
+      const ang = Math.atan2(dy, dx);
+      const size = 8 + width * 0.35;
+      ctx.beginPath();
+      ctx.fillStyle = strokeStyle;
+      ctx.moveTo(qx, qy);
+      ctx.lineTo(qx - Math.cos(ang - 0.5) * size, qy - Math.sin(ang - 0.5) * size);
+      ctx.lineTo(qx - Math.cos(ang + 0.5) * size, qy - Math.sin(ang + 0.5) * size);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = 'rgba(220,236,255,0.92)';
+      ctx.font = '600 11px Inter, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(label, (x1 + x2) / 2, labelY);
+    }
+
+    function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    function drawBackground() {
+      const g = ctx.createLinearGradient(0, 0, 0, state.h);
+      g.addColorStop(0, '#07131c');
+      g.addColorStop(1, '#091c29');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, state.w, state.h);
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      state.w = canvas.clientWidth;
+      state.h = canvas.clientHeight;
+    }
+
+    function hitDistinction(x, y) {
+      for (let i = state.distinctions.length - 1; i >= 0; i--) {
+        const d = state.distinctions[i];
+        if (d.shape === 'Box') {
+          if (x >= d.x - d.w / 2 && x <= d.x + d.w / 2 && y >= d.y - d.h / 2 && y <= d.y + d.h / 2) return d;
+        } else {
+          const dx = x - d.x;
+          const dy = y - d.y;
+          if (dx * dx + dy * dy <= (d.w / 2) * (d.w / 2)) return d;
+        }
+      }
+      return null;
+    }
+
+    let drag = { id: null, offX: 0, offY: 0 };
+
+    canvas.addEventListener('pointerdown', (evt) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = evt.clientX - rect.left;
+      const y = evt.clientY - rect.top;
+      const d = hitDistinction(x, y);
+      if (d) {
+        state.selectedId = d.id;
+        drag.id = d.id;
+        drag.offX = x - d.x;
+        drag.offY = y - d.y;
+        refreshSelector();
+        syncSelectedControls();
+        canvas.setPointerCapture(evt.pointerId);
+      } else if (state.observer.moving) {
+        state.observer.x = x;
+        state.observer.y = y;
+        state.observer.moving = false;
+      }
+    });
+
+    canvas.addEventListener('pointermove', (evt) => {
+      if (!drag.id) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = evt.clientX - rect.left;
+      const y = evt.clientY - rect.top;
+      const d = getDistinction(drag.id);
+      if (!d) return;
+
+      const newX = clamp(x - drag.offX, 80, state.w - 80);
+      const newY = clamp(y - drag.offY, 70, state.h - 140);
+      const dx = newX - d.x;
+      const dy = newY - d.y;
+
+      if (d.parentId) {
+        d.x = newX;
+        d.y = newY;
+        const parent = getDistinction(d.parentId);
+        if (parent) constrainChildToParent(d, parent);
+      } else {
+        moveSubtree(d, dx, dy);
+      }
+      recomputeContainers();
+    });
+
+    function endDrag(evt) {
+      if (drag.id) {
+        try { canvas.releasePointerCapture(evt.pointerId); } catch (e) {}
+      }
+      drag.id = null;
+    }
+    canvas.addEventListener('pointerup', endDrag);
+    canvas.addEventListener('pointercancel', endDrag);
+
+    function updateUI() {
+      newLabelEcho.textContent = newLabelInput.value || 'Distinction';
+      shapeValue.textContent = shapeSelect.value;
+      modeValue.textContent = state.mode;
+      attenuationValue.textContent = attenuationSlider.value;
+      amplificationValue.textContent = amplificationSlider.value;
+      distinctionCount.textContent = String(state.distinctions.length);
+      relationCount.textContent = String(state.relations.length);
+      insideLoad.textContent = state.metrics.inside.toFixed(2);
+      outsideLoad.textContent = state.metrics.outside.toFixed(2);
+      attenFlow.textContent = state.metrics.attenuation.toFixed(2);
+      ampFlow.textContent = state.metrics.amplification.toFixed(2);
+
+      let summary = '';
+      if (state.relations.length === 0) {
+        summary = 'At the moment you have marks, but no explicit relations between distinctions. The diagram is showing that even a single distinction already involves an observer-relative inside/outside relation.';
+      } else if (state.mode === 'Line') {
+        summary = 'The relations are currently shown as simple lines. This emphasizes that distinctions can be related before we decide how to interpret the process between them.';
+      } else {
+        summary = 'The relations are now being read as attenuation and amplification. This shows that moving between distinctions is never neutral: some differences are filtered down, while others are enlarged or made more salient.';
+      }
+
+      summaryBubble.innerHTML = `<b>Interpretation</b><br>${summary}`;
+      probeBubble.innerHTML = `<b>What to try</b><br>Create a simple distinction in the world, then add another distinction inside it, and another outside it. Link them first as lines, then switch to attenuation/amplification mode. Drag the observer and notice that the diagram is not just about things, but about how the observer relates to inclusion, exclusion, and relations between distinctions.`;
+    }
+
+    function animate() {
+      state.t += 0.016;
+      state.mode = modeSelect.value;
+      recomputeContainers();
+      drawBackground();
+      drawRelations();
+      state.distinctions.forEach(drawObserverRelation);
+      state.distinctions.forEach(drawDistinction);
+      drawObserver();
+      updateMetrics();
+      updateUI();
+      requestAnimationFrame(animate);
+    }
+
+    newLabelInput.addEventListener('input', updateUI);
+    shapeSelect.addEventListener('change', updateUI);
+    modeSelect.addEventListener('change', updateUI);
+    attenuationSlider.addEventListener('input', () => {
+      const rel = state.relations.find(r => r.sourceId === state.linkSourceId && r.targetId === state.linkTargetId);
+      if (rel) rel.attenuation = parseFloat(attenuationSlider.value);
+      updateUI();
+    });
+    amplificationSlider.addEventListener('input', () => {
+      const rel = state.relations.find(r => r.sourceId === state.linkSourceId && r.targetId === state.linkTargetId);
+      if (rel) rel.amplification = parseFloat(amplificationSlider.value);
+      updateUI();
+    });
+
+    distinctionSelect.addEventListener('change', () => {
+      state.selectedId = parseInt(distinctionSelect.value, 10) || null;
+      syncSelectedControls();
+    });
+    linkSourceSelect.addEventListener('change', () => {
+      state.linkSourceId = parseInt(linkSourceSelect.value, 10) || null;
+      syncSelectedControls();
+    });
+    linkTargetSelect.addEventListener('change', () => {
+      state.linkTargetId = parseInt(linkTargetSelect.value, 10) || null;
+      syncSelectedControls();
+    });
+    salienceSlider.addEventListener('input', applySelectedControls);
+    boundarySlider.addEventListener('input', applySelectedControls);
+    insideSlider.addEventListener('input', applySelectedControls);
+    outsideSlider.addEventListener('input', applySelectedControls);
+    editLabelInput.addEventListener('input', applySelectedLabel);
+
+    document.getElementById('addWorldBtn').addEventListener('click', () => addDistinction(newLabelInput.value || 'Distinction', 'world'));
+    document.getElementById('addInsideBtn').addEventListener('click', () => addDistinction(newLabelInput.value || 'Inside', 'inside'));
+    document.getElementById('addOutsideBtn').addEventListener('click', () => addDistinction(newLabelInput.value || 'Outside', 'outside'));
+    document.getElementById('removeBtn').addEventListener('click', removeSelected);
+    document.getElementById('linkBtn').addEventListener('click', linkSelectedToTarget);
+    document.getElementById('unlinkBtn').addEventListener('click', removeSelectedLink);
+    document.getElementById('observerBtn').addEventListener('click', () => { state.observer.moving = true; });
+
+    window.addEventListener('resize', resize);
+
+    resize();
+    addDistinction('World', 'world');
+    addDistinction('Occupational Health', 'inside');
+    addDistinction('Marketing', 'outside');
+    state.linkSourceId = state.distinctions[1].id;
+    state.linkTargetId = state.distinctions[2].id;
+    ensureRelation(state.linkSourceId, state.linkTargetId);
+    refreshSelector();
+    syncSelectedControls();
+    updateUI();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
