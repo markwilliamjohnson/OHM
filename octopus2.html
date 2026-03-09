@@ -1,0 +1,1547 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Octopus Recursion Simulator</title>
+  <style>
+    :root {
+      --bg: #07111a;
+      --panel: rgba(8, 22, 34, 0.82);
+      --border: rgba(140, 201, 255, 0.2);
+      --text: #dcecff;
+      --muted: #8fb0ca;
+      --accent: #7fd6ff;
+      --good: #9dff9d;
+      --warn: #ffb480;
+      --bad: #ff8e8e;
+      --food: #90ff8a;
+      --hazard: #ff8e8e;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(61, 124, 177, 0.2), transparent 25%),
+        radial-gradient(circle at 80% 0%, rgba(90, 168, 196, 0.12), transparent 28%),
+        linear-gradient(180deg, #08111a 0%, #091723 52%, #061018 100%);
+      display: grid;
+      grid-template-columns: 430px 1fr;
+    }
+
+    .sidebar {
+      height: 100vh;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(9, 23, 36, 0.96), rgba(6, 17, 27, 0.9));
+      border-right: 1px solid rgba(149, 196, 232, 0.16);
+      overflow-y: auto;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+    }
+
+    h1 {
+      font-size: 1.32rem;
+      margin: 0 0 10px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 0.92rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    p {
+      margin: 0 0 10px;
+      line-height: 1.45;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .control-row { margin-bottom: 14px; }
+
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: 0.9rem;
+    }
+
+    .value {
+      color: var(--accent);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      appearance: none;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(127,214,255,0.85), rgba(127,214,255,0.16));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(127,214,255,0.16);
+      cursor: pointer;
+    }
+
+    button, textarea {
+      width: 100%;
+      border: 1px solid rgba(140, 201, 255, 0.2);
+      background: linear-gradient(180deg, rgba(20, 66, 92, 0.92), rgba(11, 37, 52, 0.92));
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    textarea {
+      min-height: 108px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .button-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .stat .k {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat .v {
+      font-size: 1.08rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 3px;
+    }
+
+    .stage {
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+      min-height: 0;
+    }
+
+    canvas#canvas {
+      width: 100%;
+      height: 100vh;
+      display: block;
+    }
+
+    .small-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-top: 8px;
+    }
+
+    .history-box, .output {
+      max-height: 170px;
+      overflow: auto;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      white-space: pre-wrap;
+    }
+
+    .mini-chart {
+      width: 100%;
+      height: 146px;
+      display: block;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 1120px) {
+      body {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(300px, 45vh) 1fr;
+      }
+
+      .sidebar {
+        height: auto;
+        max-height: 45vh;
+        border-right: none;
+        border-bottom: 1px solid rgba(149,196,232,0.16);
+      }
+
+      .stage {
+        height: 55vh;
+      }
+
+      canvas#canvas {
+        height: 55vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="card">
+      <h1>Octopus Recursion Simulator</h1>
+      <p>
+        This version is tuned so the octopus actually <b>fans out and wiggles its arms</b>. High recursion creates more
+        autonomous arm-level probing, broader exploratory sweeps, and more local searching for food. Low recursion makes
+        movement tighter, less varied, and more centrally constrained.
+      </p>
+      <p>
+        Coordination and environmental knowledge remain separate: high recursion without coordination now fragments the
+        body, while low recursion with good coordination can still work reasonably well through more unified control.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+
+      <div class="control-row">
+        <div class="label-row"><span>Recursive autonomy depth</span><span class="value" id="recursionValue">4.00 / 4</span></div>
+        <input id="recursionSlider" type="range" min="0" max="4" step="0.01" value="4" />
+      </div>
+
+      <div class="control-row">
+        <div class="label-row"><span>Coordination quality</span><span class="value" id="coordinationValue">0.80</span></div>
+        <input id="coordinationSlider" type="range" min="0" max="1" step="0.01" value="0.8" />
+      </div>
+
+      <div class="control-row">
+        <div class="label-row"><span>Environmental knowledge / food-seeking</span><span class="value" id="knowledgeValue">0.75</span></div>
+        <input id="knowledgeSlider" type="range" min="0" max="1" step="0.01" value="0.75" />
+      </div>
+
+      <div class="control-row">
+        <div class="label-row"><span>Challenge intensity</span><span class="value" id="challengeValue">0.60</span></div>
+        <input id="challengeSlider" type="range" min="0" max="1" step="0.01" value="0.6" />
+      </div>
+
+      <div class="button-grid">
+        <button id="resetBtn">Reset World</button>
+        <button id="pulseBtn">Pulse Hazards</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Viability</h2>
+      <div class="stats">
+        <div class="stat"><div class="k">Adaptation</div><div class="v" id="adaptationScore">0.00</div></div>
+        <div class="stat"><div class="k">Food captured</div><div class="v" id="foodScore">0</div></div>
+        <div class="stat"><div class="k">Hazards avoided</div><div class="v" id="avoidScore">0</div></div>
+        <div class="stat"><div class="k">Stress load</div><div class="v" id="stressScore">0.00</div></div>
+        <div class="stat"><div class="k">Viability</div><div class="v" id="viabilityScore">1.00</div></div>
+        <div class="stat"><div class="k">Chronic strain</div><div class="v" id="strainScore">0.00</div></div>
+        <div class="stat"><div class="k">State</div><div class="v" id="lifeState">Alive</div></div>
+        <div class="stat"><div class="k">Speed</div><div class="v" id="speedScore">0.00</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Time Series</h2>
+      <canvas id="historyCanvas" class="mini-chart" width="360" height="146"></canvas>
+      <p class="small-note">
+        Recursion, coordination, environmental knowledge, challenge, viability, strain, stress, and coherence are recorded
+        over time and fed into the generated prompt.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Prompt Builder</h2>
+      <div class="control-row">
+        <div class="label-row"><span>Scenario details</span><span class="value" id="historyCountValue">0 samples</span></div>
+        <textarea id="scenarioInput" placeholder="Describe the occupational health management scenario here."></textarea>
+      </div>
+      <div class="button-grid">
+        <button id="generatePromptBtn">Generate Prompt</button>
+        <button id="copyPromptBtn">Copy Prompt</button>
+      </div>
+      <div class="control-row" style="margin-top:12px">
+        <div class="label-row"><span>Generated prompt</span><span class="value" id="historyWindowValue">Last 12 events</span></div>
+        <div id="promptOutput" class="output"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>What changed</h2>
+      <div class="legend-item"><span class="dot" style="background:#7fd6ff"></span><span><b>Thicker arms</b>: proximal arm segments are broader and longer, so the silhouette reads more like an octopus.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#9dff9d"></span><span><b>More arm wiggle</b>: each arm now has stronger travelling waves, local probing motion, and tip-led exploratory curl.</span></div>
+      <div class="legend-item"><span class="dot" style="background:#ff8e8e"></span><span><b>Recursion matters visibly</b>: high recursion increases independent arm searching, while low recursion reduces range, variety, and freedom.</span></div>
+      <p id="consequenceText"></p>
+    </div>
+
+    <div class="card">
+      <h2>Recent samples</h2>
+      <div class="history-box" id="historyPreview">No samples recorded yet.</div>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <canvas id="canvas"></canvas>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const historyCanvas = document.getElementById('historyCanvas');
+    const historyCtx = historyCanvas.getContext('2d');
+
+    const recursionSlider = document.getElementById('recursionSlider');
+    const coordinationSlider = document.getElementById('coordinationSlider');
+    const knowledgeSlider = document.getElementById('knowledgeSlider');
+    const challengeSlider = document.getElementById('challengeSlider');
+
+    const recursionValue = document.getElementById('recursionValue');
+    const coordinationValue = document.getElementById('coordinationValue');
+    const knowledgeValue = document.getElementById('knowledgeValue');
+    const challengeValue = document.getElementById('challengeValue');
+
+    const adaptationScoreEl = document.getElementById('adaptationScore');
+    const foodScoreEl = document.getElementById('foodScore');
+    const avoidScoreEl = document.getElementById('avoidScore');
+    const stressScoreEl = document.getElementById('stressScore');
+    const viabilityScoreEl = document.getElementById('viabilityScore');
+    const strainScoreEl = document.getElementById('strainScore');
+    const lifeStateEl = document.getElementById('lifeState');
+    const speedScoreEl = document.getElementById('speedScore');
+
+    const consequenceText = document.getElementById('consequenceText');
+
+    const scenarioInput = document.getElementById('scenarioInput');
+    const generatePromptBtn = document.getElementById('generatePromptBtn');
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+    const promptOutput = document.getElementById('promptOutput');
+    const historyPreview = document.getElementById('historyPreview');
+    const historyCountValue = document.getElementById('historyCountValue');
+    const historyWindowValue = document.getElementById('historyWindowValue');
+
+    const state = {
+      w: 0,
+      h: 0,
+      t: 0,
+      recursion: 4,
+      coordination: 0.8,
+      knowledge: 0.75,
+      challenge: 0.6,
+      foods: [],
+      hazards: [],
+      ripples: [],
+      particles: [],
+      history: [],
+      maxHistory: 240,
+      lastRecordedSnapshotAt: 0,
+      metrics: {
+        adaptation: 0,
+        food: 0,
+        avoided: 0,
+        stress: 0,
+        viability: 1,
+        strain: 0,
+        coherence: 0
+      }
+    };
+
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+    function dist(ax, ay, bx, by) { return Math.hypot(ax - bx, ay - by); }
+    function dist2(ax, ay, bx, by) { const dx = ax - bx; const dy = ay - by; return dx * dx + dy * dy; }
+    function avg(arr) { return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0; }
+    function minOf(arr) { return arr.length ? Math.min(...arr) : 0; }
+    function maxOf(arr) { return arr.length ? Math.max(...arr) : 0; }
+    function normalize(x, y) {
+      const len = Math.hypot(x, y) || 1;
+      return { x: x / len, y: y / len };
+    }
+    function effectiveRecursion(recursive, coordination) {
+      return recursive * (0.25 + coordination * 0.75);
+    }
+    function formatSimTime(t) {
+      return `t=${t.toFixed(2)}s`;
+    }
+
+    function currentField(x, y, t) {
+      const nx = x / Math.max(state.w, 1);
+      const ny = y / Math.max(state.h, 1);
+      const angle = Math.sin(nx * 7 + t * 0.7) * 1.0 + Math.cos(ny * 8 - t * 0.9) * 0.8;
+      const mag = 0.35 + 0.75 * (0.5 + 0.5 * Math.sin(t * 0.3 + nx * 5 - ny * 6));
+      return {
+        angle,
+        mag,
+        vx: Math.cos(angle) * mag,
+        vy: Math.sin(angle) * mag
+      };
+    }
+
+    function spawnFood(n = 1) {
+      for (let i = 0; i < n; i++) {
+        state.foods.push({
+          x: rand(80, state.w - 80),
+          y: rand(80, state.h - 90),
+          value: rand(0.7, 1.4),
+          phase: rand(0, Math.PI * 2)
+        });
+      }
+    }
+
+    function spawnHazard(n = 1) {
+      for (let i = 0; i < n; i++) {
+        state.hazards.push({
+          x: rand(90, state.w - 90),
+          y: rand(90, state.h - 110),
+          value: rand(0.8, 1.45) * (0.7 + state.challenge * 0.9),
+          radius: rand(20, 36),
+          drift: rand(-0.22, 0.22),
+          phase: rand(0, Math.PI * 2)
+        });
+      }
+    }
+
+    function resetParticles() {
+      state.particles = [];
+      for (let i = 0; i < 80; i++) {
+        state.particles.push({
+          x: rand(0, state.w),
+          y: rand(0, state.h),
+          s: rand(0.5, 1.5),
+          p: rand(0, Math.PI * 2)
+        });
+      }
+    }
+
+    function recordHistory(reason) {
+      const entry = {
+        step: state.history.length + 1,
+        time: Number(state.t.toFixed(2)),
+        reason,
+        recursion: Number(state.recursion.toFixed(3)),
+        coordination: Number(state.coordination.toFixed(3)),
+        knowledge: Number(state.knowledge.toFixed(3)),
+        challenge: Number(state.challenge.toFixed(3)),
+        adaptation: Number(state.metrics.adaptation.toFixed(3)),
+        viability: Number(state.metrics.viability.toFixed(3)),
+        stress: Number(state.metrics.stress.toFixed(3)),
+        strain: Number(state.metrics.strain.toFixed(3)),
+        coherence: Number(state.metrics.coherence.toFixed(3))
+      };
+
+      const prev = state.history[state.history.length - 1];
+      const materiallyDifferent = !prev ||
+        prev.reason !== entry.reason ||
+        Math.abs(prev.recursion - entry.recursion) > 0.015 ||
+        Math.abs(prev.coordination - entry.coordination) > 0.015 ||
+        Math.abs(prev.knowledge - entry.knowledge) > 0.015 ||
+        Math.abs(prev.challenge - entry.challenge) > 0.015 ||
+        Math.abs(prev.viability - entry.viability) > 0.03 ||
+        Math.abs(prev.adaptation - entry.adaptation) > 0.03;
+
+      if (!materiallyDifferent) return;
+
+      state.history.push(entry);
+      if (state.history.length > state.maxHistory) state.history.shift();
+      updateHistoryUI();
+    }
+
+    function updateHistoryUI() {
+      historyCountValue.textContent = `${state.history.length} samples`;
+      const recent = state.history.slice(-12);
+      historyPreview.textContent = recent.length
+        ? recent.map(e =>
+            `[${e.step}] ${formatSimTime(e.time)} | ${e.reason}\n` +
+            `recursion=${e.recursion}, coordination=${e.coordination}, knowledge=${e.knowledge}, challenge=${e.challenge}, adaptation=${e.adaptation}, viability=${e.viability}, stress=${e.stress}, strain=${e.strain}, coherence=${e.coherence}`
+          ).join('\n\n')
+        : 'No samples recorded yet.';
+    }
+
+    class Segment {
+      constructor(arm, index, count) {
+        this.arm = arm;
+        this.index = index;
+        this.count = count;
+        this.length = lerp(26, 14, index / (count - 1));
+        this.angle = rand(-0.18, 0.18);
+        this.angularVelocity = 0;
+        this.pos = { x: 0, y: 0 };
+        this.baseSignal = 0;
+        this.peerSignal = 0;
+        this.foodSignal = 0;
+        this.hazardSignal = 0;
+        this.flowSignal = 0;
+        this.recursiveSignal = 0;
+        this.localAutonomy = 0;
+        this.coupledStrength = 0;
+        this.adaptability = 0;
+        this.fragility = 0;
+        this.probeBias = rand(-1, 1);
+      }
+    }
+
+    class Arm {
+      constructor(owner, index) {
+        this.owner = owner;
+        this.index = index;
+        this.baseAngle = (Math.PI * 2 * index) / 8 + rand(-0.06, 0.06);
+        this.wavePhase = rand(0, Math.PI * 2);
+        this.probePhase = rand(0, Math.PI * 2);
+        this.segments = Array.from({ length: 18 }, (_, i) => new Segment(this, i, 18));
+        this.tip = { x: owner.x, y: owner.y };
+      }
+
+      forwardKinematics() {
+        let x = this.owner.x;
+        let y = this.owner.y;
+        let a = this.baseAngle + this.owner.bodyHeading * 0.18;
+
+        for (const s of this.segments) {
+          a += s.angle * 0.20;
+          x += Math.cos(a) * s.length;
+          y += Math.sin(a) * s.length;
+          s.pos.x = x;
+          s.pos.y = y;
+        }
+
+        this.tip.x = x;
+        this.tip.y = y;
+      }
+
+      sampleEnvironment() {
+        this.forwardKinematics();
+        const recursive = state.recursion / 4;
+        const knowledge = state.knowledge;
+
+        for (const s of this.segments) {
+          let food = 0;
+          let hazard = 0;
+          const localKnowledge = 0.32 + knowledge * 0.68;
+          const searchGain = 0.85 + recursive * 0.7;
+
+          for (const f of state.foods) {
+            const dx = f.x - s.pos.x;
+            const dy = f.y - s.pos.y;
+            const d2 = dx * dx + dy * dy + 1;
+            food += f.value / d2 * 2200 * localKnowledge * searchGain;
+          }
+
+          for (const h of state.hazards) {
+            const dx = h.x - s.pos.x;
+            const dy = h.y - s.pos.y;
+            const d2 = dx * dx + dy * dy + 1;
+            hazard += h.value / d2 * 3200 * (0.75 + knowledge * 0.25);
+          }
+
+          const flow = currentField(s.pos.x, s.pos.y, state.t);
+          const flowAlignment = Math.cos(flow.angle - s.angle) * flow.mag;
+
+          s.foodSignal = clamp(food, 0, 2.6);
+          s.hazardSignal = clamp(hazard, 0, 3.0);
+          s.flowSignal = clamp((flowAlignment + 1.5) / 3, 0, 1.3);
+          s.baseSignal = s.foodSignal * 1.15 - s.hazardSignal * 0.98 + s.flowSignal * 0.6;
+        }
+      }
+
+      recursivePasses() {
+        const recursive = state.recursion / 4;
+        const coordination = state.coordination;
+        const passes = Math.max(1, Math.round(1 + recursive * 4));
+        const comps = this.segments;
+
+        for (let i = 0; i < comps.length; i++) {
+          const left = comps[i - 1]?.baseSignal ?? comps[i].baseSignal;
+          const right = comps[i + 1]?.baseSignal ?? comps[i].baseSignal;
+          comps[i].peerSignal = (left + right) * 0.5;
+          comps[i].recursiveSignal = comps[i].baseSignal;
+        }
+
+        for (let pass = 0; pass < passes; pass++) {
+          const next = new Array(comps.length).fill(0);
+
+          for (let i = 0; i < comps.length; i++) {
+            const c = comps[i];
+            const left = comps[i - 1]?.recursiveSignal ?? c.recursiveSignal;
+            const right = comps[i + 1]?.recursiveSignal ?? c.recursiveSignal;
+            const grandLeft = comps[i - 2]?.recursiveSignal ?? left;
+            const grandRight = comps[i + 2]?.recursiveSignal ?? right;
+            const neighborArmSignal = this.owner.getNeighborSignal(this.index, i) * coordination;
+
+            const localConsensus = (left + right) * 0.5;
+            const wideConsensus = (grandLeft + grandRight) * 0.5;
+            const coherence = 1 - clamp(Math.abs(localConsensus - wideConsensus), 0, 1.6) / 1.6;
+
+            const recursionEnabledAutonomy = recursive * (0.35 + coordination * 0.95);
+            const couplingEnabledLearning = recursive * coordination * (0.42 + pass * 0.05);
+            const centralPenalty = (1 - recursive) * (0.24 + state.challenge * 0.48);
+
+            c.localAutonomy = lerp(
+              c.localAutonomy,
+              clamp(0.08 + recursionEnabledAutonomy - centralPenalty - c.hazardSignal * 0.06, 0, 1.7),
+              0.18
+            );
+
+            c.coupledStrength = lerp(
+              c.coupledStrength,
+              clamp(0.12 + couplingEnabledLearning + coherence * 0.36 - Math.abs(left - right) * 0.07, 0, 1.6),
+              0.18
+            );
+
+            const adaptiveIntegration =
+              c.baseSignal * (0.56 + c.localAutonomy * 0.18) +
+              localConsensus * (0.12 + c.coupledStrength * 0.22) +
+              wideConsensus * (0.07 + recursive * coordination * 0.24) +
+              neighborArmSignal * 0.22 -
+              c.hazardSignal * (0.05 + (1 - recursive) * 0.06);
+
+            const commandFilteredIntegration =
+              c.baseSignal * (0.72 - (1 - recursive) * 0.18) +
+              localConsensus * (0.18 + coordination * 0.06) +
+              wideConsensus * (0.07 + (1 - recursive) * 0.12) -
+              c.hazardSignal * (0.07 + (1 - recursive) * 0.08);
+
+            const recursionBlend = clamp(recursive * (0.55 + coordination * 0.45), 0, 1);
+            next[i] = lerp(commandFilteredIntegration, adaptiveIntegration, recursionBlend);
+          }
+
+          for (let i = 0; i < comps.length; i++) {
+            comps[i].recursiveSignal = lerp(comps[i].recursiveSignal, next[i], 0.82);
+          }
+        }
+
+        for (const c of comps) {
+          const peerFit = 1 - clamp(Math.abs(c.recursiveSignal - c.peerSignal), 0, 1.4) / 1.4;
+          const complexityPressure = state.challenge * 0.72 + c.hazardSignal * 0.12;
+
+          c.adaptability = clamp(
+            0.18 + c.localAutonomy * 0.54 + c.coupledStrength * 0.40 + peerFit * 0.26 - complexityPressure * 0.18,
+            0,
+            1.9
+          );
+
+          c.fragility = clamp(
+            complexityPressure * 0.7 - c.localAutonomy * 0.28 - c.coupledStrength * 0.26 - peerFit * 0.16,
+            0,
+            1.8
+          );
+        }
+      }
+
+      move() {
+        const recursive = state.recursion / 4;
+        const coordination = state.coordination;
+        const commandWeight = 1 - recursive;
+        const fragmentation = recursive * (1 - coordination);
+
+        let cumulative = 0;
+
+        for (let i = 0; i < this.segments.length; i++) {
+          const s = this.segments[i];
+          const tipBias = i / (this.segments.length - 1);
+
+          const localInitiative = s.baseSignal * (0.14 + s.localAutonomy * 0.22);
+          const peerAlignment = (s.peerSignal - s.baseSignal) * (0.05 + s.coupledStrength * 0.10);
+          const recursiveDrive = s.recursiveSignal * (0.05 + s.localAutonomy * 0.10 + s.coupledStrength * 0.06);
+          const centralConstraint = -commandWeight * (0.03 + tipBias * 0.10) * Math.sign(s.angle);
+
+          const wholeArmWave =
+            Math.sin(state.t * (1.9 + recursive * 1.0) + i * (0.55 + recursive * 0.4) + this.wavePhase) *
+            (0.012 + recursive * 0.055);
+
+          const localProbe =
+            Math.sin(state.t * (2.5 + tipBias * 1.5 + recursive * 1.2) + s.probeBias * 4 + this.probePhase) *
+            (0.010 + recursive * 0.060 + tipBias * recursive * 0.040);
+
+          const tipSearch =
+            Math.cos(state.t * (1.4 + recursive * 0.9) + this.index * 0.7 + i * 0.28) *
+            tipBias * (0.003 + recursive * 0.040);
+
+          const disorder =
+            Math.sin(state.t * 2.1 + i * 0.38 + s.probeBias * 3.5) *
+            fragmentation * (0.005 + tipBias * 0.020);
+
+          const hazardRetraction = -s.hazardSignal * (0.008 + tipBias * 0.012);
+          const foodReach = s.foodSignal * (0.005 + tipBias * 0.016 + recursive * 0.010);
+
+          const target =
+            localInitiative +
+            peerAlignment +
+            recursiveDrive +
+            wholeArmWave +
+            localProbe +
+            tipSearch +
+            disorder +
+            foodReach +
+            hazardRetraction +
+            centralConstraint;
+
+          const softness = 0.44 + s.adaptability * 0.26 + s.localAutonomy * 0.20;
+
+          cumulative += target;
+          s.angularVelocity += target * softness * 0.060;
+          s.angularVelocity *= 0.89 - tipBias * 0.025;
+          s.angle += s.angularVelocity;
+
+          const spread = lerp(0.65, 2.35, recursive) + tipBias * recursive * 0.55;
+          s.angle = clamp(s.angle, -spread, spread);
+        }
+
+        this.forwardKinematics();
+        return cumulative / this.segments.length;
+      }
+
+      draw(ctx) {
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        for (let i = 0; i < this.segments.length; i++) {
+          const s = this.segments[i];
+          const prev = i === 0 ? { x: this.owner.x, y: this.owner.y } : this.segments[i - 1].pos;
+          const width = lerp(18, 3.4, i / (this.segments.length - 1));
+
+          const blue = Math.round(145 + clamp(s.localAutonomy, 0, 1.6) * 56 + clamp(s.coupledStrength, 0, 1.6) * 18);
+          const green = Math.round(92 + clamp(s.adaptability, 0, 1.8) * 86);
+          const red = Math.round(86 + clamp(s.fragility, 0, 1.8) * 74 + clamp(s.hazardSignal, 0, 3) * 12);
+
+          ctx.strokeStyle = `rgba(${red},${green},${blue},0.92)`;
+          ctx.lineWidth = width;
+          ctx.beginPath();
+          ctx.moveTo(prev.x, prev.y);
+          ctx.lineTo(s.pos.x, s.pos.y);
+          ctx.stroke();
+
+          if (i > 0 && i % 2 === 1) {
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(240,248,255,${0.06 + s.coupledStrength * 0.09})`;
+            ctx.arc(s.pos.x, s.pos.y, 1.5 + s.adaptability * 0.8, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+    }
+
+    class Octopus {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.homeX = x;
+        this.homeY = y;
+        this.radius = 36;
+        this.bodyHeading = 0;
+        this.velocity = { x: 0, y: 0 };
+        this.centralSignal = 0;
+        this.stress = 0;
+        this.viability = 1;
+        this.alive = true;
+        this.chronicStrain = 0;
+        this.lastCoherence = 0;
+        this.arms = Array.from({ length: 8 }, (_, i) => new Arm(this, i));
+      }
+
+      setHome(x, y) {
+        this.homeX = x;
+        this.homeY = y;
+        this.x = x;
+        this.y = y;
+      }
+
+      getNeighborSignal(armIndex, segIndex) {
+        const left = this.arms[(armIndex + this.arms.length - 1) % this.arms.length].segments[segIndex]?.recursiveSignal || 0;
+        const right = this.arms[(armIndex + 1) % this.arms.length].segments[segIndex]?.recursiveSignal || 0;
+        return (left + right) * 0.5;
+      }
+
+      computeEnvironmentalIntent() {
+        const recursive = state.recursion / 4;
+        const coordination = state.coordination;
+        const knowledge = state.knowledge;
+        const effRecursive = effectiveRecursion(recursive, coordination);
+
+        let foodVec = { x: 0, y: 0 };
+        let hazardVec = { x: 0, y: 0 };
+        let nearestFood = Infinity;
+        let nearestHazard = Infinity;
+
+        const foodSenseRadius = lerp(110, 430, knowledge);
+        const hazardSenseRadius = lerp(120, 270, knowledge);
+
+        let bestFood = null;
+        let bestFoodScore = -Infinity;
+
+        for (const f of state.foods) {
+          const dx = f.x - this.x;
+          const dy = f.y - this.y;
+          const d = Math.hypot(dx, dy) + 1;
+          nearestFood = Math.min(nearestFood, d);
+
+          if (d < foodSenseRadius) {
+            const score = f.value * (1 - d / foodSenseRadius) * (0.45 + knowledge * 1.25);
+            if (score > bestFoodScore) {
+              bestFoodScore = score;
+              bestFood = { dx, dy, d, value: f.value };
+            }
+          }
+        }
+
+        if (bestFood) {
+          foodVec.x += (bestFood.dx / bestFood.d) * (0.4 + knowledge * 2.4 + bestFood.value);
+          foodVec.y += (bestFood.dy / bestFood.d) * (0.4 + knowledge * 2.4 + bestFood.value);
+        }
+
+        for (const f of state.foods) {
+          const dx = f.x - this.x;
+          const dy = f.y - this.y;
+          const d = Math.hypot(dx, dy) + 1;
+          if (d < foodSenseRadius) {
+            const weight = (1 - d / foodSenseRadius) * f.value * (0.05 + knowledge * 0.34);
+            foodVec.x += (dx / d) * weight;
+            foodVec.y += (dy / d) * weight;
+          }
+        }
+
+        for (const h of state.hazards) {
+          const dx = this.x - h.x;
+          const dy = this.y - h.y;
+          const d = Math.hypot(dx, dy) + 1;
+          const edgeDistance = d - h.radius;
+          nearestHazard = Math.min(nearestHazard, edgeDistance);
+
+          if (d < hazardSenseRadius + h.radius) {
+            const weight = (1 - edgeDistance / (hazardSenseRadius + h.radius)) * h.value;
+            hazardVec.x += (dx / d) * weight * (1.18 + knowledge * 0.72);
+            hazardVec.y += (dy / d) * weight * (1.18 + knowledge * 0.72);
+          }
+        }
+
+        const flow = currentField(this.x, this.y, state.t);
+        const homeDx = this.homeX - this.x;
+        const homeDy = this.homeY - this.y;
+        const homeD = Math.hypot(homeDx, homeDy) + 1;
+
+        const homeVec = {
+          x: (homeDx / homeD) * (1 - recursive) * 0.11,
+          y: (homeDy / homeD) * (1 - recursive) * 0.11
+        };
+
+        const intent = {
+          x:
+            foodVec.x * (0.34 + knowledge * 1.95) * (0.95 + effRecursive * 0.75) +
+            hazardVec.x * (0.64 + effRecursive * 0.58) +
+            flow.vx * (0.04 + recursive * 0.06) +
+            homeVec.x,
+          y:
+            foodVec.y * (0.34 + knowledge * 1.95) * (0.95 + effRecursive * 0.75) +
+            hazardVec.y * (0.64 + effRecursive * 0.58) +
+            flow.vy * (0.04 + recursive * 0.06) +
+            homeVec.y
+        };
+
+        return {
+          intent,
+          nearestFood: isFinite(nearestFood) ? nearestFood : null,
+          nearestHazard: isFinite(nearestHazard) ? nearestHazard : null
+        };
+      }
+
+      update() {
+        const recursive = state.recursion / 4;
+        const coordination = state.coordination;
+        const knowledge = state.knowledge;
+        const effRecursive = effectiveRecursion(recursive, coordination);
+        const fragmentation = recursive * (1 - coordination);
+        const coherenceSupport = coordination * (1 - recursive);
+
+        if (!this.alive) {
+          this.velocity.x *= 0.975;
+          this.velocity.y *= 0.975;
+          this.x += this.velocity.x * 0.016;
+          this.y += this.velocity.y * 0.016;
+          this.bodyHeading += 0.002;
+          return;
+        }
+
+        for (const arm of this.arms) arm.sampleEnvironment();
+        for (const arm of this.arms) arm.recursivePasses();
+
+        const armOutputs = [];
+        let allSegments = [];
+        for (const arm of this.arms) {
+          armOutputs.push(arm.move());
+          allSegments = allSegments.concat(arm.segments);
+        }
+
+        const meanAdaptability = avg(allSegments.map(s => s.adaptability));
+        const meanAutonomy = avg(allSegments.map(s => s.localAutonomy));
+        const meanCoupling = avg(allSegments.map(s => s.coupledStrength));
+        const meanFragility = avg(allSegments.map(s => s.fragility));
+        const meanHazard = avg(allSegments.map(s => s.hazardSignal));
+        const meanFood = avg(allSegments.map(s => s.foodSignal));
+
+        const coherence = clamp(
+          1 - avg(allSegments.map(s => Math.abs(s.recursiveSignal - s.peerSignal))) / 1.25,
+          0,
+          1
+        );
+        this.lastCoherence = clamp(coherence + meanCoupling * 0.18 - fragmentation * 0.12, 0, 1.6);
+
+        const env = this.computeEnvironmentalIntent();
+        const armVector = armOutputs.reduce((acc, v, i) => {
+          acc.x += v * Math.cos(this.arms[i].baseAngle);
+          acc.y += v * Math.sin(this.arms[i].baseAngle);
+          return acc;
+        }, { x: 0, y: 0 });
+
+        const armIntent = normalize(armVector.x, armVector.y);
+        const envLen = Math.hypot(env.intent.x, env.intent.y);
+        const envIntent = envLen > 0.0001 ? normalize(env.intent.x, env.intent.y) : { x: 0, y: 0 };
+
+        const combinedDirection = {
+          x: envIntent.x * (0.56 + knowledge * 0.44) + armIntent.x * (0.08 + coordination * 0.32 - fragmentation * 0.08),
+          y: envIntent.y * (0.56 + knowledge * 0.44) + armIntent.y * (0.08 + coordination * 0.32 - fragmentation * 0.08)
+        };
+
+        const dirLen = Math.hypot(combinedDirection.x, combinedDirection.y);
+        const desiredDir = dirLen > 0.0001
+          ? { x: combinedDirection.x / dirLen, y: combinedDirection.y / dirLen }
+          : { x: Math.cos(this.bodyHeading), y: Math.sin(this.bodyHeading) };
+
+        const nearestFoodFactor = env.nearestFood == null ? 0 : clamp(1 - env.nearestFood / lerp(110, 430, knowledge), 0, 1);
+        const nearestHazardFactor = env.nearestHazard == null ? 0 : clamp(1 - env.nearestHazard / 140, 0, 1);
+
+        const foodDrive = nearestFoodFactor * (0.08 + knowledge * 0.34 + effRecursive * 0.16);
+        const threatBoost = nearestHazardFactor * (0.16 + coordination * 0.16);
+
+        const maxSpeed =
+          7 +
+          effRecursive * 12 +
+          coordination * 4 +
+          foodDrive * 18 +
+          threatBoost * 10 -
+          fragmentation * 4;
+
+        const desiredSpeed =
+          maxSpeed * clamp(0.14 + foodDrive + threatBoost + coordination * 0.12 - fragmentation * 0.10, 0.10, 0.95);
+
+        const desiredVelocity = {
+          x: desiredDir.x * desiredSpeed,
+          y: desiredDir.y * desiredSpeed
+        };
+
+        const steering =
+          0.24 +
+          effRecursive * 0.42 +
+          coordination * 0.75 +
+          knowledge * 0.20 -
+          fragmentation * 0.18;
+
+        this.velocity.x = lerp(this.velocity.x, desiredVelocity.x, 0.05 * steering);
+        this.velocity.y = lerp(this.velocity.y, desiredVelocity.y, 0.05 * steering);
+
+        const wallMargin = 92;
+        if (this.x < wallMargin) this.velocity.x += (wallMargin - this.x) * 0.0012;
+        if (this.x > state.w - wallMargin) this.velocity.x -= (this.x - (state.w - wallMargin)) * 0.0012;
+        if (this.y < wallMargin) this.velocity.y += (wallMargin - this.y) * 0.0012;
+        if (this.y > state.h - wallMargin) this.velocity.y -= (this.y - (state.h - wallMargin)) * 0.0012;
+
+        const vMag = Math.hypot(this.velocity.x, this.velocity.y);
+        const hardCap = 28;
+        if (vMag > hardCap) {
+          this.velocity.x = this.velocity.x / vMag * hardCap;
+          this.velocity.y = this.velocity.y / vMag * hardCap;
+        }
+
+        this.x += this.velocity.x * 0.016;
+        this.y += this.velocity.y * 0.016;
+        this.x = clamp(this.x, 88, state.w - 88);
+        this.y = clamp(this.y, 88, state.h - 88);
+
+        const targetHeading = Math.atan2(
+          this.velocity.y || Math.sin(this.bodyHeading),
+          this.velocity.x || Math.cos(this.bodyHeading)
+        );
+        let delta = targetHeading - this.bodyHeading;
+        while (delta > Math.PI) delta -= Math.PI * 2;
+        while (delta < -Math.PI) delta += Math.PI * 2;
+        this.bodyHeading += delta * 0.03 * (1 + coordination);
+
+        this.stress = clamp(
+          lerp(
+            this.stress,
+            meanHazard * 0.32 + (1 - recursive) * 0.22 + fragmentation * 0.70 - coherenceSupport * 0.18,
+            0.05
+          ),
+          0,
+          4
+        );
+
+        for (const arm of this.arms) {
+          for (const s of arm.segments) {
+            for (let i = state.foods.length - 1; i >= 0; i--) {
+              const f = state.foods[i];
+              const d2 = dist2(f.x, f.y, s.pos.x, s.pos.y);
+
+              if (d2 < 190 && Math.random() < 0.035 + recursive * 0.23 + coordination * 0.07 + knowledge * 0.20) {
+                state.metrics.food += 1;
+                this.viability = clamp(this.viability + 0.012 + recursive * 0.004 + knowledge * 0.004, 0, 1);
+                state.ripples.push({ x: f.x, y: f.y, r: 8, life: 1, type: 'food' });
+                state.foods.splice(i, 1);
+                spawnFood(1);
+              }
+            }
+
+            for (const h of state.hazards) {
+              const d2 = dist2(h.x, h.y, s.pos.x, s.pos.y);
+              if (d2 < (h.radius + 12) * (h.radius + 12)) {
+                state.metrics.stress += 0.016 * (1.1 + (1 - recursive) * 0.7 + (1 - coordination) * 0.45);
+                this.chronicStrain = clamp(this.chronicStrain + 0.0008 + (1 - recursive) * 0.0015 + (1 - coordination) * 0.0011, 0, 1.6);
+              } else if (d2 < (h.radius + 38) * (h.radius + 38) && this.lastCoherence > 0.06 * (0.6 + coordination * 0.8)) {
+                state.metrics.avoided += 0.001 + recursive * 0.002 + coordination * 0.0035;
+              }
+            }
+          }
+        }
+
+        const complexityGap = Math.max(0, state.challenge - (effRecursive * 0.82 + coherenceSupport * 0.42 + 0.08));
+        const acuteLoad =
+          complexityGap * 0.42 +
+          meanHazard * 0.11 +
+          this.stress * 0.10 +
+          Math.max(0, 0.10 - this.lastCoherence) * 0.24 +
+          fragmentation * (0.18 + recursive * 0.24) +
+          (1 - knowledge) * 0.05;
+
+        const recoverySupport =
+          effRecursive * 0.20 +
+          coordination * 0.22 +
+          coherenceSupport * 0.24 +
+          knowledge * 0.07 +
+          meanFood * 0.03 +
+          Math.max(0, this.lastCoherence) * 0.06 +
+          0.015;
+
+        const strainRise = Math.max(0, acuteLoad - recoverySupport) * 0.024;
+        const strainRecovery =
+          0.014 +
+          effRecursive * 0.018 +
+          coordination * 0.028 +
+          coherenceSupport * 0.028 +
+          meanFood * 0.006;
+
+        this.chronicStrain = clamp(this.chronicStrain + strainRise * 0.016 - strainRecovery * 0.016, 0, 1.6);
+
+        const vitalityGain =
+          0.008 +
+          effRecursive * 0.010 +
+          coordination * 0.014 +
+          coherenceSupport * 0.016 +
+          knowledge * 0.006 +
+          meanFood * 0.004 +
+          Math.max(0, this.lastCoherence) * 0.004;
+
+        const vitalityLoss =
+          this.chronicStrain * 0.024 +
+          Math.max(0, this.stress - 2.2) * 0.004 +
+          fragmentation * 0.010 +
+          (1 - recursive) * Math.max(0, state.challenge - 0.80) * 0.004;
+
+        this.viability = clamp(this.viability + (vitalityGain - vitalityLoss) * 0.016, 0, 1);
+        if (this.viability <= 0.01 && this.chronicStrain > 1.20 && this.stress > 2.5) {
+          this.viability = 0;
+          this.alive = false;
+        }
+
+        state.metrics.adaptation = clamp(
+          meanAdaptability * 0.62 +
+          meanAutonomy * 0.32 +
+          meanCoupling * 0.28 +
+          this.lastCoherence * 0.30 -
+          meanFragility * 0.34,
+          0,
+          2
+        );
+        state.metrics.viability = this.viability;
+        state.metrics.strain = this.chronicStrain;
+        state.metrics.coherence = this.lastCoherence;
+      }
+
+      draw(ctx) {
+        for (const arm of this.arms) arm.draw(ctx);
+
+        const mantleGlow = 12 + this.stress * 8 + state.recursion * 5 + this.viability * 10;
+        const g = ctx.createRadialGradient(this.x, this.y, 6, this.x, this.y, mantleGlow + 44);
+        g.addColorStop(0, `rgba(152, 215, 255, ${0.24 + state.recursion / 4 * 0.35 + this.viability * 0.12})`);
+        g.addColorStop(1, 'rgba(72, 125, 176, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, mantleGlow + 44, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(${Math.round(78 + this.stress * 34 + (1 - this.viability) * 54)}, ${Math.round(92 + state.recursion / 4 * 90 + this.viability * 28)}, ${Math.round(132 + state.recursion / 4 * 60)}, 0.96)`;
+        ctx.ellipse(this.x, this.y, this.radius + 9, this.radius + 1, this.bodyHeading * 0.14, 0, Math.PI * 2);
+        ctx.fill();
+
+        const eyeOffset = 11;
+        for (const side of [-1, 1]) {
+          const ex = this.x + Math.cos(this.bodyHeading + side * 0.9) * eyeOffset;
+          const ey = this.y + Math.sin(this.bodyHeading + side * 0.9) * eyeOffset - 2;
+
+          ctx.beginPath();
+          ctx.fillStyle = this.alive ? '#eff8ff' : 'rgba(200,210,220,0.6)';
+          ctx.arc(ex, ey, 4.4, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.fillStyle = '#071019';
+          ctx.arc(ex + Math.cos(this.bodyHeading) * 1.5, ey + Math.sin(this.bodyHeading) * 1.4, this.alive ? 1.8 : 0.9, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr;
+      canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      state.w = canvas.clientWidth;
+      state.h = canvas.clientHeight;
+
+      if (octopus) octopus.setHome(state.w * 0.5, state.h * 0.56);
+    }
+
+    function resetWorld() {
+      state.foods = [];
+      state.hazards = [];
+      state.ripples = [];
+      state.metrics.food = 0;
+      state.metrics.avoided = 0;
+      state.metrics.stress = 0;
+      state.metrics.adaptation = 0;
+      state.history = [];
+      state.lastRecordedSnapshotAt = state.t;
+      promptOutput.textContent = '';
+      resetParticles();
+
+      for (let i = 0; i < 18; i++) spawnFood(1);
+      for (let i = 0; i < 7 + Math.round(state.challenge * 8); i++) spawnHazard(1);
+
+      octopus = new Octopus(state.w * 0.5, state.h * 0.56);
+      updateHistoryUI();
+      recordHistory('Reset world');
+    }
+
+    function pulseHazards() {
+      for (const h of state.hazards) {
+        h.value *= 1.18;
+        h.radius *= 1.08;
+      }
+      for (let i = 0; i < 4; i++) {
+        state.ripples.push({
+          x: rand(60, state.w - 60),
+          y: rand(60, state.h - 60),
+          r: 6,
+          life: 1,
+          type: 'hazard'
+        });
+      }
+      recordHistory('Pulsed hazards');
+    }
+
+    function drawBackground() {
+      const g = ctx.createLinearGradient(0, 0, 0, state.h);
+      g.addColorStop(0, '#07131c');
+      g.addColorStop(1, '#091c29');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, state.w, state.h);
+
+      for (const p of state.particles) {
+        p.p += 0.007 + state.challenge * 0.006;
+        p.x += Math.sin(p.p) * 0.5;
+        p.y += Math.cos(p.p * 0.8) * 0.35;
+        if (p.x < -5) p.x = state.w + 5;
+        if (p.x > state.w + 5) p.x = -5;
+        if (p.y < -5) p.y = state.h + 5;
+        if (p.y > state.h + 5) p.y = -5;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(170, 214, 255, 0.12)';
+        ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      for (let y = 0; y < state.h; y += 30) {
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(120, 180, 210, 0.06)';
+        ctx.moveTo(0, y + Math.sin(state.t + y * 0.04) * 4);
+        for (let x = 0; x <= state.w; x += 24) {
+          const yy = y + Math.sin(state.t * 0.9 + x * 0.02 + y * 0.05) * 4;
+          ctx.lineTo(x, yy);
+        }
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = 'rgba(29, 57, 72, 0.28)';
+      ctx.fillRect(0, state.h - 74, state.w, 74);
+    }
+
+    function drawFieldHints() {
+      for (let x = 60; x < state.w; x += 90) {
+        for (let y = 70; y < state.h; y += 80) {
+          const flow = currentField(x, y, state.t);
+          const len = 10 + flow.mag * 12;
+          const x2 = x + Math.cos(flow.angle) * len;
+          const y2 = y + Math.sin(flow.angle) * len;
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(130,190,255,0.14)';
+          ctx.lineWidth = 1.1;
+          ctx.moveTo(x, y);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function drawEnvironment() {
+      for (const f of state.foods) {
+        f.phase += 0.03;
+        f.y += Math.sin(f.phase) * 0.18;
+
+        const r = 4 + f.value * 4;
+        const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, r * 3);
+        g.addColorStop(0, 'rgba(160,255,160,0.92)');
+        g.addColorStop(1, 'rgba(110,255,150,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, r * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(180,255,180,0.95)';
+        ctx.arc(f.x, f.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      for (const h of state.hazards) {
+        h.phase += 0.01 + state.challenge * 0.01;
+        h.x += Math.sin(h.phase) * h.drift;
+        h.y += Math.cos(h.phase * 0.8) * h.drift * 0.6;
+        h.x = clamp(h.x, 60, state.w - 60);
+        h.y = clamp(h.y, 60, state.h - 90);
+
+        const pulse = 1 + Math.sin(h.phase * 2) * 0.08;
+        const radius = h.radius * pulse;
+        const g = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, radius * 2.2);
+        g.addColorStop(0, 'rgba(255,120,120,0.35)');
+        g.addColorStop(1, 'rgba(255,120,120,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(h.x, h.y, radius * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(255,140,140,0.72)';
+        ctx.lineWidth = 2;
+        ctx.arc(h.x, h.y, radius, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      for (let i = state.ripples.length - 1; i >= 0; i--) {
+        const r = state.ripples[i];
+        r.r += 1.5;
+        r.life -= 0.02;
+        ctx.beginPath();
+        ctx.strokeStyle = r.type === 'food'
+          ? `rgba(160,255,160,${r.life * 0.8})`
+          : `rgba(255,120,120,${r.life * 0.8})`;
+        ctx.lineWidth = 2;
+        ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+        ctx.stroke();
+        if (r.life <= 0) state.ripples.splice(i, 1);
+      }
+    }
+
+    function drawHistoryChart() {
+      const w = historyCanvas.width;
+      const h = historyCanvas.height;
+
+      historyCtx.clearRect(0, 0, w, h);
+      historyCtx.fillStyle = 'rgba(255,255,255,0.03)';
+      historyCtx.fillRect(0, 0, w, h);
+
+      for (let y = 0; y <= 4; y++) {
+        const yy = 8 + (h - 16) * (y / 4);
+        historyCtx.beginPath();
+        historyCtx.strokeStyle = 'rgba(255,255,255,0.06)';
+        historyCtx.moveTo(0, yy);
+        historyCtx.lineTo(w, yy);
+        historyCtx.stroke();
+      }
+
+      if (state.history.length < 2) return;
+
+      const seriesDefs = [
+        { key: 'recursion', max: 4, color: '#74d4ff' },
+        { key: 'coordination', max: 1, color: '#ffcb6b' },
+        { key: 'knowledge', max: 1, color: '#90ff8a' },
+        { key: 'challenge', max: 1, color: '#ffd166' },
+        { key: 'viability', max: 1, color: '#98f5c2' },
+        { key: 'strain', max: 1.6, color: '#ff8c8c' },
+        { key: 'stress', max: 4, color: '#c69bff' }
+      ];
+
+      for (const def of seriesDefs) {
+        historyCtx.beginPath();
+        historyCtx.lineWidth = 1.5;
+        historyCtx.strokeStyle = def.color;
+
+        state.history.forEach((point, i) => {
+          const x = (i / (state.history.length - 1)) * (w - 10) + 5;
+          const y = h - 8 - (clamp(point[def.key], 0, def.max) / def.max) * (h - 16);
+          if (i === 0) historyCtx.moveTo(x, y);
+          else historyCtx.lineTo(x, y);
+        });
+
+        historyCtx.stroke();
+      }
+    }
+
+    function summarizeHistory() {
+      if (!state.history.length) {
+        return {
+          text: 'No time series data has been collected yet.',
+          label: 'No data'
+        };
+      }
+
+      const rec = state.history.map(p => p.recursion);
+      const coord = state.history.map(p => p.coordination);
+      const know = state.history.map(p => p.knowledge);
+      const chal = state.history.map(p => p.challenge);
+      const via = state.history.map(p => p.viability);
+      const stress = state.history.map(p => p.stress);
+      const strain = state.history.map(p => p.strain);
+      const adapt = state.history.map(p => p.adaptation);
+      const coh = state.history.map(p => p.coherence);
+
+      const start = state.history[0];
+      const end = state.history[state.history.length - 1];
+
+      const text =
+        `Time series summary:\n` +
+        `- Duration observed: ${end.time.toFixed(1)} seconds\n` +
+        `- Recursion depth: start ${start.recursion.toFixed(2)}, end ${end.recursion.toFixed(2)}, mean ${avg(rec).toFixed(2)}, min ${minOf(rec).toFixed(2)}, max ${maxOf(rec).toFixed(2)}\n` +
+        `- Coordination quality: start ${start.coordination.toFixed(2)}, end ${end.coordination.toFixed(2)}, mean ${avg(coord).toFixed(2)}\n` +
+        `- Environmental knowledge: start ${start.knowledge.toFixed(2)}, end ${end.knowledge.toFixed(2)}, mean ${avg(know).toFixed(2)}\n` +
+        `- Challenge intensity: start ${start.challenge.toFixed(2)}, end ${end.challenge.toFixed(2)}, mean ${avg(chal).toFixed(2)}\n` +
+        `- Viability: start ${start.viability.toFixed(2)}, end ${end.viability.toFixed(2)}, mean ${avg(via).toFixed(2)}, min ${minOf(via).toFixed(2)}\n` +
+        `- Stress: mean ${avg(stress).toFixed(2)}, max ${maxOf(stress).toFixed(2)}\n` +
+        `- Chronic strain: mean ${avg(strain).toFixed(2)}, max ${maxOf(strain).toFixed(2)}\n` +
+        `- Adaptation score: mean ${avg(adapt).toFixed(2)}, min ${minOf(adapt).toFixed(2)}, max ${maxOf(adapt).toFixed(2)}\n` +
+        `- Behavioural coherence: mean ${avg(coh).toFixed(2)}, min ${minOf(coh).toFixed(2)}, max ${maxOf(coh).toFixed(2)}\n` +
+        `- Interpretation: recursion reflects distributed autonomy and independent exploratory arm behaviour; coordination reflects whether those autonomous limbs integrate coherently; environmental knowledge reflects situational awareness and directed opportunity-seeking. High recursion now produces visibly stronger arm-level probing, while low recursion keeps movement more restricted and centrally constrained.`;
+
+      return {
+        text,
+        label: `${state.history.length} samples`
+      };
+    }
+
+    function generatePrompt() {
+      const userContext = scenarioInput.value.trim() || 'An occupational health management situation involving organisational pressure, uneven management capability, workload stress, and the need to coordinate a response across multiple teams.';
+      const historySummary = summarizeHistory();
+
+      const prompt =
+`Write a brief synopsis of around 300 words describing an occupational health management situation and the events which unfold.
+
+Frame the synopsis around this user-provided situation:
+${userContext}
+
+Also incorporate the following time-series pattern from a simulation as an analogy for how the situation develops over time:
+${historySummary.text}
+
+Instructions:
+- Treat recursion depth as a proxy for distributed autonomy, local problem-solving, and the amount of independent exploratory behaviour in different parts of the organisation.
+- Treat coordination quality as a separate proxy for how well those distributed parts align and avoid fragmenting into conflicting action.
+- Treat environmental knowledge / food-seeking as a proxy for situational awareness, intelligence quality, visibility of opportunities, and the ability to move toward beneficial outcomes.
+- Treat high recursion with low coordination as fragmentation: lots of local activity, but poor integration and worsening strain.
+- Treat low recursion with high coordination as a more centralised but still workable regime, with reduced flexibility but stronger unity of action.
+- Treat viability, strain, stress, adaptation, and coherence as unfolding organisational conditions across time.
+- Use the time-series pattern to shape the sequence of events, tensions, responses, and consequences.
+- Keep the tone analytical but readable.
+- Keep the output to roughly 300 words.`;
+
+      promptOutput.textContent = prompt;
+      historyWindowValue.textContent = historySummary.label;
+    }
+
+    function updateUI() {
+      recursionValue.textContent = `${state.recursion.toFixed(2)} / 4`;
+      coordinationValue.textContent = state.coordination.toFixed(2);
+      knowledgeValue.textContent = state.knowledge.toFixed(2);
+      challengeValue.textContent = state.challenge.toFixed(2);
+
+      adaptationScoreEl.textContent = state.metrics.adaptation.toFixed(2);
+      foodScoreEl.textContent = state.metrics.food.toFixed(0);
+      avoidScoreEl.textContent = state.metrics.avoided.toFixed(1);
+      stressScoreEl.textContent = (state.metrics.stress + octopus.stress).toFixed(2);
+      viabilityScoreEl.textContent = octopus.viability.toFixed(2);
+      strainScoreEl.textContent = octopus.chronicStrain.toFixed(2);
+      lifeStateEl.textContent = octopus.alive ? 'Alive' : 'Dead';
+      speedScoreEl.textContent = Math.hypot(octopus.velocity.x, octopus.velocity.y).toFixed(2);
+
+      const recursive = state.recursion / 4;
+
+      if (recursive > 0.72) {
+        consequenceText.textContent = 'At high recursion, the arms now have much greater local freedom: they fan outward, run travelling waves down the limbs, and probe more independently for food. Good coordination turns that autonomy into effective distributed search; poor coordination turns it into fragmentation.';
+      } else if (recursive > 0.35) {
+        consequenceText.textContent = 'At intermediate recursion, the octopus mixes local probing with some central steering. The arms still move and search, but they are less exuberant and less independent than at high recursion.';
+      } else {
+        consequenceText.textContent = 'At low recursion, movement is deliberately more constrained. The arms stay tighter, with less lateral spread, less wiggle, less tip-led exploration, and more centrally restricted posture.';
+      }
+    }
+
+    let octopus = null;
+    let last = performance.now();
+
+    function animate(now) {
+      const dt = Math.min(0.033, (now - last) / 1000);
+      last = now;
+      state.t += dt;
+
+      state.recursion = parseFloat(recursionSlider.value);
+      state.coordination = parseFloat(coordinationSlider.value);
+      state.knowledge = parseFloat(knowledgeSlider.value);
+      state.challenge = parseFloat(challengeSlider.value);
+
+      drawBackground();
+      drawFieldHints();
+      drawEnvironment();
+
+      if (Math.random() < 0.01 + state.challenge * 0.02 && state.foods.length < 22) spawnFood(1);
+      if (Math.random() < 0.005 + state.challenge * 0.012 && state.hazards.length < 18) spawnHazard(1);
+
+      octopus.update();
+      octopus.draw(ctx);
+
+      drawHistoryChart();
+      updateUI();
+
+      if (state.t - state.lastRecordedSnapshotAt >= 1.4) {
+        state.lastRecordedSnapshotAt = state.t;
+        recordHistory('Periodic snapshot');
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    recursionSlider.addEventListener('input', () => recordHistory('Changed recursion'));
+    coordinationSlider.addEventListener('input', () => recordHistory('Changed coordination'));
+    knowledgeSlider.addEventListener('input', () => recordHistory('Changed knowledge'));
+    challengeSlider.addEventListener('input', () => {
+      const targetHazards = 7 + Math.round(parseFloat(challengeSlider.value) * 8);
+      while (state.hazards.length < targetHazards) spawnHazard(1);
+      while (state.hazards.length > targetHazards && state.hazards.length > 3) state.hazards.pop();
+      recordHistory('Changed challenge');
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', resetWorld);
+    document.getElementById('pulseBtn').addEventListener('click', pulseHazards);
+    generatePromptBtn.addEventListener('click', generatePrompt);
+
+    copyPromptBtn.addEventListener('click', async () => {
+      try {
+        if (!promptOutput.textContent.trim()) generatePrompt();
+        await navigator.clipboard.writeText(promptOutput.textContent);
+        copyPromptBtn.textContent = 'Copied';
+        setTimeout(() => { copyPromptBtn.textContent = 'Copy Prompt'; }, 1200);
+      } catch {
+        copyPromptBtn.textContent = 'Copy failed';
+        setTimeout(() => { copyPromptBtn.textContent = 'Copy Prompt'; }, 1200);
+      }
+    });
+
+    window.addEventListener('resize', resize);
+
+    resize();
+    resetWorld();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
