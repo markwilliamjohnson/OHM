@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,8 +19,12 @@
 
     * { box-sizing: border-box; }
 
-    body {
+    html, body {
       margin: 0;
+      height: 100%;
+    }
+
+    body {
       font-family: Inter, system-ui, sans-serif;
       background:
         radial-gradient(circle at 20% 20%, rgba(53, 114, 164, 0.24), transparent 30%),
@@ -29,16 +32,21 @@
         linear-gradient(180deg, #071019 0%, #091723 45%, #06121a 100%);
       color: var(--text);
       min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
       display: grid;
       grid-template-columns: 420px 1fr;
     }
 
     .sidebar {
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
       padding: 18px;
       border-right: 1px solid rgba(140, 187, 231, 0.16);
       background: linear-gradient(180deg, rgba(9, 24, 38, 0.95), rgba(6, 18, 28, 0.88));
       backdrop-filter: blur(10px);
-      overflow: auto;
+      overscroll-behavior: contain;
     }
 
     .card {
@@ -202,6 +210,8 @@
     .stage {
       position: relative;
       overflow: hidden;
+      height: 100vh;
+      min-height: 0;
     }
 
     canvas#canvas {
@@ -218,7 +228,7 @@
       border: 1px solid rgba(140, 187, 231, 0.18);
       border-radius: 16px;
       padding: 10px 12px;
-      max-width: 460px;
+      max-width: 500px;
       backdrop-filter: blur(8px);
       color: var(--muted);
       line-height: 1.4;
@@ -258,12 +268,26 @@
     }
 
     @media (max-width: 1100px) {
-      body { grid-template-columns: 1fr; }
+      body {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(260px, 42vh) 1fr;
+        overflow: hidden;
+      }
+
       .sidebar {
+        height: auto;
+        max-height: 42vh;
         border-right: none;
         border-bottom: 1px solid rgba(140, 187, 231, 0.16);
       }
-      canvas#canvas { height: 65vh; }
+
+      .stage {
+        height: 58vh;
+      }
+
+      canvas#canvas {
+        height: 58vh;
+      }
     }
   </style>
 </head>
@@ -276,13 +300,14 @@
         challenges be handled autonomously by local components that still work coherently together.
       </p>
       <p>
-        More recursion means more adaptive autonomy across the body. Less recursion means more rigid top-down management
-        and lower adaptability, but death should come only after prolonged inability to manage complexity.
+        Recursion, coordination, and environmental knowledge are now separated. That means the octopus can have deep
+        local autonomy but poor inter-leg integration, or strong recursion with weak knowledge of where food is.
       </p>
     </div>
 
     <div class="card">
       <h2>Control</h2>
+
       <div class="control-row">
         <div class="label-row">
           <span>Recursive autonomy depth</span>
@@ -290,6 +315,23 @@
         </div>
         <input id="recursionSlider" type="range" min="0" max="4" step="0.01" value="4" />
       </div>
+
+      <div class="control-row">
+        <div class="label-row">
+          <span>Coordination quality</span>
+          <span class="value" id="coordinationValue">0.80</span>
+        </div>
+        <input id="coordinationSlider" type="range" min="0" max="1" step="0.01" value="0.8" />
+      </div>
+
+      <div class="control-row">
+        <div class="label-row">
+          <span>Environmental knowledge / food-seeking</span>
+          <span class="value" id="knowledgeValue">0.75</span>
+        </div>
+        <input id="knowledgeSlider" type="range" min="0" max="1" step="0.01" value="0.75" />
+      </div>
+
       <div class="control-row">
         <div class="label-row">
           <span>Challenge intensity</span>
@@ -297,6 +339,7 @@
         </div>
         <input id="challengeSlider" type="range" min="0" max="1" step="0.01" value="0.6" />
       </div>
+
       <div class="button-grid">
         <button id="resetBtn">Reset World</button>
         <button id="pulseBtn">Pulse Hazards</button>
@@ -345,8 +388,8 @@
       <h2>Time Series</h2>
       <canvas id="historyCanvas" class="mini-chart" width="360" height="130"></canvas>
       <p class="small">
-        The chart tracks recursion depth, challenge intensity, viability, chronic strain, and stress over time.
-        These records are used to build a prompt about an occupational health management situation.
+        The chart now tracks recursion depth, coordination, environmental knowledge, challenge intensity, viability,
+        chronic strain, and stress over time. These records are used to build the prompt.
       </p>
     </div>
 
@@ -373,24 +416,28 @@
     </div>
 
     <div class="card">
-      <h2>What the slider does</h2>
+      <h2>What the controls do</h2>
       <div class="legend">
         <div class="legend-item">
+          <span class="dot" style="background:#74d4ff"></span>
+          <span><b>Recursion depth</b>: how much autonomy and layered local processing exists inside the body.</span>
+        </div>
+        <div class="legend-item">
+          <span class="dot" style="background:#ffcb6b"></span>
+          <span><b>Coordination quality</b>: how well different legs and internal layers align their actions.</span>
+        </div>
+        <div class="legend-item">
           <span class="dot" style="background:#90ff8a"></span>
-          <span><b>Food attractors</b>: local recursive components can identify opportunities and coordinate movement toward them.</span>
+          <span><b>Environmental knowledge</b>: how well the octopus can identify the environment and move toward food.</span>
         </div>
         <div class="legend-item">
           <span class="dot" style="background:#ff8c8c"></span>
-          <span><b>Hazards</b>: trigger local avoidance, but recursion allows many distributed responses to integrate seamlessly.</span>
-        </div>
-        <div class="legend-item">
-          <span class="dot" style="background:#74d4ff"></span>
-          <span><b>Current field</b>: recursive layers let posture and sensing adapt fluidly to changing flow.</span>
+          <span><b>Hazards</b>: local threats that drive avoidance, stress, and strain.</span>
         </div>
       </div>
       <p style="margin-top:10px">
-        High recursion increases distributed autonomy and adaptability. Low recursion still permits survival more often than before,
-        but it produces reduced adaptability, slower recovery, and greater chronic strain under sustained challenge.
+        High recursion no longer guarantees high coordination or strong foraging. You can now create cases with deep local
+        recursion but fragmented movement, or coherent movement with weak environmental knowledge.
       </p>
     </div>
   </aside>
@@ -408,9 +455,15 @@
     const historyCtx = historyCanvas.getContext('2d');
 
     const recursionSlider = document.getElementById('recursionSlider');
+    const coordinationSlider = document.getElementById('coordinationSlider');
+    const knowledgeSlider = document.getElementById('knowledgeSlider');
     const challengeSlider = document.getElementById('challengeSlider');
+
     const recursionValue = document.getElementById('recursionValue');
+    const coordinationValue = document.getElementById('coordinationValue');
+    const knowledgeValue = document.getElementById('knowledgeValue');
     const challengeValue = document.getElementById('challengeValue');
+
     const adaptationScoreEl = document.getElementById('adaptationScore');
     const foodScoreEl = document.getElementById('foodScore');
     const avoidScoreEl = document.getElementById('avoidScore');
@@ -433,6 +486,8 @@
       time: 0,
       challenge: parseFloat(challengeSlider.value),
       recursion: parseFloat(recursionSlider.value),
+      coordination: parseFloat(coordinationSlider.value),
+      knowledge: parseFloat(knowledgeSlider.value),
       foods: [],
       hazards: [],
       ripples: [],
@@ -504,18 +559,20 @@
         let food = 0;
         let hazard = 0;
 
+        const localKnowledge = 0.35 + world.knowledge * 0.65;
+
         for (const f of world.foods) {
           const dx = f.x - p.x;
           const dy = f.y - p.y;
           const d2 = dx * dx + dy * dy + 1;
-          food += f.value / d2 * 1800;
+          food += f.value / d2 * 1800 * localKnowledge;
         }
 
         for (const h of world.hazards) {
           const dx = h.x - p.x;
           const dy = h.y - p.y;
           const d2 = dx * dx + dy * dy + 1;
-          hazard += h.value / d2 * 2800;
+          hazard += h.value / d2 * 2800 * (0.7 + world.knowledge * 0.3);
         }
 
         const flow = currentField(p.x, p.y, world.time);
@@ -558,14 +615,17 @@
         this.tip.y = y;
       }
 
-      computeRecursiveSignals(depthNormalized) {
+      computeRecursiveSignals(depthNormalized, coordination) {
         const segs = this.segments;
         const recursionPower = depthNormalized / 4;
+        const coordinationFactor = clamp(coordination, 0, 1);
 
         const localWeight = lerp(0.35, 1.15, recursionPower);
-        const globalWeight = lerp(0.12, 1.05, recursionPower);
-        const crossWeight = lerp(0.02, 0.85, recursionPower);
+        const globalWeight = lerp(0.10, 1.05, recursionPower) * (0.25 + coordinationFactor * 0.75);
+        const crossWeight = lerp(0.01, 0.85, recursionPower) * coordinationFactor;
+        const parentWeight = 0.35 + coordinationFactor * 0.8;
         const memoryRate = 0.04 + recursionPower * 0.2;
+        const fragmentationPenalty = (1 - coordinationFactor) * (0.08 + recursionPower * 0.22);
 
         let downstreamFood = 0;
         let downstreamHazard = 0;
@@ -589,7 +649,7 @@
             downstreamFood * 1.0 -
             downstreamHazard * 1.0 +
             downstreamFlow * 0.65 +
-            parentInfluence * 0.9 +
+            parentInfluence * 0.9 * parentWeight +
             siblingInfluence * 0.85;
 
           const centralRigidityPenalty = this.owner.rigidity * (0.18 + i / segs.length * 0.12);
@@ -597,7 +657,8 @@
           const recursiveMix =
             localAutonomy * localWeight +
             recursiveCoordination * globalWeight -
-            centralRigidityPenalty;
+            centralRigidityPenalty -
+            Math.abs(localAutonomy - recursiveCoordination) * fragmentationPenalty;
 
           s.recursiveSignal = recursiveMix;
           s.localMemory = lerp(s.localMemory, recursiveMix, memoryRate);
@@ -607,12 +668,13 @@
           segs.reduce((acc, s) => acc + Math.max(0, s.recursiveSignal), 0) / segs.length;
       }
 
-      update(dt, world, depthNormalized) {
+      update(dt, world, depthNormalized, coordination) {
         this.forwardKinematics();
         for (const seg of this.segments) seg.sense(world);
-        this.computeRecursiveSignals(depthNormalized);
+        this.computeRecursiveSignals(depthNormalized, coordination);
 
         const depthFactor = depthNormalized / 4;
+        const coordinationFactor = clamp(coordination, 0, 1);
         let aggregateTarget = 0;
 
         for (let i = 0; i < this.segments.length; i++) {
@@ -620,16 +682,17 @@
           const tipBias = i / (this.segments.length - 1);
 
           const reflex = seg.foodSignal * 0.30 - seg.hazardSignal * 0.56 + (seg.flowSignal - 0.4) * 0.14;
-          const recursiveBias = seg.recursiveSignal * (0.07 + depthFactor * 0.30);
+          const recursiveBias = seg.recursiveSignal * (0.04 + depthFactor * 0.28) * (0.45 + coordinationFactor * 0.55);
           const homeBias = -Math.sin(this.baseAngle + this.owner.bodyHeading - seg.angle) * (0.02 + this.owner.rigidity * 0.05);
-          const undulate = Math.sin(world.time * 1.4 + i * 0.45 + this.index) * (0.003 + depthFactor * 0.014 + world.challenge * 0.006);
+          const undulate = Math.sin(world.time * 1.4 + i * 0.45 + this.index) *
+            (0.003 + depthFactor * 0.014 + world.challenge * 0.006 + (1 - coordinationFactor) * 0.01);
 
           const target = reflex + recursiveBias + homeBias + undulate;
           aggregateTarget += target * (0.4 + tipBias * 0.6);
 
-          seg.angularVelocity += target * dt * (0.9 + depthFactor * 1.5);
-          seg.angularVelocity *= 0.92 - depthFactor * 0.04 - tipBias * 0.01;
-          seg.angle += seg.angularVelocity * dt * (1.1 + depthFactor * 1.2);
+          seg.angularVelocity += target * dt * (0.7 + depthFactor * 1.5) * (0.7 + coordinationFactor * 0.45);
+          seg.angularVelocity *= 0.92 - depthFactor * 0.04 - tipBias * 0.01 - (1 - coordinationFactor) * 0.02;
+          seg.angle += seg.angularVelocity * dt * (1.0 + depthFactor * 1.1);
 
           const maxAngle = lerp(0.7, 1.45, depthFactor);
           seg.angle = clamp(seg.angle, -maxAngle, maxAngle);
@@ -656,6 +719,7 @@
         this.rigidity = 0;
         this.chronicStrain = 0;
         this.intent = { x: 0, y: 0 };
+        this.lastCoherence = 0;
         this.arms = Array.from({ length: 8 }, (_, i) => new Arm(this, i, 8));
       }
 
@@ -673,13 +737,15 @@
       }
 
       computeEnvironmentalIntent(world, recursive) {
+        const knowledge = clamp(world.knowledge, 0, 1);
+
         let foodVec = { x: 0, y: 0 };
         let hazardVec = { x: 0, y: 0 };
         let nearestFood = Infinity;
         let nearestHazard = Infinity;
 
-        const foodSenseRadius = 340;
-        const hazardSenseRadius = 220;
+        const foodSenseRadius = lerp(110, 420, knowledge);
+        const hazardSenseRadius = lerp(120, 260, knowledge);
 
         let bestFood = null;
         let bestFoodScore = -Infinity;
@@ -691,7 +757,7 @@
           nearestFood = Math.min(nearestFood, d);
 
           if (d < foodSenseRadius) {
-            const score = f.value * (1 - d / foodSenseRadius);
+            const score = f.value * (1 - d / foodSenseRadius) * (0.5 + knowledge * 1.2);
             if (score > bestFoodScore) {
               bestFoodScore = score;
               bestFood = { dx, dy, d, value: f.value };
@@ -700,8 +766,8 @@
         }
 
         if (bestFood) {
-          foodVec.x += (bestFood.dx / bestFood.d) * (1.6 + bestFood.value * 0.9);
-          foodVec.y += (bestFood.dy / bestFood.d) * (1.6 + bestFood.value * 0.9);
+          foodVec.x += (bestFood.dx / bestFood.d) * (0.5 + knowledge * 2.2 + bestFood.value * 0.9);
+          foodVec.y += (bestFood.dy / bestFood.d) * (0.5 + knowledge * 2.2 + bestFood.value * 0.9);
         }
 
         for (const f of world.foods) {
@@ -710,7 +776,7 @@
           const d = Math.hypot(dx, dy) + 1;
 
           if (d < foodSenseRadius) {
-            const weight = (1 - d / foodSenseRadius) * f.value * 0.18;
+            const weight = (1 - d / foodSenseRadius) * f.value * (0.04 + knowledge * 0.32);
             foodVec.x += (dx / d) * weight;
             foodVec.y += (dy / d) * weight;
           }
@@ -725,8 +791,8 @@
 
           if (d < hazardSenseRadius + h.radius) {
             const weight = (1 - edgeDistance / (hazardSenseRadius + h.radius)) * h.value;
-            hazardVec.x += (dx / d) * weight * 1.55;
-            hazardVec.y += (dy / d) * weight * 1.55;
+            hazardVec.x += (dx / d) * weight * (1.15 + knowledge * 0.75);
+            hazardVec.y += (dy / d) * weight * (1.15 + knowledge * 0.75);
           }
         }
 
@@ -746,13 +812,13 @@
 
         const intent = {
           x:
-            foodVec.x * (1.2 + recursive * 0.9) +
-            hazardVec.x * (0.75 + recursive * 0.55) * dangerOverride +
+            foodVec.x * (0.35 + knowledge * 1.85) * (1.05 + recursive * 0.55) +
+            hazardVec.x * (0.65 + recursive * 0.55) * dangerOverride +
             flowVec.x * (0.04 + recursive * 0.06) +
             homeVec.x,
           y:
-            foodVec.y * (1.2 + recursive * 0.9) +
-            hazardVec.y * (0.75 + recursive * 0.55) * dangerOverride +
+            foodVec.y * (0.35 + knowledge * 1.85) * (1.05 + recursive * 0.55) +
+            hazardVec.y * (0.65 + recursive * 0.55) * dangerOverride +
             flowVec.y * (0.04 + recursive * 0.06) +
             homeVec.y
         };
@@ -767,6 +833,8 @@
       update(dt, world) {
         const depth = world.recursion;
         const recursive = depth / 4;
+        const coordination = clamp(world.coordination, 0, 1);
+        const knowledge = clamp(world.knowledge, 0, 1);
         this.rigidity = 1 - recursive;
 
         if (!this.alive) {
@@ -797,18 +865,20 @@
 
         this.centralSignal = lerp(
           this.centralSignal,
-          meanFood * (0.42 + recursive * 0.76) -
-          meanHazard * (0.52 + recursive * 0.42) -
+          meanFood * (0.28 + recursive * 0.86 + knowledge * 0.28) -
+          meanHazard * (0.46 + recursive * 0.42) -
           this.rigidity * 0.62 -
           this.stress * 0.28,
-          0.12
+          0.10 + coordination * 0.06
         );
 
         for (const arm of this.arms) {
-          armOutputs.push(arm.update(dt, world, depth));
+          armOutputs.push(arm.update(dt, world, depth, coordination));
         }
 
         const coherence = armOutputs.reduce((acc, v) => acc + v, 0) / armOutputs.length;
+        this.lastCoherence = coherence;
+
         const lateralBalance = armOutputs.reduce((acc, v, i) => acc + v * Math.cos(this.arms[i].baseAngle), 0);
         const verticalBalance = armOutputs.reduce((acc, v, i) => acc + v * Math.sin(this.arms[i].baseAngle), 0);
 
@@ -820,8 +890,8 @@
         const envIntent = envIntentLen > 0.0001 ? normalize(env.intent.x, env.intent.y) : { x: 0, y: 0 };
 
         const combinedDirection = {
-          x: envIntent.x * (0.88 + recursive * 0.10) + armIntent.x * (0.12 + recursive * 0.08),
-          y: envIntent.y * (0.88 + recursive * 0.10) + armIntent.y * (0.12 + recursive * 0.08)
+          x: envIntent.x * (0.55 + knowledge * 0.45) + armIntent.x * (0.08 + coordination * 0.28),
+          y: envIntent.y * (0.55 + knowledge * 0.45) + armIntent.y * (0.08 + coordination * 0.28)
         };
 
         const dirLen = Math.hypot(combinedDirection.x, combinedDirection.y);
@@ -831,24 +901,30 @@
 
         const nearestFoodFactor = env.nearestFood == null
           ? 0
-          : clamp(1 - env.nearestFood / 340, 0, 1);
+          : clamp(1 - env.nearestFood / lerp(110, 420, knowledge), 0, 1);
 
         const nearestHazardFactor = env.nearestHazard == null
           ? 0
           : clamp(1 - env.nearestHazard / 140, 0, 1);
 
-        const foodDrive = nearestFoodFactor * (0.28 + recursive * 0.18);
-        const threatBoost = nearestHazardFactor * 0.22;
+        const foodDrive = nearestFoodFactor * (0.08 + knowledge * 0.34 + recursive * 0.10);
+        const threatBoost = nearestHazardFactor * (0.16 + coordination * 0.12);
 
-        const maxSpeed = 8 + recursive * 14 + foodDrive * 14 + threatBoost * 10;
-        const desiredSpeed = maxSpeed * clamp(0.22 + foodDrive + threatBoost, 0.14, 0.9);
+        const maxSpeed =
+          7 +
+          recursive * 10 +
+          foodDrive * 18 +
+          threatBoost * 10 +
+          coordination * 3;
+
+        const desiredSpeed = maxSpeed * clamp(0.16 + foodDrive + threatBoost + coordination * 0.08, 0.12, 0.92);
 
         const desiredVelocity = {
           x: desiredDir.x * desiredSpeed,
           y: desiredDir.y * desiredSpeed
         };
 
-        const steering = 0.5 + recursive * 0.75;
+        const steering = 0.30 + recursive * 0.45 + coordination * 0.55 + knowledge * 0.20;
         this.velocity.x = lerp(this.velocity.x, desiredVelocity.x, clamp(dt * steering, 0, 1));
         this.velocity.y = lerp(this.velocity.y, desiredVelocity.y, clamp(dt * steering, 0, 1));
 
@@ -877,20 +953,28 @@
         let delta = targetHeading - this.bodyHeading;
         while (delta > Math.PI) delta -= Math.PI * 2;
         while (delta < -Math.PI) delta += Math.PI * 2;
-        this.bodyHeading += delta * clamp(dt * 2.0, 0, 1);
+        this.bodyHeading += delta * clamp(dt * (1.2 + coordination * 1.0), 0, 1);
 
         this.stress = clamp(
-          lerp(this.stress, meanHazard * (0.65 + this.rigidity * 0.75) + this.rigidity * 0.24, 0.04),
+          lerp(
+            this.stress,
+            meanHazard * (0.65 + this.rigidity * 0.75) +
+            this.rigidity * 0.24 +
+            (1 - coordination) * 0.18,
+            0.04
+          ),
           0,
           4
         );
 
-        this.interact(world, recursive, coherence);
-        this.updateViability(dt, world, recursive, meanFood, meanHazard, coherence);
+        this.interact(world, recursive, coherence, coordination, knowledge);
+        this.updateViability(dt, world, recursive, meanFood, meanHazard, coherence, coordination, knowledge);
       }
 
-      updateViability(dt, world, recursive, meanFood, meanHazard, coherence) {
+      updateViability(dt, world, recursive, meanFood, meanHazard, coherence, coordination, knowledge) {
         const rigidity = 1 - recursive;
+        const fragmentation = 1 - coordination;
+        const awarenessGap = 1 - knowledge;
 
         const complexityGap = Math.max(0, world.challenge - (recursive * 0.8 + 0.08));
 
@@ -898,16 +982,20 @@
           complexityGap * 0.34 +
           meanHazard * 0.10 +
           this.stress * 0.08 +
-          Math.max(0, 0.08 - coherence) * 0.14;
+          Math.max(0, 0.08 - coherence) * 0.14 +
+          fragmentation * 0.09 +
+          awarenessGap * 0.05;
 
         const recoverySupport =
-          recursive * 0.28 +
+          recursive * 0.22 +
+          coordination * 0.12 +
+          knowledge * 0.08 +
           meanFood * 0.07 +
-          Math.max(0, coherence) * 0.04 +
+          Math.max(0, coherence) * 0.05 +
           0.018;
 
         const strainRise = Math.max(0, acuteLoad - recoverySupport) * 0.018;
-        const strainRecovery = 0.018 + recursive * 0.028 + meanFood * 0.01;
+        const strainRecovery = 0.018 + recursive * 0.022 + coordination * 0.016 + meanFood * 0.01;
 
         this.chronicStrain = clamp(
           this.chronicStrain + strainRise * dt - strainRecovery * dt,
@@ -916,15 +1004,18 @@
         );
 
         const vitalityGain =
-          0.012 +
-          recursive * 0.012 +
+          0.010 +
+          recursive * 0.010 +
+          coordination * 0.010 +
+          knowledge * 0.006 +
           meanFood * 0.006 +
           Math.max(0, coherence) * 0.003;
 
         const vitalityLoss =
           this.chronicStrain * 0.02 +
           Math.max(0, this.stress - 2.4) * 0.003 +
-          rigidity * Math.max(0, world.challenge - 0.88) * 0.004;
+          rigidity * Math.max(0, world.challenge - 0.88) * 0.004 +
+          fragmentation * 0.003;
 
         this.viability = clamp(
           this.viability + (vitalityGain - vitalityLoss) * dt,
@@ -938,7 +1029,7 @@
         }
       }
 
-      interact(world, recursive, coherence) {
+      interact(world, recursive, coherence, coordination, knowledge) {
         if (!this.alive) return;
 
         for (const arm of this.arms) {
@@ -947,9 +1038,9 @@
               const f = world.foods[i];
               const d2 = dist2(f.x, f.y, seg.pos.x, seg.pos.y);
 
-              if (d2 < 160 && Math.random() < 0.09 + recursive * 0.26) {
+              if (d2 < 160 && Math.random() < 0.04 + recursive * 0.18 + coordination * 0.09 + knowledge * 0.18) {
                 world.stats.food += 1;
-                this.viability = clamp(this.viability + 0.01 + recursive * 0.006, 0, 1);
+                this.viability = clamp(this.viability + 0.01 + recursive * 0.004 + knowledge * 0.004, 0, 1);
                 world.ripples.push({ x: f.x, y: f.y, r: 8, life: 1, type: 'food' });
                 world.foods.splice(i, 1);
                 spawnFood(1);
@@ -960,14 +1051,14 @@
               const d2 = dist2(h.x, h.y, seg.pos.x, seg.pos.y);
 
               if (d2 < (h.radius + 10) * (h.radius + 10)) {
-                world.stats.stress += 0.02 * (1.1 + (1 - recursive) * 0.7);
+                world.stats.stress += 0.02 * (1.1 + (1 - recursive) * 0.7 + (1 - coordination) * 0.4);
                 this.chronicStrain = clamp(
-                  this.chronicStrain + 0.0008 + (1 - recursive) * 0.0015,
+                  this.chronicStrain + 0.0008 + (1 - recursive) * 0.0015 + (1 - coordination) * 0.0012,
                   0,
                   1.6
                 );
-              } else if (d2 < (h.radius + 36) * (h.radius + 36) && coherence > 0.05) {
-                world.stats.avoided += 0.001 + recursive * 0.0035;
+              } else if (d2 < (h.radius + 36) * (h.radius + 36) && coherence > 0.05 * (0.6 + coordination * 0.8)) {
+                world.stats.avoided += 0.001 + recursive * 0.0025 + coordination * 0.003;
               }
             }
           }
@@ -1203,15 +1294,19 @@
     function updateStats() {
       const recursive = world.recursion / 4;
       const rigidity = 1 - recursive;
+      const coordination = world.coordination;
+      const knowledge = world.knowledge;
       const stressPenalty = clamp(world.stats.stress * 0.06 + octopus.stress * 0.6, 0, 8);
 
       world.stats.adaptation =
         (
           world.stats.food * 1.4 +
           world.stats.avoided * 26 +
-          recursive * 14 +
+          recursive * 10 +
+          coordination * 10 +
+          knowledge * 8 +
           octopus.viability * 18 -
-          rigidity * 18 -
+          rigidity * 14 -
           octopus.chronicStrain * 10
         ) / (1 + world.challenge * 0.6) - stressPenalty;
 
@@ -1226,20 +1321,25 @@
 
       let quality = '';
       if (!octopus.alive) {
-        quality = 'Recursion stayed too low for too long under pressure. Chronic strain accumulated until viability finally collapsed.';
-      } else if (recursive > 0.75) {
-        quality = 'Adaptability is high: local components handle different challenges autonomously and stay well coordinated.';
-      } else if (recursive > 0.4) {
-        quality = 'Adaptability is moderate: the octopus still copes, but coordination and recovery are less fluid.';
+        quality = 'The system became overloaded: low adaptability, weak coordination, or poor environmental knowledge allowed strain to accumulate until viability collapsed.';
+      } else if (recursive > 0.75 && coordination > 0.7 && knowledge > 0.7) {
+        quality = 'Adaptability is high: local recursive components respond autonomously, remain coordinated, and identify food efficiently.';
+      } else if (recursive > 0.65 && coordination < 0.4) {
+        quality = 'Recursion is high, but coordination is weak: the body contains rich local processing without strong integration across the legs.';
+      } else if (recursive > 0.65 && knowledge < 0.4) {
+        quality = 'Recursion is high, but environmental knowledge is weak: the body can process locally, yet it struggles to orient effectively toward food.';
       } else {
-        quality = 'Adaptability is reduced: the octopus can still survive, but low recursion makes responses more rigid, foraging less efficient, and chronic strain easier to accumulate under challenge.';
+        quality = 'Adaptability is mixed: survival may continue, but weaker coordination or poor environmental knowledge reduces efficiency and increases strain under pressure.';
       }
 
       overlayText.innerHTML =
         `<b>Depth:</b> ${world.recursion.toFixed(2)} / 4 · ` +
-        `<b>Challenge:</b> ${world.challenge.toFixed(2)} · ` +
+        `<b>Coord:</b> ${world.coordination.toFixed(2)} · ` +
+        `<b>Knowledge:</b> ${world.knowledge.toFixed(2)} · ` +
+        `<b>Challenge:</b> ${world.challenge.toFixed(2)}<br>` +
         `<b>Viability:</b> ${octopus.viability.toFixed(2)} · ` +
-        `<b>Strain:</b> ${octopus.chronicStrain.toFixed(2)}<br>` +
+        `<b>Strain:</b> ${octopus.chronicStrain.toFixed(2)} · ` +
+        `<b>Coherence:</b> ${octopus.lastCoherence.toFixed(2)}<br>` +
         `<b>Interpretation:</b> ${quality}`;
     }
 
@@ -1251,11 +1351,14 @@
       world.history.push({
         t: world.time,
         recursion: world.recursion,
+        coordination: world.coordination,
+        knowledge: world.knowledge,
         challenge: world.challenge,
         viability: octopus.viability,
         stress: octopus.stress,
         strain: octopus.chronicStrain,
         adaptation: world.stats.adaptation,
+        coherence: octopus.lastCoherence,
         alive: octopus.alive ? 1 : 0
       });
 
@@ -1283,6 +1386,8 @@
 
       const seriesDefs = [
         { key: 'recursion', max: 4, color: '#74d4ff' },
+        { key: 'coordination', max: 1, color: '#ffcb6b' },
+        { key: 'knowledge', max: 1, color: '#90ff8a' },
         { key: 'challenge', max: 1, color: '#ffd166' },
         { key: 'viability', max: 1, color: '#98f5c2' },
         { key: 'strain', max: 1.6, color: '#ff8c8c' },
@@ -1291,7 +1396,7 @@
 
       for (const def of seriesDefs) {
         historyCtx.beginPath();
-        historyCtx.lineWidth = 1.8;
+        historyCtx.lineWidth = 1.5;
         historyCtx.strokeStyle = def.color;
 
         world.history.forEach((point, i) => {
@@ -1306,6 +1411,8 @@
 
       const legend = [
         ['Rec', '#74d4ff'],
+        ['Coord', '#ffcb6b'],
+        ['Know', '#90ff8a'],
         ['Chal', '#ffd166'],
         ['Via', '#98f5c2'],
         ['Strn', '#ff8c8c'],
@@ -1313,13 +1420,19 @@
       ];
 
       let lx = 8;
+      let ly = 8;
+
       for (const [label, color] of legend) {
         historyCtx.fillStyle = color;
-        historyCtx.fillRect(lx, 8, 8, 8);
+        historyCtx.fillRect(lx, ly, 8, 8);
         historyCtx.fillStyle = '#d8ecff';
         historyCtx.font = '10px Inter, system-ui, sans-serif';
-        historyCtx.fillText(label, lx + 12, 15);
+        historyCtx.fillText(label, lx + 12, ly + 7);
         lx += 48;
+        if (lx > w - 52) {
+          lx = 8;
+          ly += 14;
+        }
       }
     }
 
@@ -1332,16 +1445,21 @@
       }
 
       const rec = world.history.map(p => p.recursion);
+      const coord = world.history.map(p => p.coordination);
+      const know = world.history.map(p => p.knowledge);
       const chal = world.history.map(p => p.challenge);
       const via = world.history.map(p => p.viability);
       const stress = world.history.map(p => p.stress);
       const strain = world.history.map(p => p.strain);
       const adapt = world.history.map(p => p.adaptation);
+      const coh = world.history.map(p => p.coherence);
 
       const start = world.history[0];
       const end = world.history[world.history.length - 1];
 
       const lowRecCount = world.history.filter(p => p.recursion < 1.5).length;
+      const lowCoordCount = world.history.filter(p => p.coordination < 0.4).length;
+      const lowKnowledgeCount = world.history.filter(p => p.knowledge < 0.4).length;
       const highChallengeCount = world.history.filter(p => p.challenge > 0.7).length;
       const lowViabilityCount = world.history.filter(p => p.viability < 0.55).length;
 
@@ -1349,16 +1467,22 @@
         `Time series summary:\n` +
         `- Duration observed: ${end.t.toFixed(1)} seconds\n` +
         `- Recursion depth: start ${start.recursion.toFixed(2)}, end ${end.recursion.toFixed(2)}, mean ${avg(rec).toFixed(2)}, min ${minOf(rec).toFixed(2)}, max ${maxOf(rec).toFixed(2)}\n` +
+        `- Coordination quality: start ${start.coordination.toFixed(2)}, end ${end.coordination.toFixed(2)}, mean ${avg(coord).toFixed(2)}, min ${minOf(coord).toFixed(2)}, max ${maxOf(coord).toFixed(2)}\n` +
+        `- Environmental knowledge / food-seeking: start ${start.knowledge.toFixed(2)}, end ${end.knowledge.toFixed(2)}, mean ${avg(know).toFixed(2)}, min ${minOf(know).toFixed(2)}, max ${maxOf(know).toFixed(2)}\n` +
         `- Challenge intensity: start ${start.challenge.toFixed(2)}, end ${end.challenge.toFixed(2)}, mean ${avg(chal).toFixed(2)}\n` +
         `- Viability: start ${start.viability.toFixed(2)}, end ${end.viability.toFixed(2)}, mean ${avg(via).toFixed(2)}, min ${minOf(via).toFixed(2)}\n` +
         `- Stress: mean ${avg(stress).toFixed(2)}, max ${maxOf(stress).toFixed(2)}\n` +
         `- Chronic strain: mean ${avg(strain).toFixed(2)}, max ${maxOf(strain).toFixed(2)}\n` +
         `- Adaptation score: mean ${avg(adapt).toFixed(2)}, min ${minOf(adapt).toFixed(2)}, max ${maxOf(adapt).toFixed(2)}\n` +
+        `- Behavioural coherence: mean ${avg(coh).toFixed(2)}, min ${minOf(coh).toFixed(2)}, max ${maxOf(coh).toFixed(2)}\n` +
         `- Low-recursion intervals (<1.5): ${lowRecCount} samples\n` +
+        `- Low-coordination intervals (<0.4): ${lowCoordCount} samples\n` +
+        `- Low-knowledge intervals (<0.4): ${lowKnowledgeCount} samples\n` +
         `- High-challenge intervals (>0.7): ${highChallengeCount} samples\n` +
         `- Reduced-viability intervals (<0.55): ${lowViabilityCount} samples\n` +
         `- Final state: ${octopus.alive ? 'alive' : 'dead'}\n` +
-        `- Interpretation: decreased recursion is associated with decreased adaptability, slower recovery, weaker food-seeking coordination, and greater strain exposure, even when survival is maintained.`;
+        `- Interpretation: recursion reflects distributed autonomy, coordination reflects how well body parts integrate, and environmental knowledge reflects situational awareness and directed food-seeking. High recursion with low coordination produces fragmented execution; high recursion with low knowledge produces poorly directed adaptation.`;
+
 
       return {
         text,
@@ -1380,9 +1504,13 @@ Also incorporate the following time-series pattern from a simulation as an analo
 ${historySummary.text}
 
 Instructions:
-- Treat recursion depth as a proxy for distributed autonomy, local decision-making capacity, and adaptive coordination.
-- Treat decreased recursion as decreased adaptability, greater rigidity, slower recovery, weaker opportunity capture, and increased dependence on top-down control.
-- Treat viability, strain, stress, and adaptation as unfolding organisational conditions across time.
+- Treat recursion depth as a proxy for distributed autonomy, local decision-making capacity, and layered problem-solving.
+- Treat coordination quality as a separate proxy for how well different teams, managers, or functions align and act coherently together.
+- Treat environmental knowledge / food-seeking as a proxy for situational awareness, intelligence quality, visibility of opportunities, and the ability to move toward beneficial outcomes.
+- Treat decreased recursion as reduced adaptability and heavier dependence on top-down control.
+- Treat low coordination as fragmentation, inconsistent execution, mixed signals, and poor integration across parts of the system.
+- Treat low environmental knowledge as weak visibility of risk and opportunity, poor targeting, and inefficient pursuit of useful outcomes.
+- Treat viability, strain, stress, adaptation, and coherence as unfolding organisational conditions across time.
 - Use the time-series pattern to shape the sequence of events, tensions, responses, and consequences in the occupational health management situation.
 - Keep the tone analytical but readable.
 - Keep the output to roughly 300 words.
@@ -1415,6 +1543,8 @@ Instructions:
 
       world.time += dt;
       world.recursion = parseFloat(recursionSlider.value);
+      world.coordination = parseFloat(coordinationSlider.value);
+      world.knowledge = parseFloat(knowledgeSlider.value);
       world.challenge = parseFloat(challengeSlider.value);
 
       drawBackground();
@@ -1436,6 +1566,14 @@ Instructions:
       recursionValue.textContent = `${parseFloat(recursionSlider.value).toFixed(2)} / 4`;
     });
 
+    coordinationSlider.addEventListener('input', () => {
+      coordinationValue.textContent = parseFloat(coordinationSlider.value).toFixed(2);
+    });
+
+    knowledgeSlider.addEventListener('input', () => {
+      knowledgeValue.textContent = parseFloat(knowledgeSlider.value).toFixed(2);
+    });
+
     challengeSlider.addEventListener('input', () => {
       challengeValue.textContent = parseFloat(challengeSlider.value).toFixed(2);
       const targetHazards = 7 + Math.round(parseFloat(challengeSlider.value) * 8);
@@ -1453,6 +1591,8 @@ Instructions:
     resize();
     resetWorld();
     recursionValue.textContent = `${parseFloat(recursionSlider.value).toFixed(2)} / 4`;
+    coordinationValue.textContent = parseFloat(coordinationSlider.value).toFixed(2);
+    knowledgeValue.textContent = parseFloat(knowledgeSlider.value).toFixed(2);
     challengeValue.textContent = parseFloat(challengeSlider.value).toFixed(2);
     requestAnimationFrame(animate);
   </script>
