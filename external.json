@@ -1,0 +1,404 @@
+{
+  "meta": {
+    "id": "occupational_health_externalities_institution_v1",
+    "title": "Occupational Health Externalities — Goguen Institution Parameter Lab",
+    "subtitle": "A Monte Carlo proxy simulator for a Goguen-style institution of occupational health externalities. Adjust signature-level conditions, sentence-strength parameters, model conditions, and internalisation mechanisms to explore how workplace harms and benefits are externalised or internalised across firms, households, public systems, and communities.",
+    "footerNote": "Note: This simulator is a conceptual proxy for exploring tensions within an institutional account of occupational health externalities. It is not an empirical estimator, legal advice, or a substitute for occupational hygiene, epidemiology, or policy evaluation."
+  },
+
+  "project": {
+    "name": "Goguen Institution for Occupational Health Externalities",
+    "description": [
+      "The system formalises occupational health externalities using the institutional components of signatures, sentences, models, and satisfaction relations.",
+      "Signatures specify actors, hazards, exposures, outcomes, costs, benefits, and control mechanisms; sentences specify claims about causation, burden shifting, hierarchy of controls, and positive spillovers; models interpret how those relations hold in a workplace system; satisfaction tracks whether the translated claims hold under a given parameterisation.",
+      "The simulator treats core institutional tensions dynamically: private benefit versus social cost, visible accounts versus hidden burdens, prevention versus deferred harm, precarious flexibility versus protection, compensation versus full internalisation, and negative versus positive externalities."
+    ],
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Add your occupational-health context (e.g., industry, hazards, labour model, affected communities, regulatory setting, hierarchy of controls, compensation regime, positive spillovers). Click “Generate AI Prompt” to produce a prompt for interpreting the current institutional configuration.",
+      "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions about the industry, workforce, hazard profile, employment relations, and public systems.]",
+      "promptText": [
+        "You are an expert in occupational health, labour process analysis, health economics, institutional theory, and formal modelling using Goguen institutions.",
+        "Write a short analytical report (700–1,000 words) interpreting the current institutional configuration for occupational health externalities.",
+        "",
+        "Institution summary:",
+        "- The domain concerns workplace harms and benefits that may be externalised or internalised across firms, workers, households, health systems, taxpayers, and communities.",
+        "- Signatures include firms, workplaces, production processes, hazards, exposures, outcomes, costs, benefits, accounts, regulations, and control measures.",
+        "- Sentences express causal, distributive, regulatory, and preventive claims, including the hierarchy of controls and positive externalities such as training, vaccination, and ergonomic design.",
+        "- Models represent concrete sectors or workplaces in which these relations hold with differing degrees of visibility, compensation, enforcement, and prevention.",
+        "- Satisfaction concerns whether the model, under the current parameter settings, realises the institution’s claims about externalisation, internalisation, harm propagation, and social benefit.",
+        "",
+        "Current parameter settings (0–100 unless noted):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Please do ALL of the following:",
+        "1) Explain how the current parameters shape the model’s likely pattern of negative externalities, including pollution, injury, disease, burnout, family burden, and public-system cost.",
+        "2) Interpret the institution in terms of signatures, sentences, models, and satisfaction: which claims are likely to hold strongly, weakly, or fail under this configuration?",
+        "3) Discuss the main tensions: private benefit vs social cost, accounting visibility vs material harm, prevention vs deferred liability, precarious employment vs protection, compensation vs full internalisation, and negative vs positive spillovers.",
+        "4) Identify the strongest levers for internalising externalities, especially hierarchy-of-control strength, worker voice, regulatory enforcement, compensation coverage, and public reporting/audit capacity.",
+        "5) Explain where positive externalities are likely to arise and why they may still be underprovided.",
+        "6) Be explicit about uncertainty and what empirical evidence would be needed to validate or refine the institutional model.",
+        "",
+        "Project refinements supplied by the user (incorporate these carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Institutional Outcomes (distributions + summary stats)",
+      "chartsTitle": "Institutional Outcomes (distributions)"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        { "id": "btnRandomize", "label": "Randomize params" },
+        { "id": "btnReset", "label": "Reset defaults" },
+        { "id": "btnToggleLive", "label": "Toggle live update" },
+        { "id": "btnRecompute", "label": "Recompute now" }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your occupational-health externality case here…\nExamples:\n- Industry and production process\n- Main pollutants or psychosocial hazards\n- Employment model: direct, outsourced, gig, agency\n- Exposed worker groups and nearby communities\n- Existing controls in the hierarchy of controls\n- Compensation, insurance, and regulatory setting\n- Public-system impacts and family burdens\n- Training, vaccination, ergonomic, or safety-culture spillovers\n- Political or organisational barriers to internalisation",
+      "buttons": [
+        { "id": "btnGenPrompt", "label": "Generate AI Prompt" },
+        { "id": "btnCopyPrompt", "label": "Copy Prompt" },
+        { "id": "btnClearRefinements", "label": "Clear refinements" }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+
+  "parameters": [
+    {
+      "id": "hazardIntensity",
+      "label": "Hazard and pollution intensity",
+      "hint": "Higher means production processes generate more toxic, ergonomic, physical, or psychosocial hazard potential at source.",
+      "min": 0, "max": 100, "step": 1, "default": 62
+    },
+    {
+      "id": "workloadPressure",
+      "label": "Workload and long-hours pressure",
+      "hint": "Higher means greater burnout, fatigue, pace pressure, and work-organisation-related harm.",
+      "min": 0, "max": 100, "step": 1, "default": 58
+    },
+    {
+      "id": "precarity",
+      "label": "Precarious / outsourced employment intensity",
+      "hint": "Higher shifts risk toward workers, contractors, and households and weakens accountability for prevention and compensation.",
+      "min": 0, "max": 100, "step": 1, "default": 55
+    },
+    {
+      "id": "accountingOpacity",
+      "label": "Accounting opacity for social cost",
+      "hint": "Higher means more of the true occupational and environmental burden remains unrecorded in firm accounts.",
+      "min": 0, "max": 100, "step": 1, "default": 65
+    },
+    {
+      "id": "controlStrength",
+      "label": "Hierarchy-of-controls strength",
+      "hint": "Higher means hazards are more likely to be eliminated, substituted, engineered out, or systematically controlled rather than merely tolerated.",
+      "min": 0, "max": 100, "step": 1, "default": 42
+    },
+    {
+      "id": "workerVoice",
+      "label": "Worker voice and collective challenge capacity",
+      "hint": "Higher improves reporting, consultation, challenge to unsafe production, and surfacing of hidden harms.",
+      "min": 0, "max": 100, "step": 1, "default": 40
+    },
+    {
+      "id": "regEnforcement",
+      "label": "Regulatory enforcement and inspection strength",
+      "hint": "Higher increases the chance that harmful externalities are detected, sanctioned, and pushed back onto the originating firm.",
+      "min": 0, "max": 100, "step": 1, "default": 46
+    },
+    {
+      "id": "compCoverage",
+      "label": "Compensation and insurance coverage depth",
+      "hint": "Higher means a greater share of work-related harm is compensated, though not necessarily prevented or fully internalised.",
+      "min": 0, "max": 100, "step": 1, "default": 48
+    },
+    {
+      "id": "publicCapacity",
+      "label": "Public health / healthcare absorptive capacity",
+      "hint": "Higher means health systems and agencies can absorb some burden without immediate breakdown, though the burden may still be socialised.",
+      "min": 0, "max": 100, "step": 1, "default": 52
+    },
+    {
+      "id": "communityExposure",
+      "label": "Community and household exposure linkage",
+      "hint": "Higher means workplace harms spill more strongly into surrounding communities, homes, and families.",
+      "min": 0, "max": 100, "step": 1, "default": 50
+    },
+    {
+      "id": "auditVisibility",
+      "label": "Audit, reporting, and evidential visibility",
+      "hint": "Higher means latent harms, burden shifting, and unequal exposure patterns are more likely to be made legible.",
+      "min": 0, "max": 100, "step": 1, "default": 44
+    },
+    {
+      "id": "positiveInvestment",
+      "label": "Investment in positive spillovers",
+      "hint": "Higher means more training, vaccination, ergonomics, and safety-culture building with benefits that extend beyond the paying firm.",
+      "min": 0, "max": 100, "step": 1, "default": 38
+    },
+
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500, "max": 30000, "step": 500, "default": 8000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more real-time.",
+      "min": 0, "max": 600, "step": 20, "default": 120,
+      "isMeta": true
+    }
+  ],
+
+  "outputs": [
+    {
+      "id": "externalisation",
+      "title": "Negative externalisation probability",
+      "subtitle": "Probability that the model strongly realises uncompensated occupational harm shifted onto workers, households, public systems, or communities.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "workerHarm",
+      "title": "Serious worker-harm probability",
+      "subtitle": "Probability of high work-related injury, disease, burnout, or chronic strain under the current institutional configuration.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "internalisation",
+      "title": "Internalisation and control probability",
+      "subtitle": "Probability that regulation, control design, worker voice, audit visibility, and compensation substantially push costs back toward the originating firm and reduce harm.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "positiveSpillover",
+      "title": "Positive externality probability",
+      "subtitle": "Probability that training, vaccination, ergonomics, or safety-culture investment produce wider benefits beyond the firm that funded them.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    }
+  ],
+
+  "engine": {
+    "bins": 44,
+
+    "random": {
+      "shocks": {
+        "epsHaz":   { "type": "normal", "sigma": 0.22 },
+        "epsBurden":{ "type": "normal", "sigma": 0.20 },
+        "epsInt":   { "type": "normal", "sigma": 0.18 },
+        "epsPos":   { "type": "normal", "sigma": 0.18 },
+        "epsSat":   { "type": "normal", "sigma": 0.16 }
+      }
+    },
+
+    "derived": {
+      "haz":    { "op": "div", "args": [ { "var": "hazardIntensity" }, { "lit": 100 } ] },
+      "load":   { "op": "div", "args": [ { "var": "workloadPressure" }, { "lit": 100 } ] },
+      "prec":   { "op": "div", "args": [ { "var": "precarity" }, { "lit": 100 } ] },
+      "opaque": { "op": "div", "args": [ { "var": "accountingOpacity" }, { "lit": 100 } ] },
+      "ctrl":   { "op": "div", "args": [ { "var": "controlStrength" }, { "lit": 100 } ] },
+      "voice":  { "op": "div", "args": [ { "var": "workerVoice" }, { "lit": 100 } ] },
+      "reg":    { "op": "div", "args": [ { "var": "regEnforcement" }, { "lit": 100 } ] },
+      "comp":   { "op": "div", "args": [ { "var": "compCoverage" }, { "lit": 100 } ] },
+      "pub":    { "op": "div", "args": [ { "var": "publicCapacity" }, { "lit": 100 } ] },
+      "comm":   { "op": "div", "args": [ { "var": "communityExposure" }, { "lit": 100 } ] },
+      "audit":  { "op": "div", "args": [ { "var": "auditVisibility" }, { "lit": 100 } ] },
+      "pos":    { "op": "div", "args": [ { "var": "positiveInvestment" }, { "lit": 100 } ] },
+
+      "signaturePressure": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.42 }, { "var": "haz" } ] },
+          { "op": "mul", "args": [ { "lit": 0.22 }, { "var": "load" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "comm" } ] },
+          { "op": "mul", "args": [ { "lit": 0.16 }, { "var": "prec" } ] }
+        ]
+      },
+
+      "sentenceStrength": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "audit" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "voice" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "reg" } ] },
+          { "op": "mul", "args": [ { "lit": -0.30 }, { "var": "opaque" } ] }
+        ]
+      },
+
+      "modelProtection": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.38 }, { "var": "ctrl" } ] },
+          { "op": "mul", "args": [ { "lit": 0.24 }, { "var": "reg" } ] },
+          { "op": "mul", "args": [ { "lit": 0.18 }, { "var": "voice" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "audit" } ] }
+        ]
+      },
+
+      "burdenShift": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.40 }, { "var": "prec" } ] },
+          { "op": "mul", "args": [ { "lit": 0.38 }, { "var": "opaque" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "comm" } ] },
+          { "op": "mul", "args": [ { "lit": -0.28 }, { "var": "comp" } ] },
+          { "op": "mul", "args": [ { "lit": -0.22 }, { "var": "reg" } ] }
+        ]
+      },
+
+      "positivePotential": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.52 }, { "var": "pos" } ] },
+          { "op": "mul", "args": [ { "lit": 0.22 }, { "var": "voice" } ] },
+          { "op": "mul", "args": [ { "lit": 0.16 }, { "var": "ctrl" } ] },
+          { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "audit" } ] }
+        ]
+      }
+    },
+
+    "perDraw": {
+      "hazardRealisation": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.85 }, { "var": "signaturePressure" } ] },
+          { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "modelProtection" } ] },
+          { "var": "epsHaz" }
+        ]
+      },
+
+      "workerHarmProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.20 },
+              { "op": "mul", "args": [ { "lit": 1.05 }, { "var": "hazardRealisation" } ] },
+              { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "load" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "prec" } ] },
+              { "op": "mul", "args": [ { "lit": -0.78 }, { "var": "ctrl" } ] },
+              { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "voice" } ] },
+              { "var": "epsBurden" }
+            ]
+          }
+        ]
+      },
+
+      "externalisationRaw": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.10 },
+              { "op": "mul", "args": [ { "lit": 0.95 }, { "var": "workerHarmProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.82 }, { "var": "burdenShift" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "pub" } ] },
+              { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "audit" } ] },
+              { "op": "mul", "args": [ { "lit": -0.45 }, { "var": "reg" } ] },
+              { "var": "epsSat" }
+            ]
+          }
+        ]
+      },
+
+      "internalisationProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 0.82 }, { "var": "modelProtection" } ] },
+              { "op": "mul", "args": [ { "lit": 0.42 }, { "var": "comp" } ] },
+              { "op": "mul", "args": [ { "lit": 0.32 }, { "var": "sentenceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": -0.72 }, { "var": "burdenShift" } ] },
+              { "op": "mul", "args": [ { "lit": -0.28 }, { "var": "workerHarmProb" } ] },
+              { "var": "epsInt" }
+            ]
+          }
+        ]
+      },
+
+      "positiveSpilloverProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.35 },
+              { "op": "mul", "args": [ { "lit": 1.00 }, { "var": "positivePotential" } ] },
+              { "op": "mul", "args": [ { "lit": 0.28 }, { "var": "sentenceStrength" } ] },
+              { "op": "mul", "args": [ { "lit": 0.18 }, { "var": "pub" } ] },
+              { "op": "mul", "args": [ { "lit": -0.18 }, { "var": "prec" } ] },
+              { "op": "mul", "args": [ { "lit": -0.15 }, { "var": "opaque" } ] },
+              { "var": "epsPos" }
+            ]
+          }
+        ]
+      },
+
+      "satisfactionBalance": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": 0.50 },
+              { "op": "mul", "args": [ { "lit": 0.52 }, { "var": "internalisationProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "positiveSpilloverProb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.48 }, { "var": "externalisationRaw" } ] },
+              { "op": "mul", "args": [ { "lit": -0.22 }, { "var": "workerHarmProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.08 }, { "var": "randn" } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      },
+
+      "externalisationProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.88 }, { "var": "externalisationRaw" } ] },
+              { "op": "mul", "args": [ { "lit": 0.12 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "satisfactionBalance" } ] } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      }
+    },
+
+    "outputMapping": {
+      "externalisation": "externalisationProb",
+      "workerHarm": "workerHarmProb",
+      "internalisation": "internalisationProb",
+      "positiveSpillover": "positiveSpilloverProb"
+    }
+  }
+}
