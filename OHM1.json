@@ -1,0 +1,1252 @@
+{
+  "meta": {
+    "id": "goh_orion_institution_aiwhatif_v1",
+    "title": "Global Occupational Health Institution — AIWhatif Parameter Lab",
+    "subtitle": "A Monte Carlo proxy simulator of the PetraNex/Orion Goguen institution. Adjust institutional parameters to explore how jurisdictional divergence, profitability pressure, contractor assurance, culture, surveillance, and governance affect satisfaction, coherence, harm prevention, and assurance outcomes.",
+    "footerNote": "This simulator is a formalized proxy model derived from the Goguen-institution representation of the Orion occupational health scenario. It is for exploratory reasoning only; it does not replace legal advice, industrial hygiene assessment, occupational medicine judgment, or operational risk review."
+  },
+  "project": {
+    "name": "PetraNex Orion Global Occupational Health Institution",
+    "description": "A many-sorted institutional proxy model for a multinational oil-and-gas occupational-health system spanning multiple jurisdictions, contractor chains, exposure hazards, cultural conditions, and reporting regimes.",
+    "promptTemplate": {
+      "title": "AI Prompt Generator",
+      "instructions": "Generate a structured prompt for analysing the occupational-health institution under the chosen slider settings.",
+      "defaultAssumptions": "Assume the Orion business unit spans offshore, terminal, vessel, and fabrication-yard operations; key hazards are noise, isocyanates, MSDs, and psychosocial strain; corporate minima are enforced through OneHealth; and Monte Carlo outputs are interpreted as proxy probabilities rather than empirical forecasts.",
+      "promptText": [
+        "You are analysing a Goguen-style occupational-health institution for a global oil-and-gas enterprise.",
+        "",
+        "Use the following current parameter settings as the model inputs:",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Interpret the institution as having signatures for jurisdictions, sites, employers, workers, hazards, controls, surveillance, reports, cultural dimensions, actions, and time; sentences representing corporate minima and local/legal constraints; models representing sampled operational states; and satisfaction as whether the sampled state meets the key occupational-health governance clauses.",
+        "",
+        "Your task:",
+        "1) Explain how the chosen slider values change the likely satisfaction of the institutional sentences on hazard identification, exposure baselines, surveillance, contractor equivalence, worker participation, professional independence, psychosocial review, and balanced reporting.",
+        "2) Identify which tensions dominate in this configuration: jurisdictional divergence, profitability pressure, transactional reporting, contractor gaps, cultural incoherence, or weak remediation.",
+        "3) Explain the expected effects on the main Monte Carlo outputs: institution satisfaction, cross-jurisdiction coherence, preventable harm avoidance, and assurance/continuity.",
+        "4) Give concrete examples tied to the Orion scenario: Platform Delta noise, contractor isocyanate exposure in yards, crane-maintenance MSD risk, and vessel psychosocial strain.",
+        "5) Recommend the smallest set of interventions that would most improve satisfaction under the current settings.",
+        "6) Be explicit about uncertainty, hidden assumptions, and what evidence would most reduce uncertainty.",
+        "",
+        "Project refinements supplied by the user (incorporate carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Monte Carlo Outcomes",
+      "chartsTitle": "Outcome Distributions"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        {
+          "id": "btnRandomize",
+          "label": "Randomize params"
+        },
+        {
+          "id": "btnReset",
+          "label": "Reset defaults"
+        },
+        {
+          "id": "btnToggleLive",
+          "label": "Toggle live update"
+        },
+        {
+          "id": "btnRecompute",
+          "label": "Recompute now"
+        }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe refinements to the occupational-health institution here…\nExamples:\n- Add or remove jurisdictions, contractors, or site types\n- Change which hazards dominate (noise, benzene, isocyanates, MSD, psychosocial)\n- Specify legal asymmetries, investor pressure, or labor-relations issues\n- Add details on language diversity, stigma, hierarchy, or disclosure risk\n- Change strength of worker participation, clinical independence, or contractor assurance\n- Add candidate interventions to test",
+      "buttons": [
+        {
+          "id": "btnGenPrompt",
+          "label": "Generate AI Prompt"
+        },
+        {
+          "id": "btnCopyPrompt",
+          "label": "Copy Prompt"
+        },
+        {
+          "id": "btnClearRefinements",
+          "label": "Clear refinements"
+        }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+  "parameters": [
+    {
+      "id": "jurisdictionDivergence",
+      "label": "Jurisdiction divergence",
+      "hint": "How far local OH&S requirements differ across sites. High values increase legal and assurance fragmentation.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 70
+    },
+    {
+      "id": "corporateMinimumStrength",
+      "label": "Corporate minimum strength",
+      "hint": "How clearly OneHealth defines and enforces non-negotiable global minima across jurisdictions.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 72
+    },
+    {
+      "id": "contractorEquivalence",
+      "label": "Contractor equivalent protection",
+      "hint": "How fully contractor workers receive protections equivalent to direct employees on high-risk work.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 48
+    },
+    {
+      "id": "exposureBaselineCurrency",
+      "label": "Exposure baseline currency",
+      "hint": "How current and comparable exposure baselines/noise maps/hygiene surveys are across the network.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 44
+    },
+    {
+      "id": "surveillanceCoverage",
+      "label": "Risk-based surveillance coverage",
+      "hint": "Extent to which exposed groups are enrolled in hazard-linked surveillance rather than generic annual medicals.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 52
+    },
+    {
+      "id": "fitnessCoverage",
+      "label": "Critical-role fitness coverage",
+      "hint": "Coverage and quality of fitness-for-work assessment for safety-critical roles.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 68
+    },
+    {
+      "id": "workerParticipation",
+      "label": "Worker participation strength",
+      "hint": "Degree of worker consultation, speak-up channels, and practical involvement in OH control design.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55
+    },
+    {
+      "id": "professionalIndependence",
+      "label": "Professional independence",
+      "hint": "Freedom of OH clinicians/hygienists to make risk judgments without operational suppression.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 58
+    },
+    {
+      "id": "multidisciplinaryIntegration",
+      "label": "Multidisciplinary OH integration",
+      "hint": "How well clinicians, industrial hygienists, ergonomists, HR, and operations work as a joined system.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50
+    },
+    {
+      "id": "culturalCoherence",
+      "label": "Cultural coherence",
+      "hint": "How well the corporate standard is translated into locally meaningful practice across language, hierarchy, and norms.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 46
+    },
+    {
+      "id": "mentalHealthReportingClimate",
+      "label": "Mental-health reporting climate",
+      "hint": "Psychological safety for reporting stress, bullying, sleep disruption, and related psychosocial symptoms.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 42
+    },
+    {
+      "id": "profitPressure",
+      "label": "Profitability pressure",
+      "hint": "Pressure to prioritize throughput/cost over slower OH systems work. High values worsen risk governance.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 78
+    },
+    {
+      "id": "transactionalReporting",
+      "label": "Transactional reporting dominance",
+      "hint": "How far OH is judged by certificates, case closure, and cost metrics instead of exposure/risk control.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 76
+    },
+    {
+      "id": "ohResourcing",
+      "label": "OH resourcing",
+      "hint": "Capacity available for strategic OH work beyond routine certification and clinic administration.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 47
+    },
+    {
+      "id": "remediationDiscipline",
+      "label": "Corrective-action discipline",
+      "hint": "How reliably overdue hygiene, ergonomic, psychosocial, and contractor actions are tracked and completed.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 54
+    },
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Number of model draws per simulation.",
+      "min": 1000,
+      "max": 15000,
+      "step": 500,
+      "default": 5000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Debounce (ms)",
+      "hint": "Delay before recomputing while sliders move.",
+      "min": 0,
+      "max": 300,
+      "step": 20,
+      "default": 60,
+      "isMeta": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "institutionSatisfaction",
+      "title": "Institution satisfaction probability",
+      "subtitle": "Proxy probability that a sampled operational state satisfies the core institutional clauses on minima, surveillance, contractor equivalence, participation, and balanced governance.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "coherence",
+      "title": "Cross-jurisdiction coherence probability",
+      "subtitle": "Likelihood that local implementations remain meaningfully aligned with the enterprise standard across law, culture, and reporting.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "harmAvoidance",
+      "title": "Preventable harm avoidance probability",
+      "subtitle": "Proxy probability of averting the main OH failure modes in the scenario: hearing loss, contractor asthma, MSD escalation, and psychosocial deterioration.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    },
+    {
+      "id": "assuranceContinuity",
+      "title": "Assurance & continuity probability",
+      "subtitle": "Likelihood that the OH system supports investor/regulator assurance and operational continuity instead of merely producing transactional reports.",
+      "units": "probability",
+      "range": {
+        "min": 0,
+        "max": 1
+      },
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      }
+    }
+  ],
+  "engine": {
+    "bins": 44,
+    "random": {
+      "shocks": {
+        "epsNorm": {
+          "type": "normal",
+          "sigma": 0.18
+        },
+        "epsCoh": {
+          "type": "normal",
+          "sigma": 0.2
+        },
+        "epsHarm": {
+          "type": "normal",
+          "sigma": 0.18
+        },
+        "epsAssure": {
+          "type": "normal",
+          "sigma": 0.2
+        },
+        "epsOps": {
+          "type": "normal",
+          "sigma": 0.16
+        }
+      }
+    },
+    "derived": {
+      "jd": {
+        "op": "div",
+        "args": [
+          {
+            "var": "jurisdictionDivergence"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "cms": {
+        "op": "div",
+        "args": [
+          {
+            "var": "corporateMinimumStrength"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "ce": {
+        "op": "div",
+        "args": [
+          {
+            "var": "contractorEquivalence"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "eb": {
+        "op": "div",
+        "args": [
+          {
+            "var": "exposureBaselineCurrency"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "sv": {
+        "op": "div",
+        "args": [
+          {
+            "var": "surveillanceCoverage"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "fit": {
+        "op": "div",
+        "args": [
+          {
+            "var": "fitnessCoverage"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "wp": {
+        "op": "div",
+        "args": [
+          {
+            "var": "workerParticipation"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "pi": {
+        "op": "div",
+        "args": [
+          {
+            "var": "professionalIndependence"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "mdi": {
+        "op": "div",
+        "args": [
+          {
+            "var": "multidisciplinaryIntegration"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "cc": {
+        "op": "div",
+        "args": [
+          {
+            "var": "culturalCoherence"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "mh": {
+        "op": "div",
+        "args": [
+          {
+            "var": "mentalHealthReportingClimate"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "pp": {
+        "op": "div",
+        "args": [
+          {
+            "var": "profitPressure"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "tr": {
+        "op": "div",
+        "args": [
+          {
+            "var": "transactionalReporting"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "rs": {
+        "op": "div",
+        "args": [
+          {
+            "var": "ohResourcing"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "rd": {
+        "op": "div",
+        "args": [
+          {
+            "var": "remediationDiscipline"
+          },
+          {
+            "lit": 100
+          }
+        ]
+      },
+      "governanceCore": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.24
+              },
+              {
+                "var": "cms"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.16
+              },
+              {
+                "var": "pi"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.14
+              },
+              {
+                "var": "mdi"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.12
+              },
+              {
+                "var": "wp"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.12
+              },
+              {
+                "var": "rs"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.12
+              },
+              {
+                "var": "rd"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.16
+              },
+              {
+                "var": "pp"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.15
+              },
+              {
+                "var": "tr"
+              }
+            ]
+          }
+        ]
+      },
+      "exposureControlMaturity": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.36
+              },
+              {
+                "var": "eb"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.34
+              },
+              {
+                "var": "sv"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.16
+              },
+              {
+                "var": "fit"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.14
+              },
+              {
+                "var": "mdi"
+              }
+            ]
+          }
+        ]
+      },
+      "contractorGap": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.72
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "lit": 1.0
+                  },
+                  {
+                    "var": "ce"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.18
+              },
+              {
+                "var": "jd"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.1
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "lit": 1.0
+                  },
+                  {
+                    "var": "sv"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "cultureBarrier": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.46
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "lit": 1.0
+                  },
+                  {
+                    "var": "cc"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.34
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "lit": 1.0
+                  },
+                  {
+                    "var": "mh"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "jd"
+              }
+            ]
+          }
+        ]
+      },
+      "reportingBalance": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.34
+              },
+              {
+                "var": "cms"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.24
+              },
+              {
+                "var": "rd"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.18
+              },
+              {
+                "var": "rs"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.4
+              },
+              {
+                "var": "tr"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.18
+              },
+              {
+                "var": "pp"
+              }
+            ]
+          }
+        ]
+      },
+      "jurisdictionFit": {
+        "op": "add",
+        "args": [
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.48
+              },
+              {
+                "var": "cms"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.22
+              },
+              {
+                "var": "cc"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.18
+              },
+              {
+                "var": "wp"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.42
+              },
+              {
+                "var": "jd"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "perDraw": {
+      "normativeClauseScore": {
+        "op": "add",
+        "args": [
+          {
+            "lit": -0.18
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.95
+              },
+              {
+                "var": "governanceCore"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.68
+              },
+              {
+                "var": "exposureControlMaturity"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.4
+              },
+              {
+                "var": "ce"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.55
+              },
+              {
+                "var": "contractorGap"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.3
+              },
+              {
+                "var": "cultureBarrier"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "randn"
+              }
+            ]
+          },
+          {
+            "var": "epsNorm"
+          }
+        ]
+      },
+      "institutionSat": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "var": "normativeClauseScore"
+          }
+        ]
+      },
+      "coherenceLatent": {
+        "op": "add",
+        "args": [
+          {
+            "lit": -0.12
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 1.05
+              },
+              {
+                "var": "jurisdictionFit"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.55
+              },
+              {
+                "var": "reportingBalance"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.28
+              },
+              {
+                "var": "mdi"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.82
+              },
+              {
+                "var": "cultureBarrier"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "var": "contractorGap"
+              }
+            ]
+          },
+          {
+            "var": "epsCoh"
+          }
+        ]
+      },
+      "coherenceProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "var": "coherenceLatent"
+          }
+        ]
+      },
+      "hazardProtection": {
+        "op": "add",
+        "args": [
+          {
+            "lit": -0.08
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.95
+              },
+              {
+                "var": "exposureControlMaturity"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.42
+              },
+              {
+                "var": "wp"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.22
+              },
+              {
+                "var": "pi"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.62
+              },
+              {
+                "var": "contractorGap"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.5
+              },
+              {
+                "var": "cultureBarrier"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.24
+              },
+              {
+                "var": "pp"
+              }
+            ]
+          },
+          {
+            "var": "epsHarm"
+          }
+        ]
+      },
+      "harmAvoidanceProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "var": "hazardProtection"
+          }
+        ]
+      },
+      "assuranceLatent": {
+        "op": "add",
+        "args": [
+          {
+            "lit": -0.15
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.72
+              },
+              {
+                "var": "institutionSat"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.66
+              },
+              {
+                "var": "coherenceProb"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.58
+              },
+              {
+                "var": "reportingBalance"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.34
+              },
+              {
+                "var": "rs"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.36
+              },
+              {
+                "var": "pp"
+              }
+            ]
+          },
+          {
+            "var": "epsAssure"
+          }
+        ]
+      },
+      "assuranceProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "var": "assuranceLatent"
+          }
+        ]
+      },
+      "continuityLatent": {
+        "op": "add",
+        "args": [
+          {
+            "lit": -0.08
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.5
+              },
+              {
+                "var": "harmAvoidanceProb"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.42
+              },
+              {
+                "var": "assuranceProb"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": 0.24
+              },
+              {
+                "var": "fit"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.3
+              },
+              {
+                "var": "pp"
+              }
+            ]
+          },
+          {
+            "op": "mul",
+            "args": [
+              {
+                "lit": -0.18
+              },
+              {
+                "var": "tr"
+              }
+            ]
+          },
+          {
+            "var": "epsOps"
+          }
+        ]
+      },
+      "assuranceContinuityProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "var": "continuityLatent"
+          }
+        ]
+      }
+    },
+    "outputMapping": {
+      "institutionSatisfaction": "institutionSat",
+      "coherence": "coherenceProb",
+      "harmAvoidance": "harmAvoidanceProb",
+      "assuranceContinuity": "assuranceContinuityProb"
+    }
+  }
+}
