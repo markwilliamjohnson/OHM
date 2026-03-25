@@ -1,0 +1,793 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Torday Institution Explorer</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121936;
+      --panel-2: #19224a;
+      --text: #eaf0ff;
+      --muted: #a7b4df;
+      --accent: #7bb2ff;
+      --accent-2: #72f2c8;
+      --warn: #ffc36d;
+      --bad: #ff7b8a;
+      --good: #7fffb2;
+      --line: #2e3a72;
+      --shadow: 0 10px 30px rgba(0,0,0,.28);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #09101c 0%, #0b1020 100%);
+      color: var(--text);
+    }
+    .app {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: rgba(10, 16, 34, 0.95);
+      border-right: 1px solid var(--line);
+      padding: 18px 16px 24px;
+      overflow: auto;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .main {
+      padding: 20px;
+      overflow: auto;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+      line-height: 1.2;
+    }
+    h2 {
+      margin: 18px 0 10px;
+      font-size: 1rem;
+      color: var(--accent-2);
+      letter-spacing: .02em;
+    }
+    h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+    p, li {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .intro {
+      background: linear-gradient(180deg, rgba(123,178,255,.12), rgba(114,242,200,.08));
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+    .row {
+      margin-bottom: 12px;
+    }
+    .row:last-child { margin-bottom: 0; }
+    .labelrow {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+      font-size: .92rem;
+    }
+    .help {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .number {
+      color: var(--text);
+      font-weight: 700;
+      min-width: 52px;
+      text-align: right;
+    }
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    button, select {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+    button:hover { border-color: var(--accent); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .kpi {
+      background: linear-gradient(180deg, rgba(123,178,255,.10), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .kpi .title { color: var(--muted); font-size: .8rem; }
+    .kpi .value { font-size: 1.6rem; font-weight: 800; margin-top: 4px; }
+    .good { color: var(--good); }
+    .bad { color: var(--bad); }
+    .warn { color: var(--warn); }
+    .bar {
+      height: 12px;
+      background: #0a122c;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .bar > div {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      width: 0%;
+      transition: width .12s linear;
+    }
+    .bar.badbar > div {
+      background: linear-gradient(90deg, #ffb36b, #ff7b8a);
+    }
+    canvas {
+      width: 100%;
+      background: #091026;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      display: block;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .small {
+      font-size: .88rem;
+    }
+    .pathway {
+      display: grid;
+      gap: 10px;
+    }
+    .step {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+    }
+    .step strong { color: var(--text); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+    }
+    th, td {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      color: var(--muted);
+      vertical-align: top;
+    }
+    th { color: var(--text); font-size: .84rem; }
+    .pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(123,178,255,.14);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: .78rem;
+      margin: 2px 6px 2px 0;
+    }
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; }
+      .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 12; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1>Torday Institution Explorer</h1>
+      <div class="intro small">
+        This app turns the formal institution into an interactive causal model. Each slider changes one level of the structure: cosmic conditions, symbiogenic resilience, cellular homeostasis, epigenetic accessibility, lung signalling, and disease stress. A Monte Carlo engine then samples thousands of possible cell trajectories and estimates the probability of <strong>healthy alveolar homeostasis</strong> versus <strong>cellular regression / fibrosis</strong>.
+      </div>
+
+      <div class="section">
+        <h2>Simulation controls</h2>
+        <div class="row">
+          <div class="labelrow"><span>Monte Carlo runs</span><span class="number" id="runsVal">2000</span></div>
+          <div class="help">Higher values smooth the estimate but take slightly longer to update.</div>
+          <input id="runs" type="range" min="200" max="10000" step="200" value="2000" />
+        </div>
+        <div class="toolbar">
+          <button id="randomizeBtn">Randomize</button>
+          <button id="healthyBtn">Healthy preset</button>
+          <button id="stressBtn">Disease preset</button>
+          <button id="balancedBtn">Balanced preset</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>1. Stellar and elemental layer</h2>
+        <div class="row">
+          <div class="labelrow"><span>Biogenic element richness</span><span class="number" id="elementRichnessVal"></span></div>
+          <div class="help">How favorable the elemental base is for complex life chemistry.</div>
+          <input id="elementRichness" type="range" min="0" max="100" value="78" />
+        </div>
+        <div class="row">
+          <div class="labelrow"><span>Physical stability / gravitational regularity</span><span class="number" id="gravityRegularityVal"></span></div>
+          <div class="help">A stand-in for stable physical conditions that support persistent mechanobiological adaptation.</div>
+          <input id="gravityRegularity" type="range" min="0" max="100" value="75" />
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>2. Symbiogenesis and cell architecture</h2>
+        <div class="row">
+          <div class="labelrow"><span>Symbiogenic integration quality</span><span class="number" id="symbioIntegrationVal"></span></div>
+          <div class="help">How strongly the cell integrates inherited organelle functions into a stable whole.</div>
+          <input id="symbioIntegration" type="range" min="0" max="100" value="74" />
+        </div>
+        <div class="row">
+          <div class="labelrow"><span>Mitochondrial energetic resilience</span><span class="number" id="mitoResilienceVal"></span></div>
+          <div class="help">A proxy for redox stability, ATP generation, and cellular stress tolerance.</div>
+          <input id="mitoResilience" type="range" min="0" max="100" value="70" />
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>3. Cellular homeostasis</h2>
+        <div class="row">
+          <div class="labelrow"><span>Homeostatic set-point robustness</span><span class="number" id="homeostasisVal"></span></div>
+          <div class="help">How effectively the cell maintains internal balance under ambiguity.</div>
+          <input id="homeostasis" type="range" min="0" max="100" value="72" />
+        </div>
+        <div class="row">
+          <div class="labelrow"><span>Internal selection flexibility</span><span class="number" id="selectionFlexVal"></span></div>
+          <div class="help">How flexibly the cell chooses adaptive programs rather than collapsing into rigid fallback states.</div>
+          <input id="selectionFlex" type="range" min="0" max="100" value="68" />
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>4. Epigenetic accessibility</h2>
+        <div class="row">
+          <div class="labelrow"><span>Epigenetic memory depth</span><span class="number" id="epiMemoryVal"></span></div>
+          <div class="help">How much historical program memory is retained in accessible form.</div>
+          <input id="epiMemory" type="range" min="0" max="100" value="62" />
+        </div>
+        <div class="row">
+          <div class="labelrow"><span>Fibrotic program accessibility</span><span class="number" id="fibroticAccessVal"></span></div>
+          <div class="help">How easy it is for stress to reopen older contractile / fibrotic states.</div>
+          <input id="fibroticAccess" type="range" min="0" max="100" value="40" />
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>5. Lung signalling layer</h2>
+        <div class="row">
+          <div class="labelrow"><span>Alveolar stretch support</span><span class="number" id="stretchVal"></span></div>
+          <div class="help">Mechanical support for stretch-sensitive epithelial signalling.</div>
+          <input id="stretch" type="range" min="0" max="100" value="72" />
+        </div>
+        <div class="row">
+          <div class="labelrow"><span>PTHrP signalling strength</span><span class="number" id="pthrpVal"></span></div>
+          <div class="help">The main epithelial–mesenchymal signal preserving lipofibroblast support.</div>
+          <input id="pthrp" type="range" min="0" max="100" value="76" />
+        </div>
+        <div class="row">
+          <div class="labelrow"><span>PPARγ / lipofibroblast support</span><span class="number" id="ppargVal"></span></div>
+          <div class="help">Bias toward lipogenic fibroblast identity rather than myogenic conversion.</div>
+          <input id="pparg" type="range" min="0" max="100" value="73" />
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>6. Disease stress layer</h2>
+        <div class="row">
+          <div class="labelrow"><span>Hyperoxic / oxidative stress</span><span class="number" id="hyperoxiaVal"></span></div>
+          <div class="help">Raises the chance of lipofibroblast-to-myofibroblast switching.</div>
+          <input id="hyperoxia" type="range" min="0" max="100" value="28" />
+        </div>
+        <div class="row">
+          <div class="labelrow"><span>Microgravity / mechanosensory disruption</span><span class="number" id="microgravityVal"></span></div>
+          <div class="help">Models suppression of stretch-sensitive PTHrP signalling.</div>
+          <input id="microgravity" type="range" min="0" max="100" value="16" />
+        </div>
+        <div class="row">
+          <div class="labelrow"><span>Inflammatory stress</span><span class="number" id="inflammationVal"></span></div>
+          <div class="help">Represents pro-fibrotic pressure, injury signalling, and tissue instability.</div>
+          <input id="inflammation" type="range" min="0" max="100" value="32" />
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="grid">
+        <div class="card span-12">
+          <h3>What the model is doing</h3>
+          <p class="small">
+            The app treats the institution as a linked causal chain. The <strong>stellar</strong> layer sets the quality of the biochemical platform. The <strong>symbiogenic</strong> layer sets how coherently the cell integrates inherited organelle functions. The <strong>cellular</strong> and <strong>epigenetic</strong> layers determine whether the cell can hold a modern adaptive state or whether older fallback programs are easily re-opened. The <strong>lung signalling</strong> layer implements the Torday mechanism: stretch supports PTHrP, PTHrP supports lipofibroblasts, lipofibroblasts support leptin and surfactant, and that supports alveolar health. The <strong>disease</strong> layer introduces hyperoxia, inflammation, and microgravity-like mechanosensory suppression. Monte Carlo simulation samples noisy versions of these conditions to estimate how often the system lands in health, stress compensation, reversible regression, or fibrosis.
+          </p>
+        </div>
+
+        <div class="card span-12">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="title">Health probability</div>
+              <div class="value good" id="healthProb">0%</div>
+              <div class="bar"><div id="healthBar"></div></div>
+            </div>
+            <div class="kpi">
+              <div class="title">Disease / fibrosis probability</div>
+              <div class="value bad" id="diseaseProb">0%</div>
+              <div class="bar badbar"><div id="diseaseBar"></div></div>
+            </div>
+            <div class="kpi">
+              <div class="title">Reversible regression</div>
+              <div class="value warn" id="reversibleProb">0%</div>
+              <div class="bar"><div id="reversibleBar"></div></div>
+            </div>
+            <div class="kpi">
+              <div class="title">Homeostatic reserve</div>
+              <div class="value" id="reserveScore">0</div>
+              <div class="bar"><div id="reserveBar"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card span-7">
+          <h3>Monte Carlo outcomes</h3>
+          <canvas id="histogram" width="900" height="320"></canvas>
+          <p class="small">Each bar shows how many simulated cells landed at a given net viability score. The green line marks the health threshold; the red line marks the fibrosis threshold.</p>
+        </div>
+
+        <div class="card span-5">
+          <h3>Current pathway reasoning</h3>
+          <div class="pathway" id="pathway"></div>
+        </div>
+
+        <div class="card span-6">
+          <h3>Institutional connections across levels</h3>
+          <table>
+            <thead>
+              <tr><th>Level</th><th>Main variables</th><th>How it feeds the next level</th></tr>
+            </thead>
+            <tbody id="connectionsTable"></tbody>
+          </table>
+        </div>
+
+        <div class="card span-6">
+          <h3>Derived state variables</h3>
+          <table>
+            <thead>
+              <tr><th>Variable</th><th>Value</th><th>Meaning</th></tr>
+            </thead>
+            <tbody id="derivedTable"></tbody>
+          </table>
+        </div>
+
+        <div class="card span-12">
+          <h3>How the calculation works</h3>
+          <div class="two-col small">
+            <div>
+              <p>
+                For each run, the simulator perturbs your slider settings with random noise. It then computes a chain of latent variables:
+              </p>
+              <p>
+                <span class="pill">Cosmic support</span>
+                <span class="pill">Biochemical support</span>
+                <span class="pill">Symbiogenic coherence</span>
+                <span class="pill">Cellular homeostatic capacity</span>
+                <span class="pill">Epigenetic fallback pressure</span>
+                <span class="pill">PTHrP effective strength</span>
+                <span class="pill">Lipofibroblast support</span>
+                <span class="pill">Fibrotic drive</span>
+                <span class="pill">Net viability</span>
+              </p>
+              <p>
+                Health probability rises when stretch, PTHrP, PPARγ, mitochondrial resilience, and selection flexibility outweigh inflammatory, oxidative, and fibrotic access pressures.
+              </p>
+            </div>
+            <div>
+              <p>
+                A run is classified as <strong>healthy</strong> when net viability remains high and fibrotic drive stays low. It is classified as <strong>reversible regression</strong> when the system falls into an older fallback state but retains enough reserve and flexibility to recover. It is classified as <strong>disease / fibrosis</strong> when fibrotic drive is high, PTHrP signalling is suppressed, and reserve collapses.
+              </p>
+              <p>
+                This is not a medical diagnostic model. It is an explanatory simulation built from the institution structure above so you can inspect how the levels constrain each other.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const sliderIds = [
+      'runs','elementRichness','gravityRegularity','symbioIntegration','mitoResilience','homeostasis','selectionFlex',
+      'epiMemory','fibroticAccess','stretch','pthrp','pparg','hyperoxia','microgravity','inflammation'
+    ];
+
+    const labels = {
+      runs: 'runsVal',
+      elementRichness: 'elementRichnessVal', gravityRegularity: 'gravityRegularityVal',
+      symbioIntegration: 'symbioIntegrationVal', mitoResilience: 'mitoResilienceVal',
+      homeostasis: 'homeostasisVal', selectionFlex: 'selectionFlexVal',
+      epiMemory: 'epiMemoryVal', fibroticAccess: 'fibroticAccessVal',
+      stretch: 'stretchVal', pthrp: 'pthrpVal', pparg: 'ppargVal',
+      hyperoxia: 'hyperoxiaVal', microgravity: 'microgravityVal', inflammation: 'inflammationVal'
+    };
+
+    const els = Object.fromEntries(sliderIds.map(id => [id, document.getElementById(id)]));
+
+    function clamp(x, lo=0, hi=1) { return Math.max(lo, Math.min(hi, x)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function sigmoid(x) { return 1 / (1 + Math.exp(-x)); }
+    function norm(v) { return Number(v) / 100; }
+    function round1(x) { return Math.round(x * 10) / 10; }
+    function gaussianRandom() {
+      let u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+    function noisy(base, std = 0.07) { return clamp(base + gaussianRandom() * std); }
+
+    function getParams() {
+      return {
+        runs: parseInt(els.runs.value, 10),
+        elementRichness: norm(els.elementRichness.value),
+        gravityRegularity: norm(els.gravityRegularity.value),
+        symbioIntegration: norm(els.symbioIntegration.value),
+        mitoResilience: norm(els.mitoResilience.value),
+        homeostasis: norm(els.homeostasis.value),
+        selectionFlex: norm(els.selectionFlex.value),
+        epiMemory: norm(els.epiMemory.value),
+        fibroticAccess: norm(els.fibroticAccess.value),
+        stretch: norm(els.stretch.value),
+        pthrp: norm(els.pthrp.value),
+        pparg: norm(els.pparg.value),
+        hyperoxia: norm(els.hyperoxia.value),
+        microgravity: norm(els.microgravity.value),
+        inflammation: norm(els.inflammation.value)
+      };
+    }
+
+    function derivedFrom(p) {
+      const cosmicSupport = clamp(0.6 * p.elementRichness + 0.4 * p.gravityRegularity);
+      const biochemicalSupport = clamp(0.75 * cosmicSupport + 0.25 * p.mitoResilience);
+      const symbiogenicCoherence = clamp(0.55 * p.symbioIntegration + 0.45 * biochemicalSupport);
+      const cellularReserve = clamp(0.4 * p.homeostasis + 0.35 * p.selectionFlex + 0.25 * symbiogenicCoherence);
+      const epigeneticFallbackPressure = clamp(0.55 * p.fibroticAccess + 0.25 * p.epiMemory + 0.20 * (1 - p.selectionFlex));
+      const mechanosensoryIntegrity = clamp(0.55 * p.stretch + 0.45 * (1 - p.microgravity));
+      const effectivePTHrP = clamp(0.5 * p.pthrp + 0.3 * mechanosensoryIntegrity + 0.2 * cellularReserve - 0.25 * p.inflammation);
+      const lipofibroblastSupport = clamp(0.45 * effectivePTHrP + 0.40 * p.pparg + 0.15 * cellularReserve);
+      const surfactantSupport = clamp(0.65 * lipofibroblastSupport + 0.35 * effectivePTHrP);
+      const stressLoad = clamp(0.45 * p.hyperoxia + 0.30 * p.inflammation + 0.25 * p.microgravity);
+      const fibroticDrive = clamp(0.45 * stressLoad + 0.30 * epigeneticFallbackPressure + 0.20 * (1 - effectivePTHrP) + 0.05 * (1 - p.pparg));
+      const reversibilityCapacity = clamp(0.35 * p.epiMemory + 0.35 * p.selectionFlex + 0.30 * cellularReserve);
+      const netViability = clamp(0.28 * cosmicSupport + 0.22 * symbiogenicCoherence + 0.25 * cellularReserve + 0.25 * surfactantSupport - 0.42 * fibroticDrive + 0.10 * reversibilityCapacity);
+      return {
+        cosmicSupport, biochemicalSupport, symbiogenicCoherence, cellularReserve,
+        epigeneticFallbackPressure, mechanosensoryIntegrity, effectivePTHrP,
+        lipofibroblastSupport, surfactantSupport, stressLoad, fibroticDrive,
+        reversibilityCapacity, netViability
+      };
+    }
+
+    function simulate(p) {
+      const bins = Array.from({ length: 24 }, () => 0);
+      let healthy = 0, disease = 0, reversible = 0, compensated = 0;
+      let reserveAccumulator = 0;
+
+      for (let i = 0; i < p.runs; i++) {
+        const q = {
+          elementRichness: noisy(p.elementRichness, 0.04),
+          gravityRegularity: noisy(p.gravityRegularity, 0.05),
+          symbioIntegration: noisy(p.symbioIntegration, 0.07),
+          mitoResilience: noisy(p.mitoResilience, 0.08),
+          homeostasis: noisy(p.homeostasis, 0.07),
+          selectionFlex: noisy(p.selectionFlex, 0.09),
+          epiMemory: noisy(p.epiMemory, 0.09),
+          fibroticAccess: noisy(p.fibroticAccess, 0.10),
+          stretch: noisy(p.stretch, 0.08),
+          pthrp: noisy(p.pthrp, 0.09),
+          pparg: noisy(p.pparg, 0.09),
+          hyperoxia: noisy(p.hyperoxia, 0.11),
+          microgravity: noisy(p.microgravity, 0.11),
+          inflammation: noisy(p.inflammation, 0.10)
+        };
+        const d = derivedFrom({ ...p, ...q });
+        reserveAccumulator += d.cellularReserve;
+
+        const viability = d.netViability;
+        const idx = Math.max(0, Math.min(bins.length - 1, Math.floor(viability * bins.length)));
+        bins[idx]++;
+
+        const pthrpSuppressed = d.effectivePTHrP < 0.42;
+        const fibrosisHigh = d.fibroticDrive > 0.58;
+        const highReserve = d.reversibilityCapacity > 0.54;
+
+        if (viability >= 0.62 && !fibrosisHigh) {
+          healthy++;
+        } else if ((viability < 0.62 && viability >= 0.40 && highReserve) || (fibrosisHigh && highReserve && !pthrpSuppressed)) {
+          reversible++;
+        } else if (viability < 0.38 || (fibrosisHigh && pthrpSuppressed)) {
+          disease++;
+        } else {
+          compensated++;
+        }
+      }
+
+      return {
+        healthyProb: healthy / p.runs,
+        diseaseProb: disease / p.runs,
+        reversibleProb: reversible / p.runs,
+        compensatedProb: compensated / p.runs,
+        reserveScore: reserveAccumulator / p.runs,
+        bins
+      };
+    }
+
+    function reasonText(p, d, s) {
+      const lines = [];
+      if (d.cosmicSupport > 0.65) {
+        lines.push({ title: 'Cosmic and chemical support is strong', text: 'The elemental base and physical regularity provide a favorable platform for complex cellular chemistry.' });
+      } else {
+        lines.push({ title: 'Cosmic and chemical support is weaker', text: 'The foundational biochemical platform is less supportive, so downstream resilience is more fragile.' });
+      }
+
+      if (d.symbiogenicCoherence > 0.60) {
+        lines.push({ title: 'Symbiogenic integration is coherent', text: 'Inherited organelle functions are well integrated, which improves energetic resilience and stabilizes homeostatic control.' });
+      } else {
+        lines.push({ title: 'Symbiogenic integration is strained', text: 'The cell has less energetic and redox resilience, making fallback programs easier to trigger.' });
+      }
+
+      if (d.effectivePTHrP > 0.58 && d.lipofibroblastSupport > 0.55) {
+        lines.push({ title: 'The Torday loop is being maintained', text: 'Stretch and PTHrP signalling are sufficient to preserve lipofibroblast support, which helps sustain leptin and surfactant.' });
+      } else {
+        lines.push({ title: 'The Torday loop is being suppressed', text: 'Mechanosensory disruption, inflammation, or weak baseline signalling reduce PTHrP effectiveness and weaken lipofibroblast support.' });
+      }
+
+      if (d.fibroticDrive > 0.56) {
+        lines.push({ title: 'Fibrotic drive is high', text: 'Stress plus epigenetic accessibility is pushing the model toward older contractile / myofibroblast states.' });
+      } else {
+        lines.push({ title: 'Fibrotic drive is contained', text: 'Fallback pressure exists but is not dominating the system.' });
+      }
+
+      if (s.healthyProb > s.diseaseProb) {
+        lines.push({ title: 'Overall prediction favors health', text: `Monte Carlo runs more often preserve alveolar homeostasis than disease. Health probability is ${(s.healthyProb*100).toFixed(1)}%.` });
+      } else {
+        lines.push({ title: 'Overall prediction favors disease or regression', text: `Monte Carlo runs more often cross the fibrosis / regression threshold. Disease probability is ${(s.diseaseProb*100).toFixed(1)}%.` });
+      }
+      return lines;
+    }
+
+    function renderPathway(steps) {
+      const el = document.getElementById('pathway');
+      el.innerHTML = steps.map(s => `<div class="step"><strong>${s.title}</strong><div class="small">${s.text}</div></div>`).join('');
+    }
+
+    function renderConnections(p, d) {
+      const rows = [
+        ['Stellar nucleosynthesis', `Element richness ${pct(p.elementRichness)}, gravity regularity ${pct(p.gravityRegularity)}`, `Drives cosmic support ${pct(d.cosmicSupport)} and therefore biochemical possibility.`],
+        ['Chemical / energetic platform', `Biochemical support ${pct(d.biochemicalSupport)}`, `Supports symbiogenic coherence and mitochondrial resilience.`],
+        ['Symbiogenesis', `Integration ${pct(p.symbioIntegration)}, mitochondrial resilience ${pct(p.mitoResilience)}`, `Forms a historically layered cell with reserve ${pct(d.cellularReserve)}.`],
+        ['Cellular homeostasis', `Homeostasis ${pct(p.homeostasis)}, selection flexibility ${pct(p.selectionFlex)}`, `Determines whether ambiguous conditions stay adaptive or slip toward fallback states.`],
+        ['Epigenetic memory', `Memory ${pct(p.epiMemory)}, fibrotic access ${pct(p.fibroticAccess)}`, `Sets fallback pressure ${pct(d.epigeneticFallbackPressure)} and reversibility ${pct(d.reversibilityCapacity)}.`],
+        ['Lung mechanism', `Stretch ${pct(p.stretch)}, PTHrP ${pct(p.pthrp)}, PPARγ ${pct(p.pparg)}`, `Produces effective PTHrP ${pct(d.effectivePTHrP)}, lipofibroblast support ${pct(d.lipofibroblastSupport)}, surfactant support ${pct(d.surfactantSupport)}.`],
+        ['Disease stress', `Hyperoxia ${pct(p.hyperoxia)}, microgravity ${pct(p.microgravity)}, inflammation ${pct(p.inflammation)}`, `Raises stress load ${pct(d.stressLoad)} and fibrotic drive ${pct(d.fibroticDrive)}.`],
+        ['Outcome', `Net viability ${pct(d.netViability)}`, `Predicts health, reversible regression, compensation, or fibrosis.`]
+      ];
+      document.getElementById('connectionsTable').innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+    }
+
+    function renderDerived(d) {
+      const rows = [
+        ['Cosmic support', pct(d.cosmicSupport), 'Quality of the deep physical and elemental platform.'],
+        ['Biochemical support', pct(d.biochemicalSupport), 'Capacity for rich life chemistry and energetic processing.'],
+        ['Symbiogenic coherence', pct(d.symbiogenicCoherence), 'How coherently inherited organelle functions stabilize the cell.'],
+        ['Cellular reserve', pct(d.cellularReserve), 'Capacity to maintain homeostasis under ambiguity.'],
+        ['Epigenetic fallback pressure', pct(d.epigeneticFallbackPressure), 'How strongly older latent states can be reopened.'],
+        ['Mechanosensory integrity', pct(d.mechanosensoryIntegrity), 'How well stretch and gravity-linked signalling remain intact.'],
+        ['Effective PTHrP', pct(d.effectivePTHrP), 'Net epithelial–mesenchymal support signal after stress.'],
+        ['Lipofibroblast support', pct(d.lipofibroblastSupport), 'Bias toward modern alveolar support rather than fibrosis.'],
+        ['Surfactant support', pct(d.surfactantSupport), 'Ability to maintain alveolar function.'],
+        ['Stress load', pct(d.stressLoad), 'Combined burden of hyperoxia, inflammation, and mechanosensory disruption.'],
+        ['Fibrotic drive', pct(d.fibroticDrive), 'Pressure toward myofibroblast and matrix-producing states.'],
+        ['Reversibility capacity', pct(d.reversibilityCapacity), 'Chance that regression remains recoverable.'],
+        ['Net viability', pct(d.netViability), 'Overall integrated state used for classification.']
+      ];
+      document.getElementById('derivedTable').innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+    }
+
+    function pct(x) { return `${(x*100).toFixed(1)}%`; }
+
+    function renderKPIs(s) {
+      document.getElementById('healthProb').textContent = pct(s.healthyProb);
+      document.getElementById('diseaseProb').textContent = pct(s.diseaseProb);
+      document.getElementById('reversibleProb').textContent = pct(s.reversibleProb);
+      document.getElementById('reserveScore').textContent = pct(s.reserveScore);
+      document.getElementById('healthBar').style.width = `${s.healthyProb*100}%`;
+      document.getElementById('diseaseBar').style.width = `${s.diseaseProb*100}%`;
+      document.getElementById('reversibleBar').style.width = `${s.reversibleProb*100}%`;
+      document.getElementById('reserveBar').style.width = `${s.reserveScore*100}%`;
+    }
+
+    function drawHistogram(bins, healthyThreshold = 0.62, diseaseThreshold = 0.38) {
+      const canvas = document.getElementById('histogram');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = '#091026';
+      ctx.fillRect(0, 0, w, h);
+
+      const pad = { l: 44, r: 20, t: 22, b: 34 };
+      const innerW = w - pad.l - pad.r;
+      const innerH = h - pad.t - pad.b;
+      const maxBin = Math.max(...bins, 1);
+
+      ctx.strokeStyle = '#23315f';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 5; i++) {
+        const y = pad.t + innerH * i / 5;
+        ctx.beginPath();
+        ctx.moveTo(pad.l, y);
+        ctx.lineTo(w - pad.r, y);
+        ctx.stroke();
+      }
+
+      const barW = innerW / bins.length;
+      for (let i = 0; i < bins.length; i++) {
+        const x = pad.l + i * barW + 1;
+        const barH = (bins[i] / maxBin) * (innerH - 6);
+        const y = pad.t + innerH - barH;
+        const score = (i + 0.5) / bins.length;
+        const g = Math.floor(120 + 90 * score);
+        const r = Math.floor(255 - 110 * score);
+        ctx.fillStyle = `rgba(${r}, ${g}, 210, 0.9)`;
+        ctx.fillRect(x, y, Math.max(2, barW - 2), barH);
+      }
+
+      const healthyX = pad.l + healthyThreshold * innerW;
+      const diseaseX = pad.l + diseaseThreshold * innerW;
+
+      ctx.strokeStyle = '#7fffb2';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(healthyX, pad.t);
+      ctx.lineTo(healthyX, pad.t + innerH);
+      ctx.stroke();
+      ctx.fillStyle = '#7fffb2';
+      ctx.fillText('health threshold', healthyX - 34, 16);
+
+      ctx.strokeStyle = '#ff7b8a';
+      ctx.beginPath();
+      ctx.moveTo(diseaseX, pad.t);
+      ctx.lineTo(diseaseX, pad.t + innerH);
+      ctx.stroke();
+      ctx.fillStyle = '#ff7b8a';
+      ctx.fillText('fibrosis threshold', diseaseX - 38, h - 10);
+
+      ctx.fillStyle = '#c7d4ff';
+      ctx.font = '12px Inter, Arial';
+      for (let i = 0; i <= 5; i++) {
+        const val = ((5 - i) / 5) * maxBin;
+        const y = pad.t + innerH * i / 5;
+        ctx.fillText(Math.round(val).toString(), 8, y + 4);
+      }
+      for (let i = 0; i <= 10; i++) {
+        const x = pad.l + innerW * i / 10;
+        ctx.fillText((i/10).toFixed(1), x - 8, h - 10);
+      }
+    }
+
+    function updateLabels() {
+      for (const [id, outId] of Object.entries(labels)) {
+        const el = document.getElementById(outId);
+        if (!el) continue;
+        el.textContent = id === 'runs' ? els[id].value : `${els[id].value}%`;
+      }
+    }
+
+    function updateAll() {
+      updateLabels();
+      const p = getParams();
+      const d = derivedFrom(p);
+      const s = simulate(p);
+      renderKPIs(s);
+      drawHistogram(s.bins);
+      renderPathway(reasonText(p, d, s));
+      renderConnections(p, d);
+      renderDerived(d);
+    }
+
+    function setPreset(name) {
+      const presets = {
+        healthy: {
+          elementRichness: 82, gravityRegularity: 82, symbioIntegration: 80, mitoResilience: 82,
+          homeostasis: 80, selectionFlex: 78, epiMemory: 55, fibroticAccess: 26,
+          stretch: 82, pthrp: 84, pparg: 80, hyperoxia: 18, microgravity: 8, inflammation: 18
+        },
+        disease: {
+          elementRichness: 70, gravityRegularity: 60, symbioIntegration: 46, mitoResilience: 40,
+          homeostasis: 42, selectionFlex: 34, epiMemory: 74, fibroticAccess: 84,
+          stretch: 36, pthrp: 28, pparg: 30, hyperoxia: 78, microgravity: 68, inflammation: 80
+        },
+        balanced: {
+          elementRichness: 76, gravityRegularity: 72, symbioIntegration: 68, mitoResilience: 66,
+          homeostasis: 64, selectionFlex: 60, epiMemory: 62, fibroticAccess: 48,
+          stretch: 64, pthrp: 62, pparg: 60, hyperoxia: 42, microgravity: 34, inflammation: 44
+        }
+      };
+      const preset = presets[name];
+      Object.entries(preset).forEach(([k,v]) => els[k].value = v);
+      updateAll();
+    }
+
+    function randomize() {
+      sliderIds.filter(id => id !== 'runs').forEach(id => {
+        els[id].value = Math.floor(Math.random() * 101);
+      });
+      updateAll();
+    }
+
+    sliderIds.forEach(id => els[id].addEventListener('input', updateAll));
+    document.getElementById('healthyBtn').addEventListener('click', () => setPreset('healthy'));
+    document.getElementById('stressBtn').addEventListener('click', () => setPreset('disease'));
+    document.getElementById('balancedBtn').addEventListener('click', () => setPreset('balanced'));
+    document.getElementById('randomizeBtn').addEventListener('click', randomize);
+
+    updateAll();
+  </script>
+</body>
+</html>
