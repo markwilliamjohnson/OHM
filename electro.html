@@ -1,0 +1,905 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Electromagnetism Explorer</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1b2a;
+      --panel2: #13263d;
+      --text: #eaf2ff;
+      --muted: #9fb3cc;
+      --accent: #6ec1ff;
+      --accent2: #8affc1;
+      --warn: #ffd36e;
+      --danger: #ff8f8f;
+      --line: rgba(255,255,255,0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0d2138 0%, var(--bg) 55%);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(110,193,255,0.18), rgba(138,255,193,0.10));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.22);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 3vw, 3rem);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 920px;
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: rgba(13, 27, 42, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+    }
+
+    .controls {
+      position: sticky;
+      top: 16px;
+      padding: 18px;
+    }
+
+    .sectionTitle {
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin: 18px 0 12px;
+    }
+
+    .control {
+      margin-bottom: 14px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .control label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 0.96rem;
+    }
+
+    .value {
+      color: var(--warn);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-weight: 800;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .buttonRow {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #1a3553, #10253c);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover, select:hover {
+      filter: brightness(1.08);
+    }
+
+    .main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .topGrid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 18px;
+    }
+
+    .canvasCard {
+      padding: 14px;
+    }
+
+    .canvasTitle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .canvasTitle h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .canvasTitle span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    canvas {
+      width: 100%;
+      display: block;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(6,12,23,0.9), rgba(10,18,31,1));
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    #fieldCanvas { height: 560px; }
+    #fluxCanvas { height: 240px; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .infoCard {
+      padding: 18px;
+    }
+
+    .infoCard h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    .infoCard p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .equation {
+      font-family: "Cambria Math", "STIX Two Math", Georgia, serif;
+      font-size: 1.15rem;
+      color: var(--accent2);
+      margin-top: 10px;
+    }
+
+    .readoutGrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .readout {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .readout .k {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .readout .v {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--warn);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .footerNote {
+      color: var(--muted);
+      margin-top: 14px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1100px) {
+      .layout, .topGrid, .cards { grid-template-columns: 1fr; }
+      .controls { position: static; }
+      .readoutGrid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 14px; }
+      .readoutGrid { grid-template-columns: 1fr; }
+      .buttonRow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero panel">
+      <h1>Interactive Electromagnetism Explorer</h1>
+      <p>
+        Move the sliders to see how electric charge, motion, magnetic field, and time-varying flux change what happens.
+        The animation links together electric field lines, magnetic circulation, force on a moving charge, and electromagnetic induction.
+      </p>
+    </section>
+
+    <div class="layout">
+      <aside class="panel controls">
+        <div class="sectionTitle">Choose a view</div>
+        <div class="control">
+          <label for="modeSelect">Scenario <span class="value" id="modeLabel">Charged Particle</span></label>
+          <select id="modeSelect">
+            <option value="particle">Charged Particle in E and B</option>
+            <option value="wire">Current-Carrying Wire</option>
+            <option value="induction">Changing Magnetic Flux</option>
+          </select>
+        </div>
+
+        <div class="sectionTitle">Field parameters</div>
+        <div class="control">
+          <label for="chargeSlider">Charge q <span class="value" id="chargeVal">+1.00</span></label>
+          <input id="chargeSlider" type="range" min="-2" max="2" step="0.01" value="1" />
+        </div>
+        <div class="control">
+          <label for="efieldSlider">Electric field E <span class="value" id="efieldVal">1.50</span></label>
+          <input id="efieldSlider" type="range" min="-3" max="3" step="0.01" value="1.5" />
+        </div>
+        <div class="control">
+          <label for="bfieldSlider">Magnetic field B <span class="value" id="bfieldVal">1.20</span></label>
+          <input id="bfieldSlider" type="range" min="-3" max="3" step="0.01" value="1.2" />
+        </div>
+        <div class="control">
+          <label for="velocitySlider">Speed v <span class="value" id="velocityVal">1.40</span></label>
+          <input id="velocitySlider" type="range" min="0" max="3" step="0.01" value="1.4" />
+        </div>
+        <div class="control">
+          <label for="angleSlider">Velocity angle <span class="value" id="angleVal">20°</span></label>
+          <input id="angleSlider" type="range" min="-180" max="180" step="1" value="20" />
+        </div>
+
+        <div class="sectionTitle">Induction parameters</div>
+        <div class="control">
+          <label for="turnsSlider">Coil turns N <span class="value" id="turnsVal">12</span></label>
+          <input id="turnsSlider" type="range" min="1" max="40" step="1" value="12" />
+        </div>
+        <div class="control">
+          <label for="areaSlider">Loop area A <span class="value" id="areaVal">1.20</span></label>
+          <input id="areaSlider" type="range" min="0.2" max="3" step="0.01" value="1.2" />
+        </div>
+        <div class="control">
+          <label for="freqSlider">Flux frequency <span class="value" id="freqVal">1.10</span></label>
+          <input id="freqSlider" type="range" min="0.1" max="3" step="0.01" value="1.1" />
+        </div>
+
+        <div class="sectionTitle">Animation</div>
+        <div class="control">
+          <label for="timeScaleSlider">Animation speed <span class="value" id="timeScaleVal">1.00×</span></label>
+          <input id="timeScaleSlider" type="range" min="0.1" max="3" step="0.01" value="1" />
+          <div class="buttonRow">
+            <button id="playPauseBtn">Pause</button>
+            <button id="resetBtn">Reset particle</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topGrid">
+          <section class="panel canvasCard">
+            <div class="canvasTitle">
+              <h2>Main field animation</h2>
+              <span id="sceneCaption">A charged particle responds to the electric and magnetic fields.</span>
+            </div>
+            <canvas id="fieldCanvas" width="920" height="560"></canvas>
+            <div class="readoutGrid">
+              <div class="readout"><div class="k">Electric force magnitude</div><div class="v" id="electricForceOut">0.00</div></div>
+              <div class="readout"><div class="k">Magnetic force magnitude</div><div class="v" id="magneticForceOut">0.00</div></div>
+              <div class="readout"><div class="k">Induced emf</div><div class="v" id="emfOut">0.00</div></div>
+              <div class="readout"><div class="k">Magnetic flux</div><div class="v" id="fluxOut">0.00</div></div>
+            </div>
+          </section>
+
+          <section class="panel canvasCard">
+            <div class="canvasTitle">
+              <h2>Flux and induction</h2>
+              <span>Changing magnetic flux creates emf.</span>
+            </div>
+            <canvas id="fluxCanvas" width="520" height="240"></canvas>
+            <div class="footerNote">
+              This graph shows magnetic flux through a coil and the induced emf from its rate of change. A faster change means a larger induced voltage.
+            </div>
+          </section>
+        </div>
+
+        <section class="cards">
+          <article class="panel infoCard">
+            <h3>Electric field</h3>
+            <p>
+              The electric field tells us the force per unit charge. A positive charge is pushed in the direction of the field, while a negative charge is pushed the other way.
+            </p>
+            <div class="equation">F<sub>electric</sub> = qE</div>
+          </article>
+
+          <article class="panel infoCard">
+            <h3>Magnetic field</h3>
+            <p>
+              A magnetic field acts on moving charge. The magnetic force is always perpendicular to the velocity, so it bends motion rather than simply speeding it up or slowing it down.
+            </p>
+            <div class="equation">F<sub>magnetic</sub> = q(v × B)</div>
+          </article>
+
+          <article class="panel infoCard">
+            <h3>Electromagnetic induction</h3>
+            <p>
+              When magnetic flux through a loop changes, a voltage is induced. This is one of the central ways electric and magnetic phenomena are linked.
+            </p>
+            <div class="equation">emf = −N dΦ/dt</div>
+          </article>
+        </section>
+
+        <section class="panel infoCard">
+          <h3 id="explanationTitle">What you are seeing</h3>
+          <p id="explanationText">
+            In this view, the particle starts with a chosen velocity. The electric field pushes it left or right, while the magnetic field bends its path. A stronger magnetic field produces tighter curvature; a stronger electric field adds more direct acceleration.
+          </p>
+          <div class="footerNote">
+            This is a teaching model rather than a full physics engine with SI units. The aim is to make the relations visible and intuitive while keeping the controls responsive.
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const state = {
+      mode: 'particle',
+      playing: true,
+      t: 0,
+      timeScale: 1,
+      particle: {
+        x: 230,
+        y: 300,
+        vx: 1.32,
+        vy: -0.48,
+        trail: []
+      }
+    };
+
+    const ui = {
+      modeSelect: $('modeSelect'),
+      modeLabel: $('modeLabel'),
+      charge: $('chargeSlider'),
+      efield: $('efieldSlider'),
+      bfield: $('bfieldSlider'),
+      velocity: $('velocitySlider'),
+      angle: $('angleSlider'),
+      turns: $('turnsSlider'),
+      area: $('areaSlider'),
+      freq: $('freqSlider'),
+      timeScale: $('timeScaleSlider'),
+      playPauseBtn: $('playPauseBtn'),
+      resetBtn: $('resetBtn'),
+      sceneCaption: $('sceneCaption'),
+      explanationTitle: $('explanationTitle'),
+      explanationText: $('explanationText'),
+      chargeVal: $('chargeVal'),
+      efieldVal: $('efieldVal'),
+      bfieldVal: $('bfieldVal'),
+      velocityVal: $('velocityVal'),
+      angleVal: $('angleVal'),
+      turnsVal: $('turnsVal'),
+      areaVal: $('areaVal'),
+      freqVal: $('freqVal'),
+      timeScaleVal: $('timeScaleVal'),
+      electricForceOut: $('electricForceOut'),
+      magneticForceOut: $('magneticForceOut'),
+      emfOut: $('emfOut'),
+      fluxOut: $('fluxOut')
+    };
+
+    const fieldCanvas = $('fieldCanvas');
+    const fluxCanvas = $('fluxCanvas');
+    const fctx = fieldCanvas.getContext('2d');
+    const gctx = fluxCanvas.getContext('2d');
+
+    function num(v) { return Number(v); }
+    function fmt(v, digits = 2) { return (v >= 0 ? '' : '') + Number(v).toFixed(digits); }
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+    function getParams() {
+      return {
+        q: num(ui.charge.value),
+        E: num(ui.efield.value),
+        B: num(ui.bfield.value),
+        speed: num(ui.velocity.value),
+        angleDeg: num(ui.angle.value),
+        angle: num(ui.angle.value) * Math.PI / 180,
+        N: num(ui.turns.value),
+        A: num(ui.area.value),
+        freq: num(ui.freq.value),
+        timeScale: num(ui.timeScale.value)
+      };
+    }
+
+    function updateLabels() {
+      const p = getParams();
+      ui.modeLabel.textContent = ui.modeSelect.options[ui.modeSelect.selectedIndex].text;
+      ui.chargeVal.textContent = (p.q >= 0 ? '+' : '') + fmt(p.q);
+      ui.efieldVal.textContent = fmt(p.E);
+      ui.bfieldVal.textContent = fmt(p.B);
+      ui.velocityVal.textContent = fmt(p.speed);
+      ui.angleVal.textContent = `${Math.round(p.angleDeg)}°`;
+      ui.turnsVal.textContent = `${p.N}`;
+      ui.areaVal.textContent = fmt(p.A);
+      ui.freqVal.textContent = fmt(p.freq);
+      ui.timeScaleVal.textContent = `${fmt(p.timeScale)}×`;
+
+      const eForce = Math.abs(p.q * p.E);
+      const vPerp = p.speed;
+      const bForce = Math.abs(p.q * vPerp * p.B);
+      const omega = 2 * Math.PI * p.freq;
+      const flux = p.B * p.A * Math.cos(omega * state.t);
+      const emf = p.N * p.B * p.A * omega * Math.sin(omega * state.t);
+
+      ui.electricForceOut.textContent = fmt(eForce);
+      ui.magneticForceOut.textContent = fmt(bForce);
+      ui.emfOut.textContent = fmt(emf);
+      ui.fluxOut.textContent = fmt(flux);
+    }
+
+    function resetParticle() {
+      const p = getParams();
+      state.particle.x = 230;
+      state.particle.y = 300;
+      state.particle.vx = p.speed * Math.cos(p.angle);
+      state.particle.vy = -p.speed * Math.sin(p.angle);
+      state.particle.trail = [];
+    }
+
+    function setSceneText() {
+      if (state.mode === 'particle') {
+        ui.sceneCaption.textContent = 'A charged particle responds to the electric and magnetic fields.';
+        ui.explanationTitle.textContent = 'Charged particle in electric and magnetic fields';
+        ui.explanationText.textContent = 'The horizontal electric field pushes the particle sideways according to its charge. The magnetic field points into or out of the screen and bends the path by acting at right angles to the motion. Together they create drifting, curved, or looping trajectories.';
+      } else if (state.mode === 'wire') {
+        ui.sceneCaption.textContent = 'A current in a wire produces circular magnetic field patterns.';
+        ui.explanationTitle.textContent = 'Current and the magnetic field around a wire';
+        ui.explanationText.textContent = 'Here the moving charges in a straight wire create magnetic field circles around the wire. Increasing current strengthens the circulation. Reversing the sign reverses the direction of the magnetic pattern, matching the right-hand rule.';
+      } else {
+        ui.sceneCaption.textContent = 'A changing magnetic flux through a coil induces an emf.';
+        ui.explanationTitle.textContent = 'Changing flux and induced emf';
+        ui.explanationText.textContent = 'The magnetic field through the loop rises and falls over time. As the flux changes, the induced emf appears. Increasing the number of turns, the field strength, the loop area, or the speed of change increases the size of the induced response.';
+      }
+    }
+
+    function drawArrow(ctx, x1, y1, x2, y2, color = '#6ec1ff', width = 2, head = 10) {
+      const dx = x2 - x1, dy = y2 - y1;
+      const a = Math.atan2(dy, dx);
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = width;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x2, y2);
+      ctx.lineTo(x2 - head * Math.cos(a - Math.PI/6), y2 - head * Math.sin(a - Math.PI/6));
+      ctx.lineTo(x2 - head * Math.cos(a + Math.PI/6), y2 - head * Math.sin(a + Math.PI/6));
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawElectricField(ctx, E, w, h) {
+      const count = 9;
+      const dir = Math.sign(E) || 1;
+      const mag = Math.abs(E);
+      for (let i = 1; i <= count; i++) {
+        const y = i * h / (count + 1);
+        const len = 26 + mag * 24;
+        const x1 = w * 0.62 - dir * len * 0.5;
+        const x2 = w * 0.62 + dir * len * 0.5;
+        drawArrow(ctx, x1, y, x2, y, 'rgba(110,193,255,0.9)', 2.2);
+      }
+      ctx.fillStyle = 'rgba(110,193,255,0.92)';
+      ctx.font = '700 16px Inter, sans-serif';
+      ctx.fillText('Electric field E', w - 180, 28);
+    }
+
+    function drawMagneticMarkers(ctx, B, w, h) {
+      const rows = 8, cols = 10;
+      const inward = B < 0;
+      const alpha = 0.18 + Math.min(0.45, Math.abs(B) * 0.12);
+      ctx.save();
+      ctx.strokeStyle = `rgba(138,255,193,${alpha + 0.35})`;
+      ctx.fillStyle = `rgba(138,255,193,${alpha + 0.35})`;
+      ctx.lineWidth = 1.8;
+      for (let r = 1; r <= rows; r++) {
+        for (let c = 1; c <= cols; c++) {
+          const x = c * w / (cols + 1);
+          const y = r * h / (rows + 1);
+          const s = 7 + Math.abs(B) * 1.6;
+          if (inward) {
+            ctx.beginPath();
+            ctx.moveTo(x - s/2, y - s/2);
+            ctx.lineTo(x + s/2, y + s/2);
+            ctx.moveTo(x + s/2, y - s/2);
+            ctx.lineTo(x - s/2, y + s/2);
+            ctx.stroke();
+          } else {
+            ctx.beginPath();
+            ctx.arc(x, y, s * 0.55, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(x, y, s * 0.13, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+      ctx.restore();
+      ctx.fillStyle = 'rgba(138,255,193,0.95)';
+      ctx.font = '700 16px Inter, sans-serif';
+      ctx.fillText(`Magnetic field B ${inward ? 'into' : 'out of'} screen`, 18, 28);
+    }
+
+    function drawParticleScene(ctx, p, w, h) {
+      drawElectricField(ctx, p.E, w, h);
+      drawMagneticMarkers(ctx, p.B, w, h);
+
+      const part = state.particle;
+      if (state.playing) {
+        const dt = 0.38 * p.timeScale;
+        const axE = p.q * p.E * 0.018;
+        const ayE = 0;
+        const axB = p.q * part.vy * p.B * 0.02;
+        const ayB = -p.q * part.vx * p.B * 0.02;
+        part.vx += (axE + axB) * dt;
+        part.vy += (ayE + ayB) * dt;
+        part.x += part.vx * 3.2 * dt;
+        part.y += part.vy * 3.2 * dt;
+
+        if (part.x < 30 || part.x > w - 30) part.vx *= -0.92;
+        if (part.y < 50 || part.y > h - 30) part.vy *= -0.92;
+        part.x = clamp(part.x, 30, w - 30);
+        part.y = clamp(part.y, 50, h - 30);
+
+        part.trail.push({ x: part.x, y: part.y });
+        if (part.trail.length > 180) part.trail.shift();
+      }
+
+      ctx.save();
+      for (let i = 1; i < part.trail.length; i++) {
+        const a = i / part.trail.length;
+        ctx.strokeStyle = `rgba(255,211,110,${a * 0.8})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(part.trail[i - 1].x, part.trail[i - 1].y);
+        ctx.lineTo(part.trail[i].x, part.trail[i].y);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      const axEvis = p.q * p.E * 22;
+      const ayEvis = 0;
+      const axBvis = p.q * part.vy * p.B * 12;
+      const ayBvis = -p.q * part.vx * p.B * 12;
+      drawArrow(ctx, part.x, part.y, part.x + axEvis, part.y + ayEvis, '#6ec1ff', 2.6, 11);
+      drawArrow(ctx, part.x, part.y, part.x + axBvis, part.y + ayBvis, '#8affc1', 2.6, 11);
+      drawArrow(ctx, part.x, part.y, part.x + part.vx * 18, part.y + part.vy * 18, '#ffd36e', 2.8, 11);
+
+      ctx.fillStyle = p.q >= 0 ? '#ff8f8f' : '#8fb7ff';
+      ctx.beginPath();
+      ctx.arc(part.x, part.y, 11, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#07111f';
+      ctx.font = '800 16px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(p.q >= 0 ? '+' : '−', part.x, part.y + 0.5);
+
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = '#9fb3cc';
+      ctx.font = '600 14px Inter, sans-serif';
+      ctx.fillText('Velocity', part.x + part.vx * 18 + 10, part.y + part.vy * 18);
+      ctx.fillText('Electric force', part.x + axEvis + 10, part.y + ayEvis - 4);
+      ctx.fillText('Magnetic force', part.x + axBvis + 10, part.y + ayBvis - 4);
+    }
+
+    function drawWireScene(ctx, p, w, h) {
+      const centerX = w * 0.48;
+      const centerY = h * 0.54;
+      const current = p.q * p.speed;
+      const dirOut = current >= 0;
+
+      drawElectricField(ctx, p.E, w, h);
+
+      ctx.save();
+      const loops = 7;
+      for (let i = 1; i <= loops; i++) {
+        const r = 26 + i * 30;
+        ctx.strokeStyle = `rgba(138,255,193,${0.12 + i * 0.06})`;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        const a = dirOut ? -Math.PI / 4 : Math.PI / 4;
+        const x = centerX + r * Math.cos(a);
+        const y = centerY + r * Math.sin(a);
+        const tx = x + (dirOut ? -18 : 18);
+        const ty = y + (dirOut ? -6 : -6);
+        drawArrow(ctx, x, y, tx, ty, 'rgba(138,255,193,0.9)', 2.2, 9);
+      }
+      ctx.restore();
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 30, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.07)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffd36e';
+      ctx.font = '800 32px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(dirOut ? '•' : '×', centerX, centerY + 1);
+
+      drawArrow(ctx, centerX - 160, centerY, centerX - 55, centerY, '#ffd36e', 3, 12);
+      ctx.fillStyle = '#9fb3cc';
+      ctx.font = '600 15px Inter, sans-serif';
+      ctx.fillText('Conventional current', centerX - 220, centerY - 14);
+
+      ctx.fillStyle = 'rgba(138,255,193,0.95)';
+      ctx.fillText('Magnetic field circles around the wire', 24, 34);
+      ctx.textAlign = 'left';
+    }
+
+    function drawInductionScene(ctx, p, w, h) {
+      const cx = w * 0.45;
+      const cy = h * 0.55;
+      const loopW = 210 + p.A * 28;
+      const loopH = 150 + p.A * 20;
+      const omega = 2 * Math.PI * p.freq;
+      const flux = p.B * p.A * Math.cos(omega * state.t);
+      const emf = p.N * p.B * p.A * omega * Math.sin(omega * state.t);
+
+      drawMagneticMarkers(ctx, p.B * Math.cos(omega * state.t), w, h);
+
+      ctx.save();
+      ctx.strokeStyle = '#ffd36e';
+      ctx.lineWidth = 5;
+      ctx.strokeRect(cx - loopW / 2, cy - loopH / 2, loopW, loopH);
+      for (let i = 1; i < Math.min(p.N, 12); i++) {
+        const inset = i * 5;
+        ctx.strokeStyle = `rgba(255,211,110,${0.14 + i * 0.03})`;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(cx - loopW / 2 + inset, cy - loopH / 2 + inset, loopW - inset * 2, loopH - inset * 2);
+      }
+      ctx.restore();
+
+      const sense = Math.sign(emf) || 1;
+      const pts = [
+        [cx - loopW/2, cy - loopH/2],
+        [cx + loopW/2, cy - loopH/2],
+        [cx + loopW/2, cy + loopH/2],
+        [cx - loopW/2, cy + loopH/2]
+      ];
+      const order = sense > 0 ? [0,1,2,3,0] : [0,3,2,1,0];
+      for (let i = 0; i < 4; i++) {
+        const a = pts[order[i]], b = pts[order[i+1]];
+        const mx = a[0] * 0.55 + b[0] * 0.45;
+        const my = a[1] * 0.55 + b[1] * 0.45;
+        const tx = a[0] * 0.35 + b[0] * 0.65;
+        const ty = a[1] * 0.35 + b[1] * 0.65;
+        drawArrow(ctx, mx, my, tx, ty, '#ff8f8f', 2.5, 10);
+      }
+
+      ctx.fillStyle = '#9fb3cc';
+      ctx.font = '600 15px Inter, sans-serif';
+      ctx.fillText(`Flux Φ = ${fmt(flux)}`, 24, h - 52);
+      ctx.fillText(`Induced emf = ${fmt(emf)}`, 24, h - 28);
+    }
+
+    function drawAxesGraph(ctx, x, y, w, h) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.14)';
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(x, y, w, h);
+      ctx.beginPath();
+      ctx.moveTo(x, y + h/2);
+      ctx.lineTo(x + w, y + h/2);
+      ctx.moveTo(x + 30, y);
+      ctx.lineTo(x + 30, y + h);
+      ctx.stroke();
+    }
+
+    function drawFluxGraph() {
+      const ctx = gctx;
+      const w = fluxCanvas.width;
+      const h = fluxCanvas.height;
+      const p = getParams();
+      ctx.clearRect(0, 0, w, h);
+
+      const gx = 22, gy = 20, gw = w - 38, gh = h - 42;
+      drawAxesGraph(ctx, gx, gy, gw, gh);
+
+      const omega = 2 * Math.PI * p.freq;
+      const maxFlux = Math.max(0.6, Math.abs(p.B * p.A));
+      const maxEmf = Math.max(0.6, Math.abs(p.N * p.B * p.A * omega));
+      const total = 240;
+
+      ctx.save();
+      ctx.beginPath();
+      for (let i = 0; i <= total; i++) {
+        const xr = i / total;
+        const tt = state.t - 2.4 + xr * 4.8;
+        const flux = p.B * p.A * Math.cos(omega * tt);
+        const px = gx + xr * gw;
+        const py = gy + gh/2 - (flux / maxFlux) * (gh * 0.36);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = '#8affc1';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.save();
+      ctx.beginPath();
+      for (let i = 0; i <= total; i++) {
+        const xr = i / total;
+        const tt = state.t - 2.4 + xr * 4.8;
+        const emf = p.N * p.B * p.A * omega * Math.sin(omega * tt);
+        const px = gx + xr * gw;
+        const py = gy + gh/2 - (emf / maxEmf) * (gh * 0.36);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = '#ff8f8f';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.restore();
+
+      const cursorX = gx + gw * 0.8;
+      ctx.strokeStyle = 'rgba(255,211,110,0.7)';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(cursorX, gy);
+      ctx.lineTo(cursorX, gy + gh);
+      ctx.stroke();
+
+      ctx.fillStyle = '#8affc1';
+      ctx.font = '700 13px Inter, sans-serif';
+      ctx.fillText('Flux Φ', gx + 10, gy + 18);
+      ctx.fillStyle = '#ff8f8f';
+      ctx.fillText('Induced emf', gx + 10, gy + 36);
+    }
+
+    function drawMain() {
+      const ctx = fctx;
+      const w = fieldCanvas.width;
+      const h = fieldCanvas.height;
+      const p = getParams();
+      ctx.clearRect(0, 0, w, h);
+
+      const bg = ctx.createLinearGradient(0, 0, 0, h);
+      bg.addColorStop(0, 'rgba(7,17,31,0.98)');
+      bg.addColorStop(1, 'rgba(11,24,40,1)');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= w; x += 46) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y <= h; y += 46) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      if (state.mode === 'particle') drawParticleScene(ctx, p, w, h);
+      else if (state.mode === 'wire') drawWireScene(ctx, p, w, h);
+      else drawInductionScene(ctx, p, w, h);
+    }
+
+    function tick() {
+      const p = getParams();
+      state.timeScale = p.timeScale;
+      if (state.playing) state.t += 0.016 * p.timeScale;
+      updateLabels();
+      drawMain();
+      drawFluxGraph();
+      requestAnimationFrame(tick);
+    }
+
+    function bind() {
+      Object.values(ui).forEach(el => {
+        if (!el) return;
+      });
+
+      [ui.charge, ui.efield, ui.bfield, ui.velocity, ui.angle, ui.turns, ui.area, ui.freq, ui.timeScale].forEach(el => {
+        el.addEventListener('input', () => {
+          if (el === ui.velocity || el === ui.angle) {
+            if (state.mode === 'particle') resetParticle();
+          }
+          updateLabels();
+        });
+      });
+
+      ui.modeSelect.addEventListener('change', () => {
+        state.mode = ui.modeSelect.value;
+        setSceneText();
+        resetParticle();
+        updateLabels();
+      });
+
+      ui.playPauseBtn.addEventListener('click', () => {
+        state.playing = !state.playing;
+        ui.playPauseBtn.textContent = state.playing ? 'Pause' : 'Play';
+      });
+
+      ui.resetBtn.addEventListener('click', () => {
+        resetParticle();
+      });
+    }
+
+    bind();
+    setSceneText();
+    resetParticle();
+    updateLabels();
+    tick();
+  </script>
+</body>
+</html>
