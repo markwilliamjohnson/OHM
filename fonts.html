@@ -1,0 +1,930 @@
+{
+  "meta": {
+    "title": "Whole Font Construction — Emergence → Formal Distinction → Script System → Governance → Glyph Building → Evaluation → Linguistic Expression",
+    "subtitle": "A dense knowledge lattice for designing a complete typeface: from the first distinction between nothing and mark, through repeatable structural constraints, to specific glyphs, words, rhythm, and expressive use in language.",
+    "domainName": "whole-font design and construction",
+    "searchPlaceholder": "mark, void, distinction, figure-ground, skeleton, counter, stress, contrast, x-height, overshoot, serif logic, terminals, spacing, kerning, interpolation, diacritics, ligatures, rhythm, texture, word shape…",
+    "userContextLabel": "Your font-design context (optional)",
+    "userContextPlaceholder": "e.g., humanist sans for screens; serif text face; variable font; bilingual Latin + extended diacritics; display alphabet; geometric but warm; low-vision accessibility…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert type designer with deep judgement about form, readability, historical precedent, production constraints, and linguistic performance.\n\nWrite a realistic narrative case-study showing how upstream constraints (the first distinction from nothing to mark, formal logic, stroke economy, proportions, script system coherence, production and testing) shape downstream decisions in building a whole font.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Intended genre and use (text, interface, editorial, signage, display)\n- Foundational form logic (what comes from nothing, mark, axis, contrast, repetition)\n- System constraints (proportion, spacing, family resemblance, interpolation, diacritics)\n- Glyph construction strategy (key control letters and dependent forms)\n- Evaluation plan (proofing, rhythm tests, language coverage, optical corrections)\n- 2 safe-to-fail experiments and backfire checks\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Origination from nothing",
+      "hint": "The most abstract constraint: before there is a letter there is only field, absence, and the possibility of a mark; form begins as distinction."
+    },
+    {
+      "id": 1,
+      "title": "Primary formal constraints",
+      "hint": "The first orders of shaping: figure/ground, direction, repetition, symmetry/asymmetry, contrast, proportion, enclosure, and openness."
+    },
+    {
+      "id": 2,
+      "title": "Script-system concepts",
+      "hint": "How a writing system becomes a coherent alphabetic ecology: skeleton, stroke logic, counters, rhythm, family resemblance, and relations among classes of glyphs."
+    },
+    {
+      "id": 3,
+      "title": "Typeface governance & consistency architecture",
+      "hint": "The design system that keeps a whole font coherent: metrics, master rules, component reuse, interpolation, production decisions, and exception policies."
+    },
+    {
+      "id": 4,
+      "title": "Glyph construction & derivation steps",
+      "hint": "Practical building sequence: control glyphs, dependent glyphs, uppercase/lowercase/numerals, punctuation, diacritics, spacing, and kerning."
+    },
+    {
+      "id": 5,
+      "title": "Evaluation, correction & refinement",
+      "hint": "Proofing and correction: overshoot, colour, legibility, rhythm, spacing tests, language coverage, rendering, and iterative revision."
+    },
+    {
+      "id": 6,
+      "title": "Specific letters, words & linguistic expression cases",
+      "hint": "Concrete glyphs and their behaviour in use: letters as local resolutions of higher-order constraints, tested in words, phrases, and language-specific contexts."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "void_to_mark",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "From void to mark",
+      "summary": "The first constraint is that something appears against nothing: a mark establishes presence, difference, and the beginning of legibility.",
+      "tags": [
+        "origin",
+        "distinction",
+        "mark"
+      ],
+      "bodyHtml": "<p>A font begins before any particular letter exists. A surface is undifferentiated until a mark creates a distinction. Every later constraint inherits this first act: something must stand out from nothing strongly enough to be perceived and repeated.</p>"
+    },
+    {
+      "id": "difference_itself",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Difference as the seed of form",
+      "summary": "Form begins when one region is not another: edge, boundary, interval, and relation arise together.",
+      "tags": [
+        "origin",
+        "boundary",
+        "relation"
+      ],
+      "bodyHtml": "<p>The mark does not only add matter; it creates boundary, inside and outside, figure and ground. This is the seed of stroke, counter, spacing, and the entire later alphabetic system.</p>"
+    },
+    {
+      "id": "repeatable_intention",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Repeatable intention",
+      "summary": "A single mark becomes typographic only when it can be repeated with discipline and variation under control.",
+      "tags": [
+        "origin",
+        "repeatability",
+        "discipline"
+      ],
+      "bodyHtml": "<p>Typeface design requires that marks be reproducible as a system. The first abstraction is therefore not merely visible form but repeatable intention: how one act of making can generate many consistent forms.</p>"
+    },
+    {
+      "id": "figure_ground",
+      "level": 1,
+      "kind": "concept",
+      "label": "Figure–ground relation",
+      "summary": "Every glyph is a balance between black shape and surrounding and enclosed white space.",
+      "tags": [
+        "formal",
+        "figure_ground"
+      ],
+      "bodyHtml": "<p>Legibility depends on the relation between stroke and space. Counters, sidebearings, and line spacing all develop from this primary opposition between figure and ground.</p>"
+    },
+    {
+      "id": "axis_and_direction",
+      "level": 1,
+      "kind": "concept",
+      "label": "Axis, direction & movement",
+      "summary": "Marks imply direction: vertical, horizontal, diagonal, curve, stress axis, and reading flow.",
+      "tags": [
+        "formal",
+        "axis",
+        "movement"
+      ],
+      "bodyHtml": "<p>Before letters are named, they tend toward directions and movements. Direction becomes the basis for stems, joins, bowls, terminals, and the relation of handwritten logic to constructed form.</p>"
+    },
+    {
+      "id": "contrast_and_weight",
+      "level": 1,
+      "kind": "concept",
+      "label": "Contrast, weight & emphasis",
+      "summary": "Difference in thickness or visual pressure creates hierarchy, texture, and style.",
+      "tags": [
+        "formal",
+        "contrast",
+        "weight"
+      ],
+      "bodyHtml": "<p>Contrast can be low and even, or high and dramatic. It affects genre, optical balance, print behaviour, and whether the typeface reads as calligraphic, rational, mechanical, or soft.</p>"
+    },
+    {
+      "id": "proportion_and_interval",
+      "level": 1,
+      "kind": "concept",
+      "label": "Proportion & interval",
+      "summary": "A whole font depends on recurring relations of height, width, aperture, and interval rather than isolated shapes.",
+      "tags": [
+        "formal",
+        "proportion",
+        "spacing"
+      ],
+      "bodyHtml": "<p>Width, x-height, ascenders, counters, and sidebearings are proportional constraints. They govern how letters coexist as a rhythm instead of as unrelated drawings.</p>"
+    },
+    {
+      "id": "closure_and_aperture",
+      "level": 1,
+      "kind": "concept",
+      "label": "Closure, aperture & permeability",
+      "summary": "Letters differ in how much they enclose space or leave it open, shaping readability and tone.",
+      "tags": [
+        "formal",
+        "counter",
+        "aperture"
+      ],
+      "bodyHtml": "<p>Open apertures can improve screen readability and soften tone; closed forms can increase density and compactness. This distinction influences classes such as c/e/s and a/g.</p>"
+    },
+    {
+      "id": "symmetry_and_departure",
+      "level": 1,
+      "kind": "concept",
+      "label": "Symmetry and strategic departure",
+      "summary": "Perfect symmetry is rare; controlled departures create liveliness, optical correction, and identity.",
+      "tags": [
+        "formal",
+        "symmetry",
+        "optics"
+      ],
+      "bodyHtml": "<p>Type is full of near-symmetries rather than literal ones. Overshoots, tapered joins, and shifted stress all arise because perception, not geometry alone, governs the design.</p>"
+    },
+    {
+      "id": "skeleton_logic",
+      "level": 2,
+      "kind": "concept",
+      "label": "Skeleton and stroke logic",
+      "summary": "Each glyph has an underlying path or skeleton from which weight and terminals are generated.",
+      "tags": [
+        "system",
+        "skeleton",
+        "stroke"
+      ],
+      "bodyHtml": "<p>The skeleton is the durable organising principle of a typeface. Different weights and styles may change the skin of the form while preserving a coherent structural path beneath.</p>"
+    },
+    {
+      "id": "counter_ecology",
+      "level": 2,
+      "kind": "concept",
+      "label": "Counter ecology",
+      "summary": "A font is partly a system of repeated internal spaces whose sizes and relations condition readability.",
+      "tags": [
+        "system",
+        "counters",
+        "ecology"
+      ],
+      "bodyHtml": "<p>The counters of o, e, a, p, d, b, and q must feel related. Their ecology determines colour and whether the alphabet breathes or clots on the page.</p>"
+    },
+    {
+      "id": "family_resemblance",
+      "level": 2,
+      "kind": "concept",
+      "label": "Family resemblance across glyph classes",
+      "summary": "Letters must be distinct enough to be read, but related enough to belong to one system.",
+      "tags": [
+        "system",
+        "coherence",
+        "alphabet"
+      ],
+      "bodyHtml": "<p>A whole font needs recurrence across stems, terminals, curves, joints, and spacing logic. The challenge is to make relatedness visible without collapsing necessary distinctions.</p>"
+    },
+    {
+      "id": "rhythm_and_texture",
+      "level": 2,
+      "kind": "concept",
+      "label": "Rhythm, colour & text texture",
+      "summary": "A paragraph reveals whether repeated forms and intervals produce an even readable field.",
+      "tags": [
+        "system",
+        "rhythm",
+        "texture"
+      ],
+      "bodyHtml": "<p>Typeface design cannot stop at isolated letters. In lines and paragraphs, patterns of darkness, spacing, and repetition create rhythm. This is where many hidden problems become visible.</p>"
+    },
+    {
+      "id": "class_relations",
+      "level": 2,
+      "kind": "concept",
+      "label": "Relations among glyph classes",
+      "summary": "Control passes through classes: round, straight, diagonal, branching, terminal, accented, numeric, and punctuational forms.",
+      "tags": [
+        "system",
+        "classes",
+        "derivation"
+      ],
+      "bodyHtml": "<p>Rather than drawing 26 letters independently, the designer builds relations among classes. Decisions in one class propagate into others through analogy and controlled variation.</p>"
+    },
+    {
+      "id": "script_historicity",
+      "level": 2,
+      "kind": "concept",
+      "label": "Script memory and historical pressure",
+      "summary": "No alphabet begins from scratch; inherited habits from scribal, inscriptional, and typographic history constrain what looks plausible.",
+      "tags": [
+        "system",
+        "history",
+        "genre"
+      ],
+      "bodyHtml": "<p>A font participates in traditions: humanist, grotesque, transitional, Didone, slab, geometric, inscriptional, and more. Historical pressure is not a prison, but it shapes expectation and legibility.</p>"
+    },
+    {
+      "id": "master_metrics",
+      "level": 3,
+      "kind": "standard",
+      "label": "Master metrics and vertical architecture",
+      "summary": "Set x-height, cap height, ascenders, descenders, baseline behaviour, and overshoot policy.",
+      "tags": [
+        "governance",
+        "metrics",
+        "vertical"
+      ],
+      "bodyHtml": "<p>Whole-font coherence depends on a metric architecture. Without it, letters may be individually attractive but fail to align, scale, or interpolate as a family.</p>"
+    },
+    {
+      "id": "component_reuse",
+      "level": 3,
+      "kind": "standard",
+      "label": "Component reuse & modular governance",
+      "summary": "Shared parts such as stems, serifs, dots, accents, bowls, and terminals should be reused where appropriate.",
+      "tags": [
+        "governance",
+        "components",
+        "reuse"
+      ],
+      "bodyHtml": "<p>Reuse keeps the font consistent and efficient, but it cannot be absolute: optical conditions force local exceptions. Governance therefore includes rules for both reuse and justified departure.</p>"
+    },
+    {
+      "id": "spacing_policy",
+      "level": 3,
+      "kind": "standard",
+      "label": "Spacing and sidebearing policy",
+      "summary": "Spacing is not a late add-on: it is part of the form system and must be governed early.",
+      "tags": [
+        "governance",
+        "spacing",
+        "metrics"
+      ],
+      "bodyHtml": "<p>Decide how round forms, straight forms, diagonals, and punctuation sit in space. Sidebearing logic and fitting groups make the difference between attractive glyphs and usable type.</p>"
+    },
+    {
+      "id": "interpolation_strategy",
+      "level": 3,
+      "kind": "standard",
+      "label": "Interpolation & family expansion strategy",
+      "summary": "If the font will become multiple weights, widths, or optical sizes, masters and compatibility rules must be set early.",
+      "tags": [
+        "governance",
+        "variable_font",
+        "interpolation"
+      ],
+      "bodyHtml": "<p>Interpolation demands compatible structures, similar point orders, and stable conceptual axes. A design that works in one weight may fail badly across a family if these constraints are ignored.</p>"
+    },
+    {
+      "id": "exception_handling",
+      "level": 3,
+      "kind": "standard",
+      "label": "Exception handling and local freedom",
+      "summary": "Some letters must disobey general rules in order to satisfy perception and language use.",
+      "tags": [
+        "governance",
+        "exceptions",
+        "optical"
+      ],
+      "bodyHtml": "<p>Typeface governance is not mechanical consistency. It must define where exceptions are legitimate: s, g, a, numerals, punctuation, and dense diacritic combinations often need special treatment.</p>"
+    },
+    {
+      "id": "production_constraints",
+      "level": 3,
+      "kind": "standard",
+      "label": "Production and rendering constraints",
+      "summary": "Hinting, rasterisation, curve economy, export formats, and platform behaviour constrain design decisions.",
+      "tags": [
+        "governance",
+        "production",
+        "rendering"
+      ],
+      "bodyHtml": "<p>Design choices interact with screens, printing, app environments, and file formats. Tiny terminals or narrow apertures may collapse under real rendering conditions.</p>"
+    },
+    {
+      "id": "control_glyphs",
+      "level": 4,
+      "kind": "concept",
+      "label": "Control glyph sequence",
+      "summary": "Build a small set of generative letters first: often n, o, H, O, p, and a, from which many others derive.",
+      "tags": [
+        "construction",
+        "control_glyphs",
+        "workflow"
+      ],
+      "bodyHtml": "<p>Control glyphs expose the main constraints of the typeface: stem, curve, counter, join, proportion, and spacing. They serve as seeds for the rest of the alphabet.</p>"
+    },
+    {
+      "id": "lowercase_derivation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Lowercase derivation",
+      "summary": "Construct the lowercase as a network of related problems rather than isolated drawings.",
+      "tags": [
+        "construction",
+        "lowercase",
+        "derivation"
+      ],
+      "bodyHtml": "<p>From n come h, m, r, u; from o come c, e, q; from p come b, d, q. Derivation makes the alphabet economical and structurally coherent.</p>"
+    },
+    {
+      "id": "uppercase_derivation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Uppercase derivation",
+      "summary": "Capitals have their own architecture but still inherit family constraints of weight, stress, spacing, and terminal logic.",
+      "tags": [
+        "construction",
+        "uppercase",
+        "derivation"
+      ],
+      "bodyHtml": "<p>H, O, E, N, and V often become control capitals. The challenge is to balance monumentality with harmony alongside the lowercase.</p>"
+    },
+    {
+      "id": "numerals_punctuation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Numerals, punctuation & symbols",
+      "summary": "A whole font is incomplete without the non-letter forms that carry rhythm, data, and discourse.",
+      "tags": [
+        "construction",
+        "numerals",
+        "punctuation"
+      ],
+      "bodyHtml": "<p>Text fonts especially depend on quotation marks, hyphens, dashes, parentheses, figures, currency, and mathematical signs. Their spacing and weight must join the same system.</p>"
+    },
+    {
+      "id": "diacritics_extensions",
+      "level": 4,
+      "kind": "concept",
+      "label": "Diacritics, accents & language extensions",
+      "summary": "Language coverage extends the system upward and sideways: marks above, below, through, and around base glyphs.",
+      "tags": [
+        "construction",
+        "diacritics",
+        "coverage"
+      ],
+      "bodyHtml": "<p>Accents are not decorations added at the end. They interact with rhythm, line spacing, collisions, and the usable geographical range of the font.</p>"
+    },
+    {
+      "id": "kerning_work",
+      "level": 4,
+      "kind": "concept",
+      "label": "Kerning and pair correction",
+      "summary": "After group spacing, local collisions and gaps require pairwise adjustment.",
+      "tags": [
+        "construction",
+        "kerning",
+        "spacing"
+      ],
+      "bodyHtml": "<p>Kerning resolves exceptional pair relations such as To, VA, Ta, We, or punctuation contexts. It should refine rather than compensate for fundamentally poor spacing.</p>"
+    },
+    {
+      "id": "opentype_behaviour",
+      "level": 4,
+      "kind": "standard",
+      "label": "OpenType behaviour and compositional rules",
+      "summary": "Ligatures, alternates, numeral styles, localisation, and mark positioning formalise how glyphs behave in text.",
+      "tags": [
+        "construction",
+        "OpenType",
+        "behaviour"
+      ],
+      "bodyHtml": "<p>A whole font includes behavioural logic. Features such as liga, kern, locl, mark, mkmk, onum, and case extend the design from static glyphs into linguistic composition.</p>"
+    },
+    {
+      "id": "proofing_words",
+      "level": 5,
+      "kind": "standard",
+      "label": "Word and phrase proofing",
+      "summary": "Test letters in words, not just in isolation: repeated sequences reveal rhythm and spacing defects.",
+      "tags": [
+        "evaluation",
+        "proofing",
+        "words"
+      ],
+      "bodyHtml": "<p>Strings such as minimum, handgloves, adhesion, typography, and non-language control words reveal spacing, texture, and confusion among letters under real reading conditions.</p>"
+    },
+    {
+      "id": "optical_corrections",
+      "level": 5,
+      "kind": "standard",
+      "label": "Optical corrections",
+      "summary": "Perceptual correction adjusts geometry for how letters are seen rather than how they are measured.",
+      "tags": [
+        "evaluation",
+        "optics",
+        "overshoot"
+      ],
+      "bodyHtml": "<p>Rounds overshoot the baseline and cap line, curves may need thinning, joins may need opening, and symmetry may need to be violated to appear balanced.</p>"
+    },
+    {
+      "id": "language_coverage_testing",
+      "level": 5,
+      "kind": "standard",
+      "label": "Language coverage & mark-collision testing",
+      "summary": "Test the font in real language data across accents, punctuation norms, and orthographic combinations.",
+      "tags": [
+        "evaluation",
+        "languages",
+        "coverage"
+      ],
+      "bodyHtml": "<p>A font that works in English may fail in Polish, Vietnamese, Icelandic, French, or Turkish. Coverage testing exposes collisions, uneven vertical metrics, and weak localisation.</p>"
+    },
+    {
+      "id": "screen_print_validation",
+      "level": 5,
+      "kind": "standard",
+      "label": "Screen, print & size validation",
+      "summary": "Check the design across rendering environments and sizes to see whether apertures, joins, and spacing survive.",
+      "tags": [
+        "evaluation",
+        "screen",
+        "print"
+      ],
+      "bodyHtml": "<p>Text faces must work small; display faces must work large. Screen rendering and print spread place different pressures on contrast and detail.</p>"
+    },
+    {
+      "id": "paragraph_colour_review",
+      "level": 5,
+      "kind": "concept",
+      "label": "Paragraph colour and texture review",
+      "summary": "Whole-font quality appears in continuous reading as evenness, cadence, and controlled emphasis.",
+      "tags": [
+        "evaluation",
+        "texture",
+        "paragraph"
+      ],
+      "bodyHtml": "<p>Paragraph proofs reveal whether the font sparkles, dulls, stripes, clumps, or drifts. This stage reconnects specific glyph choices to the whole ecology of reading.</p>"
+    },
+    {
+      "id": "iterative_revision",
+      "level": 5,
+      "kind": "concept",
+      "label": "Iterative revision loop",
+      "summary": "Correction is recursive: problems discovered in proofing travel back upstream to metrics, components, or skeleton logic.",
+      "tags": [
+        "evaluation",
+        "iteration",
+        "revision"
+      ],
+      "bodyHtml": "<p>Typeface design is not linear. Proofing a word may force changes to a single terminal, which alters a component, which then affects a family of glyphs.</p>"
+    },
+    {
+      "id": "glyph_o",
+      "level": 6,
+      "kind": "case",
+      "label": "Specific letter: o",
+      "summary": "The round archetype stabilises counter, stress, contrast, overshoot, and spacing logic.",
+      "tags": [
+        "letter",
+        "round",
+        "control"
+      ],
+      "bodyHtml": "<p>The letter o is a central test of roundness, inner space, outer tension, and sidebearing. Many later decisions in c, e, q, and numerals depend on how o is resolved.</p>"
+    },
+    {
+      "id": "glyph_n",
+      "level": 6,
+      "kind": "case",
+      "label": "Specific letter: n",
+      "summary": "The lowercase n often establishes stem, shoulder, join tension, and the rhythm of repeated vertical movement.",
+      "tags": [
+        "letter",
+        "lowercase",
+        "control"
+      ],
+      "bodyHtml": "<p>The n is a generative lowercase letter because it mediates straight and curved motion. Its logic propagates into h, m, u, r, and many spacing decisions.</p>"
+    },
+    {
+      "id": "glyph_a",
+      "level": 6,
+      "kind": "case",
+      "label": "Specific letter: a",
+      "summary": "The a resolves historical style, openness, construction complexity, and the face’s voice.",
+      "tags": [
+        "letter",
+        "a",
+        "style"
+      ],
+      "bodyHtml": "<p>Single-storey and double-storey a signal different typographic cultures. The aperture, ear, bowl, and terminal choices often reveal the intended genre of the whole font.</p>"
+    },
+    {
+      "id": "glyph_s",
+      "level": 6,
+      "kind": "case",
+      "label": "Specific letter: s",
+      "summary": "The s is a classic exception letter: unstable, asymmetrical, and highly sensitive to optical balance.",
+      "tags": [
+        "letter",
+        "s",
+        "exception"
+      ],
+      "bodyHtml": "<p>The s rarely follows rules neatly. It is a stress test for contrast, width, terminal logic, and the policy for strategic departures from strict symmetry.</p>"
+    },
+    {
+      "id": "word_minimum",
+      "level": 6,
+      "kind": "case",
+      "label": "Expression case: minimum",
+      "summary": "A dense word of repeated verticals reveals spacing rhythm, ambiguity, and texture.",
+      "tags": [
+        "expression",
+        "word",
+        "rhythm"
+      ],
+      "bodyHtml": "<p>The word minimum is a classic proof string because repeated stems and arches can blur. It tests whether the alphabet holds together under maximal repetition and low differentiation.</p>"
+    },
+    {
+      "id": "word_hamburge",
+      "level": 6,
+      "kind": "case",
+      "label": "Expression case: Hamburgefonstiv / control text",
+      "summary": "Control words gather representative forms to review family resemblance, proportions, and overall tone.",
+      "tags": [
+        "expression",
+        "control_text",
+        "proof"
+      ],
+      "bodyHtml": "<p>Control text strings bring many characteristic letters together in a compact sample. They help the designer judge whether local decisions support the desired voice of the whole font.</p>"
+    },
+    {
+      "id": "language_diacritic_case",
+      "level": 6,
+      "kind": "risk",
+      "label": "Expression case: accented-language collision",
+      "summary": "Real language use exposes collisions among accents, capitals, punctuation, and line metrics.",
+      "tags": [
+        "expression",
+        "diacritics",
+        "risk"
+      ],
+      "bodyHtml": "<p>Stacked accents, uppercase accents, and punctuation in multilingual text often reveal that a font which seemed complete at glyph level is not yet viable in language.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "void_to_mark",
+      "to": "figure_ground",
+      "why": "Once a mark appears, figure and ground are established as the first perceptual relation."
+    },
+    {
+      "from": "void_to_mark",
+      "to": "axis_and_direction",
+      "why": "A mark is never neutral; it implies movement, direction, and the possibility of stroke."
+    },
+    {
+      "from": "difference_itself",
+      "to": "closure_and_aperture",
+      "why": "Boundary creates inside and outside, from which closure and openness become design variables."
+    },
+    {
+      "from": "difference_itself",
+      "to": "proportion_and_interval",
+      "why": "Difference is not only shape but distance and relation, which become proportion and interval."
+    },
+    {
+      "from": "repeatable_intention",
+      "to": "family_resemblance",
+      "why": "Repeatability underlies the possibility that distinct letters can belong to one family."
+    },
+    {
+      "from": "repeatable_intention",
+      "to": "component_reuse",
+      "why": "Repeatable intention becomes operational through reusable components and repeated structural decisions."
+    },
+    {
+      "from": "figure_ground",
+      "to": "counter_ecology",
+      "why": "The relation of black and white scales up into a whole ecology of counters and side spaces."
+    },
+    {
+      "from": "figure_ground",
+      "to": "spacing_policy",
+      "why": "Ground is not empty remainder; it must be governed through sidebearings and inter-letter space."
+    },
+    {
+      "from": "axis_and_direction",
+      "to": "skeleton_logic",
+      "why": "Directional tendencies become skeletons from which strokes and terminals are built."
+    },
+    {
+      "from": "axis_and_direction",
+      "to": "control_glyphs",
+      "why": "Control letters are chosen partly because they expose the main directional logics of the face."
+    },
+    {
+      "from": "contrast_and_weight",
+      "to": "skeleton_logic",
+      "why": "Weight and contrast are applied to an underlying path, not invented afresh in each glyph."
+    },
+    {
+      "from": "contrast_and_weight",
+      "to": "screen_print_validation",
+      "why": "Contrast decisions must survive real output conditions at different sizes and media."
+    },
+    {
+      "from": "proportion_and_interval",
+      "to": "master_metrics",
+      "why": "Proportional decisions are formalised through x-height, widths, and vertical metrics."
+    },
+    {
+      "from": "proportion_and_interval",
+      "to": "rhythm_and_texture",
+      "why": "Repeated proportional relations create visible text rhythm and paragraph colour."
+    },
+    {
+      "from": "closure_and_aperture",
+      "to": "glyph_a",
+      "why": "The a is a key site where enclosure and aperture signal genre and readability."
+    },
+    {
+      "from": "closure_and_aperture",
+      "to": "language_coverage_testing",
+      "why": "Open and closed forms behave differently across languages, sizes, and rendering contexts."
+    },
+    {
+      "from": "symmetry_and_departure",
+      "to": "exception_handling",
+      "why": "Optical design requires rules for when to depart from symmetry or strict consistency."
+    },
+    {
+      "from": "symmetry_and_departure",
+      "to": "glyph_s",
+      "why": "The s demonstrates why strategic asymmetry is often necessary for visual balance."
+    },
+    {
+      "from": "skeleton_logic",
+      "to": "control_glyphs",
+      "why": "Control glyphs materialise the structural skeleton in a small set of decisive forms."
+    },
+    {
+      "from": "skeleton_logic",
+      "to": "interpolation_strategy",
+      "why": "Stable skeletons are essential if forms are to interpolate across weights or widths."
+    },
+    {
+      "from": "counter_ecology",
+      "to": "glyph_o",
+      "why": "The o is a primary resolution of internal and external space, setting the counter ecology."
+    },
+    {
+      "from": "counter_ecology",
+      "to": "paragraph_colour_review",
+      "why": "Counter relations scale upward into paragraph texture and overall colour."
+    },
+    {
+      "from": "family_resemblance",
+      "to": "lowercase_derivation",
+      "why": "Lowercase derivation works because related letters inherit visible family traits."
+    },
+    {
+      "from": "family_resemblance",
+      "to": "uppercase_derivation",
+      "why": "Capitals must also display kinship with the rest of the system without losing their own logic."
+    },
+    {
+      "from": "rhythm_and_texture",
+      "to": "proofing_words",
+      "why": "Rhythm is tested most clearly in repeated word and phrase proofing."
+    },
+    {
+      "from": "rhythm_and_texture",
+      "to": "word_minimum",
+      "why": "Dense repeated patterns in minimum expose the rhythm and ambiguity of the design."
+    },
+    {
+      "from": "class_relations",
+      "to": "lowercase_derivation",
+      "why": "Class relations make it possible to derive many lowercase glyphs from a few archetypes."
+    },
+    {
+      "from": "class_relations",
+      "to": "numerals_punctuation",
+      "why": "Non-letter forms must still be integrated through class-based relations of weight and spacing."
+    },
+    {
+      "from": "script_historicity",
+      "to": "glyph_a",
+      "why": "The form of a strongly expresses inherited script traditions and genre expectations."
+    },
+    {
+      "from": "script_historicity",
+      "to": "exception_handling",
+      "why": "Historical conventions often justify local departures from otherwise systematic rules."
+    },
+    {
+      "from": "master_metrics",
+      "to": "diacritics_extensions",
+      "why": "Vertical architecture determines how much room exists for accents and stacked marks."
+    },
+    {
+      "from": "master_metrics",
+      "to": "optical_corrections",
+      "why": "Metrics alone are insufficient; rounds and diagonals require optical correction around the metric frame."
+    },
+    {
+      "from": "component_reuse",
+      "to": "diacritics_extensions",
+      "why": "Accent systems depend on reusable components positioned consistently across many base glyphs."
+    },
+    {
+      "from": "component_reuse",
+      "to": "opentype_behaviour",
+      "why": "Reusable components and anchors support compositional rules such as mark positioning."
+    },
+    {
+      "from": "spacing_policy",
+      "to": "kerning_work",
+      "why": "Kerning refines a prior spacing policy; it cannot substitute for one."
+    },
+    {
+      "from": "spacing_policy",
+      "to": "proofing_words",
+      "why": "Spacing policy is verified only when letters are seen in words and phrases."
+    },
+    {
+      "from": "interpolation_strategy",
+      "to": "production_constraints",
+      "why": "Family expansion choices are limited by compatible outlines, export needs, and rendering behaviour."
+    },
+    {
+      "from": "interpolation_strategy",
+      "to": "screen_print_validation",
+      "why": "Interpolated families must be checked across sizes and devices because intermediate instances can fail unexpectedly."
+    },
+    {
+      "from": "exception_handling",
+      "to": "glyph_s",
+      "why": "The s is a canonical example of a glyph that requires local freedom from general rules."
+    },
+    {
+      "from": "exception_handling",
+      "to": "kerning_work",
+      "why": "Spacing exceptions often appear in local pairs even when group spacing is sound."
+    },
+    {
+      "from": "production_constraints",
+      "to": "screen_print_validation",
+      "why": "Rendering and export constraints must be tested in actual environments, not assumed."
+    },
+    {
+      "from": "production_constraints",
+      "to": "opentype_behaviour",
+      "why": "Technical production decisions condition which behaviours and substitutions can be reliably delivered."
+    },
+    {
+      "from": "control_glyphs",
+      "to": "glyph_o",
+      "why": "The o is a major control glyph from which round forms and spacing behaviour are derived."
+    },
+    {
+      "from": "control_glyphs",
+      "to": "glyph_n",
+      "why": "The n is a major control glyph for stem, join, and repeated lowercase rhythm."
+    },
+    {
+      "from": "control_glyphs",
+      "to": "glyph_a",
+      "why": "The a becomes a focal control decision because it reveals the voice of the design."
+    },
+    {
+      "from": "lowercase_derivation",
+      "to": "glyph_n",
+      "why": "The n acts as a seed form for h, m, r, u and related lowercase structures."
+    },
+    {
+      "from": "lowercase_derivation",
+      "to": "glyph_a",
+      "why": "Lowercase derivation culminates in harder letters like a, which must still belong to the system."
+    },
+    {
+      "from": "uppercase_derivation",
+      "to": "word_hamburge",
+      "why": "Control text combining capitals and lowercase reveals whether the two architectures coexist gracefully."
+    },
+    {
+      "from": "numerals_punctuation",
+      "to": "language_diacritic_case",
+      "why": "Language performance depends not only on letters but on punctuation and other compositional companions."
+    },
+    {
+      "from": "diacritics_extensions",
+      "to": "language_diacritic_case",
+      "why": "Accented-language cases directly test whether the extension system is viable in real use."
+    },
+    {
+      "from": "kerning_work",
+      "to": "word_hamburge",
+      "why": "Control texts reveal where local pair adjustments are still needed."
+    },
+    {
+      "from": "opentype_behaviour",
+      "to": "language_diacritic_case",
+      "why": "Localisation, mark attachment, and compositional features determine whether multilingual text behaves correctly."
+    },
+    {
+      "from": "proofing_words",
+      "to": "word_minimum",
+      "why": "Minimum is a standard proof case for repeated vertical rhythm and ambiguity."
+    },
+    {
+      "from": "proofing_words",
+      "to": "word_hamburge",
+      "why": "Control proof words offer compact checks of family resemblance and tone."
+    },
+    {
+      "from": "optical_corrections",
+      "to": "glyph_o",
+      "why": "The o must overshoot and balance optically rather than geometrically."
+    },
+    {
+      "from": "optical_corrections",
+      "to": "glyph_s",
+      "why": "The s is especially dependent on optical rather than purely geometric correction."
+    },
+    {
+      "from": "language_coverage_testing",
+      "to": "language_diacritic_case",
+      "why": "Real language strings are where collisions, missing anchors, and metric failures are exposed."
+    },
+    {
+      "from": "screen_print_validation",
+      "to": "word_minimum",
+      "why": "Dense repeated words show quickly whether small-size rendering collapses distinctions."
+    },
+    {
+      "from": "paragraph_colour_review",
+      "to": "word_hamburge",
+      "why": "Control text samples contribute to the broader judgement of paragraph colour and voice."
+    },
+    {
+      "from": "iterative_revision",
+      "to": "control_glyphs",
+      "why": "Proof-driven revisions often travel back to the original control glyphs and their components."
+    },
+    {
+      "from": "iterative_revision",
+      "to": "master_metrics",
+      "why": "Persistent downstream problems may require revision of the metric architecture itself."
+    },
+    {
+      "from": "iterative_revision",
+      "to": "spacing_policy",
+      "why": "Unexpected texture problems often reflect spacing logic rather than isolated glyph shape."
+    },
+    {
+      "from": "glyph_o",
+      "to": "counter_ecology",
+      "why": "Once resolved, o becomes a reference for related internal spaces across the font."
+    },
+    {
+      "from": "glyph_n",
+      "to": "rhythm_and_texture",
+      "why": "The repeated stem-shoulder rhythm of n strongly affects text cadence."
+    },
+    {
+      "from": "glyph_a",
+      "to": "script_historicity",
+      "why": "The chosen a embodies historical and stylistic pressures that echo across the face."
+    },
+    {
+      "from": "glyph_s",
+      "to": "symmetry_and_departure",
+      "why": "The s shows why living form often depends on controlled imbalance."
+    },
+    {
+      "from": "word_minimum",
+      "to": "paragraph_colour_review",
+      "why": "Problems seen in minimum often predict broader texture issues in continuous text."
+    },
+    {
+      "from": "word_hamburge",
+      "to": "family_resemblance",
+      "why": "A representative control text reveals whether distinct glyphs feel like one family."
+    },
+    {
+      "from": "language_diacritic_case",
+      "to": "iterative_revision",
+      "why": "Multilingual failures send the design back upstream for revisions to metrics, anchors, or glyph shapes."
+    }
+  ]
+}
