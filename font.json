@@ -1,0 +1,689 @@
+{
+  "meta": {
+    "title": "AI Projects in Pharma — Wisdom → Responsible Innovation → Systems → Governance → Delivery → Evaluation → Cases",
+    "subtitle": "A dense knowledge lattice for designing, implementing, and governing AI in pharma: responsible innovation (AREA) shapes system choices; evaluation/reporting frameworks constrain evidence quality; governance and culture determine real-world reliability.",
+    "domainName": "AI project design and implementation in the pharmaceutical industry",
+    "searchPlaceholder": "AREA framework, responsible innovation, TRIPOD-AI, STARD-AI, SPIRIT-AI, Elevate-GenAI, GxP, CSV, model risk management, data governance, RWE, pharmacovigilance, clinical trials, MLOps, monitoring, drift, bias, explainability, human factors, change management…",
+    "userContextLabel": "Your pharma AI project context (optional)",
+    "userContextPlaceholder": "e.g., PV signal detection model; GenAI medical info assistant; trial site selection; GxP constraints; vendor model; resistance from QA; limited labels; global deployment…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert pharma AI programme lead with deep responsible-innovation judgement, GxP/regulatory awareness, and strong ML evaluation literacy.\n\nWrite a realistic narrative case-study showing how upstream constraints (responsible innovation using AREA, evidence standards like TRIPOD-AI/STARD-AI/SPIRIT-AI/Elevate-GenAI, regulation, organisational culture, incentives) shape downstream AI project decisions and real-world performance.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Pharma setting (function, use-case, stakeholders, GxP/regulatory constraints)\n- Problem framing + intended use + boundaries (what the model will NOT do)\n- Evidence plan (which framework(s), endpoints, datasets, bias/uncertainty handling)\n- Governance + risk controls (data/model governance, human oversight, auditability)\n- Implementation plan (MLOps, monitoring, incident response, change management)\n- Organisational culture interventions (trust, training, incentives, adoption)\n- 2 safe-to-fail experiments and backfire checks\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional wisdom",
+      "hint": "Judgement-in-context: integrity, humility, patient safety, long-term trust, and “do no harm” under commercial and delivery pressure."
+    },
+    {
+      "id": 1,
+      "title": "Responsible innovation & super-concepts",
+      "hint": "AREA and other shaping ideas: anticipate consequences, reflect on values, engage stakeholders, act with accountability; define benefit–risk, legitimacy, and evidence expectations."
+    },
+    {
+      "id": 2,
+      "title": "Socio-technical systems concepts",
+      "hint": "How AI programmes behave: feedback loops, drift, automation bias, interfaces, incentives, boundaries, and work-as-done vs work-as-imagined."
+    },
+    {
+      "id": 3,
+      "title": "Programme governance & assurance architecture",
+      "hint": "Operating model: AI governance, data/model risk management, GxP/CSV alignment, documentation, vendor controls, and decision rights."
+    },
+    {
+      "id": 4,
+      "title": "Project delivery & implementation steps",
+      "hint": "Practical build steps: problem framing, data work, modelling, evaluation, deployment, monitoring, human factors, training, and incident response."
+    },
+    {
+      "id": 5,
+      "title": "Evaluation, reporting & continuous improvement",
+      "hint": "Evidence standards (TRIPOD-AI, STARD-AI, SPIRIT-AI, Elevate-GenAI), QA, audits, metrics, and learning loops back into design."
+    },
+    {
+      "id": 6,
+      "title": "Cases, challenges & pathologies",
+      "hint": "Concrete failure modes and adoption blockers for tracing back to root causes and governance gaps."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_patient_stewardship",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Patient & public health stewardship",
+      "summary": "Treat AI as a health-impacting intervention: prioritise patient safety, benefit–risk balance, and long-term trust.",
+      "tags": ["wisdom", "patient_safety", "stewardship"],
+      "bodyHtml": "<p>In pharma, AI decisions can affect trial access, safety signals, product information, and clinical decisions. Stewardship means taking responsibility for downstream consequences—even when the model is “only advisory”.</p>"
+    },
+    {
+      "id": "wis_epistemic_humility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Epistemic humility",
+      "summary": "Be honest about uncertainty and limits; avoid false certainty, especially under executive pressure.",
+      "tags": ["wisdom", "uncertainty", "integrity"],
+      "bodyHtml": "<p>High-stakes pharma decisions demand calibrated confidence. Humility shows up as explicit boundaries, uncertainty communication, and a refusal to overclaim performance.</p>"
+    },
+    {
+      "id": "wis_accountability",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Accountability for outcomes",
+      "summary": "Assign clear ownership for model behaviour in the real world, including monitoring, incidents, and retirement.",
+      "tags": ["wisdom", "accountability", "ownership"],
+      "bodyHtml": "<p>Responsible AI is not “set-and-forget”. Accountability requires named owners, decision rights, and the authority to pause or roll back models when risk rises.</p>"
+    },
+    {
+      "id": "wis_dignity_and_rights",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Dignity, rights & fairness as constraints",
+      "summary": "Privacy, consent, fairness, and respect for persons are structural design constraints—not optional values statements.",
+      "tags": ["wisdom", "ethics", "privacy", "fairness"],
+      "bodyHtml": "<p>Data subjects are not raw material. Choices about data, features, and outputs must protect rights and avoid amplifying inequities.</p>"
+    },
+    {
+      "id": "wis_learning_orientation",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Learning orientation (safe-to-learn culture)",
+      "summary": "Create an environment where issues are surfaced early: near-misses, monitoring alerts, and user concerns.",
+      "tags": ["wisdom", "culture", "learning"],
+      "bodyHtml": "<p>AI reliability depends on weak-signal flow. When teams fear blame, they hide model errors, drift, and operational workarounds.</p>"
+    },
+
+    {
+      "id": "area_anticipate",
+      "level": 1,
+      "kind": "concept",
+      "label": "AREA: Anticipate",
+      "summary": "Forecast plausible benefits, harms, misuse, and second-order impacts across the product lifecycle.",
+      "tags": ["AREA", "responsible_innovation"],
+      "bodyHtml": "<p>Anticipation includes safety, equity, misuse, compliance, and operational impacts (workflow, incentives, data practices). It drives early risk controls and evaluation design.</p>"
+    },
+    {
+      "id": "area_reflect",
+      "level": 1,
+      "kind": "concept",
+      "label": "AREA: Reflect",
+      "summary": "Interrogate goals, values, assumptions, uncertainty, and “success” criteria before building.",
+      "tags": ["AREA", "responsible_innovation"],
+      "bodyHtml": "<p>Reflection clarifies what matters (patient safety, scientific validity, fairness), what trade-offs are acceptable, and what evidence is required to claim benefit.</p>"
+    },
+    {
+      "id": "area_engage",
+      "level": 1,
+      "kind": "concept",
+      "label": "AREA: Engage",
+      "summary": "Include stakeholders who experience impacts: patients, clinicians, PV, QA, regulators, IT, and end-users.",
+      "tags": ["AREA", "stakeholders"],
+      "bodyHtml": "<p>Engagement reduces blind spots in problem framing, identifies workflow constraints, and improves legitimacy—especially for models used in regulated processes.</p>"
+    },
+    {
+      "id": "area_act",
+      "level": 1,
+      "kind": "concept",
+      "label": "AREA: Act",
+      "summary": "Operationalise decisions: implement controls, transparency, monitoring, and change mechanisms; revise when evidence changes.",
+      "tags": ["AREA", "governance", "accountability"],
+      "bodyHtml": "<p>Act means building the socio-technical system: SOPs, human oversight, auditability, incident response, and the authority to pause or retire models.</p>"
+    },
+    {
+      "id": "benefit_risk_claims",
+      "level": 1,
+      "kind": "concept",
+      "label": "Benefit–risk claims and evidentiary bar",
+      "summary": "Define what benefit is claimed, for whom, and what evidence is required to justify deployment.",
+      "tags": ["benefit_risk", "evidence"],
+      "bodyHtml": "<p>In pharma, “accuracy” is rarely enough. Benefits must be linked to outcomes (safety, timeliness, trial efficiency) with defensible evaluation and reporting.</p>"
+    },
+    {
+      "id": "intended_use_boundaries",
+      "level": 1,
+      "kind": "concept",
+      "label": "Intended use, boundaries & non-use",
+      "summary": "Specify what the AI is for, what it is not for, and where it must not be used.",
+      "tags": ["scope", "safety"],
+      "bodyHtml": "<p>Clear boundaries prevent off-label use, reduce liability, and define required human oversight and monitoring triggers.</p>"
+    },
+    {
+      "id": "regulatory_science_alignment",
+      "level": 1,
+      "kind": "concept",
+      "label": "Regulatory science & compliance alignment",
+      "summary": "Align claims, evidence, and controls with applicable regulatory expectations and GxP/quality systems.",
+      "tags": ["regulatory", "GxP", "quality"],
+      "bodyHtml": "<p>Regulation shapes documentation, validation, audit trails, and change control. Early alignment avoids rework and “compliance theatre”.</p>"
+    },
+    {
+      "id": "data_rights_and_consent",
+      "level": 1,
+      "kind": "concept",
+      "label": "Data rights, consent & lawful basis",
+      "summary": "Ensure lawful, ethical data use: minimisation, provenance, permissions, and appropriate governance.",
+      "tags": ["privacy", "consent", "governance"],
+      "bodyHtml": "<p>Pharma datasets often mix sensitive sources. Strong data governance protects trust and reduces downstream risk from illegitimate data use.</p>"
+    },
+    {
+      "id": "genai_specific_risks",
+      "level": 1,
+      "kind": "concept",
+      "label": "GenAI-specific risks",
+      "summary": "Account for hallucinations, prompt injection, leakage, unstable behaviour, and evaluation challenges unique to generative models.",
+      "tags": ["GenAI", "safety"],
+      "bodyHtml": "<p>GenAI can produce plausible but wrong outputs, reveal sensitive content, and behave differently across prompts. Controls must include retrieval grounding, red teaming, and robust evaluation.</p>"
+    },
+    {
+      "id": "org_culture_change",
+      "level": 1,
+      "kind": "concept",
+      "label": "Organisational culture & change readiness",
+      "summary": "Adoption depends on trust, incentives, psychological safety, and cross-functional collaboration (QA/IT/Medical).",
+      "tags": ["culture", "change_management"],
+      "bodyHtml": "<p>Even good models fail when culture resists change, incentives drive misuse, or training is absent. Culture is a primary risk control.</p>"
+    },
+
+    {
+      "id": "work_as_imagined_vs_done_ai",
+      "level": 2,
+      "kind": "concept",
+      "label": "Work-as-imagined vs work-as-done",
+      "summary": "The gap between designed workflows and real practice explains many AI failures and safety issues.",
+      "tags": ["systems", "human_factors"],
+      "bodyHtml": "<p>Users adapt under time pressure: they copy-paste outputs, skip checks, or use the model outside scope. Design must be tested in real workflows.</p>"
+    },
+    {
+      "id": "automation_bias",
+      "level": 2,
+      "kind": "concept",
+      "label": "Automation bias & over-reliance",
+      "summary": "Users overweight model output, especially when it looks confident or saves time.",
+      "tags": ["systems", "safety"],
+      "bodyHtml": "<p>Automation bias increases when accountability is unclear, training is weak, or outputs are presented as authoritative. Interfaces and policies must counter this.</p>"
+    },
+    {
+      "id": "feedback_loops_ai",
+      "level": 2,
+      "kind": "concept",
+      "label": "Feedback loops & learning signals",
+      "summary": "Design mechanisms to capture errors, near-misses, and user feedback and turn them into model and process improvements.",
+      "tags": ["systems", "learning"],
+      "bodyHtml": "<p>Monitoring is not just metrics; it is a socio-technical sensing system. Without feedback loops, drift and misuse persist silently.</p>"
+    },
+    {
+      "id": "drift_and_shift",
+      "level": 2,
+      "kind": "concept",
+      "label": "Distribution shift, drift & concept change",
+      "summary": "Clinical practice, populations, and data pipelines change; model performance may degrade or become unsafe.",
+      "tags": ["systems", "monitoring"],
+      "bodyHtml": "<p>Pharma environments shift: new therapies, coding changes, reporting patterns, site mix, and clinical guidelines. Monitoring and revalidation are essential.</p>"
+    },
+    {
+      "id": "interfaces_and_handoffs_ai",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interfaces & handoffs (data, decisions, accountability)",
+      "summary": "Failures cluster at boundaries: data ingest, labelling, review steps, approvals, and release pipelines.",
+      "tags": ["systems", "reliability"],
+      "bodyHtml": "<p>Many AI issues are not algorithmic—they are handoff failures: missing context, wrong version, unclear escalation, or weak audit trails.</p>"
+    },
+    {
+      "id": "incentives_and_metrics",
+      "level": 2,
+      "kind": "concept",
+      "label": "Incentives, KPIs & gaming",
+      "summary": "What you measure and reward shapes behaviour, sometimes creating hidden risk or “performance theatre”.",
+      "tags": ["systems", "incentives"],
+      "bodyHtml": "<p>If teams are rewarded for speed or adoption, they may suppress issues or overclaim benefits. KPI design is a safety control.</p>"
+    },
+    {
+      "id": "system_boundaries",
+      "level": 2,
+      "kind": "concept",
+      "label": "System boundaries and downstream impacts",
+      "summary": "Define who and what is affected: patients, sites, geographies, languages, and vulnerable groups.",
+      "tags": ["systems", "equity"],
+      "bodyHtml": "<p>Boundary choices determine fairness and safety: whose data is included, who benefits, and who might be harmed by performance disparities.</p>"
+    },
+    {
+      "id": "shadow_ai",
+      "level": 2,
+      "kind": "risk",
+      "label": "Shadow AI & tool sprawl",
+      "summary": "Uncontrolled AI usage emerges when official solutions are slow or misaligned with real needs.",
+      "tags": ["risk", "governance", "culture"],
+      "bodyHtml": "<p>Teams may use unapproved GenAI tools for summaries, coding, or medical text. This creates privacy, IP, and compliance risks—and weakens institutional learning.</p>"
+    },
+
+    {
+      "id": "ai_governance_board",
+      "level": 3,
+      "kind": "standard",
+      "label": "AI governance board & decision rights",
+      "summary": "Cross-functional governance (Medical, PV, QA, Legal, IT, Security) that approves scope, evidence, and controls.",
+      "tags": ["governance", "decision_rights"],
+      "bodyHtml": "<p>Defines what must be reviewed, who can approve changes, and how conflicts (speed vs safety) are resolved.</p>"
+    },
+    {
+      "id": "model_risk_management",
+      "level": 3,
+      "kind": "standard",
+      "label": "Model risk management (MRM)",
+      "summary": "Classify model criticality, define validation depth, manage residual risk, and set monitoring/retirement criteria.",
+      "tags": ["MRM", "risk"],
+      "bodyHtml": "<p>MRM ties intended use to controls: validation, human oversight, monitoring, and incident response, scaled to impact.</p>"
+    },
+    {
+      "id": "data_governance",
+      "level": 3,
+      "kind": "standard",
+      "label": "Data governance & provenance",
+      "summary": "Lineage, quality, access controls, permissions, and reproducibility for training and evaluation datasets.",
+      "tags": ["data", "governance"],
+      "bodyHtml": "<p>Provenance and access controls support compliance and scientific credibility, and reduce risk from “unknown” data sources.</p>"
+    },
+    {
+      "id": "gxp_csv_alignment",
+      "level": 3,
+      "kind": "standard",
+      "label": "GxP / CSV alignment and validation lifecycle",
+      "summary": "Align AI tooling with quality systems: validation plans, change control, audit trails, and documented intended use.",
+      "tags": ["GxP", "CSV", "quality"],
+      "bodyHtml": "<p>Where AI touches regulated processes, controls must be documented and testable. Change management is central for models that evolve.</p>"
+    },
+    {
+      "id": "vendor_and_third_party",
+      "level": 3,
+      "kind": "standard",
+      "label": "Vendor & third-party assurance",
+      "summary": "Contractual and technical controls for external models, data, and platforms: audit rights, SLAs, security, and evidence access.",
+      "tags": ["vendor", "assurance"],
+      "bodyHtml": "<p>Third-party opacity is a common failure mode. Require evidence for evaluation, monitoring, and incident cooperation.</p>"
+    },
+    {
+      "id": "documentation_and_traceability",
+      "level": 3,
+      "kind": "standard",
+      "label": "Documentation, traceability & auditability",
+      "summary": "Keep decision-ready records: assumptions, datasets, versions, evaluation, approvals, and release notes.",
+      "tags": ["documentation", "audit"],
+      "bodyHtml": "<p>Traceability enables reproducibility, regulatory confidence, and faster incident investigation. It is also how organisations learn.</p>"
+    },
+    {
+      "id": "human_oversight_design",
+      "level": 3,
+      "kind": "standard",
+      "label": "Human oversight & accountability design",
+      "summary": "Define who reviews outputs, what they must check, and what happens when model and human disagree.",
+      "tags": ["human_in_loop", "safety"],
+      "bodyHtml": "<p>Oversight must be realistic under load: clear escalation, time allowances, and interface cues that support appropriate scepticism.</p>"
+    },
+
+    {
+      "id": "use_case_selection",
+      "level": 4,
+      "kind": "concept",
+      "label": "Use-case selection & value hypothesis",
+      "summary": "Pick high-value, feasible, and governable use-cases; avoid “AI for AI’s sake”.",
+      "tags": ["portfolio", "value"],
+      "bodyHtml": "<p>Choose use-cases with clear decision points, measurable outcomes, and plausible pathways to benefit—plus manageable data and compliance constraints.</p>"
+    },
+    {
+      "id": "problem_framing",
+      "level": 4,
+      "kind": "concept",
+      "label": "Problem framing & target definition",
+      "summary": "Define labels, endpoints, and the decision the model supports; align on what “good” means.",
+      "tags": ["framing", "targets"],
+      "bodyHtml": "<p>Bad framing produces “accurate but useless” models. Good framing connects outputs to real decisions and patient impact.</p>"
+    },
+    {
+      "id": "data_curation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Data curation, quality & representativeness",
+      "summary": "Handle missingness, coding variation, bias, leakage, and representativeness across geographies and subgroups.",
+      "tags": ["data", "quality", "bias"],
+      "bodyHtml": "<p>Pharma data is messy and heterogeneous. Data work is often the dominant determinant of model validity and fairness.</p>"
+    },
+    {
+      "id": "model_development",
+      "level": 4,
+      "kind": "concept",
+      "label": "Model development & reproducible training",
+      "summary": "Reproducible pipelines, versioned experiments, and justified modelling choices linked to the intended use.",
+      "tags": ["ML", "reproducibility"],
+      "bodyHtml": "<p>Reproducibility is a quality requirement. Every training run should be traceable to data versions, code, parameters, and evaluation outputs.</p>"
+    },
+    {
+      "id": "evaluation_plan",
+      "level": 4,
+      "kind": "concept",
+      "label": "Evaluation plan (pre-specified)",
+      "summary": "Predefine datasets, metrics, subgroup analyses, thresholds, and decision-curve logic; avoid post-hoc cherry-picking.",
+      "tags": ["evaluation", "bias"],
+      "bodyHtml": "<p>Pharma-grade evaluation anticipates deployment conditions, compares to baselines, and tests for robustness, uncertainty, and fairness.</p>"
+    },
+    {
+      "id": "deployment_and_integration",
+      "level": 4,
+      "kind": "concept",
+      "label": "Deployment & workflow integration",
+      "summary": "Integrate into real workflows with usability testing, role clarity, and safe failure modes.",
+      "tags": ["deployment", "workflow"],
+      "bodyHtml": "<p>Implementation is the product: interfaces, permissions, audit logs, and prompts/guardrails often matter more than marginal model gains.</p>"
+    },
+    {
+      "id": "mlops_monitoring",
+      "level": 4,
+      "kind": "concept",
+      "label": "MLOps: monitoring, drift detection & retraining triggers",
+      "summary": "Operationalise performance monitoring, data quality checks, drift alarms, and controlled update pathways.",
+      "tags": ["MLOps", "monitoring"],
+      "bodyHtml": "<p>Monitoring should include technical metrics, workflow metrics, and harm indicators. Retraining must be governed, not ad hoc.</p>"
+    },
+    {
+      "id": "incident_response_ai",
+      "level": 4,
+      "kind": "standard",
+      "label": "AI incident response & model rollback",
+      "summary": "Clear playbook: detect, triage, contain, communicate, investigate, fix, and prevent recurrence.",
+      "tags": ["incident", "safety", "governance"],
+      "bodyHtml": "<p>Incidents include unsafe recommendations, privacy leaks, drift-driven harm, and widespread misuse. Response needs authority and rehearsal.</p>"
+    },
+    {
+      "id": "training_and_adoption",
+      "level": 4,
+      "kind": "concept",
+      "label": "Training, enablement & adoption support",
+      "summary": "Train users on scope, uncertainty, review steps, and safe usage; reinforce with job aids and supervision.",
+      "tags": ["training", "adoption"],
+      "bodyHtml": "<p>Adoption is socio-technical: training must address automation bias, accountability, and when to ignore the model.</p>"
+    },
+
+    {
+      "id": "tripod_ai",
+      "level": 5,
+      "kind": "standard",
+      "label": "TRIPOD-AI (prediction model reporting)",
+      "summary": "Transparent reporting of AI prediction models: data, modelling, validation, performance, and intended use.",
+      "tags": ["TRIPOD-AI", "reporting"],
+      "bodyHtml": "<p>Use TRIPOD-AI to structure documentation and reporting so stakeholders can assess risk of bias, applicability, and reproducibility.</p>"
+    },
+    {
+      "id": "stard_ai",
+      "level": 5,
+      "kind": "standard",
+      "label": "STARD-AI (diagnostic accuracy reporting)",
+      "summary": "Reporting guidance for diagnostic AI: study design, reference standard, accuracy metrics, and clinical context.",
+      "tags": ["STARD-AI", "diagnostics"],
+      "bodyHtml": "<p>STARD-AI supports credible evaluation claims for diagnostic/triage models by making methods and limitations explicit.</p>"
+    },
+    {
+      "id": "spirit_ai",
+      "level": 5,
+      "kind": "standard",
+      "label": "SPIRIT-AI (clinical trial protocol guidance)",
+      "summary": "Protocol guidance when AI is evaluated in a trial: pre-specification, endpoints, oversight, and analysis plans.",
+      "tags": ["SPIRIT-AI", "trials"],
+      "bodyHtml": "<p>SPIRIT-AI helps ensure AI trials are designed to produce interpretable, clinically meaningful evidence and avoid post-hoc justification.</p>"
+    },
+    {
+      "id": "elevate_genai",
+      "level": 5,
+      "kind": "standard",
+      "label": "Elevate-GenAI (GenAI evaluation & governance)",
+      "summary": "A practical framework for evaluating and governing GenAI: safety, reliability, robustness, and operational controls.",
+      "tags": ["Elevate-GenAI", "GenAI"],
+      "bodyHtml": "<p>Use it to structure GenAI test suites (hallucination, adversarial prompts, safety policy, grounding), plus monitoring and control requirements.</p>"
+    },
+    {
+      "id": "quality_management_ai",
+      "level": 5,
+      "kind": "standard",
+      "label": "Quality management: audit, CAPA & continual improvement",
+      "summary": "Treat AI like a quality-managed product: audits, deviations, CAPA, learning loops, and periodic review.",
+      "tags": ["quality", "CAPA", "audit"],
+      "bodyHtml": "<p>Quality systems convert issues into improvements. Without CAPA discipline, AI programmes accumulate hidden risk and lose credibility.</p>"
+    },
+    {
+      "id": "post_deploy_effectiveness",
+      "level": 5,
+      "kind": "concept",
+      "label": "Post-deployment effectiveness & harm monitoring",
+      "summary": "Measure real-world outcomes, not just offline performance; track harm indicators and unintended consequences.",
+      "tags": ["monitoring", "outcomes"],
+      "bodyHtml": "<p>In pharma, effectiveness can mean better safety signal triage, reduced time-to-answer in medical info, improved trial feasibility, or fewer errors—validated in real use.</p>"
+    },
+
+    {
+      "id": "case_genai_medinfo_hallucination",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: GenAI medical information assistant hallucinates dosing advice",
+      "summary": "A high-trust interface produces plausible but unsafe guidance; reveals gaps in grounding, oversight, and evaluation.",
+      "tags": ["GenAI", "medical_info", "safety"],
+      "bodyHtml": "<p>A generative assistant answers HCP questions. Under pressure for speed, retrieval is optional and outputs look authoritative. An incident occurs when a hallucinated dosing statement is shared externally.</p>"
+    },
+    {
+      "id": "case_pv_signal_drift",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: PV signal detection model degrades after coding changes",
+      "summary": "A pipeline shift changes reporting patterns; model drift is missed; false negatives increase.",
+      "tags": ["PV", "drift", "monitoring"],
+      "bodyHtml": "<p>New MedDRA coding guidance and process changes alter input distributions. Offline performance was strong, but post-deployment monitoring was weak and retraining triggers unclear.</p>"
+    },
+    {
+      "id": "pathology_overclaiming",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Overclaiming and “AI theatre”",
+      "summary": "Teams overstate capability to win support; evidence is thin; trust collapses after visible failures.",
+      "tags": ["risk", "culture", "evidence"],
+      "bodyHtml": "<p>Overclaiming often arises from misaligned incentives, weak evaluation discipline, and missing responsible-innovation reflection.</p>"
+    },
+    {
+      "id": "pathology_shadow_ai",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Shadow AI bypasses controls",
+      "summary": "Unapproved tools are used with sensitive data; monitoring and learning loops are bypassed.",
+      "tags": ["risk", "privacy", "governance"],
+      "bodyHtml": "<p>Shadow AI emerges when governance is perceived as blocking value. The fix is not just enforcement—it's usable, supported alternatives and cultural alignment.</p>"
+    },
+    {
+      "id": "challenge_change_resistance",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Change resistance across QA/Medical/IT",
+      "summary": "Conflicting incentives slow delivery; teams talk past each other; adoption stalls even with a good model.",
+      "tags": ["culture", "change_management"],
+      "bodyHtml": "<p>AI in pharma is cross-functional. Without shared language and decision rights, projects become political and brittle.</p>"
+    }
+  ],
+  "edges": [
+    { "from": "wis_patient_stewardship", "to": "area_anticipate", "why": "Stewardship demands anticipating harm pathways, misuse, and downstream clinical impact." },
+    { "from": "wis_patient_stewardship", "to": "benefit_risk_claims", "why": "Patient-first thinking forces explicit benefit–risk claims and evidence thresholds." },
+    { "from": "wis_patient_stewardship", "to": "intended_use_boundaries", "why": "Safety requires strict boundaries and non-use conditions for high-trust outputs." },
+
+    { "from": "wis_epistemic_humility", "to": "area_reflect", "why": "Humility drives reflection on assumptions, uncertainty, and limits before building." },
+    { "from": "wis_epistemic_humility", "to": "evaluation_plan", "why": "Honest uncertainty pushes pre-specified evaluation and avoids cherry-picking." },
+    { "from": "wis_epistemic_humility", "to": "post_deploy_effectiveness", "why": "Humility recognises offline metrics may not predict real-world impact; outcomes must be measured." },
+
+    { "from": "wis_accountability", "to": "area_act", "why": "Accountability is enacted through controls: monitoring, incident response, and change authority." },
+    { "from": "wis_accountability", "to": "ai_governance_board", "why": "Clear ownership requires governance structures with decision rights and escalation routes." },
+    { "from": "wis_accountability", "to": "incident_response_ai", "why": "Outcome ownership implies preparedness to detect and respond rapidly when things go wrong." },
+
+    { "from": "wis_dignity_and_rights", "to": "data_rights_and_consent", "why": "Rights and dignity constrain what data can be used and how it must be governed." },
+    { "from": "wis_dignity_and_rights", "to": "system_boundaries", "why": "Fairness requires explicit boundary-setting across populations, geographies, and vulnerable groups." },
+    { "from": "wis_dignity_and_rights", "to": "org_culture_change", "why": "Respectful practice must be embedded culturally, not just documented." },
+
+    { "from": "wis_learning_orientation", "to": "feedback_loops_ai", "why": "A learning culture keeps weak signals flowing into feedback loops." },
+    { "from": "wis_learning_orientation", "to": "quality_management_ai", "why": "Learning becomes durable through CAPA, audits, and continual improvement routines." },
+    { "from": "wis_learning_orientation", "to": "org_culture_change", "why": "Psychological safety and incentives determine whether issues are surfaced or hidden." },
+
+    { "from": "area_anticipate", "to": "genai_specific_risks", "why": "Anticipation includes model-class risks such as hallucination, injection, and leakage." },
+    { "from": "area_anticipate", "to": "drift_and_shift", "why": "Anticipate that data and clinical practice will shift; plan monitoring and revalidation." },
+    { "from": "area_anticipate", "to": "system_boundaries", "why": "Anticipation requires defining who is affected and where harms may concentrate." },
+    { "from": "area_anticipate", "to": "model_risk_management", "why": "Forecasted harms determine model criticality and the depth of risk controls." },
+
+    { "from": "area_reflect", "to": "benefit_risk_claims", "why": "Reflection turns vague goals into explicit, testable benefit–risk claims." },
+    { "from": "area_reflect", "to": "intended_use_boundaries", "why": "Reflection clarifies scope, non-use, and what humans must remain responsible for." },
+    { "from": "area_reflect", "to": "problem_framing", "why": "Values and assumptions shape targets, labels, and what the model optimises." },
+
+    { "from": "area_engage", "to": "org_culture_change", "why": "Engagement builds legitimacy and shared ownership across QA/Medical/IT and end-users." },
+    { "from": "area_engage", "to": "human_oversight_design", "why": "Oversight must match real workflow constraints surfaced through stakeholder engagement." },
+    { "from": "area_engage", "to": "work_as_imagined_vs_done_ai", "why": "Users reveal real workarounds and constraints that design documents miss." },
+
+    { "from": "area_act", "to": "gxp_csv_alignment", "why": "Acting responsibly means embedding AI into quality systems and controlled lifecycles." },
+    { "from": "area_act", "to": "mlops_monitoring", "why": "Action includes monitoring, drift detection, and governed updates." },
+    { "from": "area_act", "to": "incident_response_ai", "why": "Responsible action requires a tested playbook for harms, leaks, and unsafe outputs." },
+
+    { "from": "benefit_risk_claims", "to": "evaluation_plan", "why": "Claims define which endpoints, baselines, and metrics must be pre-specified." },
+    { "from": "benefit_risk_claims", "to": "tripod_ai", "why": "Prediction claims require transparent reporting so reviewers can assess credibility and applicability." },
+    { "from": "benefit_risk_claims", "to": "post_deploy_effectiveness", "why": "Claims must be checked in real-world outcomes, not just offline benchmarks." },
+
+    { "from": "intended_use_boundaries", "to": "human_oversight_design", "why": "Boundaries define when humans must review, override, or escalate model output." },
+    { "from": "intended_use_boundaries", "to": "deployment_and_integration", "why": "Scope and non-use conditions must be implemented in interfaces, permissions, and workflow." },
+    { "from": "intended_use_boundaries", "to": "incentives_and_metrics", "why": "If KPIs reward speed, users may violate boundaries; incentives must reinforce correct use." },
+
+    { "from": "regulatory_science_alignment", "to": "gxp_csv_alignment", "why": "Regulatory expectations translate into validation, change control, and documentation requirements." },
+    { "from": "regulatory_science_alignment", "to": "documentation_and_traceability", "why": "Compliance needs traceable evidence: versions, approvals, and evaluation artefacts." },
+    { "from": "regulatory_science_alignment", "to": "vendor_and_third_party", "why": "Regulated use amplifies the need for vendor transparency and assurance." },
+
+    { "from": "data_rights_and_consent", "to": "data_governance", "why": "Lawful basis and permissions are operationalised through data governance and access controls." },
+    { "from": "data_rights_and_consent", "to": "data_curation", "why": "Data minimisation, provenance, and representativeness constraints shape curation and feature choices." },
+
+    { "from": "genai_specific_risks", "to": "elevate_genai", "why": "GenAI risks require specialised evaluation suites and governance controls." },
+    { "from": "genai_specific_risks", "to": "incident_response_ai", "why": "GenAI failure modes (hallucination/leakage) need explicit incident triggers and containment steps." },
+    { "from": "genai_specific_risks", "to": "training_and_adoption", "why": "Users must be trained to treat GenAI outputs as fallible and to follow grounding/review rules." },
+
+    { "from": "org_culture_change", "to": "incentives_and_metrics", "why": "Culture is expressed through incentives; misaligned KPIs create unsafe behaviour and hidden risk." },
+    { "from": "org_culture_change", "to": "shadow_ai", "why": "When official paths are slow or misaligned, shadow AI fills the gap." },
+    { "from": "org_culture_change", "to": "training_and_adoption", "why": "Adoption depends on trust, capability-building, and social permission to challenge the model." },
+
+    { "from": "work_as_imagined_vs_done_ai", "to": "automation_bias", "why": "Real-world pressure increases over-reliance; WAD reveals where bias will occur." },
+    { "from": "work_as_imagined_vs_done_ai", "to": "deployment_and_integration", "why": "Workflow integration must be tested in real use to avoid unsafe workarounds." },
+    { "from": "work_as_imagined_vs_done_ai", "to": "human_oversight_design", "why": "Oversight steps must be feasible under load; WAD testing exposes brittle review assumptions." },
+
+    { "from": "automation_bias", "to": "human_oversight_design", "why": "Oversight and UI cues must counter over-trust and enforce review discipline." },
+    { "from": "automation_bias", "to": "training_and_adoption", "why": "Training must explicitly address over-reliance and how to challenge outputs." },
+    { "from": "automation_bias", "to": "case_genai_medinfo_hallucination", "why": "High-trust GenAI interfaces increase over-reliance, making hallucinations more dangerous." },
+
+    { "from": "feedback_loops_ai", "to": "quality_management_ai", "why": "Feedback becomes durable when routed into audits, deviations, and CAPA mechanisms." },
+    { "from": "feedback_loops_ai", "to": "mlops_monitoring", "why": "Operational monitoring is the sensor layer that feeds learning loops and drift alarms." },
+    { "from": "feedback_loops_ai", "to": "post_deploy_effectiveness", "why": "Feedback loops should include real-world outcome measures and harm signals." },
+
+    { "from": "drift_and_shift", "to": "mlops_monitoring", "why": "Drift risk mandates monitoring, alarms, and controlled revalidation/retraining triggers." },
+    { "from": "drift_and_shift", "to": "model_risk_management", "why": "Higher drift sensitivity increases required monitoring depth and revalidation cadence." },
+    { "from": "drift_and_shift", "to": "case_pv_signal_drift", "why": "Coding/process changes are a classic drift driver in PV pipelines." },
+
+    { "from": "interfaces_and_handoffs_ai", "to": "documentation_and_traceability", "why": "Handoffs require traceability: versions, approvals, and auditable decision records." },
+    { "from": "interfaces_and_handoffs_ai", "to": "gxp_csv_alignment", "why": "Regulated processes amplify interface controls: audit trails, segregation of duties, and change control." },
+    { "from": "interfaces_and_handoffs_ai", "to": "deployment_and_integration", "why": "Integration points (APIs, approvals, role access) are common failure clusters." },
+
+    { "from": "incentives_and_metrics", "to": "pathology_overclaiming", "why": "If recognition is tied to big claims, teams overstate capability and downplay limitations." },
+    { "from": "incentives_and_metrics", "to": "shadow_ai", "why": "If KPIs reward speed, people bypass governance with unofficial tools." },
+    { "from": "incentives_and_metrics", "to": "quality_management_ai", "why": "Quality signals must be rewarded; otherwise CAPA becomes paperwork and issues are hidden." },
+
+    { "from": "system_boundaries", "to": "data_curation", "why": "Boundary choices dictate representativeness requirements and subgroup performance expectations." },
+    { "from": "system_boundaries", "to": "evaluation_plan", "why": "Boundaries determine which subgroups and settings must be tested to claim applicability." },
+    { "from": "system_boundaries", "to": "org_culture_change", "why": "Equity and inclusion require cultural commitment, not just technical metrics." },
+
+    { "from": "shadow_ai", "to": "pathology_shadow_ai", "why": "Shadow AI is the pathway by which uncontrolled usage becomes systemic risk." },
+    { "from": "shadow_ai", "to": "data_rights_and_consent", "why": "Unapproved tools often violate data minimisation, permissions, and confidentiality." },
+    { "from": "shadow_ai", "to": "vendor_and_third_party", "why": "Tool sprawl increases third-party exposure and weakens contractual assurance." },
+
+    { "from": "ai_governance_board", "to": "model_risk_management", "why": "Governance sets the criticality framework and approves risk controls and residual risk." },
+    { "from": "ai_governance_board", "to": "gxp_csv_alignment", "why": "The board ensures regulated-use AI fits into quality systems and validation lifecycles." },
+    { "from": "ai_governance_board", "to": "use_case_selection", "why": "Governance prioritises use-cases with clear value, evidence, and manageable risk." },
+    { "from": "ai_governance_board", "to": "org_culture_change", "why": "Governance must sponsor change management and align incentives across functions." },
+
+    { "from": "model_risk_management", "to": "evaluation_plan", "why": "Criticality determines evaluation depth, robustness tests, and monitoring requirements." },
+    { "from": "model_risk_management", "to": "human_oversight_design", "why": "Risk level defines oversight intensity and escalation requirements." },
+    { "from": "model_risk_management", "to": "incident_response_ai", "why": "Higher-risk models need clearer incident thresholds and faster rollback capability." },
+
+    { "from": "data_governance", "to": "data_curation", "why": "Provenance, quality rules, and access controls shape curation workflows and permissible features." },
+    { "from": "data_governance", "to": "documentation_and_traceability", "why": "Governed data must be traceable to sources, permissions, and transformations." },
+
+    { "from": "gxp_csv_alignment", "to": "documentation_and_traceability", "why": "Validation and audit readiness require complete traceability of decisions and artefacts." },
+    { "from": "gxp_csv_alignment", "to": "deployment_and_integration", "why": "CSV constraints influence release processes, access control, and audit logging." },
+    { "from": "gxp_csv_alignment", "to": "quality_management_ai", "why": "Deviations, audits, and CAPA processes operationalise compliance and learning." },
+
+    { "from": "vendor_and_third_party", "to": "documentation_and_traceability", "why": "Third-party use demands evidence access: evaluation artefacts, model versions, and monitoring data." },
+    { "from": "vendor_and_third_party", "to": "elevate_genai", "why": "GenAI vendors must support specialised testing, red teaming, and monitoring hooks." },
+
+    { "from": "documentation_and_traceability", "to": "tripod_ai", "why": "TRIPOD-AI-style reporting depends on traceable data, modelling choices, and validation evidence." },
+    { "from": "documentation_and_traceability", "to": "stard_ai", "why": "Diagnostic claims require traceable reference standards, datasets, and analysis decisions." },
+    { "from": "documentation_and_traceability", "to": "spirit_ai", "why": "Trial protocols require pre-specified plans and traceability of changes and analyses." },
+
+    { "from": "human_oversight_design", "to": "deployment_and_integration", "why": "Oversight must be implemented in the workflow: UI cues, review steps, and permissions." },
+    { "from": "human_oversight_design", "to": "training_and_adoption", "why": "Oversight only works if users are trained and time is allocated for review." },
+
+    { "from": "use_case_selection", "to": "problem_framing", "why": "A good use-case still needs crisp framing: target decision, users, and measurable outcomes." },
+    { "from": "use_case_selection", "to": "benefit_risk_claims", "why": "Use-case selection should start from the benefit hypothesis and acceptable risk." },
+    { "from": "use_case_selection", "to": "regulatory_science_alignment", "why": "Different use-cases imply different regulatory and quality burdens." },
+
+    { "from": "problem_framing", "to": "intended_use_boundaries", "why": "Framing clarifies scope, exclusions, and the conditions under which outputs are valid." },
+    { "from": "problem_framing", "to": "data_curation", "why": "Targets and labels determine what data is needed and which biases matter most." },
+    { "from": "problem_framing", "to": "evaluation_plan", "why": "Framing determines evaluation endpoints, baselines, and decision thresholds." },
+
+    { "from": "data_curation", "to": "model_development", "why": "Data quality and representativeness constrain feasible modelling approaches and performance." },
+    { "from": "data_curation", "to": "evaluation_plan", "why": "Curation decisions must be mirrored in evaluation to avoid leakage and inflated results." },
+    { "from": "data_curation", "to": "system_boundaries", "why": "Representativeness and subgroup analysis depend on explicit boundary definitions." },
+
+    { "from": "model_development", "to": "evaluation_plan", "why": "Model choices must be tested against pre-specified evaluation and robustness criteria." },
+    { "from": "model_development", "to": "documentation_and_traceability", "why": "Reproducible training requires versioned code, data, parameters, and run records." },
+
+    { "from": "evaluation_plan", "to": "tripod_ai", "why": "TRIPOD-AI supports transparent reporting of prediction model development and validation." },
+    { "from": "evaluation_plan", "to": "stard_ai", "why": "STARD-AI structures evaluation reporting for diagnostic performance and reference standards." },
+    { "from": "evaluation_plan", "to": "spirit_ai", "why": "SPIRIT-AI helps pre-specify endpoints and oversight when AI is tested in trials." },
+    { "from": "evaluation_plan", "to": "elevate_genai", "why": "GenAI needs specialised evaluation beyond accuracy: safety, robustness, and grounding." },
+
+    { "from": "deployment_and_integration", "to": "work_as_imagined_vs_done_ai", "why": "Deployment reveals real workflow constraints and misuse pathways not captured in design." },
+    { "from": "deployment_and_integration", "to": "mlops_monitoring", "why": "Deployment establishes the monitoring surface: logs, outcomes, drift signals, and user feedback." },
+    { "from": "deployment_and_integration", "to": "automation_bias", "why": "Interface choices can increase or decrease over-reliance." },
+
+    { "from": "mlops_monitoring", "to": "drift_and_shift", "why": "Monitoring detects drift and triggers revalidation or controlled updates." },
+    { "from": "mlops_monitoring", "to": "post_deploy_effectiveness", "why": "Operational metrics and outcomes monitoring verify whether benefit claims hold in practice." },
+    { "from": "mlops_monitoring", "to": "quality_management_ai", "why": "Monitoring alerts should route into deviation handling, investigation, and CAPA." },
+
+    { "from": "incident_response_ai", "to": "quality_management_ai", "why": "Incidents create deviations and CAPA opportunities; response must be auditable and learning-oriented." },
+    { "from": "incident_response_ai", "to": "case_genai_medinfo_hallucination", "why": "Hallucinations are an incident class needing containment, communication, and corrective controls." },
+
+    { "from": "training_and_adoption", "to": "org_culture_change", "why": "Training supports cultural norms: scepticism, accountability, and safe escalation." },
+    { "from": "training_and_adoption", "to": "automation_bias", "why": "Training can counter over-reliance by teaching checks, uncertainty, and override behaviour." },
+
+    { "from": "tripod_ai", "to": "pathology_overclaiming", "why": "Transparent reporting reduces the ability to overclaim performance without evidence." },
+    { "from": "stard_ai", "to": "benefit_risk_claims", "why": "Diagnostic claims must be grounded in appropriate accuracy reporting and clinical context." },
+    { "from": "spirit_ai", "to": "regulatory_science_alignment", "why": "Trial protocol discipline aligns evidence generation with regulatory expectations." },
+    { "from": "elevate_genai", "to": "genai_specific_risks", "why": "Elevate-GenAI operationalises risk-specific evaluation and governance for GenAI systems." },
+
+    { "from": "quality_management_ai", "to": "feedback_loops_ai", "why": "Audits and CAPA close the loop: issues become system improvements rather than recurring surprises." },
+    { "from": "quality_management_ai", "to": "wis_learning_orientation", "why": "Quality only works when the culture supports surfacing problems early and honestly." },
+
+    { "from": "post_deploy_effectiveness", "to": "benefit_risk_claims", "why": "Real-world effectiveness validates or falsifies the original benefit claims and trade-offs." },
+    { "from": "post_deploy_effectiveness", "to": "area_reflect", "why": "Outcome monitoring should trigger reflection and revision of goals, assumptions, and scope." },
+
+    { "from": "case_genai_medinfo_hallucination", "to": "genai_specific_risks", "why": "The case exemplifies hallucination risk, over-trust, and the need for grounding and robust evaluation." },
+    { "from": "case_genai_medinfo_hallucination", "to": "elevate_genai", "why": "It demands GenAI-focused evaluation suites and operational controls." },
+    { "from": "case_genai_medinfo_hallucination", "to": "intended_use_boundaries", "why": "Unsafe outputs often follow unclear scope and inadequate non-use constraints." },
+
+    { "from": "case_pv_signal_drift", "to": "drift_and_shift", "why": "The case is driven by pipeline and coding shifts that change input distributions." },
+    { "from": "case_pv_signal_drift", "to": "mlops_monitoring", "why": "Weak monitoring and unclear triggers allow performance decay to persist." },
+    { "from": "case_pv_signal_drift", "to": "model_risk_management", "why": "PV criticality should have demanded stronger drift controls and faster escalation." },
+
+    { "from": "pathology_overclaiming", "to": "org_culture_change", "why": "Overclaiming is reinforced by culture and incentives that reward hype over evidence." },
+    { "from": "pathology_overclaiming", "to": "evaluation_plan", "why": "Weak or post-hoc evaluation enables inflated claims and fragile deployments." },
+
+    { "from": "pathology_shadow_ai", "to": "shadow_ai", "why": "This pathology is the realised risk state of uncontrolled tool usage and bypassed governance." },
+    { "from": "pathology_shadow_ai", "to": "data_rights_and_consent", "why": "Shadow use frequently breaks data permissions, confidentiality, and minimisation obligations." },
+
+    { "from": "challenge_change_resistance", "to": "ai_governance_board", "why": "Clear decision rights and cross-functional governance reduce deadlock and unclear accountability." },
+    { "from": "challenge_change_resistance", "to": "org_culture_change", "why": "Adoption barriers are often cultural: trust, incentives, and perceived threat to roles." },
+    { "from": "challenge_change_resistance", "to": "training_and_adoption", "why": "Change resistance decreases when users are enabled, consulted, and supported in practice." }
+  ]
+}
