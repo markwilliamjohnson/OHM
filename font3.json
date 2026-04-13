@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "title": "Font Construction \u2014 Emergence \u2192 Form \u2192 System \u2192 Glyph Architecture \u2192 Letter Design \u2192 Usage \u2192 Linguistic Cases",
+    "subtitle": "A lattice of constraints showing how a complete typeface emerges from abstract possibility through formal systems to concrete linguistic expression.",
+    "domainName": "typeface and font design",
+    "searchPlaceholder": "glyph, stroke contrast, serif, sans-serif, x-height, ascender, descender, aperture, counter, kerning, ligature, diacritic, orthography, phoneme, grapheme",
+    "userContextLabel": "Font design context (optional)",
+    "userContextPlaceholder": "e.g., text face for academic publishing; display font; variable font; Latin + IPA support",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert type designer and typographic systems theorist.\n\nExplain how high-level constraints shape a complete font from abstraction to linguistic use.\nUse the selected concepts to show how upstream design decisions constrain downstream glyphs and usage scenarios."
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Ontological emergence",
+      "hint": "From nothing to the idea that marks can signify."
+    },
+    {
+      "id": 1,
+      "title": "Foundational abstractions",
+      "hint": "Meaning, difference, rhythm, and visual contrast."
+    },
+    {
+      "id": 2,
+      "title": "Typographic systems",
+      "hint": "Rules that make many glyphs belong to one font."
+    },
+    {
+      "id": 3,
+      "title": "Glyph architecture",
+      "hint": "Structural constraints shared by letters."
+    },
+    {
+      "id": 4,
+      "title": "Specific letterforms",
+      "hint": "Design of individual glyphs and variants."
+    },
+    {
+      "id": 5,
+      "title": "Font behaviour & quality",
+      "hint": "Spacing, rendering, consistency across contexts."
+    },
+    {
+      "id": 6,
+      "title": "Linguistic & expressive cases",
+      "hint": "Real-world language use and expression."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ont_mark",
+      "level": 0,
+      "kind": "principle",
+      "label": "The possibility of a mark",
+      "summary": "That something can appear against nothing and be perceived as distinct.",
+      "tags": [
+        "ontology",
+        "emergence"
+      ],
+      "bodyHtml": "<p>All fonts begin with the possibility that a visible difference can exist and be noticed.</p>"
+    },
+    {
+      "id": "abs_difference",
+      "level": 1,
+      "kind": "concept",
+      "label": "Difference and recognition",
+      "summary": "Marks must be distinguishable to carry meaning.",
+      "tags": [
+        "abstraction",
+        "perception"
+      ],
+      "bodyHtml": "<p>Visual contrast enables recognition and categorisation.</p>"
+    },
+    {
+      "id": "sys_consistency",
+      "level": 2,
+      "kind": "concept",
+      "label": "Systemic consistency",
+      "summary": "A font is a coherent system, not isolated drawings.",
+      "tags": [
+        "system",
+        "coherence"
+      ],
+      "bodyHtml": "<p>Shared proportions, rhythm and logic bind glyphs into one font.</p>"
+    },
+    {
+      "id": "arch_metrics",
+      "level": 3,
+      "kind": "structure",
+      "label": "Font metrics",
+      "summary": "Baseline, x-height, ascenders, descenders and alignment zones.",
+      "tags": [
+        "metrics",
+        "architecture"
+      ],
+      "bodyHtml": "<p>These invisible lines constrain all letter construction.</p>"
+    },
+    {
+      "id": "glyph_a",
+      "level": 4,
+      "kind": "glyph",
+      "label": "Lowercase \u2018a\u2019",
+      "summary": "A specific glyph constrained by system metrics and stylistic decisions.",
+      "tags": [
+        "glyph",
+        "letter"
+      ],
+      "bodyHtml": "<p>The form of \u2018a\u2019 expresses the font\u2019s character while obeying system rules.</p>"
+    },
+    {
+      "id": "qual_spacing",
+      "level": 5,
+      "kind": "quality",
+      "label": "Spacing & kerning behaviour",
+      "summary": "How glyphs interact horizontally in text.",
+      "tags": [
+        "spacing",
+        "kerning"
+      ],
+      "bodyHtml": "<p>Quality emerges from consistent spacing under varied conditions.</p>"
+    },
+    {
+      "id": "case_linguistic",
+      "level": 6,
+      "kind": "case",
+      "label": "Academic English paragraph",
+      "summary": "The font used in running scholarly text.",
+      "tags": [
+        "language",
+        "use"
+      ],
+      "bodyHtml": "<p>This is the final test: sustained reading in a real language.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "ont_mark",
+      "to": "abs_difference",
+      "why": "A mark must be different to be perceived."
+    },
+    {
+      "from": "abs_difference",
+      "to": "sys_consistency",
+      "why": "Recognisable differences must be systematised."
+    },
+    {
+      "from": "sys_consistency",
+      "to": "arch_metrics",
+      "why": "Systems become concrete through shared metrics."
+    },
+    {
+      "from": "arch_metrics",
+      "to": "glyph_a",
+      "why": "Metrics constrain individual letterforms."
+    },
+    {
+      "from": "glyph_a",
+      "to": "qual_spacing",
+      "why": "Individual glyph shapes affect spacing quality."
+    },
+    {
+      "from": "qual_spacing",
+      "to": "case_linguistic",
+      "why": "Spacing quality determines readability in real language use."
+    }
+  ]
+}
