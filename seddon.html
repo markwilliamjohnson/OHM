@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Institution Transformation Simulator Shell</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --ink: #18212f;
+      --muted: #5d6b82;
+      --line: #d9dfeb;
+      --accent: #2f6fed;
+      --accent-soft: #dfe9ff;
+      --good: #238b45;
+      --warn: #b7791f;
+      --bad: #c53030;
+      --purple: #6b46c1;
+      --shadow: 0 10px 30px rgba(24,33,47,0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    .wrap { max-width: 1600px; margin: 0 auto; padding: 18px; }
+    .hero {
+      background: linear-gradient(135deg, #eaf0ff 0%, #ffffff 45%, #eef9f7 100%);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+    }
+    .hero h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.1; }
+    .hero p { margin: 0; color: var(--muted); max-width: 1050px; line-height: 1.45; }
+    .status {
+      margin-top: 12px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .panel, .main-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .panel {
+      padding: 16px;
+      position: sticky;
+      top: 14px;
+      max-height: calc(100vh - 28px);
+      overflow: auto;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin: 6px 0 12px;
+      color: var(--purple);
+      text-transform: uppercase;
+    }
+    .control-group {
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #edf0f6;
+    }
+    .control-group:last-child { border-bottom: 0; margin-bottom: 0; }
+    .control { margin: 12px 0 18px; }
+    .control-header {
+      display: flex; justify-content: space-between; gap: 12px; align-items: baseline; margin-bottom: 6px;
+    }
+    .control-header label { font-size: 14px; font-weight: 700; line-height: 1.25; }
+    .value-badge {
+      min-width: 52px; text-align: right; font-variant-numeric: tabular-nums;
+      color: var(--accent); font-weight: 700; font-size: 13px;
+    }
+    .help { color: var(--muted); font-size: 12px; line-height: 1.35; margin-top: 5px; }
+    input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+    button, select {
+      border: 1px solid var(--line); background: #fff; color: var(--ink);
+      border-radius: 12px; padding: 10px 12px; font-size: 14px; font-weight: 700; cursor: pointer;
+    }
+    button.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .main-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+    .main-card { padding: 16px; }
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .kpis {
+      display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;
+    }
+    .kpi {
+      background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+      border: 1px solid #e7ecf7; border-radius: 16px; padding: 14px;
+    }
+    .kpi .label {
+      color: var(--muted); font-size: 12px; margin-bottom: 6px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .kpi .big { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+    .kpi .sub { color: var(--muted); font-size: 12px; line-height: 1.3; }
+    .stage-strip {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 12px;
+    }
+    .stage-box {
+      border: 1px solid var(--line); border-radius: 14px; padding: 10px; background: #fbfcff;
+    }
+    .stage-box.active {
+      border-color: var(--accent); background: var(--accent-soft);
+      box-shadow: inset 0 0 0 1px rgba(47,111,237,0.08);
+    }
+    .stage-name { font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+    .stage-prob { font-size: 24px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+    .stage-desc { font-size: 12px; color: var(--muted); line-height: 1.35; }
+    .chart-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    canvas {
+      width: 100%; height: 260px; border: 1px solid #e6ebf5; border-radius: 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%); display: block;
+    }
+    .small-canvas { height: 220px; }
+    .legend-note, .card-note {
+      color: var(--muted); font-size: 12px; line-height: 1.4; margin-top: 8px;
+    }
+    .path-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .path-card { border: 1px solid #e7ecf7; border-radius: 14px; padding: 12px; background: #fcfdff; }
+    .path-card h4 { margin: 0 0 6px; font-size: 14px; }
+    .score-row {
+      display: flex; justify-content: space-between; gap: 12px; margin: 7px 0; font-size: 13px;
+    }
+    .bar {
+      position: relative; height: 10px; border-radius: 999px; background: #e8edf7;
+      overflow: hidden; margin-top: 6px;
+    }
+    .bar > span {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      border-radius: 999px; background: var(--accent);
+    }
+    .risk-list, .narrative-list { display: grid; gap: 10px; margin-top: 8px; }
+    .risk-item, .narrative-item {
+      border: 1px solid #edf0f6; border-left: 5px solid var(--warn);
+      border-radius: 12px; padding: 10px 12px; background: #fffdfa;
+    }
+    .risk-item.high { border-left-color: var(--bad); background: #fff8f8; }
+    .risk-item.low { border-left-color: var(--good); background: #f8fffa; }
+    .risk-title, .narrative-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .risk-body, .narrative-body { color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .footer-note { color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .error-box {
+      margin-top: 12px; padding: 14px; border-radius: 14px; border: 1px solid #ffd5d5;
+      background: #fff7f7; color: #8a2b2b; display: none;
+    }
+    code.inline {
+      background: #f2f5fb; border: 1px solid #e2e8f5; border-radius: 8px; padding: 2px 6px;
+      font-size: 12px;
+    }
+    @media (max-width: 1200px) {
+      .layout { grid-template-columns: 1fr; }
+      .panel { position: static; max-height: none; }
+      .span-8, .span-6, .span-4 { grid-column: span 12; }
+      .kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .chart-wrap, .path-grid { grid-template-columns: 1fr; }
+      .stage-strip { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1 id="appTitle">Institution Transformation Simulator Shell</h1>
+      <p id="appDescription">Loading model data…</p>
+      <div class="status" id="dataStatus">Waiting for JSON configuration</div>
+      <div class="error-box" id="errorBox"></div>
+    </div>
+
+    <div class="layout">
+      <aside class="panel">
+        <div class="section-title">Scenario controls</div>
+        <div class="control-group">
+          <div class="control">
+            <div class="control-header">
+              <label for="mcDraws">Monte Carlo draws</label>
+              <div class="value-badge" id="mcDrawsVal">1500</div>
+            </div>
+            <input id="mcDraws" type="range" min="200" max="5000" step="100" value="1500" />
+            <div class="help">More draws give smoother probability distributions but use more computation.</div>
+          </div>
+          <div class="toolbar">
+            <select id="presetSelect"></select>
+            <button id="applyPreset" class="primary">Apply preset</button>
+            <button id="resetBtn">Reset sliders</button>
+          </div>
+          <div class="help" id="dataPathHelp"></div>
+        </div>
+        <div id="dynamicControls"></div>
+      </aside>
+
+      <main class="main-grid">
+        <section class="main-card span-12">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="label">Most likely stage</div>
+              <div class="big" id="currentStage">–</div>
+              <div class="sub" id="currentStageLabel">–</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Failure demand</div>
+              <div class="big" id="failureDemandMean">–</div>
+              <div class="sub">Estimated share of work caused by system failure rather than genuine value demand</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Service quality</div>
+              <div class="big" id="serviceQualityMean">–</div>
+              <div class="sub">Likely patient and client usefulness of the service output</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Transformation viability</div>
+              <div class="big" id="viabilityMean">–</div>
+              <div class="sub">Ability to sustain redesign under pressure without rollback</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Kick-back risk</div>
+              <div class="big" id="kickbackMean">–</div>
+              <div class="sub">Likelihood of resistance, drift or rollback undermining change</div>
+            </div>
+          </div>
+
+          <div class="stage-strip" id="stageStrip"></div>
+          <div class="card-note">The stage probabilities below are estimated from the Monte Carlo runs. The active stage is the one with the highest probability, but transitional mixtures are common and often more realistic than a clean single stage.</div>
+        </section>
+
+        <section class="main-card span-8">
+          <h3>Probability distributions</h3>
+          <div class="chart-wrap">
+            <div>
+              <canvas id="failureHist"></canvas>
+              <div class="legend-note">Distribution of failure demand. Lower is better.</div>
+            </div>
+            <div>
+              <canvas id="qualityHist"></canvas>
+              <div class="legend-note">Distribution of service quality and usefulness. Higher is better.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="main-card span-4">
+          <h3>Core path scores</h3>
+          <div class="path-grid" style="grid-template-columns: 1fr;">
+            <div class="path-card">
+              <h4>Demand visibility path</h4>
+              <div class="score-row"><span>Read the system</span><strong id="visibilityScore"></strong></div>
+              <div class="bar"><span id="visibilityBar"></span></div>
+            </div>
+            <div class="path-card">
+              <h4>Redesign path</h4>
+              <div class="score-row"><span>Redistribute variety</span><strong id="redesignScore"></strong></div>
+              <div class="bar"><span id="redesignBar"></span></div>
+            </div>
+            <div class="path-card">
+              <h4>Political mediation path</h4>
+              <div class="score-row"><span>Stabilise change</span><strong id="politicsScore"></strong></div>
+              <div class="bar"><span id="politicsBar"></span></div>
+            </div>
+            <div class="path-card">
+              <h4>Client partnership path</h4>
+              <div class="score-row"><span>Influence upstream demand</span><strong id="clientPathScore"></strong></div>
+              <div class="bar"><span id="clientPathBar"></span></div>
+            </div>
+          </div>
+          <div class="card-note">These path scores show what has to improve to move the institution forward through the staged transformation.</div>
+        </section>
+
+        <section class="main-card span-6">
+          <h3>Stage transition map</h3>
+          <canvas id="stageTransitionChart" class="small-canvas"></canvas>
+          <div class="legend-note">Expected transition readiness from one stage to the next. Higher bars mean the conditions for moving forward are more likely to hold.</div>
+        </section>
+
+        <section class="main-card span-6">
+          <h3>Risk and kick-back distribution</h3>
+          <canvas id="riskHist" class="small-canvas"></canvas>
+          <div class="legend-note">This includes rollback pressure, governance backlash, financial anxiety, client resistance and target reimposition.</div>
+        </section>
+
+        <section class="main-card span-6">
+          <h3>Likely risks and areas of kick-back</h3>
+          <div class="risk-list" id="riskList"></div>
+        </section>
+
+        <section class="main-card span-6">
+          <h3>How to effect the next stage</h3>
+          <div class="narrative-list" id="nextStepList"></div>
+        </section>
+
+        <section class="main-card span-12">
+          <h3>Mechanism summary</h3>
+          <div class="path-grid">
+            <div class="path-card">
+              <h4>Internal failure-demand loop</h4>
+              <div id="internalLoopText"></div>
+            </div>
+            <div class="path-card">
+              <h4>Client-conditioned demand loop</h4>
+              <div id="clientLoopText"></div>
+            </div>
+            <div class="path-card">
+              <h4>Transformation politics loop</h4>
+              <div id="politicsLoopText"></div>
+            </div>
+          </div>
+          <div class="footer-note">
+            Load a different JSON model by changing the URL parameter <code class="inline">?data=yourfile.json</code>. The HTML acts as a shell; the JSON provides the title, stages, controls, presets and model weights.
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const state = {
+      config: null,
+      sliders: [],
+      stages: [],
+      defaults: {},
+      presets: {},
+      rafToken: null
+    };
+
+    const canvases = {
+      failureHist: document.getElementById('failureHist'),
+      qualityHist: document.getElementById('qualityHist'),
+      riskHist: document.getElementById('riskHist'),
+      stageTransitionChart: document.getElementById('stageTransitionChart')
+    };
+
+    function clamp(x, min = 0, max = 100) { return Math.max(min, Math.min(max, x)); }
+    function noisy(value, sigma = 6) { return clamp(value + rndn() * sigma); }
+    function mean(arr) { return arr.reduce((a,b) => a+b, 0) / arr.length; }
+    function percentile(arr, p) {
+      const sorted = [...arr].sort((a,b) => a-b);
+      const idx = (sorted.length - 1) * p;
+      const lo = Math.floor(idx), hi = Math.ceil(idx);
+      if (lo === hi) return sorted[lo];
+      return sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+    }
+    function fmt(x) { return `${Math.round(x)}%`; }
+    function rndn() {
+      let u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+
+    async function loadConfig() {
+      const dataPath = getQueryParam('data') || 'oh_institution_data.json';
+      document.getElementById('dataStatus').textContent = `Loading model from ${dataPath}`;
+      document.getElementById('dataPathHelp').innerHTML = `Current model: <code class="inline">${dataPath}</code>`;
+      try {
+        const response = await fetch(dataPath, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status} while loading ${dataPath}`);
+        const config = await response.json();
+        validateConfig(config);
+        state.config = config;
+        state.sliders = ['mcDraws', ...config.controls.map(c => c.id)];
+        state.stages = config.stages;
+        state.defaults = config.defaults;
+        state.presets = config.presets;
+        buildUI(config, dataPath);
+        attachListeners();
+        applyPreset(config.initialPreset || Object.keys(config.presets)[0]);
+        document.getElementById('dataStatus').textContent = `Loaded model: ${config.meta.title}`;
+      } catch (err) {
+        showError(`Could not load JSON configuration. ${err.message}`);
+      }
+    }
+
+    function validateConfig(config) {
+      if (!config || typeof config !== 'object') throw new Error('Config is not a valid JSON object.');
+      if (!Array.isArray(config.controls) || config.controls.length === 0) throw new Error('Config must include a non-empty controls array.');
+      if (!Array.isArray(config.stages) || config.stages.length === 0) throw new Error('Config must include stages.');
+      if (!config.defaults || !config.presets || !config.model) throw new Error('Config must include defaults, presets and model sections.');
+    }
+
+    function showError(message) {
+      const box = document.getElementById('errorBox');
+      box.style.display = 'block';
+      box.textContent = message;
+      document.getElementById('dataStatus').textContent = 'Model load failed';
+      console.error(message);
+    }
+
+    function buildUI(config, dataPath) {
+      document.getElementById('appTitle').textContent = config.meta.title;
+      document.getElementById('appDescription').textContent = config.meta.description;
+
+      const presetSelect = document.getElementById('presetSelect');
+      presetSelect.innerHTML = '';
+      Object.entries(config.presets).forEach(([key, values]) => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = `Preset: ${values.label || key}`;
+        presetSelect.appendChild(opt);
+      });
+
+      const groups = {};
+      config.controlGroups.forEach(group => groups[group.id] = { ...group, controls: [] });
+      config.controls.forEach(control => {
+        if (!groups[control.group]) throw new Error(`Unknown control group '${control.group}' for control '${control.id}'.`);
+        groups[control.group].controls.push(control);
+      });
+
+      const host = document.getElementById('dynamicControls');
+      host.innerHTML = '';
+      config.controlGroups.forEach(group => {
+        const section = document.createElement('div');
+        section.className = 'control-group';
+        section.innerHTML = `<div class="section-title">${group.label}</div>`;
+
+        groups[group.id].controls.forEach(control => {
+          const wrap = document.createElement('div');
+          wrap.className = 'control';
+          wrap.innerHTML = `
+            <div class="control-header">
+              <label for="${control.id}">${control.label}</label>
+              <div class="value-badge" id="${control.id}Val"></div>
+            </div>
+            <input id="${control.id}" type="range" min="${control.min}" max="${control.max}" step="${control.step || 1}" value="${config.defaults[control.id]}" />
+            <div class="help">${control.help || ''}</div>
+          `;
+          section.appendChild(wrap);
+        });
+        host.appendChild(section);
+      });
+
+      document.getElementById('dataPathHelp').innerHTML = `Current model: <code class="inline">${dataPath}</code>. Change the URL to <code class="inline">?data=another_model.json</code> to load a different institution.`;
+    }
+
+    function attachListeners() {
+      state.sliders.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', scheduleUpdate);
+      });
+      document.getElementById('applyPreset').addEventListener('click', () => {
+        applyPreset(document.getElementById('presetSelect').value);
+      });
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        applyPreset(state.config.initialPreset || Object.keys(state.presets)[0]);
+      });
+      window.addEventListener('resize', scheduleUpdate);
+    }
+
+    function updateLabels() {
+      state.sliders.forEach(id => {
+        const el = document.getElementById(id);
+        const val = document.getElementById(id + 'Val');
+        if (el && val) val.textContent = el.value;
+      });
+    }
+
+    function getValues() {
+      const values = {};
+      state.sliders.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) values[id] = Number(el.value);
+      });
+      return values;
+    }
+
+    function applyPreset(name) {
+      const preset = state.presets[name];
+      if (!preset) return;
+      document.getElementById('presetSelect').value = name;
+      Object.entries(state.defaults).forEach(([k, val]) => {
+        const el = document.getElementById(k);
+        if (el) el.value = val;
+      });
+      Object.entries(preset.values || {}).forEach(([k, val]) => {
+        const el = document.getElementById(k);
+        if (el) el.value = val;
+      });
+      scheduleUpdate();
+    }
+
+    function computeWeighted(weights, values) {
+      let total = 0;
+      for (const [key, weight] of Object.entries(weights || {})) {
+        total += (values[key] ?? 0) * weight;
+      }
+      return total;
+    }
+
+    function computeInvertedWeighted(weights, values) {
+      let total = 0;
+      for (const [key, weight] of Object.entries(weights || {})) {
+        total += (100 - (values[key] ?? 0)) * weight;
+      }
+      return total;
+    }
+
+    function pathScores(v) {
+      const pathsCfg = state.config.model.pathScores;
+      const calc = cfg => clamp(
+        (cfg.base || 0) +
+        computeWeighted(cfg.positiveWeights, v) +
+        computeInvertedWeighted(cfg.invertedWeights, v)
+      );
+      return {
+        visibility: calc(pathsCfg.visibility),
+        redesign: calc(pathsCfg.redesign),
+        politics: calc(pathsCfg.politics),
+        clientPath: calc(pathsCfg.clientPath)
+      };
+    }
+
+    function simulateOne(v) {
+      const varied = {};
+      state.config.controls.forEach(control => {
+        const sigma = (state.config.model.noiseOverrides && state.config.model.noiseOverrides[control.id] != null)
+          ? state.config.model.noiseOverrides[control.id]
+          : (state.config.model.defaultNoiseSigma || 6);
+        varied[control.id] = noisy(v[control.id], sigma);
+      });
+
+      const metricCfg = state.config.model.metrics;
+      const metric = cfg => clamp(
+        (cfg.base || 0) +
+        computeWeighted(cfg.positiveWeights, varied) +
+        computeInvertedWeighted(cfg.invertedWeights, varied)
+      );
+
+      const internalFailure = metric(metricCfg.internalFailure);
+      const clientFailure = metric(metricCfg.clientFailure);
+      const failureDemand = clamp(
+        (metricCfg.failureDemand.base || 0) +
+        (metricCfg.failureDemand.internalWeight || 0.5) * internalFailure +
+        (metricCfg.failureDemand.clientWeight || 0.5) * clientFailure
+      );
+      const quality = clamp(
+        (metricCfg.quality.base || 0) +
+        computeWeighted(metricCfg.quality.positiveWeights, varied) +
+        computeInvertedWeighted(metricCfg.quality.invertedWeights, varied) +
+        (metricCfg.quality.failurePenaltyWeight || 0) * (100 - failureDemand)
+      );
+      const viability = metric(metricCfg.viability);
+      const kickbackRisk = metric(metricCfg.kickbackRisk);
+
+      const stageScores = {};
+      state.config.stages.forEach(stage => {
+        const sc = stage.scoreModel;
+        stageScores[stage.key] = clamp(
+          (sc.base || 0) +
+          computeWeighted(sc.positiveWeights, { ...varied, internalFailure, clientFailure, failureDemand, quality, viability, kickbackRisk }) +
+          computeInvertedWeighted(sc.invertedWeights, { ...varied, internalFailure, clientFailure, failureDemand, quality, viability, kickbackRisk })
+        );
+      });
+
+      const temp = state.config.model.softmaxTemperature || 18;
+      const expVals = Object.fromEntries(Object.entries(stageScores).map(([k, s]) => [k, Math.exp(s / temp)]));
+      const sumExp = Object.values(expVals).reduce((a,b) => a+b, 0);
+      const stageProb = Object.fromEntries(Object.entries(expVals).map(([k, s]) => [k, (s / sumExp) * 100]));
+
+      const transitionReadiness = {};
+      Object.entries(state.config.model.transitionReadiness).forEach(([key, cfg]) => {
+        transitionReadiness[key] = clamp(
+          (cfg.base || 0) +
+          computeWeighted(cfg.positiveWeights, { ...varied, internalFailure, clientFailure, failureDemand, quality, viability, kickbackRisk }) +
+          computeInvertedWeighted(cfg.invertedWeights, { ...varied, internalFailure, clientFailure, failureDemand, quality, viability, kickbackRisk })
+        );
+      });
+
+      return { internalFailure, clientFailure, failureDemand, quality, viability, kickbackRisk, stageProb, transitionReadiness };
+    }
+
+    function runSimulation(v) {
+      const draws = Math.max(100, v.mcDraws);
+      const results = [];
+      for (let i = 0; i < draws; i++) results.push(simulateOne(v));
+      return results;
+    }
+
+    function summarise(results) {
+      const failure = results.map(r => r.failureDemand);
+      const quality = results.map(r => r.quality);
+      const viability = results.map(r => r.viability);
+      const kickback = results.map(r => r.kickbackRisk);
+
+      const stageMeans = {};
+      state.stages.forEach(s => { stageMeans[s.key] = mean(results.map(r => r.stageProb[s.key])); });
+
+      const transitionMeans = {};
+      Object.keys(state.config.model.transitionReadiness).forEach(key => {
+        transitionMeans[key] = mean(results.map(r => r.transitionReadiness[key]));
+      });
+
+      return {
+        failure: { mean: mean(failure), p10: percentile(failure, 0.1), p90: percentile(failure, 0.9), values: failure },
+        quality: { mean: mean(quality), p10: percentile(quality, 0.1), p90: percentile(quality, 0.9), values: quality },
+        viability: { mean: mean(viability), p10: percentile(viability, 0.1), p90: percentile(viability, 0.9), values: viability },
+        kickback: { mean: mean(kickback), p10: percentile(kickback, 0.1), p90: percentile(kickback, 0.9), values: kickback },
+        stageMeans,
+        transitionMeans
+      };
+    }
+
+    function currentStage(stageMeans) {
+      return state.stages.reduce((best, s) => stageMeans[s.key] > best.prob ? { key: s.key, prob: stageMeans[s.key] } : best, { key: state.stages[0].key, prob: -1 });
+    }
+
+    function renderStageStrip(stageMeans) {
+      const active = currentStage(stageMeans).key;
+      const el = document.getElementById('stageStrip');
+      el.innerHTML = '';
+      state.stages.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'stage-box' + (s.key === active ? ' active' : '');
+        div.innerHTML = `
+          <div class="stage-name">${s.key} · ${s.name}</div>
+          <div class="stage-prob">${stageMeans[s.key].toFixed(1)}%</div>
+          <div class="stage-desc">${s.description}</div>
+        `;
+        el.appendChild(div);
+      });
+    }
+
+    function renderHistogram(canvas, values, options = {}) {
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const w = rect.width, h = rect.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const pad = { left: 42, right: 16, top: 18, bottom: 32 };
+      const plotW = w - pad.left - pad.right;
+      const plotH = h - pad.top - pad.bottom;
+      const bins = options.bins || 16;
+      const min = 0, max = 100;
+      const counts = Array.from({ length: bins }, () => 0);
+      values.forEach(v => {
+        const idx = Math.min(bins - 1, Math.floor(((v - min) / (max - min)) * bins));
+        counts[Math.max(0, idx)]++;
+      });
+      const maxCount = Math.max(...counts, 1);
+
+      ctx.strokeStyle = '#d8e0ef';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const y = pad.top + (plotH / 4) * i;
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+      }
+      for (let i = 0; i <= 5; i++) {
+        const x = pad.left + (plotW / 5) * i;
+        ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + plotH); ctx.stroke();
+      }
+
+      counts.forEach((c, i) => {
+        const bw = plotW / bins - 4;
+        const x = pad.left + i * (plotW / bins) + 2;
+        const bh = (c / maxCount) * (plotH - 8);
+        const y = pad.top + plotH - bh;
+        ctx.fillStyle = '#bcd0ff';
+        ctx.fillRect(x, y, bw, bh);
+        ctx.strokeStyle = '#2f6fed';
+        ctx.strokeRect(x, y, bw, bh);
+      });
+
+      const m = mean(values), p10 = percentile(values, 0.1), p90 = percentile(values, 0.9);
+      const drawVLine = (value, color, dash = []) => {
+        const x = pad.left + ((value - min) / (max - min)) * plotW;
+        ctx.save();
+        ctx.setLineDash(dash);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + plotH); ctx.stroke();
+        ctx.restore();
+      };
+      drawVLine(p10, '#0f766e', [5,4]);
+      drawVLine(m, '#6b46c1', []);
+      drawVLine(p90, '#c53030', [5,4]);
+
+      ctx.fillStyle = '#5d6b82';
+      ctx.font = '12px Inter, sans-serif';
+      ['0','20','40','60','80','100'].forEach((lab, i) => {
+        const x = pad.left + (plotW / 5) * i;
+        ctx.fillText(lab, x - 8, h - 10);
+      });
+      ctx.fillText(`p10 ${Math.round(p10)}`, pad.left + 4, 14);
+      ctx.fillStyle = '#6b46c1';
+      ctx.fillText(`mean ${Math.round(m)}`, pad.left + 90, 14);
+      ctx.fillStyle = '#c53030';
+      ctx.fillText(`p90 ${Math.round(p90)}`, pad.left + 190, 14);
+    }
+
+    function renderBarChart(canvas, dataObj) {
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const w = rect.width, h = rect.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const pad = { left: 52, right: 12, top: 16, bottom: 34 };
+      const plotW = w - pad.left - pad.right;
+      const plotH = h - pad.top - pad.bottom;
+      const keys = Object.keys(dataObj);
+      const bw = plotW / Math.max(keys.length,1);
+
+      ctx.strokeStyle = '#d8e0ef';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 5; i++) {
+        const y = pad.top + (plotH / 5) * i;
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+      }
+
+      keys.forEach((k, i) => {
+        const val = dataObj[k];
+        const x = pad.left + i * bw + 16;
+        const barW = Math.max(18, bw - 32);
+        const bh = (val / 100) * (plotH - 8);
+        const y = pad.top + plotH - bh;
+        ctx.fillStyle = '#dfe9ff';
+        ctx.fillRect(x, y, barW, bh);
+        ctx.strokeStyle = '#2f6fed';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, barW, bh);
+        ctx.fillStyle = '#18212f';
+        ctx.font = '12px Inter, sans-serif';
+        ctx.fillText(k, x + 2, h - 12);
+        ctx.fillStyle = '#2f6fed';
+        ctx.fillText(Math.round(val), x + 2, y - 6);
+      });
+    }
+
+    function renderRisks(v, summary) {
+      const riskList = document.getElementById('riskList');
+      riskList.innerHTML = '';
+      const riskCfg = state.config.riskRules || [];
+      const risks = [];
+
+      riskCfg.forEach(rule => {
+        const evalContext = { ...v, failureDemand: summary.failure.mean, quality: summary.quality.mean, viability: summary.viability.mean, kickbackRisk: summary.kickback.mean };
+        let active = false;
+        try {
+          active = new Function('x', `with(x){ return (${rule.when}); }`)(evalContext);
+        } catch (e) {
+          console.warn('Risk rule evaluation failed', rule, e);
+        }
+        if (active) risks.push(rule);
+      });
+
+      if (risks.length === 0) {
+        risks.push({ level: 'low', title: 'No dominant risk rule triggered', body: 'The current settings do not strongly activate the main rollback or distortion rules in the model.' });
+      }
+
+      risks.slice(0, 6).forEach(r => {
+        const div = document.createElement('div');
+        div.className = `risk-item ${r.level || ''}`;
+        div.innerHTML = `<div class="risk-title">${r.title}</div><div class="risk-body">${r.body}</div>`;
+        riskList.appendChild(div);
+      });
+    }
+
+    function renderNextSteps(v, paths, stageKey) {
+      const el = document.getElementById('nextStepList');
+      el.innerHTML = '';
+      const steps = [];
+      const thresholds = state.config.nextStepThresholds || { visibility: 55, redesign: 55, politics: 55, clientPath: 55 };
+      const texts = state.config.nextStepTexts;
+
+      if (paths.visibility < thresholds.visibility) steps.push(texts.visibility);
+      if (paths.redesign < thresholds.redesign) steps.push(texts.redesign);
+      if (paths.politics < thresholds.politics) steps.push(texts.politics);
+      if (paths.clientPath < thresholds.clientPath) steps.push(texts.clientPath);
+      if (state.config.stageSpecificNextSteps && state.config.stageSpecificNextSteps[stageKey]) {
+        steps.push(...state.config.stageSpecificNextSteps[stageKey]);
+      }
+      if (steps.length === 0) steps.push({ title: 'Maintain adaptive learning', body: 'The current configuration is comparatively stable. Keep tracking residual failure demand, client regression, and subtle re-transactionalisation.' });
+
+      steps.slice(0, 6).forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'narrative-item';
+        div.innerHTML = `<div class="narrative-title">${item.title}</div><div class="narrative-body">${item.body}</div>`;
+        el.appendChild(div);
+      });
+    }
+
+    function setMechanismText(v, summary) {
+      const texts = state.config.mechanismTexts;
+      document.getElementById('internalLoopText').innerHTML = `
+        <div class="score-row"><span>Internal failure demand</span><strong>${fmt(summary.failure.mean)}</strong></div>
+        <div class="card-note">${texts.internal(v, summary)}</div>`;
+      document.getElementById('clientLoopText').innerHTML = `
+        <div class="score-row"><span>Client-conditioned pressure</span><strong>${fmt(clamp(0.55 * v.externalPressure + 0.45 * (100 - v.clientCapability)))}</strong></div>
+        <div class="card-note">${texts.client(v, summary)}</div>`;
+      document.getElementById('politicsLoopText').innerHTML = `
+        <div class="score-row"><span>Kick-back risk</span><strong>${fmt(summary.kickback.mean)}</strong></div>
+        <div class="card-note">${texts.politics(v, summary)}</div>`;
+    }
+
+    function updateScoreBars(paths) {
+      const set = (id, value) => {
+        document.getElementById(id + 'Score').textContent = fmt(value);
+        document.getElementById(id + 'Bar').style.width = `${value}%`;
+      };
+      set('visibility', paths.visibility);
+      set('redesign', paths.redesign);
+      set('politics', paths.politics);
+      set('clientPath', paths.clientPath);
+    }
+
+    function scheduleUpdate() {
+      if (state.rafToken) cancelAnimationFrame(state.rafToken);
+      state.rafToken = requestAnimationFrame(updateAll);
+    }
+
+    function updateAll() {
+      state.rafToken = null;
+      updateLabels();
+      const v = getValues();
+      const results = runSimulation(v);
+      const summary = summarise(results);
+      const paths = pathScores(v);
+      const stage = currentStage(summary.stageMeans);
+      const stageObj = state.stages.find(s => s.key === stage.key);
+
+      document.getElementById('currentStage').textContent = stage.key;
+      document.getElementById('currentStageLabel').textContent = stageObj.name;
+      document.getElementById('failureDemandMean').textContent = fmt(summary.failure.mean);
+      document.getElementById('serviceQualityMean').textContent = fmt(summary.quality.mean);
+      document.getElementById('viabilityMean').textContent = fmt(summary.viability.mean);
+      document.getElementById('kickbackMean').textContent = fmt(summary.kickback.mean);
+
+      renderStageStrip(summary.stageMeans);
+      renderHistogram(canvases.failureHist, summary.failure.values);
+      renderHistogram(canvases.qualityHist, summary.quality.values);
+      renderHistogram(canvases.riskHist, summary.kickback.values, { bins: 14 });
+      renderBarChart(canvases.stageTransitionChart, summary.transitionMeans);
+      updateScoreBars(paths);
+      renderRisks(v, summary);
+      renderNextSteps(v, paths, stage.key);
+      setMechanismText(v, summary);
+    }
+
+    loadConfig();
+  </script>
+</body>
+</html>
