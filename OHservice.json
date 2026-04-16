@@ -1,0 +1,632 @@
+{
+  "meta": {
+    "title": "Occupational Health Institution Transformation Simulator",
+    "description": "This JSON file defines the staged institutional model, controls, presets and Monte Carlo scoring logic for a shell-based simulator of occupational health transformation. The HTML shell loads this file using a URL parameter such as ?data=oh_institution_data.json and then reproduces the full app behaviour."
+  },
+  "initialPreset": "baseline",
+  "controlGroups": [
+    { "id": "internal", "label": "Internal institution" },
+    { "id": "client", "label": "Client and commercial ecology" },
+    { "id": "politics", "label": "Politics and governance" }
+  ],
+  "controls": [
+    {
+      "id": "handoffs",
+      "group": "internal",
+      "label": "Workflow fragmentation / handoffs",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean cases are split across intake, booking, consultation, QA and reporting."
+    },
+    {
+      "id": "templates",
+      "group": "internal",
+      "label": "Template rigidity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean standardised reports suppress context-sensitive judgement."
+    },
+    {
+      "id": "qaBurden",
+      "group": "internal",
+      "label": "Non-value QA / admin burden",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean report returns, mandatory fields and duplicated checks create internal failure demand."
+    },
+    {
+      "id": "localCapability",
+      "group": "internal",
+      "label": "Local team capability and continuity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean the system handles variety earlier through local ownership and better coordination."
+    },
+    {
+      "id": "demandVisibility",
+      "group": "internal",
+      "label": "Demand visibility / classification quality",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean value demand, internally generated failure demand and externally conditioned demand are clearly distinguished."
+    },
+    {
+      "id": "clientCapability",
+      "group": "client",
+      "label": "Client management capability",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean better referrals, better implementation of advice, and less use of OH as a management substitute."
+    },
+    {
+      "id": "externalPressure",
+      "group": "client",
+      "label": "External client operational pressure",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean production pressure, legal anxiety, workload strain or organisational turbulence increase unavoidable demand."
+    },
+    {
+      "id": "contractFlex",
+      "group": "client",
+      "label": "Contract flexibility for learning and redesign",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean contracts allow collaborative redesign, upstream challenge and more realistic performance conversations."
+    },
+    {
+      "id": "relationalTrust",
+      "group": "client",
+      "label": "Trust with clients and internal stakeholders",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher trust reduces defensive behaviour and makes difficult change conversations more feasible."
+    },
+    {
+      "id": "targetPressure",
+      "group": "politics",
+      "label": "Throughput target pressure",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values keep the system focused on volume and timeliness proxies rather than usefulness and outcome."
+    },
+    {
+      "id": "politicalResistance",
+      "group": "politics",
+      "label": "Political resistance to redesign",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean finance, sales, QA, operational managers or clients may block redesign."
+    },
+    {
+      "id": "governanceAnxiety",
+      "group": "politics",
+      "label": "Governance / compliance anxiety",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean regulation is interpreted defensively, adding controls that may generate more failure demand."
+    },
+    {
+      "id": "mitigationPower",
+      "group": "politics",
+      "label": "Transformation mitigation strength",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean pilots, demand evidence, joint reviews, protected governance and narrative reframing are active."
+    },
+    {
+      "id": "redesignEffort",
+      "group": "politics",
+      "label": "Redesign effort and leadership commitment",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean the organisation is actively redistributing variety, changing handoffs, and backing local capability."
+    }
+  ],
+  "defaults": {
+    "mcDraws": 1500,
+    "handoffs": 78,
+    "templates": 82,
+    "qaBurden": 76,
+    "localCapability": 28,
+    "demandVisibility": 22,
+    "clientCapability": 34,
+    "externalPressure": 74,
+    "contractFlex": 20,
+    "relationalTrust": 30,
+    "targetPressure": 84,
+    "politicalResistance": 72,
+    "governanceAnxiety": 68,
+    "mitigationPower": 26,
+    "redesignEffort": 24
+  },
+  "presets": {
+    "baseline": {
+      "label": "Baseline dysfunctional provider",
+      "values": {
+        "mcDraws": 1500,
+        "handoffs": 78,
+        "templates": 82,
+        "qaBurden": 76,
+        "localCapability": 28,
+        "demandVisibility": 22,
+        "clientCapability": 34,
+        "externalPressure": 74,
+        "contractFlex": 20,
+        "relationalTrust": 30,
+        "targetPressure": 84,
+        "politicalResistance": 72,
+        "governanceAnxiety": 68,
+        "mitigationPower": 26,
+        "redesignEffort": 24
+      }
+    },
+    "discovery": {
+      "label": "Demand study begins",
+      "values": {
+        "mcDraws": 1500,
+        "handoffs": 72,
+        "templates": 76,
+        "qaBurden": 70,
+        "localCapability": 34,
+        "demandVisibility": 64,
+        "clientCapability": 38,
+        "externalPressure": 72,
+        "contractFlex": 24,
+        "relationalTrust": 40,
+        "targetPressure": 70,
+        "politicalResistance": 62,
+        "governanceAnxiety": 62,
+        "mitigationPower": 42,
+        "redesignEffort": 36
+      }
+    },
+    "redesign": {
+      "label": "Early redesign pilot",
+      "values": {
+        "mcDraws": 1500,
+        "handoffs": 46,
+        "templates": 56,
+        "qaBurden": 44,
+        "localCapability": 65,
+        "demandVisibility": 72,
+        "clientCapability": 46,
+        "externalPressure": 68,
+        "contractFlex": 48,
+        "relationalTrust": 56,
+        "targetPressure": 54,
+        "politicalResistance": 58,
+        "governanceAnxiety": 48,
+        "mitigationPower": 60,
+        "redesignEffort": 70
+      }
+    },
+    "negotiated": {
+      "label": "Politically contested transformation",
+      "values": {
+        "mcDraws": 1500,
+        "handoffs": 42,
+        "templates": 48,
+        "qaBurden": 42,
+        "localCapability": 68,
+        "demandVisibility": 78,
+        "clientCapability": 52,
+        "externalPressure": 66,
+        "contractFlex": 54,
+        "relationalTrust": 58,
+        "targetPressure": 58,
+        "politicalResistance": 70,
+        "governanceAnxiety": 62,
+        "mitigationPower": 72,
+        "redesignEffort": 76
+      }
+    },
+    "viable": {
+      "label": "Viable relational provider",
+      "values": {
+        "mcDraws": 1500,
+        "handoffs": 24,
+        "templates": 30,
+        "qaBurden": 24,
+        "localCapability": 82,
+        "demandVisibility": 86,
+        "clientCapability": 68,
+        "externalPressure": 48,
+        "contractFlex": 74,
+        "relationalTrust": 76,
+        "targetPressure": 28,
+        "politicalResistance": 34,
+        "governanceAnxiety": 34,
+        "mitigationPower": 82,
+        "redesignEffort": 84
+      }
+    }
+  },
+  "stages": [
+    {
+      "key": "S0",
+      "name": "Transactional fragmentation",
+      "description": "Targets, handoffs and templates dominate; failure demand remains hidden.",
+      "scoreModel": {
+        "base": 50,
+        "positiveWeights": {
+          "failureDemand": 0.35,
+          "targetPressure": 0.20,
+          "handoffs": 0.12
+        },
+        "invertedWeights": {
+          "demandVisibility": 0.25,
+          "redesignEffort": 0.20,
+          "viability": 0.12
+        }
+      }
+    },
+    {
+      "key": "S1",
+      "name": "Demand visibility",
+      "description": "The provider begins classifying demand and seeing where waste is generated.",
+      "scoreModel": {
+        "base": 18,
+        "positiveWeights": {
+          "demandVisibility": 0.38,
+          "mitigationPower": 0.08,
+          "failureDemand": 0.06
+        },
+        "invertedWeights": {
+          "redesignEffort": 0.15,
+          "targetPressure": 0.08
+        }
+      }
+    },
+    {
+      "key": "S2",
+      "name": "Purpose-led redesign",
+      "description": "Variety is handled earlier through local capability, continuity and redesign.",
+      "scoreModel": {
+        "base": 10,
+        "positiveWeights": {
+          "redesignEffort": 0.26,
+          "localCapability": 0.20,
+          "demandVisibility": 0.12,
+          "contractFlex": 0.08
+        },
+        "invertedWeights": {
+          "kickbackRisk": 0.10
+        }
+      }
+    },
+    {
+      "key": "S3",
+      "name": "Negotiated transformation",
+      "description": "Old and new logics coexist; politics and mitigation determine whether change survives.",
+      "scoreModel": {
+        "base": 8,
+        "positiveWeights": {
+          "redesignEffort": 0.18,
+          "mitigationPower": 0.16,
+          "politicalResistance": 0.14,
+          "governanceAnxiety": 0.10,
+          "relationalTrust": 0.12,
+          "contractFlex": 0.10
+        },
+        "invertedWeights": {
+          "targetPressure": 0.08
+        }
+      }
+    },
+    {
+      "key": "S4",
+      "name": "Viable relational OH",
+      "description": "The service becomes more useful, less transactional and more capable of prevention and learning.",
+      "scoreModel": {
+        "base": 2,
+        "positiveWeights": {
+          "viability": 0.26,
+          "quality": 0.16,
+          "localCapability": 0.12,
+          "clientCapability": 0.10,
+          "relationalTrust": 0.10
+        },
+        "invertedWeights": {
+          "failureDemand": 0.14,
+          "kickbackRisk": 0.10
+        }
+      }
+    }
+  ],
+  "model": {
+    "defaultNoiseSigma": 6,
+    "noiseOverrides": {
+      "externalPressure": 9,
+      "politicalResistance": 9
+    },
+    "softmaxTemperature": 18,
+    "pathScores": {
+      "visibility": {
+        "base": 0,
+        "positiveWeights": {
+          "demandVisibility": 0.45,
+          "mitigationPower": 0.15,
+          "relationalTrust": 0.10,
+          "localCapability": 0.10
+        },
+        "invertedWeights": {
+          "targetPressure": 0.20
+        }
+      },
+      "redesign": {
+        "base": 0,
+        "positiveWeights": {
+          "redesignEffort": 0.28,
+          "localCapability": 0.24,
+          "demandVisibility": 0.18,
+          "contractFlex": 0.12
+        },
+        "invertedWeights": {
+          "handoffs": 0.10,
+          "qaBurden": 0.08
+        }
+      },
+      "politics": {
+        "base": 0,
+        "positiveWeights": {
+          "mitigationPower": 0.28,
+          "relationalTrust": 0.20,
+          "contractFlex": 0.16
+        },
+        "invertedWeights": {
+          "politicalResistance": 0.14,
+          "governanceAnxiety": 0.12,
+          "targetPressure": 0.10
+        }
+      },
+      "clientPath": {
+        "base": 0,
+        "positiveWeights": {
+          "clientCapability": 0.34,
+          "relationalTrust": 0.26,
+          "contractFlex": 0.20,
+          "demandVisibility": 0.10
+        },
+        "invertedWeights": {
+          "externalPressure": 0.10
+        }
+      }
+    },
+    "metrics": {
+      "internalFailure": {
+        "base": 0,
+        "positiveWeights": {
+          "handoffs": 0.24,
+          "templates": 0.18,
+          "qaBurden": 0.20,
+          "targetPressure": 0.14,
+          "governanceAnxiety": 0.08
+        },
+        "invertedWeights": {
+          "localCapability": 0.10,
+          "demandVisibility": 0.06,
+          "redesignEffort": 0.06
+        }
+      },
+      "clientFailure": {
+        "base": 0,
+        "positiveWeights": {
+          "externalPressure": 0.30
+        },
+        "invertedWeights": {
+          "clientCapability": 0.22,
+          "contractFlex": 0.16,
+          "relationalTrust": 0.12,
+          "demandVisibility": 0.08
+        }
+      },
+      "failureDemand": {
+        "base": 0,
+        "internalWeight": 0.62,
+        "clientWeight": 0.38
+      },
+      "quality": {
+        "base": 22,
+        "positiveWeights": {
+          "localCapability": 0.20,
+          "clientCapability": 0.16,
+          "demandVisibility": 0.14,
+          "relationalTrust": 0.14,
+          "contractFlex": 0.10,
+          "redesignEffort": 0.10,
+          "failureDemand": -0.18,
+          "externalPressure": -0.08
+        },
+        "invertedWeights": {},
+        "failurePenaltyWeight": 0
+      },
+      "viability": {
+        "base": 16,
+        "positiveWeights": {
+          "mitigationPower": 0.18,
+          "redesignEffort": 0.16,
+          "relationalTrust": 0.14,
+          "contractFlex": 0.12,
+          "demandVisibility": 0.10,
+          "localCapability": 0.10
+        },
+        "invertedWeights": {
+          "politicalResistance": 0.12,
+          "targetPressure": 0.12,
+          "governanceAnxiety": 0.10,
+          "externalPressure": 0.08
+        }
+      },
+      "kickbackRisk": {
+        "base": 18,
+        "positiveWeights": {
+          "politicalResistance": 0.24,
+          "targetPressure": 0.18,
+          "governanceAnxiety": 0.16,
+          "externalPressure": 0.08
+        },
+        "invertedWeights": {
+          "contractFlex": 0.12,
+          "relationalTrust": 0.10,
+          "mitigationPower": 0.14,
+          "demandVisibility": 0.10
+        }
+      }
+    },
+    "transitionReadiness": {
+      "S0→S1": {
+        "base": 0,
+        "positiveWeights": {
+          "demandVisibility": 0.52,
+          "mitigationPower": 0.20,
+          "relationalTrust": 0.14
+        },
+        "invertedWeights": {
+          "targetPressure": 0.14
+        }
+      },
+      "S1→S2": {
+        "base": 0,
+        "positiveWeights": {
+          "redesignEffort": 0.38,
+          "localCapability": 0.22,
+          "demandVisibility": 0.20
+        },
+        "invertedWeights": {
+          "handoffs": 0.20
+        }
+      },
+      "S2→S3": {
+        "base": 0,
+        "positiveWeights": {
+          "mitigationPower": 0.34,
+          "relationalTrust": 0.24,
+          "contractFlex": 0.22
+        },
+        "invertedWeights": {
+          "governanceAnxiety": 0.20
+        }
+      },
+      "S3→S4": {
+        "base": 0,
+        "positiveWeights": {
+          "viability": 0.30,
+          "quality": 0.24,
+          "clientCapability": 0.18,
+          "contractFlex": 0.16
+        },
+        "invertedWeights": {
+          "kickbackRisk": 0.12
+        }
+      }
+    }
+  },
+  "riskRules": [
+    {
+      "level": "high",
+      "title": "Target distortion",
+      "body": "High throughput pressure is likely to force the service back toward transaction counts and SLA optics rather than usefulness, learning and outcome.",
+      "when": "targetPressure > 65"
+    },
+    {
+      "level": "high",
+      "title": "Political rollback risk",
+      "body": "Finance, operations, QA or client actors are likely to contest redesign unless mitigation remains visible and active.",
+      "when": "politicalResistance > 60"
+    },
+    {
+      "level": "high",
+      "title": "Defensive compliance loop",
+      "body": "Governance may be interpreted as a reason to add controls, fields and approvals, increasing internal failure demand.",
+      "when": "governanceAnxiety > 60"
+    },
+    {
+      "level": "high",
+      "title": "Upstream client-generated demand",
+      "body": "Weak local management capability under pressure is likely to keep producing poor referrals, repeat cases and generic requests for OH advice.",
+      "when": "clientCapability < 45 && externalPressure > 55"
+    },
+    {
+      "level": "med",
+      "title": "Contract rigidity",
+      "body": "Commercial commitments may limit the provider’s ability to redesign flow, challenge upstream demand or change what gets measured.",
+      "when": "contractFlex < 40"
+    },
+    {
+      "level": "med",
+      "title": "Variety overload at the centre",
+      "body": "Too much complexity is being absorbed too late in the pathway, creating rework, queueing and clinician frustration.",
+      "when": "localCapability < 45 && handoffs > 55"
+    },
+    {
+      "level": "low",
+      "title": "Kick-back is currently containable",
+      "body": "Resistance still exists, but the balance of trust, mitigation and redesign effort makes sustained transformation more plausible.",
+      "when": "kickbackRisk < 35"
+    }
+  ],
+  "nextStepThresholds": {
+    "visibility": 55,
+    "redesign": 55,
+    "politics": 55,
+    "clientPath": 55
+  },
+  "nextStepTexts": {
+    "visibility": {
+      "title": "Strengthen demand visibility",
+      "body": "Study incoming work from the point of view of managers and patients. Separate value demand from failure demand, and distinguish internal provider-generated demand from externally conditioned client demand."
+    },
+    "redesign": {
+      "title": "Redistribute variety earlier",
+      "body": "Reduce handoffs, strengthen local ownership, improve referral clarification, and remove non-value QA or template burdens so clinicians face better-shaped work."
+    },
+    "politics": {
+      "title": "Stabilise the politics of change",
+      "body": "Use pilots, side-by-side evidence, shadow metrics and governance-protected redesign to stop finance, QA or operational anxiety from collapsing the change effort."
+    },
+    "clientPath": {
+      "title": "Work upstream with clients",
+      "body": "Improve line-manager question quality, challenge the misuse of OH as a management substitute, and build more relational contract conversations where possible."
+    }
+  },
+  "stageSpecificNextSteps": {
+    "S2": [
+      {
+        "title": "Prevent dual-rule-set fatigue",
+        "body": "Do not ask teams to work in a purpose-led way while still judging them only through old throughput targets. Real transformation requires the accountability regime to shift too."
+      }
+    ],
+    "S3": [
+      {
+        "title": "Protect the redesign from rollback",
+        "body": "At this stage the redesign is politically visible. Maintain executive backing, visible demand evidence and explicit mitigation of governance and finance anxiety."
+      }
+    ],
+    "S4": [
+      {
+        "title": "Treat residual failure demand as a learning signal",
+        "body": "A viable service is not a perfect one. Monitor new shocks, client regression, contract drift and subtle re-transactionalisation pressures."
+      }
+    ]
+  },
+  "mechanismTexts": {
+    "internal": "function(v, summary){ return `High handoffs (${v.handoffs}), template rigidity (${v.templates}) and QA burden (${v.qaBurden}) are ${summary.failure.mean > 55 ? 'driving a large share of avoidable internal demand' : 'less dominant than in the baseline state'}. Raising local capability (${v.localCapability}) and redesign effort (${v.redesignEffort}) weakens this loop.`; }",
+    "client": "function(v, summary){ return `External pressure (${v.externalPressure}) and client capability (${v.clientCapability}) shape how much of the incoming demand is genuinely external and how much can be influenced upstream. Contract flexibility (${v.contractFlex}) and trust (${v.relationalTrust}) determine whether the provider can challenge poor demand productively.`; }",
+    "politics": "function(v, summary){ return `Political resistance (${v.politicalResistance}), governance anxiety (${v.governanceAnxiety}) and target pressure (${v.targetPressure}) ${summary.kickback.mean > 55 ? 'make rollback or symbolic transformation likely unless mitigation is strengthened.' : 'are present but currently more containable.'} Mitigation power (${v.mitigationPower}) and trust (${v.relationalTrust}) are the main stabilisers.`; }"
+  }
+}
