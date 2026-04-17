@@ -1,0 +1,685 @@
+{
+  "meta": {
+    "title": "University Copilot Institution Transformation Simulator",
+    "description": "This JSON file defines a staged Goguen-style institutional model for the implementation of Copilot across a university. It preserves the shell-compatible schema while reinterpreting the controls, presets, stages and Monte Carlo scoring logic around signatures, sentences, models and satisfaction relations in the transformation from imposed ambient AI to a more coherent, demand-led educational institution."
+  },
+  "initialPreset": "fait_accompli",
+  "controlGroups": [
+    {
+      "id": "implementation",
+      "label": "Implementation and platform design"
+    },
+    {
+      "id": "education",
+      "label": "Educational demand and local capability"
+    },
+    {
+      "id": "politics",
+      "label": "Politics, governance and mitigation"
+    }
+  ],
+  "controls": [
+    {
+      "id": "ambientIntrusion",
+      "group": "implementation",
+      "label": "Ambient Copilot intrusion across platforms",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean Copilot appears throughout email, documents, note-taking and other everyday tools, shaping the feel of the university's digital environment."
+    },
+    {
+      "id": "optOutDifficulty",
+      "group": "implementation",
+      "label": "Difficulty of opting out",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean staff and students cannot easily disable or avoid Copilot in ordinary workflows."
+    },
+    {
+      "id": "policyAmbiguity",
+      "group": "implementation",
+      "label": "Policy ambiguity on legitimate AI use",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean uncertainty about what counts as acceptable use in teaching, feedback, assessment and student work."
+    },
+    {
+      "id": "assessmentFragility",
+      "group": "implementation",
+      "label": "Assessment fragility under ambient AI",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean many assessments still assume older authorship conditions and are easily destabilised by generative AI."
+    },
+    {
+      "id": "vendorLockIn",
+      "group": "implementation",
+      "label": "Vendor lock-in and ecosystem dependence",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean the institution is tightly coupled to the Microsoft platform and struggles to configure alternatives or differentiated pathways."
+    },
+    {
+      "id": "demandVisibility",
+      "group": "education",
+      "label": "Visibility of actual educational demand",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean the university distinguishes learning demand, support demand, assessment demand and failure demand rather than treating everything as AI adoption."
+    },
+    {
+      "id": "localAcademicAgency",
+      "group": "education",
+      "label": "Local academic discretion and agency",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean departments, programmes and teaching teams can shape rules and practices in line with disciplinary purpose."
+    },
+    {
+      "id": "studentAgency",
+      "group": "education",
+      "label": "Student agency and perceived choice",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean students feel able to choose how they learn and are not simply pushed into ambient AI use."
+    },
+    {
+      "id": "supportCapability",
+      "group": "education",
+      "label": "Capability to support learning without over-reliance on AI",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean staff, study support and digital education teams can meet real educational needs in coherent ways."
+    },
+    {
+      "id": "consultationDepth",
+      "group": "politics",
+      "label": "Depth of consultation and co-design",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean staff and students help define the problem and shape decisions rather than being informed after the fact."
+    },
+    {
+      "id": "targetPressure",
+      "group": "politics",
+      "label": "Competitive and efficiency pressure from leadership",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean leaders prioritise speed, visibility, cost optics and future-readiness narratives over studying educational work."
+    },
+    {
+      "id": "politicalResistance",
+      "group": "politics",
+      "label": "Political resistance and backlash intensity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean unions, senate, departments, students or middle managers are contesting the change."
+    },
+    {
+      "id": "governanceAnxiety",
+      "group": "politics",
+      "label": "Governance and compliance anxiety",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "High values mean academic standards, data protection and reputational concerns are interpreted defensively, often adding control layers."
+    },
+    {
+      "id": "mitigationPower",
+      "group": "politics",
+      "label": "Strength of mitigation and trust-repair mechanisms",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean pilots, transparent evidence, opt-out routes, apology, layered governance and shared review are active."
+    },
+    {
+      "id": "redesignEffort",
+      "group": "politics",
+      "label": "Redesign effort and leadership commitment",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "help": "Higher values mean the institution is redesigning assessment, guidance, configuration and governance rather than just messaging the rollout better."
+    }
+  ],
+  "defaults": {
+    "mcDraws": 1500,
+    "ambientIntrusion": 86,
+    "optOutDifficulty": 88,
+    "policyAmbiguity": 78,
+    "assessmentFragility": 74,
+    "vendorLockIn": 80,
+    "demandVisibility": 24,
+    "localAcademicAgency": 26,
+    "studentAgency": 22,
+    "supportCapability": 38,
+    "consultationDepth": 16,
+    "targetPressure": 82,
+    "politicalResistance": 68,
+    "governanceAnxiety": 66,
+    "mitigationPower": 24,
+    "redesignEffort": 22
+  },
+  "presets": {
+    "fait_accompli": {
+      "label": "Fait-accompli rollout",
+      "values": {
+        "mcDraws": 1500,
+        "ambientIntrusion": 86,
+        "optOutDifficulty": 88,
+        "policyAmbiguity": 78,
+        "assessmentFragility": 74,
+        "vendorLockIn": 80,
+        "demandVisibility": 24,
+        "localAcademicAgency": 26,
+        "studentAgency": 22,
+        "supportCapability": 38,
+        "consultationDepth": 16,
+        "targetPressure": 82,
+        "politicalResistance": 68,
+        "governanceAnxiety": 66,
+        "mitigationPower": 24,
+        "redesignEffort": 22
+      }
+    },
+    "backlash": {
+      "label": "Visible backlash and failure demand",
+      "values": {
+        "mcDraws": 1500,
+        "ambientIntrusion": 88,
+        "optOutDifficulty": 90,
+        "policyAmbiguity": 84,
+        "assessmentFragility": 80,
+        "vendorLockIn": 82,
+        "demandVisibility": 34,
+        "localAcademicAgency": 22,
+        "studentAgency": 18,
+        "supportCapability": 34,
+        "consultationDepth": 18,
+        "targetPressure": 78,
+        "politicalResistance": 82,
+        "governanceAnxiety": 74,
+        "mitigationPower": 20,
+        "redesignEffort": 24
+      }
+    },
+    "diagnostic": {
+      "label": "Demand study and consultation",
+      "values": {
+        "mcDraws": 1500,
+        "ambientIntrusion": 72,
+        "optOutDifficulty": 68,
+        "policyAmbiguity": 60,
+        "assessmentFragility": 68,
+        "vendorLockIn": 76,
+        "demandVisibility": 72,
+        "localAcademicAgency": 42,
+        "studentAgency": 40,
+        "supportCapability": 46,
+        "consultationDepth": 64,
+        "targetPressure": 62,
+        "politicalResistance": 58,
+        "governanceAnxiety": 62,
+        "mitigationPower": 48,
+        "redesignEffort": 44
+      }
+    },
+    "negotiated": {
+      "label": "Negotiated redesign and pilots",
+      "values": {
+        "mcDraws": 1500,
+        "ambientIntrusion": 52,
+        "optOutDifficulty": 46,
+        "policyAmbiguity": 40,
+        "assessmentFragility": 46,
+        "vendorLockIn": 70,
+        "demandVisibility": 80,
+        "localAcademicAgency": 70,
+        "studentAgency": 64,
+        "supportCapability": 62,
+        "consultationDepth": 76,
+        "targetPressure": 56,
+        "politicalResistance": 66,
+        "governanceAnxiety": 58,
+        "mitigationPower": 74,
+        "redesignEffort": 78
+      }
+    },
+    "coherent": {
+      "label": "Coherent demand-led university",
+      "values": {
+        "mcDraws": 1500,
+        "ambientIntrusion": 24,
+        "optOutDifficulty": 18,
+        "policyAmbiguity": 18,
+        "assessmentFragility": 28,
+        "vendorLockIn": 52,
+        "demandVisibility": 88,
+        "localAcademicAgency": 84,
+        "studentAgency": 78,
+        "supportCapability": 76,
+        "consultationDepth": 82,
+        "targetPressure": 34,
+        "politicalResistance": 36,
+        "governanceAnxiety": 40,
+        "mitigationPower": 84,
+        "redesignEffort": 86
+      }
+    }
+  },
+  "stages": [
+    {
+      "key": "S0",
+      "name": "Imposed ambient AI",
+      "description": "Copilot is embedded as a fait accompli; agency is low and hidden contradiction accumulates.",
+      "scoreModel": {
+        "base": 52,
+        "positiveWeights": {
+          "failureDemand": 0.22,
+          "ambientIntrusion": 0.18,
+          "optOutDifficulty": 0.16,
+          "targetPressure": 0.14,
+          "vendorLockIn": 0.1
+        },
+        "invertedWeights": {
+          "consultationDepth": 0.18,
+          "localAcademicAgency": 0.16,
+          "studentAgency": 0.12,
+          "viability": 0.1
+        }
+      }
+    },
+    {
+      "key": "S1",
+      "name": "Backlash and failure demand",
+      "description": "Queries, disputes, workaround labour and anger become visible across teaching, support and governance.",
+      "scoreModel": {
+        "base": 18,
+        "positiveWeights": {
+          "failureDemand": 0.24,
+          "politicalResistance": 0.18,
+          "policyAmbiguity": 0.18,
+          "assessmentFragility": 0.12,
+          "governanceAnxiety": 0.1
+        },
+        "invertedWeights": {
+          "mitigationPower": 0.1,
+          "consultationDepth": 0.08
+        }
+      }
+    },
+    {
+      "key": "S2",
+      "name": "Diagnostic consultation",
+      "description": "The institution studies demand, distinguishes failure demand from value demand, and reframes the problem.",
+      "scoreModel": {
+        "base": 10,
+        "positiveWeights": {
+          "demandVisibility": 0.3,
+          "consultationDepth": 0.24,
+          "mitigationPower": 0.12,
+          "failureDemand": 0.06
+        },
+        "invertedWeights": {
+          "redesignEffort": 0.12,
+          "targetPressure": 0.1
+        }
+      }
+    },
+    {
+      "key": "S3",
+      "name": "Negotiated redesign",
+      "description": "Pilots, local variation and layered governance coexist with active political contest over the future shape of AI use.",
+      "scoreModel": {
+        "base": 8,
+        "positiveWeights": {
+          "redesignEffort": 0.2,
+          "mitigationPower": 0.18,
+          "consultationDepth": 0.12,
+          "localAcademicAgency": 0.12,
+          "studentAgency": 0.1,
+          "politicalResistance": 0.1,
+          "governanceAnxiety": 0.08
+        },
+        "invertedWeights": {
+          "policyAmbiguity": 0.08,
+          "targetPressure": 0.06
+        }
+      }
+    },
+    {
+      "key": "S4",
+      "name": "Coherent demand-led university",
+      "description": "AI is optional where needed, used where valuable, and governed around educational purpose, standards and trust.",
+      "scoreModel": {
+        "base": 2,
+        "positiveWeights": {
+          "viability": 0.24,
+          "quality": 0.18,
+          "demandVisibility": 0.12,
+          "localAcademicAgency": 0.12,
+          "studentAgency": 0.1,
+          "supportCapability": 0.1
+        },
+        "invertedWeights": {
+          "failureDemand": 0.16,
+          "kickbackRisk": 0.1,
+          "policyAmbiguity": 0.08
+        }
+      }
+    }
+  ],
+  "model": {
+    "defaultNoiseSigma": 6,
+    "noiseOverrides": {
+      "politicalResistance": 9,
+      "targetPressure": 8
+    },
+    "softmaxTemperature": 18,
+    "pathScores": {
+      "visibility": {
+        "base": 0,
+        "positiveWeights": {
+          "demandVisibility": 0.42,
+          "consultationDepth": 0.2,
+          "mitigationPower": 0.12,
+          "supportCapability": 0.1
+        },
+        "invertedWeights": {
+          "targetPressure": 0.16
+        }
+      },
+      "redesign": {
+        "base": 0,
+        "positiveWeights": {
+          "redesignEffort": 0.28,
+          "localAcademicAgency": 0.2,
+          "studentAgency": 0.14,
+          "supportCapability": 0.14,
+          "consultationDepth": 0.08
+        },
+        "invertedWeights": {
+          "policyAmbiguity": 0.08,
+          "assessmentFragility": 0.08
+        }
+      },
+      "politics": {
+        "base": 0,
+        "positiveWeights": {
+          "mitigationPower": 0.28,
+          "consultationDepth": 0.2,
+          "studentAgency": 0.1,
+          "localAcademicAgency": 0.1
+        },
+        "invertedWeights": {
+          "politicalResistance": 0.14,
+          "governanceAnxiety": 0.1,
+          "targetPressure": 0.08
+        }
+      },
+      "clientPath": {
+        "base": 0,
+        "positiveWeights": {
+          "studentAgency": 0.28,
+          "supportCapability": 0.24,
+          "localAcademicAgency": 0.18,
+          "demandVisibility": 0.14,
+          "consultationDepth": 0.08
+        },
+        "invertedWeights": {
+          "ambientIntrusion": 0.08
+        }
+      }
+    },
+    "metrics": {
+      "internalFailure": {
+        "base": 0,
+        "positiveWeights": {
+          "ambientIntrusion": 0.16,
+          "optOutDifficulty": 0.16,
+          "policyAmbiguity": 0.24,
+          "assessmentFragility": 0.18,
+          "targetPressure": 0.12,
+          "governanceAnxiety": 0.08
+        },
+        "invertedWeights": {
+          "demandVisibility": 0.08,
+          "localAcademicAgency": 0.08,
+          "supportCapability": 0.06,
+          "redesignEffort": 0.06
+        }
+      },
+      "clientFailure": {
+        "base": 0,
+        "positiveWeights": {
+          "politicalResistance": 0.2,
+          "vendorLockIn": 0.18,
+          "targetPressure": 0.16,
+          "ambientIntrusion": 0.1
+        },
+        "invertedWeights": {
+          "studentAgency": 0.12,
+          "consultationDepth": 0.12,
+          "mitigationPower": 0.06,
+          "localAcademicAgency": 0.06
+        }
+      },
+      "failureDemand": {
+        "base": 0,
+        "internalWeight": 0.64,
+        "clientWeight": 0.36
+      },
+      "quality": {
+        "base": 22,
+        "positiveWeights": {
+          "supportCapability": 0.2,
+          "localAcademicAgency": 0.16,
+          "studentAgency": 0.16,
+          "demandVisibility": 0.12,
+          "consultationDepth": 0.1,
+          "redesignEffort": 0.08,
+          "failureDemand": -0.2,
+          "policyAmbiguity": -0.08
+        },
+        "invertedWeights": {},
+        "failurePenaltyWeight": 0
+      },
+      "viability": {
+        "base": 16,
+        "positiveWeights": {
+          "mitigationPower": 0.18,
+          "redesignEffort": 0.16,
+          "consultationDepth": 0.14,
+          "localAcademicAgency": 0.12,
+          "studentAgency": 0.1,
+          "demandVisibility": 0.1
+        },
+        "invertedWeights": {
+          "politicalResistance": 0.12,
+          "targetPressure": 0.12,
+          "governanceAnxiety": 0.1,
+          "vendorLockIn": 0.06
+        }
+      },
+      "kickbackRisk": {
+        "base": 18,
+        "positiveWeights": {
+          "politicalResistance": 0.24,
+          "targetPressure": 0.16,
+          "governanceAnxiety": 0.16,
+          "policyAmbiguity": 0.1,
+          "vendorLockIn": 0.06
+        },
+        "invertedWeights": {
+          "consultationDepth": 0.12,
+          "mitigationPower": 0.14,
+          "studentAgency": 0.08,
+          "localAcademicAgency": 0.08
+        }
+      }
+    },
+    "transitionReadiness": {
+      "S0\u2192S1": {
+        "base": 0,
+        "positiveWeights": {
+          "failureDemand": 0.3,
+          "politicalResistance": 0.2,
+          "policyAmbiguity": 0.18,
+          "assessmentFragility": 0.12
+        },
+        "invertedWeights": {
+          "mitigationPower": 0.1,
+          "consultationDepth": 0.1
+        }
+      },
+      "S1\u2192S2": {
+        "base": 0,
+        "positiveWeights": {
+          "demandVisibility": 0.4,
+          "consultationDepth": 0.28,
+          "mitigationPower": 0.14
+        },
+        "invertedWeights": {
+          "targetPressure": 0.18
+        }
+      },
+      "S2\u2192S3": {
+        "base": 0,
+        "positiveWeights": {
+          "redesignEffort": 0.34,
+          "localAcademicAgency": 0.2,
+          "studentAgency": 0.18,
+          "mitigationPower": 0.18
+        },
+        "invertedWeights": {
+          "policyAmbiguity": 0.1
+        }
+      },
+      "S3\u2192S4": {
+        "base": 0,
+        "positiveWeights": {
+          "viability": 0.3,
+          "quality": 0.24,
+          "supportCapability": 0.18,
+          "studentAgency": 0.12,
+          "localAcademicAgency": 0.1
+        },
+        "invertedWeights": {
+          "kickbackRisk": 0.14
+        }
+      }
+    }
+  },
+  "riskRules": [
+    {
+      "level": "high",
+      "title": "Loss-of-agency backlash",
+      "body": "High ambient presence with little opt-out is likely to intensify the sense that teaching and learning have been reorganised without consent.",
+      "when": "ambientIntrusion > 70 && optOutDifficulty > 65 && consultationDepth < 35"
+    },
+    {
+      "level": "high",
+      "title": "Assessment legitimacy crisis",
+      "body": "Weak assessment design under high policy ambiguity is likely to produce disputes over authorship, misconduct and the meaning of academic standards.",
+      "when": "assessmentFragility > 60 && policyAmbiguity > 60"
+    },
+    {
+      "level": "high",
+      "title": "Managerial rollback or hardening",
+      "body": "Political contest is likely to trigger more central control, stronger messaging and defensive governance unless mitigation remains visible.",
+      "when": "politicalResistance > 65 && mitigationPower < 45"
+    },
+    {
+      "level": "high",
+      "title": "Defensive compliance loop",
+      "body": "Governance anxiety may be translated into extra controls, declarations and approvals, increasing failure demand rather than clarifying purpose.",
+      "when": "governanceAnxiety > 60 && demandVisibility < 55"
+    },
+    {
+      "level": "med",
+      "title": "Vendor capture perception",
+      "body": "High platform dependence makes the change look less like educational redesign and more like the institutionalisation of a vendor ecosystem.",
+      "when": "vendorLockIn > 70"
+    },
+    {
+      "level": "med",
+      "title": "Surface consultation without real change",
+      "body": "A review may gather views without altering the decision space if consultation is shallow and redesign effort remains weak.",
+      "when": "consultationDepth > 35 && consultationDepth < 65 && redesignEffort < 45"
+    },
+    {
+      "level": "low",
+      "title": "Kick-back is currently more containable",
+      "body": "Conflict still exists, but layered governance, opt-out routes and visible co-design make sustained transformation more plausible.",
+      "when": "kickbackRisk < 35"
+    }
+  ],
+  "nextStepThresholds": {
+    "visibility": 55,
+    "redesign": 55,
+    "politics": 55,
+    "clientPath": 55
+  },
+  "nextStepTexts": {
+    "visibility": {
+      "title": "Study educational demand at the point of use",
+      "body": "Map where students and staff actually get stuck. Separate value demand such as explanation, feedback and fair assessment from failure demand caused by ambiguity, rework and governance confusion."
+    },
+    "redesign": {
+      "title": "Redesign guidance, assessment and configuration together",
+      "body": "Do not treat policy as separate from pedagogy or platform settings. Reduce ambient intrusion where it is not needed, redesign fragile assessments, and give departments concrete room to adapt practice."
+    },
+    "politics": {
+      "title": "Stabilise the politics of the transformation",
+      "body": "Use apology, transparent evidence, bounded pilots, explicit no-pilot zones and shared governance to reduce the sense that AI is simply being imposed from above."
+    },
+    "clientPath": {
+      "title": "Rebuild student and staff agency",
+      "body": "Create meaningful choice, clearer declarations, concrete examples of acceptable use, and support routes that do not assume Copilot must mediate every educational interaction."
+    }
+  },
+  "stageSpecificNextSteps": {
+    "S1": [
+      {
+        "title": "Treat complaints as system knowledge",
+        "body": "Do not explain backlash as mere resistance to change. Use repeat queries, senate objections, staff workarounds and student anger to diagnose structural failure demand."
+      }
+    ],
+    "S2": [
+      {
+        "title": "Shift from study to bounded redesign",
+        "body": "Move from consultation into visible changes: opt-out where feasible, local rules with central non-negotiables, and pilots tied to educational purpose rather than vendor capability."
+      }
+    ],
+    "S3": [
+      {
+        "title": "Protect the redesign from recentralisation",
+        "body": "This stage is politically delicate. Keep evidence public, preserve local discretion, and resist turning successful pilots into a renewed universal rollout story."
+      }
+    ],
+    "S4": [
+      {
+        "title": "Treat coherence as dynamic, not final",
+        "body": "Keep monitoring new forms of failure demand, subtle drift in assessment practice, and renewed pressure for institution-wide platform expansion."
+      }
+    ]
+  },
+  "mechanismTexts": {
+    "internal": "function(v, summary){ return `Ambient intrusion (${v.ambientIntrusion}), opt-out difficulty (${v.optOutDifficulty}) and policy ambiguity (${v.policyAmbiguity}) are ${summary.failure.mean > 55 ? 'driving a large volume of avoidable educational and administrative demand' : 'less dominant than in the imposed-rollout state'}. Raising demand visibility (${v.demandVisibility}), academic agency (${v.localAcademicAgency}) and redesign effort (${v.redesignEffort}) weakens this loop.`; }",
+    "client": "function(v, summary){ return `Student agency (${v.studentAgency}) and support capability (${v.supportCapability}) shape whether people can respond to AI coherently or merely feel compelled to adapt. Consultation depth (${v.consultationDepth}) determines whether institutional learning flows back into governance or remains rhetorical.`; }",
+    "politics": "function(v, summary){ return `Political resistance (${v.politicalResistance}), governance anxiety (${v.governanceAnxiety}) and competitive pressure (${v.targetPressure}) ${summary.kickback.mean > 55 ? 'make rollback, hardening or symbolic consultation likely unless mitigation is strengthened.' : 'are present but currently more containable.'} Mitigation power (${v.mitigationPower}) and consultation depth (${v.consultationDepth}) are the main stabilisers.`; }"
+  }
+}
