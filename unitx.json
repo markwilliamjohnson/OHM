@@ -1,0 +1,785 @@
+{
+  "meta": {
+    "title": "Unit-X Institution Transformation Simulator",
+    "description": "This JSON file preserves the shell-compatible schema while reinterpreting the simulator around the staged Goguen-style institution for Unit-X at Wetchester. The controls represent signatures and adjustable institutional parameters; the stages represent distinct institutional forms; the Monte Carlo model estimates how sentences, models and satisfaction relations shift as demand visibility, overlap, politics, speculative strategy and redesign vary."
+  },
+  "initialPreset": "parallel_unit",
+  "controlGroups": [
+    {"id": "mission", "label": "Mission, demand and portfolio"},
+    {"id": "organisation", "label": "Organisation, capability and delivery"},
+    {"id": "politics", "label": "Politics, governance and mitigation"}
+  ],
+  "controls": [
+    {
+      "id": "demandVisibility",
+      "group": "mission",
+      "label": "Visibility of genuine value demand",
+      "min": 0, "max": 100, "step": 1,
+      "help": "Higher values mean Unit-X distinguishes navigational, brokerage, delivery, strategic, symbolic and failure demand from the demander’s point of view."
+    },
+    {
+      "id": "speculativePressure",
+      "group": "mission",
+      "label": "Speculative strategic pressure (Atom Valley logic)",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean council- and leadership-led strategic initiatives dominate despite weak specification of immediate user demand."
+    },
+    {
+      "id": "platformism",
+      "group": "mission",
+      "label": "Platform solutionism",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean the digital platform is treated as the answer to relational and institutional problems that have not yet been studied properly."
+    },
+    {
+      "id": "externalPressure",
+      "group": "mission",
+      "label": "External partnership pressure and market pull",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean employers, SMEs and civic actors are actively seeking fast routes into university expertise and visible partnership capacity."
+    },
+    {
+      "id": "clientCapability",
+      "group": "mission",
+      "label": "Clarity of partner-side problem definition",
+      "min": 0, "max": 100, "step": 1,
+      "help": "Higher values mean external partners can articulate real problems and can work productively with the university instead of expressing only symbolic or vague demand."
+    },
+    {
+      "id": "overlapIntensity",
+      "group": "organisation",
+      "label": "Overlap with existing university innovation activity",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean faculties, enterprise teams and Unit-X touch the same relationships and claims, creating duplication and ambiguity."
+    },
+    {
+      "id": "boundaryCapability",
+      "group": "organisation",
+      "label": "Boundary-spanning brokerage capability",
+      "min": 0, "max": 100, "step": 1,
+      "help": "Higher values mean Unit-X can interpret external demand, assemble the right people and move work across university boundaries without unnecessary handoffs."
+    },
+    {
+      "id": "supportCapability",
+      "group": "organisation",
+      "label": "Delivery and support capability",
+      "min": 0, "max": 100, "step": 1,
+      "help": "Higher values mean the university can convert brokerage into reliable project delivery, contract execution and support without heroic improvisation."
+    },
+    {
+      "id": "localAcademicAgency",
+      "group": "organisation",
+      "label": "Faculty discretion and embedded capability",
+      "min": 0, "max": 100, "step": 1,
+      "help": "Higher values mean faculties retain recognised expertise, relationship ownership and room to respond to demand rather than being subordinated to a central unit."
+    },
+    {
+      "id": "approvalLayering",
+      "group": "organisation",
+      "label": "Approval layering and checkpoint bureaucracy",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean innovators must pass through Unit-X or adjacent processes for permission, visibility or compliance before acting."
+    },
+    {
+      "id": "heroicDependence",
+      "group": "organisation",
+      "label": "Dependence on heroic individuals",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean success depends on exceptional brokers or rainmakers who circumvent the formal design rather than on a reproducible system."
+    },
+    {
+      "id": "consultationDepth",
+      "group": "politics",
+      "label": "Depth of consultation and co-design",
+      "min": 0, "max": 100, "step": 1,
+      "help": "Higher values mean faculties, professional services, students, employers and civic partners help define the problem and shape redesign."
+    },
+    {
+      "id": "leadershipVisibilityPressure",
+      "group": "politics",
+      "label": "Leadership pressure for visible innovation growth",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean senior leaders prioritise symbolic visibility, big announcements and portfolio capture over careful study of demand and capability."
+    },
+    {
+      "id": "politicalResistance",
+      "group": "politics",
+      "label": "Political resistance and territorial kick-back",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean faculties, existing units, governance bodies or partners are resisting the unit’s remit, methods or claims."
+    },
+    {
+      "id": "governanceAnxiety",
+      "group": "politics",
+      "label": "Governance and reputational anxiety",
+      "min": 0, "max": 100, "step": 1,
+      "help": "High values mean compliance, reputational risk and accountability concerns are interpreted defensively, often adding controls instead of clarifying design."
+    },
+    {
+      "id": "mitigationPower",
+      "group": "politics",
+      "label": "Strength of political mitigation and trust repair",
+      "min": 0, "max": 100, "step": 1,
+      "help": "Higher values mean joint review, negative charters, transparent evidence, bounded pilots and co-governance reduce conflict and mission creep."
+    },
+    {
+      "id": "redesignEffort",
+      "group": "politics",
+      "label": "Evidence-led redesign effort",
+      "min": 0, "max": 100, "step": 1,
+      "help": "Higher values mean the institution is redesigning remit, routing, service boundaries, platform use and governance based on demand study rather than defending the launch story."
+    }
+  ],
+  "defaults": {
+    "mcDraws": 1500,
+    "demandVisibility": 28,
+    "speculativePressure": 76,
+    "platformism": 68,
+    "externalPressure": 62,
+    "clientCapability": 42,
+    "overlapIntensity": 82,
+    "boundaryCapability": 46,
+    "supportCapability": 40,
+    "localAcademicAgency": 34,
+    "approvalLayering": 70,
+    "heroicDependence": 74,
+    "consultationDepth": 24,
+    "leadershipVisibilityPressure": 84,
+    "politicalResistance": 66,
+    "governanceAnxiety": 64,
+    "mitigationPower": 26,
+    "redesignEffort": 22
+  },
+  "presets": {
+    "parallel_unit": {
+      "label": "Parallel central unit",
+      "values": {
+        "mcDraws": 1500,
+        "demandVisibility": 28,
+        "speculativePressure": 76,
+        "platformism": 68,
+        "externalPressure": 62,
+        "clientCapability": 42,
+        "overlapIntensity": 82,
+        "boundaryCapability": 46,
+        "supportCapability": 40,
+        "localAcademicAgency": 34,
+        "approvalLayering": 70,
+        "heroicDependence": 74,
+        "consultationDepth": 24,
+        "leadershipVisibilityPressure": 84,
+        "politicalResistance": 66,
+        "governanceAnxiety": 64,
+        "mitigationPower": 26,
+        "redesignEffort": 22
+      }
+    },
+    "heroic_successes": {
+      "label": "Heroic wins amid ambiguity",
+      "values": {
+        "mcDraws": 1500,
+        "demandVisibility": 36,
+        "speculativePressure": 70,
+        "platformism": 58,
+        "externalPressure": 74,
+        "clientCapability": 58,
+        "overlapIntensity": 76,
+        "boundaryCapability": 58,
+        "supportCapability": 48,
+        "localAcademicAgency": 38,
+        "approvalLayering": 62,
+        "heroicDependence": 88,
+        "consultationDepth": 28,
+        "leadershipVisibilityPressure": 80,
+        "politicalResistance": 62,
+        "governanceAnxiety": 58,
+        "mitigationPower": 28,
+        "redesignEffort": 26
+      }
+    },
+    "diagnostic_interruption": {
+      "label": "Demand study and interruption",
+      "values": {
+        "mcDraws": 1500,
+        "demandVisibility": 72,
+        "speculativePressure": 58,
+        "platformism": 42,
+        "externalPressure": 58,
+        "clientCapability": 54,
+        "overlapIntensity": 60,
+        "boundaryCapability": 52,
+        "supportCapability": 50,
+        "localAcademicAgency": 54,
+        "approvalLayering": 44,
+        "heroicDependence": 54,
+        "consultationDepth": 70,
+        "leadershipVisibilityPressure": 58,
+        "politicalResistance": 56,
+        "governanceAnxiety": 58,
+        "mitigationPower": 58,
+        "redesignEffort": 52
+      }
+    },
+    "partitioned_redesign": {
+      "label": "Selective decomposition and redesign",
+      "values": {
+        "mcDraws": 1500,
+        "demandVisibility": 82,
+        "speculativePressure": 42,
+        "platformism": 30,
+        "externalPressure": 64,
+        "clientCapability": 62,
+        "overlapIntensity": 34,
+        "boundaryCapability": 72,
+        "supportCapability": 64,
+        "localAcademicAgency": 70,
+        "approvalLayering": 24,
+        "heroicDependence": 36,
+        "consultationDepth": 78,
+        "leadershipVisibilityPressure": 50,
+        "politicalResistance": 48,
+        "governanceAnxiety": 52,
+        "mitigationPower": 74,
+        "redesignEffort": 78
+      }
+    },
+    "adaptive_boundary_spanner": {
+      "label": "Adaptive demand-led capability",
+      "values": {
+        "mcDraws": 1500,
+        "demandVisibility": 90,
+        "speculativePressure": 24,
+        "platformism": 18,
+        "externalPressure": 68,
+        "clientCapability": 72,
+        "overlapIntensity": 18,
+        "boundaryCapability": 84,
+        "supportCapability": 76,
+        "localAcademicAgency": 82,
+        "approvalLayering": 10,
+        "heroicDependence": 18,
+        "consultationDepth": 84,
+        "leadershipVisibilityPressure": 34,
+        "politicalResistance": 30,
+        "governanceAnxiety": 42,
+        "mitigationPower": 82,
+        "redesignEffort": 86
+      }
+    }
+  },
+  "stages": [
+    {
+      "key": "S0",
+      "name": "Fragmented prehistory",
+      "description": "Innovation exists across faculties and embedded relationships, but it is unevenly visible and hard to navigate from outside.",
+      "scoreModel": {
+        "base": 18,
+        "positiveWeights": {
+          "localAcademicAgency": 0.12,
+          "overlapIntensity": 0.08,
+          "externalPressure": 0.08
+        },
+        "invertedWeights": {
+          "demandVisibility": 0.14,
+          "boundaryCapability": 0.1,
+          "redesignEffort": 0.08
+        }
+      }
+    },
+    {
+      "key": "S1",
+      "name": "Founding catalyst narrative",
+      "description": "Unit-X is launched as an agile catalyst with a broad mandate, commercial autonomy claims and a fast-moving outward-facing story.",
+      "scoreModel": {
+        "base": 26,
+        "positiveWeights": {
+          "leadershipVisibilityPressure": 0.22,
+          "externalPressure": 0.12,
+          "speculativePressure": 0.12,
+          "boundaryCapability": 0.08
+        },
+        "invertedWeights": {
+          "consultationDepth": 0.12,
+          "demandVisibility": 0.14,
+          "localAcademicAgency": 0.08
+        }
+      }
+    },
+    {
+      "key": "S2",
+      "name": "Ambiguous parallel structure",
+      "description": "The unit sits beside existing services with unclear boundaries, overlapping claims and expanding interfaces.",
+      "scoreModel": {
+        "base": 20,
+        "positiveWeights": {
+          "overlapIntensity": 0.24,
+          "approvalLayering": 0.14,
+          "platformism": 0.1,
+          "speculativePressure": 0.1,
+          "leadershipVisibilityPressure": 0.08
+        },
+        "invertedWeights": {
+          "demandVisibility": 0.16,
+          "consultationDepth": 0.08,
+          "mitigationPower": 0.08
+        }
+      }
+    },
+    {
+      "key": "S3",
+      "name": "Politicised duplication",
+      "description": "Some wins occur, but they coexist with resentment, narrative inflation, failure demand and pressure to capture or approve innovation work.",
+      "scoreModel": {
+        "base": 14,
+        "positiveWeights": {
+          "failureDemand": 0.18,
+          "politicalResistance": 0.16,
+          "heroicDependence": 0.14,
+          "approvalLayering": 0.12,
+          "governanceAnxiety": 0.08
+        },
+        "invertedWeights": {
+          "mitigationPower": 0.1,
+          "redesignEffort": 0.08,
+          "demandVisibility": 0.08
+        }
+      }
+    },
+    {
+      "key": "S4",
+      "name": "Demand-diagnostic interruption",
+      "description": "The institution studies demand at source, distinguishes value demand from failure demand and becomes open to redesign or even disbanding.",
+      "scoreModel": {
+        "base": 8,
+        "positiveWeights": {
+          "demandVisibility": 0.28,
+          "consultationDepth": 0.2,
+          "mitigationPower": 0.12,
+          "failureDemand": 0.08
+        },
+        "invertedWeights": {
+          "leadershipVisibilityPressure": 0.1,
+          "platformism": 0.06
+        }
+      }
+    },
+    {
+      "key": "S5",
+      "name": "Selective decomposition",
+      "description": "The portfolio is partitioned into brokerage, delivery, civic strategy, experimental work, handoff work and exit work.",
+      "scoreModel": {
+        "base": 6,
+        "positiveWeights": {
+          "redesignEffort": 0.24,
+          "demandVisibility": 0.18,
+          "consultationDepth": 0.1,
+          "localAcademicAgency": 0.1,
+          "mitigationPower": 0.1
+        },
+        "invertedWeights": {
+          "overlapIntensity": 0.12,
+          "approvalLayering": 0.1,
+          "speculativePressure": 0.08
+        }
+      }
+    },
+    {
+      "key": "S6",
+      "name": "Reconstituted boundary-spanning service",
+      "description": "Unit-X becomes a narrow brokerage and delivery capability for boundary-complex demand, without universal gatekeeping.",
+      "scoreModel": {
+        "base": 4,
+        "positiveWeights": {
+          "boundaryCapability": 0.22,
+          "supportCapability": 0.14,
+          "localAcademicAgency": 0.14,
+          "redesignEffort": 0.12,
+          "mitigationPower": 0.1,
+          "quality": 0.12
+        },
+        "invertedWeights": {
+          "overlapIntensity": 0.14,
+          "approvalLayering": 0.12,
+          "heroicDependence": 0.08
+        }
+      }
+    },
+    {
+      "key": "S7",
+      "name": "Adaptive civic-innovation capability",
+      "description": "The unit is useful, bounded and adaptive: it handles genuine boundary demand, reduces failure demand and remains legitimate because it is non-intrusive.",
+      "scoreModel": {
+        "base": 2,
+        "positiveWeights": {
+          "viability": 0.22,
+          "quality": 0.18,
+          "demandVisibility": 0.12,
+          "boundaryCapability": 0.12,
+          "supportCapability": 0.1,
+          "localAcademicAgency": 0.1
+        },
+        "invertedWeights": {
+          "failureDemand": 0.18,
+          "kickbackRisk": 0.1,
+          "approvalLayering": 0.08
+        }
+      }
+    }
+  ],
+  "model": {
+    "defaultNoiseSigma": 6,
+    "noiseOverrides": {
+      "politicalResistance": 9,
+      "leadershipVisibilityPressure": 8,
+      "heroicDependence": 8
+    },
+    "softmaxTemperature": 18,
+    "pathScores": {
+      "visibility": {
+        "base": 0,
+        "positiveWeights": {
+          "demandVisibility": 0.42,
+          "consultationDepth": 0.2,
+          "clientCapability": 0.14,
+          "mitigationPower": 0.08
+        },
+        "invertedWeights": {
+          "leadershipVisibilityPressure": 0.16
+        }
+      },
+      "redesign": {
+        "base": 0,
+        "positiveWeights": {
+          "redesignEffort": 0.28,
+          "boundaryCapability": 0.16,
+          "supportCapability": 0.14,
+          "localAcademicAgency": 0.14,
+          "mitigationPower": 0.08
+        },
+        "invertedWeights": {
+          "overlapIntensity": 0.1,
+          "approvalLayering": 0.1
+        }
+      },
+      "politics": {
+        "base": 0,
+        "positiveWeights": {
+          "mitigationPower": 0.28,
+          "consultationDepth": 0.2,
+          "localAcademicAgency": 0.1,
+          "redesignEffort": 0.08
+        },
+        "invertedWeights": {
+          "politicalResistance": 0.14,
+          "governanceAnxiety": 0.1,
+          "leadershipVisibilityPressure": 0.1
+        }
+      },
+      "clientPath": {
+        "base": 0,
+        "positiveWeights": {
+          "clientCapability": 0.26,
+          "boundaryCapability": 0.24,
+          "supportCapability": 0.18,
+          "demandVisibility": 0.12,
+          "externalPressure": 0.08
+        },
+        "invertedWeights": {
+          "platformism": 0.06,
+          "approvalLayering": 0.06
+        }
+      }
+    },
+    "metrics": {
+      "internalFailure": {
+        "base": 4,
+        "positiveWeights": {
+          "overlapIntensity": 0.2,
+          "approvalLayering": 0.2,
+          "platformism": 0.12,
+          "leadershipVisibilityPressure": 0.1,
+          "governanceAnxiety": 0.08,
+          "heroicDependence": 0.08
+        },
+        "invertedWeights": {
+          "demandVisibility": 0.1,
+          "localAcademicAgency": 0.08,
+          "supportCapability": 0.08,
+          "redesignEffort": 0.06
+        }
+      },
+      "clientFailure": {
+        "base": 4,
+        "positiveWeights": {
+          "speculativePressure": 0.16,
+          "platformism": 0.12,
+          "approvalLayering": 0.12,
+          "politicalResistance": 0.12,
+          "externalPressure": 0.08
+        },
+        "invertedWeights": {
+          "clientCapability": 0.14,
+          "boundaryCapability": 0.12,
+          "consultationDepth": 0.08,
+          "mitigationPower": 0.06
+        }
+      },
+      "failureDemand": {
+        "base": 0,
+        "internalWeight": 0.62,
+        "clientWeight": 0.38
+      },
+      "quality": {
+        "base": 20,
+        "positiveWeights": {
+          "boundaryCapability": 0.18,
+          "supportCapability": 0.18,
+          "localAcademicAgency": 0.16,
+          "demandVisibility": 0.12,
+          "clientCapability": 0.08,
+          "redesignEffort": 0.08,
+          "failureDemand": -0.18,
+          "approvalLayering": -0.08
+        },
+        "invertedWeights": {},
+        "failurePenaltyWeight": 0
+      },
+      "viability": {
+        "base": 14,
+        "positiveWeights": {
+          "mitigationPower": 0.18,
+          "redesignEffort": 0.18,
+          "consultationDepth": 0.12,
+          "boundaryCapability": 0.1,
+          "supportCapability": 0.1,
+          "demandVisibility": 0.1
+        },
+        "invertedWeights": {
+          "politicalResistance": 0.12,
+          "leadershipVisibilityPressure": 0.12,
+          "governanceAnxiety": 0.08,
+          "heroicDependence": 0.06
+        }
+      },
+      "kickbackRisk": {
+        "base": 18,
+        "positiveWeights": {
+          "politicalResistance": 0.22,
+          "leadershipVisibilityPressure": 0.16,
+          "governanceAnxiety": 0.14,
+          "overlapIntensity": 0.1,
+          "speculativePressure": 0.08,
+          "approvalLayering": 0.08
+        },
+        "invertedWeights": {
+          "consultationDepth": 0.12,
+          "mitigationPower": 0.14,
+          "localAcademicAgency": 0.08,
+          "demandVisibility": 0.06
+        }
+      }
+    },
+    "transitionReadiness": {
+      "S0→S1": {
+        "base": 0,
+        "positiveWeights": {
+          "leadershipVisibilityPressure": 0.26,
+          "externalPressure": 0.16,
+          "speculativePressure": 0.14
+        },
+        "invertedWeights": {
+          "consultationDepth": 0.1,
+          "demandVisibility": 0.1
+        }
+      },
+      "S1→S2": {
+        "base": 0,
+        "positiveWeights": {
+          "overlapIntensity": 0.24,
+          "approvalLayering": 0.18,
+          "platformism": 0.12,
+          "politicalResistance": 0.1
+        },
+        "invertedWeights": {
+          "mitigationPower": 0.1,
+          "localAcademicAgency": 0.08
+        }
+      },
+      "S2→S3": {
+        "base": 0,
+        "positiveWeights": {
+          "failureDemand": 0.24,
+          "heroicDependence": 0.14,
+          "politicalResistance": 0.14,
+          "governanceAnxiety": 0.12
+        },
+        "invertedWeights": {
+          "mitigationPower": 0.1,
+          "redesignEffort": 0.08
+        }
+      },
+      "S3→S4": {
+        "base": 0,
+        "positiveWeights": {
+          "demandVisibility": 0.34,
+          "consultationDepth": 0.24,
+          "mitigationPower": 0.16,
+          "failureDemand": 0.08
+        },
+        "invertedWeights": {
+          "leadershipVisibilityPressure": 0.14
+        }
+      },
+      "S4→S5": {
+        "base": 0,
+        "positiveWeights": {
+          "redesignEffort": 0.3,
+          "demandVisibility": 0.18,
+          "consultationDepth": 0.12,
+          "localAcademicAgency": 0.1
+        },
+        "invertedWeights": {
+          "overlapIntensity": 0.12,
+          "speculativePressure": 0.08
+        }
+      },
+      "S5→S6": {
+        "base": 0,
+        "positiveWeights": {
+          "boundaryCapability": 0.26,
+          "supportCapability": 0.18,
+          "mitigationPower": 0.14,
+          "redesignEffort": 0.12
+        },
+        "invertedWeights": {
+          "approvalLayering": 0.14,
+          "heroicDependence": 0.1
+        }
+      },
+      "S6→S7": {
+        "base": 0,
+        "positiveWeights": {
+          "viability": 0.3,
+          "quality": 0.22,
+          "demandVisibility": 0.12,
+          "supportCapability": 0.1
+        },
+        "invertedWeights": {
+          "kickbackRisk": 0.16,
+          "approvalLayering": 0.08
+        }
+      }
+    }
+  },
+  "riskRules": [
+    {
+      "level": "high",
+      "title": "Innovation approval trap",
+      "body": "Unit-X is likely to become another checkpoint if overlap is high and approval layering rises, increasing failure demand for people who are already innovating.",
+      "when": "overlapIntensity > 65 && approvalLayering > 60"
+    },
+    {
+      "level": "high",
+      "title": "Strategy-without-demand trap",
+      "body": "Speculative place-based initiatives are likely to dominate the story without a corresponding map of concrete partner demand, making Atom Valley-style work symbolic rather than service-led.",
+      "when": "speculativePressure > 70 && demandVisibility < 45"
+    },
+    {
+      "level": "high",
+      "title": "Heroic dependence masquerading as design",
+      "body": "Visible wins are likely to depend on a few entrepreneurial individuals rather than on a reproducible system, which distorts learning and hides structural weakness.",
+      "when": "heroicDependence > 70 && supportCapability < 55"
+    },
+    {
+      "level": "high",
+      "title": "Territorial backlash and recentralisation",
+      "body": "Faculty resentment and governance anxiety are likely to provoke defensive control, remit grabbing or rollback unless boundaries are clarified and mitigation remains visible.",
+      "when": "politicalResistance > 65 && mitigationPower < 45"
+    },
+    {
+      "level": "med",
+      "title": "Platformism is distorting redesign",
+      "body": "The digital platform is likely to be treated as a solution before the relational and organisational flow of demand has been studied properly.",
+      "when": "platformism > 60 && demandVisibility < 55"
+    },
+    {
+      "level": "med",
+      "title": "Surface consultation without remit change",
+      "body": "Review activity may collect views without changing the service boundary if consultation is moderate but redesign effort remains weak.",
+      "when": "consultationDepth > 35 && consultationDepth < 65 && redesignEffort < 45"
+    },
+    {
+      "level": "low",
+      "title": "Kick-back is more containable",
+      "body": "Conflict remains, but the combination of evidence-led redesign, consultation and boundary clarification makes rollback less dominant than in the parallel-unit stage.",
+      "when": "kickbackRisk < 35"
+    }
+  ],
+  "nextStepThresholds": {
+    "visibility": 55,
+    "redesign": 55,
+    "politics": 55,
+    "clientPath": 55
+  },
+  "nextStepTexts": {
+    "visibility": {
+      "title": "Study demand at source",
+      "body": "Map incoming requests, bypasses, complaints and successful workarounds. Separate genuine value demand from failure demand and symbolic or speculative demand before redesigning the unit."
+    },
+    "redesign": {
+      "title": "Partition the portfolio and narrow the remit",
+      "body": "Separate brokerage, delivery, strategic civic work, experimental work, handoff work and exit work. Remove functions that duplicate strong faculty capability or add needless checkpoints."
+    },
+    "politics": {
+      "title": "Repair trust through explicit boundary-setting",
+      "body": "Use a negative charter, joint review, clear handoff rules and co-governance to reduce territorial threat and show that Unit-X is not an innovation approval authority."
+    },
+    "clientPath": {
+      "title": "Strengthen partner-side problem definition and routing",
+      "body": "Help employers, SMEs and civic actors articulate real problems, then route them quickly to the right university capability. Do not let the platform substitute for relational brokerage."
+    }
+  },
+  "stageSpecificNextSteps": {
+    "S2": [
+      {
+        "title": "Stop conflating opportunity with demand",
+        "body": "At this stage the unit is too likely to treat every contact, narrative and strategic ambition as proof of need. Reclassify requests and identify what should never have entered the portfolio."
+      }
+    ],
+    "S3": [
+      {
+        "title": "Treat heroic wins as diagnostic signals",
+        "body": "The successful contracts matter, but read them as evidence of where demand is real and where the formal system is being bypassed, not as proof that the existing design works."
+      }
+    ],
+    "S4": [
+      {
+        "title": "Keep disbanding on the table",
+        "body": "A serious demand study should allow the possibility that some or all of Unit-X’s work belongs elsewhere. That possibility strengthens the discipline of the redesign."
+      }
+    ],
+    "S5": [
+      {
+        "title": "Protect subtraction as well as addition",
+        "body": "This is the stage where work must be transferred, stopped or separated. Resist the temptation to widen the unit again simply to preserve symbolic centrality."
+      }
+    ],
+    "S6": [
+      {
+        "title": "Preserve pull, not push",
+        "body": "The redesigned unit should be used where boundary complexity genuinely exists. Avoid defaulting back into portfolio capture, monitoring and mandatory routing."
+      }
+    ],
+    "S7": [
+      {
+        "title": "Treat adaptive legitimacy as temporary",
+        "body": "Continue reviewing failure demand, mission creep and subtle return of approval behaviour. The mature stage is metastable and must be reproduced through learning."
+      }
+    ]
+  },
+  "mechanismTexts": {
+    "internal": "function(v, summary){ return `Overlap (${v.overlapIntensity}), approval layering (${v.approvalLayering}) and platformism (${v.platformism}) are ${summary.failure.mean > 55 ? 'driving a large volume of internal failure demand' : 'less dominant than in the politicised-duplication stage'}. Raising demand visibility (${v.demandVisibility}), support capability (${v.supportCapability}) and redesign effort (${v.redesignEffort}) weakens this loop.`; }",
+    "client": "function(v, summary){ return `External pressure (${v.externalPressure}) only becomes productive when partner problems are clear (${v.clientCapability}) and Unit-X can broker effectively (${v.boundaryCapability}). Where partner-side clarity is weak, speculative pressure and platformism tend to replace real demand with symbolic activity.`; }",
+    "politics": "function(v, summary){ return `Political resistance (${v.politicalResistance}), governance anxiety (${v.governanceAnxiety}) and leadership visibility pressure (${v.leadershipVisibilityPressure}) ${summary.kickback.mean > 55 ? 'make remit inflation, defensive control and rollback likely unless mitigation is strengthened.' : 'remain present but are currently more containable.'} Mitigation power (${v.mitigationPower}) and consultation depth (${v.consultationDepth}) are the main stabilisers.`; }"
+  }
+}
