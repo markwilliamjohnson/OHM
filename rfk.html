@@ -1,0 +1,862 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deregulation Institution Simulator</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --ink: #17202b;
+      --muted: #5f6f86;
+      --line: #d8e0ea;
+      --accent: #2f6fed;
+      --accent-soft: #e8f0ff;
+      --good: #1e8a4b;
+      --warn: #b7791f;
+      --bad: #c53b31;
+      --purple: #6b46c1;
+      --soft-red: #fff0ee;
+      --soft-green: #eaf8ef;
+      --soft-yellow: #fff7e8;
+      --soft-purple: #f2ecff;
+      --shadow: 0 8px 24px rgba(14, 31, 53, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #f8fbff 0%, #f4f7fb 100%);
+    }
+
+    .wrap {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #15386d 0%, #2f6fed 60%, #6da5ff 100%);
+      color: white;
+      border-radius: 24px;
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px 0;
+      font-size: 2rem;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 6px 0;
+      max-width: 1050px;
+      color: rgba(255,255,255,0.92);
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.86rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .card h2, .card h3 {
+      margin: 0 0 10px 0;
+      line-height: 1.15;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 0.9rem;
+    }
+
+    .tiny {
+      font-size: 0.8rem;
+    }
+
+    .param-group {
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .param-group:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .slider-row {
+      margin: 10px 0 14px 0;
+    }
+
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .slider-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .slider-value {
+      color: var(--accent);
+      font-weight: 800;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    button, select {
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 9px 12px;
+      background: white;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    .top-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-bottom: 6px;
+    }
+
+    .metric .value {
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .metric .sub {
+      margin-top: 6px;
+      font-size: 0.84rem;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.1fr 0.9fr;
+      gap: 14px;
+    }
+
+    .chart-card canvas {
+      width: 100%;
+      height: 240px;
+      display: block;
+      background: #fcfdff;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+
+    .list-box {
+      border-radius: 14px;
+      padding: 12px 13px;
+      margin-top: 10px;
+    }
+
+    .list-box h4 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+    }
+
+    .list-box ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .list-box li { margin-bottom: 8px; }
+
+    .soft-red { background: var(--soft-red); border: 1px solid #f0c3bc; }
+    .soft-green { background: var(--soft-green); border: 1px solid #bfe2ca; }
+    .soft-yellow { background: var(--soft-yellow); border: 1px solid #eed8a9; }
+    .soft-purple { background: var(--soft-purple); border: 1px solid #d6c7ff; }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .mini {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      background: white;
+    }
+
+    .mini .k { font-size: 0.82rem; color: var(--muted); }
+    .mini .v { font-size: 1.2rem; font-weight: 800; margin-top: 4px; }
+
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1220px) {
+      .grid { grid-template-columns: 1fr; }
+      .content-grid { grid-template-columns: 1fr; }
+      .top-metrics { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 700px) {
+      .top-metrics { grid-template-columns: 1fr; }
+      .mini-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Deregulation Institution Simulator</h1>
+      <p>
+        This interface turns the “10-to-1 deregulatory agenda” into an inspectable institutional model. It separates
+        <strong>rhetorical force</strong> from <strong>causal mechanism</strong>, then runs Monte Carlo simulations to estimate likely distributions of
+        public-interest gain, monopoly risk, patient risk, and discourse distortion.
+      </p>
+      <p>
+        Move the sliders to explore how different assumptions change the policy story. The key question is not whether the rhetoric sounds attractive,
+        but whether the underlying mechanisms actually support its conclusions.
+      </p>
+      <div class="badge-row">
+        <span class="badge">Speech logic</span>
+        <span class="badge">Critical counter-model</span>
+        <span class="badge">Live Monte Carlo</span>
+        <span class="badge">Rhetoric–mechanism dissonance</span>
+        <span class="badge">Constructive discourse strategies</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <aside class="stack">
+        <div class="card">
+          <h2>Institutional parameters</h2>
+          <div class="muted small">0 = absent / weak, 100 = dominant / strong. Simulations recalculate live when you move any slider.</div>
+
+          <div class="param-group" id="sliders"></div>
+
+          <div class="controls-row">
+            <button class="primary" id="runBtn">Re-run simulation</button>
+            <button id="resetBtn">Reset</button>
+            <select id="presetSelect">
+              <option value="balanced">Preset: Balanced mixed system</option>
+              <option value="speech">Preset: Speech-favorable world</option>
+              <option value="critical">Preset: Critical counter-model</option>
+              <option value="capture">Preset: Deregulatory capture risk</option>
+            </select>
+          </div>
+          <div class="footer-note">
+            The model uses stochastic variation around each parameter so the output is a distribution rather than a single deterministic score.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>What the model is testing</h3>
+          <div class="list-box soft-purple">
+            <h4>Speech-side mechanisms</h4>
+            <ul class="small">
+              <li>Regulatory burden falls disproportionately on small firms and independent providers.</li>
+              <li>Large incumbents can absorb or shape regulation more easily.</li>
+              <li>Removing “bad” regulation improves innovation, competition, and patient-first care.</li>
+            </ul>
+          </div>
+          <div class="list-box soft-yellow">
+            <h4>Critical-side mechanisms</h4>
+            <ul class="small">
+              <li>Paperwork may encode accountability, safety, traceability, and equity.</li>
+              <li>Deregulation can shift burden to patients, publics, and weaker providers.</li>
+              <li>Anti-bureaucratic rhetoric can hide evidence gaps, capture risks, and externalized harms.</li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <main class="stack">
+        <section class="top-metrics">
+          <div class="metric">
+            <div class="label">Expected public-interest gain</div>
+            <div class="value" id="meanPublic">0</div>
+            <div class="sub" id="publicBand">—</div>
+          </div>
+          <div class="metric">
+            <div class="label">Expected monopoly risk</div>
+            <div class="value" id="meanMonopoly">0</div>
+            <div class="sub" id="monopolyBand">—</div>
+          </div>
+          <div class="metric">
+            <div class="label">Rhetoric–mechanism dissonance</div>
+            <div class="value" id="meanDissonance">0</div>
+            <div class="sub" id="dissonanceBand">—</div>
+          </div>
+          <div class="metric">
+            <div class="label">Chance policy underperforms rhetoric</div>
+            <div class="value" id="underperformProb">0%</div>
+            <div class="sub" id="underperformText">—</div>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <div class="stack">
+            <div class="card chart-card">
+              <h3>Distribution: public-interest outcome</h3>
+              <div class="muted small">Simulated net outcome after combining relief from burden with protection loss, innovation effects, and capture risk.</div>
+              <canvas id="publicCanvas" width="520" height="240"></canvas>
+            </div>
+            <div class="card chart-card">
+              <h3>Distribution: rhetoric–mechanism dissonance</h3>
+              <div class="muted small">Higher values mean the public-facing narrative runs ahead of the underlying evidence and causal support.</div>
+              <canvas id="dissonanceCanvas" width="520" height="240"></canvas>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="card chart-card">
+              <h3>Distribution: monopoly / capture risk</h3>
+              <div class="muted small">Estimated probability-weighted concentration risk after deregulation, given market power and stakeholder asymmetry.</div>
+              <canvas id="monopolyCanvas" width="520" height="240"></canvas>
+            </div>
+            <div class="card chart-card">
+              <h3>Distribution: patient / public risk</h3>
+              <div class="muted small">Estimated risk when protective paperwork and oversight are removed faster than harmful burden is reduced.</div>
+              <canvas id="riskCanvas" width="520" height="240"></canvas>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="card">
+              <h3>Interpretation</h3>
+              <div id="narrative" class="small"></div>
+              <div class="mini-grid">
+                <div class="mini"><div class="k">Speech credibility score</div><div class="v" id="speechCred">0</div></div>
+                <div class="mini"><div class="k">Critical challenge score</div><div class="v" id="critCred">0</div></div>
+                <div class="mini"><div class="k">Protective paperwork value</div><div class="v" id="paperValue">0</div></div>
+                <div class="mini"><div class="k">Evidence adequacy</div><div class="v" id="evidenceScore">0</div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Strategies for more constructive public discourse</h3>
+              <div id="strategies" class="small"></div>
+            </div>
+
+            <div class="card">
+              <h3>Mechanism ledger</h3>
+              <div id="ledger" class="small"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const defaultParams = {
+      burdenAsymmetry: 70,
+      protectivePaperwork: 58,
+      incumbentInfluence: 68,
+      innovationResponsiveness: 52,
+      competitionGainFromDereg: 48,
+      patientRiskExternalization: 61,
+      evidenceQuality: 44,
+      classificationAccuracy: 42,
+      stakeholderAsymmetry: 66,
+      rhetoricAmplification: 78,
+      oversightValue: 64,
+      monopolyResilience: 59
+    };
+
+    const presets = {
+      balanced: { ...defaultParams },
+      speech: {
+        burdenAsymmetry: 82,
+        protectivePaperwork: 28,
+        incumbentInfluence: 76,
+        innovationResponsiveness: 78,
+        competitionGainFromDereg: 72,
+        patientRiskExternalization: 28,
+        evidenceQuality: 72,
+        classificationAccuracy: 73,
+        stakeholderAsymmetry: 48,
+        rhetoricAmplification: 70,
+        oversightValue: 30,
+        monopolyResilience: 32
+      },
+      critical: {
+        burdenAsymmetry: 58,
+        protectivePaperwork: 79,
+        incumbentInfluence: 61,
+        innovationResponsiveness: 43,
+        competitionGainFromDereg: 32,
+        patientRiskExternalization: 76,
+        evidenceQuality: 36,
+        classificationAccuracy: 31,
+        stakeholderAsymmetry: 74,
+        rhetoricAmplification: 84,
+        oversightValue: 82,
+        monopolyResilience: 71
+      },
+      capture: {
+        burdenAsymmetry: 63,
+        protectivePaperwork: 67,
+        incumbentInfluence: 86,
+        innovationResponsiveness: 46,
+        competitionGainFromDereg: 27,
+        patientRiskExternalization: 69,
+        evidenceQuality: 38,
+        classificationAccuracy: 34,
+        stakeholderAsymmetry: 85,
+        rhetoricAmplification: 81,
+        oversightValue: 74,
+        monopolyResilience: 82
+      }
+    };
+
+    const meta = {
+      burdenAsymmetry: ["Relative burden asymmetry", "How much more heavily regulation bites small firms and independent providers than large incumbents."],
+      protectivePaperwork: ["Protective value of paperwork", "How much compliance activity actually delivers accountability, safety, traceability, or equity."],
+      incumbentInfluence: ["Incumbent influence on rulemaking", "How strongly large actors shape rules in their own favour."],
+      innovationResponsiveness: ["Innovation responsiveness", "How strongly deregulation really translates into useful innovation rather than just looser conditions."],
+      competitionGainFromDereg: ["Competition gain from deregulation", "How much rule removal genuinely improves entry and rivalry."],
+      patientRiskExternalization: ["Risk externalization", "How much deregulation shifts burden or harm outward onto patients and publics."],
+      evidenceQuality: ["Evidence quality", "How good the evidence base is for classifying regulations as protective, harmful, or obsolete."],
+      classificationAccuracy: ["Classification accuracy", "How reliably the policy can sort 'good' from 'bad' regulations."],
+      stakeholderAsymmetry: ["Stakeholder asymmetry", "How unequal voice and influence are in consultation and lobbying processes."],
+      rhetoricAmplification: ["Rhetorical amplification", "How much the speech turns selective mechanisms into sweeping conclusions."],
+      oversightValue: ["Oversight value", "How much existing regulation contributes to accountability, public protection, or abuse prevention."],
+      monopolyResilience: ["Monopoly resilience", "How likely concentration remains or deepens even after rules are removed."]
+    };
+
+    let params = { ...defaultParams };
+    const sliderContainer = document.getElementById('sliders');
+
+    function makeSliders() {
+      sliderContainer.innerHTML = '';
+      Object.keys(params).forEach(key => {
+        const row = document.createElement('div');
+        row.className = 'slider-row';
+        row.innerHTML = `
+          <div class="slider-head">
+            <div>
+              <div class="slider-name">${meta[key][0]}</div>
+              <div class="muted tiny">${meta[key][1]}</div>
+            </div>
+            <div class="slider-value" id="${key}Value">${params[key]}</div>
+          </div>
+          <input id="${key}" type="range" min="0" max="100" step="1" value="${params[key]}" />
+        `;
+        sliderContainer.appendChild(row);
+      });
+
+      Object.keys(params).forEach(key => {
+        document.getElementById(key).addEventListener('input', e => {
+          params[key] = +e.target.value;
+          document.getElementById(`${key}Value`).textContent = params[key];
+          runSimulation();
+        });
+      });
+    }
+
+    function clamp(v, min = 0, max = 100) {
+      return Math.max(min, Math.min(max, v));
+    }
+
+    function randn() {
+      let u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+
+    function sample(p, spread = 8) {
+      return clamp(p + randn() * spread);
+    }
+
+    function mean(arr) { return arr.reduce((a,b)=>a+b,0) / arr.length; }
+    function percentile(arr, q) {
+      const s = [...arr].sort((a,b)=>a-b);
+      const idx = (s.length - 1) * q;
+      const lo = Math.floor(idx), hi = Math.ceil(idx);
+      if (lo === hi) return s[lo];
+      return s[lo] + (s[hi] - s[lo]) * (idx - lo);
+    }
+
+    function histogram(arr, bins = 24, min = 0, max = 100) {
+      const counts = Array(bins).fill(0);
+      arr.forEach(v => {
+        const t = clamp(v, min, max);
+        let idx = Math.floor((t - min) / (max - min) * bins);
+        if (idx >= bins) idx = bins - 1;
+        if (idx < 0) idx = 0;
+        counts[idx]++;
+      });
+      return { counts, min, max };
+    }
+
+    function drawHistogram(canvasId, arr, color, label, threshold = null) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0,0,w,h);
+
+      ctx.fillStyle = '#fcfdff';
+      ctx.fillRect(0,0,w,h);
+      ctx.strokeStyle = '#d8e0ea';
+      ctx.strokeRect(0.5,0.5,w-1,h-1);
+
+      const pad = { l: 40, r: 14, t: 18, b: 28 };
+      const plotW = w - pad.l - pad.r;
+      const plotH = h - pad.t - pad.b;
+
+      for (let i = 0; i <= 4; i++) {
+        const y = pad.t + i * plotH / 4;
+        ctx.strokeStyle = '#edf2f8';
+        ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.stroke();
+      }
+
+      const hist = histogram(arr, 26, 0, 100);
+      const maxCount = Math.max(...hist.counts, 1);
+      const barW = plotW / hist.counts.length;
+
+      hist.counts.forEach((c, i) => {
+        const bh = (c / maxCount) * (plotH - 4);
+        const x = pad.l + i * barW + 1;
+        const y = pad.t + plotH - bh;
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, Math.max(1, barW - 2), bh);
+      });
+
+      if (threshold !== null) {
+        const x = pad.l + (threshold / 100) * plotW;
+        ctx.strokeStyle = '#17202b';
+        ctx.setLineDash([5,4]);
+        ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      const m = mean(arr);
+      const mx = pad.l + (m / 100) * plotW;
+      ctx.strokeStyle = '#7f8ea3';
+      ctx.beginPath(); ctx.moveTo(mx, pad.t); ctx.lineTo(mx, pad.t + plotH); ctx.stroke();
+
+      ctx.fillStyle = '#334155';
+      ctx.font = '12px Inter, sans-serif';
+      ctx.fillText('0', pad.l - 4, h - 10);
+      ctx.fillText('50', pad.l + plotW / 2 - 8, h - 10);
+      ctx.fillText('100', w - pad.r - 18, h - 10);
+      ctx.fillText(label, pad.l, 12);
+      ctx.fillText(`mean ${m.toFixed(1)}`, w - pad.r - 82, 12);
+    }
+
+    function classifyLevel(v) {
+      if (v >= 70) return 'high';
+      if (v >= 45) return 'medium';
+      return 'low';
+    }
+
+    function runSimulation() {
+      const N = 1800;
+      const publicOutcome = [];
+      const monopolyRisk = [];
+      const patientRisk = [];
+      const dissonance = [];
+      const rhetoricScore = [];
+      const criticalScore = [];
+
+      for (let i = 0; i < N; i++) {
+        const burdenAsymmetry = sample(params.burdenAsymmetry, 10);
+        const protectivePaperwork = sample(params.protectivePaperwork, 9);
+        const incumbentInfluence = sample(params.incumbentInfluence, 10);
+        const innovationResponsiveness = sample(params.innovationResponsiveness, 11);
+        const competitionGainFromDereg = sample(params.competitionGainFromDereg, 12);
+        const patientRiskExternalization = sample(params.patientRiskExternalization, 10);
+        const evidenceQuality = sample(params.evidenceQuality, 9);
+        const classificationAccuracy = sample(params.classificationAccuracy, 9);
+        const stakeholderAsymmetry = sample(params.stakeholderAsymmetry, 8);
+        const rhetoricAmplification = sample(params.rhetoricAmplification, 10);
+        const oversightValue = sample(params.oversightValue, 9);
+        const monopolyResilience = sample(params.monopolyResilience, 9);
+
+        const speechCred = clamp(
+          0.22 * burdenAsymmetry +
+          0.18 * incumbentInfluence +
+          0.22 * innovationResponsiveness +
+          0.20 * competitionGainFromDereg +
+          0.10 * evidenceQuality +
+          0.08 * classificationAccuracy -
+          0.12 * protectivePaperwork -
+          0.12 * oversightValue -
+          0.10 * patientRiskExternalization
+        );
+
+        const critCred = clamp(
+          0.20 * protectivePaperwork +
+          0.18 * oversightValue +
+          0.20 * patientRiskExternalization +
+          0.14 * stakeholderAsymmetry +
+          0.16 * monopolyResilience +
+          0.14 * (100 - evidenceQuality) +
+          0.12 * (100 - classificationAccuracy)
+        );
+
+        const competitionBenefit = clamp(
+          0.48 * competitionGainFromDereg +
+          0.28 * burdenAsymmetry +
+          0.18 * innovationResponsiveness -
+          0.25 * monopolyResilience -
+          0.18 * incumbentInfluence
+        );
+
+        const captureRisk = clamp(
+          0.33 * incumbentInfluence +
+          0.27 * stakeholderAsymmetry +
+          0.24 * monopolyResilience +
+          0.10 * rhetoricAmplification -
+          0.16 * evidenceQuality
+        );
+
+        const protectionLoss = clamp(
+          0.34 * protectivePaperwork +
+          0.28 * oversightValue +
+          0.25 * patientRiskExternalization -
+          0.18 * classificationAccuracy
+        );
+
+        const publicGain = clamp(
+          50 +
+          0.32 * competitionBenefit +
+          0.22 * innovationResponsiveness +
+          0.16 * burdenAsymmetry -
+          0.30 * protectionLoss -
+          0.24 * captureRisk +
+          0.16 * evidenceQuality - 25
+        );
+
+        const patientHarmRisk = clamp(
+          0.34 * protectionLoss +
+          0.24 * patientRiskExternalization +
+          0.18 * (100 - classificationAccuracy) +
+          0.16 * (100 - evidenceQuality) -
+          0.14 * burdenAsymmetry
+        );
+
+        const rhetoricPower = clamp(
+          0.42 * rhetoricAmplification +
+          0.22 * burdenAsymmetry +
+          0.14 * incumbentInfluence +
+          0.12 * competitionGainFromDereg +
+          0.10 * innovationResponsiveness
+        );
+
+        const mechanismSupport = clamp(
+          0.24 * speechCred +
+          0.20 * evidenceQuality +
+          0.18 * classificationAccuracy +
+          0.15 * competitionBenefit -
+          0.16 * protectionLoss -
+          0.14 * captureRisk + 20
+        );
+
+        const dis = clamp(rhetoricPower - mechanismSupport + 50);
+
+        publicOutcome.push(publicGain);
+        monopolyRisk.push(captureRisk);
+        patientRisk.push(patientHarmRisk);
+        dissonance.push(dis);
+        rhetoricScore.push(rhetoricPower);
+        criticalScore.push(critCred);
+      }
+
+      const mPublic = mean(publicOutcome);
+      const mMonopoly = mean(monopolyRisk);
+      const mRisk = mean(patientRisk);
+      const mDissonance = mean(dissonance);
+      const mSpeech = mean(rhetoricScore);
+      const mCrit = mean(criticalScore);
+      const qPublic = [percentile(publicOutcome, 0.1), percentile(publicOutcome, 0.9)];
+      const qMonopoly = [percentile(monopolyRisk, 0.1), percentile(monopolyRisk, 0.9)];
+      const qDissonance = [percentile(dissonance, 0.1), percentile(dissonance, 0.9)];
+      const underperform = publicOutcome.filter((v, i) => v + 10 < rhetoricScore[i]).length / publicOutcome.length;
+
+      document.getElementById('meanPublic').textContent = mPublic.toFixed(1);
+      document.getElementById('meanMonopoly').textContent = mMonopoly.toFixed(1);
+      document.getElementById('meanDissonance').textContent = mDissonance.toFixed(1);
+      document.getElementById('underperformProb').textContent = `${Math.round(underperform * 100)}%`;
+      document.getElementById('publicBand').textContent = `80% interval ${qPublic[0].toFixed(0)}–${qPublic[1].toFixed(0)}`;
+      document.getElementById('monopolyBand').textContent = `80% interval ${qMonopoly[0].toFixed(0)}–${qMonopoly[1].toFixed(0)}`;
+      document.getElementById('dissonanceBand').textContent = `80% interval ${qDissonance[0].toFixed(0)}–${qDissonance[1].toFixed(0)}`;
+      document.getElementById('underperformText').textContent = underperform > 0.65 ? 'Rhetoric frequently outruns institutional support.' : 'Rhetoric and mechanism are closer, but still contestable.';
+
+      drawHistogram('publicCanvas', publicOutcome, '#2f6fed', 'public-interest outcome', 50);
+      drawHistogram('dissonanceCanvas', dissonance, '#6b46c1', 'dissonance', 50);
+      drawHistogram('monopolyCanvas', monopolyRisk, '#c53b31', 'monopoly / capture risk', 50);
+      drawHistogram('riskCanvas', patientRisk, '#b7791f', 'patient / public risk', 50);
+
+      document.getElementById('speechCred').textContent = mSpeech.toFixed(1);
+      document.getElementById('critCred').textContent = mCrit.toFixed(1);
+      document.getElementById('paperValue').textContent = params.protectivePaperwork.toFixed(0);
+      document.getElementById('evidenceScore').textContent = params.evidenceQuality.toFixed(0);
+
+      renderNarrative({ mPublic, mMonopoly, mRisk, mDissonance, mSpeech, mCrit, underperform });
+      renderStrategies({ mPublic, mMonopoly, mRisk, mDissonance, mSpeech, mCrit, underperform });
+      renderLedger({ mPublic, mMonopoly, mRisk, mDissonance, mSpeech, mCrit });
+    }
+
+    function renderNarrative(s) {
+      const publicLvl = classifyLevel(s.mPublic);
+      const disLvl = classifyLevel(s.mDissonance);
+      const riskLvl = classifyLevel(s.mRisk);
+      const monoLvl = classifyLevel(s.mMonopoly);
+
+      let html = `<div class="list-box ${s.mDissonance >= 65 ? 'soft-red' : s.mPublic >= 55 ? 'soft-green' : 'soft-yellow'}">`;
+      html += `<h4>Current reading</h4>`;
+
+      if (publicLvl === 'high' && disLvl === 'low') {
+        html += `<p>The model currently supports a relatively strong version of the speech. Burden asymmetry and competitive benefits are doing enough work to keep public-interest outcomes positive without a large rhetoric–mechanism gap.</p>`;
+      } else if (disLvl === 'high' && (riskLvl === 'high' || monoLvl === 'high')) {
+        html += `<p>The speech currently looks much stronger rhetorically than institutionally. The simulator suggests a familiar pattern: vivid anti-bureaucratic language compresses several mechanisms into one story, while concentration risk, protective oversight loss, or patient-risk externalization remain substantial.</p>`;
+      } else {
+        html += `<p>The model is mixed. Some speech-side mechanisms are plausible, especially where small providers face real burden and incumbents shape rules. But the overall case remains conditional because protective paperwork, evidence gaps, or capture risk offset the gains.</p>`;
+      }
+
+      html += `<p><strong>Interpretive hinge:</strong> the strongest challenge is usually not “all deregulation is bad,” but “which rules are genuinely obsolete, which protect the public, and what evidence distinguishes the two?”</p>`;
+      html += `</div>`;
+      document.getElementById('narrative').innerHTML = html;
+    }
+
+    function renderStrategies(s) {
+      const ideas = [];
+
+      if (s.mDissonance >= 60) {
+        ideas.push('Slow the argument down. Ask speakers to separate burden asymmetry, incumbent influence, innovation claims, and patient-protection effects instead of treating them as a single chain.');
+      }
+      if (params.evidenceQuality < 55 || params.classificationAccuracy < 55) {
+        ideas.push('Press for explicit evidential thresholds. Ask what data classify a rule as “good,” “bad,” or “obsolete,” and what uncertainty remains.');
+      }
+      if (params.protectivePaperwork >= 55 || params.oversightValue >= 55) {
+        ideas.push('Reframe “paperwork” as a design question. Ask which documentation is useless and which parts enable accountability, fraud control, equity, or patient safety.');
+      }
+      if (s.mMonopoly >= 55 || params.incumbentInfluence >= 60) {
+        ideas.push('Challenge the assumption that deregulation automatically helps smaller actors. Ask who actually has the capital, scale, and legal advantage to benefit first.');
+      }
+      if (s.mRisk >= 55 || params.patientRiskExternalization >= 55) {
+        ideas.push('Shift the debate from provider inconvenience alone to burden transfer. Ask where risk goes when oversight is removed: patients, workers, taxpayers, or downstream services.');
+      }
+      if (params.stakeholderAsymmetry >= 60) {
+        ideas.push('Question whether “stakeholder participation” is symmetric. Ask whose submissions are likely to dominate the consultation process and whose capacity to respond is weakest.');
+      }
+      ideas.push('Move from moralized labels to testable mechanism questions: What is the causal pathway? What evidence supports it? Under what conditions does it fail?');
+      ideas.push('Use contrastive language in public discourse: “Some regulation is rent-preserving; some is protective. Which is this one, and how do we know?”');
+
+      document.getElementById('strategies').innerHTML = `<div class="list-box soft-green"><h4>Challenge rhetoric constructively</h4><ul>${ideas.map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+    }
+
+    function renderLedger(s) {
+      const lines = [];
+      lines.push(`<strong>Burden asymmetry:</strong> ${params.burdenAsymmetry >= 60 ? 'supports' : 'weakly supports'} the claim that smaller actors are disproportionately constrained.`);
+      lines.push(`<strong>Protective paperwork:</strong> ${params.protectivePaperwork >= 60 ? 'undercuts' : 'only mildly undercuts'} the simple equation of paperwork with waste.`);
+      lines.push(`<strong>Incumbent influence:</strong> ${params.incumbentInfluence >= 60 ? 'supports' : 'partly supports'} the claim that regulation can preserve advantage for larger actors.`);
+      lines.push(`<strong>Innovation pathway:</strong> ${params.innovationResponsiveness >= 60 && params.competitionGainFromDereg >= 55 ? 'plausible' : 'uncertain'} as a route from deregulation to public benefit.`);
+      lines.push(`<strong>Classification of rules:</strong> ${params.evidenceQuality >= 60 && params.classificationAccuracy >= 60 ? 'comparatively credible' : 'fragile'} as the basis for selective repeal.`);
+      lines.push(`<strong>Capture / concentration:</strong> ${s.mMonopoly >= 55 ? 'serious counter-risk' : 'present but contained'} in the current configuration.`);
+      lines.push(`<strong>Overall dissonance:</strong> ${s.mDissonance >= 60 ? 'high — rhetoric likely outruns mechanism.' : s.mDissonance >= 45 ? 'moderate — requires careful qualification.' : 'low — rhetoric and mechanism are relatively aligned.'}`);
+
+      document.getElementById('ledger').innerHTML = `<div class="list-box soft-purple"><h4>Mechanism-by-mechanism readout</h4><ul>${lines.map(x => `<li>${x}</li>`).join('')}</ul></div>`;
+    }
+
+    document.getElementById('runBtn').addEventListener('click', runSimulation);
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      params = { ...defaultParams };
+      makeSliders();
+      runSimulation();
+    });
+
+    document.getElementById('presetSelect').addEventListener('change', e => {
+      params = { ...presets[e.target.value] };
+      makeSliders();
+      runSimulation();
+    });
+
+    makeSliders();
+    runSimulation();
+  </script>
+</body>
+</html>
