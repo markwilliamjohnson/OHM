@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Exposure Readings to Excel Lognormal Sheet</title>
+<style>
+  :root {
+    --bg: #f4f7f5;
+    --panel: #ffffff;
+    --ink: #17211b;
+    --muted: #5c6b61;
+    --grid: #cfd9d2;
+    --head: #e2efe6;
+    --accent: #1f7a4d;
+    --accent2: #0f5132;
+    --soft: #eef8f1;
+    --warn: #fff7d6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    padding: 22px 28px;
+    background: linear-gradient(135deg, #123d28, #1f7a4d);
+    color: white;
+  }
+  header h1 { margin: 0 0 6px; font-size: 24px; }
+  header p { margin: 0; max-width: 1100px; opacity: 0.92; line-height: 1.45; }
+  main { padding: 18px; display: grid; gap: 16px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid #dce5df;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    padding: 16px;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 13px;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  button.secondary { background: #355646; }
+  button.light { background: #e3eee7; color: #143d28; border: 1px solid #bfd0c4; }
+  button:hover { filter: brightness(0.95); }
+  label { color: var(--muted); font-size: 14px; }
+  input[type="number"], input[type="text"] {
+    padding: 8px 10px;
+    border: 1px solid #bfd0c4;
+    border-radius: 8px;
+    min-width: 90px;
+  }
+  .hint {
+    background: var(--soft);
+    border-left: 5px solid var(--accent);
+    padding: 12px 14px;
+    border-radius: 10px;
+    line-height: 1.45;
+    color: #203b2a;
+  }
+  .warning {
+    background: var(--warn);
+    border-left: 5px solid #bf8c00;
+  }
+  .table-wrap { overflow: auto; border: 1px solid var(--grid); border-radius: 10px; }
+  table.sheet {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 100%;
+    font-size: 13px;
+  }
+  .sheet th, .sheet td {
+    border: 1px solid var(--grid);
+    padding: 0;
+    min-width: 112px;
+    height: 30px;
+    background: white;
+  }
+  .sheet th {
+    background: var(--head);
+    text-align: center;
+    font-weight: 700;
+    padding: 6px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .sheet th.rowhead, .sheet td.rowhead {
+    min-width: 42px;
+    width: 42px;
+    background: #edf2ef;
+    text-align: center;
+    font-weight: 700;
+    color: #526258;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
+  .sheet td input {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    padding: 5px 7px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 12px;
+    background: transparent;
+  }
+  .sheet td.formula { background: #fbfdfb; }
+  .sheet td.label { background: #f1f8f3; font-weight: 700; padding: 6px; }
+  .sheet td.value { padding: 6px; font-family: Consolas, Monaco, monospace; }
+  textarea {
+    width: 100%;
+    height: 230px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 12px;
+    border: 1px solid var(--grid);
+    border-radius: 10px;
+    padding: 10px;
+    resize: vertical;
+    white-space: pre;
+  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 1000px) { .two-col { grid-template-columns: 1fr; } }
+  canvas {
+    width: 100%;
+    height: 320px;
+    border: 1px solid var(--grid);
+    border-radius: 10px;
+    background: white;
+  }
+  code { background: #edf4ef; padding: 2px 4px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Exposure Readings → Excel Lognormal Distribution Sheet</h1>
+  <p>Enter occupational exposure readings, generate a spreadsheet-like table containing Excel formulas, copy the whole range, paste into Excel, and use the chart-ready output columns to create a lognormal probability distribution graph.</p>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="controls">
+      <button onclick="addRow()">Add reading</button>
+      <button class="secondary" onclick="addRows(10)">Add 10 rows</button>
+      <button class="light" onclick="loadExample()">Load example data</button>
+      <button class="light" onclick="clearData()">Clear readings</button>
+      <label>Chart points <input id="pointCount" type="number" min="20" max="500" value="100" onchange="renderAll()" /></label>
+      <label>Start multiplier <input id="startMult" type="number" min="0.001" step="0.01" value="0.10" onchange="renderAll()" /></label>
+      <label>End multiplier <input id="endMult" type="number" min="1" step="0.5" value="3" onchange="renderAll()" /></label>
+      <button onclick="copyExcelTable()">Copy Excel-ready table</button>
+    </div>
+    <p class="hint">Paste the copied table into cell <strong>A1</strong> in Excel. The formulas use Excel functions such as <code>LN</code>, <code>EXP</code>, <code>AVERAGE</code>, <code>STDEV.S</code>, <code>NORM.DIST</code>, <code>LOGNORM.DIST</code>, and <code>COUNT</code>. The final two columns are designed as the X and Y series for an Excel scatter chart.</p>
+  </section>
+
+  <section class="panel">
+    <h2>1. Input readings</h2>
+    <div class="table-wrap">
+      <table class="sheet" id="inputTable"></table>
+    </div>
+  </section>
+
+  <section class="two-col">
+    <section class="panel">
+      <h2>2. Preview graph in browser</h2>
+      <canvas id="plot" width="900" height="360"></canvas>
+      <p class="hint warning">This browser graph is only a preview. The Excel graph is produced from the pasted columns labelled <strong>Chart X</strong> and <strong>Chart Y: lognormal PDF</strong>.</p>
+    </section>
+
+    <section class="panel">
+      <h2>3. Excel chart instructions</h2>
+      <div class="hint">
+        <p><strong>After pasting into Excel:</strong></p>
+        <ol>
+          <li>Select the populated cells in columns <strong>I:J</strong>, starting with the headers <strong>Chart X</strong> and <strong>Chart Y: lognormal PDF</strong>.</li>
+          <li>Choose <strong>Insert → Scatter → Scatter with Smooth Lines</strong>.</li>
+          <li>Set the chart title to <strong>Lognormal exposure distribution</strong>.</li>
+          <li>The chart uses the fitted geometric mean and geometric standard deviation from the readings.</li>
+        </ol>
+        <p>Optional: select columns <strong>A:B</strong> and create a second scatter plot of readings against their natural logs to show the transformation.</p>
+      </div>
+    </section>
+  </section>
+
+  <section class="panel">
+    <h2>4. Excel-ready copy/paste sheet</h2>
+    <p>This is the exact tab-separated range that will be copied to the clipboard. You can also manually select it and paste it into Excel.</p>
+    <textarea id="excelText" spellcheck="false"></textarea>
+  </section>
+</main>
+
+<script>
+let readings = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+
+function esc(v) {
+  return String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function addRow() {
+  readings.push('');
+  renderAll();
+}
+
+function addRows(n) {
+  for (let i = 0; i < n; i++) readings.push('');
+  renderAll();
+}
+
+function loadExample() {
+  readings = [0.8, 1.1, 1.4, 1.7, 2.1, 2.6, 3.2, 3.9, 4.8, 5.6, 6.8, 8.4, 10.2, 12.7, 15.9, 19.5, 25.0, 31.4, 42.0, 55.0];
+  renderAll();
+}
+
+function clearData() {
+  readings = Array.from({ length: 20 }, () => '');
+  renderAll();
+}
+
+function setReading(i, value) {
+  readings[i] = value;
+  renderAll(false);
+}
+
+function numericReadings() {
+  return readings.map(Number).filter(v => Number.isFinite(v) && v > 0);
+}
+
+function mean(arr) {
+  return arr.reduce((a,b) => a+b, 0) / arr.length;
+}
+
+function sampleSd(arr) {
+  if (arr.length < 2) return NaN;
+  const m = mean(arr);
+  return Math.sqrt(arr.reduce((s, v) => s + Math.pow(v - m, 2), 0) / (arr.length - 1));
+}
+
+function lognormalPdf(x, mu, sigma) {
+  if (x <= 0 || sigma <= 0) return 0;
+  return (1 / (x * sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-Math.pow(Math.log(x) - mu, 2) / (2 * sigma * sigma));
+}
+
+function renderInputTable() {
+  const tbl = document.getElementById('inputTable');
+  let html = '<tr><th class="rowhead"></th><th>A<br>Exposure reading</th><th>B<br>LN(reading)</th><th>C<br>Rank</th><th>D<br>Plot position</th><th>E<br>Expected normal z</th><th>F<br>Expected exposure</th></tr>';
+  readings.forEach((v, i) => {
+    const r = i + 2;
+    const val = esc(v);
+    html += `<tr>
+      <td class="rowhead">${r}</td>
+      <td><input type="number" step="any" value="${val}" oninput="setReading(${i}, this.value)"></td>
+      <td class="formula value">=IF(A${r}&gt;0,LN(A${r}),"")</td>
+      <td class="formula value">=IF(A${r}&gt;0,RANK.EQ(A${r},$A$2:$A$101,1),"")</td>
+      <td class="formula value">=IF(C${r}&lt;&gt;"",(C${r}-0.5)/$B$104,"")</td>
+      <td class="formula value">=IF(D${r}&lt;&gt;"",NORM.S.INV(D${r}),"")</td>
+      <td class="formula value">=IF(E${r}&lt;&gt;"",EXP($B$107+$B$108*E${r}),"")</td>
+    </tr>`;
+  });
+  tbl.innerHTML = html;
+}
+
+function formulaForRow(i) {
+  const r = i + 2;
+  return [
+    readings[i] === '' ? '' : readings[i],
+    `=IF(A${r}>0,LN(A${r}),"")`,
+    `=IF(A${r}>0,RANK.EQ(A${r},$A$2:$A$101,1),"")`,
+    `=IF(C${r}<>"",(C${r}-0.5)/$B$104,"")`,
+    `=IF(D${r}<>"",NORM.S.INV(D${r}),"")`,
+    `=IF(E${r}<>"",EXP($B$107+$B$108*E${r}),"")`,
+    '',
+    '',
+    chartXFormula(i),
+    chartYFormula(i)
+  ];
+}
+
+function chartXFormula(i) {
+  const r = i + 2;
+  return `=IF(ROW()-1<=$B$113,$B$111+(ROW()-2)*($B$112-$B$111)/($B$113-1),"")`;
+}
+
+function chartYFormula(i) {
+  const r = i + 2;
+  return `=IF(I${r}<>"",LOGNORM.DIST(I${r},$B$107,$B$108,FALSE),"")`;
+}
+
+function buildExcelTSV() {
+  const rows = [];
+  rows.push(['Exposure reading','LN(reading)','Rank','Plot position','Expected normal z','Expected exposure','','','Chart X','Chart Y: lognormal PDF']);
+
+  const maxRows = Math.max(100, Number(document.getElementById('pointCount').value) || 100);
+  for (let i = 0; i < maxRows; i++) rows.push(formulaForRow(i));
+
+  rows.push([]);
+  rows.push(['Summary/statistic','Excel formula / value']);
+  rows.push(['n valid positive readings','=COUNT(A2:A101)']);
+  rows.push(['Arithmetic mean','=AVERAGE(A2:A101)']);
+  rows.push(['Arithmetic sample SD','=STDEV.S(A2:A101)']);
+  rows.push(['Mean of LN readings, mu','=AVERAGE(B2:B101)']);
+  rows.push(['SD of LN readings, sigma','=STDEV.S(B2:B101)']);
+  rows.push(['Geometric mean, GM','=EXP(B107)']);
+  rows.push(['Geometric standard deviation, GSD','=EXP(B108)']);
+  rows.push(['Chart start x','=MAX(0.000001,B109*' + (Number(document.getElementById('startMult').value) || 0.1) + ')']);
+  rows.push(['Chart end x','=B109*' + (Number(document.getElementById('endMult').value) || 3) + '']);
+  rows.push(['Number of chart points', Number(document.getElementById('pointCount').value) || 100]);
+  rows.push([]);
+  rows.push(['How to make graph in Excel','Select columns I:J, including headers, then Insert > Scatter > Scatter with Smooth Lines.']);
+  rows.push(['Important note','Only positive exposure readings can be log-transformed. Zero, blank, or negative readings are ignored by the formulas.']);
+
+  return rows.map(row => row.map(cell => String(cell ?? '')).join('\t')).join('\n');
+}
+
+async function copyExcelTable() {
+  const tsv = buildExcelTSV();
+  document.getElementById('excelText').value = tsv;
+  try {
+    await navigator.clipboard.writeText(tsv);
+    alert('Excel-ready table copied. Paste into cell A1 in Excel.');
+  } catch (e) {
+    const ta = document.getElementById('excelText');
+    ta.focus();
+    ta.select();
+    alert('Clipboard access was blocked. The table is selected below; press Ctrl+C, then paste into Excel.');
+  }
+}
+
+function renderTextArea() {
+  document.getElementById('excelText').value = buildExcelTSV();
+}
+
+function renderPlot() {
+  const canvas = document.getElementById('plot');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, w, h);
+
+  const data = numericReadings();
+  ctx.fillStyle = '#314138';
+  ctx.font = '16px Arial';
+  if (data.length < 2) {
+    ctx.fillText('Enter at least two positive exposure readings to preview the fitted lognormal curve.', 30, 45);
+    return;
+  }
+
+  const logs = data.map(Math.log);
+  const mu = mean(logs);
+  const sigma = sampleSd(logs);
+  if (!Number.isFinite(sigma) || sigma <= 0) {
+    ctx.fillText('The readings need variation before a lognormal distribution can be fitted.', 30, 45);
+    return;
+  }
+
+  const gm = Math.exp(mu);
+  const startMult = Number(document.getElementById('startMult').value) || 0.1;
+  const endMult = Number(document.getElementById('endMult').value) || 3;
+  const xmin = Math.max(0.000001, gm * startMult);
+  const xmax = Math.max(xmin * 1.1, gm * endMult);
+  const pts = [];
+  const n = Number(document.getElementById('pointCount').value) || 100;
+  for (let i = 0; i < n; i++) {
+    const x = xmin + i * (xmax - xmin) / (n - 1);
+    pts.push([x, lognormalPdf(x, mu, sigma)]);
+  }
+  const ymax = Math.max(...pts.map(p => p[1])) * 1.15;
+
+  const padL = 62, padR = 24, padT = 30, padB = 52;
+  const sx = x => padL + (x - xmin) / (xmax - xmin) * (w - padL - padR);
+  const sy = y => h - padB - y / ymax * (h - padT - padB);
+
+  ctx.strokeStyle = '#d4ded7';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT); ctx.lineTo(padL, h-padB); ctx.lineTo(w-padR, h-padB); ctx.stroke();
+
+  ctx.fillStyle = '#53645a';
+  ctx.font = '12px Arial';
+  ctx.fillText('0', padL - 18, h - padB + 4);
+  ctx.fillText(xmin.toFixed(2), padL - 12, h - padB + 22);
+  ctx.fillText(xmax.toFixed(2), w - padR - 35, h - padB + 22);
+  ctx.fillText('Exposure reading', w / 2 - 45, h - 12);
+  ctx.save();
+  ctx.translate(17, h / 2 + 40); ctx.rotate(-Math.PI / 2); ctx.fillText('Probability density', 0, 0); ctx.restore();
+
+  ctx.strokeStyle = '#1f7a4d';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  pts.forEach((p, i) => {
+    if (i === 0) ctx.moveTo(sx(p[0]), sy(p[1]));
+    else ctx.lineTo(sx(p[0]), sy(p[1]));
+  });
+  ctx.stroke();
+
+  ctx.fillStyle = '#123d28';
+  ctx.font = '14px Arial';
+  ctx.fillText(`Fitted lognormal: GM=${gm.toFixed(3)}, GSD=${Math.exp(sigma).toFixed(3)}, n=${data.length}`, 30, 22);
+}
+
+function renderAll(updateInputs = true) {
+  if (updateInputs) renderInputTable();
+  renderTextArea();
+  renderPlot();
+}
+
+renderAll();
+</script>
+</body>
+</html>
