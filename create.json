@@ -1,0 +1,919 @@
+{
+  "meta": {
+    "title": "Creative Action — Ontological Roots → Imaginative Field → Message → Method → Medium → Technique → Evaluation → Artistic and Scientific Expression",
+    "subtitle": "A dense knowledge lattice for understanding creativity: from deep spiritual, embodied, imaginative and ontological sources of action, through the selection of messages, methods, media, technique, experiment, emotional control, learning and purpose, to specific cases of artistic and scientific creativity.",
+    "domainName": "creative action and creative development",
+    "searchPlaceholder": "imagination, embodiment, wonder, purpose, message, medium, method, discipline, experiment, technique, emotion, failure, learning, artistic creativity, scientific creativity, discovery, expression…",
+    "userContextLabel": "Your creative context (optional)",
+    "userContextPlaceholder": "e.g., composing music; writing poetry; designing a research project; making visual art; developing a scientific theory; teaching creativity; innovation workshop; personal creative practice…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert guide to creativity with deep judgement about imagination, embodied action, artistic practice, scientific discovery, technique, emotional regulation, disciplined experimentation, and purposeful expression.\n\nWrite a realistic narrative case-study showing how upstream creative roots (being, wonder, embodied perception, imagination, vocation and purpose) shape downstream decisions about message, method, medium, technique, experiment, learning and evaluation.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Creative situation and purpose\n- Deep source of action: spiritual, embodied, ontological or imaginative root\n- Message and intention: what is trying to be brought into form\n- Method and medium choices\n- Technique, discipline and control strategy\n- Experimental pathway and safe-to-fail trials\n- Emotional regulation and learning loop\n- Artistic and/or scientific outcome cases\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Ontological and spiritual roots",
+      "hint": "The deepest layer of creativity: before there is a product there is being, attention, wonder, lack, longing, vocation, and the felt pressure for something to come into form."
+    },
+    {
+      "id": 1,
+      "title": "Embodied and imaginative formation",
+      "hint": "How creativity begins to take shape through body, perception, memory, image, metaphor, feeling, rhythm, environment and tacit knowing."
+    },
+    {
+      "id": 2,
+      "title": "Message, meaning and purpose",
+      "hint": "How creative impulse becomes communicable intention: what is to be expressed, discovered, questioned, healed, challenged or revealed."
+    },
+    {
+      "id": 3,
+      "title": "Method, medium and creative governance",
+      "hint": "The system of choices that gives creative work discipline: method, medium, constraints, habits, ethics, audience, tools and rules for deviation."
+    },
+    {
+      "id": 4,
+      "title": "Technique, experiment and control",
+      "hint": "Practical creative work: technical command, materials, iteration, improvisation, emotional control, risk, failure, feedback and deliberate practice."
+    },
+    {
+      "id": 5,
+      "title": "Learning, evaluation and refinement",
+      "hint": "How creative work is tested, revised and deepened: critique, resonance, coherence, usefulness, surprise, beauty, explanatory power and transformation."
+    },
+    {
+      "id": 6,
+      "title": "Artistic and scientific creativity cases",
+      "hint": "Concrete cases where the creative hierarchy becomes visible: poem, painting, composition, experiment, theory, model, instrument, discovery and public expression."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "being_to_action",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "From being to creative action",
+      "summary": "Creativity begins when being is no longer passive: attention gathers, possibility stirs, and action becomes a way of disclosing the world.",
+      "tags": [
+        "origin",
+        "being",
+        "action"
+      ],
+      "bodyHtml": "<p>Creative action begins before any particular work exists. Something in experience calls for articulation. The maker does not simply produce an object; they respond to a pressure of being, a felt possibility, or a question that asks to be given form.</p>"
+    },
+    {
+      "id": "wonder_and_lack",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Wonder, lack and the call to form",
+      "summary": "Creativity often begins in wonder or incompleteness: something is sensed but not yet understood, expressed or shared.",
+      "tags": [
+        "origin",
+        "wonder",
+        "lack"
+      ],
+      "bodyHtml": "<p>Wonder opens the world as more than what is already known. Lack gives creativity its tension: there is something missing, unresolved, hidden or unmade. The creative act begins by staying with this incompleteness rather than rushing to close it.</p>"
+    },
+    {
+      "id": "vocation_and_responsibility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Vocation and responsibility",
+      "summary": "A creative impulse becomes serious when it is experienced as something one must answer for, not merely something one wishes to display.",
+      "tags": [
+        "origin",
+        "vocation",
+        "responsibility"
+      ],
+      "bodyHtml": "<p>Creativity is not only self-expression. It can feel like a summons: to witness, reveal, heal, disturb, explain, celebrate or repair. Vocation gives creative work an ethical centre and responsibility for what it brings into the world.</p>"
+    },
+    {
+      "id": "embodied_attention",
+      "level": 1,
+      "kind": "concept",
+      "label": "Embodied attention",
+      "summary": "Creative perception is bodily: gesture, breath, posture, sensation and movement condition what can be noticed and made.",
+      "tags": [
+        "formation",
+        "embodiment"
+      ],
+      "bodyHtml": "<p>The body is not a container for creativity; it is part of the creative intelligence. The hand, ear, eye, voice and nervous system notice patterns before they are fully conceptualised. Creative action grows from this embodied sensitivity.</p>"
+    },
+    {
+      "id": "imaginative_image",
+      "level": 1,
+      "kind": "concept",
+      "label": "Imaginative image",
+      "summary": "The imagination gives a first inner shape to what is not yet materially present.",
+      "tags": [
+        "formation",
+        "imagination",
+        "image"
+      ],
+      "bodyHtml": "<p>Before a work becomes external, it may appear as an image, rhythm, phrase, diagram, question or atmosphere. The imaginative image is unstable but generative: it is not yet the work, but it gives the work something to follow.</p>"
+    },
+    {
+      "id": "metaphor_and_association",
+      "level": 1,
+      "kind": "concept",
+      "label": "Metaphor and association",
+      "summary": "Creativity links distant regions of experience so that one thing can illuminate another.",
+      "tags": [
+        "formation",
+        "metaphor",
+        "association"
+      ],
+      "bodyHtml": "<p>Metaphor allows creative thought to leap across categories: a theory can feel like a landscape, a melody like a conversation, a social problem like a knot. These associations are not decorations; they are engines of discovery.</p>"
+    },
+    {
+      "id": "memory_and_depth",
+      "level": 1,
+      "kind": "concept",
+      "label": "Memory, dream and depth",
+      "summary": "Creative material often rises from stored experience, dream, trauma, tradition, unconscious association and cultural memory.",
+      "tags": [
+        "formation",
+        "memory",
+        "depth"
+      ],
+      "bodyHtml": "<p>Creativity draws from layers of experience that are not always deliberately chosen. Childhood scenes, inherited symbols, bodily habits, dreams, losses and fragments of culture may become material for new form.</p>"
+    },
+    {
+      "id": "environmental_resonance",
+      "level": 1,
+      "kind": "concept",
+      "label": "Environment and resonance",
+      "summary": "Place, tools, social atmosphere and material surroundings shape what kinds of creative action become possible.",
+      "tags": [
+        "formation",
+        "environment",
+        "resonance"
+      ],
+      "bodyHtml": "<p>Creativity is situated. A laboratory, studio, rehearsal room, field site, classroom or kitchen each invites different forms of attention. Environments amplify some possibilities and silence others.</p>"
+    },
+    {
+      "id": "message_selection",
+      "level": 2,
+      "kind": "concept",
+      "label": "Selection of message",
+      "summary": "The maker chooses what the work is trying to say, reveal, question, test or make newly perceptible.",
+      "tags": [
+        "meaning",
+        "message",
+        "selection"
+      ],
+      "bodyHtml": "<p>A creative act must eventually decide what matters. The message may be explicit or implicit, argumentative or atmospheric, personal or public. Selection gives direction to the otherwise overflowing field of possible expression.</p>"
+    },
+    {
+      "id": "purpose_orientation",
+      "level": 2,
+      "kind": "concept",
+      "label": "Purpose orientation",
+      "summary": "Purpose aligns creative energy with a reason for making: beauty, knowledge, healing, critique, play, invention or transformation.",
+      "tags": [
+        "meaning",
+        "purpose",
+        "orientation"
+      ],
+      "bodyHtml": "<p>Purpose does not have to make creativity instrumental. It clarifies what kind of value the work seeks: aesthetic intensity, truth, explanation, social change, delight, catharsis, communion or practical innovation.</p>"
+    },
+    {
+      "id": "audience_and_address",
+      "level": 2,
+      "kind": "concept",
+      "label": "Audience and address",
+      "summary": "Creative meaning changes according to who or what the work addresses: self, community, discipline, tradition, institution, future or unknown other.",
+      "tags": [
+        "meaning",
+        "audience",
+        "address"
+      ],
+      "bodyHtml": "<p>A poem written for the dead, a model written for peers, a song written for protest and a theory written for a discipline all organise themselves differently. Address shapes tone, evidence, form and risk.</p>"
+    },
+    {
+      "id": "problem_framing",
+      "level": 2,
+      "kind": "concept",
+      "label": "Problem framing",
+      "summary": "Scientific, artistic and practical creativity all depend on how the creative problem is framed.",
+      "tags": [
+        "meaning",
+        "problem",
+        "framing"
+      ],
+      "bodyHtml": "<p>Creativity often changes the problem before it solves it. A scientific anomaly, artistic blockage or social challenge may become productive only when reframed into a question that can guide action.</p>"
+    },
+    {
+      "id": "tradition_and_departure",
+      "level": 2,
+      "kind": "concept",
+      "label": "Tradition and departure",
+      "summary": "Creative work belongs to histories and genres while also testing where those histories can be extended, broken or renewed.",
+      "tags": [
+        "meaning",
+        "tradition",
+        "departure"
+      ],
+      "bodyHtml": "<p>No creative act begins from nowhere. It inherits conventions, tools, exemplars and expectations. Originality often appears as a disciplined departure from tradition rather than a denial of tradition.</p>"
+    },
+    {
+      "id": "method_choice",
+      "level": 3,
+      "kind": "standard",
+      "label": "Method choice",
+      "summary": "Choose the procedure by which the work will be developed: improvisation, research, sketching, modelling, fieldwork, dialogue, composition or experiment.",
+      "tags": [
+        "governance",
+        "method",
+        "process"
+      ],
+      "bodyHtml": "<p>Method turns impulse into a path. Different creative goals demand different methods: free writing, prototyping, controlled experiment, ethnographic observation, musical variation, mathematical modelling or collaborative workshop.</p>"
+    },
+    {
+      "id": "medium_selection",
+      "level": 3,
+      "kind": "standard",
+      "label": "Medium selection",
+      "summary": "The medium is not neutral; words, sound, image, body, number, code, material and instrument each afford different creative possibilities.",
+      "tags": [
+        "governance",
+        "medium",
+        "affordance"
+      ],
+      "bodyHtml": "<p>Choosing a medium means choosing a field of resistance and possibility. Clay, violin, poem, equation, simulation, camera and laboratory apparatus each think with the maker in different ways.</p>"
+    },
+    {
+      "id": "constraint_design",
+      "level": 3,
+      "kind": "standard",
+      "label": "Constraint design",
+      "summary": "Creative freedom is often intensified by limits: rules, forms, materials, questions, timeboxes, datasets or compositional restrictions.",
+      "tags": [
+        "governance",
+        "constraints",
+        "discipline"
+      ],
+      "bodyHtml": "<p>Constraints prevent creativity from dissolving into vagueness. A sonnet form, limited palette, fixed apparatus, research protocol or coding framework can sharpen attention and make invention visible.</p>"
+    },
+    {
+      "id": "ethical_governance",
+      "level": 3,
+      "kind": "standard",
+      "label": "Ethical governance",
+      "summary": "Creative work needs judgement about harm, truthfulness, appropriation, responsibility, evidence, representation and care.",
+      "tags": [
+        "governance",
+        "ethics",
+        "responsibility"
+      ],
+      "bodyHtml": "<p>Creativity can liberate, but it can also distort, exploit or mislead. Ethical governance asks what the work does to its subjects, audiences, materials, collaborators and worlds of use.</p>"
+    },
+    {
+      "id": "exception_and_risk",
+      "level": 3,
+      "kind": "standard",
+      "label": "Exception and risk policy",
+      "summary": "Strong creative work knows when to follow rules and when a controlled breach is necessary.",
+      "tags": [
+        "governance",
+        "risk",
+        "exception"
+      ],
+      "bodyHtml": "<p>A practice that never departs from rules becomes formulaic; a practice that departs from everything becomes incoherent. Creative governance includes rules for justified risk, rupture and exception.</p>"
+    },
+    {
+      "id": "tools_and_conditions",
+      "level": 3,
+      "kind": "standard",
+      "label": "Tools and working conditions",
+      "summary": "Tools, spaces, schedules, collaborators and material access shape the practical horizon of creative work.",
+      "tags": [
+        "governance",
+        "tools",
+        "conditions"
+      ],
+      "bodyHtml": "<p>Creativity is affected by the conditions under which it is practised. The availability of instruments, archives, datasets, studio space, quiet time, collaborators or funding can alter both method and ambition.</p>"
+    },
+    {
+      "id": "technical_control",
+      "level": 4,
+      "kind": "concept",
+      "label": "Control of technique",
+      "summary": "Technique gives the maker the ability to realise intention without being wholly dominated by accident or limitation.",
+      "tags": [
+        "practice",
+        "technique",
+        "control"
+      ],
+      "bodyHtml": "<p>Technique is not the enemy of imagination. It allows imagination to become precise. Brush control, statistical modelling, harmonic command, laboratory skill, coding fluency or rhetorical craft all extend what can be made.</p>"
+    },
+    {
+      "id": "material_dialogue",
+      "level": 4,
+      "kind": "concept",
+      "label": "Dialogue with material",
+      "summary": "Creative practice listens to the resistance and affordance of material rather than imposing intention one-directionally.",
+      "tags": [
+        "practice",
+        "material",
+        "dialogue"
+      ],
+      "bodyHtml": "<p>Materials answer back. Paint runs, wood splits, data surprises, a melody refuses resolution, an equation exposes inconsistency. Creativity develops through this conversation between intention and material behaviour.</p>"
+    },
+    {
+      "id": "experimental_variation",
+      "level": 4,
+      "kind": "concept",
+      "label": "Experimental variation",
+      "summary": "Experiment explores alternatives by changing conditions, forms, hypotheses, procedures or expressive choices.",
+      "tags": [
+        "practice",
+        "experiment",
+        "variation"
+      ],
+      "bodyHtml": "<p>Creative experiment asks: what happens if this is altered? In art, this may mean changing scale, rhythm, colour or voice. In science, it may mean changing variables, apparatus, assumptions or models.</p>"
+    },
+    {
+      "id": "emotional_control",
+      "level": 4,
+      "kind": "concept",
+      "label": "Emotional control",
+      "summary": "Creativity requires the regulation of fear, excitement, shame, frustration, attachment and premature certainty.",
+      "tags": [
+        "practice",
+        "emotion",
+        "control"
+      ],
+      "bodyHtml": "<p>Creative work exposes the maker to uncertainty. Emotional control does not mean emotional absence; it means using feeling as information without allowing anxiety, vanity or despair to prematurely close the work.</p>"
+    },
+    {
+      "id": "failure_and_recovery",
+      "level": 4,
+      "kind": "concept",
+      "label": "Failure and recovery",
+      "summary": "Failure is not merely error; it is a source of information about the relation between intention, method, material and audience.",
+      "tags": [
+        "practice",
+        "failure",
+        "recovery"
+      ],
+      "bodyHtml": "<p>Failed sketches, rejected hypotheses, broken prototypes and awkward drafts reveal the hidden constraints of the work. Recovery means learning what the failure is teaching rather than simply abandoning the attempt.</p>"
+    },
+    {
+      "id": "practice_rhythm",
+      "level": 4,
+      "kind": "concept",
+      "label": "Practice rhythm and discipline",
+      "summary": "Creativity matures through repeated work: routines, exercises, revision cycles, attention training and sustained exposure to difficulty.",
+      "tags": [
+        "practice",
+        "discipline",
+        "learning"
+      ],
+      "bodyHtml": "<p>Inspiration is unreliable unless supported by practice. Repeated disciplined engagement builds tacit knowledge, technical confidence and the capacity to recognise when something genuinely new is emerging.</p>"
+    },
+    {
+      "id": "compositional_behaviour",
+      "level": 4,
+      "kind": "standard",
+      "label": "Compositional behaviour",
+      "summary": "Creative elements must behave together: parts, sequences, arguments, motifs, variables, images, gestures and evidence need relational order.",
+      "tags": [
+        "practice",
+        "composition",
+        "behaviour"
+      ],
+      "bodyHtml": "<p>A creative work is not a heap of interesting parts. It requires relations among parts: pacing, sequence, contrast, recursion, development, implication, balance, tension and release.</p>"
+    },
+    {
+      "id": "critique_and_feedback",
+      "level": 5,
+      "kind": "standard",
+      "label": "Critique and feedback",
+      "summary": "Creative work is tested through response: self-critique, peer review, audience encounter, replication, performance or use.",
+      "tags": [
+        "evaluation",
+        "critique",
+        "feedback"
+      ],
+      "bodyHtml": "<p>Feedback reveals what the maker cannot see alone. It may show whether a message is legible, whether a method is sound, whether an effect is felt, or whether evidence supports the claim being made.</p>"
+    },
+    {
+      "id": "coherence_testing",
+      "level": 5,
+      "kind": "standard",
+      "label": "Coherence testing",
+      "summary": "Evaluate whether source, purpose, method, medium, technique and outcome belong together.",
+      "tags": [
+        "evaluation",
+        "coherence",
+        "fit"
+      ],
+      "bodyHtml": "<p>A work may fail because its parts belong to different logics: a profound message may be trivialised by medium, a strong technique may obscure purpose, or an elegant theory may not answer the real problem.</p>"
+    },
+    {
+      "id": "resonance_and_effect",
+      "level": 5,
+      "kind": "standard",
+      "label": "Resonance and effect",
+      "summary": "Assess what the creative work makes possible in those who encounter it: insight, feeling, action, explanation, recognition or transformation.",
+      "tags": [
+        "evaluation",
+        "resonance",
+        "effect"
+      ],
+      "bodyHtml": "<p>Creative success is not only internal elegance. A work has effects: it may move, clarify, disturb, explain, empower, reframe or invite new forms of action. These effects must be interpreted carefully.</p>"
+    },
+    {
+      "id": "truth_and_validity",
+      "level": 5,
+      "kind": "standard",
+      "label": "Truth, validity and integrity",
+      "summary": "Scientific and artistic creativity both require integrity, though they test truth in different ways.",
+      "tags": [
+        "evaluation",
+        "truth",
+        "validity"
+      ],
+      "bodyHtml": "<p>In science, validity may require evidence, reproducibility, explanatory power and predictive adequacy. In art, truth may appear as emotional, symbolic, existential or perceptual rightness. Both require resistance to falseness.</p>"
+    },
+    {
+      "id": "transformative_learning",
+      "level": 5,
+      "kind": "concept",
+      "label": "Transformative learning",
+      "summary": "Creative evaluation asks not only whether the work succeeded, but how the maker has changed through making it.",
+      "tags": [
+        "evaluation",
+        "learning",
+        "transformation"
+      ],
+      "bodyHtml": "<p>Creativity teaches the maker. A project may transform taste, perception, method, courage, humility or understanding. This learning becomes part of the next creative cycle.</p>"
+    },
+    {
+      "id": "revision_loop",
+      "level": 5,
+      "kind": "concept",
+      "label": "Revision loop",
+      "summary": "Revision sends discoveries downstream and upstream: a problem in execution may require a change in purpose, medium, method or worldview.",
+      "tags": [
+        "evaluation",
+        "revision",
+        "iteration"
+      ],
+      "bodyHtml": "<p>Revision is recursive. A weak line may reveal a weak image; a failed experiment may reveal a poor hypothesis; a confused audience may reveal an unresolved purpose. Creative refinement travels through the whole hierarchy.</p>"
+    },
+    {
+      "id": "poetic_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Artistic case: poem",
+      "summary": "A poem condenses image, rhythm, voice and insight into language that exceeds ordinary statement.",
+      "tags": [
+        "art",
+        "poetry",
+        "language"
+      ],
+      "bodyHtml": "<p>A poem may begin from grief, wonder or contradiction. It selects images, controls rhythm, tests voice, cuts excess, and seeks a form in which felt experience becomes shareable without being flattened into explanation.</p>"
+    },
+    {
+      "id": "painting_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Artistic case: painting",
+      "summary": "Painting turns perception, gesture, colour, surface and material resistance into visual thought.",
+      "tags": [
+        "art",
+        "painting",
+        "image"
+      ],
+      "bodyHtml": "<p>A painting develops through embodied looking and material decision. Colour, scale, edge, texture and composition become ways of thinking. The work succeeds when the visible surface carries more than illustration.</p>"
+    },
+    {
+      "id": "music_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Artistic case: composition",
+      "summary": "Music organises time, tension, memory, expectation and bodily resonance into audible form.",
+      "tags": [
+        "art",
+        "music",
+        "time"
+      ],
+      "bodyHtml": "<p>A composition may start from a motif, sonority, rhythmic cell or emotional atmosphere. Technique governs harmony, timbre, development and silence, while experiment tests how musical time can create meaning.</p>"
+    },
+    {
+      "id": "scientific_hypothesis_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Scientific case: hypothesis",
+      "summary": "A hypothesis gives disciplined form to wonder by proposing a testable relation in the world.",
+      "tags": [
+        "science",
+        "hypothesis",
+        "discovery"
+      ],
+      "bodyHtml": "<p>A scientific hypothesis begins with anomaly, curiosity or pattern recognition. It becomes creative when it frames the unknown in a way that can be investigated, challenged, refined and connected to wider explanation.</p>"
+    },
+    {
+      "id": "model_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Scientific case: model",
+      "summary": "A model creates a simplified world in which structure, relation, mechanism or prediction can be explored.",
+      "tags": [
+        "science",
+        "model",
+        "abstraction"
+      ],
+      "bodyHtml": "<p>A model is not the world; it is a disciplined imaginative construction. It selects variables, relations and boundaries so that a hidden mechanism can be understood, simulated, criticised or tested.</p>"
+    },
+    {
+      "id": "instrument_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Scientific case: instrument",
+      "summary": "An instrument extends perception, making the previously invisible measurable, manipulable or observable.",
+      "tags": [
+        "science",
+        "instrument",
+        "perception"
+      ],
+      "bodyHtml": "<p>Scientific creativity often lies in creating new ways to see. A telescope, microscope, sensor, assay, algorithm or visualisation can transform what counts as evidence by changing the field of perception.</p>"
+    },
+    {
+      "id": "public_creativity_case",
+      "level": 6,
+      "kind": "risk",
+      "label": "Expression case: public creative consequence",
+      "summary": "Creative work enters the world and may be interpreted, used, misused, resisted, institutionalised or transformed by others.",
+      "tags": [
+        "expression",
+        "public",
+        "risk"
+      ],
+      "bodyHtml": "<p>Once released, creative work is no longer fully controlled by its maker. A poem may become a slogan, a theory may become policy, an image may become identity, and a technology may reshape behaviour. Public consequence must therefore be part of creative responsibility.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "being_to_action",
+      "to": "embodied_attention",
+      "why": "Creative action begins as being becomes attentive through the body."
+    },
+    {
+      "from": "being_to_action",
+      "to": "imaginative_image",
+      "why": "The movement from being to action often first appears as an image, rhythm, phrase or possibility."
+    },
+    {
+      "from": "wonder_and_lack",
+      "to": "memory_and_depth",
+      "why": "Wonder and incompleteness draw on hidden memory, dream, loss and depth experience."
+    },
+    {
+      "from": "wonder_and_lack",
+      "to": "message_selection",
+      "why": "A sense of incompleteness becomes creative when the maker selects what needs expression or investigation."
+    },
+    {
+      "from": "vocation_and_responsibility",
+      "to": "purpose_orientation",
+      "why": "Vocation becomes operational through a clarified purpose for making."
+    },
+    {
+      "from": "vocation_and_responsibility",
+      "to": "ethical_governance",
+      "why": "Responsibility requires ethical judgement about what the creative work may do in the world."
+    },
+    {
+      "from": "embodied_attention",
+      "to": "medium_selection",
+      "why": "The body’s way of sensing often guides the choice of medium: voice, gesture, image, sound, number or material."
+    },
+    {
+      "from": "embodied_attention",
+      "to": "technical_control",
+      "why": "Technique refines embodied attention into reliable creative capacity."
+    },
+    {
+      "from": "imaginative_image",
+      "to": "metaphor_and_association",
+      "why": "Images generate associations that connect distant regions of experience."
+    },
+    {
+      "from": "imaginative_image",
+      "to": "experimental_variation",
+      "why": "An initial image becomes richer when tested through alternative forms and variations."
+    },
+    {
+      "from": "metaphor_and_association",
+      "to": "problem_framing",
+      "why": "Metaphor can reframe a creative or scientific problem by making it visible in a new way."
+    },
+    {
+      "from": "metaphor_and_association",
+      "to": "poetic_case",
+      "why": "Poetry often depends on metaphorical compression and associative resonance."
+    },
+    {
+      "from": "memory_and_depth",
+      "to": "tradition_and_departure",
+      "why": "Personal and cultural memory become the background from which tradition can be continued or transformed."
+    },
+    {
+      "from": "memory_and_depth",
+      "to": "painting_case",
+      "why": "Painting can make memory, dream and depth experience visible through image and surface."
+    },
+    {
+      "from": "environmental_resonance",
+      "to": "tools_and_conditions",
+      "why": "Creative environments become practical conditions through tools, spaces, schedules and access."
+    },
+    {
+      "from": "environmental_resonance",
+      "to": "instrument_case",
+      "why": "Scientific instruments reshape the environment of perception and make new phenomena available."
+    },
+    {
+      "from": "message_selection",
+      "to": "audience_and_address",
+      "why": "A selected message implies someone or something to whom the work is addressed."
+    },
+    {
+      "from": "message_selection",
+      "to": "compositional_behaviour",
+      "why": "Message selection guides how parts must be ordered for meaning to become intelligible."
+    },
+    {
+      "from": "purpose_orientation",
+      "to": "method_choice",
+      "why": "Purpose determines whether the work needs improvisation, experiment, research, modelling, composition or dialogue."
+    },
+    {
+      "from": "purpose_orientation",
+      "to": "coherence_testing",
+      "why": "Evaluation asks whether the final work remains faithful to its purpose."
+    },
+    {
+      "from": "audience_and_address",
+      "to": "critique_and_feedback",
+      "why": "The intended audience or field shapes what kinds of feedback matter."
+    },
+    {
+      "from": "audience_and_address",
+      "to": "public_creativity_case",
+      "why": "Address becomes consequential when the work enters public interpretation and use."
+    },
+    {
+      "from": "problem_framing",
+      "to": "scientific_hypothesis_case",
+      "why": "A hypothesis is a disciplined framing of a problem into a testable proposition."
+    },
+    {
+      "from": "problem_framing",
+      "to": "model_case",
+      "why": "Models arise when problems are framed through variables, relations and boundaries."
+    },
+    {
+      "from": "tradition_and_departure",
+      "to": "exception_and_risk",
+      "why": "Knowing tradition allows the maker to judge when departure is meaningful rather than arbitrary."
+    },
+    {
+      "from": "tradition_and_departure",
+      "to": "music_case",
+      "why": "Musical creativity often develops through inherited forms, motifs and controlled departures."
+    },
+    {
+      "from": "method_choice",
+      "to": "experimental_variation",
+      "why": "A chosen method defines how variations and trials will be generated."
+    },
+    {
+      "from": "method_choice",
+      "to": "practice_rhythm",
+      "why": "Method becomes sustainable through repeated practice rhythms."
+    },
+    {
+      "from": "medium_selection",
+      "to": "material_dialogue",
+      "why": "Each medium answers back through its own resistance and affordance."
+    },
+    {
+      "from": "medium_selection",
+      "to": "poetic_case",
+      "why": "Choosing language as medium makes poetic compression, rhythm and voice available."
+    },
+    {
+      "from": "constraint_design",
+      "to": "technical_control",
+      "why": "Constraints focus technique by defining what must be mastered."
+    },
+    {
+      "from": "constraint_design",
+      "to": "coherence_testing",
+      "why": "Evaluation checks whether constraints strengthened or distorted the creative purpose."
+    },
+    {
+      "from": "ethical_governance",
+      "to": "public_creativity_case",
+      "why": "Public consequences test the ethical responsibility of creative work."
+    },
+    {
+      "from": "ethical_governance",
+      "to": "truth_and_validity",
+      "why": "Ethical creativity requires integrity in truth, representation and evidence."
+    },
+    {
+      "from": "exception_and_risk",
+      "to": "failure_and_recovery",
+      "why": "Risk makes failure possible, and failure becomes useful when it is interpreted."
+    },
+    {
+      "from": "exception_and_risk",
+      "to": "experimental_variation",
+      "why": "Controlled departures are explored through experimental variation."
+    },
+    {
+      "from": "tools_and_conditions",
+      "to": "instrument_case",
+      "why": "In science, tools can become creative instruments that extend perception."
+    },
+    {
+      "from": "tools_and_conditions",
+      "to": "medium_selection",
+      "why": "Available tools and conditions influence which media can be used effectively."
+    },
+    {
+      "from": "technical_control",
+      "to": "painting_case",
+      "why": "Painting depends on technical control of colour, surface, gesture and composition."
+    },
+    {
+      "from": "technical_control",
+      "to": "music_case",
+      "why": "Composition depends on technical command of rhythm, harmony, timbre and development."
+    },
+    {
+      "from": "material_dialogue",
+      "to": "failure_and_recovery",
+      "why": "Material resistance often produces failures that teach the maker what the work requires."
+    },
+    {
+      "from": "material_dialogue",
+      "to": "model_case",
+      "why": "Models develop through dialogue with abstraction, data, assumptions and computational or mathematical limits."
+    },
+    {
+      "from": "experimental_variation",
+      "to": "scientific_hypothesis_case",
+      "why": "Hypotheses are strengthened or weakened through controlled experimental variation."
+    },
+    {
+      "from": "experimental_variation",
+      "to": "critique_and_feedback",
+      "why": "Variations need response so the maker can judge what has changed and why it matters."
+    },
+    {
+      "from": "emotional_control",
+      "to": "practice_rhythm",
+      "why": "Sustained practice requires regulation of frustration, excitement, shame and premature certainty."
+    },
+    {
+      "from": "emotional_control",
+      "to": "revision_loop",
+      "why": "Revision depends on staying emotionally open enough to change the work."
+    },
+    {
+      "from": "failure_and_recovery",
+      "to": "transformative_learning",
+      "why": "Failure becomes creative when it changes the maker’s understanding."
+    },
+    {
+      "from": "failure_and_recovery",
+      "to": "revision_loop",
+      "why": "Recovered failure sends the work back into revision."
+    },
+    {
+      "from": "practice_rhythm",
+      "to": "technical_control",
+      "why": "Repeated practice builds control over technique."
+    },
+    {
+      "from": "practice_rhythm",
+      "to": "transformative_learning",
+      "why": "Discipline accumulates into deeper changes in perception and capability."
+    },
+    {
+      "from": "compositional_behaviour",
+      "to": "coherence_testing",
+      "why": "The behaviour of parts must be tested against the coherence of the whole."
+    },
+    {
+      "from": "compositional_behaviour",
+      "to": "poetic_case",
+      "why": "A poem depends on relations among line, image, sound, silence and turn."
+    },
+    {
+      "from": "critique_and_feedback",
+      "to": "revision_loop",
+      "why": "Feedback becomes valuable when it produces concrete revision."
+    },
+    {
+      "from": "critique_and_feedback",
+      "to": "public_creativity_case",
+      "why": "Public response is one form of feedback, though it must be interpreted carefully."
+    },
+    {
+      "from": "coherence_testing",
+      "to": "painting_case",
+      "why": "A painting is tested by whether colour, surface, composition and intention cohere."
+    },
+    {
+      "from": "coherence_testing",
+      "to": "model_case",
+      "why": "A model is tested by whether its assumptions, structure and explanatory purpose fit together."
+    },
+    {
+      "from": "resonance_and_effect",
+      "to": "poetic_case",
+      "why": "Poetry is often judged by resonance: what it awakens beyond paraphrase."
+    },
+    {
+      "from": "resonance_and_effect",
+      "to": "music_case",
+      "why": "Music produces effects through time, memory, expectation and bodily resonance."
+    },
+    {
+      "from": "truth_and_validity",
+      "to": "scientific_hypothesis_case",
+      "why": "Hypotheses require validity, evidence and disciplined exposure to possible falsification."
+    },
+    {
+      "from": "truth_and_validity",
+      "to": "instrument_case",
+      "why": "Instruments must be assessed for whether they produce trustworthy observations."
+    },
+    {
+      "from": "transformative_learning",
+      "to": "practice_rhythm",
+      "why": "Learning reshapes future practice rhythms and habits."
+    },
+    {
+      "from": "transformative_learning",
+      "to": "purpose_orientation",
+      "why": "Deep creative learning may change the purpose of later work."
+    },
+    {
+      "from": "revision_loop",
+      "to": "method_choice",
+      "why": "Persistent problems may require a change in method."
+    },
+    {
+      "from": "revision_loop",
+      "to": "message_selection",
+      "why": "Revision may reveal that the real message is different from the one first intended."
+    },
+    {
+      "from": "revision_loop",
+      "to": "medium_selection",
+      "why": "A work may need a different medium if the original medium cannot carry the intention."
+    },
+    {
+      "from": "poetic_case",
+      "to": "message_selection",
+      "why": "The poem reveals whether the selected message can live in language without becoming merely explanatory."
+    },
+    {
+      "from": "painting_case",
+      "to": "embodied_attention",
+      "why": "Painting returns creative judgement to embodied seeing and gesture."
+    },
+    {
+      "from": "music_case",
+      "to": "environmental_resonance",
+      "why": "Music shows how sound, body, space and social atmosphere resonate together."
+    },
+    {
+      "from": "scientific_hypothesis_case",
+      "to": "truth_and_validity",
+      "why": "A hypothesis must return to tests of validity and evidence."
+    },
+    {
+      "from": "model_case",
+      "to": "problem_framing",
+      "why": "A model often changes how the original problem is understood."
+    },
+    {
+      "from": "instrument_case",
+      "to": "being_to_action",
+      "why": "New instruments disclose new aspects of being, restarting the creative cycle of attention and action."
+    },
+    {
+      "from": "public_creativity_case",
+      "to": "ethical_governance",
+      "why": "Public consequence sends creative responsibility back upstream for renewed ethical reflection."
+    }
+  ]
+}
