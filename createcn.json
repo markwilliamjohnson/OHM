@@ -1,0 +1,919 @@
+{
+  "meta": {
+    "title": "创造性行动——本体论根源 → 想象场域 → 信息 → 方法 → 媒介 → 技艺 → 评价 → 艺术与科学表达",
+    "subtitle": "一个理解创造力的密集知识网络：从深层的精神性、 embodied（具身的）、想象性与本体论行动源头出发，经过信息、方法、媒介、技艺、实验、情绪控制、学习和目的的选择，最终通向艺术创造与科学创造的具体案例。",
+    "domainName": "创造性行动与创造性发展",
+    "searchPlaceholder": "想象力、具身性、惊奇、目的、信息、媒介、方法、纪律、实验、技艺、情绪、失败、学习、艺术创造力、科学创造力、发现、表达……",
+    "userContextLabel": "你的创造性语境（可选）",
+    "userContextPlaceholder": "例如：作曲；写诗；设计研究项目；创作视觉艺术；发展科学理论；教授创造力；创新工作坊；个人创作实践……",
+    "initialPrompt": "",
+    "promptTemplate": "你是一位创造力方面的专家导师，具有关于想象力、具身行动、艺术实践、科学发现、技艺、情绪调节、有纪律的实验以及有目的表达的深刻判断力。\n\n请写一个真实可信的叙事性案例研究，展示上游的创造性根源（存在、惊奇、具身感知、想象、使命与目的）如何塑造下游关于信息、方法、媒介、技艺、实验、学习和评价的决策。\n\n用户语境（如果提供）：\n{{USER_CONTEXT}}\n\n所选概念：\n{{SELECTED_TITLES}}\n\n细节：\n{{SELECTED_DETAILS}}\n\n路径追踪：\n{{TRACE_SUMMARY}}\n\n请交付：\n- 创造性情境与目的\n- 行动的深层来源：精神性、具身性、本体论或想象性根源\n- 信息与意图：什么正试图被带入形式\n- 方法与媒介选择\n- 技艺、纪律与控制策略\n- 实验路径与安全失败试验\n- 情绪调节与学习循环\n- 艺术和/或科学成果案例\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "本体论与精神性根源",
+      "hint": "创造力最深的层次：在产品出现之前，已经有存在、注意、惊奇、匮乏、渴望、使命，以及某种要求成形的感受性压力。"
+    },
+    {
+      "id": 1,
+      "title": "具身与想象的形成",
+      "hint": "创造力如何通过身体、感知、记忆、图像、隐喻、感受、节奏、环境与默会知识开始成形。"
+    },
+    {
+      "id": 2,
+      "title": "信息、意义与目的",
+      "hint": "创造性冲动如何成为可交流的意图：什么需要被表达、发现、质疑、疗愈、挑战或揭示。"
+    },
+    {
+      "id": 3,
+      "title": "方法、媒介与创造性治理",
+      "hint": "赋予创造性工作纪律的选择系统：方法、媒介、约束、习惯、伦理、受众、工具以及偏离规则的规则。"
+    },
+    {
+      "id": 4,
+      "title": "技艺、实验与控制",
+      "hint": "实际的创造性工作：技术掌握、材料、迭代、即兴、情绪控制、风险、失败、反馈与刻意练习。"
+    },
+    {
+      "id": 5,
+      "title": "学习、评价与 refinement（精炼）",
+      "hint": "创造性工作如何被测试、修订和深化：批评、共鸣、连贯性、有用性、惊喜、美感、解释力与转化。"
+    },
+    {
+      "id": 6,
+      "title": "艺术与科学创造力案例",
+      "hint": "创造力层级结构变得可见的具体案例：诗歌、绘画、作曲、实验、理论、模型、仪器、发现与公共表达。"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "being_to_action",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "从存在到创造性行动",
+      "summary": "当存在不再只是被动状态时，创造力便开始了：注意力聚集，可能性被搅动，行动成为揭示世界的一种方式。",
+      "tags": [
+        "origin",
+        "being",
+        "action"
+      ],
+      "bodyHtml": "<p>创造性行动开始于任何具体作品出现之前。经验中的某些东西呼唤着 articulation（表达与成形）。创作者并不只是生产一个对象；他们是在回应一种存在的压力、一种被感知到的可能性，或一个要求被赋予形式的问题。</p>"
+    },
+    {
+      "id": "wonder_and_lack",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "惊奇、匮乏与成形的召唤",
+      "summary": "创造力常常始于惊奇或不完整：某些东西被感知到了，但尚未被理解、表达或分享。",
+      "tags": [
+        "origin",
+        "wonder",
+        "lack"
+      ],
+      "bodyHtml": "<p>惊奇使世界显现为超出既有知识的东西。匮乏给予创造力以张力：有某种东西缺失、未解决、隐藏或尚未被创造。创造性行动始于停留在这种不完整之中，而不是急于将其封闭。</p>"
+    },
+    {
+      "id": "vocation_and_responsibility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "使命与责任",
+      "summary": "当创造性冲动被体验为某种必须回应和承担的东西，而不仅仅是某种想要展示的东西时，它便变得严肃。",
+      "tags": [
+        "origin",
+        "vocation",
+        "responsibility"
+      ],
+      "bodyHtml": "<p>创造力并不只是自我表达。它也可能像一种召唤：去见证、揭示、疗愈、扰动、解释、庆祝或修复。使命赋予创造性工作一个伦理中心，并要求创作者对其带入世界的东西负责。</p>"
+    },
+    {
+      "id": "embodied_attention",
+      "level": 1,
+      "kind": "concept",
+      "label": "具身注意",
+      "summary": "创造性感知是身体性的：姿态、呼吸、姿势、感觉和运动都会制约什么能够被注意到并被创造出来。",
+      "tags": [
+        "formation",
+        "embodiment"
+      ],
+      "bodyHtml": "<p>身体不是创造力的容器；身体本身就是创造性智能的一部分。手、耳、眼、声音和神经系统在概念完全形成之前就已经注意到模式。创造性行动正是从这种具身敏感性中生长出来的。</p>"
+    },
+    {
+      "id": "imaginative_image",
+      "level": 1,
+      "kind": "concept",
+      "label": "想象性图像",
+      "summary": "想象力为尚未在物质上呈现的东西提供最初的内在形状。",
+      "tags": [
+        "formation",
+        "imagination",
+        "image"
+      ],
+      "bodyHtml": "<p>在作品外化之前，它可能首先以图像、节奏、短语、图式、问题或氛围的形式出现。想象性图像是不稳定的，但具有生成性：它还不是作品，却为作品提供了可追随的方向。</p>"
+    },
+    {
+      "id": "metaphor_and_association",
+      "level": 1,
+      "kind": "concept",
+      "label": "隐喻与联想",
+      "summary": "创造力将经验中相距遥远的区域联系起来，使一件事物能够照亮另一件事物。",
+      "tags": [
+        "formation",
+        "metaphor",
+        "association"
+      ],
+      "bodyHtml": "<p>隐喻使创造性思维能够跨越类别：一个理论可以像一片景观，一段旋律可以像一次对话，一个社会问题可以像一个结。这些联想不是装饰，而是发现的引擎。</p>"
+    },
+    {
+      "id": "memory_and_depth",
+      "level": 1,
+      "kind": "concept",
+      "label": "记忆、梦与深度",
+      "summary": "创造性材料常常来自储存的经验、梦、创伤、传统、无意识联想与文化记忆。",
+      "tags": [
+        "formation",
+        "memory",
+        "depth"
+      ],
+      "bodyHtml": "<p>创造力汲取的经验层次并不总是有意选择的。童年场景、继承的符号、身体习惯、梦、失落以及文化碎片，都可能成为新形式的材料。</p>"
+    },
+    {
+      "id": "environmental_resonance",
+      "level": 1,
+      "kind": "concept",
+      "label": "环境与共鸣",
+      "summary": "地点、工具、社会氛围和物质环境塑造了哪些创造性行动成为可能。",
+      "tags": [
+        "formation",
+        "environment",
+        "resonance"
+      ],
+      "bodyHtml": "<p>创造力是情境化的。实验室、工作室、排练室、田野现场、课堂或厨房，都会邀请不同形式的注意。环境会放大某些可能性，也会压低另一些可能性。</p>"
+    },
+    {
+      "id": "message_selection",
+      "level": 2,
+      "kind": "concept",
+      "label": "信息的选择",
+      "summary": "创作者选择作品试图表达、揭示、质疑、测试或使其重新可感知的东西。",
+      "tags": [
+        "meaning",
+        "message",
+        "selection"
+      ],
+      "bodyHtml": "<p>创造性行动最终必须决定什么是重要的。信息可以是显性的，也可以是隐性的；可以是论证性的，也可以是氛围性的；可以是个人的，也可以是公共的。选择为原本溢出的表达可能性场域赋予方向。</p>"
+    },
+    {
+      "id": "purpose_orientation",
+      "level": 2,
+      "kind": "concept",
+      "label": "目的取向",
+      "summary": "目的将创造性能量与创造的理由对齐：美、知识、疗愈、批判、游戏、发明或转化。",
+      "tags": [
+        "meaning",
+        "purpose",
+        "orientation"
+      ],
+      "bodyHtml": "<p>目的并不必然使创造力工具化。它澄清作品追求何种价值：审美强度、真理、解释、社会改变、愉悦、宣泄、共融或实践创新。</p>"
+    },
+    {
+      "id": "audience_and_address",
+      "level": 2,
+      "kind": "concept",
+      "label": "受众与指向",
+      "summary": "创造性意义会根据作品所指向的对象而变化：自我、共同体、学科、传统、机构、未来或未知的他者。",
+      "tags": [
+        "meaning",
+        "audience",
+        "address"
+      ],
+      "bodyHtml": "<p>一首写给逝者的诗、一个写给同行的模型、一首为抗议而写的歌、一套写给某个学科的理论，都会以不同方式组织自身。指向塑造语调、证据、形式和风险。</p>"
+    },
+    {
+      "id": "problem_framing",
+      "level": 2,
+      "kind": "concept",
+      "label": "问题框定",
+      "summary": "科学、艺术与实践创造力都取决于创造性问题如何被框定。",
+      "tags": [
+        "meaning",
+        "problem",
+        "framing"
+      ],
+      "bodyHtml": "<p>创造力常常不是先解决问题，而是先改变问题。一个科学异常、艺术阻滞或社会挑战，只有在被重新框定为能够引导行动的问题时，才可能变得具有生产性。</p>"
+    },
+    {
+      "id": "tradition_and_departure",
+      "level": 2,
+      "kind": "concept",
+      "label": "传统与偏离",
+      "summary": "创造性工作属于历史与体裁，同时也测试这些历史能够如何被延展、打破或更新。",
+      "tags": [
+        "meaning",
+        "tradition",
+        "departure"
+      ],
+      "bodyHtml": "<p>没有创造性行动真正从无处开始。它继承惯例、工具、范例和期待。原创性往往表现为对传统的有纪律的偏离，而不是对传统的否认。</p>"
+    },
+    {
+      "id": "method_choice",
+      "level": 3,
+      "kind": "standard",
+      "label": "方法选择",
+      "summary": "选择作品发展的程序：即兴、研究、素描、建模、田野工作、对话、作曲或实验。",
+      "tags": [
+        "governance",
+        "method",
+        "process"
+      ],
+      "bodyHtml": "<p>方法将冲动转化为路径。不同的创造性目标需要不同的方法：自由写作、原型制作、控制实验、民族志观察、音乐变奏、数学建模或协作式工作坊。</p>"
+    },
+    {
+      "id": "medium_selection",
+      "level": 3,
+      "kind": "standard",
+      "label": "媒介选择",
+      "summary": "媒介并非中性的；文字、声音、图像、身体、数字、代码、材料和仪器各自提供不同的创造可能性。",
+      "tags": [
+        "governance",
+        "medium",
+        "affordance"
+      ],
+      "bodyHtml": "<p>选择媒介，就是选择一个由阻力与可能性构成的场域。黏土、小提琴、诗、方程、模拟、相机和实验装置，都会以不同方式与创作者共同思考。</p>"
+    },
+    {
+      "id": "constraint_design",
+      "level": 3,
+      "kind": "standard",
+      "label": "约束设计",
+      "summary": "创造性自由常常因限制而增强：规则、形式、材料、问题、时间盒、数据集或构成限制。",
+      "tags": [
+        "governance",
+        "constraints",
+        "discipline"
+      ],
+      "bodyHtml": "<p>约束防止创造力溶解为含混。十四行诗形式、有限调色板、固定装置、研究方案或编码框架，都能够强化注意力，并使发明变得可见。</p>"
+    },
+    {
+      "id": "ethical_governance",
+      "level": 3,
+      "kind": "standard",
+      "label": "伦理治理",
+      "summary": "创造性工作需要对伤害、真实性、挪用、责任、证据、再现与关怀作出判断。",
+      "tags": [
+        "governance",
+        "ethics",
+        "responsibility"
+      ],
+      "bodyHtml": "<p>创造力可以解放，但也可能扭曲、剥削或误导。伦理治理追问作品对其对象、受众、材料、合作者以及使用世界产生了什么影响。</p>"
+    },
+    {
+      "id": "exception_and_risk",
+      "level": 3,
+      "kind": "standard",
+      "label": "例外与风险策略",
+      "summary": "强有力的创造性工作知道何时遵循规则，何时需要有控制地打破规则。",
+      "tags": [
+        "governance",
+        "risk",
+        "exception"
+      ],
+      "bodyHtml": "<p>一种从不偏离规则的实践会变得公式化；一种偏离一切的实践会变得不连贯。创造性治理包括关于正当风险、断裂和例外的规则。</p>"
+    },
+    {
+      "id": "tools_and_conditions",
+      "level": 3,
+      "kind": "standard",
+      "label": "工具与工作条件",
+      "summary": "工具、空间、日程、合作者和材料可及性塑造了创造性工作的实践边界。",
+      "tags": [
+        "governance",
+        "tools",
+        "conditions"
+      ],
+      "bodyHtml": "<p>创造力受到其实践条件的影响。仪器、档案、数据集、工作室空间、安静时间、合作者或资金的可用性，都可能改变方法与抱负。</p>"
+    },
+    {
+      "id": "technical_control",
+      "level": 4,
+      "kind": "concept",
+      "label": "技艺控制",
+      "summary": "技艺使创作者能够实现意图，而不完全受偶然或限制支配。",
+      "tags": [
+        "practice",
+        "technique",
+        "control"
+      ],
+      "bodyHtml": "<p>技艺不是想象力的敌人。它使想象力能够变得精确。笔触控制、统计建模、和声掌握、实验室技能、编码流畅性或修辞技艺，都扩展了可被创造之物。</p>"
+    },
+    {
+      "id": "material_dialogue",
+      "level": 4,
+      "kind": "concept",
+      "label": "与材料对话",
+      "summary": "创造性实践倾听材料的阻力与 affordance（可供性），而不是单向地把意图强加其上。",
+      "tags": [
+        "practice",
+        "material",
+        "dialogue"
+      ],
+      "bodyHtml": "<p>材料会回应。颜料会流动，木头会裂开，数据会带来惊讶，旋律拒绝解决，方程暴露不一致。创造力正是在意图与材料行为之间的这种对话中发展。</p>"
+    },
+    {
+      "id": "experimental_variation",
+      "level": 4,
+      "kind": "concept",
+      "label": "实验性变奏",
+      "summary": "实验通过改变条件、形式、假设、程序或表达选择来探索替代方案。",
+      "tags": [
+        "practice",
+        "experiment",
+        "variation"
+      ],
+      "bodyHtml": "<p>创造性实验会问：如果改变这一点，会发生什么？在艺术中，这可能意味着改变尺度、节奏、颜色或声音；在科学中，则可能意味着改变变量、装置、假设或模型。</p>"
+    },
+    {
+      "id": "emotional_control",
+      "level": 4,
+      "kind": "concept",
+      "label": "情绪控制",
+      "summary": "创造力需要调节恐惧、兴奋、羞耻、挫败、依恋和过早确定性。",
+      "tags": [
+        "practice",
+        "emotion",
+        "control"
+      ],
+      "bodyHtml": "<p>创造性工作使创作者暴露于不确定性之中。情绪控制并不意味着没有情绪；它意味着把感受作为信息来使用，而不让焦虑、虚荣或绝望过早地关闭作品。</p>"
+    },
+    {
+      "id": "failure_and_recovery",
+      "level": 4,
+      "kind": "concept",
+      "label": "失败与恢复",
+      "summary": "失败不仅是错误；它也是关于意图、方法、材料与受众之间关系的信息来源。",
+      "tags": [
+        "practice",
+        "failure",
+        "recovery"
+      ],
+      "bodyHtml": "<p>失败的草图、被拒绝的假设、破损的原型和笨拙的草稿，都会揭示作品的隐藏约束。恢复意味着学习失败所教给我们的东西，而不是简单放弃尝试。</p>"
+    },
+    {
+      "id": "practice_rhythm",
+      "level": 4,
+      "kind": "concept",
+      "label": "实践节奏与纪律",
+      "summary": "创造力通过重复工作而成熟：日常规律、练习、修订循环、注意力训练以及持续面对困难。",
+      "tags": [
+        "practice",
+        "discipline",
+        "learning"
+      ],
+      "bodyHtml": "<p>如果没有实践支持，灵感并不可靠。反复且有纪律的投入会建立默会知识、技术自信，以及识别真正新事物正在出现的能力。</p>"
+    },
+    {
+      "id": "compositional_behaviour",
+      "level": 4,
+      "kind": "standard",
+      "label": "构成性行为",
+      "summary": "创造性元素必须协同行动：部分、序列、论证、母题、变量、图像、姿态和证据都需要关系秩序。",
+      "tags": [
+        "practice",
+        "composition",
+        "behaviour"
+      ],
+      "bodyHtml": "<p>一件创造性作品不是一堆有趣部分的堆积。它需要部分之间的关系：节奏、序列、对比、递归、发展、暗示、平衡、张力与释放。</p>"
+    },
+    {
+      "id": "critique_and_feedback",
+      "level": 5,
+      "kind": "standard",
+      "label": "批评与反馈",
+      "summary": "创造性工作通过回应来接受测试：自我批评、同行评议、受众遭遇、复现、表演或使用。",
+      "tags": [
+        "evaluation",
+        "critique",
+        "feedback"
+      ],
+      "bodyHtml": "<p>反馈揭示创作者独自无法看见的东西。它可能显示信息是否可理解、方法是否可靠、效果是否被感受到，或证据是否支持所提出的主张。</p>"
+    },
+    {
+      "id": "coherence_testing",
+      "level": 5,
+      "kind": "standard",
+      "label": "连贯性测试",
+      "summary": "评价来源、目的、方法、媒介、技艺和成果是否彼此相属。",
+      "tags": [
+        "evaluation",
+        "coherence",
+        "fit"
+      ],
+      "bodyHtml": "<p>作品可能因为其各部分属于不同逻辑而失败：深刻的信息可能被媒介琐碎化，强大的技艺可能遮蔽目的，优雅的理论可能没有回答真正的问题。</p>"
+    },
+    {
+      "id": "resonance_and_effect",
+      "level": 5,
+      "kind": "standard",
+      "label": "共鸣与效果",
+      "summary": "评估创造性作品在遭遇者那里使什么成为可能：洞见、感受、行动、解释、承认或转化。",
+      "tags": [
+        "evaluation",
+        "resonance",
+        "effect"
+      ],
+      "bodyHtml": "<p>创造性的成功不只是内部的优雅。一件作品会产生效果：它可能感动、澄清、扰动、解释、赋权、重新框定或邀请新的行动形式。这些效果必须被谨慎解释。</p>"
+    },
+    {
+      "id": "truth_and_validity",
+      "level": 5,
+      "kind": "standard",
+      "label": "真理、有效性与完整性",
+      "summary": "科学创造力与艺术创造力都需要完整性，尽管它们以不同方式检验真理。",
+      "tags": [
+        "evaluation",
+        "truth",
+        "validity"
+      ],
+      "bodyHtml": "<p>在科学中，有效性可能要求证据、可复现性、解释力和预测适当性。在艺术中，真理可能表现为情感、象征、存在或感知上的恰切。二者都需要抵抗虚假。</p>"
+    },
+    {
+      "id": "transformative_learning",
+      "level": 5,
+      "kind": "concept",
+      "label": "转化性学习",
+      "summary": "创造性评价不仅追问作品是否成功，也追问创作者如何因创造它而改变。",
+      "tags": [
+        "evaluation",
+        "learning",
+        "transformation"
+      ],
+      "bodyHtml": "<p>创造力会教育创作者。一个项目可能转化品味、感知、方法、勇气、谦卑或理解。这种学习会成为下一轮创造循环的一部分。</p>"
+    },
+    {
+      "id": "revision_loop",
+      "level": 5,
+      "kind": "concept",
+      "label": "修订循环",
+      "summary": "修订会同时向下游和上游传递发现：执行中的问题可能要求改变目的、媒介、方法或世界观。",
+      "tags": [
+        "evaluation",
+        "revision",
+        "iteration"
+      ],
+      "bodyHtml": "<p>修订是递归性的。薄弱的一行可能暴露薄弱的图像；失败的实验可能暴露糟糕的假设；困惑的受众可能暴露尚未解决的目的。创造性精炼贯穿整个层级结构。</p>"
+    },
+    {
+      "id": "poetic_case",
+      "level": 6,
+      "kind": "case",
+      "label": "艺术案例：诗",
+      "summary": "诗将图像、节奏、声音和洞见浓缩为超出普通陈述的语言。",
+      "tags": [
+        "art",
+        "poetry",
+        "language"
+      ],
+      "bodyHtml": "<p>一首诗可能始于悲伤、惊奇或矛盾。它选择图像、控制节奏、测试声音、删去冗余，并寻找一种形式，使被感受到的经验能够被分享，而不被压平成解释。</p>"
+    },
+    {
+      "id": "painting_case",
+      "level": 6,
+      "kind": "case",
+      "label": "艺术案例：绘画",
+      "summary": "绘画将感知、姿态、颜色、表面和材料阻力转化为视觉思想。",
+      "tags": [
+        "art",
+        "painting",
+        "image"
+      ],
+      "bodyHtml": "<p>绘画通过具身观看和材料决策而发展。颜色、尺度、边缘、肌理和构图成为思考方式。当可见表面承载的不只是说明时，作品便获得成功。</p>"
+    },
+    {
+      "id": "music_case",
+      "level": 6,
+      "kind": "case",
+      "label": "艺术案例：作曲",
+      "summary": "音乐将时间、张力、记忆、期待和身体共鸣组织为可听形式。",
+      "tags": [
+        "art",
+        "music",
+        "time"
+      ],
+      "bodyHtml": "<p>一首作品可能始于一个动机、一种音响、一个节奏细胞或一种情绪氛围。技艺治理和声、音色、发展与沉默，而实验则测试音乐时间如何创造意义。</p>"
+    },
+    {
+      "id": "scientific_hypothesis_case",
+      "level": 6,
+      "kind": "case",
+      "label": "科学案例：假设",
+      "summary": "假设通过提出世界中可测试的关系，为惊奇赋予有纪律的形式。",
+      "tags": [
+        "science",
+        "hypothesis",
+        "discovery"
+      ],
+      "bodyHtml": "<p>科学假设始于异常、好奇或模式识别。当它把未知框定为能够被调查、挑战、精炼并连接到更广泛解释的问题时，它便具有创造性。</p>"
+    },
+    {
+      "id": "model_case",
+      "level": 6,
+      "kind": "case",
+      "label": "科学案例：模型",
+      "summary": "模型创造一个简化世界，使结构、关系、机制或预测能够被探索。",
+      "tags": [
+        "science",
+        "model",
+        "abstraction"
+      ],
+      "bodyHtml": "<p>模型不是世界；它是一种有纪律的想象性建构。它选择变量、关系和边界，使隐藏机制能够被理解、模拟、批评或测试。</p>"
+    },
+    {
+      "id": "instrument_case",
+      "level": 6,
+      "kind": "case",
+      "label": "科学案例：仪器",
+      "summary": "仪器扩展感知，使先前不可见之物变得可测量、可操控或可观察。",
+      "tags": [
+        "science",
+        "instrument",
+        "perception"
+      ],
+      "bodyHtml": "<p>科学创造力常常在于创造新的观看方式。望远镜、显微镜、传感器、检测方法、算法或可视化工具，都能够通过改变感知场来转化什么可以算作证据。</p>"
+    },
+    {
+      "id": "public_creativity_case",
+      "level": 6,
+      "kind": "risk",
+      "label": "表达案例：公共创造性后果",
+      "summary": "创造性作品进入世界之后，可能被解释、使用、误用、抵抗、制度化或由他人转化。",
+      "tags": [
+        "expression",
+        "public",
+        "risk"
+      ],
+      "bodyHtml": "<p>一旦被发布，创造性作品就不再完全受创作者控制。一首诗可能成为口号，一个理论可能成为政策，一幅图像可能成为身份认同，一项技术可能重塑行为。因此，公共后果必须成为创造性责任的一部分。</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "being_to_action",
+      "to": "embodied_attention",
+      "why": "当存在通过身体变得专注时，创造性行动便开始。"
+    },
+    {
+      "from": "being_to_action",
+      "to": "imaginative_image",
+      "why": "从存在到行动的运动，常常首先表现为图像、节奏、短语或可能性。"
+    },
+    {
+      "from": "wonder_and_lack",
+      "to": "memory_and_depth",
+      "why": "惊奇与不完整会唤起隐藏的记忆、梦、失落和深层经验。"
+    },
+    {
+      "from": "wonder_and_lack",
+      "to": "message_selection",
+      "why": "当创作者选择什么需要被表达或探究时，不完整感便成为创造性的。"
+    },
+    {
+      "from": "vocation_and_responsibility",
+      "to": "purpose_orientation",
+      "why": "使命通过被澄清的创造目的而变得可操作。"
+    },
+    {
+      "from": "vocation_and_responsibility",
+      "to": "ethical_governance",
+      "why": "责任要求对创造性作品可能在世界中造成的影响作出伦理判断。"
+    },
+    {
+      "from": "embodied_attention",
+      "to": "medium_selection",
+      "why": "身体的感知方式常常引导媒介的选择：声音、姿态、图像、声音、数字或材料。"
+    },
+    {
+      "from": "embodied_attention",
+      "to": "technical_control",
+      "why": "技艺将具身注意精炼为可靠的创造能力。"
+    },
+    {
+      "from": "imaginative_image",
+      "to": "metaphor_and_association",
+      "why": "图像生成联想，使遥远的经验区域相互连接。"
+    },
+    {
+      "from": "imaginative_image",
+      "to": "experimental_variation",
+      "why": "初始图像通过替代形式和变奏的测试而变得更加丰富。"
+    },
+    {
+      "from": "metaphor_and_association",
+      "to": "problem_framing",
+      "why": "隐喻能够通过新的方式使问题可见，从而重新框定创造性或科学问题。"
+    },
+    {
+      "from": "metaphor_and_association",
+      "to": "poetic_case",
+      "why": "诗歌常常依赖隐喻性压缩和联想性共鸣。"
+    },
+    {
+      "from": "memory_and_depth",
+      "to": "tradition_and_departure",
+      "why": "个人与文化记忆成为传统被延续或转化的背景。"
+    },
+    {
+      "from": "memory_and_depth",
+      "to": "painting_case",
+      "why": "绘画能够通过图像和表面使记忆、梦与深层经验可见。"
+    },
+    {
+      "from": "environmental_resonance",
+      "to": "tools_and_conditions",
+      "why": "创造性环境通过工具、空间、日程和可及性转化为实践条件。"
+    },
+    {
+      "from": "environmental_resonance",
+      "to": "instrument_case",
+      "why": "科学仪器重塑感知环境，使新现象得以呈现。"
+    },
+    {
+      "from": "message_selection",
+      "to": "audience_and_address",
+      "why": "被选择的信息意味着作品指向某个对象或某类受众。"
+    },
+    {
+      "from": "message_selection",
+      "to": "compositional_behaviour",
+      "why": "信息选择引导各部分如何被组织，使意义变得可理解。"
+    },
+    {
+      "from": "purpose_orientation",
+      "to": "method_choice",
+      "why": "目的决定作品需要即兴、实验、研究、建模、作曲还是对话。"
+    },
+    {
+      "from": "purpose_orientation",
+      "to": "coherence_testing",
+      "why": "评价会追问最终作品是否忠实于其目的。"
+    },
+    {
+      "from": "audience_and_address",
+      "to": "critique_and_feedback",
+      "why": "预期受众或领域决定哪些反馈是重要的。"
+    },
+    {
+      "from": "audience_and_address",
+      "to": "public_creativity_case",
+      "why": "当作品进入公共解释和使用时，指向便具有后果。"
+    },
+    {
+      "from": "problem_framing",
+      "to": "scientific_hypothesis_case",
+      "why": "假设是将问题有纪律地框定为可测试命题。"
+    },
+    {
+      "from": "problem_framing",
+      "to": "model_case",
+      "why": "当问题通过变量、关系和边界被框定时，模型便出现。"
+    },
+    {
+      "from": "tradition_and_departure",
+      "to": "exception_and_risk",
+      "why": "理解传统使创作者能够判断何种偏离是有意义的，而不是任意的。"
+    },
+    {
+      "from": "tradition_and_departure",
+      "to": "music_case",
+      "why": "音乐创造力常常通过继承形式、动机和有控制的偏离而发展。"
+    },
+    {
+      "from": "method_choice",
+      "to": "experimental_variation",
+      "why": "被选择的方法规定了变奏和试验如何被生成。"
+    },
+    {
+      "from": "method_choice",
+      "to": "practice_rhythm",
+      "why": "方法通过重复的实践节奏而变得可持续。"
+    },
+    {
+      "from": "medium_selection",
+      "to": "material_dialogue",
+      "why": "每一种媒介都会通过自身的阻力和可供性作出回应。"
+    },
+    {
+      "from": "medium_selection",
+      "to": "poetic_case",
+      "why": "选择语言作为媒介，使诗性压缩、节奏和声音成为可能。"
+    },
+    {
+      "from": "constraint_design",
+      "to": "technical_control",
+      "why": "约束通过规定必须掌握的东西来聚焦技艺。"
+    },
+    {
+      "from": "constraint_design",
+      "to": "coherence_testing",
+      "why": "评价会检查约束是强化了创造目的，还是扭曲了创造目的。"
+    },
+    {
+      "from": "ethical_governance",
+      "to": "public_creativity_case",
+      "why": "公共后果测试创造性工作的伦理责任。"
+    },
+    {
+      "from": "ethical_governance",
+      "to": "truth_and_validity",
+      "why": "伦理性的创造力要求真理、再现和证据上的完整性。"
+    },
+    {
+      "from": "exception_and_risk",
+      "to": "failure_and_recovery",
+      "why": "风险使失败成为可能，而当失败被解释时，它便变得有用。"
+    },
+    {
+      "from": "exception_and_risk",
+      "to": "experimental_variation",
+      "why": "有控制的偏离通过实验性变奏被探索。"
+    },
+    {
+      "from": "tools_and_conditions",
+      "to": "instrument_case",
+      "why": "在科学中，工具可以成为扩展感知的创造性仪器。"
+    },
+    {
+      "from": "tools_and_conditions",
+      "to": "medium_selection",
+      "why": "可用的工具和条件会影响哪些媒介能够被有效使用。"
+    },
+    {
+      "from": "technical_control",
+      "to": "painting_case",
+      "why": "绘画依赖对颜色、表面、姿态和构图的技术控制。"
+    },
+    {
+      "from": "technical_control",
+      "to": "music_case",
+      "why": "作曲依赖对节奏、和声、音色和发展的技术掌握。"
+    },
+    {
+      "from": "material_dialogue",
+      "to": "failure_and_recovery",
+      "why": "材料阻力常常产生失败，而这些失败会教给创作者作品真正需要什么。"
+    },
+    {
+      "from": "material_dialogue",
+      "to": "model_case",
+      "why": "模型通过与抽象、数据、假设以及计算或数学限制的对话而发展。"
+    },
+    {
+      "from": "experimental_variation",
+      "to": "scientific_hypothesis_case",
+      "why": "假设通过控制性的实验变奏被加强或削弱。"
+    },
+    {
+      "from": "experimental_variation",
+      "to": "critique_and_feedback",
+      "why": "变奏需要回应，这样创作者才能判断发生了什么变化以及为什么重要。"
+    },
+    {
+      "from": "emotional_control",
+      "to": "practice_rhythm",
+      "why": "持续实践需要调节挫败、兴奋、羞耻和过早确定性。"
+    },
+    {
+      "from": "emotional_control",
+      "to": "revision_loop",
+      "why": "修订依赖于保持足够开放的情绪状态，以便改变作品。"
+    },
+    {
+      "from": "failure_and_recovery",
+      "to": "transformative_learning",
+      "why": "当失败改变创作者的理解时，它便成为创造性的。"
+    },
+    {
+      "from": "failure_and_recovery",
+      "to": "revision_loop",
+      "why": "被恢复和理解的失败会将作品送回修订过程。"
+    },
+    {
+      "from": "practice_rhythm",
+      "to": "technical_control",
+      "why": "重复实践建立对技艺的控制。"
+    },
+    {
+      "from": "practice_rhythm",
+      "to": "transformative_learning",
+      "why": "纪律会积累为感知和能力上的深层变化。"
+    },
+    {
+      "from": "compositional_behaviour",
+      "to": "coherence_testing",
+      "why": "各部分的行为必须根据整体的连贯性来测试。"
+    },
+    {
+      "from": "compositional_behaviour",
+      "to": "poetic_case",
+      "why": "诗依赖诗行、图像、声音、沉默和转折之间的关系。"
+    },
+    {
+      "from": "critique_and_feedback",
+      "to": "revision_loop",
+      "why": "当反馈产生具体修订时，它才变得有价值。"
+    },
+    {
+      "from": "critique_and_feedback",
+      "to": "public_creativity_case",
+      "why": "公共回应是一种反馈形式，尽管它必须被谨慎解释。"
+    },
+    {
+      "from": "coherence_testing",
+      "to": "painting_case",
+      "why": "一幅画要通过颜色、表面、构图和意图是否连贯来接受测试。"
+    },
+    {
+      "from": "coherence_testing",
+      "to": "model_case",
+      "why": "一个模型要通过其假设、结构和解释目的是否契合来接受测试。"
+    },
+    {
+      "from": "resonance_and_effect",
+      "to": "poetic_case",
+      "why": "诗歌常常通过共鸣来评判：它唤醒了超出释义之外的什么。"
+    },
+    {
+      "from": "resonance_and_effect",
+      "to": "music_case",
+      "why": "音乐通过时间、记忆、期待和身体共鸣产生效果。"
+    },
+    {
+      "from": "truth_and_validity",
+      "to": "scientific_hypothesis_case",
+      "why": "假设需要有效性、证据以及对可能证伪的有纪律暴露。"
+    },
+    {
+      "from": "truth_and_validity",
+      "to": "instrument_case",
+      "why": "仪器必须被评估，看其是否产生可信观察。"
+    },
+    {
+      "from": "transformative_learning",
+      "to": "practice_rhythm",
+      "why": "学习会重塑未来的实践节奏和习惯。"
+    },
+    {
+      "from": "transformative_learning",
+      "to": "purpose_orientation",
+      "why": "深层创造性学习可能改变后续工作的目的。"
+    },
+    {
+      "from": "revision_loop",
+      "to": "method_choice",
+      "why": "持续存在的问题可能要求改变方法。"
+    },
+    {
+      "from": "revision_loop",
+      "to": "message_selection",
+      "why": "修订可能揭示真正的信息不同于最初意图的信息。"
+    },
+    {
+      "from": "revision_loop",
+      "to": "medium_selection",
+      "why": "如果原有媒介无法承载意图，作品可能需要不同的媒介。"
+    },
+    {
+      "from": "poetic_case",
+      "to": "message_selection",
+      "why": "诗揭示了被选择的信息是否能够在语言中生存，而不仅仅成为解释。"
+    },
+    {
+      "from": "painting_case",
+      "to": "embodied_attention",
+      "why": "绘画将创造性判断重新带回具身观看与姿态。"
+    },
+    {
+      "from": "music_case",
+      "to": "environmental_resonance",
+      "why": "音乐显示了声音、身体、空间和社会氛围如何彼此共鸣。"
+    },
+    {
+      "from": "scientific_hypothesis_case",
+      "to": "truth_and_validity",
+      "why": "假设必须回到有效性和证据的检验之中。"
+    },
+    {
+      "from": "model_case",
+      "to": "problem_framing",
+      "why": "模型常常改变原始问题被理解的方式。"
+    },
+    {
+      "from": "instrument_case",
+      "to": "being_to_action",
+      "why": "新仪器揭示存在的新方面，从而重新启动注意与行动的创造循环。"
+    },
+    {
+      "from": "public_creativity_case",
+      "to": "ethical_governance",
+      "why": "公共后果将创造性责任送回上游，要求重新进行伦理反思。"
+    }
+  ]
+}
