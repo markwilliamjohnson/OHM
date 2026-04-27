@@ -1,0 +1,1592 @@
+{
+  "meta": {
+    "title": "Creative Mathematics Learning — Wisdom → Conceptual Constraints → Constraint Movement → Topic Architecture → Learning Design → Agility Evidence → Cases",
+    "subtitle": "A constraint lattice for teaching mathematics creatively: learners move between space, shape, freedom, similarity, difference, number, representation, proof, modelling and concrete cases. Mathematical understanding is treated as agility across levels, not merely procedural performance.",
+    "domainName": "creative approaches to learning mathematics",
+    "searchPlaceholder": "space, shape, freedom, constraint, similarity, difference, pattern, number, place value, fraction, ratio, symmetry, graph, function, proof, data, probability, modelling, representation, manipulatives, conjecture…",
+    "userContextLabel": "Your mathematics learning context (optional)",
+    "userContextPlaceholder": "e.g., Year 5 fractions; creative secondary algebra; mixed-attainment class; geometry outdoors; maths anxiety; need more agency, dialogue and visual reasoning…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert guide to creative mathematics education with deep judgement about mathematical constraint, learner agency, representation, dialogue, proof, modelling and conceptual progression.\n\nWrite a realistic narrative case-study showing how upstream constraints (space, shape, freedom, similarity, difference, representation and agency) shape downstream learning of number, geometry, algebra, data, probability and proof.\nUse the selected concepts to explain how learners move up and down the constraint lattice: from concrete experience to diagrams, symbols, generalisation, proof and back again.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- Scenario description (learners, topic, environment, constraints)\n- Diagnosis of learning barriers (procedure lock-in, representation gaps, anxiety, false patterns, assessment pressure)\n- Creative mathematics design (task, materials, representations, dialogue, variation and challenge)\n- Constraint-lattice map: how learners move from high-level ideas to specific mathematical topics and back\n- Classroom playbook (teacher prompts, group routines, examples, counterexamples and re-entry routes)\n- Evidence plan: indicators of agility, explanation, transfer, fluency and revision\n- 2 safe-to-try experiments with backfire checks\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Generative mathematical wisdom",
+      "hint": "Judgement-in-context: curiosity, freedom, constraint, attention, play, precision and care."
+    },
+    {
+      "id": 1,
+      "title": "High-level conceptual constraints",
+      "hint": "Space, shape, pattern, difference, similarity, transformation, measure, quantity, uncertainty and representation."
+    },
+    {
+      "id": 2,
+      "title": "Constraint-lattice movement",
+      "hint": "How learners move between concrete action, diagrams, symbols, proof, examples, counterexamples and generalisation."
+    },
+    {
+      "id": 3,
+      "title": "Mathematical topic architecture",
+      "hint": "Number, algebra, geometry, measurement, data, probability, functions, proof and modelling as linked territories."
+    },
+    {
+      "id": 4,
+      "title": "Learning design mechanisms",
+      "hint": "Tasks, manipulatives, dialogue, visualisation, embodied work, digital tools, assessment moments and classroom routines."
+    },
+    {
+      "id": 5,
+      "title": "Agility, evidence & improvement",
+      "hint": "How mathematical agility is noticed, supported, assessed and improved without reducing creativity to test scores."
+    },
+    {
+      "id": 6,
+      "title": "Concrete cases, tensions & pathologies",
+      "hint": "Classroom scenarios where constraints either open mathematical imagination or trap learners in brittle procedures."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_wonder",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Wonder before technique",
+      "summary": "Mathematics begins when something invites noticing: a shadow, rhythm, tiling, balance, game or surprising regularity.",
+      "tags": [
+        "wisdom",
+        "wonder",
+        "attention"
+      ],
+      "bodyHtml": "<p>Creative mathematics teaching treats wonder as a real constraint: learners need time to notice, compare, ask and dwell before formal methods are introduced.</p>"
+    },
+    {
+      "id": "wis_freedom",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Freedom within constraint",
+      "summary": "Creativity grows when learners have room to choose strategies while still meeting shared mathematical constraints.",
+      "tags": [
+        "wisdom",
+        "freedom",
+        "constraint"
+      ],
+      "bodyHtml": "<p>Freedom is not the absence of structure. It is the capacity to explore within boundaries: same total, different shapes; same pattern, different representation; same problem, multiple routes.</p>"
+    },
+    {
+      "id": "wis_proportion",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Proportion & pacing",
+      "summary": "Choose the right degree of challenge, explanation, practice and open exploration for the moment.",
+      "tags": [
+        "wisdom",
+        "pacing",
+        "challenge"
+      ],
+      "bodyHtml": "<p>Too much openness can bewilder; too much procedure can deaden. Wise pacing keeps learners near the edge of productive difficulty.</p>"
+    },
+    {
+      "id": "wis_equity_voice",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Equity of mathematical voice",
+      "summary": "Treat different ways of seeing as legitimate evidence in the classroom conversation.",
+      "tags": [
+        "wisdom",
+        "equity",
+        "dialogue"
+      ],
+      "bodyHtml": "<p>Creative mathematics depends on more than fast answers. Gesture, drawing, story, pattern spotting and informal language can all become routes into precision.</p>"
+    },
+    {
+      "id": "wis_wholeness",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Wholeness of mathematical experience",
+      "summary": "Connect number, shape, space, movement, language, emotion and purpose rather than isolating topics.",
+      "tags": [
+        "wisdom",
+        "holism",
+        "connection"
+      ],
+      "bodyHtml": "<p>Mathematics becomes meaningful when learners experience relations between territories: fractions as measure, ratio as geometry, algebra as pattern, data as argument.</p>"
+    },
+    {
+      "id": "wis_safe_experiment",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Safe-to-try mathematical experiments",
+      "summary": "Let learners test conjectures, fail productively, revise and compare approaches.",
+      "tags": [
+        "wisdom",
+        "experiment",
+        "learning"
+      ],
+      "bodyHtml": "<p>A creative mathematics classroom makes wrong turns discussable. Error becomes information about constraints, not evidence of incapacity.</p>"
+    },
+    {
+      "id": "wis_reflection",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Reflection & re-seeing",
+      "summary": "Return to a problem from another level: concrete, visual, symbolic, verbal, general or applied.",
+      "tags": [
+        "wisdom",
+        "reflection",
+        "abstraction"
+      ],
+      "bodyHtml": "<p>Reflection builds agility: learners learn not only a method, but how to change altitude in the constraint lattice when stuck.</p>"
+    },
+    {
+      "id": "space_shape_orientation",
+      "level": 1,
+      "kind": "concept",
+      "label": "Space, shape & orientation",
+      "summary": "Mathematics as organised space: position, direction, symmetry, boundary, inside/outside and transformation.",
+      "tags": [
+        "space",
+        "shape",
+        "geometry"
+      ],
+      "bodyHtml": "<p>Spatial constraints let learners reason before symbols: rotating, folding, building, mapping, comparing and imagining alternatives.</p>"
+    },
+    {
+      "id": "difference_similarity",
+      "level": 1,
+      "kind": "concept",
+      "label": "Difference & similarity",
+      "summary": "Learning mathematics means noticing what changes, what stays invariant and what counts as the same.",
+      "tags": [
+        "difference",
+        "similarity",
+        "invariance"
+      ],
+      "bodyHtml": "<p>Similarity and difference drive classification, pattern, proof, proportionality and algebraic generalisation.</p>"
+    },
+    {
+      "id": "freedom_constraint",
+      "level": 1,
+      "kind": "concept",
+      "label": "Freedom, rule and constraint",
+      "summary": "Rules can restrict, but they can also create playable mathematical worlds.",
+      "tags": [
+        "rules",
+        "freedom",
+        "constraint"
+      ],
+      "bodyHtml": "<p>A grid, a number system, a game rule or a symmetry condition can generate rich exploration when learners can vary one thing at a time.</p>"
+    },
+    {
+      "id": "representation_translation",
+      "level": 1,
+      "kind": "concept",
+      "label": "Representation & translation",
+      "summary": "Move between objects, diagrams, language, tables, graphs, symbols and stories.",
+      "tags": [
+        "representation",
+        "translation"
+      ],
+      "bodyHtml": "<p>Understanding deepens when learners see the same structure through different representational lenses and can translate between them.</p>"
+    },
+    {
+      "id": "quantity_measure_scale",
+      "level": 1,
+      "kind": "concept",
+      "label": "Quantity, measure & scale",
+      "summary": "Numbers become meaningful through magnitude, unit, comparison, estimation and scale.",
+      "tags": [
+        "number",
+        "measure",
+        "scale"
+      ],
+      "bodyHtml": "<p>Measure connects bodily experience, tools, units, proportional reasoning and later formal calculation.</p>"
+    },
+    {
+      "id": "uncertainty_variation",
+      "level": 1,
+      "kind": "concept",
+      "label": "Uncertainty, variation & distribution",
+      "summary": "Not all mathematics is exact; some concerns chance, spread, evidence and expectation.",
+      "tags": [
+        "uncertainty",
+        "data",
+        "probability"
+      ],
+      "bodyHtml": "<p>Variation invites learners to reason about data, probability, fairness, sampling and uncertainty rather than only single correct answers.</p>"
+    },
+    {
+      "id": "data_to_insight",
+      "level": 1,
+      "kind": "concept",
+      "label": "Data → pattern → insight ladder",
+      "summary": "Collecting data is not enough; learners must organise, interpret, question and communicate it.",
+      "tags": [
+        "data",
+        "sensemaking",
+        "pattern"
+      ],
+      "bodyHtml": "<p>Creative mathematical work turns observations into patterns and patterns into claims that can be challenged.</p>"
+    },
+    {
+      "id": "collaborative_maths",
+      "level": 1,
+      "kind": "concept",
+      "label": "Collaborative mathematical conversation",
+      "summary": "Mathematics is strengthened by comparing methods, asking for reasons and coordinating partial insights.",
+      "tags": [
+        "dialogue",
+        "collaboration"
+      ],
+      "bodyHtml": "<p>Peers can supply different representations, counterexamples and strategies; the classroom becomes a thinking system.</p>"
+    },
+    {
+      "id": "concrete_to_abstract",
+      "level": 2,
+      "kind": "concept",
+      "label": "Concrete ↔ abstract movement",
+      "summary": "Learners climb and descend between manipulatives, images, words, symbols and formal ideas.",
+      "tags": [
+        "abstraction",
+        "concrete",
+        "symbols"
+      ],
+      "bodyHtml": "<p>Agility means not being trapped at one level. A learner can return to a model, draw a diagram, invent notation or state a general rule.</p>"
+    },
+    {
+      "id": "feedback_loops_math",
+      "level": 2,
+      "kind": "concept",
+      "label": "Mathematical feedback loops",
+      "summary": "Try → notice → adjust → explain → test again.",
+      "tags": [
+        "feedback",
+        "iteration"
+      ],
+      "bodyHtml": "<p>Feedback loops make mathematics investigative. Learners see that strategy, evidence and explanation change one another.</p>"
+    },
+    {
+      "id": "productive_drift",
+      "level": 2,
+      "kind": "concept",
+      "label": "Productive drift and unproductive drift",
+      "summary": "Exploration can open new mathematics, but it can also lose the problem’s constraints.",
+      "tags": [
+        "exploration",
+        "focus",
+        "drift"
+      ],
+      "bodyHtml": "<p>Teachers help learners distinguish fruitful side routes from drift that abandons the mathematical object.</p>"
+    },
+    {
+      "id": "interfaces_representations",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interfaces between representations",
+      "summary": "Breakdowns occur when a drawing, table, graph, story or formula is treated as the whole idea.",
+      "tags": [
+        "representation",
+        "interfaces"
+      ],
+      "bodyHtml": "<p>Many misconceptions are translation problems: learners know something in one form but cannot move it to another.</p>"
+    },
+    {
+      "id": "boundaries_definitions",
+      "level": 2,
+      "kind": "concept",
+      "label": "Boundaries, definitions & cases",
+      "summary": "Definitions decide what belongs, what does not and what must be tested.",
+      "tags": [
+        "definitions",
+        "cases",
+        "classification"
+      ],
+      "bodyHtml": "<p>Mathematics advances by sharpening boundaries: square/rectangle, prime/composite, linear/nonlinear, sample/population.</p>"
+    },
+    {
+      "id": "flow_attention",
+      "level": 2,
+      "kind": "concept",
+      "label": "Flow of attention and cognitive load",
+      "summary": "Attention is finite; task design must manage memory, notation, language and visual complexity.",
+      "tags": [
+        "attention",
+        "cognitive_load"
+      ],
+      "bodyHtml": "<p>Creative tasks still need thoughtful sequencing so learners are not overloaded before they can reason.</p>"
+    },
+    {
+      "id": "power_assessment",
+      "level": 2,
+      "kind": "concept",
+      "label": "Assessment, authority & mathematical agency",
+      "summary": "What counts as success shapes whether learners explore or merely comply.",
+      "tags": [
+        "assessment",
+        "agency",
+        "authority"
+      ],
+      "bodyHtml": "<p>If only speed and neatness are rewarded, learners hide experiments. If reasoning and representation are valued, agency grows.</p>"
+    },
+    {
+      "id": "problem_types_math",
+      "level": 2,
+      "kind": "concept",
+      "label": "Problem types: exercise / puzzle / investigation / model",
+      "summary": "Different mathematical situations require different forms of teacher support.",
+      "tags": [
+        "problem_types",
+        "pedagogy"
+      ],
+      "bodyHtml": "<p>An exercise consolidates; a puzzle invites structure seeking; an investigation invites conjecture; a model connects mathematics to a situation.</p>"
+    },
+    {
+      "id": "curriculum_scope",
+      "level": 3,
+      "kind": "concept",
+      "label": "Curriculum scope & learning journey",
+      "summary": "Sequence topics as a connected landscape rather than a checklist of isolated procedures.",
+      "tags": [
+        "curriculum",
+        "scope"
+      ],
+      "bodyHtml": "<p>A creative mathematics curriculum makes routes visible: number to algebra, shape to proof, data to argument, measurement to modelling.</p>"
+    },
+    {
+      "id": "pedagogical_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Pedagogical governance",
+      "summary": "Class norms, teacher moves and assessment routines protect inquiry while sustaining mathematical rigour.",
+      "tags": [
+        "pedagogy",
+        "governance"
+      ],
+      "bodyHtml": "<p>Governance means designing the conditions under which freedom, care, challenge and precision can coexist.</p>"
+    },
+    {
+      "id": "classroom_information_ecology",
+      "level": 3,
+      "kind": "concept",
+      "label": "Classroom information ecology",
+      "summary": "Boards, notebooks, manipulatives, digital tools and talk determine what mathematical information can be seen and reused.",
+      "tags": [
+        "classroom",
+        "information",
+        "tools"
+      ],
+      "bodyHtml": "<p>Creative learning needs shared visible traces: diagrams, conjecture lists, failed attempts, class examples and evolving definitions.</p>"
+    },
+    {
+      "id": "topic_backbone",
+      "level": 3,
+      "kind": "concept",
+      "label": "Topic backbone: number–shape–data–change",
+      "summary": "Use a coherent mathematical backbone that links key territories across ages and contexts.",
+      "tags": [
+        "topics",
+        "architecture"
+      ],
+      "bodyHtml": "<p>The backbone helps learners locate a task: is this about quantity, spatial relation, variation, transformation or structure?</p>"
+    },
+    {
+      "id": "integration_across_topics",
+      "level": 3,
+      "kind": "concept",
+      "label": "Integration across topics",
+      "summary": "Connect mathematical domains so learners can transfer ideas across contexts.",
+      "tags": [
+        "integration",
+        "transfer"
+      ],
+      "bodyHtml": "<p>Fractions, ratio, slope, probability and scale can illuminate one another when taught as connected constraints.</p>"
+    },
+    {
+      "id": "portfolio_tasks",
+      "level": 3,
+      "kind": "concept",
+      "label": "Portfolio of task types",
+      "summary": "Balance fluency tasks, open investigations, visual tasks, modelling tasks, games and proofs.",
+      "tags": [
+        "tasks",
+        "portfolio"
+      ],
+      "bodyHtml": "<p>A rich task portfolio prevents creativity from becoming vague and prevents fluency from becoming mechanical.</p>"
+    },
+    {
+      "id": "arec_math_cycle",
+      "level": 3,
+      "kind": "concept",
+      "label": "Anticipate–Represent–Explore–Constrain",
+      "summary": "A learning cycle for creative mathematics: anticipate possibilities, represent them, explore variations, then constrain and justify.",
+      "tags": [
+        "cycle",
+        "inquiry"
+      ],
+      "bodyHtml": "<p>This cycle helps teachers convert playful activity into mathematical generalisation and explanation.</p>"
+    },
+    {
+      "id": "risk_assessment_learning",
+      "level": 3,
+      "kind": "concept",
+      "label": "Challenge design → learning management",
+      "summary": "Analyse likely stumbling points and design supports, extensions and re-entry routes.",
+      "tags": [
+        "challenge",
+        "support"
+      ],
+      "bodyHtml": "<p>Teachers manage learning risk: confusion, boredom, false pattern, notation overload and premature closure.</p>"
+    },
+    {
+      "id": "constraint_hierarchy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Hierarchy of mathematical constraints",
+      "summary": "Move from broad constraints such as space and sameness to precise constraints such as equality, unit, angle or function rule.",
+      "tags": [
+        "constraints",
+        "hierarchy"
+      ],
+      "bodyHtml": "<p>The constraint hierarchy makes mathematical abstraction visible: a learner can ask which constraint is doing the work.</p>"
+    },
+    {
+      "id": "investigation_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Investigation & example strategy",
+      "summary": "Choose examples, non-examples, boundary cases and counterexamples deliberately.",
+      "tags": [
+        "examples",
+        "counterexamples"
+      ],
+      "bodyHtml": "<p>Examples are not decoration. They are the material through which learners test and refine concepts.</p>"
+    },
+    {
+      "id": "adaptive_practice_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Adaptive practice strategy",
+      "summary": "Practice changes according to learner insight: vary constraints, representations and contexts rather than repeat blindly.",
+      "tags": [
+        "practice",
+        "adaptation"
+      ],
+      "bodyHtml": "<p>Adaptive practice builds fluency with meaning by asking: what has changed, what is invariant, and why does the method still work?</p>"
+    },
+    {
+      "id": "number_sense",
+      "level": 3,
+      "kind": "standard",
+      "label": "Number sense & place value",
+      "summary": "Magnitude, unitising, place value, estimation, operations and flexible calculation.",
+      "tags": [
+        "number",
+        "place_value",
+        "operations"
+      ],
+      "bodyHtml": "<p>Number sense is the foundation for moving between concrete quantities, mental strategies, written algorithms and later algebra.</p>"
+    },
+    {
+      "id": "fractions_ratio_proportion",
+      "level": 3,
+      "kind": "standard",
+      "label": "Fractions, ratio & proportion",
+      "summary": "Parts, wholes, scaling, equivalence, multiplicative comparison and proportional change.",
+      "tags": [
+        "fractions",
+        "ratio",
+        "proportion"
+      ],
+      "bodyHtml": "<p>This topic is a central bridge between number, measure, geometry, probability, slope and modelling.</p>"
+    },
+    {
+      "id": "algebra_pattern_functions",
+      "level": 4,
+      "kind": "standard",
+      "label": "Algebra, pattern & functions",
+      "summary": "Variables, generalisation, expressions, equations, sequences, mappings and functional relationships.",
+      "tags": [
+        "algebra",
+        "functions",
+        "pattern"
+      ],
+      "bodyHtml": "<p>Algebra becomes creative when learners see it as a language for structure, not merely a procedure for unknowns.</p>"
+    },
+    {
+      "id": "geometry_transformations",
+      "level": 4,
+      "kind": "standard",
+      "label": "Geometry, symmetry & transformation",
+      "summary": "Shape properties, angle, symmetry, congruence, similarity, coordinates and transformations.",
+      "tags": [
+        "geometry",
+        "transformation"
+      ],
+      "bodyHtml": "<p>Geometry lets learners reason through seeing, moving, constructing and proving.</p>"
+    },
+    {
+      "id": "measurement_units",
+      "level": 4,
+      "kind": "standard",
+      "label": "Measurement, units & dimensional thinking",
+      "summary": "Length, area, volume, time, mass, compound measures, estimation and unit conversion.",
+      "tags": [
+        "measurement",
+        "units"
+      ],
+      "bodyHtml": "<p>Measurement connects mathematics to embodied experience and exposes the need for agreed units and precision.</p>"
+    },
+    {
+      "id": "data_probability",
+      "level": 4,
+      "kind": "standard",
+      "label": "Data, probability & uncertainty",
+      "summary": "Collecting, visualising and interpreting data; chance, fairness, expectation and variation.",
+      "tags": [
+        "data",
+        "probability"
+      ],
+      "bodyHtml": "<p>Data and probability support reasoning in uncertain situations and challenge the idea that mathematics is always deterministic.</p>"
+    },
+    {
+      "id": "mathematical_modelling",
+      "level": 4,
+      "kind": "standard",
+      "label": "Mathematical modelling",
+      "summary": "Turn situations into mathematical structures, test assumptions and interpret results back in context.",
+      "tags": [
+        "modelling",
+        "application"
+      ],
+      "bodyHtml": "<p>Modelling is a high-level agility practice: choose constraints, simplify, calculate, interpret, revise.</p>"
+    },
+    {
+      "id": "proof_argument",
+      "level": 4,
+      "kind": "standard",
+      "label": "Proof, argument & justification",
+      "summary": "Explain why something must be true, not merely that it worked in examples.",
+      "tags": [
+        "proof",
+        "argument"
+      ],
+      "bodyHtml": "<p>Proof grows from pattern, example, counterexample and the pressure to convince others.</p>"
+    },
+    {
+      "id": "visualisation_manipulatives",
+      "level": 4,
+      "kind": "standard",
+      "label": "Visualisation & manipulatives",
+      "summary": "Use objects, drawings, dynamic geometry, arrays, bars, grids and movement to make constraints visible.",
+      "tags": [
+        "visualisation",
+        "manipulatives"
+      ],
+      "bodyHtml": "<p>Manipulatives matter when they are linked to language and symbols, not used as isolated activity.</p>"
+    },
+    {
+      "id": "math_dialogue_routines",
+      "level": 4,
+      "kind": "standard",
+      "label": "Dialogue routines & mathematical talk",
+      "summary": "Use talk moves, comparison of strategies, conjecture prompts and explanation stems.",
+      "tags": [
+        "dialogue",
+        "routines"
+      ],
+      "bodyHtml": "<p>Mathematical talk helps learners coordinate different routes through the same constraint lattice.</p>"
+    },
+    {
+      "id": "digital_dynamic_tools",
+      "level": 4,
+      "kind": "standard",
+      "label": "Digital and dynamic tools",
+      "summary": "Use spreadsheets, simulations, graphing tools, dynamic geometry and coding environments.",
+      "tags": [
+        "digital",
+        "simulation",
+        "graphs"
+      ],
+      "bodyHtml": "<p>Dynamic tools let learners vary constraints rapidly and see invariants, but require prompts that focus reasoning.</p>"
+    },
+    {
+      "id": "teacher_questions",
+      "level": 4,
+      "kind": "standard",
+      "label": "Teacher questioning & prompts",
+      "summary": "Ask questions that move learners up, down or sideways in the lattice.",
+      "tags": [
+        "questions",
+        "scaffolding"
+      ],
+      "bodyHtml": "<p>Questions such as “What stays the same?”, “Can you draw it?”, “What if this changes?” and “Why must it happen?” build agility.</p>"
+    },
+    {
+      "id": "assessment_for_creativity",
+      "level": 4,
+      "kind": "standard",
+      "label": "Assessment for mathematical creativity",
+      "summary": "Assess strategy choice, representation, conjecture, explanation, transfer and revision.",
+      "tags": [
+        "assessment",
+        "creativity"
+      ],
+      "bodyHtml": "<p>Assessment should recognise mathematical movement, not just final answers.</p>"
+    },
+    {
+      "id": "records_learning_journal",
+      "level": 4,
+      "kind": "standard",
+      "label": "Learning journals & visible traces",
+      "summary": "Record conjectures, diagrams, examples, errors, revisions and reflections.",
+      "tags": [
+        "journals",
+        "reflection"
+      ],
+      "bodyHtml": "<p>Visible traces give learners material to revisit and reorganise; they make the learning journey inspectable.</p>"
+    },
+    {
+      "id": "classroom_culture",
+      "level": 4,
+      "kind": "standard",
+      "label": "Classroom culture for risk and rigour",
+      "summary": "Normalise uncertainty, respectful challenge, evidence and revision.",
+      "tags": [
+        "culture",
+        "risk",
+        "rigour"
+      ],
+      "bodyHtml": "<p>Culture determines whether learners dare to propose, test and defend ideas.</p>"
+    },
+    {
+      "id": "agility_indicators",
+      "level": 5,
+      "kind": "standard",
+      "label": "Indicators of mathematical agility",
+      "summary": "Look for flexible movement between levels, representations and strategies.",
+      "tags": [
+        "indicators",
+        "agility"
+      ],
+      "bodyHtml": "<p>Evidence includes choosing a representation, inventing an example, spotting invariance, finding a counterexample and explaining transfer.</p>"
+    },
+    {
+      "id": "curriculum_mapping",
+      "level": 5,
+      "kind": "standard",
+      "label": "Curriculum mapping & progression",
+      "summary": "Map how constraints develop across years: unit, equality, equivalence, function, proof, uncertainty.",
+      "tags": [
+        "curriculum",
+        "progression"
+      ],
+      "bodyHtml": "<p>Progression is not only harder content; it is increasing agility across abstraction levels.</p>"
+    },
+    {
+      "id": "improvement_cycle",
+      "level": 5,
+      "kind": "standard",
+      "label": "Plan–Try–Notice–Revise learning cycle",
+      "summary": "Use iterative improvement for lessons, tasks and learner strategies.",
+      "tags": [
+        "improvement",
+        "iteration"
+      ],
+      "bodyHtml": "<p>Teachers and learners use evidence from activity to redesign prompts, examples and representations.</p>"
+    },
+    {
+      "id": "kpis_creative_maths",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning evidence beyond scores",
+      "summary": "Use leading and lagging indicators: participation, explanation quality, representation range, fluency and transfer.",
+      "tags": [
+        "evidence",
+        "assessment"
+      ],
+      "bodyHtml": "<p>Scores matter, but they must be interpreted alongside richer evidence of mathematical agency and understanding.</p>"
+    },
+    {
+      "id": "lesson_study",
+      "level": 5,
+      "kind": "standard",
+      "label": "Lesson study & task refinement",
+      "summary": "Collaboratively observe how learners respond to constraints, then refine the task.",
+      "tags": [
+        "lesson_study",
+        "collaboration"
+      ],
+      "bodyHtml": "<p>Lesson study treats the task as a design object and learner responses as evidence about constraints.</p>"
+    },
+    {
+      "id": "teacher_competence",
+      "level": 5,
+      "kind": "standard",
+      "label": "Teacher mathematical-pedagogical fluency",
+      "summary": "Teachers need subject knowledge, representational fluency and sensitivity to learner reasoning.",
+      "tags": [
+        "teacher",
+        "competence"
+      ],
+      "bodyHtml": "<p>Creative teaching is not improvisation alone; it depends on deep knowledge of likely routes, misconceptions and extensions.</p>"
+    },
+    {
+      "id": "learning_loops_improvement",
+      "level": 5,
+      "kind": "standard",
+      "label": "Learning loops & continuous curriculum improvement",
+      "summary": "Convert learner explanations, errors and questions into improved sequences, examples and supports.",
+      "tags": [
+        "learning_loops",
+        "curriculum"
+      ],
+      "bodyHtml": "<p>The curriculum learns when teachers systematically feed classroom evidence back into design.</p>"
+    },
+    {
+      "id": "challenge_procedure_lock",
+      "level": 6,
+      "kind": "risk",
+      "label": "Challenge: Procedure lock-in",
+      "summary": "Learners can perform steps but cannot explain, adapt or transfer them.",
+      "tags": [
+        "procedure",
+        "risk"
+      ],
+      "bodyHtml": "<p>Procedure lock-in occurs when the classroom rewards compliance with method over mathematical sense-making.</p>"
+    },
+    {
+      "id": "pathology_answer_hunting",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Answer hunting",
+      "summary": "Learners search for the expected answer rather than exploring constraints and reasons.",
+      "tags": [
+        "pathology",
+        "answers"
+      ],
+      "bodyHtml": "<p>Answer hunting collapses the lattice to one endpoint: speed, correctness and teacher approval.</p>"
+    },
+    {
+      "id": "pathology_false_patterns",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: False pattern confidence",
+      "summary": "Learners overgeneralise from too few examples and ignore counterexamples.",
+      "tags": [
+        "patterns",
+        "misconception"
+      ],
+      "bodyHtml": "<p>Creative exploration needs constraint-testing, otherwise attractive patterns become fragile myths.</p>"
+    },
+    {
+      "id": "case_fraction_art_studio",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Fraction art studio",
+      "summary": "Learners create visual designs with equivalent fractions, area models and ratio constraints.",
+      "tags": [
+        "case",
+        "fractions",
+        "art"
+      ],
+      "bodyHtml": "<p>Children design tiled artworks where colour proportions must match target fractions, then justify equivalence using diagrams and numbers.</p>"
+    },
+    {
+      "id": "case_playground_geometry",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Playground geometry mapping",
+      "summary": "Learners map routes, angles, symmetry and scale in a playground or local space.",
+      "tags": [
+        "case",
+        "geometry",
+        "space"
+      ],
+      "bodyHtml": "<p>Movement through real space becomes a route into coordinates, turns, estimation, symmetry and scale drawing.</p>"
+    },
+    {
+      "id": "case_data_story",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Data story from class life",
+      "summary": "Learners collect meaningful data about their routines, choices or environment and turn it into arguments.",
+      "tags": [
+        "case",
+        "data",
+        "story"
+      ],
+      "bodyHtml": "<p>The class asks a real question, gathers data, visualises variation and debates what the evidence can and cannot show.</p>"
+    },
+    {
+      "id": "case_teacher_says_one_method",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: “Use the method I showed you”",
+      "summary": "A teacher accidentally suppresses mathematical agency by rejecting alternative strategies.",
+      "tags": [
+        "case",
+        "agency",
+        "methods"
+      ],
+      "bodyHtml": "<p>The lesson recovers when alternative strategies are compared for efficiency, generality and explanation.</p>"
+    },
+    {
+      "id": "case_spreadsheet_patterns",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Spreadsheet pattern machine",
+      "summary": "Learners build a spreadsheet or coding model to vary rules and observe sequences, graphs and functions.",
+      "tags": [
+        "case",
+        "digital",
+        "functions"
+      ],
+      "bodyHtml": "<p>Changing one formula cell becomes a way to experience variables, functions and generalisation dynamically.</p>"
+    },
+    {
+      "id": "case_times_table_song_trap",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Song fluency without structure",
+      "summary": "A class can chant multiplication facts but cannot use arrays, factors or scaling to solve unfamiliar problems.",
+      "tags": [
+        "case",
+        "fluency",
+        "structure"
+      ],
+      "bodyHtml": "<p>The remedy is to reconnect recall to arrays, area, grouping, ratio and flexible decomposition.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_wonder",
+      "to": "quantity_measure_scale",
+      "why": "This connection helps learners move from wonder before technique into quantity, measure & scale, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "wis_wonder",
+      "to": "feedback_loops_math",
+      "why": "Linking wonder before technique with mathematical feedback loops supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "wis_wonder",
+      "to": "classroom_culture",
+      "why": "wonder before technique provides the broader constraint; classroom culture for risk and rigour makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "wis_wonder",
+      "to": "concrete_to_abstract",
+      "why": "When wonder before technique is neglected, concrete ↔ abstract movement often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "wis_freedom",
+      "to": "pathology_answer_hunting",
+      "why": "This connection helps learners move from freedom within constraint into pathology: answer hunting, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "wis_freedom",
+      "to": "classroom_culture",
+      "why": "Linking freedom within constraint with classroom culture for risk and rigour supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "wis_proportion",
+      "to": "space_shape_orientation",
+      "why": "proportion & pacing provides the broader constraint; space, shape & orientation makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "wis_proportion",
+      "to": "curriculum_scope",
+      "why": "When proportion & pacing is neglected, curriculum scope & learning journey often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "wis_proportion",
+      "to": "kpis_creative_maths",
+      "why": "This connection helps learners move from proportion & pacing into learning evidence beyond scores, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "wis_equity_voice",
+      "to": "representation_translation",
+      "why": "Linking equity of mathematical voice with representation & translation supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "wis_equity_voice",
+      "to": "difference_similarity",
+      "why": "equity of mathematical voice provides the broader constraint; difference & similarity makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "wis_equity_voice",
+      "to": "classroom_information_ecology",
+      "why": "When equity of mathematical voice is neglected, classroom information ecology often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "wis_wholeness",
+      "to": "collaborative_maths",
+      "why": "This connection helps learners move from wholeness of mathematical experience into collaborative mathematical conversation, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "wis_wholeness",
+      "to": "integration_across_topics",
+      "why": "Linking wholeness of mathematical experience with integration across topics supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "wis_safe_experiment",
+      "to": "problem_types_math",
+      "why": "safe-to-try mathematical experiments provides the broader constraint; problem types: exercise / puzzle / investigation / model makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "wis_safe_experiment",
+      "to": "learning_loops_improvement",
+      "why": "When safe-to-try mathematical experiments is neglected, learning loops & continuous curriculum improvement often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "wis_reflection",
+      "to": "data_to_insight",
+      "why": "This connection helps learners move from reflection & re-seeing into data → pattern → insight ladder, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "wis_reflection",
+      "to": "lesson_study",
+      "why": "Linking reflection & re-seeing with lesson study & task refinement supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "data_to_insight",
+      "to": "kpis_creative_maths",
+      "why": "data → pattern → insight ladder provides the broader constraint; learning evidence beyond scores makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "data_to_insight",
+      "to": "lesson_study",
+      "why": "When data → pattern → insight ladder is neglected, lesson study & task refinement often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "space_shape_orientation",
+      "to": "portfolio_tasks",
+      "why": "This connection helps learners move from space, shape & orientation into portfolio of task types, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "space_shape_orientation",
+      "to": "investigation_strategy",
+      "why": "Linking space, shape & orientation with investigation & example strategy supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "space_shape_orientation",
+      "to": "adaptive_practice_strategy",
+      "why": "space, shape & orientation provides the broader constraint; adaptive practice strategy makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "space_shape_orientation",
+      "to": "flow_attention",
+      "why": "When space, shape & orientation is neglected, flow of attention and cognitive load often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "uncertainty_variation",
+      "to": "math_dialogue_routines",
+      "why": "This connection helps learners move from uncertainty, variation & distribution into dialogue routines & mathematical talk, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "uncertainty_variation",
+      "to": "risk_assessment_learning",
+      "why": "Linking uncertainty, variation & distribution with challenge design → learning management supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "uncertainty_variation",
+      "to": "adaptive_practice_strategy",
+      "why": "uncertainty, variation & distribution provides the broader constraint; adaptive practice strategy makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "difference_similarity",
+      "to": "math_dialogue_routines",
+      "why": "When difference & similarity is neglected, dialogue routines & mathematical talk often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "difference_similarity",
+      "to": "digital_dynamic_tools",
+      "why": "This connection helps learners move from difference & similarity into digital and dynamic tools, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "difference_similarity",
+      "to": "proof_argument",
+      "why": "Linking difference & similarity with proof, argument & justification supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "difference_similarity",
+      "to": "quantity_measure_scale",
+      "why": "difference & similarity provides the broader constraint; quantity, measure & scale makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "freedom_constraint",
+      "to": "topic_backbone",
+      "why": "When freedom, rule and constraint is neglected, topic backbone: number–shape–data–change often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "freedom_constraint",
+      "to": "curriculum_scope",
+      "why": "This connection helps learners move from freedom, rule and constraint into curriculum scope & learning journey, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "freedom_constraint",
+      "to": "assessment_for_creativity",
+      "why": "Linking freedom, rule and constraint with assessment for mathematical creativity supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "freedom_constraint",
+      "to": "classroom_information_ecology",
+      "why": "freedom, rule and constraint provides the broader constraint; classroom information ecology makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "representation_translation",
+      "to": "classroom_information_ecology",
+      "why": "When representation & translation is neglected, classroom information ecology often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "representation_translation",
+      "to": "proof_argument",
+      "why": "This connection helps learners move from representation & translation into proof, argument & justification, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "representation_translation",
+      "to": "records_learning_journal",
+      "why": "Linking representation & translation with learning journals & visible traces supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "representation_translation",
+      "to": "visualisation_manipulatives",
+      "why": "representation & translation provides the broader constraint; visualisation & manipulatives makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "quantity_measure_scale",
+      "to": "teacher_questions",
+      "why": "When quantity, measure & scale is neglected, teacher questioning & prompts often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "quantity_measure_scale",
+      "to": "curriculum_scope",
+      "why": "This connection helps learners move from quantity, measure & scale into curriculum scope & learning journey, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "quantity_measure_scale",
+      "to": "classroom_culture",
+      "why": "Linking quantity, measure & scale with classroom culture for risk and rigour supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "collaborative_maths",
+      "to": "integration_across_topics",
+      "why": "collaborative mathematical conversation provides the broader constraint; integration across topics makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "collaborative_maths",
+      "to": "portfolio_tasks",
+      "why": "When collaborative mathematical conversation is neglected, portfolio of task types often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "collaborative_maths",
+      "to": "constraint_hierarchy",
+      "why": "This connection helps learners move from collaborative mathematical conversation into hierarchy of mathematical constraints, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "power_assessment",
+      "to": "curriculum_scope",
+      "why": "Linking assessment, authority & mathematical agency with curriculum scope & learning journey supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "power_assessment",
+      "to": "kpis_creative_maths",
+      "why": "assessment, authority & mathematical agency provides the broader constraint; learning evidence beyond scores makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "power_assessment",
+      "to": "pathology_answer_hunting",
+      "why": "When assessment, authority & mathematical agency is neglected, pathology: answer hunting often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "power_assessment",
+      "to": "challenge_procedure_lock",
+      "why": "This connection helps learners move from assessment, authority & mathematical agency into challenge: procedure lock-in, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "flow_attention",
+      "to": "proof_argument",
+      "why": "Linking flow of attention and cognitive load with proof, argument & justification supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "flow_attention",
+      "to": "adaptive_practice_strategy",
+      "why": "flow of attention and cognitive load provides the broader constraint; adaptive practice strategy makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "flow_attention",
+      "to": "productive_drift",
+      "why": "When flow of attention and cognitive load is neglected, productive drift and unproductive drift often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "interfaces_representations",
+      "to": "records_learning_journal",
+      "why": "This connection helps learners move from interfaces between representations into learning journals & visible traces, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "interfaces_representations",
+      "to": "math_dialogue_routines",
+      "why": "Linking interfaces between representations with dialogue routines & mathematical talk supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "interfaces_representations",
+      "to": "assessment_for_creativity",
+      "why": "interfaces between representations provides the broader constraint; assessment for mathematical creativity makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "interfaces_representations",
+      "to": "classroom_culture",
+      "why": "When interfaces between representations is neglected, classroom culture for risk and rigour often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "productive_drift",
+      "to": "lesson_study",
+      "why": "This connection helps learners move from productive drift and unproductive drift into lesson study & task refinement, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "productive_drift",
+      "to": "teacher_competence",
+      "why": "Linking productive drift and unproductive drift with teacher mathematical-pedagogical fluency supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "productive_drift",
+      "to": "pathology_false_patterns",
+      "why": "productive drift and unproductive drift provides the broader constraint; pathology: false pattern confidence makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "feedback_loops_math",
+      "to": "learning_loops_improvement",
+      "why": "When mathematical feedback loops is neglected, learning loops & continuous curriculum improvement often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "feedback_loops_math",
+      "to": "kpis_creative_maths",
+      "why": "This connection helps learners move from mathematical feedback loops into learning evidence beyond scores, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "feedback_loops_math",
+      "to": "lesson_study",
+      "why": "Linking mathematical feedback loops with lesson study & task refinement supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "concrete_to_abstract",
+      "to": "lesson_study",
+      "why": "concrete ↔ abstract movement provides the broader constraint; lesson study & task refinement makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "concrete_to_abstract",
+      "to": "risk_assessment_learning",
+      "why": "When concrete ↔ abstract movement is neglected, challenge design → learning management often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "concrete_to_abstract",
+      "to": "constraint_hierarchy",
+      "why": "This connection helps learners move from concrete ↔ abstract movement into hierarchy of mathematical constraints, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "boundaries_definitions",
+      "to": "curriculum_scope",
+      "why": "Linking boundaries, definitions & cases with curriculum scope & learning journey supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "boundaries_definitions",
+      "to": "topic_backbone",
+      "why": "boundaries, definitions & cases provides the broader constraint; topic backbone: number–shape–data–change makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "boundaries_definitions",
+      "to": "portfolio_tasks",
+      "why": "When boundaries, definitions & cases is neglected, portfolio of task types often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "curriculum_scope",
+      "to": "pedagogical_governance",
+      "why": "This connection helps learners move from curriculum scope & learning journey into pedagogical governance, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "curriculum_scope",
+      "to": "challenge_procedure_lock",
+      "why": "Linking curriculum scope & learning journey with challenge: procedure lock-in supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "curriculum_scope",
+      "to": "flow_attention",
+      "why": "curriculum scope & learning journey provides the broader constraint; flow of attention and cognitive load makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "pedagogical_governance",
+      "to": "proof_argument",
+      "why": "When pedagogical governance is neglected, proof, argument & justification often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "pedagogical_governance",
+      "to": "math_dialogue_routines",
+      "why": "This connection helps learners move from pedagogical governance into dialogue routines & mathematical talk, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "pedagogical_governance",
+      "to": "teacher_competence",
+      "why": "Linking pedagogical governance with teacher mathematical-pedagogical fluency supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "pedagogical_governance",
+      "to": "classroom_culture",
+      "why": "pedagogical governance provides the broader constraint; classroom culture for risk and rigour makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "classroom_information_ecology",
+      "to": "records_learning_journal",
+      "why": "When classroom information ecology is neglected, learning journals & visible traces often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "classroom_information_ecology",
+      "to": "lesson_study",
+      "why": "This connection helps learners move from classroom information ecology into lesson study & task refinement, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "classroom_information_ecology",
+      "to": "case_spreadsheet_patterns",
+      "why": "Linking classroom information ecology with case: spreadsheet pattern machine supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "topic_backbone",
+      "to": "portfolio_tasks",
+      "why": "topic backbone: number–shape–data–change provides the broader constraint; portfolio of task types makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "topic_backbone",
+      "to": "teacher_questions",
+      "why": "When topic backbone: number–shape–data–change is neglected, teacher questioning & prompts often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "topic_backbone",
+      "to": "assessment_for_creativity",
+      "why": "This connection helps learners move from topic backbone: number–shape–data–change into assessment for mathematical creativity, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "integration_across_topics",
+      "to": "risk_assessment_learning",
+      "why": "Linking integration across topics with challenge design → learning management supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "integration_across_topics",
+      "to": "lesson_study",
+      "why": "integration across topics provides the broader constraint; lesson study & task refinement makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "integration_across_topics",
+      "to": "portfolio_tasks",
+      "why": "When integration across topics is neglected, portfolio of task types often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "algebra_pattern_functions",
+      "why": "This connection helps learners move from portfolio of task types into algebra, pattern & functions, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "geometry_transformations",
+      "why": "Linking portfolio of task types with geometry, symmetry & transformation supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "measurement_units",
+      "why": "portfolio of task types provides the broader constraint; measurement, units & dimensional thinking makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "data_probability",
+      "why": "When portfolio of task types is neglected, data, probability & uncertainty often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "mathematical_modelling",
+      "why": "This connection helps learners move from portfolio of task types into mathematical modelling, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "digital_dynamic_tools",
+      "why": "Linking portfolio of task types with digital and dynamic tools supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "arec_math_cycle",
+      "to": "risk_assessment_learning",
+      "why": "anticipate–represent–explore–constrain provides the broader constraint; challenge design → learning management makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "arec_math_cycle",
+      "to": "investigation_strategy",
+      "why": "When anticipate–represent–explore–constrain is neglected, investigation & example strategy often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "arec_math_cycle",
+      "to": "constraint_hierarchy",
+      "why": "This connection helps learners move from anticipate–represent–explore–constrain into hierarchy of mathematical constraints, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "arec_math_cycle",
+      "to": "adaptive_practice_strategy",
+      "why": "Linking anticipate–represent–explore–constrain with adaptive practice strategy supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "risk_assessment_learning",
+      "to": "constraint_hierarchy",
+      "why": "challenge design → learning management provides the broader constraint; hierarchy of mathematical constraints makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "risk_assessment_learning",
+      "to": "teacher_questions",
+      "why": "When challenge design → learning management is neglected, teacher questioning & prompts often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "risk_assessment_learning",
+      "to": "assessment_for_creativity",
+      "why": "This connection helps learners move from challenge design → learning management into assessment for mathematical creativity, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "algebra_pattern_functions",
+      "why": "Linking investigation & example strategy with algebra, pattern & functions supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "geometry_transformations",
+      "why": "investigation & example strategy provides the broader constraint; geometry, symmetry & transformation makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "measurement_units",
+      "why": "When investigation & example strategy is neglected, measurement, units & dimensional thinking often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "data_probability",
+      "why": "This connection helps learners move from investigation & example strategy into data, probability & uncertainty, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "lesson_study",
+      "why": "Linking investigation & example strategy with lesson study & task refinement supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "adaptive_practice_strategy",
+      "to": "geometry_transformations",
+      "why": "adaptive practice strategy provides the broader constraint; geometry, symmetry & transformation makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "adaptive_practice_strategy",
+      "to": "measurement_units",
+      "why": "When adaptive practice strategy is neglected, measurement, units & dimensional thinking often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "adaptive_practice_strategy",
+      "to": "algebra_pattern_functions",
+      "why": "This connection helps learners move from adaptive practice strategy into algebra, pattern & functions, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "adaptive_practice_strategy",
+      "to": "feedback_loops_math",
+      "why": "Linking adaptive practice strategy with mathematical feedback loops supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "number_sense",
+      "to": "fractions_ratio_proportion",
+      "why": "number sense & place value provides the broader constraint; fractions, ratio & proportion makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "number_sense",
+      "to": "space_shape_orientation",
+      "why": "When number sense & place value is neglected, space, shape & orientation often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "fractions_ratio_proportion",
+      "to": "algebra_pattern_functions",
+      "why": "This connection helps learners move from fractions, ratio & proportion into algebra, pattern & functions, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "fractions_ratio_proportion",
+      "to": "teacher_questions",
+      "why": "Linking fractions, ratio & proportion with teacher questioning & prompts supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "fractions_ratio_proportion",
+      "to": "risk_assessment_learning",
+      "why": "fractions, ratio & proportion provides the broader constraint; challenge design → learning management makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "proof_argument",
+      "to": "math_dialogue_routines",
+      "why": "When proof, argument & justification is neglected, dialogue routines & mathematical talk often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "proof_argument",
+      "to": "digital_dynamic_tools",
+      "why": "This connection helps learners move from proof, argument & justification into digital and dynamic tools, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "proof_argument",
+      "to": "records_learning_journal",
+      "why": "Linking proof, argument & justification with learning journals & visible traces supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "visualisation_manipulatives",
+      "to": "records_learning_journal",
+      "why": "visualisation & manipulatives provides the broader constraint; learning journals & visible traces makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "math_dialogue_routines",
+      "to": "quantity_measure_scale",
+      "why": "When dialogue routines & mathematical talk is neglected, quantity, measure & scale often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "math_dialogue_routines",
+      "to": "case_teacher_says_one_method",
+      "why": "This connection helps learners move from dialogue routines & mathematical talk into case: “use the method i showed you”, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "digital_dynamic_tools",
+      "to": "risk_assessment_learning",
+      "why": "Linking digital and dynamic tools with challenge design → learning management supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "digital_dynamic_tools",
+      "to": "collaborative_maths",
+      "why": "digital and dynamic tools provides the broader constraint; collaborative mathematical conversation makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "teacher_questions",
+      "to": "concrete_to_abstract",
+      "why": "When teacher questioning & prompts is neglected, concrete ↔ abstract movement often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "teacher_questions",
+      "to": "pathology_false_patterns",
+      "why": "This connection helps learners move from teacher questioning & prompts into pathology: false pattern confidence, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "assessment_for_creativity",
+      "to": "learning_loops_improvement",
+      "why": "Linking assessment for mathematical creativity with learning loops & continuous curriculum improvement supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "records_learning_journal",
+      "to": "lesson_study",
+      "why": "learning journals & visible traces provides the broader constraint; lesson study & task refinement makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "classroom_culture",
+      "to": "learning_loops_improvement",
+      "why": "When classroom culture for risk and rigour is neglected, learning loops & continuous curriculum improvement often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "agility_indicators",
+      "to": "pedagogical_governance",
+      "why": "This connection helps learners move from indicators of mathematical agility into pedagogical governance, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "agility_indicators",
+      "to": "classroom_information_ecology",
+      "why": "Linking indicators of mathematical agility with classroom information ecology supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "curriculum_mapping",
+      "to": "integration_across_topics",
+      "why": "curriculum mapping & progression provides the broader constraint; integration across topics makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "improvement_cycle",
+      "to": "lesson_study",
+      "why": "When plan–try–notice–revise learning cycle is neglected, lesson study & task refinement often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "kpis_creative_maths",
+      "to": "power_assessment",
+      "why": "This connection helps learners move from learning evidence beyond scores into assessment, authority & mathematical agency, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "lesson_study",
+      "to": "learning_loops_improvement",
+      "why": "Linking lesson study & task refinement with learning loops & continuous curriculum improvement supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "teacher_competence",
+      "to": "flow_attention",
+      "why": "teacher mathematical-pedagogical fluency provides the broader constraint; flow of attention and cognitive load makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "teacher_competence",
+      "to": "challenge_procedure_lock",
+      "why": "When teacher mathematical-pedagogical fluency is neglected, challenge: procedure lock-in often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "challenge_procedure_lock",
+      "to": "interfaces_representations",
+      "why": "This connection helps learners move from challenge: procedure lock-in into interfaces between representations, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "challenge_procedure_lock",
+      "to": "lesson_study",
+      "why": "Linking challenge: procedure lock-in with lesson study & task refinement supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "pathology_answer_hunting",
+      "to": "feedback_loops_math",
+      "why": "pathology: answer hunting provides the broader constraint; mathematical feedback loops makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "pathology_false_patterns",
+      "to": "concrete_to_abstract",
+      "why": "When pathology: false pattern confidence is neglected, concrete ↔ abstract movement often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "algebra_pattern_functions",
+      "to": "case_fraction_art_studio",
+      "why": "This connection helps learners move from algebra, pattern & functions into case: fraction art studio, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "geometry_transformations",
+      "to": "case_playground_geometry",
+      "why": "Linking geometry, symmetry & transformation with case: playground geometry mapping supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "data_probability",
+      "to": "case_data_story",
+      "why": "data, probability & uncertainty provides the broader constraint; case: data story from class life makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "math_dialogue_routines",
+      "to": "case_spreadsheet_patterns",
+      "why": "When dialogue routines & mathematical talk is neglected, case: spreadsheet pattern machine often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "concrete_to_abstract",
+      "to": "case_times_table_song_trap",
+      "why": "This connection helps learners move from concrete ↔ abstract movement into case: song fluency without structure, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "classroom_information_ecology",
+      "to": "case_spreadsheet_patterns",
+      "why": "Linking classroom information ecology with case: spreadsheet pattern machine supports movement up and down the constraint lattice rather than isolated procedure."
+    },
+    {
+      "from": "wis_wonder",
+      "to": "case_times_table_song_trap",
+      "why": "wonder before technique provides the broader constraint; case: song fluency without structure makes it teachable, visible or testable in mathematical activity."
+    },
+    {
+      "from": "wis_safe_experiment",
+      "to": "case_fraction_art_studio",
+      "why": "When safe-to-try mathematical experiments is neglected, case: fraction art studio often becomes mechanical; the link restores meaning, representation and judgement."
+    },
+    {
+      "from": "wis_freedom",
+      "to": "case_teacher_says_one_method",
+      "why": "This connection helps learners move from freedom within constraint into case: “use the method i showed you”, keeping freedom tied to mathematical constraint."
+    },
+    {
+      "from": "wis_proportion",
+      "to": "case_data_story",
+      "why": "Linking proportion & pacing with case: data story from class life supports movement up and down the constraint lattice rather than isolated procedure."
+    }
+  ]
+}
