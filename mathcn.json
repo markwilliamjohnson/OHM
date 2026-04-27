@@ -1,0 +1,1592 @@
+{
+  "meta": {
+    "title": "创造性数学学习——智慧 → 概念约束 → 约束移动 → 主题架构 → 学习设计 → 敏捷证据 → 案例",
+    "subtitle": "一个用于创造性数学教学的约束格：学习者在空间、形状、自由、相似、差异、数、表征、证明、建模和具体案例之间移动。数学理解被视为跨层级的敏捷性，而不只是程序性表现。",
+    "domainName": "创造性数学学习方法",
+    "searchPlaceholder": "空间、形状、自由、约束、相似、差异、模式、数、位值、分数、比、对称、图像、函数、证明、数据、概率、建模、表征、操作材料、猜想……",
+    "userContextLabel": "你的数学学习情境（可选）",
+    "userContextPlaceholder": "例如：五年级分数；创造性的中学代数；混合水平班级；户外几何；数学焦虑；需要更多能动性、对话和视觉推理……",
+    "initialPrompt": "",
+    "promptTemplate": "你是一位创造性数学教育的专家向导，对数学约束、学习者能动性、表征、对话、证明、建模和概念进阶有深刻判断。\n\n写一个真实可信的叙事案例，说明上游约束（空间、形状、自由、相似、差异、表征和能动性）如何塑造下游对数、几何、代数、数据、概率和证明的学习。\n使用所选概念解释学习者如何在约束格中上下移动：从具体经验到图示、符号、概括、证明，再回到具体情境。\n\n用户情境（如有）：\n{{USER_CONTEXT}}\n\n所选概念：\n{{SELECTED_TITLES}}\n\n细节：\n{{SELECTED_DETAILS}}\n\n路径追踪：\n{{TRACE_SUMMARY}}\n\n请交付：\n- 情境描述（学习者、主题、环境、约束）\n- 学习障碍诊断（程序锁定、表征断裂、焦虑、虚假模式、评价压力）\n- 创造性数学设计（任务、材料、表征、对话、变式与挑战）\n- 约束格地图：学习者如何从高层思想走向具体数学主题并返回\n- 课堂操作手册（教师提示、小组常规、例子、反例和重新进入的路径）\n- 证据计划：敏捷性、解释、迁移、流畅性和修正的指标\n- 2个可安全尝试的实验及其反作用检查\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "生成性数学智慧",
+      "hint": "情境中的判断：好奇、自由、约束、注意、游戏、精确与关怀。"
+    },
+    {
+      "id": 1,
+      "title": "高层概念约束",
+      "hint": "空间、形状、模式、差异、相似、变换、度量、数量、不确定性和表征。"
+    },
+    {
+      "id": 2,
+      "title": "约束格中的移动",
+      "hint": "学习者如何在具体行动、图示、符号、证明、例子、反例和概括之间移动。"
+    },
+    {
+      "id": 3,
+      "title": "数学主题架构",
+      "hint": "数、代数、几何、测量、数据、概率、函数、证明和建模作为相互连接的领域。"
+    },
+    {
+      "id": 4,
+      "title": "学习设计机制",
+      "hint": "任务、操作材料、对话、可视化、具身活动、数字工具、评价时刻和课堂常规。"
+    },
+    {
+      "id": 5,
+      "title": "敏捷性、证据与改进",
+      "hint": "如何观察、支持、评价和改进数学敏捷性，同时不把创造力简化为考试分数。"
+    },
+    {
+      "id": 6,
+      "title": "具体案例、张力与病理",
+      "hint": "课堂情境中，约束如何开启数学想象，或把学习者困在脆弱的程序里。"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_wonder",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "技巧之前的惊奇",
+      "summary": "数学始于某种邀请人去注意的东西：影子、节奏、铺砖、平衡、游戏或令人惊讶的规律。",
+      "tags": [
+        "智慧",
+        "惊奇",
+        "注意"
+      ],
+      "bodyHtml": "<p>创造性数学教学把惊奇视为真实的约束：在引入正式方法之前，学习者需要时间去注意、比较、提问和停留。</p>"
+    },
+    {
+      "id": "wis_freedom",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "约束中的自由",
+      "summary": "当学习者既有选择策略的空间，又面对共同的数学约束时，创造力才会生长。",
+      "tags": [
+        "智慧",
+        "自由",
+        "约束"
+      ],
+      "bodyHtml": "<p>自由不是没有结构。自由是在边界之内探索的能力：同一个总量，不同的形状；同一种模式，不同的表征；同一个问题，多条路径。</p>"
+    },
+    {
+      "id": "wis_proportion",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "分寸与节奏",
+      "summary": "在特定时刻选择合适程度的挑战、解释、练习和开放探索。",
+      "tags": [
+        "智慧",
+        "节奏",
+        "挑战"
+      ],
+      "bodyHtml": "<p>过度开放会使人困惑；过度程序化会使学习失去生命。明智的节奏让学习者停留在富有成效的困难边缘。</p>"
+    },
+    {
+      "id": "wis_equity_voice",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "数学声音的公平",
+      "summary": "把不同的看见方式视为课堂对话中的合法证据。",
+      "tags": [
+        "智慧",
+        "公平",
+        "对话"
+      ],
+      "bodyHtml": "<p>创造性数学不只依赖快速答案。手势、绘图、故事、模式发现和非正式语言都可以成为通向精确性的路径。</p>"
+    },
+    {
+      "id": "wis_wholeness",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "数学经验的整体性",
+      "summary": "连接数、形状、空间、运动、语言、情感和目的，而不是把主题孤立起来。",
+      "tags": [
+        "智慧",
+        "整体性",
+        "连接"
+      ],
+      "bodyHtml": "<p>当学习者体验不同领域之间的关系时，数学才有意义：分数作为度量，比作为几何，代数作为模式，数据作为论证。</p>"
+    },
+    {
+      "id": "wis_safe_experiment",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "可安全尝试的数学实验",
+      "summary": "让学习者测试猜想、富有成效地失败、修正并比较方法。",
+      "tags": [
+        "智慧",
+        "实验",
+        "学习"
+      ],
+      "bodyHtml": "<p>创造性数学课堂让错误路径可以被讨论。错误是关于约束的信息，而不是能力不足的证据。</p>"
+    },
+    {
+      "id": "wis_reflection",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "反思与重新看见",
+      "summary": "从另一个层级返回问题：具体、视觉、符号、语言、一般化或应用。",
+      "tags": [
+        "智慧",
+        "反思",
+        "抽象"
+      ],
+      "bodyHtml": "<p>反思建立敏捷性：学习者学到的不只是一个方法，而是当卡住时如何在约束格中改变高度。</p>"
+    },
+    {
+      "id": "space_shape_orientation",
+      "level": 1,
+      "kind": "concept",
+      "label": "空间、形状与方向",
+      "summary": "数学作为有组织的空间：位置、方向、对称、边界、内外关系和变换。",
+      "tags": [
+        "空间",
+        "形状",
+        "几何"
+      ],
+      "bodyHtml": "<p>空间约束让学习者在符号之前进行推理：旋转、折叠、建构、制图、比较和想象替代方案。</p>"
+    },
+    {
+      "id": "difference_similarity",
+      "level": 1,
+      "kind": "concept",
+      "label": "差异与相似",
+      "summary": "学习数学意味着注意什么发生变化、什么保持不变，以及什么算作相同。",
+      "tags": [
+        "差异",
+        "相似",
+        "不变量"
+      ],
+      "bodyHtml": "<p>相似与差异推动分类、模式、证明、比例和代数概括。</p>"
+    },
+    {
+      "id": "freedom_constraint",
+      "level": 1,
+      "kind": "concept",
+      "label": "自由、规则与约束",
+      "summary": "规则可以限制，也可以创造可玩的数学世界。",
+      "tags": [
+        "规则",
+        "自由",
+        "约束"
+      ],
+      "bodyHtml": "<p>网格、数系、游戏规则或对称条件，在学习者能够一次改变一个因素时，可以生成丰富探索。</p>"
+    },
+    {
+      "id": "representation_translation",
+      "level": 1,
+      "kind": "concept",
+      "label": "表征与转换",
+      "summary": "在物体、图示、语言、表格、图像、符号和故事之间移动。",
+      "tags": [
+        "表征",
+        "转换"
+      ],
+      "bodyHtml": "<p>当学习者能通过不同表征镜头看见同一结构，并在它们之间转换时，理解就会加深。</p>"
+    },
+    {
+      "id": "quantity_measure_scale",
+      "level": 1,
+      "kind": "concept",
+      "label": "数量、度量与尺度",
+      "summary": "数通过大小、单位、比较、估计和尺度获得意义。",
+      "tags": [
+        "数",
+        "度量",
+        "尺度"
+      ],
+      "bodyHtml": "<p>度量连接身体经验、工具、单位、比例推理以及后来的形式计算。</p>"
+    },
+    {
+      "id": "uncertainty_variation",
+      "level": 1,
+      "kind": "concept",
+      "label": "不确定性、变异与分布",
+      "summary": "并非所有数学都是精确的；有些数学关乎机会、离散程度、证据和期望。",
+      "tags": [
+        "不确定性",
+        "数据",
+        "概率"
+      ],
+      "bodyHtml": "<p>变异邀请学习者思考数据、概率、公平、抽样和不确定性，而不只是单一正确答案。</p>"
+    },
+    {
+      "id": "data_to_insight",
+      "level": 1,
+      "kind": "concept",
+      "label": "数据 → 模式 → 洞见阶梯",
+      "summary": "收集数据还不够；学习者必须组织、解释、质疑并交流数据。",
+      "tags": [
+        "数据",
+        "意义建构",
+        "模式"
+      ],
+      "bodyHtml": "<p>创造性数学工作把观察转化为模式，把模式转化为可以被挑战的主张。</p>"
+    },
+    {
+      "id": "collaborative_maths",
+      "level": 1,
+      "kind": "concept",
+      "label": "协作性的数学对话",
+      "summary": "通过比较方法、追问理由和协调局部洞见，数学会变得更强。",
+      "tags": [
+        "对话",
+        "协作"
+      ],
+      "bodyHtml": "<p>同伴可以提供不同表征、反例和策略；课堂成为一个思维系统。</p>"
+    },
+    {
+      "id": "concrete_to_abstract",
+      "level": 2,
+      "kind": "concept",
+      "label": "具体 ↔ 抽象的移动",
+      "summary": "学习者在操作材料、图像、文字、符号和形式思想之间上升与下降。",
+      "tags": [
+        "抽象",
+        "具体",
+        "符号"
+      ],
+      "bodyHtml": "<p>敏捷性意味着不被困在某一个层级。学习者可以回到模型、画图、发明记号或陈述一般规则。</p>"
+    },
+    {
+      "id": "feedback_loops_math",
+      "level": 2,
+      "kind": "concept",
+      "label": "数学反馈回路",
+      "summary": "尝试 → 注意 → 调整 → 解释 → 再测试。",
+      "tags": [
+        "反馈",
+        "迭代"
+      ],
+      "bodyHtml": "<p>反馈回路使数学具有探究性。学习者会看到策略、证据和解释如何相互改变。</p>"
+    },
+    {
+      "id": "productive_drift",
+      "level": 2,
+      "kind": "concept",
+      "label": "富有成效的漂移与无效漂移",
+      "summary": "探索可以打开新的数学，也可能丢失问题的约束。",
+      "tags": [
+        "探索",
+        "聚焦",
+        "漂移"
+      ],
+      "bodyHtml": "<p>教师帮助学习者区分有价值的支路与抛弃数学对象的漂移。</p>"
+    },
+    {
+      "id": "interfaces_representations",
+      "level": 2,
+      "kind": "concept",
+      "label": "表征之间的接口",
+      "summary": "当绘图、表格、图像、故事或公式被当作整个思想时，断裂就会发生。",
+      "tags": [
+        "表征",
+        "接口"
+      ],
+      "bodyHtml": "<p>许多误解其实是转换问题：学习者在一种形式中知道某事，却不能把它移到另一种形式。</p>"
+    },
+    {
+      "id": "boundaries_definitions",
+      "level": 2,
+      "kind": "concept",
+      "label": "边界、定义与案例",
+      "summary": "定义决定什么属于其中、什么不属于其中，以及什么必须被测试。",
+      "tags": [
+        "定义",
+        "案例",
+        "分类"
+      ],
+      "bodyHtml": "<p>数学通过澄清边界而推进：正方形/长方形、质数/合数、线性/非线性、样本/总体。</p>"
+    },
+    {
+      "id": "flow_attention",
+      "level": 2,
+      "kind": "concept",
+      "label": "注意力流与认知负荷",
+      "summary": "注意力是有限的；任务设计必须管理记忆、记号、语言和视觉复杂度。",
+      "tags": [
+        "注意",
+        "认知负荷"
+      ],
+      "bodyHtml": "<p>创造性任务仍然需要周到排序，使学习者在能够推理之前不会被压垮。</p>"
+    },
+    {
+      "id": "power_assessment",
+      "level": 2,
+      "kind": "concept",
+      "label": "评价、权威与数学能动性",
+      "summary": "什么算作成功，会塑造学习者是探索还是仅仅服从。",
+      "tags": [
+        "评价",
+        "能动性",
+        "权威"
+      ],
+      "bodyHtml": "<p>如果只奖励速度和整洁，学习者会隐藏实验；如果重视推理和表征，能动性会增长。</p>"
+    },
+    {
+      "id": "problem_types_math",
+      "level": 2,
+      "kind": "concept",
+      "label": "问题类型：练习 / 谜题 / 探究 / 模型",
+      "summary": "不同的数学情境需要不同形式的教师支持。",
+      "tags": [
+        "问题类型",
+        "教学法"
+      ],
+      "bodyHtml": "<p>练习用于巩固；谜题邀请寻找结构；探究邀请猜想；模型把数学连接到情境。</p>"
+    },
+    {
+      "id": "curriculum_scope",
+      "level": 3,
+      "kind": "concept",
+      "label": "课程范围与学习旅程",
+      "summary": "把主题排序为相互连接的景观，而不是孤立程序的清单。",
+      "tags": [
+        "课程",
+        "范围"
+      ],
+      "bodyHtml": "<p>创造性数学课程让路线可见：从数到代数，从形状到证明，从数据到论证，从测量到建模。</p>"
+    },
+    {
+      "id": "pedagogical_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "教学治理",
+      "summary": "课堂规范、教师动作和评价常规保护探究，同时维持数学严谨性。",
+      "tags": [
+        "教学法",
+        "治理"
+      ],
+      "bodyHtml": "<p>治理意味着设计条件，使自由、关怀、挑战和精确能够共存。</p>"
+    },
+    {
+      "id": "classroom_information_ecology",
+      "level": 3,
+      "kind": "concept",
+      "label": "课堂信息生态",
+      "summary": "黑板、笔记本、操作材料、数字工具和谈话决定哪些数学信息能被看见并被重新使用。",
+      "tags": [
+        "课堂",
+        "信息",
+        "工具"
+      ],
+      "bodyHtml": "<p>创造性学习需要共享的可见痕迹：图示、猜想清单、失败尝试、全班例子和不断演化的定义。</p>"
+    },
+    {
+      "id": "topic_backbone",
+      "level": 3,
+      "kind": "concept",
+      "label": "主题主干：数—形—数据—变化",
+      "summary": "使用连贯的数学主干，把不同年龄和情境中的关键领域连接起来。",
+      "tags": [
+        "主题",
+        "架构"
+      ],
+      "bodyHtml": "<p>这个主干帮助学习者定位一个任务：它关乎数量、空间关系、变异、变换还是结构？</p>"
+    },
+    {
+      "id": "integration_across_topics",
+      "level": 3,
+      "kind": "concept",
+      "label": "跨主题整合",
+      "summary": "连接数学领域，使学习者能够跨情境迁移思想。",
+      "tags": [
+        "整合",
+        "迁移"
+      ],
+      "bodyHtml": "<p>当分数、比、斜率、概率和尺度作为相互连接的约束来教学时，它们可以彼此照亮。</p>"
+    },
+    {
+      "id": "portfolio_tasks",
+      "level": 3,
+      "kind": "concept",
+      "label": "任务类型组合",
+      "summary": "平衡流畅性任务、开放探究、视觉任务、建模任务、游戏和证明。",
+      "tags": [
+        "任务",
+        "组合"
+      ],
+      "bodyHtml": "<p>丰富的任务组合防止创造力变得含糊，也防止流畅性变成机械重复。</p>"
+    },
+    {
+      "id": "arec_math_cycle",
+      "level": 3,
+      "kind": "concept",
+      "label": "预期—表征—探索—约束",
+      "summary": "创造性数学的学习循环：预期可能性、表征它们、探索变式，然后施加约束并作出证明。",
+      "tags": [
+        "循环",
+        "探究"
+      ],
+      "bodyHtml": "<p>这一循环帮助教师把游戏性活动转化为数学概括和解释。</p>"
+    },
+    {
+      "id": "risk_assessment_learning",
+      "level": 3,
+      "kind": "concept",
+      "label": "挑战设计 → 学习管理",
+      "summary": "分析可能的卡点，并设计支持、拓展和重新进入的路径。",
+      "tags": [
+        "挑战",
+        "支持"
+      ],
+      "bodyHtml": "<p>教师管理学习风险：困惑、无聊、虚假模式、记号负荷和过早封闭。</p>"
+    },
+    {
+      "id": "constraint_hierarchy",
+      "level": 3,
+      "kind": "concept",
+      "label": "数学约束的层级",
+      "summary": "从空间和同一性等宽泛约束，移动到等式、单位、角或函数规则等精确约束。",
+      "tags": [
+        "约束",
+        "层级"
+      ],
+      "bodyHtml": "<p>约束层级使数学抽象可见：学习者可以问，是哪个约束在起作用？</p>"
+    },
+    {
+      "id": "investigation_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "探究与例子策略",
+      "summary": "有意选择例子、非例子、边界案例和反例。",
+      "tags": [
+        "例子",
+        "反例"
+      ],
+      "bodyHtml": "<p>例子不是装饰。它们是学习者测试和精炼概念的材料。</p>"
+    },
+    {
+      "id": "adaptive_practice_strategy",
+      "level": 3,
+      "kind": "concept",
+      "label": "适应性练习策略",
+      "summary": "练习根据学习者洞见而变化：改变约束、表征和情境，而不是盲目重复。",
+      "tags": [
+        "练习",
+        "适应"
+      ],
+      "bodyHtml": "<p>适应性练习通过追问“什么变了，什么不变，为什么方法仍然有效？”来建立有意义的流畅性。</p>"
+    },
+    {
+      "id": "number_sense",
+      "level": 3,
+      "kind": "standard",
+      "label": "数感与位值",
+      "summary": "大小、单位化、位值、估计、运算和灵活计算。",
+      "tags": [
+        "数",
+        "位值",
+        "运算"
+      ],
+      "bodyHtml": "<p>数感是在具体数量、心算策略、书面算法和后续代数之间移动的基础。</p>"
+    },
+    {
+      "id": "fractions_ratio_proportion",
+      "level": 3,
+      "kind": "standard",
+      "label": "分数、比与比例",
+      "summary": "部分、整体、缩放、等价、乘法比较和比例变化。",
+      "tags": [
+        "分数",
+        "比",
+        "比例"
+      ],
+      "bodyHtml": "<p>这一主题是数、度量、几何、概率、斜率和建模之间的核心桥梁。</p>"
+    },
+    {
+      "id": "algebra_pattern_functions",
+      "level": 4,
+      "kind": "standard",
+      "label": "代数、模式与函数",
+      "summary": "变量、概括、表达式、方程、数列、映射和函数关系。",
+      "tags": [
+        "代数",
+        "函数",
+        "模式"
+      ],
+      "bodyHtml": "<p>当学习者把代数看作结构的语言，而不仅是求未知数的程序时，代数才具有创造性。</p>"
+    },
+    {
+      "id": "geometry_transformations",
+      "level": 4,
+      "kind": "standard",
+      "label": "几何、对称与变换",
+      "summary": "形状性质、角、对称、全等、相似、坐标和变换。",
+      "tags": [
+        "几何",
+        "transformation"
+      ],
+      "bodyHtml": "<p>几何让学习者通过观看、移动、建构和证明来推理。</p>"
+    },
+    {
+      "id": "measurement_units",
+      "level": 4,
+      "kind": "standard",
+      "label": "测量、单位与维度思维",
+      "summary": "长度、面积、体积、时间、质量、复合量、估计和单位换算。",
+      "tags": [
+        "测量",
+        "单位"
+      ],
+      "bodyHtml": "<p>测量把数学连接到具身经验，并揭示约定单位和精确性的必要性。</p>"
+    },
+    {
+      "id": "data_probability",
+      "level": 4,
+      "kind": "standard",
+      "label": "数据、概率与不确定性",
+      "summary": "收集、可视化和解释数据；机会、公平、期望和变异。",
+      "tags": [
+        "数据",
+        "概率"
+      ],
+      "bodyHtml": "<p>数据和概率支持在不确定情境中的推理，并挑战“数学总是确定的”这一观念。</p>"
+    },
+    {
+      "id": "mathematical_modelling",
+      "level": 4,
+      "kind": "standard",
+      "label": "数学建模",
+      "summary": "把情境转化为数学结构，测试假设，并把结果解释回情境。",
+      "tags": [
+        "建模",
+        "应用"
+      ],
+      "bodyHtml": "<p>建模是一种高层敏捷实践：选择约束、简化、计算、解释、修正。</p>"
+    },
+    {
+      "id": "proof_argument",
+      "level": 4,
+      "kind": "standard",
+      "label": "证明、论证与辩护",
+      "summary": "解释为什么某事必然为真，而不只是它在例子中有效。",
+      "tags": [
+        "证明",
+        "论证"
+      ],
+      "bodyHtml": "<p>证明从模式、例子、反例以及说服他人的压力中生长出来。</p>"
+    },
+    {
+      "id": "visualisation_manipulatives",
+      "level": 4,
+      "kind": "standard",
+      "label": "可视化与操作材料",
+      "summary": "使用物体、绘图、动态几何、阵列、条形模型、网格和运动，使约束可见。",
+      "tags": [
+        "可视化",
+        "操作材料"
+      ],
+      "bodyHtml": "<p>当操作材料与语言和符号相连接，而不是孤立活动时，它们才真正重要。</p>"
+    },
+    {
+      "id": "math_dialogue_routines",
+      "level": 4,
+      "kind": "standard",
+      "label": "对话常规与数学谈话",
+      "summary": "使用谈话动作、策略比较、猜想提示和解释句式。",
+      "tags": [
+        "对话",
+        "常规"
+      ],
+      "bodyHtml": "<p>数学谈话帮助学习者协调穿过同一约束格的不同路径。</p>"
+    },
+    {
+      "id": "digital_dynamic_tools",
+      "level": 4,
+      "kind": "standard",
+      "label": "数字与动态工具",
+      "summary": "使用电子表格、模拟、绘图工具、动态几何和编程环境。",
+      "tags": [
+        "数字",
+        "模拟",
+        "图像"
+      ],
+      "bodyHtml": "<p>动态工具让学习者快速改变约束并看见不变量，但需要能够聚焦推理的提示。</p>"
+    },
+    {
+      "id": "teacher_questions",
+      "level": 4,
+      "kind": "standard",
+      "label": "教师提问与提示",
+      "summary": "提出能让学习者在格中上移、下移或横向移动的问题。",
+      "tags": [
+        "问题",
+        "支架"
+      ],
+      "bodyHtml": "<p>诸如“什么保持不变？”“你能画出来吗？”“如果这里变化会怎样？”“为什么必然如此？”的问题能够建立敏捷性。</p>"
+    },
+    {
+      "id": "assessment_for_creativity",
+      "level": 4,
+      "kind": "standard",
+      "label": "面向数学创造力的评价",
+      "summary": "评价策略选择、表征、猜想、解释、迁移和修正。",
+      "tags": [
+        "评价",
+        "创造力"
+      ],
+      "bodyHtml": "<p>评价应识别数学移动，而不只是最终答案。</p>"
+    },
+    {
+      "id": "records_learning_journal",
+      "level": 4,
+      "kind": "standard",
+      "label": "学习日志与可见痕迹",
+      "summary": "记录猜想、图示、例子、错误、修正和反思。",
+      "tags": [
+        "日志",
+        "反思"
+      ],
+      "bodyHtml": "<p>可见痕迹给学习者提供可回访和重组的材料；它们使学习旅程可被检查。</p>"
+    },
+    {
+      "id": "classroom_culture",
+      "level": 4,
+      "kind": "standard",
+      "label": "面向风险与严谨的课堂文化",
+      "summary": "使不确定性、尊重性的挑战、证据和修正常态化。",
+      "tags": [
+        "文化",
+        "风险",
+        "严谨"
+      ],
+      "bodyHtml": "<p>文化决定学习者是否敢于提出、测试和捍卫想法。</p>"
+    },
+    {
+      "id": "agility_indicators",
+      "level": 5,
+      "kind": "standard",
+      "label": "数学敏捷性的指标",
+      "summary": "寻找在层级、表征和策略之间灵活移动的证据。",
+      "tags": [
+        "指标",
+        "敏捷性"
+      ],
+      "bodyHtml": "<p>证据包括选择表征、发明例子、发现不变量、找到反例以及解释迁移。</p>"
+    },
+    {
+      "id": "curriculum_mapping",
+      "level": 5,
+      "kind": "standard",
+      "label": "课程映射与进阶",
+      "summary": "映射约束如何跨年级发展：单位、等式、等价、函数、证明、不确定性。",
+      "tags": [
+        "课程",
+        "进阶"
+      ],
+      "bodyHtml": "<p>进阶不仅是内容更难；它也是跨抽象层级的敏捷性增强。</p>"
+    },
+    {
+      "id": "improvement_cycle",
+      "level": 5,
+      "kind": "standard",
+      "label": "计划—尝试—注意—修正学习循环",
+      "summary": "用迭代改进课程、任务和学习者策略。",
+      "tags": [
+        "改进",
+        "迭代"
+      ],
+      "bodyHtml": "<p>教师和学习者使用活动中的证据来重新设计提示、例子和表征。</p>"
+    },
+    {
+      "id": "kpis_creative_maths",
+      "level": 5,
+      "kind": "standard",
+      "label": "超越分数的学习证据",
+      "summary": "使用领先和滞后指标：参与、解释质量、表征范围、流畅性和迁移。",
+      "tags": [
+        "evidence",
+        "评价"
+      ],
+      "bodyHtml": "<p>分数重要，但必须与关于数学能动性和理解的更丰富证据一起解释。</p>"
+    },
+    {
+      "id": "lesson_study",
+      "level": 5,
+      "kind": "standard",
+      "label": "课例研究与任务精炼",
+      "summary": "协作观察学习者如何回应约束，然后精炼任务。",
+      "tags": [
+        "课例研究",
+        "协作"
+      ],
+      "bodyHtml": "<p>课例研究把任务视为设计对象，把学习者回应视为关于约束的证据。</p>"
+    },
+    {
+      "id": "teacher_competence",
+      "level": 5,
+      "kind": "standard",
+      "label": "教师的数学—教学流畅性",
+      "summary": "教师需要学科知识、表征流畅性，以及对学习者推理的敏感性。",
+      "tags": [
+        "教师",
+        "能力"
+      ],
+      "bodyHtml": "<p>创造性教学不只是即兴发挥；它依赖对可能路径、误解和拓展的深刻知识。</p>"
+    },
+    {
+      "id": "learning_loops_improvement",
+      "level": 5,
+      "kind": "standard",
+      "label": "学习回路与课程持续改进",
+      "summary": "把学习者的解释、错误和问题转化为改进的序列、例子和支持。",
+      "tags": [
+        "学习回路",
+        "课程"
+      ],
+      "bodyHtml": "<p>当教师系统地把课堂证据反馈到设计中时，课程本身就在学习。</p>"
+    },
+    {
+      "id": "challenge_procedure_lock",
+      "level": 6,
+      "kind": "risk",
+      "label": "挑战：程序锁定",
+      "summary": "学习者能执行步骤，却不能解释、适应或迁移。",
+      "tags": [
+        "程序",
+        "风险"
+      ],
+      "bodyHtml": "<p>当课堂奖励遵从方法而不是数学意义建构时，就会出现程序锁定。</p>"
+    },
+    {
+      "id": "pathology_answer_hunting",
+      "level": 6,
+      "kind": "risk",
+      "label": "病理：寻找答案",
+      "summary": "学习者寻找预期答案，而不是探索约束和理由。",
+      "tags": [
+        "病理",
+        "答案"
+      ],
+      "bodyHtml": "<p>寻找答案把约束格压缩为一个终点：速度、正确性和教师认可。</p>"
+    },
+    {
+      "id": "pathology_false_patterns",
+      "level": 6,
+      "kind": "risk",
+      "label": "病理：虚假模式自信",
+      "summary": "学习者从太少的例子过度概括，并忽视反例。",
+      "tags": [
+        "patterns",
+        "误解"
+      ],
+      "bodyHtml": "<p>创造性探索需要约束测试，否则迷人的模式会变成脆弱的神话。</p>"
+    },
+    {
+      "id": "case_fraction_art_studio",
+      "level": 6,
+      "kind": "case",
+      "label": "案例：分数艺术工作室",
+      "summary": "学习者用等价分数、面积模型和比例约束创作视觉设计。",
+      "tags": [
+        "案例",
+        "分数",
+        "艺术"
+      ],
+      "bodyHtml": "<p>儿童设计铺砖艺术作品，其中色彩比例必须符合目标分数，然后用图示和数字证明等价。</p>"
+    },
+    {
+      "id": "case_playground_geometry",
+      "level": 6,
+      "kind": "case",
+      "label": "案例：操场几何制图",
+      "summary": "学习者在操场或本地空间中绘制路线、角、对称和比例。",
+      "tags": [
+        "案例",
+        "几何",
+        "空间"
+      ],
+      "bodyHtml": "<p>在真实空间中的运动成为进入坐标、转向、估计、对称和比例绘图的路径。</p>"
+    },
+    {
+      "id": "case_data_story",
+      "level": 6,
+      "kind": "case",
+      "label": "案例：来自班级生活的数据故事",
+      "summary": "学习者收集关于日常、选择或环境的有意义数据，并把它转化为论证。",
+      "tags": [
+        "案例",
+        "数据",
+        "story"
+      ],
+      "bodyHtml": "<p>全班提出一个真实问题，收集数据，可视化变异，并讨论证据能够和不能够说明什么。</p>"
+    },
+    {
+      "id": "case_teacher_says_one_method",
+      "level": 6,
+      "kind": "case",
+      "label": "案例：“用我教你的方法”",
+      "summary": "教师无意中通过拒绝替代策略压制了数学能动性。",
+      "tags": [
+        "案例",
+        "能动性",
+        "方法"
+      ],
+      "bodyHtml": "<p>当替代策略根据效率、一般性和解释力被比较时，课程得以恢复。</p>"
+    },
+    {
+      "id": "case_spreadsheet_patterns",
+      "level": 6,
+      "kind": "case",
+      "label": "案例：电子表格模式机器",
+      "summary": "学习者建立电子表格或编程模型来改变规则，并观察数列、图像和函数。",
+      "tags": [
+        "案例",
+        "数字",
+        "函数"
+      ],
+      "bodyHtml": "<p>改变一个公式单元格，成为动态体验变量、函数和概括的一种方式。</p>"
+    },
+    {
+      "id": "case_times_table_song_trap",
+      "level": 6,
+      "kind": "case",
+      "label": "案例：有歌曲流畅性但没有结构",
+      "summary": "一个班级能吟唱乘法事实，却不能用阵列、因数或缩放解决陌生问题。",
+      "tags": [
+        "案例",
+        "流畅性",
+        "结构"
+      ],
+      "bodyHtml": "<p>补救方法是把记忆重新连接到阵列、面积、分组、比和灵活分解。</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_wonder",
+      "to": "quantity_measure_scale",
+      "why": "这条连接帮助学习者从“技巧之前的惊奇”走向“数量、度量与尺度”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "wis_wonder",
+      "to": "feedback_loops_math",
+      "why": "把“技巧之前的惊奇”与“数学反馈回路”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "wis_wonder",
+      "to": "classroom_culture",
+      "why": "“技巧之前的惊奇”提供更宽广的约束；“面向风险与严谨的课堂文化”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "wis_wonder",
+      "to": "concrete_to_abstract",
+      "why": "当“技巧之前的惊奇”被忽视时，“具体 ↔ 抽象的移动”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "wis_freedom",
+      "to": "pathology_answer_hunting",
+      "why": "这条连接帮助学习者从“约束中的自由”走向“病理：寻找答案”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "wis_freedom",
+      "to": "classroom_culture",
+      "why": "把“约束中的自由”与“面向风险与严谨的课堂文化”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "wis_proportion",
+      "to": "space_shape_orientation",
+      "why": "“分寸与节奏”提供更宽广的约束；“空间、形状与方向”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "wis_proportion",
+      "to": "curriculum_scope",
+      "why": "当“分寸与节奏”被忽视时，“课程范围与学习旅程”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "wis_proportion",
+      "to": "kpis_creative_maths",
+      "why": "这条连接帮助学习者从“分寸与节奏”走向“超越分数的学习证据”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "wis_equity_voice",
+      "to": "representation_translation",
+      "why": "把“数学声音的公平”与“表征与转换”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "wis_equity_voice",
+      "to": "difference_similarity",
+      "why": "“数学声音的公平”提供更宽广的约束；“差异与相似”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "wis_equity_voice",
+      "to": "classroom_information_ecology",
+      "why": "当“数学声音的公平”被忽视时，“课堂信息生态”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "wis_wholeness",
+      "to": "collaborative_maths",
+      "why": "这条连接帮助学习者从“数学经验的整体性”走向“协作性的数学对话”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "wis_wholeness",
+      "to": "integration_across_topics",
+      "why": "把“数学经验的整体性”与“跨主题整合”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "wis_safe_experiment",
+      "to": "problem_types_math",
+      "why": "“可安全尝试的数学实验”提供更宽广的约束；“问题类型：练习 / 谜题 / 探究 / 模型”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "wis_safe_experiment",
+      "to": "learning_loops_improvement",
+      "why": "当“可安全尝试的数学实验”被忽视时，“学习回路与课程持续改进”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "wis_reflection",
+      "to": "data_to_insight",
+      "why": "这条连接帮助学习者从“反思与重新看见”走向“数据 → 模式 → 洞见阶梯”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "wis_reflection",
+      "to": "lesson_study",
+      "why": "把“反思与重新看见”与“课例研究与任务精炼”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "data_to_insight",
+      "to": "kpis_creative_maths",
+      "why": "“数据 → 模式 → 洞见阶梯”提供更宽广的约束；“超越分数的学习证据”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "data_to_insight",
+      "to": "lesson_study",
+      "why": "当“数据 → 模式 → 洞见阶梯”被忽视时，“课例研究与任务精炼”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "space_shape_orientation",
+      "to": "portfolio_tasks",
+      "why": "这条连接帮助学习者从“空间、形状与方向”走向“任务类型组合”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "space_shape_orientation",
+      "to": "investigation_strategy",
+      "why": "把“空间、形状与方向”与“探究与例子策略”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "space_shape_orientation",
+      "to": "adaptive_practice_strategy",
+      "why": "“空间、形状与方向”提供更宽广的约束；“适应性练习策略”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "space_shape_orientation",
+      "to": "flow_attention",
+      "why": "当“空间、形状与方向”被忽视时，“注意力流与认知负荷”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "uncertainty_variation",
+      "to": "math_dialogue_routines",
+      "why": "这条连接帮助学习者从“不确定性、变异与分布”走向“对话常规与数学谈话”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "uncertainty_variation",
+      "to": "risk_assessment_learning",
+      "why": "把“不确定性、变异与分布”与“挑战设计 → 学习管理”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "uncertainty_variation",
+      "to": "adaptive_practice_strategy",
+      "why": "“不确定性、变异与分布”提供更宽广的约束；“适应性练习策略”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "difference_similarity",
+      "to": "math_dialogue_routines",
+      "why": "当“差异与相似”被忽视时，“对话常规与数学谈话”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "difference_similarity",
+      "to": "digital_dynamic_tools",
+      "why": "这条连接帮助学习者从“差异与相似”走向“数字与动态工具”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "difference_similarity",
+      "to": "proof_argument",
+      "why": "把“差异与相似”与“证明、论证与辩护”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "difference_similarity",
+      "to": "quantity_measure_scale",
+      "why": "“差异与相似”提供更宽广的约束；“数量、度量与尺度”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "freedom_constraint",
+      "to": "topic_backbone",
+      "why": "当“自由、规则与约束”被忽视时，“主题主干：数—形—数据—变化”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "freedom_constraint",
+      "to": "curriculum_scope",
+      "why": "这条连接帮助学习者从“自由、规则与约束”走向“课程范围与学习旅程”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "freedom_constraint",
+      "to": "assessment_for_creativity",
+      "why": "把“自由、规则与约束”与“面向数学创造力的评价”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "freedom_constraint",
+      "to": "classroom_information_ecology",
+      "why": "“自由、规则与约束”提供更宽广的约束；“课堂信息生态”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "representation_translation",
+      "to": "classroom_information_ecology",
+      "why": "当“表征与转换”被忽视时，“课堂信息生态”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "representation_translation",
+      "to": "proof_argument",
+      "why": "这条连接帮助学习者从“表征与转换”走向“证明、论证与辩护”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "representation_translation",
+      "to": "records_learning_journal",
+      "why": "把“表征与转换”与“学习日志与可见痕迹”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "representation_translation",
+      "to": "visualisation_manipulatives",
+      "why": "“表征与转换”提供更宽广的约束；“可视化与操作材料”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "quantity_measure_scale",
+      "to": "teacher_questions",
+      "why": "当“数量、度量与尺度”被忽视时，“教师提问与提示”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "quantity_measure_scale",
+      "to": "curriculum_scope",
+      "why": "这条连接帮助学习者从“数量、度量与尺度”走向“课程范围与学习旅程”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "quantity_measure_scale",
+      "to": "classroom_culture",
+      "why": "把“数量、度量与尺度”与“面向风险与严谨的课堂文化”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "collaborative_maths",
+      "to": "integration_across_topics",
+      "why": "“协作性的数学对话”提供更宽广的约束；“跨主题整合”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "collaborative_maths",
+      "to": "portfolio_tasks",
+      "why": "当“协作性的数学对话”被忽视时，“任务类型组合”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "collaborative_maths",
+      "to": "constraint_hierarchy",
+      "why": "这条连接帮助学习者从“协作性的数学对话”走向“数学约束的层级”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "power_assessment",
+      "to": "curriculum_scope",
+      "why": "把“评价、权威与数学能动性”与“课程范围与学习旅程”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "power_assessment",
+      "to": "kpis_creative_maths",
+      "why": "“评价、权威与数学能动性”提供更宽广的约束；“超越分数的学习证据”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "power_assessment",
+      "to": "pathology_answer_hunting",
+      "why": "当“评价、权威与数学能动性”被忽视时，“病理：寻找答案”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "power_assessment",
+      "to": "challenge_procedure_lock",
+      "why": "这条连接帮助学习者从“评价、权威与数学能动性”走向“挑战：程序锁定”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "flow_attention",
+      "to": "proof_argument",
+      "why": "把“注意力流与认知负荷”与“证明、论证与辩护”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "flow_attention",
+      "to": "adaptive_practice_strategy",
+      "why": "“注意力流与认知负荷”提供更宽广的约束；“适应性练习策略”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "flow_attention",
+      "to": "productive_drift",
+      "why": "当“注意力流与认知负荷”被忽视时，“富有成效的漂移与无效漂移”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "interfaces_representations",
+      "to": "records_learning_journal",
+      "why": "这条连接帮助学习者从“表征之间的接口”走向“学习日志与可见痕迹”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "interfaces_representations",
+      "to": "math_dialogue_routines",
+      "why": "把“表征之间的接口”与“对话常规与数学谈话”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "interfaces_representations",
+      "to": "assessment_for_creativity",
+      "why": "“表征之间的接口”提供更宽广的约束；“面向数学创造力的评价”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "interfaces_representations",
+      "to": "classroom_culture",
+      "why": "当“表征之间的接口”被忽视时，“面向风险与严谨的课堂文化”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "productive_drift",
+      "to": "lesson_study",
+      "why": "这条连接帮助学习者从“富有成效的漂移与无效漂移”走向“课例研究与任务精炼”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "productive_drift",
+      "to": "teacher_competence",
+      "why": "把“富有成效的漂移与无效漂移”与“教师的数学—教学流畅性”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "productive_drift",
+      "to": "pathology_false_patterns",
+      "why": "“富有成效的漂移与无效漂移”提供更宽广的约束；“病理：虚假模式自信”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "feedback_loops_math",
+      "to": "learning_loops_improvement",
+      "why": "当“数学反馈回路”被忽视时，“学习回路与课程持续改进”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "feedback_loops_math",
+      "to": "kpis_creative_maths",
+      "why": "这条连接帮助学习者从“数学反馈回路”走向“超越分数的学习证据”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "feedback_loops_math",
+      "to": "lesson_study",
+      "why": "把“数学反馈回路”与“课例研究与任务精炼”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "concrete_to_abstract",
+      "to": "lesson_study",
+      "why": "“具体 ↔ 抽象的移动”提供更宽广的约束；“课例研究与任务精炼”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "concrete_to_abstract",
+      "to": "risk_assessment_learning",
+      "why": "当“具体 ↔ 抽象的移动”被忽视时，“挑战设计 → 学习管理”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "concrete_to_abstract",
+      "to": "constraint_hierarchy",
+      "why": "这条连接帮助学习者从“具体 ↔ 抽象的移动”走向“数学约束的层级”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "boundaries_definitions",
+      "to": "curriculum_scope",
+      "why": "把“边界、定义与案例”与“课程范围与学习旅程”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "boundaries_definitions",
+      "to": "topic_backbone",
+      "why": "“边界、定义与案例”提供更宽广的约束；“主题主干：数—形—数据—变化”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "boundaries_definitions",
+      "to": "portfolio_tasks",
+      "why": "当“边界、定义与案例”被忽视时，“任务类型组合”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "curriculum_scope",
+      "to": "pedagogical_governance",
+      "why": "这条连接帮助学习者从“课程范围与学习旅程”走向“教学治理”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "curriculum_scope",
+      "to": "challenge_procedure_lock",
+      "why": "把“课程范围与学习旅程”与“挑战：程序锁定”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "curriculum_scope",
+      "to": "flow_attention",
+      "why": "“课程范围与学习旅程”提供更宽广的约束；“注意力流与认知负荷”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "pedagogical_governance",
+      "to": "proof_argument",
+      "why": "当“教学治理”被忽视时，“证明、论证与辩护”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "pedagogical_governance",
+      "to": "math_dialogue_routines",
+      "why": "这条连接帮助学习者从“教学治理”走向“对话常规与数学谈话”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "pedagogical_governance",
+      "to": "teacher_competence",
+      "why": "把“教学治理”与“教师的数学—教学流畅性”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "pedagogical_governance",
+      "to": "classroom_culture",
+      "why": "“教学治理”提供更宽广的约束；“面向风险与严谨的课堂文化”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "classroom_information_ecology",
+      "to": "records_learning_journal",
+      "why": "当“课堂信息生态”被忽视时，“学习日志与可见痕迹”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "classroom_information_ecology",
+      "to": "lesson_study",
+      "why": "这条连接帮助学习者从“课堂信息生态”走向“课例研究与任务精炼”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "classroom_information_ecology",
+      "to": "case_spreadsheet_patterns",
+      "why": "把“课堂信息生态”与“案例：电子表格模式机器”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "topic_backbone",
+      "to": "portfolio_tasks",
+      "why": "“主题主干：数—形—数据—变化”提供更宽广的约束；“任务类型组合”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "topic_backbone",
+      "to": "teacher_questions",
+      "why": "当“主题主干：数—形—数据—变化”被忽视时，“教师提问与提示”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "topic_backbone",
+      "to": "assessment_for_creativity",
+      "why": "这条连接帮助学习者从“主题主干：数—形—数据—变化”走向“面向数学创造力的评价”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "integration_across_topics",
+      "to": "risk_assessment_learning",
+      "why": "把“跨主题整合”与“挑战设计 → 学习管理”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "integration_across_topics",
+      "to": "lesson_study",
+      "why": "“跨主题整合”提供更宽广的约束；“课例研究与任务精炼”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "integration_across_topics",
+      "to": "portfolio_tasks",
+      "why": "当“跨主题整合”被忽视时，“任务类型组合”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "algebra_pattern_functions",
+      "why": "这条连接帮助学习者从“任务类型组合”走向“代数、模式与函数”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "geometry_transformations",
+      "why": "把“任务类型组合”与“几何、对称与变换”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "measurement_units",
+      "why": "“任务类型组合”提供更宽广的约束；“测量、单位与维度思维”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "data_probability",
+      "why": "当“任务类型组合”被忽视时，“数据、概率与不确定性”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "mathematical_modelling",
+      "why": "这条连接帮助学习者从“任务类型组合”走向“数学建模”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "portfolio_tasks",
+      "to": "digital_dynamic_tools",
+      "why": "把“任务类型组合”与“数字与动态工具”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "arec_math_cycle",
+      "to": "risk_assessment_learning",
+      "why": "“预期—表征—探索—约束”提供更宽广的约束；“挑战设计 → 学习管理”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "arec_math_cycle",
+      "to": "investigation_strategy",
+      "why": "当“预期—表征—探索—约束”被忽视时，“探究与例子策略”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "arec_math_cycle",
+      "to": "constraint_hierarchy",
+      "why": "这条连接帮助学习者从“预期—表征—探索—约束”走向“数学约束的层级”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "arec_math_cycle",
+      "to": "adaptive_practice_strategy",
+      "why": "把“预期—表征—探索—约束”与“适应性练习策略”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "risk_assessment_learning",
+      "to": "constraint_hierarchy",
+      "why": "“挑战设计 → 学习管理”提供更宽广的约束；“数学约束的层级”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "risk_assessment_learning",
+      "to": "teacher_questions",
+      "why": "当“挑战设计 → 学习管理”被忽视时，“教师提问与提示”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "risk_assessment_learning",
+      "to": "assessment_for_creativity",
+      "why": "这条连接帮助学习者从“挑战设计 → 学习管理”走向“面向数学创造力的评价”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "algebra_pattern_functions",
+      "why": "把“探究与例子策略”与“代数、模式与函数”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "geometry_transformations",
+      "why": "“探究与例子策略”提供更宽广的约束；“几何、对称与变换”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "measurement_units",
+      "why": "当“探究与例子策略”被忽视时，“测量、单位与维度思维”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "data_probability",
+      "why": "这条连接帮助学习者从“探究与例子策略”走向“数据、概率与不确定性”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "investigation_strategy",
+      "to": "lesson_study",
+      "why": "把“探究与例子策略”与“课例研究与任务精炼”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "adaptive_practice_strategy",
+      "to": "geometry_transformations",
+      "why": "“适应性练习策略”提供更宽广的约束；“几何、对称与变换”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "adaptive_practice_strategy",
+      "to": "measurement_units",
+      "why": "当“适应性练习策略”被忽视时，“测量、单位与维度思维”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "adaptive_practice_strategy",
+      "to": "algebra_pattern_functions",
+      "why": "这条连接帮助学习者从“适应性练习策略”走向“代数、模式与函数”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "adaptive_practice_strategy",
+      "to": "feedback_loops_math",
+      "why": "把“适应性练习策略”与“数学反馈回路”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "number_sense",
+      "to": "fractions_ratio_proportion",
+      "why": "“数感与位值”提供更宽广的约束；“分数、比与比例”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "number_sense",
+      "to": "space_shape_orientation",
+      "why": "当“数感与位值”被忽视时，“空间、形状与方向”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "fractions_ratio_proportion",
+      "to": "algebra_pattern_functions",
+      "why": "这条连接帮助学习者从“分数、比与比例”走向“代数、模式与函数”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "fractions_ratio_proportion",
+      "to": "teacher_questions",
+      "why": "把“分数、比与比例”与“教师提问与提示”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "fractions_ratio_proportion",
+      "to": "risk_assessment_learning",
+      "why": "“分数、比与比例”提供更宽广的约束；“挑战设计 → 学习管理”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "proof_argument",
+      "to": "math_dialogue_routines",
+      "why": "当“证明、论证与辩护”被忽视时，“对话常规与数学谈话”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "proof_argument",
+      "to": "digital_dynamic_tools",
+      "why": "这条连接帮助学习者从“证明、论证与辩护”走向“数字与动态工具”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "proof_argument",
+      "to": "records_learning_journal",
+      "why": "把“证明、论证与辩护”与“学习日志与可见痕迹”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "visualisation_manipulatives",
+      "to": "records_learning_journal",
+      "why": "“可视化与操作材料”提供更宽广的约束；“学习日志与可见痕迹”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "math_dialogue_routines",
+      "to": "quantity_measure_scale",
+      "why": "当“对话常规与数学谈话”被忽视时，“数量、度量与尺度”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "math_dialogue_routines",
+      "to": "case_teacher_says_one_method",
+      "why": "这条连接帮助学习者从“对话常规与数学谈话”走向“案例：“用我教你的方法””，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "digital_dynamic_tools",
+      "to": "risk_assessment_learning",
+      "why": "把“数字与动态工具”与“挑战设计 → 学习管理”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "digital_dynamic_tools",
+      "to": "collaborative_maths",
+      "why": "“数字与动态工具”提供更宽广的约束；“协作性的数学对话”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "teacher_questions",
+      "to": "concrete_to_abstract",
+      "why": "当“教师提问与提示”被忽视时，“具体 ↔ 抽象的移动”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "teacher_questions",
+      "to": "pathology_false_patterns",
+      "why": "这条连接帮助学习者从“教师提问与提示”走向“病理：虚假模式自信”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "assessment_for_creativity",
+      "to": "learning_loops_improvement",
+      "why": "把“面向数学创造力的评价”与“学习回路与课程持续改进”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "records_learning_journal",
+      "to": "lesson_study",
+      "why": "“学习日志与可见痕迹”提供更宽广的约束；“课例研究与任务精炼”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "classroom_culture",
+      "to": "learning_loops_improvement",
+      "why": "当“面向风险与严谨的课堂文化”被忽视时，“学习回路与课程持续改进”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "agility_indicators",
+      "to": "pedagogical_governance",
+      "why": "这条连接帮助学习者从“数学敏捷性的指标”走向“教学治理”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "agility_indicators",
+      "to": "classroom_information_ecology",
+      "why": "把“数学敏捷性的指标”与“课堂信息生态”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "curriculum_mapping",
+      "to": "integration_across_topics",
+      "why": "“课程映射与进阶”提供更宽广的约束；“跨主题整合”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "improvement_cycle",
+      "to": "lesson_study",
+      "why": "当“计划—尝试—注意—修正学习循环”被忽视时，“课例研究与任务精炼”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "kpis_creative_maths",
+      "to": "power_assessment",
+      "why": "这条连接帮助学习者从“超越分数的学习证据”走向“评价、权威与数学能动性”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "lesson_study",
+      "to": "learning_loops_improvement",
+      "why": "把“课例研究与任务精炼”与“学习回路与课程持续改进”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "teacher_competence",
+      "to": "flow_attention",
+      "why": "“教师的数学—教学流畅性”提供更宽广的约束；“注意力流与认知负荷”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "teacher_competence",
+      "to": "challenge_procedure_lock",
+      "why": "当“教师的数学—教学流畅性”被忽视时，“挑战：程序锁定”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "challenge_procedure_lock",
+      "to": "interfaces_representations",
+      "why": "这条连接帮助学习者从“挑战：程序锁定”走向“表征之间的接口”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "challenge_procedure_lock",
+      "to": "lesson_study",
+      "why": "把“挑战：程序锁定”与“课例研究与任务精炼”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "pathology_answer_hunting",
+      "to": "feedback_loops_math",
+      "why": "“病理：寻找答案”提供更宽广的约束；“数学反馈回路”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "pathology_false_patterns",
+      "to": "concrete_to_abstract",
+      "why": "当“病理：虚假模式自信”被忽视时，“具体 ↔ 抽象的移动”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "algebra_pattern_functions",
+      "to": "case_fraction_art_studio",
+      "why": "这条连接帮助学习者从“代数、模式与函数”走向“案例：分数艺术工作室”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "geometry_transformations",
+      "to": "case_playground_geometry",
+      "why": "把“几何、对称与变换”与“案例：操场几何制图”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "data_probability",
+      "to": "case_data_story",
+      "why": "“数据、概率与不确定性”提供更宽广的约束；“案例：来自班级生活的数据故事”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "math_dialogue_routines",
+      "to": "case_spreadsheet_patterns",
+      "why": "当“对话常规与数学谈话”被忽视时，“案例：电子表格模式机器”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "concrete_to_abstract",
+      "to": "case_times_table_song_trap",
+      "why": "这条连接帮助学习者从“具体 ↔ 抽象的移动”走向“案例：有歌曲流畅性但没有结构”，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "classroom_information_ecology",
+      "to": "case_spreadsheet_patterns",
+      "why": "把“课堂信息生态”与“案例：电子表格模式机器”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    },
+    {
+      "from": "wis_wonder",
+      "to": "case_times_table_song_trap",
+      "why": "“技巧之前的惊奇”提供更宽广的约束；“案例：有歌曲流畅性但没有结构”使这种约束在数学活动中可教学、可看见或可检验。"
+    },
+    {
+      "from": "wis_safe_experiment",
+      "to": "case_fraction_art_studio",
+      "why": "当“可安全尝试的数学实验”被忽视时，“案例：分数艺术工作室”往往会变得机械；这条连接恢复意义、表征和判断。"
+    },
+    {
+      "from": "wis_freedom",
+      "to": "case_teacher_says_one_method",
+      "why": "这条连接帮助学习者从“约束中的自由”走向“案例：“用我教你的方法””，使自由始终与数学约束相联系。"
+    },
+    {
+      "from": "wis_proportion",
+      "to": "case_data_story",
+      "why": "把“分寸与节奏”与“案例：来自班级生活的数据故事”连接起来，支持学习者在约束格中上下移动，而不是停留在孤立程序。"
+    }
+  ]
+}
