@@ -7,90 +7,45 @@
 <title>Lognormal Exposure Sheet for Excel — No Ranking</title>
 <style>
   :root{
-    --bg:#f3f7f4;
-    --panel:#ffffff;
-    --ink:#142019;
-    --muted:#607066;
-    --grid:#cfdad3;
-    --head:#e1efe6;
-    --accent:#1f7a4d;
-    --accent-dark:#12472e;
-    --soft:#eef8f1;
-    --warn:#fff6d8;
-    --danger:#8d2d2d;
+    --bg:#f3f7f4; --panel:#fff; --ink:#142019; --muted:#607066;
+    --grid:#cfdad3; --head:#e1efe6; --accent:#1f7a4d;
+    --soft:#eef8f1; --warn:#fff6d8; --danger:#8d2d2d;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:var(--bg);
-    color:var(--ink);
-  }
-  header{
-    background:linear-gradient(135deg,#0e3924,#1f7a4d 70%,#5fbf88);
-    color:white;
-    padding:26px 30px;
-  }
-  header h1{margin:0 0 8px;font-size:28px;letter-spacing:-0.02em;}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);}
+  header{background:linear-gradient(135deg,#0e3924,#1f7a4d 70%,#5fbf88);color:#fff;padding:26px 30px;}
+  header h1{margin:0 0 8px;font-size:28px;}
   header p{margin:0;max-width:1150px;line-height:1.45;opacity:.93;}
   main{padding:18px;display:grid;gap:16px;}
-  .panel{
-    background:var(--panel);
-    border:1px solid #dce6df;
-    border-radius:16px;
-    padding:16px;
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
-  }
+  .panel{background:var(--panel);border:1px solid #dce6df;border-radius:16px;padding:16px;box-shadow:0 5px 20px rgba(0,0,0,.06);}
   .panel h2{margin:0 0 12px;font-size:20px;}
   .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
-  button{
-    border:0;
-    border-radius:11px;
-    padding:10px 14px;
-    background:var(--accent);
-    color:white;
-    font-weight:700;
-    cursor:pointer;
-  }
-  button.secondary{background:#365949;}
-  button.light{background:#e6f0ea;color:#173d29;border:1px solid #bed1c6;}
-  button.danger{background:var(--danger);}
-  button:hover{filter:brightness(.96);}
+  button{border:0;border-radius:11px;padding:10px 14px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;}
+  button.secondary{background:#365949;} button.light{background:#e6f0ea;color:#173d29;border:1px solid #bed1c6;} button.danger{background:var(--danger);}
   label{font-size:14px;color:var(--muted);display:flex;gap:6px;align-items:center;}
-  input[type=number]{border:1px solid #bfd1c6;border-radius:9px;padding:8px 10px;min-width:82px;background:white;}
-  .hint{
-    background:var(--soft);
-    border-left:5px solid var(--accent);
-    border-radius:12px;
-    padding:12px 14px;
-    line-height:1.45;
-    color:#203d2b;
-  }
+  input[type=number]{border:1px solid #bfd1c6;border-radius:9px;padding:8px 10px;min-width:82px;background:#fff;}
+  .hint{background:var(--soft);border-left:5px solid var(--accent);border-radius:12px;padding:12px 14px;line-height:1.45;color:#203d2b;}
   .warn{background:var(--warn);border-left-color:#be8a00;}
-  .two-col{display:grid;grid-template-columns:1.08fr .92fr;gap:16px;}
-  @media(max-width:1050px){.two-col{grid-template-columns:1fr;}}
-  .metrics{display:grid;grid-template-columns:repeat(5,minmax(120px,1fr));gap:10px;margin-top:12px;}
-  @media(max-width:850px){.metrics{grid-template-columns:repeat(2,1fr);}}
+  .two-col{display:grid;grid-template-columns:1.08fr .92fr;gap:16px;} @media(max-width:1050px){.two-col{grid-template-columns:1fr;}}
+  .metrics{display:grid;grid-template-columns:repeat(6,minmax(115px,1fr));gap:10px;margin-top:12px;} @media(max-width:850px){.metrics{grid-template-columns:repeat(2,1fr);}}
   .metric{background:#f8fbf9;border:1px solid #dce7e0;border-radius:13px;padding:11px;}
-  .metric .k{font-size:12px;color:var(--muted);}
-  .metric .v{font-size:20px;font-weight:800;margin-top:4px;color:#123d28;}
+  .metric .k{font-size:12px;color:var(--muted);} .metric .v{font-size:20px;font-weight:800;margin-top:4px;color:#123d28;}
   .table-wrap{overflow:auto;border:1px solid var(--grid);border-radius:12px;max-height:470px;}
   table.sheet{border-collapse:collapse;width:max-content;min-width:100%;font-size:13px;}
-  .sheet th,.sheet td{border:1px solid var(--grid);height:32px;min-width:128px;padding:0;background:white;}
+  .sheet th,.sheet td{border:1px solid var(--grid);height:32px;min-width:128px;padding:0;background:#fff;}
   .sheet th{background:var(--head);padding:7px;text-align:center;position:sticky;top:0;z-index:2;}
   .sheet th.rowhead,.sheet td.rowhead{min-width:46px;width:46px;background:#edf3ef;text-align:center;font-weight:700;color:#526158;position:sticky;left:0;z-index:1;}
   .sheet td input{width:100%;height:100%;border:0;border-radius:0;padding:6px 8px;font-family:Consolas,Monaco,monospace;background:transparent;}
   .sheet td.formula{background:#fbfdfb;padding:6px 8px;font-family:Consolas,Monaco,monospace;font-size:12px;color:#274334;}
-  canvas{width:100%;height:330px;border:1px solid var(--grid);border-radius:12px;background:white;}
+  canvas{width:100%;height:330px;border:1px solid var(--grid);border-radius:12px;background:#fff;}
   textarea{width:100%;height:250px;border:1px solid var(--grid);border-radius:12px;padding:11px;font-family:Consolas,Monaco,monospace;font-size:12px;white-space:pre;resize:vertical;}
   code{background:#eaf3ee;border-radius:4px;padding:2px 4px;}
-  ol{margin-top:6px;}
 </style>
 </head>
 <body>
 <header>
   <h1>Lognormal Exposure Sheet for Excel</h1>
-  <p>Enter exposure readings, generate Excel formulas, paste the whole table into Excel, and produce a chart-ready fitted lognormal distribution curve. This version deliberately avoids ranking and probability plotting: it fits the distribution directly from the mean and standard deviation of the logged readings.</p>
+  <p>Enter exposure readings, generate Excel formulas, paste the whole table into Excel, and produce a chart-ready fitted lognormal distribution curve. This no-ranking version fits directly from the mean and standard deviation of logged readings.</p>
 </header>
 
 <main>
@@ -110,10 +65,8 @@
 
   <section class="panel">
     <h2>1. Spreadsheet input and formulas</h2>
-    <p class="hint">Only positive exposure readings can be log-transformed. Blank, zero, and negative values are ignored in the fitted curve. The Excel sheet calculates <code>LN(reading)</code>, then derives <code>mu</code>, <code>sigma</code>, geometric mean, and geometric standard deviation.</p>
-    <div class="table-wrap">
-      <table class="sheet" id="inputTable"></table>
-    </div>
+    <p class="hint">Only positive exposure readings can be log-transformed. Blank, zero, and negative values are ignored in the fitted curve.</p>
+    <div class="table-wrap"><table class="sheet" id="inputTable"></table></div>
   </section>
 
   <section class="two-col">
@@ -123,16 +76,14 @@
       <p class="hint warn">This graph is only a browser preview. The Excel graph is produced from the pasted columns labelled <strong>Chart X</strong> and <strong>Chart Y: lognormal PDF</strong>.</p>
     </section>
     <section class="panel">
-      <h2>3. How to create the Excel graph</h2>
+      <h2>3. Excel graph</h2>
       <div class="hint">
         <ol>
           <li>Click <strong>Copy Excel-ready sheet</strong>.</li>
-          <li>Open Excel and paste into cell <strong>A1</strong>.</li>
-          <li>Select the populated values in columns <strong>E:F</strong>, including the headers <strong>Chart X</strong> and <strong>Chart Y: lognormal PDF</strong>.</li>
+          <li>Paste into Excel cell <strong>A1</strong>.</li>
+          <li>Select columns <strong>E:F</strong>, including <strong>Chart X</strong> and <strong>Chart Y: lognormal PDF</strong>.</li>
           <li>Choose <strong>Insert → Scatter → Scatter with Smooth Lines</strong>.</li>
-          <li>Use the chart title <strong>Fitted lognormal exposure distribution</strong>.</li>
         </ol>
-        <p>The calculation is parametric: it assumes exposure is lognormal and estimates the curve from <code>AVERAGE(LN(readings))</code> and <code>STDEV.S(LN(readings))</code>.</p>
       </div>
     </section>
   </section>
@@ -146,110 +97,122 @@
 <script>
 let readings = [0.8,1.1,1.4,1.7,2.1,2.6,3.2,3.9,4.8,5.6,6.8,8.4,10.2,12.7,15.9,19.5,25,31.4,42,55];
 
-function positiveReadings(){return readings.map(Number).filter(v=>Number.isFinite(v)&&v>0);}
-function mean(a){return a.reduce((s,v)=>s+v,0)/a.length;}
-function sampleSd(a){if(a.length<2)return NaN; const m=mean(a); return Math.sqrt(a.reduce((s,v)=>s+(v-m)**2,0)/(a.length-1));}
-function fmt(x,d=3){return Number.isFinite(x)?x.toFixed(d):'—';}
-function pdf(x,mu,sigma){if(x<=0||sigma<=0)return 0; return 1/(x*sigma*Math.sqrt(2*Math.PI))*Math.exp(-((Math.log(x)-mu)**2)/(2*sigma*sigma));}
-function percentile(p,mu,sigma){return Math.exp(mu + sigma * invNorm(p));}
-
+function positiveReadings(){ return readings.map(Number).filter(v => Number.isFinite(v) && v > 0); }
+function mean(a){ return a.reduce((s,v)=>s+v,0)/a.length; }
+function sampleSd(a){ if(a.length < 2) return NaN; const m=mean(a); return Math.sqrt(a.reduce((s,v)=>s+(v-m)*(v-m),0)/(a.length-1)); }
+function fmt(x,d=3){ return Number.isFinite(x) ? x.toFixed(d) : '—'; }
+function pdf(x,mu,sigma){ if(x<=0 || sigma<=0) return 0; return 1/(x*sigma*Math.sqrt(2*Math.PI))*Math.exp(-Math.pow(Math.log(x)-mu,2)/(2*sigma*sigma)); }
 function invNorm(p){
-  if(p<=0||p>=1)return NaN;
+  if(p<=0||p>=1) return NaN;
   const a=[-39.6968302866538,220.946098424521,-275.928510446969,138.357751867269,-30.6647980661472,2.50662827745924];
   const b=[-54.4760987982241,161.585836858041,-155.698979859887,66.8013118877197,-13.2806815528857];
   const c=[-0.00778489400243029,-0.322396458041136,-2.40075827716184,-2.54973253934373,4.37466414146497,2.93816398269878];
   const d=[0.00778469570904146,0.32246712907004,2.445134137143,3.75440866190742];
-  const plow=0.02425, phigh=1-plow;
-  let q,r;
-  if(p<plow){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
-  if(p>phigh){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
-  q=p-0.5;r=q*q;return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  const plow=0.02425, phigh=1-plow; let q,r;
+  if(p<plow){ q=Math.sqrt(-2*Math.log(p)); return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+  if(p>phigh){ q=Math.sqrt(-2*Math.log(1-p)); return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+  q=p-0.5; r=q*q; return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
 }
+function percentile(p,mu,sigma){ return Math.exp(mu + sigma * invNorm(p)); }
 
-function addRow(){readings.push('');renderAll();}
-function addRows(n){for(let i=0;i<n;i++)readings.push('');renderAll();}
-function loadDemo(){readings=[0.8,1.1,1.4,1.7,2.1,2.6,3.2,3.9,4.8,5.6,6.8,8.4,10.2,12.7,15.9,19.5,25,31.4,42,55];renderAll();}
-function clearReadings(){readings=Array.from({length:20},()=> '');renderAll();}
-function setReading(i,v){readings[i]=v;renderAll(false);}
+function addRow(){ readings.push(''); renderAll(); }
+function addRows(n){ for(let i=0;i<n;i++) readings.push(''); renderAll(); }
+function loadDemo(){ readings=[0.8,1.1,1.4,1.7,2.1,2.6,3.2,3.9,4.8,5.6,6.8,8.4,10.2,12.7,15.9,19.5,25,31.4,42,55]; renderAll(); }
+function clearReadings(){ readings=Array.from({length:20},()=> ''); renderAll(); }
+function setReading(i,v){ readings[i]=v; renderAll(false); }
 
 function renderMetrics(){
-  const x=positiveReadings(); const logs=x.map(Math.log); const mu=logs.length?mean(logs):NaN; const sigma=sampleSd(logs); const gm=Math.exp(mu); const gsd=Math.exp(sigma);
-  const p95=Number.isFinite(sigma)?percentile(0.95,mu,sigma):NaN;
+  const x=positiveReadings(); const logs=x.map(Math.log); const mu=logs.length?mean(logs):NaN; const sigma=sampleSd(logs); const gm=Math.exp(mu); const gsd=Math.exp(sigma); const p95=Number.isFinite(sigma)?percentile(0.95,mu,sigma):NaN;
   document.getElementById('metrics').innerHTML = [
-    ['n',x.length],['mu',fmt(mu)],['sigma',fmt(sigma)],['GM',fmt(gm)],['GSD',fmt(gsd)],['95th percentile',fmt(p95)]
-  ].map(([k,v])=>`<div class="metric"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+    ['n',x.length], ['mu',fmt(mu)], ['sigma',fmt(sigma)], ['GM',fmt(gm)], ['GSD',fmt(gsd)], ['95th percentile',fmt(p95)]
+  ].map(item => `<div class="metric"><div class="k">${item[0]}</div><div class="v">${item[1]}</div></div>`).join('');
 }
 
 function renderInputTable(){
   let html='<tr><th class="rowhead"></th><th>A<br>Exposure reading</th><th>B<br>LN(reading)</th></tr>';
-  readings.forEach((v,i)=>{const r=i+2; html+=`<tr><td class="rowhead">${r}</td><td><input type="number" step="any" value="${v}" oninput="setReading(${i},this.value)"></td><td class="formula">=IF(A${r}>0,LN(A${r}),"")</td></tr>`;});
-  document.getElementById('inputTable').innerHTML=html;
+  readings.forEach((v,i)=>{ const r=i+2; html += `<tr><td class="rowhead">${r}</td><td><input type="number" step="any" value="${v}" oninput="setReading(${i},this.value)"></td><td class="formula">=IF(A${r}>0,LN(A${r}),"")</td></tr>`; });
+  document.getElementById('inputTable').innerHTML = html;
 }
 
 function buildExcelTSV(){
   const rows=[];
   rows.push(['Exposure reading','LN(reading)','','','Chart X','Chart Y: lognormal PDF']);
-  const chartN=Number(document.getElementById('pointCount').value)||120;
-  const totalRows=Math.max(100,chartN);
+  const chartN = Number(document.getElementById('pointCount').value) || 120;
+  const totalRows = Math.max(100, chartN);
+
+  const summaryHeaderRow = totalRows + 3;
+  const muRow = summaryHeaderRow + 4;
+  const sigmaRow = summaryHeaderRow + 5;
+  const gmRow = summaryHeaderRow + 6;
+  const chartStartRow = summaryHeaderRow + 9;
+  const chartEndRow = summaryHeaderRow + 10;
+  const chartPointsRow = summaryHeaderRow + 11;
+
   for(let i=0;i<totalRows;i++){
     const r=i+2;
     rows.push([
-      readings[i]??'',
+      readings[i] ?? '',
       `=IF(A${r}>0,LN(A${r}),"")`,
       '',
       '',
-      `=IF(ROW()-1<=$B$113,$B$111+(ROW()-2)*($B$112-$B$111)/($B$113-1),"")`,
-      `=IF(E${r}<>"",LOGNORM.DIST(E${r},$B$106,$B$107,FALSE),"")`
+      `=IF(ROW()-1<=$B$${chartPointsRow},$B$${chartStartRow}+(ROW()-2)*($B$${chartEndRow}-$B$${chartStartRow})/($B$${chartPointsRow}-1),"")`,
+      `=IF(E${r}<>"",LOGNORM.DIST(E${r},$B$${muRow},$B$${sigmaRow},FALSE),"")`
     ]);
   }
+
   rows.push([]);
   rows.push(['Summary/statistic','Excel formula / value']);
-  rows.push(['n valid positive readings','=COUNT(A2:A101)']);
-  rows.push(['Arithmetic mean','=AVERAGE(A2:A101)']);
-  rows.push(['Arithmetic sample SD','=STDEV.S(A2:A101)']);
-  rows.push(['mu: mean of LN readings','=AVERAGE(B2:B101)']);
-  rows.push(['sigma: SD of LN readings','=STDEV.S(B2:B101)']);
-  rows.push(['Geometric mean, GM','=EXP(B106)']);
-  rows.push(['Geometric standard deviation, GSD','=EXP(B107)']);
-  rows.push(['95th percentile','=LOGNORM.INV(0.95,B106,B107)']);
-  rows.push(['Chart start x',`=MAX(0.000001,B108*${Number(document.getElementById('startMult').value)||0.1})`]);
-  rows.push(['Chart end x',`=B108*${Number(document.getElementById('endMult').value)||4}`]);
+  rows.push(['n valid positive readings',`=COUNT(A2:A${totalRows+1})`]);
+  rows.push(['Arithmetic mean',`=AVERAGE(A2:A${totalRows+1})`]);
+  rows.push(['Arithmetic sample SD',`=STDEV.S(A2:A${totalRows+1})`]);
+  rows.push(['mu: mean of LN readings',`=AVERAGE(B2:B${totalRows+1})`]);
+  rows.push(['sigma: SD of LN readings',`=STDEV.S(B2:B${totalRows+1})`]);
+  rows.push(['Geometric mean, GM',`=EXP(B${muRow})`]);
+  rows.push(['Geometric standard deviation, GSD',`=EXP(B${sigmaRow})`]);
+  rows.push(['95th percentile',`=LOGNORM.INV(0.95,B${muRow},B${sigmaRow})`]);
+  rows.push(['Chart start x',`=MAX(0.000001,B${gmRow}*${Number(document.getElementById('startMult').value)||0.1})`]);
+  rows.push(['Chart end x',`=B${gmRow}*${Number(document.getElementById('endMult').value)||4}`]);
   rows.push(['Number of chart points',chartN]);
   rows.push([]);
   rows.push(['Excel graph instruction','Select columns E:F and insert a Scatter chart with Smooth Lines.']);
   rows.push(['Note','This version does not use ranking; it directly fits a lognormal curve from the logged readings.']);
-  return rows.map(r=>r.map(c=>String(c??'')).join('\t')).join('\n');
+  return rows.map(r=>r.map(c=>String(c ?? '')).join('\t')).join('\n');
 }
 
-function renderText(){document.getElementById('excelText').value=buildExcelTSV();}
+function renderText(){ document.getElementById('excelText').value = buildExcelTSV(); }
 
-async function copyExcelTable(){
-  renderText(); const txt=document.getElementById('excelText').value;
-  try{await navigator.clipboard.writeText(txt); alert('Copied. Paste into cell A1 in Excel.');}
-  catch(e){const ta=document.getElementById('excelText');ta.focus();ta.select();alert('Clipboard blocked. The table is selected; press Ctrl+C.');}
+function copyExcelTable(){
+  renderText();
+  const ta=document.getElementById('excelText');
+  ta.focus();
+  ta.select();
+  let copied=false;
+  try{ copied=document.execCommand('copy'); }catch(e){ copied=false; }
+  if(copied){ alert('Copied. Paste into cell A1 in Excel.'); }
+  else{ alert('The Excel table is selected. Press Ctrl+C, then paste into cell A1 in Excel.'); }
 }
 
 function renderPlot(){
   const c=document.getElementById('plot'), ctx=c.getContext('2d'), w=c.width, h=c.height;
   ctx.clearRect(0,0,w,h); ctx.fillStyle='white'; ctx.fillRect(0,0,w,h);
   const data=positiveReadings(); ctx.fillStyle='#314138'; ctx.font='16px Arial';
-  if(data.length<2){ctx.fillText('Enter at least two positive readings.',30,45);return;}
+  if(data.length<2){ ctx.fillText('Enter at least two positive readings.',30,45); return; }
   const logs=data.map(Math.log), mu=mean(logs), sigma=sampleSd(logs);
-  if(!Number.isFinite(sigma)||sigma<=0){ctx.fillText('The readings need variation before a curve can be fitted.',30,45);return;}
+  if(!Number.isFinite(sigma)||sigma<=0){ ctx.fillText('The readings need variation before a curve can be fitted.',30,45); return; }
   const gm=Math.exp(mu), start=Number(document.getElementById('startMult').value)||0.1, end=Number(document.getElementById('endMult').value)||4;
   const xmin=Math.max(0.000001,gm*start), xmax=Math.max(xmin*1.1,gm*end), n=Number(document.getElementById('pointCount').value)||120;
-  const pts=[]; for(let i=0;i<n;i++){const x=xmin+i*(xmax-xmin)/(n-1); pts.push([x,pdf(x,mu,sigma)]);}
+  const pts=[]; for(let i=0;i<n;i++){ const x=xmin+i*(xmax-xmin)/(n-1); pts.push([x,pdf(x,mu,sigma)]); }
   const ymax=Math.max(...pts.map(p=>p[1]))*1.15;
   const L=62,R=24,T=30,B=52, sx=x=>L+(x-xmin)/(xmax-xmin)*(w-L-R), sy=y=>h-B-y/ymax*(h-T-B);
-  ctx.strokeStyle='#d4ded7';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(L,T);ctx.lineTo(L,h-B);ctx.lineTo(w-R,h-B);ctx.stroke();
-  ctx.strokeStyle='#1f7a4d';ctx.lineWidth=3;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(sx(p[0]),sy(p[1])):ctx.moveTo(sx(p[0]),sy(p[1])));ctx.stroke();
-  ctx.fillStyle='#53645a';ctx.font='12px Arial';ctx.fillText(xmin.toFixed(2),L-8,h-B+22);ctx.fillText(xmax.toFixed(2),w-R-40,h-B+22);ctx.fillText('Exposure reading',w/2-45,h-12);
-  ctx.save();ctx.translate(18,h/2+42);ctx.rotate(-Math.PI/2);ctx.fillText('Probability density',0,0);ctx.restore();
-  ctx.fillStyle='#123d28';ctx.font='14px Arial';ctx.fillText(`Fitted lognormal: GM=${fmt(gm)}, GSD=${fmt(Math.exp(sigma))}, n=${data.length}`,30,22);
+  ctx.strokeStyle='#d4ded7'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(L,T); ctx.lineTo(L,h-B); ctx.lineTo(w-R,h-B); ctx.stroke();
+  ctx.strokeStyle='#1f7a4d'; ctx.lineWidth=3; ctx.beginPath(); pts.forEach((p,i)=> i ? ctx.lineTo(sx(p[0]),sy(p[1])) : ctx.moveTo(sx(p[0]),sy(p[1]))); ctx.stroke();
+  ctx.fillStyle='#53645a'; ctx.font='12px Arial'; ctx.fillText(xmin.toFixed(2),L-8,h-B+22); ctx.fillText(xmax.toFixed(2),w-R-40,h-B+22); ctx.fillText('Exposure reading',w/2-45,h-12);
+  ctx.save(); ctx.translate(18,h/2+42); ctx.rotate(-Math.PI/2); ctx.fillText('Probability density',0,0); ctx.restore();
+  ctx.fillStyle='#123d28'; ctx.font='14px Arial'; ctx.fillText(`Fitted lognormal: GM=${fmt(gm)}, GSD=${fmt(Math.exp(sigma))}, n=${data.length}`,30,22);
 }
 
-function renderAll(updateTable=true){if(updateTable)renderInputTable();renderMetrics();renderText();renderPlot();}
-renderAll();
+function renderAll(updateTable=true){ if(updateTable) renderInputTable(); renderMetrics(); renderText(); renderPlot(); }
+window.addEventListener('DOMContentLoaded', () => renderAll());
 </script>
 </body>
 </html>
