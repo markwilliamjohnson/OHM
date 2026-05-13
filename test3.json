@@ -1,0 +1,2323 @@
+{
+  "status": "complete",
+  "action": "convertInstitutionToSimulatorSpec",
+  "summary": "Converted institution JSON into simulator-spec JSON for Unknown organisation.",
+  "institution": {
+    "institution_name": "Worker Engagement with Occupational Health Services: a worker-centred strategic foresight Goguen institution for governance, operational delivery, risk and compliance",
+    "models": [
+      {
+        "description": "The intended source model: the uploaded critical review and its selected literature corpus. Its universe consists of the document\u2019s studies, policy reports, themes, claims, convergences, divergences, implications and research gaps. It is the canonical model against which all extracted sentences are satisfied.",
+        "entities": [
+          "Uploaded review document",
+          "DWP 2023 phase-one qualitative report",
+          "DWP 2026 qualitative report",
+          "DWP and DHSC 2023 Working Better policy document",
+          "Hagendijk qualitative evidence synthesis",
+          "Hagendijk cardiovascular disease work-focused care study",
+          "Michaelis voluntary occupational health care uptake study",
+          "Oates mental health nurses study",
+          "Torrance long COVID healthcare staff study",
+          "Joosen return-to-work study",
+          "Oosting specialist/OH cooperation study",
+          "Wynne-Jones WAVE primary care vocational advice study"
+        ],
+        "interpretations": [
+          "Corpus is interpreted as a bounded PRISMA-informed qualitative critical review.",
+          "Themes are interpreted as cross-cutting explanatory structures rather than mere frequency counts.",
+          "Engagement is interpreted as a worker decision shaped by access, trust, perceived benefit, confidentiality risk, professional legitimacy and implementation prospects.",
+          "Governance is interpreted as the institutional arrangement among employers, managers, occupational health, healthcare systems and policy context.",
+          "Operational delivery is interpreted as the pathway from referral or access through consultation, recommendation, adjustment and sustained work participation.",
+          "Risk and compliance are interpreted as confidentiality, non-disadvantage, stigma, data-sharing, preventive surveillance and employer-linkage controls."
+        ],
+        "name": "M0_Documentary_Corpus_Model"
+      },
+      {
+        "description": "A desirable future occupational health arrangement implied by the review: accessible, understandable, confidential, worker-facing, integrated with primary and specialist care, and backed by managerial implementation.",
+        "entities": [
+          "Workers with work-related or work-relevant health concerns",
+          "Occupational health clinicians",
+          "Line managers trained and accountable for implementation",
+          "HR governance controls",
+          "GPs and specialists in cooperative pathways",
+          "Confidentiality and data-sharing controls",
+          "Person-centred work-focused care processes"
+        ],
+        "interpretations": [
+          "Access routes exist before crisis or formal absence management.",
+          "Workers receive simple explanations of objectives, confidentiality and how occupational health can help at work.",
+          "Managers are required and supported to implement reasonable and practical recommendations.",
+          "Occupational health advice is specific, actionable, tailored and followed through.",
+          "Primary care, specialist care and occupational health communicate through clear consent-based pathways.",
+          "The model is a countermodel to low-trust, patchy and purely procedural systems."
+        ],
+        "name": "M1_Target_Trusted_Worker_Centred_OH_Model"
+      },
+      {
+        "description": "A model of uneven provision in which occupational health is absent, inaccessible or only activated after significant absence or managerial referral, especially in smaller organisations.",
+        "entities": [
+          "Small or medium-sized employer",
+          "Worker without ordinary direct OH route",
+          "Line manager as gatekeeper",
+          "Remote or absent occupational health service",
+          "GP as default healthcare contact"
+        ],
+        "interpretations": [
+          "Formal provision may be missing or too weak to be meaningful.",
+          "Occupational health appears exceptional, procedural or disciplinary rather than ordinary early support.",
+          "Workers do not develop practical familiarity with occupational health.",
+          "Engagement is low because meaningful access is low."
+        ],
+        "name": "M2_Patchy_Access_SME_Model"
+      },
+      {
+        "description": "A model in which occupational health is visibly tied to employer interests, reports feed management processes and workers fear confidentiality breaches, disadvantage, judgement or stigma.",
+        "entities": [
+          "Employer-linked OH service",
+          "Worker considering disclosure",
+          "Management report",
+          "Capability or attendance process",
+          "Confidentiality assurance of uncertain credibility",
+          "In-house or outsourced OH provider"
+        ],
+        "interpretations": [
+          "The worker believes the consultation may affect capability, attendance, fitness or career standing.",
+          "Formal assurances exist but do not overcome mistrust where practice is perceived as blurred.",
+          "In-house provision risks fear of exposure; outsourced provision risks lack of contextual understanding.",
+          "Engagement is rationally cautious or avoided."
+        ],
+        "name": "M3_Employer_Linked_Low_Trust_Model"
+      },
+      {
+        "description": "A model in which GPs and specialists are trusted and familiar, occupational health is weakly explained, and clinical and occupational systems operate in isolation.",
+        "entities": [
+          "Worker or patient",
+          "GP",
+          "Specialist clinician",
+          "Occupational health physician",
+          "Employer",
+          "Uncoordinated referral and information flows"
+        ],
+        "interpretations": [
+          "Workers default to clinicians outside occupational health for diagnosis, fit notes and authoritative interpretation of illness.",
+          "The worker carries information between systems.",
+          "Occupational health appears secondary unless it is integrated and able to translate diagnosis into practical work advice.",
+          "Fragmentation intensifies uncertainty and distrust."
+        ],
+        "name": "M4_Fragmented_Clinical_Default_Model"
+      },
+      {
+        "description": "A model in which occupational health produces advice but line managers or organisational processes fail to implement it consistently, causing futility and disengagement.",
+        "entities": [
+          "Occupational health recommendation",
+          "Line manager",
+          "Senior management",
+          "Worker",
+          "Workplace adjustment",
+          "Return-to-work plan",
+          "Absence contact process"
+        ],
+        "interpretations": [
+          "The practical value of advice depends on managerial uptake.",
+          "Box-ticking referrals or ignored recommendations weaken trust.",
+          "Proactive, open and empathetic management improves experience.",
+          "Inconsistent procedures or poor contact during absence worsen experience."
+        ],
+        "name": "M5_Managerial_Implementation_Gap_Model"
+      },
+      {
+        "description": "A model in which occupational health offers surveillance or screening for exposure and latent risk, but workers who feel healthy see the offer as unnecessary, paternalistic, intrusive or employer-centred.",
+        "entities": [
+          "Worker who feels healthy",
+          "Occupational exposure",
+          "Latent risk",
+          "Surveillance offer",
+          "Health monitoring process",
+          "Explanation of preventive purpose"
+        ],
+        "interpretations": [
+          "Occupational health reasons in probabilities and exposures while workers reason from felt illness.",
+          "If risk is not made experientially legible, preventive engagement falls.",
+          "Clear explanation can transform surveillance from monitoring into meaningful support.",
+          "This model is especially relevant to laboratory, manufacturing, healthcare and other hazard-exposed settings."
+        ],
+        "name": "M6_Preventive_Surveillance_Misalignment_Model"
+      },
+      {
+        "description": "A model focused on mental health and identity risks, including fear of being seen as weak, unreliable, burdensome, difficult or professionally diminished.",
+        "entities": [
+          "Worker with mental health condition",
+          "Mental health nurse or professional worker",
+          "Workplace norms of competence and resilience",
+          "Stigma risk",
+          "Disclosure decision",
+          "Occupational health service embedded in employer context"
+        ],
+        "interpretations": [
+          "Professional knowledge does not remove fear of stigma or misunderstanding.",
+          "Disclosure is interpreted socially and may threaten identity and status.",
+          "Reluctance is partly stigma-related and partly rational organisational appraisal.",
+          "Employer-embedded care makes help-seeking feel risky."
+        ],
+        "name": "M7_Mental_Health_Identity_Stigma_Model"
+      },
+      {
+        "description": "A sector-specific model in which healthcare staff with fluctuating long COVID symptoms continue working because of professional duty, service pressure or uncertainty about how symptoms will be interpreted, while benefiting from flexible and managerially supported adjustments.",
+        "entities": [
+          "Healthcare worker",
+          "Long COVID symptoms",
+          "Professional duty norm",
+          "Service pressure",
+          "Occupational medicine",
+          "Managerial support",
+          "Colleague support",
+          "Flexible adjustment"
+        ],
+        "interpretations": [
+          "Symptoms may fluctuate and be difficult to legitimate in work contexts.",
+          "Support is valuable when occupational medicine, managers, colleagues and policy flexibility align.",
+          "Engagement remains cautious where workers fear judgement, sidelining or disbelief.",
+          "Sector and labour process shape occupational health engagement."
+        ],
+        "name": "M8_Healthcare_LongCOVID_Service_Duty_Model"
+      },
+      {
+        "description": "A model of integrated work-focused support across healthcare, rehabilitation and employment pathways rather than a narrow occupational health-only pathway.",
+        "entities": [
+          "Worker or patient with chronic condition",
+          "GP",
+          "Specialist clinician",
+          "Occupational health professional",
+          "Rehabilitation professional",
+          "Employer",
+          "Integrated work-focused care pathway"
+        ],
+        "interpretations": [
+          "Work is addressed explicitly in healthcare encounters.",
+          "The model provides substantive guidance, clear and continuous process, supportive behaviour and tailored support.",
+          "It treats occupational health and primary care as linked worlds.",
+          "It challenges narrow institutional boundaries around occupational health."
+        ],
+        "name": "M9_Person_Centred_Integrated_Work_Focused_Care_Model"
+      }
+    ],
+    "satisfaction_relations": [
+      {
+        "justification": "The document explicitly frames this worker-centred research question in its introduction.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S01",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document states that the design is PRISMA-informed, critical and bounded rather than a full de novo systematic review.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S02",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document specifies repeated reading and coding around access, trust, confidentiality, managerial mediation, role clarity, stigma, disclosure, adjustments, prevention, illness perception, continuity and person-centredness.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S03",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document lists the included sources and explains the purposive corpus.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S04",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document justifies qualitative and mixed-method evidence because the question concerns meaning, anticipation and worker evaluation.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S05",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document\u2019s main explanatory claim rejects ignorance or simple non-compliance as sufficient explanations.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S06",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Theme one states that access is uneven and often weak, especially for workers outside large employers.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S07",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document distinguishes technical structural provision from meaningful experiential access.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S08",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Theme two identifies role ambiguity and uncertainty about what occupational health does.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S09",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document records workers\u2019 preference for GPs or specialists where those roles are more familiar, independent or authoritative.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S10",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Theme three defines trust in terms of confidentiality, being understood, information not being used against the worker and support rather than monitoring.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S11",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document states that employer linkage makes confidentiality and management use of information structurally problematic.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S12",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document reports distinct distrust of outsourced and in-house services in the Oates study.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S13",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document uses Oosting and related findings to show that fragmented clinical and occupational systems can intensify distrust.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S14",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Theme four identifies stigma, identity and the social consequences of disclosure.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S15",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The Oates mental health nurses discussion supports this sentence.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S16",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The Torrance long COVID healthcare staff discussion supports this sector-specific sentence.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S17",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Theme five states that occupational health advice matters only insofar as managers and organisations act on it.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S18",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document frames the worker question as what happens after occupational health advice is issued.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S19",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The DWP 2026 discussion supports the importance of proactive, open and empathetic line-manager communication and consistent procedures.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S20",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The Joosen discussion supports the importance of adjustments, supervisor relationships and occupational health guidance.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S21",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Theme six states that workers may decline surveillance because they do not feel ill.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S22",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document states that unexplained surveillance may appear unnecessary, paternalistic or employer-benefiting.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S23",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Theme seven states that perceived futility and non-implementation reduce engagement.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S24",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The convergence section states that workers and patients want support that is practical, specific, humane and work-linked.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S25",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The convergence section identifies GP or specialist default, managerial action and confidentiality or disadvantage fears.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S26",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The divergence section warns against a uniformly negative account and notes positive experiences where occupational health is responsive and useful.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S27",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document states that the institutional boundary around occupational health may be too narrow for actual worker pathways.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S28",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The unresolved contention between stigma and rational organisational appraisal is explicitly discussed.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S29",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document explicitly contrasts professional, employer and worker framings of occupational health.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S30",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document calls for research beyond consultation-level evaluation and across assessment, implementation and sustained participation.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S31",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The document calls for research on prevention communication, latent risk, monitoring and sectoral differences.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S32",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The implications section states that awareness campaigns are insufficient and engagement requires access, understanding, trust and practical effect.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S33",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The implications section requires worker-facing explanations of objectives, confidentiality, non-disadvantage and practical benefit.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S34",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The implications section states that line managers are central and require training, support and accountability.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S35",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The implications section endorses person-centred work-focused care and criticises episodic report-writing-only models.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S36",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The implications section states that primary care and occupational health should be treated as linked rather than separate worlds.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S37",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The conclusion states that the task is to build occupational health arrangements that merit trust and make engagement safe, credible and worthwhile.",
+        "model": "M0_Documentary_Corpus_Model",
+        "sentence_id": "S38",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The target model treats reluctance as a rational response to institutional conditions and redesigns those conditions rather than blaming workers.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S06",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The target model is intentionally not a model of unequal access; it is a countermodel in which access is made meaningful and broader.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S07",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "Role ambiguity is removed through explicit worker-facing role articulation.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S09",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model makes trust a required design condition through confidentiality, understanding and support-oriented communication.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S11",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model accepts managerial mediation and therefore includes manager accountability for implementation.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S18",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The futility condition is deliberately negated by ensuring advice has practical consequences.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S24",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model operationalises access, understanding, trust and practical alteration of work conditions.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S33",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model requires worker-facing explanation of purpose, confidentiality, non-disadvantage and work benefit.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S34",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model includes manager training, support and accountability as governance controls.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S35",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model is person-centred and provides substantive guidance, continuity, empathy, personal control and tailoring.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S36",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model integrates occupational health with primary and specialist care.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S37",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model is the strategic future-state arrangement that merits trust.",
+        "model": "M1_Target_Trusted_Worker_Centred_OH_Model",
+        "sentence_id": "S38",
+        "status": "satisfied"
+      },
+      {
+        "justification": "This model exemplifies absent, distant or inaccessible occupational health provision, especially in smaller organisations.",
+        "model": "M2_Patchy_Access_SME_Model",
+        "sentence_id": "S07",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model may include nominal or ad hoc access without meaningful experiential access.",
+        "model": "M2_Patchy_Access_SME_Model",
+        "sentence_id": "S08",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Weak contact and lack of ordinary access increase role ambiguity.",
+        "model": "M2_Patchy_Access_SME_Model",
+        "sentence_id": "S09",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The GP becomes the default route because occupational health is unavailable or poorly explained.",
+        "model": "M2_Patchy_Access_SME_Model",
+        "sentence_id": "S10",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model lacks the accessibility and practical power required for engagement.",
+        "model": "M2_Patchy_Access_SME_Model",
+        "sentence_id": "S33",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model has patchy occupational health and no clear cooperation pathway with primary care.",
+        "model": "M2_Patchy_Access_SME_Model",
+        "sentence_id": "S37",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model does not yet merit trust because access and role articulation are weak.",
+        "model": "M2_Patchy_Access_SME_Model",
+        "sentence_id": "S38",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model directly expresses low confidence in confidentiality, being understood and support rather than monitoring.",
+        "model": "M3_Employer_Linked_Low_Trust_Model",
+        "sentence_id": "S11",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Employer linkage and possible report use are central to this model.",
+        "model": "M3_Employer_Linked_Low_Trust_Model",
+        "sentence_id": "S12",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model contains both in-house exposure risks and outsourced contextual-understanding risks.",
+        "model": "M3_Employer_Linked_Low_Trust_Model",
+        "sentence_id": "S13",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Disclosure can threaten identity, reliability and status in this model.",
+        "model": "M3_Employer_Linked_Low_Trust_Model",
+        "sentence_id": "S15",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model supports the rational organisational appraisal side of the stigma versus appraisal contention while also admitting stigma.",
+        "model": "M3_Employer_Linked_Low_Trust_Model",
+        "sentence_id": "S29",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model embodies the worker perception of occupational health as a hybrid of care and management.",
+        "model": "M3_Employer_Linked_Low_Trust_Model",
+        "sentence_id": "S30",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Worker-facing explanation and credible non-disadvantage assurance are inadequate in this model.",
+        "model": "M3_Employer_Linked_Low_Trust_Model",
+        "sentence_id": "S34",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model does not merit trust because confidentiality and stigma controls are insufficient.",
+        "model": "M3_Employer_Linked_Low_Trust_Model",
+        "sentence_id": "S38",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model is built around default preference for GPs and specialists.",
+        "model": "M4_Fragmented_Clinical_Default_Model",
+        "sentence_id": "S10",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model has isolated clinical and occupational systems and requires the worker to carry information between them.",
+        "model": "M4_Fragmented_Clinical_Default_Model",
+        "sentence_id": "S14",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model demonstrates why the boundary around occupational health is too narrow.",
+        "model": "M4_Fragmented_Clinical_Default_Model",
+        "sentence_id": "S28",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model fails the recommendation that occupational health and primary care be linked.",
+        "model": "M4_Fragmented_Clinical_Default_Model",
+        "sentence_id": "S37",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model identifies the need for stronger bridges with healthcare, but does not itself provide them.",
+        "model": "M4_Fragmented_Clinical_Default_Model",
+        "sentence_id": "S38",
+        "status": "partially_satisfied"
+      },
+      {
+        "justification": "The model treats managers and organisational processes as the practical locus of power.",
+        "model": "M5_Managerial_Implementation_Gap_Model",
+        "sentence_id": "S18",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model captures the worker\u2019s concern about what happens after occupational health advice is issued.",
+        "model": "M5_Managerial_Implementation_Gap_Model",
+        "sentence_id": "S19",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model can represent both positive and negative managerial contact; it satisfies the dependency of experience on communication quality.",
+        "model": "M5_Managerial_Implementation_Gap_Model",
+        "sentence_id": "S20",
+        "status": "partially_satisfied"
+      },
+      {
+        "justification": "The model shows why supervisor capability matters but may lack adequate supervisor relationships.",
+        "model": "M5_Managerial_Implementation_Gap_Model",
+        "sentence_id": "S21",
+        "status": "partially_satisfied"
+      },
+      {
+        "justification": "Futility from non-implementation is the core mechanism of the model.",
+        "model": "M5_Managerial_Implementation_Gap_Model",
+        "sentence_id": "S24",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model demonstrates why research must follow the chain from assessment to implementation and sustained participation.",
+        "model": "M5_Managerial_Implementation_Gap_Model",
+        "sentence_id": "S31",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model lacks the recommended manager training, support and accountability.",
+        "model": "M5_Managerial_Implementation_Gap_Model",
+        "sentence_id": "S35",
+        "status": "not_satisfied"
+      },
+      {
+        "justification": "The model directly represents workers declining preventive surveillance because they do not feel ill.",
+        "model": "M6_Preventive_Surveillance_Misalignment_Model",
+        "sentence_id": "S22",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model represents surveillance appearing unnecessary, paternalistic or employer-benefiting when risk is not explained.",
+        "model": "M6_Preventive_Surveillance_Misalignment_Model",
+        "sentence_id": "S23",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model identifies why future research must address prevention communication, latent risk and monitoring boundaries.",
+        "model": "M6_Preventive_Surveillance_Misalignment_Model",
+        "sentence_id": "S32",
+        "status": "satisfied"
+      },
+      {
+        "justification": "If explanation is added, the model can satisfy worker-facing communication; without explanation it fails it.",
+        "model": "M6_Preventive_Surveillance_Misalignment_Model",
+        "sentence_id": "S34",
+        "status": "partially_satisfied"
+      },
+      {
+        "justification": "The model can move toward trust only if surveillance is distinguished from intrusive monitoring and confidentiality is clear.",
+        "model": "M6_Preventive_Surveillance_Misalignment_Model",
+        "sentence_id": "S38",
+        "status": "partially_satisfied"
+      },
+      {
+        "justification": "The model directly encodes identity threat and social meaning of disclosure.",
+        "model": "M7_Mental_Health_Identity_Stigma_Model",
+        "sentence_id": "S15",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model captures mental health-specific fears of misunderstanding, confidentiality failure and loss of professional standing.",
+        "model": "M7_Mental_Health_Identity_Stigma_Model",
+        "sentence_id": "S16",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model demonstrates that stigma and rational organisational appraisal coexist.",
+        "model": "M7_Mental_Health_Identity_Stigma_Model",
+        "sentence_id": "S29",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Worker-facing explanation may reduce ambiguity, but stigma and identity threats require deeper cultural and confidentiality controls.",
+        "model": "M7_Mental_Health_Identity_Stigma_Model",
+        "sentence_id": "S34",
+        "status": "partially_satisfied"
+      },
+      {
+        "justification": "The model can satisfy the strategic theorem only if confidentiality, stigma and organisational response are materially improved.",
+        "model": "M7_Mental_Health_Identity_Stigma_Model",
+        "sentence_id": "S38",
+        "status": "partially_satisfied"
+      },
+      {
+        "justification": "The model is the sector-specific interpretation of the long COVID healthcare worker evidence.",
+        "model": "M8_Healthcare_LongCOVID_Service_Duty_Model",
+        "sentence_id": "S17",
+        "status": "satisfied"
+      },
+      {
+        "justification": "Managerial and colleague support can improve outcomes, but service pressure may still create barriers.",
+        "model": "M8_Healthcare_LongCOVID_Service_Duty_Model",
+        "sentence_id": "S20",
+        "status": "partially_satisfied"
+      },
+      {
+        "justification": "The model shows the value of practical, specific, humane and work-linked support.",
+        "model": "M8_Healthcare_LongCOVID_Service_Duty_Model",
+        "sentence_id": "S25",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model supports the non-uniformly negative account because occupational medicine and flexible policies can materially help.",
+        "model": "M8_Healthcare_LongCOVID_Service_Duty_Model",
+        "sentence_id": "S27",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model demonstrates that sector, profession and labour process alter engagement.",
+        "model": "M8_Healthcare_LongCOVID_Service_Duty_Model",
+        "sentence_id": "S32",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model provides practical, specific, humane and work-linked support.",
+        "model": "M9_Person_Centred_Integrated_Work_Focused_Care_Model",
+        "sentence_id": "S25",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model assumes that work-focused support crosses occupational health, primary care, specialist care and rehabilitation boundaries.",
+        "model": "M9_Person_Centred_Integrated_Work_Focused_Care_Model",
+        "sentence_id": "S28",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model evaluates the entire chain from advice to sustained participation.",
+        "model": "M9_Person_Centred_Integrated_Work_Focused_Care_Model",
+        "sentence_id": "S31",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model promotes accessible, understandable, trusted and practically effective support.",
+        "model": "M9_Person_Centred_Integrated_Work_Focused_Care_Model",
+        "sentence_id": "S33",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model directly instantiates substantive guidance, continuity, supportive behaviour, transparency, empathy, personal control and tailoring.",
+        "model": "M9_Person_Centred_Integrated_Work_Focused_Care_Model",
+        "sentence_id": "S36",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model links primary care and occupational health pathways.",
+        "model": "M9_Person_Centred_Integrated_Work_Focused_Care_Model",
+        "sentence_id": "S37",
+        "status": "satisfied"
+      },
+      {
+        "justification": "The model is a positive construction of arrangements that merit trust.",
+        "model": "M9_Person_Centred_Integrated_Work_Focused_Care_Model",
+        "sentence_id": "S38",
+        "status": "satisfied"
+      }
+    ],
+    "sentences": [
+      {
+        "depends_on": [],
+        "formal_role": "research_question_axiom",
+        "id": "S01",
+        "statement": "The central worker-centred question is why workers who may be suffering ill health through work, or who might benefit from work-focused support, remain reluctant to engage with occupational health services. "
+      },
+      {
+        "depends_on": [
+          "S01"
+        ],
+        "formal_role": "methodological_axiom",
+        "id": "S02",
+        "statement": "The review is PRISMA-informed and critical rather than a full de novo systematic review; PRISMA logic is used to make a bounded corpus transparent, defensible and reproducible within the limits of a focused qualitative synthesis. "
+      },
+      {
+        "depends_on": [
+          "S02"
+        ],
+        "formal_role": "methodological_axiom",
+        "id": "S03",
+        "statement": "The analytic engine is thematic analysis: findings, results tables and discussions are read repeatedly and coded for access, trust, confidentiality, managerial mediation, role clarity, stigma, disclosure, adjustments, preventive relevance, illness perception, continuity and person-centredness. "
+      },
+      {
+        "depends_on": [
+          "S02"
+        ],
+        "formal_role": "corpus_composition_axiom",
+        "id": "S04",
+        "statement": "The corpus is substantively purposive and includes qualitative evidence synthesis, chronic disease and work participation studies, sickness absence policy reports, occupational health uptake research, mental health nursing research, long COVID healthcare staff research, return-to-work research and vocational advice in primary care. "
+      },
+      {
+        "depends_on": [
+          "S01",
+          "S04"
+        ],
+        "formal_role": "evidence_suitability_axiom",
+        "id": "S05",
+        "statement": "Because the question concerns meaning, anticipation and worker evaluation, a corpus dominated by qualitative interviews, focus groups, qualitative evidence synthesis and mixed-method studies with qualitative components is appropriate. "
+      },
+      {
+        "depends_on": [
+          "S01",
+          "S03",
+          "S05"
+        ],
+        "formal_role": "core_explanatory_axiom",
+        "id": "S06",
+        "statement": "Reluctance to engage with occupational health is not best understood as ignorance or simple non-compliance; it is a socially and organisationally situated response to uncertainty about benefit, fear of cost and unequal access to meaningful support. "
+      },
+      {
+        "depends_on": [
+          "S06"
+        ],
+        "formal_role": "governance_access_axiom",
+        "id": "S07",
+        "statement": "Unequal access is a first-order determinant: for many workers occupational health is absent, distant, inaccessible or activated only in narrow circumstances; larger employers are more likely to provide occupational health, while smaller organisations often lack meaningful access. "
+      },
+      {
+        "depends_on": [
+          "S07"
+        ],
+        "formal_role": "governance_access_axiom",
+        "id": "S08",
+        "statement": "Structural provision does not automatically become experiential access: workers may technically have access without experiencing occupational health as present, intelligible or usable. "
+      },
+      {
+        "depends_on": [
+          "S06"
+        ],
+        "formal_role": "role_clarity_axiom",
+        "id": "S09",
+        "statement": "Role ambiguity reduces engagement: many workers do not clearly understand what occupational health can do, how it differs from other health services or whether it has authority to improve their situation. "
+      },
+      {
+        "depends_on": [
+          "S09"
+        ],
+        "formal_role": "professional_legitimacy_axiom",
+        "id": "S10",
+        "statement": "Workers may prefer GPs or specialists because they are more familiar, appear more independent of employers and seem more clearly authorised to interpret illness; weakly explained occupational health pushes workers toward healthcare relationships they already understand. "
+      },
+      {
+        "depends_on": [
+          "S06"
+        ],
+        "formal_role": "risk_compliance_trust_axiom",
+        "id": "S11",
+        "statement": "Trust is central and includes confidence in confidentiality, being understood, information not being used against the worker and the service existing to support rather than monitor. "
+      },
+      {
+        "depends_on": [
+          "S11"
+        ],
+        "formal_role": "risk_compliance_employer_linkage_axiom",
+        "id": "S12",
+        "statement": "Employer linkage creates structural trust problems because reports may be shared, recommendations may enter management processes and consultations may influence judgements about capability, attendance or fitness. "
+      },
+      {
+        "depends_on": [
+          "S11",
+          "S12"
+        ],
+        "formal_role": "service_design_trust_axiom",
+        "id": "S13",
+        "statement": "The in-house versus outsourced occupational health distinction generates different distrust patterns: in-house services may trigger fear of exposure within the employing organisation, while outsourced services may be distrusted because practitioners appear not to understand workplace realities. "
+      },
+      {
+        "depends_on": [
+          "S10",
+          "S11"
+        ],
+        "formal_role": "pathway_fragmentation_axiom",
+        "id": "S14",
+        "statement": "Fragmentation between clinical and occupational systems intensifies distrust because workers may have to carry information between isolated professionals and remain uncertain whose voice will count in work decisions. "
+      },
+      {
+        "depends_on": [
+          "S06",
+          "S11"
+        ],
+        "formal_role": "worker_identity_axiom",
+        "id": "S15",
+        "statement": "Stigma and identity are recurring engagement barriers: workers may avoid occupational health because contact threatens identities of being capable, reliable, strong, expert or non-burdensome, especially in occupations organised around service, care, expertise or toughness. "
+      },
+      {
+        "depends_on": [
+          "S15"
+        ],
+        "formal_role": "mental_health_stigma_axiom",
+        "id": "S16",
+        "statement": "In mental health contexts, reluctance is especially tied to fear of being misunderstood, fear of broken confidentiality and loss of professional standing, but it should not be reduced to ignorance about mental health or support. "
+      },
+      {
+        "depends_on": [
+          "S15",
+          "S16"
+        ],
+        "formal_role": "sector_specific_experience_axiom",
+        "id": "S17",
+        "statement": "Healthcare workers with long COVID illustrate how professional duty, service pressure, fluctuating symptoms and uncertainty about interpretation may lead workers to continue working while approaching support cautiously; occupational medicine, managerial support, colleague support and flexible adjustments can materially help. "
+      },
+      {
+        "depends_on": [
+          "S06"
+        ],
+        "formal_role": "operational_delivery_axiom",
+        "id": "S18",
+        "statement": "Managerial mediation is the practical locus of power: occupational health advice matters to workers only insofar as line managers, senior managers and organisational processes act on it. "
+      },
+      {
+        "depends_on": [
+          "S18"
+        ],
+        "formal_role": "implementation_gap_axiom",
+        "id": "S19",
+        "statement": "From the worker perspective the operational question is often not what occupational health will say but what will happen after occupational health says it; workers may rationally disengage where prior experience shows that managers ignore, reinterpret or neutralise recommendations. "
+      },
+      {
+        "depends_on": [
+          "S18",
+          "S19"
+        ],
+        "formal_role": "managerial_support_axiom",
+        "id": "S20",
+        "statement": "Positive absence and return-to-work experiences depend on proactive, open and empathetic line-manager communication, clear and consistently applied procedures, conversations about adjustments and the actual implementation of support. "
+      },
+      {
+        "depends_on": [
+          "S18",
+          "S20"
+        ],
+        "formal_role": "manager_capability_axiom",
+        "id": "S21",
+        "statement": "Return to work is facilitated by work adjustments, fulfilling supervisor relationships and adequate occupational health guidance; therefore supervisor capability is an occupational health issue, not merely a generic HR issue. "
+      },
+      {
+        "depends_on": [
+          "S09",
+          "S11"
+        ],
+        "formal_role": "prevention_risk_axiom",
+        "id": "S22",
+        "statement": "Workers may decline surveillance, screening or preventive consultation because they do not feel ill; this reflects the gap between workers\u2019 phenomenological experience and occupational health\u2019s preventive focus on probabilities, exposures and latent risks. "
+      },
+      {
+        "depends_on": [
+          "S22"
+        ],
+        "formal_role": "prevention_communication_axiom",
+        "id": "S23",
+        "statement": "Unless the relationship between occupational risk and surveillance is clearly explained, preventive contact may appear unnecessary, paternalistic or primarily for employer benefit. "
+      },
+      {
+        "depends_on": [
+          "S18",
+          "S19"
+        ],
+        "formal_role": "futility_axiom",
+        "id": "S24",
+        "statement": "Workers are more likely to disengage if they believe even good occupational health advice will not change anything; this futility judgement is supported by evidence of recommendations being ignored or not implemented. "
+      },
+      {
+        "depends_on": [
+          "S03",
+          "S04"
+        ],
+        "formal_role": "cross_corpus_convergence_axiom",
+        "id": "S25",
+        "statement": "Convergence across the corpus shows that workers and patients want support that is practical, specific, humane and clearly linked to the realities of work. "
+      },
+      {
+        "depends_on": [
+          "S10",
+          "S11",
+          "S18"
+        ],
+        "formal_role": "cross_corpus_convergence_axiom",
+        "id": "S26",
+        "statement": "Further convergence shows that workers often default to GPs and specialists, managerial action is decisive for occupational health advice, and confidentiality, fear of disadvantage and being misunderstood recur as reasons for caution or avoidance. "
+      },
+      {
+        "depends_on": [
+          "S25",
+          "S26"
+        ],
+        "formal_role": "divergence_and_balance_axiom",
+        "id": "S27",
+        "statement": "The literature should not be flattened into a uniformly negative account: workers sometimes value occupational health highly where it is responsive, credible, practically useful and effective. "
+      },
+      {
+        "depends_on": [
+          "S10",
+          "S14"
+        ],
+        "formal_role": "institutional_boundary_axiom",
+        "id": "S28",
+        "statement": "The boundary around occupational health may be too narrow for the worker\u2019s actual pathway because workers move between employers, managers, GPs, specialists, occupational physicians and rehabilitation professionals. "
+      },
+      {
+        "depends_on": [
+          "S15",
+          "S18",
+          "S24"
+        ],
+        "formal_role": "research_contention_axiom",
+        "id": "S29",
+        "statement": "A critical unresolved contention is whether non-engagement is best explained by stigma-related help-seeking avoidance or rational anticipation of organisational consequences; the corpus supports both, but not in equal proportions in every setting. "
+      },
+      {
+        "depends_on": [
+          "S09",
+          "S11",
+          "S12"
+        ],
+        "formal_role": "conceptual_ambiguity_axiom",
+        "id": "S30",
+        "statement": "Occupational health is conceptually ambiguous: professionals may frame it as preventive, advisory and supportive; employers as risk management and absence control; and workers as a hybrid institution linked to management yet presented as care. "
+      },
+      {
+        "depends_on": [
+          "S18",
+          "S19",
+          "S24"
+        ],
+        "formal_role": "future_research_axiom",
+        "id": "S31",
+        "statement": "Research should move beyond consultation-level evaluation and examine the whole chain from assessment to implementation to sustained work participation. "
+      },
+      {
+        "depends_on": [
+          "S22",
+          "S23",
+          "S17"
+        ],
+        "formal_role": "future_research_axiom",
+        "id": "S32",
+        "statement": "Further research should examine how preventive occupational health is communicated, how workers understand exposure and latent risk, how surveillance is distinguished from intrusive monitoring and how sector, profession and labour process alter engagement. "
+      },
+      {
+        "depends_on": [
+          "S07",
+          "S09",
+          "S11",
+          "S18"
+        ],
+        "formal_role": "strategic_implication_axiom",
+        "id": "S33",
+        "statement": "Improving engagement requires more than awareness campaigns: workers engage when occupational health is accessible, understandable, trusted and capable of altering work conditions in practice. "
+      },
+      {
+        "depends_on": [
+          "S09",
+          "S11",
+          "S23",
+          "S33"
+        ],
+        "formal_role": "governance_communication_axiom",
+        "id": "S34",
+        "statement": "Occupational health must be explained in worker-facing terms, including objectives, confidentiality, absence of disadvantage from declining a consultation and an answer to the worker\u2019s question of how this will help them at work. "
+      },
+      {
+        "depends_on": [
+          "S18",
+          "S20",
+          "S21"
+        ],
+        "formal_role": "governance_accountability_axiom",
+        "id": "S35",
+        "statement": "Line managers are not peripheral actors; training, support and accountability for managers are occupational health issues because managers shape whether recommendations become work changes. "
+      },
+      {
+        "depends_on": [
+          "S25",
+          "S33"
+        ],
+        "formal_role": "operational_design_axiom",
+        "id": "S36",
+        "statement": "Person-centred work-focused care should provide substantive guidance, continuity, supportive behaviour, transparency, empathy, personal control and tailoring; occupational health organised mainly around episodic referral and formal report writing will struggle to meet these expectations. "
+      },
+      {
+        "depends_on": [
+          "S10",
+          "S14",
+          "S28"
+        ],
+        "formal_role": "pathway_integration_axiom",
+        "id": "S37",
+        "statement": "Primary care and occupational health should be treated as linked rather than separate worlds; where workers first present to GPs and occupational health access is patchy, clearer cooperation and pathways are required. "
+      },
+      {
+        "depends_on": [
+          "S06",
+          "S07",
+          "S09",
+          "S11",
+          "S18",
+          "S28",
+          "S33",
+          "S34",
+          "S35",
+          "S36",
+          "S37"
+        ],
+        "formal_role": "strategic_foresight_theorem",
+        "id": "S38",
+        "statement": "The strategic task is not to persuade workers to trust an unchanged system, but to build arrangements that merit trust through clearer role articulation, more equal access, stronger bridges with primary and specialist care, serious attention to confidentiality and stigma and organisational commitment to acting on recommendations. "
+      }
+    ],
+    "signatures": [
+      {
+        "name": "Sigma_Review_Method_Evidence",
+        "notes": "This signature formalises the document\u2019s method: a bounded, PRISMA-informed critical review using thematic analysis rather than a full global systematic review. The document states that findings, results tables and discussions were coded for access, trust, confidentiality, managerial mediation, role clarity, stigma, disclosure, adjustments, preventive relevance, illness perception, continuity and person-centredness. ",
+        "operations": [
+          "select: Corpus \u00d7 SelectionCriterion -> Corpus",
+          "readRepeatedly: LiteratureItem -> Set(Finding)",
+          "code: Finding \u00d7 Code -> CodedFinding",
+          "groupCodes: Set(Code) -> Theme",
+          "synthesise: Corpus \u00d7 Set(Theme) -> Claim",
+          "compareCorpus: Corpus -> Set(Convergence) \u00d7 Set(Divergence)",
+          "identifyGap: Set(Claim) -> ResearchGap",
+          "deriveImplication: Set(Claim) -> Implication",
+          "sourceOf: Claim -> Set(Reference)"
+        ],
+        "predicates": [
+          "PRISMAInformed(Corpus)",
+          "BoundedCriticalReview(Corpus)",
+          "NotFullDeNovoSystematicReview(Corpus)",
+          "WorkerCentredQuestion(Claim)",
+          "ThematicAnalysisUsed(Method)",
+          "ReflexiveInterpretationUsed(Method)",
+          "EvidenceSuitableForMeaningAnticipationEvaluation(Corpus)",
+          "QualitativeDominant(Corpus)",
+          "ConceptuallyPurposive(Corpus)",
+          "DefensibleReviewDesign(Corpus)"
+        ],
+        "sorts": [
+          "Corpus",
+          "LiteratureItem",
+          "PolicyReport",
+          "EvidenceSynthesis",
+          "QualitativeStudy",
+          "MixedMethodsStudy",
+          "FeasibilityStudy",
+          "Reference",
+          "Method",
+          "CriticalReview",
+          "PRISMALogic",
+          "ThematicAnalysis",
+          "Code",
+          "Theme",
+          "Finding",
+          "Claim",
+          "Convergence",
+          "Divergence",
+          "ResearchGap",
+          "Implication"
+        ]
+      },
+      {
+        "name": "Sigma_Governance_Actors_Institutional_Position",
+        "notes": "This signature captures governance and institutional positioning: occupational health is variously framed by professionals as preventive and supportive, by employers as part of risk management and absence control, and by workers as a hybrid institution connected to management yet presented as care. ",
+        "operations": [
+          "employs: Employer \u00d7 Worker -> EmploymentRelation",
+          "manages: LineManager \u00d7 Worker -> ManagementRelation",
+          "refersToOH: LineManager \u00d7 Worker -> Referral",
+          "consults: Worker \u00d7 HealthProfessional -> Consultation",
+          "issuesReport: OccupationalHealthService \u00d7 Consultation -> Report",
+          "receivesReport: Employer \u00d7 Report -> ManagementInformation",
+          "implements: LineManager \u00d7 Recommendation -> AdjustmentStatus",
+          "linksToEmployer: OccupationalHealthService \u00d7 Employer -> EmployerLinkage",
+          "assignsAuthority: PolicySystem \u00d7 InstitutionalRole -> AuthorityRelation",
+          "establishesAccountability: Employer \u00d7 LineManager -> AccountabilityMechanism"
+        ],
+        "predicates": [
+          "EmployerLinked(OccupationalHealthService,Employer)",
+          "ManagerMediates(LineManager,Recommendation)",
+          "ManagerHasPracticalPower(LineManager,Adjustment)",
+          "ProfessionalAuthorityRecognised(HealthProfessional,Worker)",
+          "GPPreferredByWorker(Worker,GeneralPractitioner)",
+          "OHSRoleAmbiguousToWorker(Worker,OccupationalHealthService)",
+          "AccessUnequal(Worker,OccupationalHealthService)",
+          "SmallEmployerHasWeakOHAccess(SmallEnterprise)",
+          "LargeEmployerMoreLikelyOHAccess(LargeEmployer)",
+          "GovernanceRequiresManagerTraining(AccountabilityMechanism)"
+        ],
+        "sorts": [
+          "Worker",
+          "Employee",
+          "Employer",
+          "LineManager",
+          "SeniorManager",
+          "HRFunction",
+          "OccupationalHealthService",
+          "OccupationalHealthPhysician",
+          "GeneralPractitioner",
+          "SpecialistClinician",
+          "RehabilitationProfessional",
+          "PolicySystem",
+          "Enterprise",
+          "SmallEnterprise",
+          "LargeEmployer",
+          "Sector",
+          "HealthcareSector",
+          "HighHazardSetting",
+          "OfficeSetting",
+          "InstitutionalRole",
+          "AuthorityRelation",
+          "AccountabilityMechanism"
+        ]
+      },
+      {
+        "name": "Sigma_Worker_Experience_Engagement",
+        "notes": "This signature expresses the worker-centred semantics of the review: engagement depends on perceived relevance, trust, confidentiality, professional legitimacy, social meaning of disclosure and expected practical consequences.",
+        "operations": [
+          "perceivesNeed: Worker \u00d7 Condition -> IllnessPerception",
+          "estimatesBenefit: Worker \u00d7 OccupationalHealthService -> PerceivedBenefit",
+          "estimatesCost: Worker \u00d7 DisclosureDecision -> PerceivedCost",
+          "decidesEngagement: Worker \u00d7 PerceivedBenefit \u00d7 PerceivedCost \u00d7 MeaningfulAccess -> EngagementDecision",
+          "prefersClinician: Worker \u00d7 HealthProfessional -> Preference",
+          "needsSupport: Worker -> Set(Need)",
+          "interpretsDisclosure: Worker \u00d7 WorkplaceNorm -> IdentityThreat",
+          "updatesTrust: Worker \u00d7 Experience -> TrustLevel"
+        ],
+        "predicates": [
+          "ReluctantToEngage(Worker,OccupationalHealthService)",
+          "EngagesWhenTrustedUseful(Worker,OccupationalHealthService)",
+          "FearsConfidentialityBreach(Worker)",
+          "FearsDisadvantageAtWork(Worker)",
+          "FearsBeingMisunderstood(Worker)",
+          "FearsStigma(Worker)",
+          "FeelsHealthy(Worker)",
+          "SeesOHAsUnnecessary(Worker)",
+          "WantsPracticalSpecificHumaneSupport(Worker)",
+          "WantsPersonalControl(Worker)",
+          "ValuesContinuity(Worker)",
+          "ValuesTailoring(Worker)",
+          "DisclosureSociallyCostly(Worker)"
+        ],
+        "sorts": [
+          "Worker",
+          "Condition",
+          "ChronicCondition",
+          "MentalHealthCondition",
+          "LongCOVID",
+          "WorkParticipationProblem",
+          "IllnessPerception",
+          "TrustLevel",
+          "Fear",
+          "Stigma",
+          "IdentityThreat",
+          "DisclosureDecision",
+          "EngagementDecision",
+          "Reluctance",
+          "Preference",
+          "Need",
+          "PracticalGuidance",
+          "Continuity",
+          "SupportiveBehaviour",
+          "TailoredSupport",
+          "PersonalControl",
+          "PerceivedBenefit",
+          "PerceivedCost",
+          "MeaningfulAccess"
+        ]
+      },
+      {
+        "name": "Sigma_Operational_Delivery_Pathway",
+        "notes": "This signature formalises operational delivery. The document repeatedly distinguishes consultation quality from the entire chain from assessment to implementation and sustained work participation. ",
+        "operations": [
+          "initiateReferral: Worker \u00d7 Trigger -> Referral",
+          "conductConsultation: OccupationalHealthService \u00d7 Worker -> Consultation",
+          "assessWorkCapacity: Consultation -> Assessment",
+          "recommendAdjustment: Assessment -> Recommendation",
+          "translateToWorkAction: Recommendation \u00d7 LineManager -> Adjustment",
+          "monitorImplementation: Adjustment -> ImplementationStatus",
+          "coordinatePathway: OccupationalHealthPathway \u00d7 PrimaryCarePathway \u00d7 SpecialistCarePathway -> IntegratedPathway",
+          "provideVocationalAdvice: PrimaryCarePathway \u00d7 Worker -> Advice",
+          "supportReturnToWork: Recommendation \u00d7 LineManager \u00d7 Worker -> ReturnToWorkPlan"
+        ],
+        "predicates": [
+          "Accessible(Pathway)",
+          "Timely(Pathway)",
+          "Transparent(Process)",
+          "WorkerFacingExplanation(Process)",
+          "Tailored(Advice,Worker)",
+          "Actionable(Recommendation)",
+          "Implemented(Recommendation)",
+          "Ignored(Recommendation)",
+          "BoxTickingReferral(Referral)",
+          "ProceduralOrCoerciveReturnToWork(ReturnToWorkPlan)",
+          "ProactiveEmpatheticContact(ContactDuringAbsence)",
+          "ExcessiveOrInsufficientContact(ContactDuringAbsence)",
+          "ContinuousProcess(ImplementationChain)",
+          "EpisodicReportWritingOnly(ServiceDesign)"
+        ],
+        "sorts": [
+          "Referral",
+          "SelfReferralRoute",
+          "Consultation",
+          "Assessment",
+          "Advice",
+          "Recommendation",
+          "Adjustment",
+          "WorkplaceAdjustment",
+          "FlexibleHours",
+          "BreakPattern",
+          "RoleModification",
+          "ReturnToWorkPlan",
+          "SicknessAbsence",
+          "ContactDuringAbsence",
+          "PhasedReturn",
+          "ImplementationChain",
+          "PrimaryCarePathway",
+          "SpecialistCarePathway",
+          "OccupationalHealthPathway",
+          "IntegratedPathway",
+          "ServiceDesign",
+          "ReportWritingProcess"
+        ]
+      },
+      {
+        "name": "Sigma_Risk_Compliance_Confidentiality_Prevention",
+        "notes": "This signature captures the risk and compliance concerns of the document: confidentiality, employer linkage, disclosure risk, non-disadvantage, latent occupational risk and the need to make preventive surveillance meaningful rather than intrusive.",
+        "operations": [
+          "identifyExposure: Workplace \u00d7 Hazard -> Exposure",
+          "estimateLatentRisk: Exposure -> LatentRisk",
+          "offerSurveillance: Employer \u00d7 Worker \u00d7 Exposure -> PreventiveSurveillance",
+          "explainSurveillancePurpose: OccupationalHealthService \u00d7 Worker -> Assurance",
+          "separateMedicalFromManagementInfo: Report -> ConfidentialityBoundary",
+          "sharePermittedInfo: OccupationalHealthService \u00d7 Employer -> Report",
+          "controlDataFlow: DataSharingRule \u00d7 MedicalInformation -> ComplianceControl",
+          "assureNoDisadvantage: Employer \u00d7 Worker -> Assurance"
+        ],
+        "predicates": [
+          "ConfidentialityProtected(Worker,OccupationalHealthService)",
+          "EmployerReceivesNoInappropriateInformation(Employer,Report)",
+          "DecliningConsultationDoesNotDisadvantage(Worker)",
+          "SurveillanceDistinguishedFromIntrusiveMonitoring(PreventiveSurveillance)",
+          "PreventiveRiskLegibleToWorker(LatentRisk,Worker)",
+          "SurveillanceAppearsPaternalisticOrEmployerBenefit(Worker)",
+          "RiskOfStigma(Disclosure)",
+          "RiskOfCareerHarm(Disclosure)",
+          "FormalAssuranceInsufficientWhenPracticeDistrusted(Assurance)"
+        ],
+        "sorts": [
+          "Hazard",
+          "Exposure",
+          "LatentRisk",
+          "PreventiveSurveillance",
+          "Screening",
+          "HealthMonitoring",
+          "Disclosure",
+          "MedicalInformation",
+          "Report",
+          "ConfidentialityBoundary",
+          "ConfidentialityBreach",
+          "PersonalDisadvantage",
+          "CareerHarm",
+          "Monitoring",
+          "Support",
+          "ConsentCondition",
+          "LegalObligation",
+          "ComplianceControl",
+          "DataSharingRule",
+          "Assurance"
+        ]
+      },
+      {
+        "name": "Sigma_Strategic_Foresight_Improvement",
+        "notes": "This signature expresses the strategic foresight layer requested by the task: the review is converted into governance, delivery and compliance design requirements for future occupational health arrangements.",
+        "operations": [
+          "frameStrategicIssue: Set(Claim) -> StrategicIssue",
+          "generateScenario: StrategicIssue \u00d7 Horizon -> Scenario",
+          "defineIntervention: Implication -> GovernanceIntervention | OperationalIntervention | RiskControl",
+          "improveAccess: AccessStrategy \u00d7 Enterprise -> MeaningfulAccess",
+          "trainManagers: ManagerCapabilityStrategy \u00d7 LineManager -> AccountabilityMechanism",
+          "integrateCare: IntegrationStrategy \u00d7 OccupationalHealthPathway \u00d7 PrimaryCarePathway -> IntegratedPathway",
+          "buildTrust: Set(TrustCondition) -> LegitimacyCondition",
+          "evaluateOutcome: ImplementationChain -> Outcome"
+        ],
+        "predicates": [
+          "AwarenessCampaignInsufficient(AccessStrategy)",
+          "EngagementRequiresAccessUnderstandingTrustPracticalPower(Worker,OccupationalHealthService)",
+          "ManagerTrainingSupportAccountabilityRequired(LineManager)",
+          "PersonCentredWorkFocusedCareRequired(PersonCentredCareModel)",
+          "PrimaryCareAndOHLinked(IntegrationStrategy)",
+          "OHArrangementMeritsTrust(OccupationalHealthService)",
+          "WorkplaceMakesEngagementSafeCredibleWorthwhile(Employer)",
+          "ResearchMustAddressImplementationGap(FutureResearchQuestion)",
+          "ResearchMustCompareSectorProfessionLabourProcess(FutureResearchQuestion)"
+        ],
+        "sorts": [
+          "StrategicIssue",
+          "Scenario",
+          "FutureResearchQuestion",
+          "PolicyImplication",
+          "PracticeImplication",
+          "GovernanceIntervention",
+          "OperationalIntervention",
+          "RiskControl",
+          "TrustCondition",
+          "LegitimacyCondition",
+          "AccessStrategy",
+          "ManagerCapabilityStrategy",
+          "IntegrationStrategy",
+          "PersonCentredCareModel",
+          "Outcome",
+          "SustainedWorkParticipation"
+        ]
+      }
+    ],
+    "source_summary": "The uploaded document is a PRISMA-informed critical review with thematic analysis titled Worker Engagement with Occupational Health Services. It asks why workers who may be suffering ill health through work, or who might benefit from work-focused support, remain reluctant to engage with occupational health services. Its core conclusion is that reluctance is not reducible to ignorance or indifference, but is a multi-level organisational, relational, service-design, professional-legitimacy and disclosure-risk problem. The document identifies seven main themes: unequal access; role ambiguity; trust, confidentiality and employer linkage; stigma and identity; managerial mediation; preventive surveillance and the problem of not feeling ill; and implementation gaps. It then derives implications for policy and practice: awareness alone is insufficient; occupational health must be explained in worker-facing terms; line managers are central actors; person-centred work-focused care matters; and primary care and occupational health need clearer pathways and cooperation. These claims are grounded in the document\u2019s synthesis of DWP reports, qualitative and mixed-method studies, and evidence syntheses, including Hagendijk, Michaelis, Oates, Torrance, Joosen, Oosting and Wynne-Jones materials.      ",
+    "web_findings": []
+  },
+  "simulator_spec": {
+    "meta": {
+      "id": "worker_engagement_with_occupational_health_services_a_worker_centred_strategic_foresight_goguen_institution_for_governance_operational_delivery_risk_and_compliance_simulator",
+      "title": "Worker Engagement with Occupational Health Services: a worker-centred strategic foresight Goguen institution for governance, operational delivery, risk and compliance \u2014 Institution Parameter Lab",
+      "subtitle": "A fast Monte Carlo proxy simulator derived from a Goguen institution reading of oh_worker_experience_rewrite.pdf. Adjust structural, semantic, governance, and implementation parameters and watch likely outcomes update in real time.",
+      "footerNote": "Note: This simulator is a proxy model derived from institution JSON for exploratory reasoning about strategic foresight. It is not a validated predictive model and should not be treated as a substitute for domain judgement, governance, or formal evaluation.",
+      "sourceDocuments": [
+        "oh_worker_experience_rewrite.pdf"
+      ]
+    },
+    "project": {
+      "name": "Worker Engagement with Occupational Health Services: a worker-centred strategic foresight Goguen institution for governance, operational delivery, risk and compliance",
+      "description": [
+        "The uploaded document is a PRISMA-informed critical review with thematic analysis titled Worker Engagement with Occupational Health Services. It asks why workers who may be suffering ill health through work, or who might benefit from work-focused support, remain reluctant to engage with occupational health services. Its core conclusion is that reluctance is not reducible to ignorance or indifference, but is a multi-level organisational, relational, service-design, professional-legitimacy and disclosure-risk problem. The document identifies seven main themes: unequal access; role ambiguity; trust, confidentiality and employer linkage; stigma and identity; managerial mediation; preventive surveillance and the problem of not feeling ill; and implementation gaps. It then derives implications for policy and practice: awareness alone is insufficient; occupational health must be explained in worker-facing terms; line managers are central actors; person-centred work-focused care matters; and primary care and occupational health need clearer pathways and cooperation. These claims are grounded in the document\u2019s synthesis of DWP reports, qualitative and mixed-method studies, and evidence syntheses, including Hagendijk, Michaelis, Oates, Torrance, Joosen, Oosting and Wynne-Jones materials.      ",
+        "The institution currently includes 6 signatures, 38 sentences, 10 models, and 99 satisfaction relations, with 0 web-grounded contextual findings."
+      ],
+      "promptTemplate": {
+        "title": "AI Prompt Generator",
+        "instructions": "Add project refinements and click Generate AI Prompt to produce a prompt for interpreting the current institution settings, tensions, and likely implementation consequences.",
+        "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions.]",
+        "promptText": [
+          "You are an expert in institutions, implementation, systems governance, and scenario analysis.",
+          "Write a short report (700\u20131,000 words) interpreting the likely outcomes of the current institution under the selected parameter settings.",
+          "",
+          "Institution summary:",
+          "- Institution name: Worker Engagement with Occupational Health Services: a worker-centred strategic foresight Goguen institution for governance, operational delivery, risk and compliance",
+          "- Organisation: Unknown organisation",
+          "- Analysis mode: Strategic foresight",
+          "- Source documents: oh_worker_experience_rewrite.pdf",
+          "- Signatures: 6; Sentences: 38; Models: 10; Satisfaction relations: 99",
+          "",
+          "Current parameter settings (0\u2013100 unless marked otherwise):",
+          "{{PARAMETERS_LIST}}",
+          "",
+          "Please do ALL of the following:",
+          "1) Explain how these settings shape institutional coherence, implementability, and likely adaptation pressure.",
+          "2) Discuss expected effects on governance, stakeholder alignment, compliance, and operational stability.",
+          "3) Identify the most important failure modes, translation gaps, and weak satisfaction relations.",
+          "4) Recommend 5 practical next actions for strengthening the institution and its implementation.",
+          "5) Be explicit about uncertainty, assumptions, and what additional evidence would reduce ambiguity.",
+          "",
+          "Project refinements supplied by the user:",
+          "{{REFINEMENTS}}"
+        ]
+      }
+    },
+    "ui": {
+      "layout": {
+        "leftPanelTitle": "Institution Parameters (sliders)",
+        "rightPanelTitle": "Likely Outcomes (distributions + summary stats)",
+        "chartsTitle": "Likely Outcomes (distributions)"
+      },
+      "controls": {
+        "liveUpdateLabel": "Live update",
+        "drawsLabel": "Monte Carlo draws",
+        "debounceLabel": "Update rate (ms debounce)",
+        "buttons": [
+          {
+            "id": "btnRandomize",
+            "label": "Randomize params"
+          },
+          {
+            "id": "btnReset",
+            "label": "Reset defaults"
+          },
+          {
+            "id": "btnToggleLive",
+            "label": "Toggle live update"
+          },
+          {
+            "id": "btnRecompute",
+            "label": "Recompute now"
+          }
+        ]
+      },
+      "promptUI": {
+        "refinementsPlaceholder": "Describe refinements, implementation constraints, governance choices, actors, or stressors here\u2026\nExamples:\n- Which signatures are most politically important?\n- Which sentences are weakly satisfied?\n- Which operational models or teams are in scope?\n- What external shocks or regulations matter?\n- Which stakeholders disagree about interpretation?",
+        "buttons": [
+          {
+            "id": "btnGenPrompt",
+            "label": "Generate AI Prompt"
+          },
+          {
+            "id": "btnCopyPrompt",
+            "label": "Copy Prompt"
+          },
+          {
+            "id": "btnClearRefinements",
+            "label": "Clear refinements"
+          }
+        ],
+        "promptOutputPlaceholder": "Generated prompt will appear here\u2026"
+      }
+    },
+    "parameters": [
+      {
+        "id": "signatureClarity",
+        "label": "Signature clarity and type definition",
+        "hint": "Higher means the institution defines actors, sorts, operations, and predicates more clearly.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 62
+      },
+      {
+        "id": "sentenceCoherence",
+        "label": "Sentence coherence and formal consistency",
+        "hint": "Higher improves the internal consistency of the institution's governing statements and constraints.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 58
+      },
+      {
+        "id": "modelCoverage",
+        "label": "Model coverage of operational reality",
+        "hint": "Higher means the available models capture more of the document's real actors, processes, and relations.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 55
+      },
+      {
+        "id": "satisfactionStrength",
+        "label": "Satisfaction relation strength",
+        "hint": "Higher means models satisfy the institution's sentences more reliably in practice.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 52
+      },
+      {
+        "id": "interpretiveAlignment",
+        "label": "Interpretive alignment across stakeholders",
+        "hint": "Higher reduces semantic drift between stakeholders reading the same institution differently.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 50
+      },
+      {
+        "id": "governanceCapacity",
+        "label": "Governance and corrective capacity",
+        "hint": "Higher supports review loops, correction, escalation, and institutional learning.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 57
+      },
+      {
+        "id": "implementationReadiness",
+        "label": "Implementation readiness",
+        "hint": "Higher means the institution can be implemented with fewer translation gaps from formal design to operational practice.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 54
+      },
+      {
+        "id": "externalVolatility",
+        "label": "External volatility and contextual change",
+        "hint": "Higher increases the chance that the institution must adapt to policy, market, or environmental shocks.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 42
+      },
+      {
+        "id": "evidenceQuality",
+        "label": "Evidence quality and documentary grounding",
+        "hint": "Higher means the institution is grounded in stronger, clearer, and more complete source material.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 64
+      },
+      {
+        "id": "stakeholderSupport",
+        "label": "Stakeholder support and adoption",
+        "hint": "Higher improves uptake, compliance, and reinforcement of the institutional form in practice.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 51
+      },
+      {
+        "id": "learningRate",
+        "label": "Learning rate and institutional adaptation",
+        "hint": "Higher means the institution updates faster when models or satisfaction relations show weak fit.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 49
+      },
+      {
+        "id": "resourceSlack",
+        "label": "Resource slack for experimentation",
+        "hint": "Higher supports scenario testing, audit cycles, and corrective redesign without destabilising operations.",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 46
+      },
+      {
+        "id": "draws",
+        "label": "Monte Carlo draws",
+        "hint": "Higher = smoother distributions; slower updates.",
+        "min": 500,
+        "max": 30000,
+        "step": 500,
+        "default": 8000,
+        "isMeta": true
+      },
+      {
+        "id": "debounce",
+        "label": "Update rate (ms debounce)",
+        "hint": "Higher reduces CPU; lower feels more real-time.",
+        "min": 0,
+        "max": 600,
+        "step": 20,
+        "default": 120,
+        "isMeta": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "institutionalFit",
+        "title": "Institutional fit probability",
+        "subtitle": "Proxy for the institution remaining coherent across signatures, sentences, models, and satisfaction relations.",
+        "units": "probability",
+        "range": {
+          "min": 0,
+          "max": 1
+        },
+        "summary": {
+          "meanFormat": "pct",
+          "p10p90Format": "pct"
+        }
+      },
+      {
+        "id": "implementationSuccess",
+        "title": "Implementation success probability",
+        "subtitle": "Likelihood that the institution can be translated into operational practice without major breakdown.",
+        "units": "probability",
+        "range": {
+          "min": 0,
+          "max": 1
+        },
+        "summary": {
+          "meanFormat": "pct",
+          "p10p90Format": "pct"
+        }
+      },
+      {
+        "id": "governanceConfidence",
+        "title": "Governance confidence probability",
+        "subtitle": "Proxy for auditability, corrective capacity, and confidence in stewardship of the institution.",
+        "units": "probability",
+        "range": {
+          "min": 0,
+          "max": 1
+        },
+        "summary": {
+          "meanFormat": "pct",
+          "p10p90Format": "pct"
+        }
+      },
+      {
+        "id": "adaptationReadiness",
+        "title": "Adaptation readiness probability",
+        "subtitle": "Likelihood that the institution can respond productively to shocks, reinterpretation, and learning signals.",
+        "units": "probability",
+        "range": {
+          "min": 0,
+          "max": 1
+        },
+        "summary": {
+          "meanFormat": "pct",
+          "p10p90Format": "pct"
+        }
+      }
+    ],
+    "engine": {
+      "bins": 44,
+      "random": {
+        "shocks": {
+          "epsStruct": {
+            "type": "normal",
+            "sigma": 0.18
+          },
+          "epsImpl": {
+            "type": "normal",
+            "sigma": 0.22
+          },
+          "epsGov": {
+            "type": "normal",
+            "sigma": 0.18
+          },
+          "epsAdapt": {
+            "type": "normal",
+            "sigma": 0.2
+          }
+        }
+      },
+      "derived": {
+        "sig": {
+          "op": "div",
+          "args": [
+            {
+              "var": "signatureClarity"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "sen": {
+          "op": "div",
+          "args": [
+            {
+              "var": "sentenceCoherence"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "mod": {
+          "op": "div",
+          "args": [
+            {
+              "var": "modelCoverage"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "sat": {
+          "op": "div",
+          "args": [
+            {
+              "var": "satisfactionStrength"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "int": {
+          "op": "div",
+          "args": [
+            {
+              "var": "interpretiveAlignment"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "gov": {
+          "op": "div",
+          "args": [
+            {
+              "var": "governanceCapacity"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "imp": {
+          "op": "div",
+          "args": [
+            {
+              "var": "implementationReadiness"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "vol": {
+          "op": "div",
+          "args": [
+            {
+              "var": "externalVolatility"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "evi": {
+          "op": "div",
+          "args": [
+            {
+              "var": "evidenceQuality"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "sup": {
+          "op": "div",
+          "args": [
+            {
+              "var": "stakeholderSupport"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "lea": {
+          "op": "div",
+          "args": [
+            {
+              "var": "learningRate"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "res": {
+          "op": "div",
+          "args": [
+            {
+              "var": "resourceSlack"
+            },
+            {
+              "lit": 100
+            }
+          ]
+        },
+        "structuralIntegrity": {
+          "op": "add",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.3
+                },
+                {
+                  "var": "sig"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.3
+                },
+                {
+                  "var": "sen"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.2
+                },
+                {
+                  "var": "mod"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.2
+                },
+                {
+                  "var": "evi"
+                }
+              ]
+            }
+          ]
+        },
+        "governanceStrength": {
+          "op": "add",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.45
+                },
+                {
+                  "var": "gov"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.25
+                },
+                {
+                  "var": "int"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.2
+                },
+                {
+                  "var": "sup"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": -0.25
+                },
+                {
+                  "var": "vol"
+                }
+              ]
+            }
+          ]
+        },
+        "implementationBase": {
+          "op": "add",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.35
+                },
+                {
+                  "var": "imp"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.25
+                },
+                {
+                  "var": "sat"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.2
+                },
+                {
+                  "var": "res"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.2
+                },
+                {
+                  "var": "sup"
+                }
+              ]
+            }
+          ]
+        },
+        "adaptationBase": {
+          "op": "add",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.35
+                },
+                {
+                  "var": "lea"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.2
+                },
+                {
+                  "var": "gov"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.2
+                },
+                {
+                  "var": "res"
+                }
+              ]
+            },
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "lit": 0.25
+                },
+                {
+                  "op": "sub",
+                  "args": [
+                    {
+                      "lit": 1.0
+                    },
+                    {
+                      "var": "vol"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "perDraw": {
+        "fitProb": {
+          "op": "sigmoid",
+          "args": [
+            {
+              "op": "add",
+              "args": [
+                {
+                  "lit": -0.2
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 1.1
+                    },
+                    {
+                      "var": "structuralIntegrity"
+                    }
+                  ]
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 0.55
+                    },
+                    {
+                      "var": "sat"
+                    }
+                  ]
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": -0.65
+                    },
+                    {
+                      "var": "vol"
+                    }
+                  ]
+                },
+                {
+                  "var": "epsStruct"
+                }
+              ]
+            }
+          ]
+        },
+        "implementationProb": {
+          "op": "sigmoid",
+          "args": [
+            {
+              "op": "add",
+              "args": [
+                {
+                  "lit": -0.15
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 1.0
+                    },
+                    {
+                      "var": "implementationBase"
+                    }
+                  ]
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 0.5
+                    },
+                    {
+                      "var": "fitProb"
+                    }
+                  ]
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": -0.4
+                    },
+                    {
+                      "var": "vol"
+                    }
+                  ]
+                },
+                {
+                  "var": "epsImpl"
+                }
+              ]
+            }
+          ]
+        },
+        "governanceProb": {
+          "op": "sigmoid",
+          "args": [
+            {
+              "op": "add",
+              "args": [
+                {
+                  "lit": -0.2
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 1.15
+                    },
+                    {
+                      "var": "governanceStrength"
+                    }
+                  ]
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 0.25
+                    },
+                    {
+                      "var": "fitProb"
+                    }
+                  ]
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": -0.3
+                    },
+                    {
+                      "var": "vol"
+                    }
+                  ]
+                },
+                {
+                  "var": "epsGov"
+                }
+              ]
+            }
+          ]
+        },
+        "adaptationProb": {
+          "op": "sigmoid",
+          "args": [
+            {
+              "op": "add",
+              "args": [
+                {
+                  "lit": -0.1
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 1.05
+                    },
+                    {
+                      "var": "adaptationBase"
+                    }
+                  ]
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 0.35
+                    },
+                    {
+                      "var": "governanceProb"
+                    }
+                  ]
+                },
+                {
+                  "op": "mul",
+                  "args": [
+                    {
+                      "lit": 0.25
+                    },
+                    {
+                      "var": "implementationProb"
+                    }
+                  ]
+                },
+                {
+                  "var": "epsAdapt"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "outputMapping": {
+        "institutionalFit": "fitProb",
+        "implementationSuccess": "implementationProb",
+        "governanceConfidence": "governanceProb",
+        "adaptationReadiness": "adaptationProb"
+      }
+    }
+  },
+  "source_files": [
+    {
+      "id": "5976c22b-3593-409e-8801-c95ece2285b2",
+      "original_name": "oh_worker_experience_rewrite.pdf",
+      "size_bytes": 227325,
+      "stored_name": "5976c22b-3593-409e-8801-c95ece2285b2_oh_worker_experience_rewrite.pdf",
+      "url": "/uploads/5976c22b-3593-409e-8801-c95ece2285b2_oh_worker_experience_rewrite.pdf"
+    }
+  ],
+  "openai": {
+    "model": "gpt-5.5",
+    "response_id": null,
+    "raw_output_text": null
+  },
+  "meta": {
+    "organisation": "Unknown organisation",
+    "analysis_mode": "Strategic foresight",
+    "prompt": "You will be given a Goguen institution JSON plus a simulator template JSON. Transform the template JSON so that it fits the analysed institution structure. Preserve the full simulator-template architecture, including the Monte Carlo engine, UI sections, promptTemplate shape, parameters, outputs, and expression language, unless a field must be changed to fit the institution. Rewrite labels, titles, descriptions, hints, parameter semantics, output semantics, and engine variable meanings so they are faithful to the institution. Do not return commentary. Return pure JSON only.\n\nSIMULATOR TEMPLATE JSON TO TRANSFORM:\n{\n  \"meta\": {\n    \"id\": \"fundus_triage_pairwise_proxy_v2\",\n    \"title\": \"Fundus Triage AI \u2014 Responsible Innovation Parameter Lab\",\n    \"subtitle\": \"A fast Monte Carlo proxy simulator for an AI diagnostic triage app that ranks fundus images by disease severity using pairwise comparisons. Adjust technical, governance, compute, and adoption parameters and watch outcome distributions update in real time.\",\n    \"footerNote\": \"Note: This simulator is a toy proxy model for exploring trade-offs. It is not validated, not medical advice, and not a substitute for clinical safety evaluation, regulatory assessment, or health system governance.\"\n  },\n\n  \"project\": {\n    \"name\": \"Pairwise-Ranking Fundus Triage AI\",\n    \"description\": [\n      \"The system supports clinical triage by ranking fundus images by estimated severity using pairwise comparisons (e.g., A more severe than B).\",\n      \"Outputs are used to prioritize review and referral rather than to replace diagnosis. Performance and trust depend on data quality, labeling reliability, calibration, distribution shift, compute constraints, adoption dynamics, and responsible innovation governance (AREA) plus reporting (TRIPOD-AI and related standards).\"\n    ],\n    \"promptTemplate\": {\n      \"title\": \"AI Prompt Generator\",\n      \"instructions\": \"Add project details (e.g., target disease(s), care pathway, devices, population, deployment sites, human-in-the-loop, governance plan). Click \u201cGenerate AI Prompt\u201d to produce a prompt you can paste into an AI assistant for a short report interpreting the current settings.\",\n      \"defaultAssumptions\": \"[No additional refinements provided. State reasonable assumptions.]\",\n      \"promptText\": [\n        \"You are an expert in responsible innovation, clinical AI, ophthalmology pathways, and evaluation/reporting standards (TRIPOD-AI, CONSORT-AI, SPIRIT-AI).\",\n        \"Write a short report (700\u20131,000 words) interpreting the likely outcomes of deploying an AI diagnostic triage app for fundus images under the current parameter settings.\",\n        \"\",\n        \"System summary:\",\n        \"- The model ranks fundus images by severity using pairwise comparisons to produce a triage ordering/priority score.\",\n        \"- The tool supports workflow prioritization (human-in-the-loop), not autonomous diagnosis.\",\n        \"- Responsible innovation governance is guided by AREA (anticipation, reflection, engagement, action).\",\n        \"- Reporting and validation discipline is aligned with TRIPOD-AI and related frameworks.\",\n        \"\",\n        \"Current parameter settings (0\u2013100):\",\n        \"{{PARAMETERS_LIST}}\",\n        \"\",\n        \"Please do ALL of the following:\",\n        \"1) Explain how these settings shape safety and clinical usefulness (triage gain vs harm), including calibration and distribution shift risks.\",\n        \"2) Discuss expected effects on adoption, regulatory acceptance, operational throughput, and compute/budget feasibility.\",\n        \"3) Identify main failure modes (bias, drift, workflow mismatch, alert fatigue, over-/under-triage, data leakage) and the biggest levers to mitigate them.\",\n        \"4) Recommend 5 practical next actions aligned to AREA (anticipation, reflection, engagement, action), and specify what TRIPOD-AI-style reporting would need to cover.\",\n        \"5) Be explicit about uncertainty and what evidence (prospective studies, silent trials, audits, stress tests, post-deployment monitoring) would reduce it.\",\n        \"\",\n        \"Project refinements supplied by the user (incorporate these carefully; if empty, state assumptions you made):\",\n        \"{{REFINEMENTS}}\"\n      ]\n    }\n  },\n\n  \"ui\": {\n    \"layout\": {\n      \"leftPanelTitle\": \"Project Parameters (sliders)\",\n      \"rightPanelTitle\": \"Likely Outcomes (distributions + summary stats)\",\n      \"chartsTitle\": \"Likely Outcomes (distributions)\"\n    },\n    \"controls\": {\n      \"liveUpdateLabel\": \"Live update\",\n      \"drawsLabel\": \"Monte Carlo draws\",\n      \"debounceLabel\": \"Update rate (ms debounce)\",\n      \"buttons\": [\n        { \"id\": \"btnRandomize\", \"label\": \"Randomize params\" },\n        { \"id\": \"btnReset\", \"label\": \"Reset defaults\" },\n        { \"id\": \"btnToggleLive\", \"label\": \"Toggle live update\" },\n        { \"id\": \"btnRecompute\", \"label\": \"Recompute now\" }\n      ]\n    },\n    \"promptUI\": {\n      \"refinementsPlaceholder\": \"Describe your fundus triage project refinements here\u2026\\nExamples:\\n- Target condition(s): DR, AMD, glaucoma, hypertensive retinopathy\\n- Camera types, image quality, acquisition workflow\\n- Intended triage thresholds and care pathway integration\\n- Human-in-the-loop design and escalation rules\\n- Data sources, labeling/pairwise comparison method, privacy approach\\n- AREA plan, stakeholder engagement, monitoring/audit cadence\\n- Deployment setting constraints (primary care, community screening, ED)\\n- Known adoption barriers (clinician trust, procurement, liability)\",\n      \"buttons\": [\n        { \"id\": \"btnGenPrompt\", \"label\": \"Generate AI Prompt\" },\n        { \"id\": \"btnCopyPrompt\", \"label\": \"Copy Prompt\" },\n        { \"id\": \"btnClearRefinements\", \"label\": \"Clear refinements\" }\n      ],\n      \"promptOutputPlaceholder\": \"Generated prompt will appear here\u2026\"\n    }\n  },\n\n  \"parameters\": [\n    {\n      \"id\": \"dataQuality\",\n      \"label\": \"Fundus image quality & metadata completeness\",\n      \"hint\": \"Higher improves robustness and reduces spurious ranking signals (blur, glare, field-of-view issues).\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 65\n    },\n    {\n      \"id\": \"labelReliability\",\n      \"label\": \"Pairwise label reliability (grader agreement)\",\n      \"hint\": \"Higher improves ranking consistency; low reliability increases noisy supervision and uncertain triage ordering.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 60\n    },\n    {\n      \"id\": \"caseMixShift\",\n      \"label\": \"Distribution shift risk (devices, populations, prevalence)\",\n      \"hint\": \"Higher increases drift and harms calibration; requires monitoring, revalidation, and domain adaptation.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 45\n    },\n    {\n      \"id\": \"biasImprint\",\n      \"label\": \"Equity risk (demographic & access-related bias)\",\n      \"hint\": \"Higher increases disparity risk (performance gaps across groups). Mitigate via diverse data, auditing, and constraints.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 35\n    },\n    {\n      \"id\": \"calibrationEffort\",\n      \"label\": \"Calibration & thresholding effort (triage safety tuning)\",\n      \"hint\": \"Higher reduces over-/under-triage via better calibration, threshold selection, and uncertainty handling.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 55\n    },\n    {\n      \"id\": \"explainability\",\n      \"label\": \"Explainability & clinician-facing rationale quality\",\n      \"hint\": \"Higher supports trust and appropriate use; also helps audits and incident investigation.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 50\n    },\n    {\n      \"id\": \"areaMaturity\",\n      \"label\": \"AREA governance maturity (anticipation/reflection/engagement/action)\",\n      \"hint\": \"Higher means stronger responsible innovation practice: scenario planning, reflection loops, stakeholder engagement, and corrective action.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 55\n    },\n    {\n      \"id\": \"tripodDiscipline\",\n      \"label\": \"TRIPOD-AI reporting & validation discipline\",\n      \"hint\": \"Higher improves transparency and regulator confidence; costs time/compute but reduces hidden failure modes.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 60\n    },\n    {\n      \"id\": \"computeCapacity\",\n      \"label\": \"Compute capacity (training + evaluation throughput)\",\n      \"hint\": \"Higher supports larger models, cross-site validation, robustness tests, and faster iteration.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 50\n    },\n    {\n      \"id\": \"budget\",\n      \"label\": \"Budget capacity (data, compute, governance, integration)\",\n      \"hint\": \"Higher improves feasibility across compute, clinical evaluation, and workflow integration.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 50\n    },\n    {\n      \"id\": \"workflowFit\",\n      \"label\": \"Workflow fit (integration, user experience, pathway alignment)\",\n      \"hint\": \"Higher reduces friction and improves real triage gains; low fit risks alert fatigue and workaround behavior.\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 45\n    },\n    {\n      \"id\": \"stakeholderSupport\",\n      \"label\": \"Stakeholder support (clinical champions, procurement, leadership)\",\n      \"hint\": \"Higher improves adoption probability and sustained resourcing (training, governance, incident response).\",\n      \"min\": 0, \"max\": 100, \"step\": 1, \"default\": 45\n    },\n\n    {\n      \"id\": \"draws\",\n      \"label\": \"Monte Carlo draws\",\n      \"hint\": \"Higher = smoother distributions; slower updates.\",\n      \"min\": 500, \"max\": 30000, \"step\": 500, \"default\": 8000,\n      \"isMeta\": true\n    },\n    {\n      \"id\": \"debounce\",\n      \"label\": \"Update rate (ms debounce)\",\n      \"hint\": \"Higher reduces CPU; lower feels more \u201creal-time\u201d.\",\n      \"min\": 0, \"max\": 600, \"step\": 20, \"default\": 120,\n      \"isMeta\": true\n    }\n  ],\n\n  \"outputs\": [\n    {\n      \"id\": \"clinicalBenefit\",\n      \"title\": \"Net clinical benefit probability\",\n      \"subtitle\": \"Proxy for triage gains outweighing harms (missed severe cases, over-referral, inequities).\",\n      \"units\": \"probability\",\n      \"range\": { \"min\": 0, \"max\": 1 },\n      \"summary\": { \"meanFormat\": \"pct\", \"p10p90Format\": \"pct\" }\n    },\n    {\n      \"id\": \"regAcceptance\",\n      \"title\": \"Regulatory & governance acceptance probability\",\n      \"subtitle\": \"Driven by TRIPOD-AI discipline, AREA maturity, calibration/monitoring, explainability, and drift risk.\",\n      \"units\": \"probability\",\n      \"range\": { \"min\": 0, \"max\": 1 },\n      \"summary\": { \"meanFormat\": \"pct\", \"p10p90Format\": \"pct\" }\n    },\n    {\n      \"id\": \"adoption\",\n      \"title\": \"Adoption & sustained use probability\",\n      \"subtitle\": \"Influenced by workflow fit, stakeholder support, perceived utility, and operational feasibility.\",\n      \"units\": \"probability\",\n      \"range\": { \"min\": 0, \"max\": 1 },\n      \"summary\": { \"meanFormat\": \"pct\", \"p10p90Format\": \"pct\" }\n    },\n    {\n      \"id\": \"throughput\",\n      \"title\": \"Probability of meaningful throughput gain\",\n      \"subtitle\": \"Proxy for achieving a meaningful operational throughput improvement from triage ordering, given workflow fit and drift risk.\",\n      \"units\": \"probability\",\n      \"range\": { \"min\": 0, \"max\": 1 },\n      \"summary\": { \"meanFormat\": \"pct\", \"p10p90Format\": \"pct\" }\n    }\n  ],\n\n  \"engine\": {\n    \"bins\": 44,\n\n    \"random\": {\n      \"shocks\": {\n        \"epsData\":  { \"type\": \"normal\", \"sigma\": 0.20 },\n        \"epsClin\":  { \"type\": \"normal\", \"sigma\": 0.18 },\n        \"epsReg\":   { \"type\": \"normal\", \"sigma\": 0.18 },\n        \"epsAdopt\": { \"type\": \"normal\", \"sigma\": 0.22 },\n        \"epsOps\":   { \"type\": \"normal\", \"sigma\": 0.20 }\n      }\n    },\n\n    \"derived\": {\n      \"dq\":    { \"op\": \"div\", \"args\": [ { \"var\": \"dataQuality\" }, { \"lit\": 100 } ] },\n      \"lr\":    { \"op\": \"div\", \"args\": [ { \"var\": \"labelReliability\" }, { \"lit\": 100 } ] },\n      \"shift\": { \"op\": \"div\", \"args\": [ { \"var\": \"caseMixShift\" }, { \"lit\": 100 } ] },\n      \"bias\":  { \"op\": \"div\", \"args\": [ { \"var\": \"biasImprint\" }, { \"lit\": 100 } ] },\n      \"cal\":   { \"op\": \"div\", \"args\": [ { \"var\": \"calibrationEffort\" }, { \"lit\": 100 } ] },\n      \"exp\":   { \"op\": \"div\", \"args\": [ { \"var\": \"explainability\" }, { \"lit\": 100 } ] },\n      \"area\":  { \"op\": \"div\", \"args\": [ { \"var\": \"areaMaturity\" }, { \"lit\": 100 } ] },\n      \"tri\":   { \"op\": \"div\", \"args\": [ { \"var\": \"tripodDiscipline\" }, { \"lit\": 100 } ] },\n      \"comp\":  { \"op\": \"div\", \"args\": [ { \"var\": \"computeCapacity\" }, { \"lit\": 100 } ] },\n      \"bud\":   { \"op\": \"div\", \"args\": [ { \"var\": \"budget\" }, { \"lit\": 100 } ] },\n      \"wf\":    { \"op\": \"div\", \"args\": [ { \"var\": \"workflowFit\" }, { \"lit\": 100 } ] },\n      \"sup\":   { \"op\": \"div\", \"args\": [ { \"var\": \"stakeholderSupport\" }, { \"lit\": 100 } ] },\n\n      \"modelCapacity\": {\n        \"op\": \"add\",\n        \"args\": [\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.45 }, { \"var\": \"comp\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.30 }, { \"var\": \"bud\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.25 }, { \"var\": \"lr\" } ] }\n        ]\n      },\n\n      \"computeLoad\": {\n        \"op\": \"add\",\n        \"args\": [\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.35 }, { \"var\": \"tri\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.30 }, { \"var\": \"area\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.25 }, { \"var\": \"cal\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.10 }, { \"var\": \"shift\" } ] }\n        ]\n      },\n\n      \"computeSupply\": {\n        \"op\": \"add\",\n        \"args\": [\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.60 }, { \"var\": \"comp\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.40 }, { \"var\": \"bud\" } ] }\n        ]\n      },\n\n      \"computeGap\": { \"op\": \"sub\", \"args\": [ { \"var\": \"computeSupply\" }, { \"var\": \"computeLoad\" } ] },\n\n      \"governanceStrength\": {\n        \"op\": \"add\",\n        \"args\": [\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.55 }, { \"var\": \"area\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.55 }, { \"var\": \"tri\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.25 }, { \"var\": \"exp\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": -0.35 }, { \"var\": \"shift\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": -0.20 }, { \"var\": \"bias\" } ] }\n        ]\n      },\n\n      \"adoptionReadiness\": {\n        \"op\": \"add\",\n        \"args\": [\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.55 }, { \"var\": \"wf\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.50 }, { \"var\": \"sup\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.20 }, { \"var\": \"exp\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": -0.25 }, { \"var\": \"shift\" } ] }\n        ]\n      },\n\n      \"equityRisk\": {\n        \"op\": \"add\",\n        \"args\": [\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.70 }, { \"var\": \"bias\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.35 }, { \"var\": \"shift\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": -0.45 }, { \"var\": \"area\" } ] }\n        ]\n      }\n    },\n\n    \"perDraw\": {\n      \"dataFidelity\": {\n        \"op\": \"add\",\n        \"args\": [\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.55 }, { \"var\": \"dq\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": 0.35 }, { \"var\": \"lr\" } ] },\n          { \"op\": \"mul\", \"args\": [ { \"lit\": -0.45 }, { \"var\": \"shift\" } ] },\n          { \"var\": \"epsData\" }\n        ]\n      },\n\n      \"rankingQuality\": {\n        \"op\": \"sigmoid\",\n        \"args\": [\n          {\n            \"op\": \"add\",\n            \"args\": [\n              { \"lit\": -0.25 },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 1.20 }, { \"var\": \"dataFidelity\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.65 }, { \"var\": \"modelCapacity\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.45 }, { \"var\": \"cal\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.85 }, { \"var\": \"shift\" } ] },\n              { \"var\": \"epsClin\" }\n            ]\n          }\n        ]\n      },\n\n      \"safetyTuning\": {\n        \"op\": \"sigmoid\",\n        \"args\": [\n          {\n            \"op\": \"add\",\n            \"args\": [\n              { \"lit\": -0.15 },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.95 }, { \"var\": \"cal\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.60 }, { \"var\": \"area\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.55 }, { \"var\": \"computeGap\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.10 }, { \"var\": \"randn\" } ] }\n            ]\n          }\n        ]\n      },\n\n      \"regProb\": {\n        \"op\": \"sigmoid\",\n        \"args\": [\n          {\n            \"op\": \"add\",\n            \"args\": [\n              { \"lit\": -0.25 },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 1.25 }, { \"var\": \"governanceStrength\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.35 }, { \"var\": \"cal\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.45 }, { \"var\": \"equityRisk\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.35 }, { \"var\": \"shift\" } ] },\n              { \"var\": \"epsReg\" }\n            ]\n          }\n        ]\n      },\n\n      \"adoptionProb\": {\n        \"op\": \"sigmoid\",\n        \"args\": [\n          {\n            \"op\": \"add\",\n            \"args\": [\n              { \"lit\": -0.20 },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 1.10 }, { \"var\": \"adoptionReadiness\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.45 }, { \"var\": \"regProb\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.35 }, { \"var\": \"rankingQuality\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.35 }, { \"var\": \"computeGap\" } ] },\n              { \"var\": \"epsAdopt\" }\n            ]\n          }\n        ]\n      },\n\n      \"throughputGain\": {\n        \"op\": \"clamp\",\n        \"args\": [\n          {\n            \"op\": \"add\",\n            \"args\": [\n              { \"lit\": 1.0 },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.90 }, { \"var\": \"rankingQuality\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.55 }, { \"var\": \"adoptionProb\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.25 }, { \"var\": \"shift\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.20 }, { \"var\": \"equityRisk\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.12 }, { \"var\": \"randn\" } ] },\n              { \"var\": \"epsOps\" }\n            ]\n          },\n          { \"lit\": 1.0 },\n          { \"lit\": 2.5 }\n        ]\n      },\n\n      \"throughputProb\": {\n        \"op\": \"clamp\",\n        \"args\": [\n          {\n            \"op\": \"div\",\n            \"args\": [\n              { \"op\": \"sub\", \"args\": [ { \"var\": \"throughputGain\" }, { \"lit\": 1.0 } ] },\n              { \"lit\": 1.5 }\n            ]\n          },\n          { \"lit\": 0.0 },\n          { \"lit\": 1.0 }\n        ]\n      },\n\n      \"harmRisk\": {\n        \"op\": \"sigmoid\",\n        \"args\": [\n          {\n            \"op\": \"add\",\n            \"args\": [\n              { \"lit\": -0.10 },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.95 }, { \"var\": \"shift\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.70 }, { \"var\": \"equityRisk\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.80 }, { \"var\": \"safetyTuning\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": -0.55 }, { \"var\": \"rankingQuality\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.10 }, { \"var\": \"randn\" } ] }\n            ]\n          }\n        ]\n      },\n\n      \"benefitProb\": {\n        \"op\": \"clamp\",\n        \"args\": [\n          {\n            \"op\": \"add\",\n            \"args\": [\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.42 }, { \"var\": \"rankingQuality\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.24 }, { \"var\": \"safetyTuning\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.18 }, { \"var\": \"adoptionProb\" } ] },\n              { \"op\": \"mul\", \"args\": [ { \"lit\": 0.16 }, { \"op\": \"sub\", \"args\": [ { \"lit\": 1.0 }, { \"var\": \"harmRisk\" } ] } ] }\n            ]\n          },\n          { \"lit\": 0.0 },\n          { \"lit\": 1.0 }\n        ]\n      }\n    },\n\n    \"outputMapping\": {\n      \"clinicalBenefit\": \"benefitProb\",\n      \"regAcceptance\": \"regProb\",\n      \"adoption\": \"adoptionProb\",\n      \"throughput\": \"throughputProb\"\n    }\n  }\n}",
+    "source_document_count": 1
+  },
+  "result_id": "905d9a56-d916-489d-930e-917123b9b530"
+}
