@@ -1,0 +1,404 @@
+{
+  "meta": {
+    "id": "worker_engagement_oh_proxy_v1",
+    "title": "Worker Engagement with Occupational Health — Trust, Access, and Implementation Parameter Lab",
+    "subtitle": "A fast Monte Carlo proxy simulator for exploring how access, trust, confidentiality, managerial action, pathway integration, and preventive communication shape worker engagement with occupational health services.",
+    "footerNote": "Note: This simulator is a conceptual proxy model derived from a PRISMA-informed critical review with thematic analysis. It is not a validated predictive model, not legal or clinical advice, and not a substitute for service evaluation, workforce consultation, occupational health governance, or empirical implementation research."
+  },
+  "project": {
+    "name": "Worker Engagement with Occupational Health Services",
+    "description": [
+      "The system models worker engagement with occupational health as a socio-organisational process rather than a simple matter of awareness or compliance.",
+      "Engagement depends on meaningful access, role clarity, trust in confidentiality, perceived practical benefit, managerial implementation of recommendations, pathway integration with primary and specialist care, and the legibility of preventive risk. The model is grounded in a worker-centred Goguen institution in which governance, operational delivery, risk/compliance, and strategic foresight jointly shape outcomes."
+    ],
+    "promptTemplate": {
+      "title": "OH Engagement Prompt Generator",
+      "instructions": "Add project details (for example sector, organisation size, OH model, referral routes, trade union context, primary care links, data-sharing arrangements, preventive surveillance practices, and known implementation barriers). Click “Generate AI Prompt” to produce a prompt you can paste into an AI assistant for a short report interpreting the current settings.",
+      "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions about sector, workforce composition, and service model.]",
+      "promptText": [
+        "You are an expert in occupational health, worker experience, organisational design, implementation, and responsible governance.",
+        "Write a short report (700–1,000 words) interpreting the likely outcomes of the current occupational health engagement configuration under the parameter settings below.",
+        "",
+        "System summary:",
+        "- The model treats worker engagement with occupational health as a function of access, intelligibility, trust, confidentiality, managerial implementation, pathway integration, stigma risk, and preventive communication.",
+        "- It assumes reluctance is often rationally related to anticipated costs, ambiguity, weak practical effect, or employer-linked distrust rather than mere ignorance.",
+        "- It distinguishes governance, operational delivery, and risk/compliance conditions.",
+        "- It is informed by a worker-centred Goguen institution derived from a PRISMA-informed critical review with thematic analysis.",
+        "",
+        "Current parameter settings (0–100):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Please do ALL of the following:",
+        "1) Explain how these settings shape worker engagement, trust, and perceived usefulness of occupational health.",
+        "2) Discuss expected effects on recommendation implementation, sustained work participation, and legitimacy of the OH arrangement.",
+        "3) Identify the main failure modes (for example patchy access, role ambiguity, employer-linked distrust, stigma, futility, poor preventive communication, pathway fragmentation).",
+        "4) Recommend 5 practical next actions spanning governance, operational delivery, and confidentiality/risk controls.",
+        "5) Be explicit about uncertainty and what evidence or research would reduce it.",
+        "",
+        "Project refinements supplied by the user (incorporate carefully; if empty, state assumptions you made):",
+        "{{REFINEMENTS}}"
+      ]
+    }
+  },
+  "ui": {
+    "layout": {
+      "leftPanelTitle": "OH Engagement Parameters (sliders)",
+      "rightPanelTitle": "Likely Outcomes (distributions + summary stats)",
+      "chartsTitle": "Likely Outcomes (distributions)"
+    },
+    "controls": {
+      "liveUpdateLabel": "Live update",
+      "drawsLabel": "Monte Carlo draws",
+      "debounceLabel": "Update rate (ms debounce)",
+      "buttons": [
+        { "id": "btnRandomize", "label": "Randomize params" },
+        { "id": "btnReset", "label": "Reset defaults" },
+        { "id": "btnToggleLive", "label": "Toggle live update" },
+        { "id": "btnRecompute", "label": "Recompute now" }
+      ]
+    },
+    "promptUI": {
+      "refinementsPlaceholder": "Describe your occupational health context here…\nExamples:\n- Sector and workforce profile\n- Small employer, large employer, outsourced OH, in-house OH, hybrid OH\n- Referral routes, self-referral rules, gatekeeping, manager role\n- Confidentiality and report-sharing arrangements\n- Primary care / specialist care / rehabilitation links\n- Preventive surveillance practices and worker communication\n- Known adoption barriers (stigma, distrust, patchy access, poor implementation)\n- Union/staff-side voice, governance, accountability, and adjustment processes",
+      "buttons": [
+        { "id": "btnGenPrompt", "label": "Generate AI Prompt" },
+        { "id": "btnCopyPrompt", "label": "Copy Prompt" },
+        { "id": "btnClearRefinements", "label": "Clear refinements" }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here…"
+    }
+  },
+  "parameters": [
+    {
+      "id": "accessProvision",
+      "label": "Meaningful OH access provision",
+      "hint": "Higher means workers can access occupational health before crisis, not only through narrow absence or managerial triggers.",
+      "min": 0, "max": 100, "step": 1, "default": 45
+    },
+    {
+      "id": "roleClarity",
+      "label": "Worker-facing clarity of OH role",
+      "hint": "Higher means workers understand what OH does, how it differs from GP/specialist care, and how it can help at work.",
+      "min": 0, "max": 100, "step": 1, "default": 40
+    },
+    {
+      "id": "confidentialityCredibility",
+      "label": "Credibility of confidentiality and non-disadvantage assurances",
+      "hint": "Higher means workers believe information boundaries are real and that declining or engaging will not be used against them.",
+      "min": 0, "max": 100, "step": 1, "default": 38
+    },
+    {
+      "id": "employerLinkageRisk",
+      "label": "Employer-linkage distrust risk",
+      "hint": "Higher means OH is seen as tightly tied to management, capability, attendance control, or disciplinary processes.",
+      "min": 0, "max": 100, "step": 1, "default": 62
+    },
+    {
+      "id": "managerCapability",
+      "label": "Line-manager capability and accountability",
+      "hint": "Higher means managers communicate well, understand adjustments, and are supported and held accountable for implementation.",
+      "min": 0, "max": 100, "step": 1, "default": 42
+    },
+    {
+      "id": "implementationFollowThrough",
+      "label": "Implementation follow-through on OH advice",
+      "hint": "Higher means recommendations actually become work changes rather than disappearing into reports or box-ticking referrals.",
+      "min": 0, "max": 100, "step": 1, "default": 40
+    },
+    {
+      "id": "pathwayIntegration",
+      "label": "Integration with GP, specialist, and rehabilitation pathways",
+      "hint": "Higher means workers are not left carrying information between isolated systems and care can be translated into work action.",
+      "min": 0, "max": 100, "step": 1, "default": 35
+    },
+    {
+      "id": "personCentredDesign",
+      "label": "Person-centred, work-focused service design",
+      "hint": "Higher means continuity, empathy, tailoring, transparency, personal control, and practical guidance are present.",
+      "min": 0, "max": 100, "step": 1, "default": 46
+    },
+    {
+      "id": "preventiveCommunication",
+      "label": "Quality of preventive risk and surveillance communication",
+      "hint": "Higher means latent risk, exposure, and surveillance purpose are explained in terms workers can understand and value.",
+      "min": 0, "max": 100, "step": 1, "default": 37
+    },
+    {
+      "id": "stigmaPressure",
+      "label": "Stigma and identity-threat pressure",
+      "hint": "Higher means disclosure feels socially risky, threatening competence, resilience, reliability, or professional standing.",
+      "min": 0, "max": 100, "step": 1, "default": 58
+    },
+    {
+      "id": "workerVoiceGovernance",
+      "label": "Worker voice and governance responsiveness",
+      "hint": "Higher means staff concerns feed back into governance, service redesign, and confidence-building action.",
+      "min": 0, "max": 100, "step": 1, "default": 44
+    },
+    {
+      "id": "practicalUsefulness",
+      "label": "Perceived practical usefulness of OH support",
+      "hint": "Higher means workers expect OH contact to produce specific, humane, work-relevant help rather than abstract advice.",
+      "min": 0, "max": 100, "step": 1, "default": 43
+    },
+    {
+      "id": "draws",
+      "label": "Monte Carlo draws",
+      "hint": "Higher = smoother distributions; slower updates.",
+      "min": 500, "max": 30000, "step": 500, "default": 8000,
+      "isMeta": true
+    },
+    {
+      "id": "debounce",
+      "label": "Update rate (ms debounce)",
+      "hint": "Higher reduces CPU; lower feels more “real-time”.",
+      "min": 0, "max": 600, "step": 20, "default": 120,
+      "isMeta": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "engagementProbability",
+      "title": "Worker engagement probability",
+      "subtitle": "Proxy for workers choosing to engage with OH under current conditions of access, trust, perceived utility, and anticipated cost.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "implementationProbability",
+      "title": "Recommendation implementation probability",
+      "subtitle": "Proxy for OH advice becoming actual work changes through managerial action, accountability, and pathway coordination.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "trustLegitimacy",
+      "title": "Trust & legitimacy probability",
+      "subtitle": "Proxy for whether the OH arrangement is experienced as credible, safe, confidential, and worker-serving rather than employer-serving.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    },
+    {
+      "id": "sustainedParticipation",
+      "title": "Sustained work participation probability",
+      "subtitle": "Proxy for whether the full chain from support to adjustment to continued work participation is likely to hold.",
+      "units": "probability",
+      "range": { "min": 0, "max": 1 },
+      "summary": { "meanFormat": "pct", "p10p90Format": "pct" }
+    }
+  ],
+  "engine": {
+    "bins": 44,
+    "random": {
+      "shocks": {
+        "epsAccess": { "type": "normal", "sigma": 0.20 },
+        "epsTrust": { "type": "normal", "sigma": 0.18 },
+        "epsImpl": { "type": "normal", "sigma": 0.20 },
+        "epsEngage": { "type": "normal", "sigma": 0.22 },
+        "epsOutcome": { "type": "normal", "sigma": 0.20 }
+      }
+    },
+    "derived": {
+      "acc": { "op": "div", "args": [ { "var": "accessProvision" }, { "lit": 100 } ] },
+      "role": { "op": "div", "args": [ { "var": "roleClarity" }, { "lit": 100 } ] },
+      "conf": { "op": "div", "args": [ { "var": "confidentialityCredibility" }, { "lit": 100 } ] },
+      "link": { "op": "div", "args": [ { "var": "employerLinkageRisk" }, { "lit": 100 } ] },
+      "mgr": { "op": "div", "args": [ { "var": "managerCapability" }, { "lit": 100 } ] },
+      "impl": { "op": "div", "args": [ { "var": "implementationFollowThrough" }, { "lit": 100 } ] },
+      "path": { "op": "div", "args": [ { "var": "pathwayIntegration" }, { "lit": 100 } ] },
+      "pc": { "op": "div", "args": [ { "var": "personCentredDesign" }, { "lit": 100 } ] },
+      "prev": { "op": "div", "args": [ { "var": "preventiveCommunication" }, { "lit": 100 } ] },
+      "stig": { "op": "div", "args": [ { "var": "stigmaPressure" }, { "lit": 100 } ] },
+      "voice": { "op": "div", "args": [ { "var": "workerVoiceGovernance" }, { "lit": 100 } ] },
+      "use": { "op": "div", "args": [ { "var": "practicalUsefulness" }, { "lit": 100 } ] },
+
+      "meaningfulAccess": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.60 }, { "var": "acc" } ] },
+          { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "role" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "path" } ] },
+          { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "link" } ] }
+        ]
+      },
+
+      "trustInfrastructure": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.55 }, { "var": "conf" } ] },
+          { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "role" } ] },
+          { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "voice" } ] },
+          { "op": "mul", "args": [ { "lit": -0.55 }, { "var": "link" } ] },
+          { "op": "mul", "args": [ { "lit": -0.30 }, { "var": "stig" } ] }
+        ]
+      },
+
+      "serviceUsefulness": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "use" } ] },
+          { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "pc" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "path" } ] },
+          { "op": "mul", "args": [ { "lit": -0.15 }, { "var": "link" } ] }
+        ]
+      },
+
+      "implementationCapacity": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.50 }, { "var": "mgr" } ] },
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "impl" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "voice" } ] },
+          { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "path" } ] }
+        ]
+      },
+
+      "anticipatedCost": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.45 }, { "var": "link" } ] },
+          { "op": "mul", "args": [ { "lit": 0.40 }, { "var": "stig" } ] },
+          { "op": "mul", "args": [ { "lit": -0.35 }, { "var": "conf" } ] },
+          { "op": "mul", "args": [ { "lit": -0.15 }, { "var": "voice" } ] }
+        ]
+      },
+
+      "preventiveLegibility": {
+        "op": "add",
+        "args": [
+          { "op": "mul", "args": [ { "lit": 0.60 }, { "var": "prev" } ] },
+          { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "role" } ] },
+          { "op": "mul", "args": [ { "lit": 0.15 }, { "var": "conf" } ] },
+          { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "link" } ] }
+        ]
+      }
+    },
+    "perDraw": {
+      "engagementReadiness": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.20 },
+              { "op": "mul", "args": [ { "lit": 0.95 }, { "var": "meaningfulAccess" } ] },
+              { "op": "mul", "args": [ { "lit": 0.90 }, { "var": "trustInfrastructure" } ] },
+              { "op": "mul", "args": [ { "lit": 0.75 }, { "var": "serviceUsefulness" } ] },
+              { "op": "mul", "args": [ { "lit": -0.90 }, { "var": "anticipatedCost" } ] },
+              { "var": "epsAccess" }
+            ]
+          }
+        ]
+      },
+
+      "trustProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.10 },
+              { "op": "mul", "args": [ { "lit": 1.15 }, { "var": "trustInfrastructure" } ] },
+              { "op": "mul", "args": [ { "lit": 0.35 }, { "var": "serviceUsefulness" } ] },
+              { "op": "mul", "args": [ { "lit": -0.40 }, { "var": "anticipatedCost" } ] },
+              { "var": "epsTrust" }
+            ]
+          }
+        ]
+      },
+
+      "implementationProb": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.25 },
+              { "op": "mul", "args": [ { "lit": 1.05 }, { "var": "implementationCapacity" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "engagementReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "serviceUsefulness" } ] },
+              { "op": "mul", "args": [ { "lit": -0.25 }, { "var": "anticipatedCost" } ] },
+              { "var": "epsImpl" }
+            ]
+          }
+        ]
+      },
+
+      "preventionAlignment": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.15 },
+              { "op": "mul", "args": [ { "lit": 1.00 }, { "var": "preventiveLegibility" } ] },
+              { "op": "mul", "args": [ { "lit": 0.25 }, { "var": "trustProb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.20 }, { "var": "stig" } ] },
+              { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "randn" } ] }
+            ]
+          }
+        ]
+      },
+
+      "engagementProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.48 }, { "var": "engagementReadiness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.22 }, { "var": "trustProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.18 }, { "var": "preventionAlignment" } ] },
+              { "op": "mul", "args": [ { "lit": 0.12 }, { "var": "implementationProb" } ] }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      },
+
+      "futilityRisk": {
+        "op": "sigmoid",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "lit": -0.05 },
+              { "op": "mul", "args": [ { "lit": 0.95 }, { "var": "anticipatedCost" } ] },
+              { "op": "mul", "args": [ { "lit": -0.95 }, { "var": "implementationProb" } ] },
+              { "op": "mul", "args": [ { "lit": -0.45 }, { "var": "serviceUsefulness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.10 }, { "var": "randn" } ] }
+            ]
+          }
+        ]
+      },
+
+      "participationProb": {
+        "op": "clamp",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              { "op": "mul", "args": [ { "lit": 0.30 }, { "var": "engagementProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.32 }, { "var": "implementationProb" } ] },
+              { "op": "mul", "args": [ { "lit": 0.20 }, { "var": "serviceUsefulness" } ] },
+              { "op": "mul", "args": [ { "lit": 0.12 }, { "var": "path" } ] },
+              { "op": "mul", "args": [ { "lit": 0.10 }, { "op": "sub", "args": [ { "lit": 1.0 }, { "var": "futilityRisk" } ] } ] },
+              { "var": "epsOutcome" }
+            ]
+          },
+          { "lit": 0.0 },
+          { "lit": 1.0 }
+        ]
+      }
+    },
+    "outputMapping": {
+      "engagementProbability": "engagementProb",
+      "implementationProbability": "implementationProb",
+      "trustLegitimacy": "trustProb",
+      "sustainedParticipation": "participationProb"
+    }
+  }
+}
