@@ -1,0 +1,849 @@
+
+{
+  "engine": {
+    "bins": 44,
+    "derived": {
+      "adaptationBase": {
+        "args": [
+          {
+            "args": [
+              {
+                "lit": 0.35
+              },
+              {
+                "var": "lea"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "gov"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "res"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.25
+              },
+              {
+                "args": [
+                  {
+                    "lit": 1.0
+                  },
+                  {
+                    "var": "vol"
+                  }
+                ],
+                "op": "sub"
+              }
+            ],
+            "op": "mul"
+          }
+        ],
+        "op": "add"
+      },
+      "evi": {
+        "args": [
+          {
+            "var": "evidenceQuality"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "gov": {
+        "args": [
+          {
+            "var": "governanceCapacity"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "governanceStrength": {
+        "args": [
+          {
+            "args": [
+              {
+                "lit": 0.45
+              },
+              {
+                "var": "gov"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.25
+              },
+              {
+                "var": "int"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "sup"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": -0.25
+              },
+              {
+                "var": "vol"
+              }
+            ],
+            "op": "mul"
+          }
+        ],
+        "op": "add"
+      },
+      "imp": {
+        "args": [
+          {
+            "var": "implementationReadiness"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "implementationBase": {
+        "args": [
+          {
+            "args": [
+              {
+                "lit": 0.35
+              },
+              {
+                "var": "imp"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.25
+              },
+              {
+                "var": "sat"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "res"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "sup"
+              }
+            ],
+            "op": "mul"
+          }
+        ],
+        "op": "add"
+      },
+      "int": {
+        "args": [
+          {
+            "var": "interpretiveAlignment"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "lea": {
+        "args": [
+          {
+            "var": "learningRate"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "mod": {
+        "args": [
+          {
+            "var": "modelCoverage"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "res": {
+        "args": [
+          {
+            "var": "resourceSlack"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "sat": {
+        "args": [
+          {
+            "var": "satisfactionStrength"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "sen": {
+        "args": [
+          {
+            "var": "sentenceCoherence"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "sig": {
+        "args": [
+          {
+            "var": "signatureClarity"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "structuralIntegrity": {
+        "args": [
+          {
+            "args": [
+              {
+                "lit": 0.3
+              },
+              {
+                "var": "sig"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.3
+              },
+              {
+                "var": "sen"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "mod"
+              }
+            ],
+            "op": "mul"
+          },
+          {
+            "args": [
+              {
+                "lit": 0.2
+              },
+              {
+                "var": "evi"
+              }
+            ],
+            "op": "mul"
+          }
+        ],
+        "op": "add"
+      },
+      "sup": {
+        "args": [
+          {
+            "var": "stakeholderSupport"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      },
+      "vol": {
+        "args": [
+          {
+            "var": "externalVolatility"
+          },
+          {
+            "lit": 100
+          }
+        ],
+        "op": "div"
+      }
+    },
+    "outputMapping": {
+      "adaptationReadiness": "adaptationProb",
+      "governanceConfidence": "governanceProb",
+      "implementationSuccess": "implementationProb",
+      "institutionalFit": "fitProb"
+    },
+    "perDraw": {
+      "adaptationProb": {
+        "args": [
+          {
+            "args": [
+              {
+                "lit": -0.1
+              },
+              {
+                "args": [
+                  {
+                    "lit": 1.05
+                  },
+                  {
+                    "var": "adaptationBase"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "args": [
+                  {
+                    "lit": 0.35
+                  },
+                  {
+                    "var": "governanceProb"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "implementationProb"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "var": "epsAdapt"
+              }
+            ],
+            "op": "add"
+          }
+        ],
+        "op": "sigmoid"
+      },
+      "fitProb": {
+        "args": [
+          {
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "args": [
+                  {
+                    "lit": 1.1
+                  },
+                  {
+                    "var": "structuralIntegrity"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "args": [
+                  {
+                    "lit": 0.55
+                  },
+                  {
+                    "var": "sat"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "args": [
+                  {
+                    "lit": -0.65
+                  },
+                  {
+                    "var": "vol"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "var": "epsStruct"
+              }
+            ],
+            "op": "add"
+          }
+        ],
+        "op": "sigmoid"
+      },
+      "governanceProb": {
+        "args": [
+          {
+            "args": [
+              {
+                "lit": -0.2
+              },
+              {
+                "args": [
+                  {
+                    "lit": 1.15
+                  },
+                  {
+                    "var": "governanceStrength"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "args": [
+                  {
+                    "lit": 0.25
+                  },
+                  {
+                    "var": "fitProb"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "args": [
+                  {
+                    "lit": -0.3
+                  },
+                  {
+                    "var": "vol"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "var": "epsGov"
+              }
+            ],
+            "op": "add"
+          }
+        ],
+        "op": "sigmoid"
+      },
+      "implementationProb": {
+        "args": [
+          {
+            "args": [
+              {
+                "lit": -0.15
+              },
+              {
+                "args": [
+                  {
+                    "lit": 1.0
+                  },
+                  {
+                    "var": "implementationBase"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "args": [
+                  {
+                    "lit": 0.5
+                  },
+                  {
+                    "var": "fitProb"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "args": [
+                  {
+                    "lit": -0.4
+                  },
+                  {
+                    "var": "vol"
+                  }
+                ],
+                "op": "mul"
+              },
+              {
+                "var": "epsImpl"
+              }
+            ],
+            "op": "add"
+          }
+        ],
+        "op": "sigmoid"
+      }
+    },
+    "random": {
+      "shocks": {
+        "epsAdapt": {
+          "sigma": 0.2,
+          "type": "normal"
+        },
+        "epsGov": {
+          "sigma": 0.18,
+          "type": "normal"
+        },
+        "epsImpl": {
+          "sigma": 0.22,
+          "type": "normal"
+        },
+        "epsStruct": {
+          "sigma": 0.18,
+          "type": "normal"
+        }
+      }
+    }
+  },
+  "meta": {
+    "footerNote": "Note: This simulator is a proxy model derived from institution JSON for exploratory reasoning about strategic foresight. It is not a validated predictive model and should not be treated as a substitute for domain judgement, governance, or formal evaluation.",
+    "id": "ohwork_worker_centred_occupational_health_engagement_institution_simulator",
+    "sourceDocuments": [
+      "helenoneil.pdf"
+    ],
+    "subtitle": "A fast Monte Carlo proxy simulator derived from a Goguen institution reading of helenoneil.pdf. Adjust structural, semantic, governance, and implementation parameters and watch likely outcomes update in real time.",
+    "title": "OHWork_Worker_Centred_Occupational_Health_Engagement_Institution \u2014 Institution Parameter Lab"
+  },
+  "outputs": [
+    {
+      "id": "institutionalFit",
+      "range": {
+        "max": 1,
+        "min": 0
+      },
+      "subtitle": "Proxy for the institution remaining coherent across signatures, sentences, models, and satisfaction relations.",
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      },
+      "title": "Institutional fit probability",
+      "units": "probability"
+    },
+    {
+      "id": "implementationSuccess",
+      "range": {
+        "max": 1,
+        "min": 0
+      },
+      "subtitle": "Likelihood that the institution can be translated into operational practice without major breakdown.",
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      },
+      "title": "Implementation success probability",
+      "units": "probability"
+    },
+    {
+      "id": "governanceConfidence",
+      "range": {
+        "max": 1,
+        "min": 0
+      },
+      "subtitle": "Proxy for auditability, corrective capacity, and confidence in stewardship of the institution.",
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      },
+      "title": "Governance confidence probability",
+      "units": "probability"
+    },
+    {
+      "id": "adaptationReadiness",
+      "range": {
+        "max": 1,
+        "min": 0
+      },
+      "subtitle": "Likelihood that the institution can respond productively to shocks, reinterpretation, and learning signals.",
+      "summary": {
+        "meanFormat": "pct",
+        "p10p90Format": "pct"
+      },
+      "title": "Adaptation readiness probability",
+      "units": "probability"
+    }
+  ],
+  "parameters": [
+    {
+      "default": 62,
+      "hint": "Higher means the institution defines actors, sorts, operations, and predicates more clearly.",
+      "id": "signatureClarity",
+      "label": "Signature clarity and type definition",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 58,
+      "hint": "Higher improves the internal consistency of the institution's governing statements and constraints.",
+      "id": "sentenceCoherence",
+      "label": "Sentence coherence and formal consistency",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 55,
+      "hint": "Higher means the available models capture more of the document's real actors, processes, and relations.",
+      "id": "modelCoverage",
+      "label": "Model coverage of operational reality",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 52,
+      "hint": "Higher means models satisfy the institution's sentences more reliably in practice.",
+      "id": "satisfactionStrength",
+      "label": "Satisfaction relation strength",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 50,
+      "hint": "Higher reduces semantic drift between stakeholders reading the same institution differently.",
+      "id": "interpretiveAlignment",
+      "label": "Interpretive alignment across stakeholders",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 57,
+      "hint": "Higher supports review loops, correction, escalation, and institutional learning.",
+      "id": "governanceCapacity",
+      "label": "Governance and corrective capacity",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 54,
+      "hint": "Higher means the institution can be implemented with fewer translation gaps from formal design to operational practice.",
+      "id": "implementationReadiness",
+      "label": "Implementation readiness",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 42,
+      "hint": "Higher increases the chance that the institution must adapt to policy, market, or environmental shocks.",
+      "id": "externalVolatility",
+      "label": "External volatility and contextual change",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 64,
+      "hint": "Higher means the institution is grounded in stronger, clearer, and more complete source material.",
+      "id": "evidenceQuality",
+      "label": "Evidence quality and documentary grounding",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 51,
+      "hint": "Higher improves uptake, compliance, and reinforcement of the institutional form in practice.",
+      "id": "stakeholderSupport",
+      "label": "Stakeholder support and adoption",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 49,
+      "hint": "Higher means the institution updates faster when models or satisfaction relations show weak fit.",
+      "id": "learningRate",
+      "label": "Learning rate and institutional adaptation",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 46,
+      "hint": "Higher supports scenario testing, audit cycles, and corrective redesign without destabilising operations.",
+      "id": "resourceSlack",
+      "label": "Resource slack for experimentation",
+      "max": 100,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "default": 8000,
+      "hint": "Higher = smoother distributions; slower updates.",
+      "id": "draws",
+      "isMeta": true,
+      "label": "Monte Carlo draws",
+      "max": 30000,
+      "min": 500,
+      "step": 500
+    },
+    {
+      "default": 120,
+      "hint": "Higher reduces CPU; lower feels more real-time.",
+      "id": "debounce",
+      "isMeta": true,
+      "label": "Update rate (ms debounce)",
+      "max": 600,
+      "min": 0,
+      "step": 20
+    }
+  ],
+  "project": {
+    "description": [
+      "Primary source is the uploaded PDF titled Occupational Health and Worker Engagement. It is a narrative academic review based on a transcript about why workers do not engage with occupational health services. It argues that non-engagement is not simple worker ignorance but a multi-level response to unequal access, weak visibility, preventive-surveillance ambiguity, confidentiality concerns, stigma, occupational damage, presenteeism, managerial gatekeeping, GP-first help-seeking, sectoral pressures, and a dominant evidence base that privileges cost-effectiveness over worker experience. The mapping below treats the document as a Goguen-style institution for OHWork strategic foresight, with governance and operational-delivery focus areas. Core source anchors include the review's central thesis and framing , its account of unequal access and opaque provision , its analysis of prevention, trust, confidentiality, stigma, disclosure, presenteeism, managers, GP pathways, NHS context, evidence-base critique, research contentions, implications, and conclusion         .",
+      "The institution currently includes 12 signatures, 122 sentences, 9 models, and 201 satisfaction relations, with 0 web-grounded contextual findings."
+    ],
+    "name": "OHWork_Worker_Centred_Occupational_Health_Engagement_Institution",
+    "promptTemplate": {
+      "defaultAssumptions": "[No additional refinements provided. State reasonable assumptions.]",
+      "instructions": "Add project refinements and click Generate AI Prompt to produce a prompt for interpreting the current institution settings, tensions, and likely implementation consequences.",
+      "promptText": [
+        "You are an expert in institutions, implementation, systems governance, and scenario analysis.",
+        "Write a short report (700\u20131,000 words) interpreting the likely outcomes of the current institution under the selected parameter settings.",
+        "",
+        "Institution summary:",
+        "- Institution name: OHWork_Worker_Centred_Occupational_Health_Engagement_Institution",
+        "- Organisation: OHWork",
+        "- Analysis mode: Strategic foresight",
+        "- Source documents: helenoneil.pdf",
+        "- Signatures: 12; Sentences: 122; Models: 9; Satisfaction relations: 201",
+        "",
+        "Current parameter settings (0\u2013100 unless marked otherwise):",
+        "{{PARAMETERS_LIST}}",
+        "",
+        "Please do ALL of the following:",
+        "1) Explain how these settings shape institutional coherence, implementability, and likely adaptation pressure.",
+        "2) Discuss expected effects on governance, stakeholder alignment, compliance, and operational stability.",
+        "3) Identify the most important failure modes, translation gaps, and weak satisfaction relations.",
+        "4) Recommend 5 practical next actions for strengthening the institution and its implementation.",
+        "5) Be explicit about uncertainty, assumptions, and what additional evidence would reduce ambiguity.",
+        "",
+        "Project refinements supplied by the user:",
+        "{{REFINEMENTS}}"
+      ],
+      "title": "AI Prompt Generator"
+    }
+  },
+  "ui": {
+    "controls": {
+      "buttons": [
+        {
+          "id": "btnRandomize",
+          "label": "Randomize params"
+        },
+        {
+          "id": "btnReset",
+          "label": "Reset defaults"
+        },
+        {
+          "id": "btnToggleLive",
+          "label": "Toggle live update"
+        },
+        {
+          "id": "btnRecompute",
+          "label": "Recompute now"
+        }
+      ],
+      "debounceLabel": "Update rate (ms debounce)",
+      "drawsLabel": "Monte Carlo draws",
+      "liveUpdateLabel": "Live update"
+    },
+    "layout": {
+      "chartsTitle": "Likely Outcomes (distributions)",
+      "leftPanelTitle": "Institution Parameters (sliders)",
+      "rightPanelTitle": "Likely Outcomes (distributions + summary stats)"
+    },
+    "promptUI": {
+      "buttons": [
+        {
+          "id": "btnGenPrompt",
+          "label": "Generate AI Prompt"
+        },
+        {
+          "id": "btnCopyPrompt",
+          "label": "Copy Prompt"
+        },
+        {
+          "id": "btnClearRefinements",
+          "label": "Clear refinements"
+        }
+      ],
+      "promptOutputPlaceholder": "Generated prompt will appear here\u2026",
+      "refinementsPlaceholder": "Describe refinements, implementation constraints, governance choices, actors, or stressors here\u2026\nExamples:\n- Which signatures are most politically important?\n- Which sentences are weakly satisfied?\n- Which operational models or teams are in scope?\n- What external shocks or regulations matter?\n- Which stakeholders disagree about interpretation?"
+    }
+  }
+}
