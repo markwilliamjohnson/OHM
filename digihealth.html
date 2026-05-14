@@ -1,0 +1,903 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Health Institution Transformation Simulator</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #687184;
+      --line: #dfe4ee;
+      --accent: #315dff;
+      --accent-soft: #e9eeff;
+      --good: #1c8f5a;
+      --warn: #c47a00;
+      --bad: #c93636;
+      --purple: #7a4fd8;
+      --shadow: 0 18px 50px rgba(31, 43, 77, 0.11);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #eef3ff 0, #f7f8fb 36%, #f7f8fb 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    header {
+      padding: 34px 28px 22px;
+      max-width: 1420px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 3.2vw, 48px);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 1120px;
+      font-size: 16px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 22px;
+      max-width: 1420px;
+      margin: 0 auto 40px;
+      padding: 0 28px 32px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .controls {
+      padding: 18px;
+      position: sticky;
+      top: 14px;
+      height: fit-content;
+      max-height: calc(100vh - 28px);
+      overflow: auto;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0 12px;
+    }
+
+    h2, h3, h4 { margin: 0; }
+    h2 { font-size: 18px; letter-spacing: -0.02em; }
+    h3 { font-size: 15px; }
+    h4 { font-size: 13px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.08em; }
+
+    .hint { font-size: 12px; color: var(--muted); }
+
+    .stage-selector {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .stage-button {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 9px;
+      cursor: pointer;
+      text-align: left;
+      color: var(--ink);
+      transition: 0.16s ease;
+    }
+
+    .stage-button:hover { transform: translateY(-1px); border-color: #bcc7dd; }
+    .stage-button.active { border-color: var(--accent); background: var(--accent-soft); }
+    .stage-button .num { font-weight: 800; font-size: 12px; color: var(--accent); }
+    .stage-button .name { display: block; font-size: 12px; font-weight: 700; line-height: 1.18; margin-top: 2px; }
+
+    .slider-group {
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      margin-top: 14px;
+    }
+
+    .control { margin: 13px 0 16px; }
+
+    .control label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .control .value {
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      font-size: 13px;
+    }
+
+    .control p { margin: 4px 0 8px; color: var(--muted); font-size: 12px; }
+
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .mini-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    button.action {
+      background: var(--ink);
+      color: white;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button.secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+
+    .workspace { display: grid; gap: 22px; }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+    }
+
+    .card { padding: 18px; }
+
+    .stage-card { min-height: 292px; overflow: hidden; position: relative; }
+
+    .stage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .stage-title {
+      font-size: clamp(23px, 2.3vw, 34px);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .stage-description { color: var(--muted); margin-bottom: 16px; max-width: 850px; }
+
+    .institution-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 12px;
+      margin-top: 14px;
+      scrollbar-color: #9aa8c8 #eef1f8;
+      scrollbar-width: thin;
+    }
+    .institution-scroll::-webkit-scrollbar { height: 12px; }
+    .institution-scroll::-webkit-scrollbar-track { background: #eef1f8; border-radius: 999px; }
+    .institution-scroll::-webkit-scrollbar-thumb { background: #9aa8c8; border-radius: 999px; border: 2px solid #eef1f8; }
+
+    .institution-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(255px, 1fr));
+      gap: 10px;
+      min-width: 1060px;
+    }
+
+    .institution-box {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px;
+      min-height: 132px;
+    }
+
+    .institution-box h4 { margin-bottom: 7px; }
+    .institution-box ul { margin: 0; padding-left: 16px; color: var(--muted); font-size: 12px; }
+    .scroll-note { color: var(--muted); font-size: 12px; margin-top: -4px; margin-bottom: 6px; }
+
+    .meter-list { display: grid; gap: 12px; margin-top: 12px; }
+
+    .meter-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 44px;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .bar { height: 10px; background: #edf0f6; border-radius: 999px; overflow: hidden; position: relative; }
+    .fill { height: 100%; width: 0; border-radius: 999px; background: var(--accent); transition: width 0.18s ease; }
+    .fill.good { background: var(--good); }
+    .fill.warn { background: var(--warn); }
+    .fill.bad { background: var(--bad); }
+    .score { font-variant-numeric: tabular-nums; text-align: right; color: var(--muted); }
+
+    .prob-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .prob-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+      min-height: 132px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prob-card.active { border-color: var(--accent); background: var(--accent-soft); }
+    .prob-card h3 { font-size: 13px; line-height: 1.16; margin-bottom: 6px; }
+    .prob-card p { margin: 0; color: var(--muted); font-size: 11px; }
+    .prob-num { font-size: 28px; font-weight: 900; letter-spacing: -0.04em; margin: 8px 0 4px; }
+
+    .canvas-card canvas {
+      width: 100%;
+      height: 360px;
+      display: block;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff, #fafbff);
+      border: 1px solid var(--line);
+    }
+
+    .chart-header-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 10px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .stat-box {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .stat-box strong { display: block; font-size: 24px; letter-spacing: -0.04em; }
+    .stat-box span { color: var(--muted); font-size: 12px; }
+
+    .chart-explainer {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .explain-chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .explain-chip strong { color: var(--ink); display: block; margin-bottom: 2px; }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; background: var(--accent); }
+
+    .stage-flow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+
+    .flow-node {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+      min-height: 126px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .flow-node.active { border-color: var(--accent); background: var(--accent-soft); }
+    .flow-node.reached::after { content: ""; position: absolute; inset: auto 0 0 0; height: 4px; background: var(--good); }
+    .flow-node h3 { font-size: 13px; line-height: 1.16; margin-bottom: 6px; }
+    .flow-node p { margin: 0; color: var(--muted); font-size: 11px; }
+
+    .risk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .risk-card { border: 1px solid var(--line); background: #fff; border-radius: 16px; padding: 14px; }
+    .risk-head { display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-bottom: 7px; }
+
+    .pill { padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; background: #eef0f5; color: var(--muted); }
+    .pill.good { background: #e9f8f0; color: var(--good); }
+    .pill.warn { background: #fff4df; color: var(--warn); }
+    .pill.bad { background: #ffebeb; color: var(--bad); }
+    .risk-card p { color: var(--muted); margin: 0; font-size: 12px; }
+
+    .recommendations { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .rec-box { padding: 14px; border-radius: 16px; background: #fff; border: 1px solid var(--line); }
+    .rec-box ul { margin: 8px 0 0; padding-left: 17px; color: var(--muted); font-size: 13px; }
+    .small-note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+    @media (max-width: 1100px) {
+      main { grid-template-columns: 1fr; }
+      .controls { position: relative; top: 0; max-height: none; }
+      .top-grid, .risk-grid, .recommendations, .chart-explainer, .chart-header-grid, .stat-grid { grid-template-columns: 1fr; }
+      .stage-flow, .prob-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 700px) {
+      header, main { padding-left: 14px; padding-right: 14px; }
+      .stage-flow, .prob-grid { grid-template-columns: 1fr; }
+      .meter-row { grid-template-columns: 112px 1fr 40px; }
+      .institution-grid { min-width: 1040px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Digital Health Institution Transformation Simulator</h1>
+    <div class="subtitle">
+      Explore the staged Goguen institution structure of a digital health venture moving from fragmented idea-language to learning assurance. The main Monte Carlo output shows stage-transition probability. The combined chart is a histogram of Monte Carlo runs: it counts how many simulated futures land in each score bin.
+    </div>
+  </header>
+
+  <main>
+    <aside class="panel controls">
+      <div class="section-title">
+        <h2>Transformation controls</h2>
+        <span class="hint">live simulation</span>
+      </div>
+
+      <div class="stage-selector" id="stageSelector"></div>
+
+      <div class="slider-group">
+        <h3>Core institutional parameters</h3>
+        <div id="coreControls"></div>
+      </div>
+
+      <div class="slider-group">
+        <h3>Political morphism parameters</h3>
+        <div id="politicalControls"></div>
+      </div>
+
+      <div class="slider-group">
+        <h3>Simulation settings</h3>
+        <div class="control">
+          <label for="runs">Monte Carlo runs <span class="value" id="runsVal">1000</span></label>
+          <p>Higher values smooth the histograms and stabilise stage probabilities.</p>
+          <input type="range" id="runs" min="200" max="5000" step="100" value="1000" />
+        </div>
+        <div class="control">
+          <label for="uncertainty">Environmental volatility <span class="value" id="uncertaintyVal">35</span></label>
+          <p>Regulatory, market and implementation uncertainty affecting all outcomes.</p>
+          <input type="range" id="uncertainty" min="0" max="100" value="35" />
+        </div>
+      </div>
+
+      <div class="mini-buttons">
+        <button class="action" id="advanceBtn">Advance stage</button>
+        <button class="action secondary" id="resetBtn">Reset baseline</button>
+      </div>
+
+      <div class="small-note">
+        Interpret this as a conceptual systems model, not as a predictive regulatory or investment tool.
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <div class="top-grid">
+        <div class="panel card stage-card">
+          <div class="stage-badge" id="stageBadge">I0</div>
+          <div class="stage-title" id="stageTitle"></div>
+          <div class="stage-description" id="stageDescription"></div>
+          <div class="scroll-note">Scroll horizontally to inspect the institution components: signature, sentences, models and satisfaction relation.</div>
+          <div class="institution-scroll">
+            <div class="institution-grid">
+              <div class="institution-box"><h4>Signature</h4><ul id="sigList"></ul></div>
+              <div class="institution-box"><h4>Sentences</h4><ul id="senList"></ul></div>
+              <div class="institution-box"><h4>Models</h4><ul id="modList"></ul></div>
+              <div class="institution-box"><h4>Satisfaction</h4><ul id="satList"></ul></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel card">
+          <div class="section-title">
+            <h2>Current stage outputs</h2>
+            <span class="hint">mean likelihood</span>
+          </div>
+          <div class="meter-list" id="meterList"></div>
+        </div>
+      </div>
+
+      <div class="panel card">
+        <div class="section-title">
+          <h2>Monte Carlo stage-transition probabilities</h2>
+          <span class="hint" id="stageProbSummary">simulating...</span>
+        </div>
+        <p class="small-note">Each card shows the percentage of simulated futures that satisfy the gate for that institution stage.</p>
+        <div class="prob-grid" id="probGrid"></div>
+      </div>
+
+      <div class="panel card canvas-card">
+        <div class="chart-header-grid">
+          <div>
+            <h2>Combined histogram of Monte Carlo outcome scores</h2>
+            <div class="hint" id="summaryText">simulating...</div>
+          </div>
+          <div>
+            <label class="hint" for="outcomeSelect">Highlight one outcome</label>
+            <select id="outcomeSelect">
+              <option value="serviceQuality">Customer service quality</option>
+              <option value="regulatoryReadiness">Regulatory readiness</option>
+              <option value="fundingReadiness">Funding readiness</option>
+              <option value="failureDemandReduction">Failure-demand reduction</option>
+              <option value="customerTrust">Customer trust</option>
+              <option value="transformationSuccess">Transformation success</option>
+              <option value="kickback">Political kick-back / resistance</option>
+            </select>
+          </div>
+        </div>
+        <canvas id="distCanvas" width="1040" height="430"></canvas>
+        <div class="legend" id="legend"></div>
+        <div class="stat-grid" id="statGrid"></div>
+        <div class="chart-explainer">
+          <div class="explain-chip"><strong>It is a histogram, not a density curve</strong>The y-axis counts Monte Carlo runs. It does not show probability density.</div>
+          <div class="explain-chip"><strong>X-axis: score bins</strong>Each point sits above a score range, such as 20–23 or 70–73, not an exact value.</div>
+          <div class="explain-chip"><strong>Highlighted outcome</strong>The selected outcome is drawn strongly; the others remain faint for comparison.</div>
+          <div class="explain-chip"><strong>Zero can be high</strong>Scores are bounded at 0–100, so very poor simulated scores can pile up in the first bin.</div>
+        </div>
+      </div>
+
+      <div class="panel card">
+        <div class="section-title">
+          <h2>Institutional transformation chain</h2>
+          <span class="hint">morphisms show the mechanism of movement</span>
+        </div>
+        <div class="stage-flow" id="stageFlow"></div>
+      </div>
+
+      <div class="panel card">
+        <div class="section-title">
+          <h2>Risk and kick-back map</h2>
+          <span class="hint">political morphism stress points</span>
+        </div>
+        <div class="risk-grid" id="riskGrid"></div>
+      </div>
+
+      <div class="panel card">
+        <div class="section-title">
+          <h2>How to effect the next stage</h2>
+          <span class="hint">action logic from the institution</span>
+        </div>
+        <div class="recommendations" id="recommendations"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const stages = [
+      { id: "I0", name: "Fragmented Idea Institution", short: "Fragmented idea", description: "The venture has energy, a prototype or compelling founder narrative, but lacks clear distinctions between product, service, clinical claim, evidence, regulation and market access.", signature: ["Founder", "Idea", "Prototype", "Claim", "Pitch", "Risk"], sentences: ["Promising idea implies worth building", "Evidence can be added later", "Regulation is treated as external obstacle"], models: ["MVP exists", "intended purpose unclear", "reactive documentation", "investor story ahead of assurance"], satisfaction: ["Founder confidence", "market potential", "weak test of clinical safety"], outputLabel: "Prototype and founder narrative", morphism: "μ01: introduce value demand / failure demand distinction", nextActions: ["Study repeated questions from buyers, investors and clinicians as data", "Separate value demand from failure demand", "List every ambiguity that produces rework", "Reframe assurance as customer trust rather than bureaucracy"] },
+      { id: "I1", name: "Failure-Demand Recognition Institution", short: "Failure demand visible", description: "The organisation recognises that repeated contacts, clarification requests, complaints, investor hesitation and regulatory rework are not random noise but signals of system design failure.", signature: ["Demand", "ValueDemand", "FailureDemand", "Rework", "ClarificationRequest", "CustomerPurpose"], sentences: ["Failure demand is caused by system design", "Ambiguity creates avoidable demand", "Demand visible means redesign possible"], models: ["buyer questions classified", "rework traced to causes", "customer purpose mapped", "ambiguity made visible"], satisfaction: ["demand classified", "causes traced", "organisation accepts system responsibility"], outputLabel: "Failure-demand map", morphism: "μ12: map failure demand into assurance gaps", nextActions: ["Map each failure-demand source to an assurance domain", "Quantify the cost of repeated explanations and remediation", "Identify intended-purpose gaps", "Assign owners for clinical, regulatory, data, evidence and commercial assurance"] },
+      { id: "I2", name: "Assurance Mapping Institution", short: "Assurance mapped", description: "The venture builds an integrated assurance map covering intended purpose, MHRA classification, clinical safety, CQC/DTAC readiness, evidence, data, security, workforce and marketing claims.", signature: ["IntendedPurpose", "RegulatoryClassification", "ClinicalSafetyCase", "EvidencePlan", "DTACRequirement", "InvestorPack"], sentences: ["Clear intended purpose enables classification", "Hazard log plus safety case manages risk", "Evidence plan increases buyer confidence"], models: ["assurance domains identified", "gap map created", "roadmap assigned", "claims reviewed"], satisfaction: ["all assurance domains owned", "risks linked to customer consequences", "market access linked to assurance"], outputLabel: "Assurance gap map and regulatory route", morphism: "μ23: embed assurance into service workflow", nextActions: ["Turn assurance gaps into redesign requirements", "Build clinical controls into the actual workflow", "Create routine evidence-capture points", "Protect redesign time from commercial pressure"] },
+      { id: "I3", name: "Service Redesign Institution", short: "Service redesigned", description: "Assurance becomes operational. Clinical safety, evidence capture, credentialing, claim control and feedback loops are embedded into the work rather than kept as external paperwork.", signature: ["Workflow", "ControlPoint", "FeedbackLoop", "EvidenceCapturePoint", "EscalationRule", "FailureDemandMetric"], sentences: ["Workflow around purpose improves value demand", "Embedded controls reduce risk in use", "Audit, incidents and complaints feed learning"], models: ["hazard controls in workflow", "failure demand measured", "credentialing embedded", "claims controlled before publication"], satisfaction: ["controls alter real work", "evidence captured routinely", "customer quality improves"], outputLabel: "Redesigned service workflows", morphism: "μ34: translate redesigned work into external confidence", nextActions: ["Convert workflow evidence into a reusable evidence pack", "Align pitch deck and procurement responses with real assurance", "Prepare a buyer question bank", "Distinguish current readiness from future roadmap"] },
+      { id: "I4", name: "Market-Readiness Institution", short: "Market ready", description: "The organisation can credibly describe, evidence and manage its risks. It becomes legible to patients, clinicians, buyers, investors, regulators and partners.", signature: ["EvidencePack", "InvestorPack", "ClinicalSafetyFile", "RegulatoryRationale", "ProcurementResponse", "ScalePlan"], sentences: ["Evidence pack increases buyer confidence", "Regulatory rationale increases regulatory confidence", "Scale plan plus board reporting enables responsible scaling"], models: ["investor pack aligned", "procurement response prepared", "quality improvement evidence available", "board reporting active"], satisfaction: ["external narratives match actual maturity", "risk explicit and monitored", "customer benefit evidenced"], outputLabel: "Market-readiness evidence and confidence", morphism: "μ45: convert market readiness into learning assurance", nextActions: ["Treat scale as a new source of demand", "Maintain a live risk register", "Update clinical safety after product/service changes", "Keep board attention on learning, not only growth"] },
+      { id: "I5", name: "Learning Assurance Institution", short: "Learning assurance", description: "Assurance is recursive and adaptive. The organisation continuously studies demand, evidence, incidents, complaints, regulatory change, workforce risk and customer experience.", signature: ["LivingEvidenceSystem", "AdaptiveRiskSystem", "GovernanceLearningLoop", "FailureDemandDashboard", "ClinicalSafetyReview", "RegulatoryMonitoringSystem"], sentences: ["Continuous demand measurement reduces failure demand", "Evidence updates keep claims justified", "Board learning loop sustains organisational attention"], models: ["living evidence system", "adaptive risk register", "regulatory monitoring", "incident and complaint learning"], satisfaction: ["failure demand falling", "clinical risk managed", "regulatory readiness maintained", "quality improving"], outputLabel: "Continuous learning assurance system", morphism: "recursive: learning updates the whole institution", nextActions: ["Review assurance after every material change", "Continue measuring failure demand", "Renew claims against evidence", "Use new incidents, complaints and audits to redesign service"] }
+    ];
+
+    const outcomeMeta = {
+      serviceQuality: { label: "Customer service quality", color: "#1c8f5a", higherBetter: true },
+      regulatoryReadiness: { label: "Regulatory readiness", color: "#315dff", higherBetter: true },
+      fundingReadiness: { label: "Funding readiness", color: "#c47a00", higherBetter: true },
+      failureDemandReduction: { label: "Failure-demand reduction", color: "#7a4fd8", higherBetter: true },
+      customerTrust: { label: "Customer trust", color: "#00a0a8", higherBetter: true },
+      transformationSuccess: { label: "Transformation success", color: "#111827", higherBetter: true },
+      kickback: { label: "Political kick-back / resistance", color: "#c93636", higherBetter: false }
+    };
+
+    const coreParams = [
+      { key: "purposeClarity", label: "Intended-purpose clarity", desc: "How clearly the service distinguishes information, triage, advice, diagnosis, treatment and claims.", value: 35 },
+      { key: "demandStudy", label: "Demand-study maturity", desc: "Extent to which repeated contacts and rework are studied as system signals.", value: 30 },
+      { key: "clinicalSafety", label: "Clinical safety integration", desc: "Strength of hazard logs, clinical safety cases, escalation rules and real workflow controls.", value: 28 },
+      { key: "evidencePlan", label: "Evidence and evaluation strength", desc: "Quality of evidence strategy, outcome measures and routine evidence capture.", value: 32 },
+      { key: "regulatoryReadiness", label: "Regulatory-route clarity", desc: "Preparedness for MHRA, CQC, DTAC, data protection, cyber security and related obligations.", value: 26 },
+      { key: "workflowEmbedding", label: "Workflow embedding", desc: "Extent to which assurance is built into daily work rather than existing as external paperwork.", value: 25 },
+      { key: "marketNarrative", label: "Market narrative discipline", desc: "Alignment between claims, pitch deck, procurement story and actual evidence maturity.", value: 34 },
+      { key: "learningLoop", label: "Learning-loop strength", desc: "Board-level and operational ability to update risk, evidence and service design over time.", value: 22 }
+    ];
+
+    const politicalParams = [
+      { key: "founderDefensiveness", label: "Founder defensiveness", desc: "Resistance to seeing ambiguity as a system problem rather than criticism of the idea.", value: 48 },
+      { key: "commercialPressure", label: "Commercial growth pressure", desc: "Pressure to pitch, sell or scale faster than assurance and service redesign can support.", value: 62 },
+      { key: "marketingOverclaim", label: "Marketing overclaim pressure", desc: "Likelihood that claims exceed intended purpose, evidence or regulatory classification.", value: 55 },
+      { key: "clinicalAutonomyConflict", label: "Clinical autonomy conflict", desc: "Resistance where governance is experienced as control rather than safer work design.", value: 42 },
+      { key: "boardMandate", label: "Board mandate for assurance", desc: "Leadership support for redesign, documentation, evidence and slower-but-safer growth.", value: 44 },
+      { key: "crossFunctionalTrust", label: "Cross-functional trust", desc: "Capacity for product, clinical, commercial, compliance and investor voices to work together.", value: 38 }
+    ];
+
+    const state = { stage: 0, params: {}, runs: 1000, uncertainty: 35, selectedOutcome: "regulatoryReadiness", lastSim: null };
+    [...coreParams, ...politicalParams].forEach(p => state.params[p.key] = p.value);
+
+    const stageSelector = document.getElementById("stageSelector");
+    const coreControls = document.getElementById("coreControls");
+    const politicalControls = document.getElementById("politicalControls");
+    const meterList = document.getElementById("meterList");
+    const canvas = document.getElementById("distCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function clamp(x, lo=0, hi=100) { return Math.max(lo, Math.min(hi, x)); }
+    function avg(...xs) { return xs.reduce((a,b)=>a+b,0) / xs.length; }
+    function randn() { let u=0,v=0; while(u===0)u=Math.random(); while(v===0)v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+    function percentile(values, p) { const a=[...values].sort((x,y)=>x-y); const idx=(a.length-1)*p; const lo=Math.floor(idx), hi=Math.ceil(idx); return lo===hi?a[lo]:a[lo]+(a[hi]-a[lo])*(idx-lo); }
+
+    function makeControl(container, p) {
+      const wrap = document.createElement("div");
+      wrap.className = "control";
+      wrap.innerHTML = `<label for="${p.key}">${p.label}<span class="value" id="${p.key}Val">${state.params[p.key]}</span></label><p>${p.desc}</p><input type="range" id="${p.key}" min="0" max="100" value="${state.params[p.key]}" />`;
+      container.appendChild(wrap);
+      const input = wrap.querySelector("input");
+      input.addEventListener("input", () => { state.params[p.key] = Number(input.value); document.getElementById(`${p.key}Val`).textContent = input.value; render(); });
+    }
+
+    function initControls() {
+      stages.forEach((s, idx) => {
+        const b = document.createElement("button");
+        b.className = "stage-button";
+        b.innerHTML = `<span class="num">${s.id}</span><span class="name">${s.short}</span>`;
+        b.addEventListener("click", () => { state.stage = idx; render(); });
+        stageSelector.appendChild(b);
+      });
+      coreParams.forEach(p => makeControl(coreControls, p));
+      politicalParams.forEach(p => makeControl(politicalControls, p));
+      document.getElementById("runs").addEventListener("input", e => { state.runs = Number(e.target.value); document.getElementById("runsVal").textContent = state.runs; render(); });
+      document.getElementById("uncertainty").addEventListener("input", e => { state.uncertainty = Number(e.target.value); document.getElementById("uncertaintyVal").textContent = state.uncertainty; render(); });
+      document.getElementById("outcomeSelect").addEventListener("change", e => { state.selectedOutcome = e.target.value; render(); });
+      document.getElementById("advanceBtn").addEventListener("click", () => {
+        state.stage = Math.min(stages.length - 1, state.stage + 1);
+        ["purposeClarity", "demandStudy", "clinicalSafety", "evidencePlan", "regulatoryReadiness", "workflowEmbedding", "marketNarrative", "learningLoop", "boardMandate", "crossFunctionalTrust"].forEach(k => state.params[k] = clamp(state.params[k] + 6));
+        ["founderDefensiveness", "commercialPressure", "marketingOverclaim", "clinicalAutonomyConflict"].forEach(k => state.params[k] = clamp(state.params[k] - 3));
+        syncSliders(); render();
+      });
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        state.stage = 0; [...coreParams, ...politicalParams].forEach(p => state.params[p.key] = p.value); state.runs = 1000; state.uncertainty = 35; state.selectedOutcome = "regulatoryReadiness";
+        document.getElementById("runs").value = 1000; document.getElementById("runsVal").textContent = "1000";
+        document.getElementById("uncertainty").value = 35; document.getElementById("uncertaintyVal").textContent = "35";
+        document.getElementById("outcomeSelect").value = "regulatoryReadiness";
+        syncSliders(); render();
+      });
+    }
+
+    function syncSliders() { [...coreParams, ...politicalParams].forEach(p => { const input=document.getElementById(p.key); const val=document.getElementById(`${p.key}Val`); if(input) input.value=state.params[p.key]; if(val) val.textContent=Math.round(state.params[p.key]); }); }
+
+    function baseGates(p) {
+      return [
+        avg(p.purposeClarity, p.marketNarrative, 100 - p.marketingOverclaim),
+        avg(p.demandStudy, p.crossFunctionalTrust, 100 - p.founderDefensiveness),
+        avg(p.regulatoryReadiness, p.clinicalSafety, p.evidencePlan, p.boardMandate),
+        avg(p.workflowEmbedding, p.clinicalSafety, p.crossFunctionalTrust, 100 - p.commercialPressure),
+        avg(p.marketNarrative, p.evidencePlan, p.regulatoryReadiness, p.boardMandate),
+        avg(p.learningLoop, p.boardMandate, p.workflowEmbedding, p.demandStudy)
+      ];
+    }
+
+    function stageGate(stage, params) {
+      const gates = baseGates(params);
+      const reached = gates.slice(0, stage + 1).reduce((a,b)=>a+b,0) / (stage + 1);
+      const readinessToNext = stage < 5 ? gates[stage + 1] : gates[5];
+      return { gates, reached, readinessToNext };
+    }
+
+    function computeOne(params, stage) {
+      const p = params;
+      const volatility = state.uncertainty;
+      const noiseScale = 8 + volatility * 0.12;
+      const n = () => randn() * noiseScale;
+      const sg = stageGate(stage, p);
+      const maturity = (stage + 1) / 6 * 100;
+      const politicsBad = avg(p.founderDefensiveness, p.commercialPressure, p.marketingOverclaim, p.clinicalAutonomyConflict, 100 - p.boardMandate, 100 - p.crossFunctionalTrust);
+      const politicsGood = avg(p.boardMandate, p.crossFunctionalTrust, 100 - p.founderDefensiveness, 100 - p.clinicalAutonomyConflict);
+
+      const serviceQuality = clamp(0.22*p.demandStudy + 0.20*p.workflowEmbedding + 0.18*p.clinicalSafety + 0.13*p.purposeClarity + 0.12*p.learningLoop + 0.10*politicsGood + 0.05*maturity - 0.16*p.commercialPressure + n());
+      const regulatoryReadiness = clamp(0.24*p.regulatoryReadiness + 0.18*p.purposeClarity + 0.18*p.clinicalSafety + 0.15*p.evidencePlan + 0.10*p.workflowEmbedding + 0.08*p.boardMandate + 0.07*maturity - 0.14*p.marketingOverclaim + n());
+      const fundingReadiness = clamp(0.22*p.marketNarrative + 0.19*p.evidencePlan + 0.17*regulatoryReadiness + 0.13*serviceQuality + 0.12*p.boardMandate + 0.08*maturity - 0.10*p.founderDefensiveness + n());
+      const kickback = clamp(0.28*politicsBad + 0.17*p.commercialPressure + 0.16*p.marketingOverclaim + 0.13*p.clinicalAutonomyConflict + 0.10*volatility + 0.07*Math.max(0, maturity - avg(p.workflowEmbedding, p.learningLoop)) - 0.18*p.boardMandate - 0.12*p.crossFunctionalTrust + n());
+      const failureDemandReduction = clamp(0.26*p.demandStudy + 0.20*p.workflowEmbedding + 0.16*p.purposeClarity + 0.14*p.clinicalSafety + 0.10*p.learningLoop - 0.22*kickback + 0.08*maturity + n());
+      const customerTrust = clamp(0.23*serviceQuality + 0.18*regulatoryReadiness + 0.16*p.purposeClarity + 0.15*p.evidencePlan + 0.12*failureDemandReduction - 0.14*p.marketingOverclaim + n());
+      const transformationSuccess = clamp(0.20*serviceQuality + 0.18*regulatoryReadiness + 0.17*fundingReadiness + 0.15*failureDemandReduction + 0.10*sg.reached + 0.10*p.learningLoop - 0.20*kickback + n());
+
+      const gateScores = baseGates(p).map((g, i) => clamp(g + n() * 0.65 + (stage >= i ? 4 : 0) - Math.max(0, i - stage) * 3));
+      const stageReached = gateScores.map((g, i) => g >= 60 + i * 2);
+      for (let i=1; i<stageReached.length; i++) stageReached[i] = stageReached[i] && stageReached[i-1];
+
+      return { serviceQuality, regulatoryReadiness, fundingReadiness, kickback, failureDemandReduction, customerTrust, transformationSuccess, readinessToNext: sg.readinessToNext, gateScores, stageReached };
+    }
+
+    function simulate() {
+      const results = [];
+      for (let i = 0; i < state.runs; i++) results.push(computeOne(state.params, state.stage));
+      const keys = ["serviceQuality", "regulatoryReadiness", "fundingReadiness", "kickback", "failureDemandReduction", "customerTrust", "transformationSuccess", "readinessToNext"];
+      const means = {};
+      keys.forEach(k => means[k] = results.reduce((a,r)=>a+r[k],0) / results.length);
+      const stageProbs = stages.map((_, i) => results.filter(r => r.stageReached[i]).length / results.length * 100);
+      return { results, means, stageProbs };
+    }
+
+    function hist(values, bins=36) {
+      const counts = new Array(bins).fill(0);
+      values.forEach(v => { const idx = Math.max(0, Math.min(bins - 1, Math.floor(v / 100 * bins))); counts[idx]++; });
+      return counts;
+    }
+
+    function drawCombinedHistograms(sim) {
+      const keys = Object.keys(outcomeMeta);
+      const selected = state.selectedOutcome;
+      const allHists = keys.map(key => ({ key, meta: outcomeMeta[key], counts: hist(sim.results.map(r => r[key]), 36) }));
+      const maxCount = Math.max(...allHists.flatMap(h => h.counts));
+      const selectedValues = sim.results.map(r => r[selected]);
+      const selectedMean = selectedValues.reduce((a,b)=>a+b,0) / selectedValues.length;
+      const selectedP10 = percentile(selectedValues, 0.10);
+      const selectedP90 = percentile(selectedValues, 0.90);
+
+      const w = canvas.width, h = canvas.height;
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,w,h);
+      const margin = { l: 68, r: 34, t: 28, b: 82 };
+      const plotW = w - margin.l - margin.r;
+      const plotH = h - margin.t - margin.b;
+
+      ctx.strokeStyle = "#dfe4ee"; ctx.lineWidth = 1; ctx.beginPath();
+      for (let i=0;i<=5;i++){ const y=margin.t+plotH*i/5; ctx.moveTo(margin.l,y); ctx.lineTo(w-margin.r,y); }
+      for (let i=0;i<=10;i++){ const x=margin.l+plotW*i/10; ctx.moveTo(x,margin.t); ctx.lineTo(x,h-margin.b); }
+      ctx.stroke();
+
+      const binW = plotW / allHists[0].counts.length;
+
+      // Draw faint non-selected histograms first.
+      allHists.filter(h => h.key !== selected).forEach(hs => {
+        ctx.globalAlpha = 0.11;
+        ctx.fillStyle = hs.meta.color;
+        hs.counts.forEach((c,i)=>{
+          const barH=(c/maxCount)*plotH*0.88;
+          const x=margin.l+i*binW+binW*0.20;
+          ctx.fillRect(x, margin.t+plotH-barH, binW*0.60, barH);
+        });
+        ctx.globalAlpha = 0.30;
+        ctx.beginPath();
+        hs.counts.forEach((c,i)=>{
+          const x=margin.l+i*binW+binW/2;
+          const y=margin.t+plotH-(c/maxCount)*plotH*0.88;
+          if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        });
+        ctx.strokeStyle = hs.meta.color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      });
+
+      // Selected likely range band.
+      const x10 = margin.l + plotW * selectedP10 / 100;
+      const x90 = margin.l + plotW * selectedP90 / 100;
+      ctx.globalAlpha = 0.11;
+      ctx.fillStyle = outcomeMeta[selected].color;
+      ctx.fillRect(x10, margin.t, x90 - x10, plotH);
+      ctx.globalAlpha = 1;
+
+      // Draw selected histogram strongly.
+      const selectedHist = allHists.find(h => h.key === selected);
+      ctx.globalAlpha = 0.24;
+      ctx.fillStyle = selectedHist.meta.color;
+      selectedHist.counts.forEach((c,i)=>{
+        const barH=(c/maxCount)*plotH*0.90;
+        const x=margin.l+i*binW+binW*0.10;
+        ctx.fillRect(x, margin.t+plotH-barH, binW*0.80, barH);
+      });
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      selectedHist.counts.forEach((c,i)=>{
+        const x=margin.l+i*binW+binW/2;
+        const y=margin.t+plotH-(c/maxCount)*plotH*0.90;
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.strokeStyle = selectedHist.meta.color;
+      ctx.lineWidth = 4;
+      ctx.stroke();
+      selectedHist.counts.forEach((c,i)=>{
+        const x=margin.l+i*binW+binW/2;
+        const y=margin.t+plotH-(c/maxCount)*plotH*0.90;
+        ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle=selectedHist.meta.color; ctx.fill();
+      });
+
+      // Mean and threshold lines.
+      const xMean = margin.l + plotW * selectedMean / 100;
+      ctx.setLineDash([5,5]); ctx.strokeStyle = "#172033"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(xMean, margin.t); ctx.lineTo(xMean, h-margin.b); ctx.stroke();
+      ctx.setLineDash([]); ctx.fillStyle = "#172033"; ctx.font = "12px Inter, sans-serif"; ctx.fillText(`highlight mean ${Math.round(selectedMean)}`, xMean + 6, margin.t + 16);
+
+      const robustX = margin.l + plotW * 0.70;
+      ctx.setLineDash([6,6]); ctx.strokeStyle = "#9aa5ba"; ctx.beginPath(); ctx.moveTo(robustX, margin.t); ctx.lineTo(robustX, h-margin.b); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = "#687184"; ctx.fillText(selectedHist.meta.higherBetter ? "70: robust threshold" : "70: high-risk threshold", robustX + 8, margin.t + 34);
+
+      ctx.strokeStyle = "#172033"; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(margin.l, margin.t); ctx.lineTo(margin.l, h-margin.b); ctx.lineTo(w-margin.r, h-margin.b); ctx.stroke();
+      ctx.fillStyle = "#687184"; ctx.font = "12px Inter, sans-serif";
+      ctx.fillText("0", margin.l - 5, h - margin.b + 22);
+      ctx.fillText("50", margin.l + plotW/2 - 8, h - margin.b + 22);
+      ctx.fillText("100", w - margin.r - 26, h - margin.b + 22);
+      ctx.fillText("Simulated outcome score bin: each bin counts how many Monte Carlo runs landed in that score range", margin.l, h - 24);
+      ctx.fillText("These are frequency histograms, not probability-density curves and not time-series lines", margin.l, h - 8);
+      ctx.save(); ctx.translate(18, margin.t + plotH / 2 + 84); ctx.rotate(-Math.PI/2); ctx.fillText("Number of Monte Carlo runs in each score bin", 0, 0); ctx.restore();
+    }
+
+    function renderStats(sim) {
+      const key = state.selectedOutcome;
+      const meta = outcomeMeta[key];
+      const values = sim.results.map(r => r[key]);
+      const mean = values.reduce((a,b)=>a+b,0)/values.length;
+      const p10 = percentile(values,0.10);
+      const p90 = percentile(values,0.90);
+      const chance = meta.higherBetter ? values.filter(v=>v>=70).length/values.length*100 : values.filter(v=>v<=40).length/values.length*100;
+      const chanceLabel = meta.higherBetter ? "Chance of robust score ≥70" : "Chance of low kick-back ≤40";
+      const zeroPile = values.filter(v => v <= 1).length / values.length * 100;
+      const grid = document.getElementById("statGrid");
+      grid.innerHTML = `
+        <div class="stat-box"><strong>${Math.round(mean)}</strong><span>Highlighted mean score</span></div>
+        <div class="stat-box"><strong>${Math.round(p10)}–${Math.round(p90)}</strong><span>Highlighted likely range, 10th–90th percentile</span></div>
+        <div class="stat-box"><strong>${Math.round(chance)}%</strong><span>${chanceLabel}</span></div>
+        <div class="stat-box"><strong>${Math.round(zeroPile)}%</strong><span>Highlighted runs in the lowest bin</span></div>
+      `;
+      document.getElementById("summaryText").textContent = `${meta.label} highlighted: mean ${Math.round(mean)}, likely range ${Math.round(p10)}–${Math.round(p90)} across ${state.runs} Monte Carlo runs`;
+    }
+
+    function renderLegend() {
+      const el = document.getElementById("legend");
+      el.innerHTML = "";
+      Object.entries(outcomeMeta).forEach(([key, meta]) => {
+        const span = document.createElement("span");
+        const weight = key === state.selectedOutcome ? "font-weight:900;color:#172033" : "";
+        span.innerHTML = `<i class="dot" style="background:${meta.color}"></i><span style="${weight}">${meta.label}${key === state.selectedOutcome ? " (highlighted)" : ""}</span>`;
+        el.appendChild(span);
+      });
+    }
+
+    function fillList(id, arr) { const el=document.getElementById(id); el.innerHTML=""; arr.forEach(x=>{ const li=document.createElement("li"); li.textContent=x; el.appendChild(li); }); }
+
+    function renderStageInfo() {
+      const s = stages[state.stage];
+      document.getElementById("stageBadge").textContent = `${s.id} · ${s.outputLabel}`;
+      document.getElementById("stageTitle").textContent = s.name;
+      document.getElementById("stageDescription").textContent = s.description;
+      fillList("sigList", s.signature); fillList("senList", s.sentences); fillList("modList", s.models); fillList("satList", s.satisfaction);
+      [...stageSelector.children].forEach((b,i)=>b.classList.toggle("active", i===state.stage));
+    }
+
+    function meterClass(key, val) { if (key === "kickback") return val > 65 ? "bad" : val > 40 ? "warn" : "good"; return val > 70 ? "good" : val > 45 ? "warn" : "bad"; }
+
+    function renderMeters(means) {
+      const rows = [["Service quality","serviceQuality"],["Regulatory readiness","regulatoryReadiness"],["Funding readiness","fundingReadiness"],["Failure demand reduction","failureDemandReduction"],["Customer trust","customerTrust"],["Transformation success","transformationSuccess"],["Readiness for next stage","readinessToNext"],["Political kick-back","kickback"]];
+      meterList.innerHTML = "";
+      rows.forEach(([label,key])=>{ const val=clamp(means[key]||0); const klass=meterClass(key,val); const row=document.createElement("div"); row.className="meter-row"; row.innerHTML=`<div>${label}</div><div class="bar"><div class="fill ${klass}" style="width:${val}%"></div></div><div class="score">${Math.round(val)}</div>`; meterList.appendChild(row); });
+    }
+
+    function renderProbGrid(sim) {
+      const grid = document.getElementById("probGrid");
+      grid.innerHTML = "";
+      stages.forEach((s,i)=>{
+        const prob = sim.stageProbs[i];
+        const klass = prob > 70 ? "good" : prob > 40 ? "warn" : "bad";
+        const card = document.createElement("div");
+        card.className = "prob-card" + (i===state.stage ? " active" : "");
+        card.innerHTML = `<h3>${s.id}: ${s.short}</h3><div class="prob-num">${Math.round(prob)}%</div><div class="bar"><div class="fill ${klass}" style="width:${prob}%"></div></div><p style="margin-top:8px">Simulated futures satisfying this stage gate</p>`;
+        grid.appendChild(card);
+      });
+      const currentProb = Math.round(sim.stageProbs[state.stage]);
+      const nextProb = state.stage < 5 ? Math.round(sim.stageProbs[state.stage+1]) : currentProb;
+      document.getElementById("stageProbSummary").textContent = state.stage < 5 ? `current stage ${currentProb}%; next stage ${nextProb}%` : `learning assurance ${currentProb}%`;
+    }
+
+    function renderFlow() {
+      const flow=document.getElementById("stageFlow"); flow.innerHTML=""; const gates=stageGate(state.stage,state.params).gates;
+      stages.forEach((s,i)=>{ const node=document.createElement("div"); node.className="flow-node"; if(i===state.stage)node.classList.add("active"); if(i<=state.stage||gates[i]>68)node.classList.add("reached"); node.innerHTML=`<h3>${s.id}: ${s.short}</h3><p>${s.morphism}</p><div class="bar" style="margin-top:10px"><div class="fill ${gates[i]>70?'good':gates[i]>45?'warn':'bad'}" style="width:${gates[i]}%"></div></div><p style="margin-top:6px">Gate strength: ${Math.round(gates[i])}</p>`; node.addEventListener("click",()=>{state.stage=i; render();}); flow.appendChild(node); });
+    }
+
+    function riskLevel(value, inverse=false) { const v=inverse?value:100-value; if(v>65)return["High","bad"]; if(v>38)return["Medium","warn"]; return["Low","good"]; }
+
+    function renderRisks() {
+      const p=state.params;
+      const items=[
+        {title:"Founder identity kick-back",score:p.founderDefensiveness,direct:true,text:"Assurance may be experienced as criticism of the idea rather than as a route to customer trust. Mitigate through demand evidence and critical-friend framing."},
+        {title:"Commercial shortcut risk",score:p.commercialPressure,direct:true,text:"Growth pressure can suppress redesign time, leading to market promises that outrun clinical safety, evidence and regulatory readiness."},
+        {title:"Marketing overclaim risk",score:p.marketingOverclaim,direct:true,text:"Claims may exceed intended purpose or evidence, creating MHRA, buyer, regulator and trust problems."},
+        {title:"Clinical governance conflict",score:p.clinicalAutonomyConflict,direct:true,text:"Clinicians may resist governance if controls feel imposed rather than co-designed around safer work."},
+        {title:"Board mandate weakness",score:p.boardMandate,direct:false,text:"Without visible leadership support, assurance remains paperwork rather than a redesign mandate."},
+        {title:"Learning-loop decay",score:p.learningLoop,direct:false,text:"Without continuous learning, market-readiness becomes stale; evidence, claims and risk controls decay as the service scales."}
+      ];
+      const grid=document.getElementById("riskGrid"); grid.innerHTML="";
+      items.forEach(item=>{ const [level,klass]=item.direct?riskLevel(item.score,true):riskLevel(item.score,false); const card=document.createElement("div"); card.className="risk-card"; card.innerHTML=`<div class="risk-head"><h3>${item.title}</h3><span class="pill ${klass}">${level}</span></div><div class="bar" style="margin-bottom:9px"><div class="fill ${klass}" style="width:${item.direct?item.score:100-item.score}%"></div></div><p>${item.text}</p>`; grid.appendChild(card); });
+    }
+
+    function renderRecommendations() {
+      const s=stages[state.stage], p=state.params, rec=document.getElementById("recommendations"); rec.innerHTML="";
+      const weak=[];
+      if(p.purposeClarity<55)weak.push("Clarify intended purpose before expanding claims or features.");
+      if(p.demandStudy<55)weak.push("Study repeated customer, buyer and investor contacts as failure-demand signals.");
+      if(p.clinicalSafety<55)weak.push("Build hazard controls, escalation rules and clinical safety review into workflow.");
+      if(p.evidencePlan<55)weak.push("Create a staged evidence plan with routine evidence-capture points.");
+      if(p.regulatoryReadiness<55)weak.push("Map MHRA/CQC/DTAC/data/security obligations to named owners.");
+      if(p.workflowEmbedding<55)weak.push("Move assurance from documents into daily operational controls.");
+      if(p.boardMandate<55)weak.push("Secure a board-level mandate that protects redesign time.");
+      if(p.crossFunctionalTrust<55)weak.push("Create a cross-functional assurance forum across product, clinical, commercial and compliance teams.");
+      if(p.marketingOverclaim>45)weak.push("Introduce claim discipline: every claim should map to intended purpose and evidence.");
+      if(p.commercialPressure>60)weak.push("Rebalance growth targets with right-first-time service quality measures.");
+      const box1=document.createElement("div"); box1.className="rec-box"; box1.innerHTML=`<h3>To move from ${s.id}</h3><ul>${s.nextActions.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+      const box2=document.createElement("div"); box2.className="rec-box"; box2.innerHTML=`<h3>Most important current mitigations</h3><ul>${(weak.length?weak.slice(0,6):["The current configuration is comparatively robust. Maintain measurement, claim discipline and learning review as the system scales."]).map(x=>`<li>${x}</li>`).join("")}</ul>`;
+      rec.appendChild(box1); rec.appendChild(box2);
+    }
+
+    let renderTimer = null;
+    function render() {
+      renderStageInfo();
+      if (renderTimer) clearTimeout(renderTimer);
+      renderTimer = setTimeout(() => {
+        const sim = simulate(); state.lastSim = sim;
+        renderMeters(sim.means); renderProbGrid(sim); drawCombinedHistograms(sim); renderLegend(); renderStats(sim); renderFlow(); renderRisks(); renderRecommendations();
+      }, 30);
+    }
+
+    initControls();
+    render();
+  </script>
+</body>
+</html>
