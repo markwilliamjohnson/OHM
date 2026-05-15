@@ -590,7 +590,11 @@
       wrap.innerHTML = `<label for="${p.key}">${p.label}<span class="value" id="${p.key}Val">${state.params[p.key]}</span></label><p>${p.desc}</p><input type="range" id="${p.key}" min="0" max="100" value="${state.params[p.key]}" />`;
       container.appendChild(wrap);
       const input = wrap.querySelector("input");
-      input.addEventListener("input", () => { state.params[p.key] = Number(input.value); document.getElementById(`${p.key}Val`).textContent = input.value; render(); });
+      input.addEventListener("input", () => {
+        state.params[p.key] = Number(input.value);
+        document.getElementById(`${p.key}Val`).textContent = input.value;
+        render();
+      });
     }
 
     function initControls() {
@@ -598,30 +602,111 @@
         const b = document.createElement("button");
         b.className = "stage-button";
         b.innerHTML = `<span class="num">${s.id}</span><span class="name">${s.short}</span>`;
-        b.addEventListener("click", () => { state.stage = idx; render(); });
+
+        // Clicking a top stage button now moves through the transformation chain,
+        // shifting the institutional parameters in the same way as Advance stage.
+        b.addEventListener("click", () => {
+          moveToStage(idx);
+        });
+
         stageSelector.appendChild(b);
       });
+
       coreParams.forEach(p => makeControl(coreControls, p));
       politicalParams.forEach(p => makeControl(politicalControls, p));
-      document.getElementById("runs").addEventListener("input", e => { state.runs = Number(e.target.value); document.getElementById("runsVal").textContent = state.runs; render(); });
-      document.getElementById("uncertainty").addEventListener("input", e => { state.uncertainty = Number(e.target.value); document.getElementById("uncertaintyVal").textContent = state.uncertainty; render(); });
-      document.getElementById("outcomeSelect").addEventListener("change", e => { state.selectedOutcome = e.target.value; render(); });
-      document.getElementById("advanceBtn").addEventListener("click", () => {
-        state.stage = Math.min(stages.length - 1, state.stage + 1);
-        ["purposeClarity", "demandStudy", "clinicalSafety", "evidencePlan", "regulatoryReadiness", "workflowEmbedding", "marketNarrative", "learningLoop", "boardMandate", "crossFunctionalTrust"].forEach(k => state.params[k] = clamp(state.params[k] + 6));
-        ["founderDefensiveness", "commercialPressure", "marketingOverclaim", "clinicalAutonomyConflict"].forEach(k => state.params[k] = clamp(state.params[k] - 3));
-        syncSliders(); render();
+
+      document.getElementById("runs").addEventListener("input", e => {
+        state.runs = Number(e.target.value);
+        document.getElementById("runsVal").textContent = state.runs;
+        render();
       });
+
+      document.getElementById("uncertainty").addEventListener("input", e => {
+        state.uncertainty = Number(e.target.value);
+        document.getElementById("uncertaintyVal").textContent = state.uncertainty;
+        render();
+      });
+
+      document.getElementById("outcomeSelect").addEventListener("change", e => {
+        state.selectedOutcome = e.target.value;
+        render();
+      });
+
+      document.getElementById("advanceBtn").addEventListener("click", () => {
+        moveToStage(Math.min(stages.length - 1, state.stage + 1));
+      });
+
       document.getElementById("resetBtn").addEventListener("click", () => {
-        state.stage = 0; [...coreParams, ...politicalParams].forEach(p => state.params[p.key] = p.value); state.runs = 1000; state.uncertainty = 35; state.selectedOutcome = "regulatoryReadiness";
-        document.getElementById("runs").value = 1000; document.getElementById("runsVal").textContent = "1000";
-        document.getElementById("uncertainty").value = 35; document.getElementById("uncertaintyVal").textContent = "35";
+        state.stage = 0;
+        [...coreParams, ...politicalParams].forEach(p => state.params[p.key] = p.value);
+        state.runs = 1000;
+        state.uncertainty = 35;
+        state.selectedOutcome = "regulatoryReadiness";
+        document.getElementById("runs").value = 1000;
+        document.getElementById("runsVal").textContent = "1000";
+        document.getElementById("uncertainty").value = 35;
+        document.getElementById("uncertaintyVal").textContent = "35";
         document.getElementById("outcomeSelect").value = "regulatoryReadiness";
-        syncSliders(); render();
+        syncSliders();
+        render();
       });
     }
 
-    function syncSliders() { [...coreParams, ...politicalParams].forEach(p => { const input=document.getElementById(p.key); const val=document.getElementById(`${p.key}Val`); if(input) input.value=state.params[p.key]; if(val) val.textContent=Math.round(state.params[p.key]); }); }
+    function syncSliders() {
+      [...coreParams, ...politicalParams].forEach(p => {
+        const input = document.getElementById(p.key);
+        const val = document.getElementById(`${p.key}Val`);
+        if (input) input.value = state.params[p.key];
+        if (val) val.textContent = Math.round(state.params[p.key]);
+      });
+    }
+
+    // This is the central change.
+    // Stage buttons and transformation-chain nodes no longer merely select a display level.
+    // They apply the same kind of institutional maturation or regression as Advance stage.
+    function moveToStage(targetStage) {
+      const oldStage = state.stage;
+      const boundedTarget = Math.max(0, Math.min(stages.length - 1, targetStage));
+      const stepDelta = boundedTarget - oldStage;
+
+      if (stepDelta === 0) {
+        render();
+        return;
+      }
+
+      state.stage = boundedTarget;
+
+      const positiveKeys = [
+        "purposeClarity",
+        "demandStudy",
+        "clinicalSafety",
+        "evidencePlan",
+        "regulatoryReadiness",
+        "workflowEmbedding",
+        "marketNarrative",
+        "learningLoop",
+        "boardMandate",
+        "crossFunctionalTrust"
+      ];
+
+      const resistanceKeys = [
+        "founderDefensiveness",
+        "commercialPressure",
+        "marketingOverclaim",
+        "clinicalAutonomyConflict"
+      ];
+
+      positiveKeys.forEach(k => {
+        state.params[k] = clamp(state.params[k] + stepDelta * 6);
+      });
+
+      resistanceKeys.forEach(k => {
+        state.params[k] = clamp(state.params[k] - stepDelta * 3);
+      });
+
+      syncSliders();
+      render();
+    }
 
     function baseGates(p) {
       return [
@@ -678,7 +763,10 @@
 
     function hist(values, bins=36) {
       const counts = new Array(bins).fill(0);
-      values.forEach(v => { const idx = Math.max(0, Math.min(bins - 1, Math.floor(v / 100 * bins))); counts[idx]++; });
+      values.forEach(v => {
+        const idx = Math.max(0, Math.min(bins - 1, Math.floor(v / 100 * bins)));
+        counts[idx]++;
+      });
       return counts;
     }
 
@@ -694,19 +782,29 @@
 
       const w = canvas.width, h = canvas.height;
       ctx.clearRect(0,0,w,h);
-      ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,w,h);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0,0,w,h);
       const margin = { l: 68, r: 34, t: 28, b: 82 };
       const plotW = w - margin.l - margin.r;
       const plotH = h - margin.t - margin.b;
 
-      ctx.strokeStyle = "#dfe4ee"; ctx.lineWidth = 1; ctx.beginPath();
-      for (let i=0;i<=5;i++){ const y=margin.t+plotH*i/5; ctx.moveTo(margin.l,y); ctx.lineTo(w-margin.r,y); }
-      for (let i=0;i<=10;i++){ const x=margin.l+plotW*i/10; ctx.moveTo(x,margin.t); ctx.lineTo(x,h-margin.b); }
+      ctx.strokeStyle = "#dfe4ee";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i=0;i<=5;i++) {
+        const y=margin.t+plotH*i/5;
+        ctx.moveTo(margin.l,y);
+        ctx.lineTo(w-margin.r,y);
+      }
+      for (let i=0;i<=10;i++) {
+        const x=margin.l+plotW*i/10;
+        ctx.moveTo(x,margin.t);
+        ctx.lineTo(x,h-margin.b);
+      }
       ctx.stroke();
 
       const binW = plotW / allHists[0].counts.length;
 
-      // Draw faint non-selected histograms first.
       allHists.filter(h => h.key !== selected).forEach(hs => {
         ctx.globalAlpha = 0.11;
         ctx.fillStyle = hs.meta.color;
@@ -728,7 +826,6 @@
         ctx.globalAlpha = 1;
       });
 
-      // Selected likely range band.
       const x10 = margin.l + plotW * selectedP10 / 100;
       const x90 = margin.l + plotW * selectedP90 / 100;
       ctx.globalAlpha = 0.11;
@@ -736,7 +833,6 @@
       ctx.fillRect(x10, margin.t, x90 - x10, plotH);
       ctx.globalAlpha = 1;
 
-      // Draw selected histogram strongly.
       const selectedHist = allHists.find(h => h.key === selected);
       ctx.globalAlpha = 0.24;
       ctx.fillStyle = selectedHist.meta.color;
@@ -758,27 +854,55 @@
       selectedHist.counts.forEach((c,i)=>{
         const x=margin.l+i*binW+binW/2;
         const y=margin.t+plotH-(c/maxCount)*plotH*0.90;
-        ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle=selectedHist.meta.color; ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x,y,3,0,Math.PI*2);
+        ctx.fillStyle=selectedHist.meta.color;
+        ctx.fill();
       });
 
-      // Mean and threshold lines.
       const xMean = margin.l + plotW * selectedMean / 100;
-      ctx.setLineDash([5,5]); ctx.strokeStyle = "#172033"; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.moveTo(xMean, margin.t); ctx.lineTo(xMean, h-margin.b); ctx.stroke();
-      ctx.setLineDash([]); ctx.fillStyle = "#172033"; ctx.font = "12px Inter, sans-serif"; ctx.fillText(`highlight mean ${Math.round(selectedMean)}`, xMean + 6, margin.t + 16);
+      ctx.setLineDash([5,5]);
+      ctx.strokeStyle = "#172033";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(xMean, margin.t);
+      ctx.lineTo(xMean, h-margin.b);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#172033";
+      ctx.font = "12px Inter, sans-serif";
+      ctx.fillText(`highlight mean ${Math.round(selectedMean)}`, xMean + 6, margin.t + 16);
 
       const robustX = margin.l + plotW * 0.70;
-      ctx.setLineDash([6,6]); ctx.strokeStyle = "#9aa5ba"; ctx.beginPath(); ctx.moveTo(robustX, margin.t); ctx.lineTo(robustX, h-margin.b); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle = "#687184"; ctx.fillText(selectedHist.meta.higherBetter ? "70: robust threshold" : "70: high-risk threshold", robustX + 8, margin.t + 34);
+      ctx.setLineDash([6,6]);
+      ctx.strokeStyle = "#9aa5ba";
+      ctx.beginPath();
+      ctx.moveTo(robustX, margin.t);
+      ctx.lineTo(robustX, h-margin.b);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#687184";
+      ctx.fillText(selectedHist.meta.higherBetter ? "70: robust threshold" : "70: high-risk threshold", robustX + 8, margin.t + 34);
 
-      ctx.strokeStyle = "#172033"; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(margin.l, margin.t); ctx.lineTo(margin.l, h-margin.b); ctx.lineTo(w-margin.r, h-margin.b); ctx.stroke();
-      ctx.fillStyle = "#687184"; ctx.font = "12px Inter, sans-serif";
+      ctx.strokeStyle = "#172033";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(margin.l, margin.t);
+      ctx.lineTo(margin.l, h-margin.b);
+      ctx.lineTo(w-margin.r, h-margin.b);
+      ctx.stroke();
+      ctx.fillStyle = "#687184";
+      ctx.font = "12px Inter, sans-serif";
       ctx.fillText("0", margin.l - 5, h - margin.b + 22);
       ctx.fillText("50", margin.l + plotW/2 - 8, h - margin.b + 22);
       ctx.fillText("100", w - margin.r - 26, h - margin.b + 22);
       ctx.fillText("Simulated outcome score bin: each bin counts how many Monte Carlo runs landed in that score range", margin.l, h - 24);
       ctx.fillText("These are frequency histograms, not probability-density curves and not time-series lines", margin.l, h - 8);
-      ctx.save(); ctx.translate(18, margin.t + plotH / 2 + 84); ctx.rotate(-Math.PI/2); ctx.fillText("Number of Monte Carlo runs in each score bin", 0, 0); ctx.restore();
+      ctx.save();
+      ctx.translate(18, margin.t + plotH / 2 + 84);
+      ctx.rotate(-Math.PI/2);
+      ctx.fillText("Number of Monte Carlo runs in each score bin", 0, 0);
+      ctx.restore();
     }
 
     function renderStats(sim) {
@@ -812,23 +936,44 @@
       });
     }
 
-    function fillList(id, arr) { const el=document.getElementById(id); el.innerHTML=""; arr.forEach(x=>{ const li=document.createElement("li"); li.textContent=x; el.appendChild(li); }); }
+    function fillList(id, arr) {
+      const el=document.getElementById(id);
+      el.innerHTML="";
+      arr.forEach(x=>{
+        const li=document.createElement("li");
+        li.textContent=x;
+        el.appendChild(li);
+      });
+    }
 
     function renderStageInfo() {
       const s = stages[state.stage];
       document.getElementById("stageBadge").textContent = `${s.id} · ${s.outputLabel}`;
       document.getElementById("stageTitle").textContent = s.name;
       document.getElementById("stageDescription").textContent = s.description;
-      fillList("sigList", s.signature); fillList("senList", s.sentences); fillList("modList", s.models); fillList("satList", s.satisfaction);
+      fillList("sigList", s.signature);
+      fillList("senList", s.sentences);
+      fillList("modList", s.models);
+      fillList("satList", s.satisfaction);
       [...stageSelector.children].forEach((b,i)=>b.classList.toggle("active", i===state.stage));
     }
 
-    function meterClass(key, val) { if (key === "kickback") return val > 65 ? "bad" : val > 40 ? "warn" : "good"; return val > 70 ? "good" : val > 45 ? "warn" : "bad"; }
+    function meterClass(key, val) {
+      if (key === "kickback") return val > 65 ? "bad" : val > 40 ? "warn" : "good";
+      return val > 70 ? "good" : val > 45 ? "warn" : "bad";
+    }
 
     function renderMeters(means) {
       const rows = [["Service quality","serviceQuality"],["Regulatory readiness","regulatoryReadiness"],["Funding readiness","fundingReadiness"],["Failure demand reduction","failureDemandReduction"],["Customer trust","customerTrust"],["Transformation success","transformationSuccess"],["Readiness for next stage","readinessToNext"],["Political kick-back","kickback"]];
       meterList.innerHTML = "";
-      rows.forEach(([label,key])=>{ const val=clamp(means[key]||0); const klass=meterClass(key,val); const row=document.createElement("div"); row.className="meter-row"; row.innerHTML=`<div>${label}</div><div class="bar"><div class="fill ${klass}" style="width:${val}%"></div></div><div class="score">${Math.round(val)}</div>`; meterList.appendChild(row); });
+      rows.forEach(([label,key])=>{
+        const val=clamp(means[key]||0);
+        const klass=meterClass(key,val);
+        const row=document.createElement("div");
+        row.className="meter-row";
+        row.innerHTML=`<div>${label}</div><div class="bar"><div class="fill ${klass}" style="width:${val}%"></div></div><div class="score">${Math.round(val)}</div>`;
+        meterList.appendChild(row);
+      });
     }
 
     function renderProbGrid(sim) {
@@ -848,11 +993,32 @@
     }
 
     function renderFlow() {
-      const flow=document.getElementById("stageFlow"); flow.innerHTML=""; const gates=stageGate(state.stage,state.params).gates;
-      stages.forEach((s,i)=>{ const node=document.createElement("div"); node.className="flow-node"; if(i===state.stage)node.classList.add("active"); if(i<=state.stage||gates[i]>68)node.classList.add("reached"); node.innerHTML=`<h3>${s.id}: ${s.short}</h3><p>${s.morphism}</p><div class="bar" style="margin-top:10px"><div class="fill ${gates[i]>70?'good':gates[i]>45?'warn':'bad'}" style="width:${gates[i]}%"></div></div><p style="margin-top:6px">Gate strength: ${Math.round(gates[i])}</p>`; node.addEventListener("click",()=>{state.stage=i; render();}); flow.appendChild(node); });
+      const flow=document.getElementById("stageFlow");
+      flow.innerHTML="";
+      const gates=stageGate(state.stage,state.params).gates;
+
+      stages.forEach((s,i)=>{
+        const node=document.createElement("div");
+        node.className="flow-node";
+        if(i===state.stage) node.classList.add("active");
+        if(i<=state.stage || gates[i]>68) node.classList.add("reached");
+        node.innerHTML=`<h3>${s.id}: ${s.short}</h3><p>${s.morphism}</p><div class="bar" style="margin-top:10px"><div class="fill ${gates[i]>70?'good':gates[i]>45?'warn':'bad'}" style="width:${gates[i]}%"></div></div><p style="margin-top:6px">Gate strength: ${Math.round(gates[i])}</p>`;
+
+        // Clicking a transformation-chain node now applies the same staged institutional movement.
+        node.addEventListener("click", () => {
+          moveToStage(i);
+        });
+
+        flow.appendChild(node);
+      });
     }
 
-    function riskLevel(value, inverse=false) { const v=inverse?value:100-value; if(v>65)return["High","bad"]; if(v>38)return["Medium","warn"]; return["Low","good"]; }
+    function riskLevel(value, inverse=false) {
+      const v=inverse?value:100-value;
+      if(v>65) return ["High","bad"];
+      if(v>38) return ["Medium","warn"];
+      return ["Low","good"];
+    }
 
     function renderRisks() {
       const p=state.params;
@@ -864,35 +1030,57 @@
         {title:"Board mandate weakness",score:p.boardMandate,direct:false,text:"Without visible leadership support, assurance remains paperwork rather than a redesign mandate."},
         {title:"Learning-loop decay",score:p.learningLoop,direct:false,text:"Without continuous learning, market-readiness becomes stale; evidence, claims and risk controls decay as the service scales."}
       ];
-      const grid=document.getElementById("riskGrid"); grid.innerHTML="";
-      items.forEach(item=>{ const [level,klass]=item.direct?riskLevel(item.score,true):riskLevel(item.score,false); const card=document.createElement("div"); card.className="risk-card"; card.innerHTML=`<div class="risk-head"><h3>${item.title}</h3><span class="pill ${klass}">${level}</span></div><div class="bar" style="margin-bottom:9px"><div class="fill ${klass}" style="width:${item.direct?item.score:100-item.score}%"></div></div><p>${item.text}</p>`; grid.appendChild(card); });
+      const grid=document.getElementById("riskGrid");
+      grid.innerHTML="";
+      items.forEach(item=>{
+        const [level,klass]=item.direct?riskLevel(item.score,true):riskLevel(item.score,false);
+        const card=document.createElement("div");
+        card.className="risk-card";
+        card.innerHTML=`<div class="risk-head"><h3>${item.title}</h3><span class="pill ${klass}">${level}</span></div><div class="bar" style="margin-bottom:9px"><div class="fill ${klass}" style="width:${item.direct?item.score:100-item.score}%"></div></div><p>${item.text}</p>`;
+        grid.appendChild(card);
+      });
     }
 
     function renderRecommendations() {
-      const s=stages[state.stage], p=state.params, rec=document.getElementById("recommendations"); rec.innerHTML="";
+      const s=stages[state.stage], p=state.params, rec=document.getElementById("recommendations");
+      rec.innerHTML="";
       const weak=[];
-      if(p.purposeClarity<55)weak.push("Clarify intended purpose before expanding claims or features.");
-      if(p.demandStudy<55)weak.push("Study repeated customer, buyer and investor contacts as failure-demand signals.");
-      if(p.clinicalSafety<55)weak.push("Build hazard controls, escalation rules and clinical safety review into workflow.");
-      if(p.evidencePlan<55)weak.push("Create a staged evidence plan with routine evidence-capture points.");
-      if(p.regulatoryReadiness<55)weak.push("Map MHRA/CQC/DTAC/data/security obligations to named owners.");
-      if(p.workflowEmbedding<55)weak.push("Move assurance from documents into daily operational controls.");
-      if(p.boardMandate<55)weak.push("Secure a board-level mandate that protects redesign time.");
-      if(p.crossFunctionalTrust<55)weak.push("Create a cross-functional assurance forum across product, clinical, commercial and compliance teams.");
-      if(p.marketingOverclaim>45)weak.push("Introduce claim discipline: every claim should map to intended purpose and evidence.");
-      if(p.commercialPressure>60)weak.push("Rebalance growth targets with right-first-time service quality measures.");
-      const box1=document.createElement("div"); box1.className="rec-box"; box1.innerHTML=`<h3>To move from ${s.id}</h3><ul>${s.nextActions.map(x=>`<li>${x}</li>`).join("")}</ul>`;
-      const box2=document.createElement("div"); box2.className="rec-box"; box2.innerHTML=`<h3>Most important current mitigations</h3><ul>${(weak.length?weak.slice(0,6):["The current configuration is comparatively robust. Maintain measurement, claim discipline and learning review as the system scales."]).map(x=>`<li>${x}</li>`).join("")}</ul>`;
-      rec.appendChild(box1); rec.appendChild(box2);
+      if(p.purposeClarity<55) weak.push("Clarify intended purpose before expanding claims or features.");
+      if(p.demandStudy<55) weak.push("Study repeated customer, buyer and investor contacts as failure-demand signals.");
+      if(p.clinicalSafety<55) weak.push("Build hazard controls, escalation rules and clinical safety review into workflow.");
+      if(p.evidencePlan<55) weak.push("Create a staged evidence plan with routine evidence-capture points.");
+      if(p.regulatoryReadiness<55) weak.push("Map MHRA/CQC/DTAC/data/security obligations to named owners.");
+      if(p.workflowEmbedding<55) weak.push("Move assurance from documents into daily operational controls.");
+      if(p.boardMandate<55) weak.push("Secure a board-level mandate that protects redesign time.");
+      if(p.crossFunctionalTrust<55) weak.push("Create a cross-functional assurance forum across product, clinical, commercial and compliance teams.");
+      if(p.marketingOverclaim>45) weak.push("Introduce claim discipline: every claim should map to intended purpose and evidence.");
+      if(p.commercialPressure>60) weak.push("Rebalance growth targets with right-first-time service quality measures.");
+      const box1=document.createElement("div");
+      box1.className="rec-box";
+      box1.innerHTML=`<h3>To move from ${s.id}</h3><ul>${s.nextActions.map(x=>`<li>${x}</li>`).join("")}</ul>`;
+      const box2=document.createElement("div");
+      box2.className="rec-box";
+      box2.innerHTML=`<h3>Most important current mitigations</h3><ul>${(weak.length?weak.slice(0,6):["The current configuration is comparatively robust. Maintain measurement, claim discipline and learning review as the system scales."]).map(x=>`<li>${x}</li>`).join("")}</ul>`;
+      rec.appendChild(box1);
+      rec.appendChild(box2);
     }
 
     let renderTimer = null;
+
     function render() {
       renderStageInfo();
       if (renderTimer) clearTimeout(renderTimer);
       renderTimer = setTimeout(() => {
-        const sim = simulate(); state.lastSim = sim;
-        renderMeters(sim.means); renderProbGrid(sim); drawCombinedHistograms(sim); renderLegend(); renderStats(sim); renderFlow(); renderRisks(); renderRecommendations();
+        const sim = simulate();
+        state.lastSim = sim;
+        renderMeters(sim.means);
+        renderProbGrid(sim);
+        drawCombinedHistograms(sim);
+        renderLegend();
+        renderStats(sim);
+        renderFlow();
+        renderRisks();
+        renderRecommendations();
       }, 30);
     }
 
