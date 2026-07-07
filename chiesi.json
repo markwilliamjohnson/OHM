@@ -1,0 +1,2525 @@
+{
+  "meta": {
+    "title": "Chiesi Data Bootcamp Learning Journey — Wisdom → Imagination → Socio-technical Learning → Capability → Practice → Analytics → Cases",
+    "subtitle": "A dense knowledge lattice for understanding the Chiesi professional-learning journey: technological capability expands the perception of possibility; data bootcamp practices convert business ambiguity into evidence artefacts, prototypes and cross-functional action.",
+    "domainName": "Professional data learning, organisational agility and data-enabled transformation in pharmaceutical business contexts",
+    "searchPlaceholder": "technological imagination, epistemic fluency, boundary objects, double-loop learning, communities of practice, dynamic capabilities, data governance, decision packs, similarity scoring, Net Zero scenario analysis, pipeline review, uncertainty, prototype, Chiesi…",
+    "userContextLabel": "Your Chiesi bootcamp context (optional)",
+    "userContextPlaceholder": "e.g., Similar Deals team; Green Analysis scenario work; Pipeline Next review pack; participant capability; requirements gathering; hackathon planning; cross-functional collaboration; AI prompting; data governance…",
+    "initialPrompt": "",
+    "promptTemplate": "You are an expert designer of professional data-learning journeys in the pharmaceutical industry, with deep knowledge of organisational learning, socio-technical systems, data governance, AI prototyping and cross-functional transformation.\n\nUse the selected lattice concepts to write a realistic account of how professional learners in Chiesi move from business ambiguity to technological imagination, data artefacts, prototype experiments and coordinated organisational action.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- The learning journey being traced\n- The business decision or meeting being improved\n- The conceptual shift in participants' understanding\n- The relevant literature concepts and why they matter\n- The data, AI and analytics artefacts produced\n- The human judgement boundaries and uncertainty controls\n- The cross-functional collaboration and adoption implications\n- Two safe-to-learn experiments and the risks they should expose\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Professional purpose & organisational wisdom",
+      "hint": "Highest-order orientation: health and societal value, agility, stewardship, epistemic responsibility, holistic data resourcefulness and capability expansion."
+    },
+    {
+      "id": 1,
+      "title": "Transformative learning & technological imagination",
+      "hint": "Super-concepts shaping the bootcamp: technological possibility, data-informed action, responsible innovation, strategic alignment and knowledge-to-action translation."
+    },
+    {
+      "id": 2,
+      "title": "Socio-technical learning concepts",
+      "hint": "Literature concepts that explain the journey: adult/professional learning, epistemic fluency, boundary objects, communities of practice, double-loop learning, sensemaking, dynamic capabilities and sociotechnical systems."
+    },
+    {
+      "id": 3,
+      "title": "Organisational capability architecture",
+      "hint": "Structures that convert learning into capability: decision-backwards requirements, governance, shared language, minimum viable data slices, human judgement boundaries and adoption pathways."
+    },
+    {
+      "id": 4,
+      "title": "Bootcamp design moves & collaborative practices",
+      "hint": "Practical activities through which learners move from business concepts to artefacts: challenge definition, stakeholder interviews, data archaeology, storyboarding, prompting and expert validation."
+    },
+    {
+      "id": 5,
+      "title": "Analytical methods, artefacts & evaluation",
+      "hint": "Concrete data and AI capabilities: harmonisation, feature extraction, explainable similarity, baselines, scenarios, uncertainty ranges, KPI computation, flags, grounded summaries and reproducible workflows."
+    },
+    {
+      "id": 6,
+      "title": "Case-specific prototypes, examples & pathologies",
+      "hint": "Specific instances from Similar Deals, Green Analysis and Pipeline Next plus risks such as false precision, data theatre, tool-first solutionism and AI replacing judgement."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "wis_health_and_societal_value",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Health and societal value stewardship",
+      "summary": "Treat data capability as a way to improve responsible pharmaceutical decision-making, not as a technical end in itself.",
+      "tags": [
+        "wisdom",
+        "purpose",
+        "pharma",
+        "stewardship"
+      ],
+      "bodyHtml": "<p>The highest-order purpose of the bootcamp is to help Chiesi act more intelligently in service of health, sustainability, and organisational responsibility. Technical work should be evaluated by whether it improves judgement, coordination and action.</p>"
+    },
+    {
+      "id": "wis_organisational_agility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Organisational agility to act",
+      "summary": "Develop the capacity to move from ambiguous business need to coordinated, evidence-informed action.",
+      "tags": [
+        "wisdom",
+        "agility",
+        "organisational_learning"
+      ],
+      "bodyHtml": "<p>Agility is not speed alone. It is the ability to reframe, decompose, prototype, validate and recombine knowledge across functions under uncertainty.</p>"
+    },
+    {
+      "id": "wis_cross_functional_stewardship",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Cross-functional stewardship",
+      "summary": "Use data as a shared organisational resource requiring joint ownership across business, scientific, technical and governance teams.",
+      "tags": [
+        "wisdom",
+        "collaboration",
+        "stewardship"
+      ],
+      "bodyHtml": "<p>The bootcamp positions data as something that must be stewarded across boundaries: strategy, business development, sustainability, portfolio, finance, operations, supply chain and governance.</p>"
+    },
+    {
+      "id": "wis_epistemic_responsibility",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Epistemic responsibility",
+      "summary": "Be honest about what the evidence can and cannot support; surface uncertainty rather than polish it away.",
+      "tags": [
+        "wisdom",
+        "uncertainty",
+        "evidence"
+      ],
+      "bodyHtml": "<p>Professional judgement requires knowing the limits of data, models and AI summaries. The mature learner asks what is missing, what is inferred, what is uncertain and what still requires human review.</p>"
+    },
+    {
+      "id": "wis_holistic_data_resourcefulness",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Holistic data resourcefulness",
+      "summary": "See internal and external data resources as parts of a wider intelligence system rather than isolated datasets.",
+      "tags": [
+        "wisdom",
+        "data_resources",
+        "synergy"
+      ],
+      "bodyHtml": "<p>The bootcamp expands the learner's field of possibility by connecting internal metrics, narratives, external sources, expert judgement and decision processes.</p>"
+    },
+    {
+      "id": "wis_learning_as_capability_expansion",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Learning as capability expansion",
+      "summary": "Professional learning is the enlargement of what participants can notice, imagine, organise and enact with technology.",
+      "tags": [
+        "wisdom",
+        "professional_learning",
+        "capability"
+      ],
+      "bodyHtml": "<p>The learning journey is about technical capability changing perception: once participants can build small data artefacts, previously fixed organisational problems become designable.</p>"
+    },
+    {
+      "id": "super_transformative_professional_learning",
+      "level": 1,
+      "kind": "concept",
+      "label": "Transformative professional learning",
+      "summary": "Learning that changes the learner's frame of reference, not just their tool competence.",
+      "tags": [
+        "transformative_learning",
+        "professional_learning"
+      ],
+      "bodyHtml": "<p>Drawing on transformative learning, the bootcamp invites participants to question taken-for-granted assumptions about meetings, evidence, data ownership, automation and decision-making.</p>"
+    },
+    {
+      "id": "super_technological_imagination",
+      "level": 1,
+      "kind": "concept",
+      "label": "Technological imagination",
+      "summary": "The capacity to see business problems as potentially redesignable through data, code, models and new workflows.",
+      "tags": [
+        "imagination",
+        "technology",
+        "possibility"
+      ],
+      "bodyHtml": "<p>Technological imagination grows when learners connect conceptual business needs to concrete artefacts such as fields, rules, prompts, prototypes, outputs and validation tests.</p>"
+    },
+    {
+      "id": "super_data_informed_action",
+      "level": 1,
+      "kind": "concept",
+      "label": "Data-informed action",
+      "summary": "Decision-making that connects evidence, context, uncertainty and accountable action.",
+      "tags": [
+        "data_literacy",
+        "decision_making",
+        "action"
+      ],
+      "bodyHtml": "<p>The bootcamp does not treat data as a passive report. It treats data work as a way of improving business conversations and enabling action.</p>"
+    },
+    {
+      "id": "super_responsible_innovation",
+      "level": 1,
+      "kind": "concept",
+      "label": "Responsible innovation",
+      "summary": "Anticipate, reflect, engage and act so data and AI interventions remain legitimate, useful and accountable.",
+      "tags": [
+        "responsible_innovation",
+        "AREA",
+        "governance"
+      ],
+      "bodyHtml": "<p>Responsible innovation provides a shaping discipline: anticipate consequences, reflect on assumptions, engage affected stakeholders and act through controls and learning loops.</p>"
+    },
+    {
+      "id": "super_strategic_value_alignment",
+      "level": 1,
+      "kind": "concept",
+      "label": "Strategic value alignment",
+      "summary": "Align prototypes with the decisions, meetings and business outcomes they are meant to improve.",
+      "tags": [
+        "strategy",
+        "value",
+        "alignment"
+      ],
+      "bodyHtml": "<p>A prototype is valuable only if it improves a strategic conversation: comparator selection, Net Zero planning, pipeline review or executive prioritisation.</p>"
+    },
+    {
+      "id": "super_organisational_learning_loop",
+      "level": 1,
+      "kind": "concept",
+      "label": "Organisational learning loop",
+      "summary": "Turn prototypes, flags, feedback and expert disagreement into durable improvements in organisational practice.",
+      "tags": [
+        "organisational_learning",
+        "feedback",
+        "learning_loop"
+      ],
+      "bodyHtml": "<p>The bootcamp should create loops: requirements produce artefacts; artefacts produce tests; tests produce feedback; feedback changes requirements and practice.</p>"
+    },
+    {
+      "id": "super_human_centric_ai_data",
+      "level": 1,
+      "kind": "concept",
+      "label": "Human-centred data and AI",
+      "summary": "Use automation to support, not displace, professional judgement and accountability.",
+      "tags": [
+        "human_in_loop",
+        "AI",
+        "judgement"
+      ],
+      "bodyHtml": "<p>The strongest outputs make human judgement better situated: they reveal caveats, conflicts, assumptions and next actions.</p>"
+    },
+    {
+      "id": "super_knowledge_to_action",
+      "level": 1,
+      "kind": "concept",
+      "label": "Knowledge-to-action translation",
+      "summary": "Convert insight into changed workflow, changed conversation and changed decision behaviour.",
+      "tags": [
+        "knowledge_translation",
+        "implementation",
+        "action"
+      ],
+      "bodyHtml": "<p>The bootcamp is successful when participants can carry learning into their teams: by creating reusable decision packs, shared definitions and repeatable workflows.</p>"
+    },
+    {
+      "id": "lit_andragogy_relevance",
+      "level": 2,
+      "kind": "concept",
+      "label": "Andragogy and professional relevance",
+      "summary": "Adult learners engage deeply when learning is problem-centred, self-directed and linked to their work.",
+      "tags": [
+        "Knowles",
+        "adult_learning",
+        "professional_learning"
+      ],
+      "bodyHtml": "<p>Knowles' andragogy helps explain why authentic Chiesi cases matter: professional learners need relevance, agency and immediate applicability.</p>"
+    },
+    {
+      "id": "lit_experiential_learning_cycle",
+      "level": 2,
+      "kind": "concept",
+      "label": "Experiential learning cycle",
+      "summary": "Learning moves through concrete experience, reflection, conceptualisation and experimentation.",
+      "tags": [
+        "Kolb",
+        "experiential_learning"
+      ],
+      "bodyHtml": "<p>The bootcamp cycle mirrors Kolb: participants encounter a business problem, reflect on it, conceptualise a data workflow and test it through prototypes.</p>"
+    },
+    {
+      "id": "lit_reflective_practitioner",
+      "level": 2,
+      "kind": "concept",
+      "label": "Reflective practitioner",
+      "summary": "Professionals learn by reflecting in and on action, especially when situations are uncertain or unique.",
+      "tags": [
+        "Schön",
+        "reflection",
+        "professional_practice"
+      ],
+      "bodyHtml": "<p>Schön's reflective practitioner is central: participants must notice breakdowns in existing practice and improvise better ways of acting with evidence.</p>"
+    },
+    {
+      "id": "lit_transformative_learning",
+      "level": 2,
+      "kind": "concept",
+      "label": "Transformative learning and perspective change",
+      "summary": "Learning becomes transformative when assumptions are critically examined and frames of reference change.",
+      "tags": [
+        "Mezirow",
+        "transformative_learning"
+      ],
+      "bodyHtml": "<p>Participants may begin with a frame of reporting or tool use; the journey shifts them toward requirements, evidence, uncertainty and organisational redesign.</p>"
+    },
+    {
+      "id": "lit_epistemic_fluency",
+      "level": 2,
+      "kind": "concept",
+      "label": "Epistemic fluency",
+      "summary": "The ability to move between different ways of knowing, representing and justifying claims.",
+      "tags": [
+        "Markauskaite",
+        "Goodyear",
+        "epistemic_fluency"
+      ],
+      "bodyHtml": "<p>Epistemic fluency helps explain the bootcamp's core movement between business narrative, domain expertise, data structure, coding, modelling and executive judgement.</p>"
+    },
+    {
+      "id": "lit_boundary_objects",
+      "level": 2,
+      "kind": "concept",
+      "label": "Boundary objects",
+      "summary": "Shared artefacts flexible enough for different groups yet stable enough for collaboration.",
+      "tags": [
+        "Star",
+        "Griesemer",
+        "boundary_objects"
+      ],
+      "bodyHtml": "<p>Decision packs, data dictionaries, KPI definitions, similarity cards and scenario plots work as boundary objects between technical, business and domain communities.</p>"
+    },
+    {
+      "id": "lit_communities_of_practice",
+      "level": 2,
+      "kind": "concept",
+      "label": "Communities of practice",
+      "summary": "Learning occurs through participation in shared practice, language, norms and repertoires.",
+      "tags": [
+        "Wenger",
+        "Lave",
+        "communities_of_practice"
+      ],
+      "bodyHtml": "<p>The bootcamp creates a temporary community of practice around Chiesi's data challenges; its value persists if participants carry shared repertoires back into departments.</p>"
+    },
+    {
+      "id": "lit_situated_learning",
+      "level": 2,
+      "kind": "concept",
+      "label": "Situated learning",
+      "summary": "Knowledge is learned in the context of use, not transferred as abstract content alone.",
+      "tags": [
+        "situated_learning",
+        "practice"
+      ],
+      "bodyHtml": "<p>The cases situate learning inside Chiesi's decisions: inorganic growth, Net Zero evidence and pipeline review.</p>"
+    },
+    {
+      "id": "lit_double_loop_learning",
+      "level": 2,
+      "kind": "concept",
+      "label": "Double-loop learning",
+      "summary": "Go beyond fixing errors to questioning the governing assumptions that produced them.",
+      "tags": [
+        "Argyris",
+        "Schön",
+        "double_loop_learning"
+      ],
+      "bodyHtml": "<p>A single-loop response fixes a spreadsheet. A double-loop response asks why definitions, ownership and decision cadence produce repeated reconciliation work.</p>"
+    },
+    {
+      "id": "lit_absorptive_capacity",
+      "level": 2,
+      "kind": "concept",
+      "label": "Absorptive capacity",
+      "summary": "The organisation's ability to recognise, assimilate and apply external knowledge.",
+      "tags": [
+        "Cohen_Levinthal",
+        "absorptive_capacity",
+        "innovation"
+      ],
+      "bodyHtml": "<p>Bootcamp learning builds absorptive capacity by helping participants convert external data, AI methods and analytics practice into Chiesi-specific action.</p>"
+    },
+    {
+      "id": "lit_dynamic_capabilities",
+      "level": 2,
+      "kind": "concept",
+      "label": "Dynamic capabilities",
+      "summary": "Sense, seize and transform in response to changing environments.",
+      "tags": [
+        "Teece",
+        "dynamic_capabilities",
+        "strategy"
+      ],
+      "bodyHtml": "<p>Similar Deals supports sensing external growth patterns; Green Analysis supports seizing sustainability interventions; Pipeline Next supports transforming decision routines.</p>"
+    },
+    {
+      "id": "lit_sensemaking",
+      "level": 2,
+      "kind": "concept",
+      "label": "Sensemaking",
+      "summary": "People organise ambiguity into plausible stories that support action.",
+      "tags": [
+        "Weick",
+        "sensemaking",
+        "narrative"
+      ],
+      "bodyHtml": "<p>The bootcamp improves sensemaking by connecting narratives to data, exposing conflicts and making assumptions discussable.</p>"
+    },
+    {
+      "id": "lit_sociotechnical_systems",
+      "level": 2,
+      "kind": "concept",
+      "label": "Socio-technical systems thinking",
+      "summary": "Technology and organisation co-produce performance; tools cannot be separated from work design.",
+      "tags": [
+        "socio_technical",
+        "Trist",
+        "systems"
+      ],
+      "bodyHtml": "<p>Every prototype changes roles, handoffs, trust and decision rhythms. Technical success depends on organisational fit.</p>"
+    },
+    {
+      "id": "lit_expansive_learning",
+      "level": 2,
+      "kind": "concept",
+      "label": "Expansive learning",
+      "summary": "Collective learning that reconceptualises the object of activity and creates new forms of practice.",
+      "tags": [
+        "Engeström",
+        "activity_theory",
+        "expansive_learning"
+      ],
+      "bodyHtml": "<p>Participants collectively reconceptualise 'data problem' as 'decision workflow problem', producing new artefacts and practices.</p>"
+    },
+    {
+      "id": "lit_knowledge_creation_seci",
+      "level": 2,
+      "kind": "concept",
+      "label": "Tacit-explicit knowledge conversion",
+      "summary": "Organisations create knowledge by moving between tacit experience and explicit representation.",
+      "tags": [
+        "Nonaka",
+        "Takeuchi",
+        "SECI",
+        "knowledge_creation"
+      ],
+      "bodyHtml": "<p>The bootcamp converts tacit business judgement into explicit fields, rules, prompts and diagrams, while preserving expert interpretation.</p>"
+    },
+    {
+      "id": "lit_design_thinking_wicked",
+      "level": 2,
+      "kind": "concept",
+      "label": "Design thinking and wicked problems",
+      "summary": "Complex organisational problems require iterative framing, prototyping and stakeholder learning.",
+      "tags": [
+        "design_thinking",
+        "wicked_problems"
+      ],
+      "bodyHtml": "<p>The Chiesi cases are not simply technical puzzles; they are wicked enough to need iterative framing, stakeholder negotiation and prototypes.</p>"
+    },
+    {
+      "id": "lit_scaffolding_zpd",
+      "level": 2,
+      "kind": "concept",
+      "label": "Scaffolding and zones of proximal development",
+      "summary": "Learning support should enable participants to do with guidance what they could not yet do alone.",
+      "tags": [
+        "Vygotsky",
+        "scaffolding",
+        "learning_design"
+      ],
+      "bodyHtml": "<p>The bootcamp's technical scaffolding lets professionals move from conceptual need to data cleaning, coding, analysis and prototype design.</p>"
+    },
+    {
+      "id": "lit_data_literacy_org_literacy",
+      "level": 2,
+      "kind": "concept",
+      "label": "Data literacy as organisational literacy",
+      "summary": "Understanding data means understanding the organisational processes, owners and incentives that produce it.",
+      "tags": [
+        "data_literacy",
+        "organisational_literacy"
+      ],
+      "bodyHtml": "<p>A field name, missing value or inconsistent KPI is a clue to organisational process, not just a technical defect.</p>"
+    },
+    {
+      "id": "lit_sociomateriality",
+      "level": 2,
+      "kind": "concept",
+      "label": "Sociomaterial practice",
+      "summary": "Tools, data, bodies, routines and meanings are entangled in practice.",
+      "tags": [
+        "Orlikowski",
+        "sociomateriality"
+      ],
+      "bodyHtml": "<p>A dashboard, prompt, spreadsheet or review pack changes what people see, say and do; the material artefact and social practice form one system.</p>"
+    },
+    {
+      "id": "lit_psychological_safety",
+      "level": 2,
+      "kind": "concept",
+      "label": "Psychological safety for data learning",
+      "summary": "Participants need permission to surface uncertainty, ignorance, data gaps and weak prototypes.",
+      "tags": [
+        "Edmondson",
+        "psychological_safety",
+        "learning"
+      ],
+      "bodyHtml": "<p>Data learning is fragile when people fear being exposed. The bootcamp should normalise not-knowing, experimentation and challenge.</p>"
+    },
+    {
+      "id": "arch_decision_backwards_requirements",
+      "level": 3,
+      "kind": "concept",
+      "label": "Decision-backwards requirements",
+      "summary": "Start from the future decision or meeting and work backwards to evidence, data and prototype requirements.",
+      "tags": [
+        "requirements",
+        "decision_design"
+      ],
+      "bodyHtml": "<p>Each case asks: which conversation should be better after this exists? This prevents tool-first work and anchors technical choices in business use.</p>"
+    },
+    {
+      "id": "arch_data_governance_stewardship",
+      "level": 3,
+      "kind": "standard",
+      "label": "Data governance and stewardship",
+      "summary": "Clarify ownership, quality, access, definitions, lineage and accountability for shared data resources.",
+      "tags": [
+        "data_governance",
+        "stewardship"
+      ],
+      "bodyHtml": "<p>Reusable data capability requires more than analysis: it needs owners, definitions, refresh cadence, quality rules and controlled access.</p>"
+    },
+    {
+      "id": "arch_shared_language_taxonomy",
+      "level": 3,
+      "kind": "concept",
+      "label": "Shared language and taxonomy",
+      "summary": "Create common definitions for deals, emissions, assets, KPIs, flags, assumptions and decisions.",
+      "tags": [
+        "taxonomy",
+        "shared_language"
+      ],
+      "bodyHtml": "<p>Cross-functional action depends on a vocabulary stable enough to compute with and flexible enough to support expert judgement.</p>"
+    },
+    {
+      "id": "arch_minimum_viable_data_slice",
+      "level": 3,
+      "kind": "concept",
+      "label": "Minimum viable data slice",
+      "summary": "Use a small, representative, trustworthy data slice to prove the concept before scaling.",
+      "tags": [
+        "MVP",
+        "data_slice",
+        "prototype"
+      ],
+      "bodyHtml": "<p>A useful first prototype needs one focal case, a few assets or categories, a limited KPI set and realistic narratives—not every system at once.</p>"
+    },
+    {
+      "id": "arch_cross_functional_operating_model",
+      "level": 3,
+      "kind": "concept",
+      "label": "Cross-functional operating model",
+      "summary": "Define how business, technical, domain and governance participants work together.",
+      "tags": [
+        "operating_model",
+        "collaboration"
+      ],
+      "bodyHtml": "<p>The bootcamp should model the cross-functional working pattern that a future data product will require.</p>"
+    },
+    {
+      "id": "arch_evidence_pack_governance",
+      "level": 3,
+      "kind": "concept",
+      "label": "Evidence pack governance",
+      "summary": "Treat outputs as decision packs with sources, assumptions, confidence, caveats and action routes.",
+      "tags": [
+        "evidence_pack",
+        "governance",
+        "auditability"
+      ],
+      "bodyHtml": "<p>A decision pack is more than a dashboard or summary: it links evidence, interpretation and responsibility.</p>"
+    },
+    {
+      "id": "arch_human_judgement_boundaries",
+      "level": 3,
+      "kind": "concept",
+      "label": "Human judgement boundaries",
+      "summary": "Specify which decisions can be automated, assisted or must remain expert-owned.",
+      "tags": [
+        "human_judgement",
+        "automation_boundaries"
+      ],
+      "bodyHtml": "<p>Professional agility includes knowing where automation should stop: a flag is an invitation to inspect evidence, not a decision.</p>"
+    },
+    {
+      "id": "arch_data_product_mindset",
+      "level": 3,
+      "kind": "concept",
+      "label": "Data product mindset",
+      "summary": "Build reusable workflows with users, quality expectations, documentation and lifecycle management.",
+      "tags": [
+        "data_product",
+        "product_thinking"
+      ],
+      "bodyHtml": "<p>The bootcamp shifts artefacts from one-off hackathon outputs to reusable organisational capability.</p>"
+    },
+    {
+      "id": "arch_safe_to_learn_portfolio",
+      "level": 3,
+      "kind": "concept",
+      "label": "Safe-to-learn experiment portfolio",
+      "summary": "Use small experiments to expose assumptions and risks without committing prematurely to a full system.",
+      "tags": [
+        "safe_to_fail",
+        "experimentation",
+        "learning"
+      ],
+      "bodyHtml": "<p>Prototype experiments should be small enough to fail safely and rich enough to change the team's understanding.</p>"
+    },
+    {
+      "id": "arch_auditability_lineage_provenance",
+      "level": 3,
+      "kind": "standard",
+      "label": "Auditability, lineage and provenance",
+      "summary": "Make sources, transformations, assumptions, model choices and human confirmations traceable.",
+      "tags": [
+        "auditability",
+        "lineage",
+        "provenance"
+      ],
+      "bodyHtml": "<p>Trustworthy pharma data work depends on knowing where evidence came from, how it was transformed and who accepted it.</p>"
+    },
+    {
+      "id": "arch_capability_scaffolding",
+      "level": 3,
+      "kind": "concept",
+      "label": "Capability scaffolding",
+      "summary": "Match technical support to participants' current readiness and the complexity of the challenge.",
+      "tags": [
+        "scaffolding",
+        "skills",
+        "bootcamp"
+      ],
+      "bodyHtml": "<p>Learners need templates, worked examples, starter notebooks, field dictionaries and coaching so that coding becomes a route into business understanding.</p>"
+    },
+    {
+      "id": "arch_change_management_adoption",
+      "level": 3,
+      "kind": "concept",
+      "label": "Change management and adoption pathway",
+      "summary": "Plan how prototypes will fit existing tools, governance, cadences and user expectations.",
+      "tags": [
+        "change_management",
+        "adoption"
+      ],
+      "bodyHtml": "<p>The point is not just to build a prototype but to make a credible path into real work.</p>"
+    },
+    {
+      "id": "practice_challenge_definition_sprint",
+      "level": 4,
+      "kind": "practice",
+      "label": "Challenge definition sprint",
+      "summary": "Condense the business challenge into short statements naming the decision, data and prototype aim.",
+      "tags": [
+        "requirements",
+        "sprint",
+        "framing"
+      ],
+      "bodyHtml": "<p>The Similar Deals six-line definition, Green Analysis four-sentence definition and Pipeline Next five-sentence definition turn broad intent into shareable scope.</p>"
+    },
+    {
+      "id": "practice_stakeholder_interview",
+      "level": 4,
+      "kind": "practice",
+      "label": "Stakeholder interview sprint",
+      "summary": "Interview likely users or sponsors to identify decision need, current friction and rejection criteria.",
+      "tags": [
+        "stakeholders",
+        "interview",
+        "requirements"
+      ],
+      "bodyHtml": "<p>A short interview can reveal what a useful output must do, what would make it credible and what would make it rejected.</p>"
+    },
+    {
+      "id": "practice_meeting_archaeology",
+      "level": 4,
+      "kind": "practice",
+      "label": "Meeting archaeology",
+      "summary": "Examine an existing review pack or meeting artefact to distinguish computed metrics, grounded narratives and judgement calls.",
+      "tags": [
+        "meeting",
+        "workflow",
+        "archaeology"
+      ],
+      "bodyHtml": "<p>Participants mark what could be automated, what could be assisted and what must remain human-owned.</p>"
+    },
+    {
+      "id": "practice_data_inventory_archaeology",
+      "level": 4,
+      "kind": "practice",
+      "label": "Data inventory and archaeology",
+      "summary": "Map sources, owners, fields, update frequencies, quality concerns and readiness for hackathon use.",
+      "tags": [
+        "data_inventory",
+        "data_quality"
+      ],
+      "bodyHtml": "<p>This practice turns vague claims about data availability into a table of source, owner, cadence, key fields and quality concerns.</p>"
+    },
+    {
+      "id": "practice_similarity_cards",
+      "level": 4,
+      "kind": "practice",
+      "label": "Similarity cards",
+      "summary": "Rank dimensions such as scientific, commercial, financial, strategic, temporal and narrative similarity.",
+      "tags": [
+        "similar_deals",
+        "collaboration"
+      ],
+      "bodyHtml": "<p>Disagreement between experts becomes useful evidence about which assumptions the similarity model must expose.</p>"
+    },
+    {
+      "id": "practice_scenario_marketplace",
+      "level": 4,
+      "kind": "practice",
+      "label": "Scenario marketplace",
+      "summary": "Compare baseline, driver and intervention models for Green Analysis before committing to one approach.",
+      "tags": [
+        "green_analysis",
+        "scenario",
+        "forecasting"
+      ],
+      "bodyHtml": "<p>Groups can sketch alternative prototypes and trade off simplicity, explainability, uncertainty and actionability.</p>"
+    },
+    {
+      "id": "practice_kpi_dictionary_workshop",
+      "level": 4,
+      "kind": "practice",
+      "label": "KPI dictionary workshop",
+      "summary": "Define KPI name, formula, source field, owner, update cadence and interpretation.",
+      "tags": [
+        "KPI",
+        "data_dictionary",
+        "pipeline_next"
+      ],
+      "bodyHtml": "<p>KPI work is where language becomes computable; ambiguity here will produce confident but unhelpful outputs.</p>"
+    },
+    {
+      "id": "practice_narrative_metric_mapping",
+      "level": 4,
+      "kind": "practice",
+      "label": "Narrative-metric mapping",
+      "summary": "Connect free-text claims to structured fields, source evidence, assumptions and contradiction checks.",
+      "tags": [
+        "narrative",
+        "metrics",
+        "sensemaking"
+      ],
+      "bodyHtml": "<p>This practice preserves business context while making narratives inspectable and partially computable.</p>"
+    },
+    {
+      "id": "practice_prompting_show_working",
+      "level": 4,
+      "kind": "practice",
+      "label": "Prompting that shows its working",
+      "summary": "Use AI prompts that require sources, assumptions, caveats, confidence and missing evidence.",
+      "tags": [
+        "AI",
+        "prompting",
+        "explainability"
+      ],
+      "bodyHtml": "<p>Generative AI should not merely produce fluent summaries; it should help structure evidence and reveal uncertainty.</p>"
+    },
+    {
+      "id": "practice_prototype_backlog",
+      "level": 4,
+      "kind": "practice",
+      "label": "Prototype backlog",
+      "summary": "Convert learning questions into buildable tasks, tests and demonstrable artefacts.",
+      "tags": [
+        "backlog",
+        "prototype",
+        "delivery"
+      ],
+      "bodyHtml": "<p>A good backlog item produces something inspectable: a source list, rule, prompt, notebook, mock output or validation test.</p>"
+    },
+    {
+      "id": "practice_peer_review_demo",
+      "level": 4,
+      "kind": "practice",
+      "label": "Peer review and demo critique",
+      "summary": "Use cross-team demonstrations to test whether outputs are credible to non-builders.",
+      "tags": [
+        "demo",
+        "peer_review",
+        "learning"
+      ],
+      "bodyHtml": "<p>Demos should ask: what decision would this improve, what assumption is hidden and what would you trust or reject?</p>"
+    },
+    {
+      "id": "practice_after_action_reflection",
+      "level": 4,
+      "kind": "practice",
+      "label": "After-action reflection",
+      "summary": "Reflect on what changed in understanding, assumptions, collaboration and prototype direction.",
+      "tags": [
+        "reflection",
+        "learning_loop"
+      ],
+      "bodyHtml": "<p>Reflection converts hackathon activity into professional learning and organisational memory.</p>"
+    },
+    {
+      "id": "practice_model_ladder",
+      "level": 4,
+      "kind": "practice",
+      "label": "Model ladder: simple before sophisticated",
+      "summary": "Build from reproducible baseline to explanation, scenarios and AI stretch goals only after foundations are sound.",
+      "tags": [
+        "model_ladder",
+        "scaffolding",
+        "MVP"
+      ],
+      "bodyHtml": "<p>The bootcamp should reward clear baselines and transparent assumptions before complex AI.</p>"
+    },
+    {
+      "id": "practice_decision_pack_storyboard",
+      "level": 4,
+      "kind": "practice",
+      "label": "Decision pack storyboarding",
+      "summary": "Sketch the one-page output a decision audience should see, then work backwards.",
+      "tags": [
+        "decision_pack",
+        "storyboard"
+      ],
+      "bodyHtml": "<p>Storyboarding makes the desired business conversation visible before coding begins.</p>"
+    },
+    {
+      "id": "practice_uncertainty_language_design",
+      "level": 4,
+      "kind": "practice",
+      "label": "Uncertainty language design",
+      "summary": "Design standard ways to describe confidence, caveats, missing data and human review needs.",
+      "tags": [
+        "uncertainty",
+        "communication"
+      ],
+      "bodyHtml": "<p>The organisation needs language that is neither paralysing nor falsely precise.</p>"
+    },
+    {
+      "id": "practice_expert_validation",
+      "level": 4,
+      "kind": "practice",
+      "label": "Expert validation session",
+      "summary": "Ask domain experts to judge relevance, credibility, caveats and repeatability of outputs.",
+      "tags": [
+        "validation",
+        "expert_review"
+      ],
+      "bodyHtml": "<p>Expert validation turns prototypes from technical demos into decision-support candidates.</p>"
+    },
+    {
+      "id": "method_entity_resolution",
+      "level": 5,
+      "kind": "method",
+      "label": "Entity resolution and harmonisation",
+      "summary": "Link records that refer to the same asset, deal, supplier, site, category or review item.",
+      "tags": [
+        "data_engineering",
+        "harmonisation"
+      ],
+      "bodyHtml": "<p>Many value-creating workflows begin by asking whether records can be linked and whether terms mean the same thing across sources.</p>"
+    },
+    {
+      "id": "method_narrative_feature_extraction",
+      "level": 5,
+      "kind": "method",
+      "label": "Feature extraction from narratives",
+      "summary": "Turn announcement text, asset updates or sustainability commentary into comparable fields while retaining context.",
+      "tags": [
+        "NLP",
+        "feature_engineering",
+        "narrative"
+      ],
+      "bodyHtml": "<p>Narrative extraction can structure deal rationale, asset risks, assumptions or intervention descriptions, but must keep source evidence visible.</p>"
+    },
+    {
+      "id": "method_similarity_scoring_explainable",
+      "level": 5,
+      "kind": "method",
+      "label": "Explainable similarity scoring",
+      "summary": "Rank candidates using weighted dimensions and show why a match is strong or weak.",
+      "tags": [
+        "similarity",
+        "explainability",
+        "similar_deals"
+      ],
+      "bodyHtml": "<p>A useful similarity model says: close because of scientific and strategic fit, weaker because of stage or financial structure.</p>"
+    },
+    {
+      "id": "method_taxonomy_vocabularies",
+      "level": 5,
+      "kind": "method",
+      "label": "Taxonomies and controlled vocabularies",
+      "summary": "Use shared vocabularies for therapy area, modality, deal type, emissions category, asset stage and risk type.",
+      "tags": [
+        "taxonomy",
+        "controlled_vocabulary"
+      ],
+      "bodyHtml": "<p>Taxonomies reduce ambiguity, improve search, support aggregation and enable cross-team comparison.</p>"
+    },
+    {
+      "id": "method_forecasting_baselines",
+      "level": 5,
+      "kind": "method",
+      "label": "Forecasting baselines",
+      "summary": "Start with simple baselines, trend lines, rolling averages and reference pathways before complex predictive models.",
+      "tags": [
+        "forecasting",
+        "baseline",
+        "green_analysis"
+      ],
+      "bodyHtml": "<p>Baseline models reveal whether more complex modelling adds value or simply hides assumptions.</p>"
+    },
+    {
+      "id": "method_scenario_intervention_analysis",
+      "level": 5,
+      "kind": "method",
+      "label": "Scenario and intervention analysis",
+      "summary": "Test plausible future pathways and interventions with explicit assumptions and ranges.",
+      "tags": [
+        "scenario_analysis",
+        "interventions"
+      ],
+      "bodyHtml": "<p>Scenario analysis supports decisions by comparing 'what might happen if' rather than pretending to know the future.</p>"
+    },
+    {
+      "id": "method_uncertainty_ranges",
+      "level": 5,
+      "kind": "method",
+      "label": "Uncertainty ranges and confidence indicators",
+      "summary": "Represent estimation uncertainty, missingness, low confidence and boundary sensitivity.",
+      "tags": [
+        "uncertainty",
+        "confidence",
+        "evidence"
+      ],
+      "bodyHtml": "<p>Uncertainty should be visible in forecasts, similarity pools and review packs so users know when to act, learn or improve data first.</p>"
+    },
+    {
+      "id": "method_emission_factor_versioning",
+      "level": 5,
+      "kind": "method",
+      "label": "Emission-factor versioning",
+      "summary": "Store factor values, versions, geography and validity period so accounting revisions are not confused with operational change.",
+      "tags": [
+        "emissions",
+        "versioning",
+        "green_analysis"
+      ],
+      "bodyHtml": "<p>Versioning allows Green Analysis to distinguish real performance from changes in emission factors or reporting boundaries.</p>"
+    },
+    {
+      "id": "method_reproducible_kpi_computation",
+      "level": 5,
+      "kind": "method",
+      "label": "Reproducible KPI computation",
+      "summary": "Calculate KPIs from agreed formulas, source fields and update cadences.",
+      "tags": [
+        "KPI",
+        "reproducibility",
+        "pipeline_next"
+      ],
+      "bodyHtml": "<p>Reproducible KPIs reduce meeting time spent reconciling numbers and increase trust in review packs.</p>"
+    },
+    {
+      "id": "method_inconsistency_flags",
+      "level": 5,
+      "kind": "method",
+      "label": "Inconsistency flags",
+      "summary": "Detect missing, stale, contradictory, out-of-range or narrative-metric mismatches.",
+      "tags": [
+        "flags",
+        "validation",
+        "pipeline_next"
+      ],
+      "bodyHtml": "<p>Flags should invite expert inspection and escalation; they should not silently become decisions.</p>"
+    },
+    {
+      "id": "method_grounded_summary_generation",
+      "level": 5,
+      "kind": "method",
+      "label": "Grounded summary generation",
+      "summary": "Generate summaries linked to evidence, caveats and review status rather than unsupported fluent text.",
+      "tags": [
+        "GenAI",
+        "summary",
+        "grounding"
+      ],
+      "bodyHtml": "<p>Generated summaries are useful only when grounded in source data and structured to expose unresolved conflicts.</p>"
+    },
+    {
+      "id": "method_dashboard_vs_decision_pack",
+      "level": 5,
+      "kind": "concept",
+      "label": "Dashboard versus decision pack",
+      "summary": "Distinguish showing values from preparing a decision conversation.",
+      "tags": [
+        "dashboard",
+        "decision_pack"
+      ],
+      "bodyHtml": "<p>Dashboards show selected values; decision packs connect evidence, narrative, uncertainty, judgement and next actions.</p>"
+    },
+    {
+      "id": "method_good_enough_evaluation",
+      "level": 5,
+      "kind": "method",
+      "label": "Good-enough evaluation criteria",
+      "summary": "Define how the team will know that a ranking, forecast or flag is credible enough for the next experiment.",
+      "tags": [
+        "evaluation",
+        "validation"
+      ],
+      "bodyHtml": "<p>Early prototypes need realistic success measures: expert relevance, repeatability, time saved, fewer conflicts or improved discussion quality.</p>"
+    },
+    {
+      "id": "method_data_quality_flags",
+      "level": 5,
+      "kind": "method",
+      "label": "Data quality flags",
+      "summary": "Record missingness, estimated values, stale updates, unit inconsistencies, duplicates and inferred fields.",
+      "tags": [
+        "data_quality",
+        "flags"
+      ],
+      "bodyHtml": "<p>Quality flags make the condition of evidence visible and prevent weak data from being mistaken for strong insight.</p>"
+    },
+    {
+      "id": "method_simulated_safe_data",
+      "level": 5,
+      "kind": "method",
+      "label": "Simulated and safe datasets",
+      "summary": "Use fictionalised data with realistic fields, metadata and quality issues to support safe experimentation.",
+      "tags": [
+        "simulation",
+        "privacy",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>Simulated datasets make learning possible before real data access, privacy and governance questions are fully resolved.</p>"
+    },
+    {
+      "id": "method_ai_ml_stretch_goals",
+      "level": 5,
+      "kind": "method",
+      "label": "AI and ML stretch goals",
+      "summary": "Use machine learning or generative AI only after basic workflow, data and validation foundations are clear.",
+      "tags": [
+        "AI",
+        "ML",
+        "stretch_goal"
+      ],
+      "bodyHtml": "<p>AI should extend the workflow, not rescue an unclear problem. In the bootcamp, complex models are valuable only after Levels 1-4 of the model ladder work.</p>"
+    },
+    {
+      "id": "method_reproducible_workflow",
+      "level": 5,
+      "kind": "method",
+      "label": "Reproducible workflow notebooks and pipelines",
+      "summary": "Create versioned scripts or notebooks that can be rerun, inspected and adapted.",
+      "tags": [
+        "reproducibility",
+        "notebooks",
+        "pipeline"
+      ],
+      "bodyHtml": "<p>Reproducible workflows turn a hackathon demonstration into a reusable organisational asset.</p>"
+    },
+    {
+      "id": "case_similar_deals_focal_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Similar Deals focal opportunity",
+      "summary": "A focal acquisition, licensing, collaboration or asset purchase is compared with announced historical deals.",
+      "tags": [
+        "Similar_Deals",
+        "case",
+        "business_development"
+      ],
+      "bodyHtml": "<p>The case asks which previous deals are comparable enough to inform strategic discussion and what caveats should be attached.</p>"
+    },
+    {
+      "id": "case_similar_deals_shallow_trap",
+      "level": 6,
+      "kind": "risk",
+      "label": "Trap: Same therapy area equals similar deal",
+      "summary": "A keyword or therapy-area search returns superficial comparators and hides important differences.",
+      "tags": [
+        "Similar_Deals",
+        "risk",
+        "shallow_similarity"
+      ],
+      "bodyHtml": "<p>This trap treats labels as logic and misses stage, modality, deal type, strategic rationale, financial terms and timing.</p>"
+    },
+    {
+      "id": "case_similar_deals_false_friend",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: False-friend comparator",
+      "summary": "Two deals look similar by keyword but differ strategically or structurally.",
+      "tags": [
+        "Similar_Deals",
+        "case",
+        "comparators"
+      ],
+      "bodyHtml": "<p>A late-stage commercial acquisition and an early-stage platform collaboration may share a therapy area but support very different business inferences.</p>"
+    },
+    {
+      "id": "case_similar_deals_expert_pool",
+      "level": 6,
+      "kind": "case",
+      "label": "Prototype: Expert-labelled comparator pool",
+      "summary": "One focal case, 30-100 candidate records and 5-10 expert-labelled good or poor matches.",
+      "tags": [
+        "Similar_Deals",
+        "prototype",
+        "validation"
+      ],
+      "bodyHtml": "<p>The expert-labelled pool tests whether similarity dimensions and ranking logic are business-credible.</p>"
+    },
+    {
+      "id": "case_green_net_zero_decision",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Green Analysis Net Zero decision",
+      "summary": "Historical emissions, drivers and interventions are organised into forecasts and scenario evidence.",
+      "tags": [
+        "Green_Analysis",
+        "case",
+        "Net_Zero"
+      ],
+      "bodyHtml": "<p>The case asks which Net Zero decision should be improved and what evidence is needed to support it.</p>"
+    },
+    {
+      "id": "case_green_same_emissions_different_stories",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Same emissions, different stories",
+      "summary": "A 4% rise in emissions may reflect production, intensity, supplier, factor, weather, travel or boundary effects.",
+      "tags": [
+        "Green_Analysis",
+        "sensemaking",
+        "case"
+      ],
+      "bodyHtml": "<p>The analytical task is to distinguish operational change from accounting, boundary and activity effects.</p>"
+    },
+    {
+      "id": "case_green_factor_revision",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Factor revision mistaken for progress",
+      "summary": "A footprint drops because a new emissions-factor table is applied, not because operations improved.",
+      "tags": [
+        "Green_Analysis",
+        "risk",
+        "emission_factors"
+      ],
+      "bodyHtml": "<p>The prototype must version factors and recalculate history consistently to avoid false interpretation.</p>"
+    },
+    {
+      "id": "case_green_supplier_prioritisation",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Supplier-category prioritisation",
+      "summary": "The largest estimated emissions category may have low confidence or limited organisational influence.",
+      "tags": [
+        "Green_Analysis",
+        "scope_3",
+        "supplier"
+      ],
+      "bodyHtml": "<p>A better decision separates estimated emissions, confidence and ability to influence.</p>"
+    },
+    {
+      "id": "case_pipeline_review_pack",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Pipeline Next review pack",
+      "summary": "Asset metrics, narratives and assumptions are combined into a reproducible review pack.",
+      "tags": [
+        "Pipeline_Next",
+        "case",
+        "portfolio"
+      ],
+      "bodyHtml": "<p>The case asks what changed, whether data is consistent, which assets need attention and what decision follows.</p>"
+    },
+    {
+      "id": "case_pipeline_slow_review_meeting",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Slow review meeting",
+      "summary": "A review spends time reconciling a spreadsheet, slide narrative and risk log rather than making decisions.",
+      "tags": [
+        "Pipeline_Next",
+        "case",
+        "meeting"
+      ],
+      "bodyHtml": "<p>Pipeline Next should surface mismatches before the meeting so expert review focuses on judgement rather than data repair.</p>"
+    },
+    {
+      "id": "case_pipeline_fluent_summary_trap",
+      "level": 6,
+      "kind": "risk",
+      "label": "Trap: Fluent summary hides unresolved conflict",
+      "summary": "AI-generated text sounds polished while data conflicts remain unresolved.",
+      "tags": [
+        "Pipeline_Next",
+        "GenAI",
+        "risk"
+      ],
+      "bodyHtml": "<p>The danger is not poor writing; it is persuasive writing that conceals uncertainty, inconsistency or missing evidence.</p>"
+    },
+    {
+      "id": "case_pipeline_asset_conflict_flag",
+      "level": 6,
+      "kind": "case",
+      "label": "Prototype: Asset conflict flag",
+      "summary": "An asset has conflicting status, milestone and risk evidence and is flagged for expert review.",
+      "tags": [
+        "Pipeline_Next",
+        "flag",
+        "prototype"
+      ],
+      "bodyHtml": "<p>This prototype tests whether the workflow can detect contradiction and route it to human confirmation.</p>"
+    },
+    {
+      "id": "risk_data_theatre",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Data theatre",
+      "summary": "Clean-looking dashboards and charts create the appearance of insight without improving decisions.",
+      "tags": [
+        "risk",
+        "dashboard",
+        "theatre"
+      ],
+      "bodyHtml": "<p>Data theatre occurs when presentation substitutes for evidence, interpretation and action.</p>"
+    },
+    {
+      "id": "risk_tool_first_solutionism",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Tool-first solutionism",
+      "summary": "The team begins with AI, dashboards or models before the decision and evidence need are clear.",
+      "tags": [
+        "risk",
+        "solutionism",
+        "requirements"
+      ],
+      "bodyHtml": "<p>Tool-first work produces impressive but misaligned outputs; decision-backwards requirements counteract it.</p>"
+    },
+    {
+      "id": "risk_siloed_dataset_ownership",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: Siloed dataset ownership",
+      "summary": "Departments protect local datasets and definitions, preventing holistic analysis and shared action.",
+      "tags": [
+        "risk",
+        "silos",
+        "data_governance"
+      ],
+      "bodyHtml": "<p>Silos undermine synergy because the evidence chain crosses organisational boundaries.</p>"
+    },
+    {
+      "id": "risk_false_precision",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: False precision",
+      "summary": "Exact-looking numbers or rankings conceal estimated, missing, changing or uncertain inputs.",
+      "tags": [
+        "risk",
+        "uncertainty",
+        "false_precision"
+      ],
+      "bodyHtml": "<p>False precision is especially dangerous in forecasts, comparator rankings and executive summaries.</p>"
+    },
+    {
+      "id": "risk_ai_replaces_judgement",
+      "level": 6,
+      "kind": "risk",
+      "label": "Pathology: AI replaces judgement",
+      "summary": "Automation is treated as a decision-maker rather than a support for evidence inspection.",
+      "tags": [
+        "risk",
+        "AI",
+        "judgement"
+      ],
+      "bodyHtml": "<p>The bootcamp must reinforce that similarity scores, flags and generated summaries invite professional judgement.</p>"
+    },
+    {
+      "id": "instance_six_line_similar_deals",
+      "level": 6,
+      "kind": "instance",
+      "label": "Instance: Similar Deals six-line definition",
+      "summary": "Define focal case, decision, useful comparator, misleading comparator, intended help and non-use.",
+      "tags": [
+        "Similar_Deals",
+        "learning_activity",
+        "requirements"
+      ],
+      "bodyHtml": "<p>This activity forces the team to define similarity in relation to a business decision.</p>"
+    },
+    {
+      "id": "instance_four_sentence_green",
+      "level": 6,
+      "kind": "instance",
+      "label": "Instance: Green Analysis four-sentence definition",
+      "summary": "Define decision, emissions question, trust basis and forbidden use.",
+      "tags": [
+        "Green_Analysis",
+        "learning_activity",
+        "requirements"
+      ],
+      "bodyHtml": "<p>This activity prevents generic sustainability discussion and makes the forecast/scenario purpose explicit.</p>"
+    },
+    {
+      "id": "instance_five_sentence_pipeline",
+      "level": 6,
+      "kind": "instance",
+      "label": "Instance: Pipeline Next five-sentence definition",
+      "summary": "Define review to improve, main decision, core sources, key inconsistency and prototype aim.",
+      "tags": [
+        "Pipeline_Next",
+        "learning_activity",
+        "requirements"
+      ],
+      "bodyHtml": "<p>This activity converts slow review pain into a testable workflow.</p>"
+    },
+    {
+      "id": "instance_data_inventory_table",
+      "level": 6,
+      "kind": "instance",
+      "label": "Instance: Five-column data inventory",
+      "summary": "Source, owner, update frequency, key fields and quality concerns.",
+      "tags": [
+        "data_inventory",
+        "learning_activity"
+      ],
+      "bodyHtml": "<p>This table makes data readiness visible and discussable.</p>"
+    },
+    {
+      "id": "instance_one_page_decision_pack",
+      "level": 6,
+      "kind": "instance",
+      "label": "Instance: One-page decision pack",
+      "summary": "A concise output showing evidence, assumptions, caveats, confidence and next actions.",
+      "tags": [
+        "decision_pack",
+        "output"
+      ],
+      "bodyHtml": "<p>This is the shared artefact through which technical work changes a business conversation.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "wis_health_and_societal_value",
+      "to": "super_responsible_innovation",
+      "why": "Responsible innovation keeps data and AI work accountable to health, sustainability and legitimacy."
+    },
+    {
+      "from": "wis_health_and_societal_value",
+      "to": "super_strategic_value_alignment",
+      "why": "Value stewardship asks whether prototypes improve decisions that matter to Chiesi."
+    },
+    {
+      "from": "wis_health_and_societal_value",
+      "to": "super_human_centric_ai_data",
+      "why": "Health and societal value require technology to support accountable human judgement."
+    },
+    {
+      "from": "wis_organisational_agility",
+      "to": "super_technological_imagination",
+      "why": "Agility grows as participants learn to see business problems as redesignable through technical capability."
+    },
+    {
+      "from": "wis_organisational_agility",
+      "to": "super_data_informed_action",
+      "why": "Agility is realised when evidence changes action rather than remaining in reports."
+    },
+    {
+      "from": "wis_organisational_agility",
+      "to": "super_organisational_learning_loop",
+      "why": "Agile organisations convert experiments and feedback into changes in routine."
+    },
+    {
+      "from": "wis_cross_functional_stewardship",
+      "to": "super_knowledge_to_action",
+      "why": "Shared stewardship enables knowledge to become coordinated cross-functional action."
+    },
+    {
+      "from": "wis_cross_functional_stewardship",
+      "to": "super_data_informed_action",
+      "why": "Data-informed action depends on functions agreeing what evidence means and who owns it."
+    },
+    {
+      "from": "wis_cross_functional_stewardship",
+      "to": "super_organisational_learning_loop",
+      "why": "Cross-functional stewardship turns fragmented local insights into shared learning loops."
+    },
+    {
+      "from": "wis_epistemic_responsibility",
+      "to": "super_responsible_innovation",
+      "why": "Epistemic responsibility demands anticipation, reflection, engagement and accountable action."
+    },
+    {
+      "from": "wis_epistemic_responsibility",
+      "to": "super_data_informed_action",
+      "why": "Honest treatment of uncertainty determines whether data can responsibly support action."
+    },
+    {
+      "from": "wis_epistemic_responsibility",
+      "to": "super_human_centric_ai_data",
+      "why": "Human-centred AI must keep uncertainty, caveats and judgement visible."
+    },
+    {
+      "from": "wis_holistic_data_resourcefulness",
+      "to": "super_technological_imagination",
+      "why": "Seeing more data resources expands the perceived space of technological possibility."
+    },
+    {
+      "from": "wis_holistic_data_resourcefulness",
+      "to": "super_knowledge_to_action",
+      "why": "Holistic resourcefulness links internal and external evidence to action."
+    },
+    {
+      "from": "wis_holistic_data_resourcefulness",
+      "to": "super_strategic_value_alignment",
+      "why": "Holistic data use should focus on the strategic decisions where combined evidence matters."
+    },
+    {
+      "from": "wis_learning_as_capability_expansion",
+      "to": "super_transformative_professional_learning",
+      "why": "The journey is transformative when participants can notice and enact new possibilities."
+    },
+    {
+      "from": "wis_learning_as_capability_expansion",
+      "to": "super_technological_imagination",
+      "why": "Capability expansion is experienced as a larger imagination of what can be built."
+    },
+    {
+      "from": "wis_learning_as_capability_expansion",
+      "to": "super_organisational_learning_loop",
+      "why": "Individual capability becomes organisational when learning is captured in routines and artefacts."
+    },
+    {
+      "from": "super_transformative_professional_learning",
+      "to": "lit_andragogy_relevance",
+      "why": "Professional relevance explains why the Chiesi cases are powerful learning contexts."
+    },
+    {
+      "from": "super_transformative_professional_learning",
+      "to": "lit_transformative_learning",
+      "why": "The bootcamp changes frames of reference about technology, data and business problems."
+    },
+    {
+      "from": "super_transformative_professional_learning",
+      "to": "lit_reflective_practitioner",
+      "why": "Participants learn through reflective engagement with uncertain professional situations."
+    },
+    {
+      "from": "super_transformative_professional_learning",
+      "to": "lit_experiential_learning_cycle",
+      "why": "The bootcamp is built around experience, reflection, conceptualisation and experimentation."
+    },
+    {
+      "from": "super_technological_imagination",
+      "to": "lit_design_thinking_wicked",
+      "why": "Technological imagination is developed by iterative design work on wicked organisational problems."
+    },
+    {
+      "from": "super_technological_imagination",
+      "to": "lit_scaffolding_zpd",
+      "why": "Scaffolding lets participants attempt technical moves just beyond their current competence."
+    },
+    {
+      "from": "super_technological_imagination",
+      "to": "lit_epistemic_fluency",
+      "why": "Imagination expands as learners move between business, data, code, modelling and judgement."
+    },
+    {
+      "from": "super_technological_imagination",
+      "to": "lit_sociomateriality",
+      "why": "Possibility emerges from the entanglement of tools, representations and organisational practice."
+    },
+    {
+      "from": "super_data_informed_action",
+      "to": "lit_sensemaking",
+      "why": "Data becomes action when it supports plausible stories and decisions."
+    },
+    {
+      "from": "super_data_informed_action",
+      "to": "lit_data_literacy_org_literacy",
+      "why": "Acting with data requires understanding how data is produced by organisational processes."
+    },
+    {
+      "from": "super_data_informed_action",
+      "to": "lit_double_loop_learning",
+      "why": "Data-informed action can question the assumptions behind existing workflows."
+    },
+    {
+      "from": "super_data_informed_action",
+      "to": "lit_epistemic_fluency",
+      "why": "Effective action requires translation between evidence forms and professional domains."
+    },
+    {
+      "from": "super_responsible_innovation",
+      "to": "lit_sociotechnical_systems",
+      "why": "Responsible innovation treats technical outputs as part of a wider system of work."
+    },
+    {
+      "from": "super_responsible_innovation",
+      "to": "lit_psychological_safety",
+      "why": "Responsible data work requires a culture where uncertainty and errors can be surfaced."
+    },
+    {
+      "from": "super_responsible_innovation",
+      "to": "lit_boundary_objects",
+      "why": "Stakeholder engagement is supported by artefacts that different communities can use together."
+    },
+    {
+      "from": "super_strategic_value_alignment",
+      "to": "lit_dynamic_capabilities",
+      "why": "Strategic value alignment supports sensing, seizing and transforming."
+    },
+    {
+      "from": "super_strategic_value_alignment",
+      "to": "lit_absorptive_capacity",
+      "why": "The organisation must assimilate external methods and data into strategic action."
+    },
+    {
+      "from": "super_strategic_value_alignment",
+      "to": "lit_sensemaking",
+      "why": "Strategic decisions depend on making ambiguous evidence actionable."
+    },
+    {
+      "from": "super_organisational_learning_loop",
+      "to": "lit_double_loop_learning",
+      "why": "Learning loops become powerful when they change governing assumptions, not just outputs."
+    },
+    {
+      "from": "super_organisational_learning_loop",
+      "to": "lit_expansive_learning",
+      "why": "Collective learning reconceptualises the object of activity: from data output to decision workflow."
+    },
+    {
+      "from": "super_organisational_learning_loop",
+      "to": "lit_knowledge_creation_seci",
+      "why": "Learning loops move tacit judgement into explicit artefacts and back into practice."
+    },
+    {
+      "from": "super_organisational_learning_loop",
+      "to": "lit_communities_of_practice",
+      "why": "Durable learning is carried through communities and shared repertoires."
+    },
+    {
+      "from": "super_human_centric_ai_data",
+      "to": "lit_reflective_practitioner",
+      "why": "Human-centred AI depends on reflective professionals who can challenge outputs."
+    },
+    {
+      "from": "super_human_centric_ai_data",
+      "to": "lit_sociotechnical_systems",
+      "why": "The human-machine relationship is an organisational design problem."
+    },
+    {
+      "from": "super_human_centric_ai_data",
+      "to": "lit_psychological_safety",
+      "why": "Users must feel safe to question AI outputs and expose model weaknesses."
+    },
+    {
+      "from": "super_knowledge_to_action",
+      "to": "lit_situated_learning",
+      "why": "Knowledge translates into action when learning is situated in actual work."
+    },
+    {
+      "from": "super_knowledge_to_action",
+      "to": "lit_boundary_objects",
+      "why": "Decision packs and dictionaries carry knowledge across functional boundaries."
+    },
+    {
+      "from": "super_knowledge_to_action",
+      "to": "lit_expansive_learning",
+      "why": "New artefacts support new patterns of collective work."
+    },
+    {
+      "from": "lit_andragogy_relevance",
+      "to": "arch_capability_scaffolding",
+      "why": "Adult learners need support that is relevant, self-directed and immediately useful."
+    },
+    {
+      "from": "lit_experiential_learning_cycle",
+      "to": "arch_safe_to_learn_portfolio",
+      "why": "Experimentation gives participants concrete experience and feedback."
+    },
+    {
+      "from": "lit_reflective_practitioner",
+      "to": "arch_human_judgement_boundaries",
+      "why": "Reflective professionals can decide what should remain expert-owned."
+    },
+    {
+      "from": "lit_transformative_learning",
+      "to": "arch_decision_backwards_requirements",
+      "why": "Perspective change begins when learners stop asking 'what tool?' and start asking 'what decision?'"
+    },
+    {
+      "from": "lit_epistemic_fluency",
+      "to": "arch_shared_language_taxonomy",
+      "why": "Epistemic fluency requires a shared vocabulary across business, data and technical perspectives."
+    },
+    {
+      "from": "lit_epistemic_fluency",
+      "to": "arch_evidence_pack_governance",
+      "why": "Decision packs integrate multiple ways of knowing into a usable artefact."
+    },
+    {
+      "from": "lit_boundary_objects",
+      "to": "arch_evidence_pack_governance",
+      "why": "Evidence packs become boundary objects for cross-functional decision-making."
+    },
+    {
+      "from": "lit_boundary_objects",
+      "to": "arch_shared_language_taxonomy",
+      "why": "Taxonomies and KPI definitions are boundary objects that stabilise collaboration."
+    },
+    {
+      "from": "lit_communities_of_practice",
+      "to": "arch_cross_functional_operating_model",
+      "why": "A bootcamp cohort can seed a community of practice for data-enabled work."
+    },
+    {
+      "from": "lit_situated_learning",
+      "to": "arch_minimum_viable_data_slice",
+      "why": "Situated learning benefits from realistic, concrete data slices rather than abstract exercises."
+    },
+    {
+      "from": "lit_double_loop_learning",
+      "to": "arch_data_governance_stewardship",
+      "why": "Repeated data defects should trigger questions about definitions, ownership and governance."
+    },
+    {
+      "from": "lit_absorptive_capacity",
+      "to": "arch_change_management_adoption",
+      "why": "External AI/data knowledge becomes valuable only when assimilated into organisational routines."
+    },
+    {
+      "from": "lit_dynamic_capabilities",
+      "to": "arch_safe_to_learn_portfolio",
+      "why": "Safe-to-learn experiments help the organisation sense and seize opportunities."
+    },
+    {
+      "from": "lit_sensemaking",
+      "to": "arch_evidence_pack_governance",
+      "why": "Evidence pack governance supports shared sensemaking rather than isolated reporting."
+    },
+    {
+      "from": "lit_sociotechnical_systems",
+      "to": "arch_cross_functional_operating_model",
+      "why": "Sociotechnical performance requires designing roles, tools and handoffs together."
+    },
+    {
+      "from": "lit_expansive_learning",
+      "to": "arch_data_product_mindset",
+      "why": "Expansive learning can turn a hackathon artefact into a new organisational data product."
+    },
+    {
+      "from": "lit_knowledge_creation_seci",
+      "to": "arch_auditability_lineage_provenance",
+      "why": "Tacit judgement becomes usable when its sources, assumptions and transformations are made explicit."
+    },
+    {
+      "from": "lit_design_thinking_wicked",
+      "to": "arch_decision_backwards_requirements",
+      "why": "Wicked problems need iterative framing grounded in stakeholder decisions."
+    },
+    {
+      "from": "lit_scaffolding_zpd",
+      "to": "arch_capability_scaffolding",
+      "why": "Technical scaffolding bridges current capability and desired prototype work."
+    },
+    {
+      "from": "lit_data_literacy_org_literacy",
+      "to": "arch_data_governance_stewardship",
+      "why": "Understanding data production leads naturally to stewardship and governance."
+    },
+    {
+      "from": "lit_sociomateriality",
+      "to": "arch_data_product_mindset",
+      "why": "Data products reshape practice through artefacts, interfaces and routines."
+    },
+    {
+      "from": "lit_psychological_safety",
+      "to": "arch_safe_to_learn_portfolio",
+      "why": "Safe-to-learn experiments need a culture that tolerates uncertainty and weak early prototypes."
+    },
+    {
+      "from": "arch_decision_backwards_requirements",
+      "to": "practice_challenge_definition_sprint",
+      "why": "Challenge definitions start from decisions and work backward to data and prototype scope."
+    },
+    {
+      "from": "arch_decision_backwards_requirements",
+      "to": "practice_decision_pack_storyboard",
+      "why": "Storyboarding the future output forces decision-backwards thinking."
+    },
+    {
+      "from": "arch_decision_backwards_requirements",
+      "to": "practice_stakeholder_interview",
+      "why": "Stakeholder interviews identify the real decision audience and rejection criteria."
+    },
+    {
+      "from": "arch_data_governance_stewardship",
+      "to": "practice_data_inventory_archaeology",
+      "why": "Governance begins with knowing sources, owners, update frequencies and quality concerns."
+    },
+    {
+      "from": "arch_data_governance_stewardship",
+      "to": "practice_kpi_dictionary_workshop",
+      "why": "KPI dictionaries make ownership, formula and interpretation explicit."
+    },
+    {
+      "from": "arch_data_governance_stewardship",
+      "to": "practice_uncertainty_language_design",
+      "why": "Data governance must include language for quality and confidence."
+    },
+    {
+      "from": "arch_shared_language_taxonomy",
+      "to": "practice_similarity_cards",
+      "why": "Similarity cards surface and negotiate domain-specific meanings of comparability."
+    },
+    {
+      "from": "arch_shared_language_taxonomy",
+      "to": "practice_kpi_dictionary_workshop",
+      "why": "KPI work stabilises shared language for computation."
+    },
+    {
+      "from": "arch_shared_language_taxonomy",
+      "to": "practice_narrative_metric_mapping",
+      "why": "Shared terminology helps connect narrative claims to structured evidence."
+    },
+    {
+      "from": "arch_minimum_viable_data_slice",
+      "to": "practice_data_inventory_archaeology",
+      "why": "Data inventory identifies the smallest slice that still proves the concept."
+    },
+    {
+      "from": "arch_minimum_viable_data_slice",
+      "to": "practice_model_ladder",
+      "why": "A data slice supports simple models before AI stretch goals."
+    },
+    {
+      "from": "arch_minimum_viable_data_slice",
+      "to": "practice_prototype_backlog",
+      "why": "Backlog items should be limited to what the minimum slice can test."
+    },
+    {
+      "from": "arch_cross_functional_operating_model",
+      "to": "practice_stakeholder_interview",
+      "why": "The operating model starts by listening across functions."
+    },
+    {
+      "from": "arch_cross_functional_operating_model",
+      "to": "practice_peer_review_demo",
+      "why": "Cross-functional demos test whether outputs travel across expert communities."
+    },
+    {
+      "from": "arch_cross_functional_operating_model",
+      "to": "practice_after_action_reflection",
+      "why": "Reflection helps participants consolidate a shared way of working."
+    },
+    {
+      "from": "arch_evidence_pack_governance",
+      "to": "practice_decision_pack_storyboard",
+      "why": "Storyboards specify evidence, caveats and action routes before build."
+    },
+    {
+      "from": "arch_evidence_pack_governance",
+      "to": "practice_prompting_show_working",
+      "why": "AI prompts should produce evidence packs rather than unsupported prose."
+    },
+    {
+      "from": "arch_evidence_pack_governance",
+      "to": "practice_expert_validation",
+      "why": "Governed evidence packs require expert review of credibility and limitations."
+    },
+    {
+      "from": "arch_human_judgement_boundaries",
+      "to": "practice_meeting_archaeology",
+      "why": "Meeting archaeology distinguishes automation, assistance and human-owned judgement."
+    },
+    {
+      "from": "arch_human_judgement_boundaries",
+      "to": "practice_uncertainty_language_design",
+      "why": "Judgement boundaries require clear language for when human review is needed."
+    },
+    {
+      "from": "arch_human_judgement_boundaries",
+      "to": "practice_expert_validation",
+      "why": "Expert validation checks whether automation boundaries are appropriate."
+    },
+    {
+      "from": "arch_data_product_mindset",
+      "to": "practice_prototype_backlog",
+      "why": "A backlog turns learning into product-like increments."
+    },
+    {
+      "from": "arch_data_product_mindset",
+      "to": "practice_peer_review_demo",
+      "why": "Demos test the usability and repeatability expected of a data product."
+    },
+    {
+      "from": "arch_data_product_mindset",
+      "to": "practice_after_action_reflection",
+      "why": "Reflection captures product learning after each iteration."
+    },
+    {
+      "from": "arch_safe_to_learn_portfolio",
+      "to": "practice_scenario_marketplace",
+      "why": "Competing scenario sketches create safe-to-learn variation."
+    },
+    {
+      "from": "arch_safe_to_learn_portfolio",
+      "to": "practice_peer_review_demo",
+      "why": "Demos expose assumptions safely before scaling."
+    },
+    {
+      "from": "arch_safe_to_learn_portfolio",
+      "to": "practice_after_action_reflection",
+      "why": "Safe experiments produce learning only if reflection captures what changed."
+    },
+    {
+      "from": "arch_auditability_lineage_provenance",
+      "to": "practice_data_inventory_archaeology",
+      "why": "Lineage begins by mapping sources and transformations."
+    },
+    {
+      "from": "arch_auditability_lineage_provenance",
+      "to": "practice_prompting_show_working",
+      "why": "Prompts should make sources and reasoning paths visible."
+    },
+    {
+      "from": "arch_auditability_lineage_provenance",
+      "to": "practice_narrative_metric_mapping",
+      "why": "Mapping narrative to metric creates traceability between claim and evidence."
+    },
+    {
+      "from": "arch_capability_scaffolding",
+      "to": "practice_model_ladder",
+      "why": "The model ladder sequences capability from simple reproducibility to advanced AI."
+    },
+    {
+      "from": "arch_capability_scaffolding",
+      "to": "practice_prototype_backlog",
+      "why": "Backlog items can be scaffolded into beginner, intermediate and stretch tasks."
+    },
+    {
+      "from": "arch_capability_scaffolding",
+      "to": "practice_peer_review_demo",
+      "why": "Peer demos allow less technical participants to learn from visible artefacts."
+    },
+    {
+      "from": "arch_change_management_adoption",
+      "to": "practice_stakeholder_interview",
+      "why": "Adoption planning begins with understanding user pain and trust conditions."
+    },
+    {
+      "from": "arch_change_management_adoption",
+      "to": "practice_decision_pack_storyboard",
+      "why": "A storyboard shows how the prototype will fit a real meeting."
+    },
+    {
+      "from": "arch_change_management_adoption",
+      "to": "practice_after_action_reflection",
+      "why": "Reflection identifies adoption blockers and next steps."
+    },
+    {
+      "from": "practice_challenge_definition_sprint",
+      "to": "method_good_enough_evaluation",
+      "why": "A crisp challenge definition enables the team to define success for a prototype."
+    },
+    {
+      "from": "practice_challenge_definition_sprint",
+      "to": "method_dashboard_vs_decision_pack",
+      "why": "Defining the decision clarifies why a decision pack may be needed instead of a dashboard."
+    },
+    {
+      "from": "practice_stakeholder_interview",
+      "to": "method_good_enough_evaluation",
+      "why": "User rejection criteria become evaluation criteria."
+    },
+    {
+      "from": "practice_meeting_archaeology",
+      "to": "method_reproducible_kpi_computation",
+      "why": "Computed metrics identified in meetings become reproducible KPI candidates."
+    },
+    {
+      "from": "practice_meeting_archaeology",
+      "to": "method_inconsistency_flags",
+      "why": "Meeting bottlenecks often reveal the flags that should be detected before review."
+    },
+    {
+      "from": "practice_data_inventory_archaeology",
+      "to": "method_data_quality_flags",
+      "why": "Inventory work translates quality concerns into explicit flags."
+    },
+    {
+      "from": "practice_data_inventory_archaeology",
+      "to": "method_simulated_safe_data",
+      "why": "Inventory identifies which fields can be safely simulated for the hackathon."
+    },
+    {
+      "from": "practice_similarity_cards",
+      "to": "method_similarity_scoring_explainable",
+      "why": "Ranked dimensions become weights or explanation fields in similarity scoring."
+    },
+    {
+      "from": "practice_similarity_cards",
+      "to": "method_taxonomy_vocabularies",
+      "why": "Similarity dimensions require controlled terms to compare records consistently."
+    },
+    {
+      "from": "practice_scenario_marketplace",
+      "to": "method_forecasting_baselines",
+      "why": "The baseline team creates the foundation for more complex forecasting."
+    },
+    {
+      "from": "practice_scenario_marketplace",
+      "to": "method_scenario_intervention_analysis",
+      "why": "The intervention team explores explicit alternative futures."
+    },
+    {
+      "from": "practice_kpi_dictionary_workshop",
+      "to": "method_reproducible_kpi_computation",
+      "why": "A KPI dictionary defines formulas, source fields and interpretation."
+    },
+    {
+      "from": "practice_kpi_dictionary_workshop",
+      "to": "method_entity_resolution",
+      "why": "KPI computation often requires harmonising assets or organisational units across sources."
+    },
+    {
+      "from": "practice_narrative_metric_mapping",
+      "to": "method_narrative_feature_extraction",
+      "why": "Mapping identifies which narrative features should be extracted."
+    },
+    {
+      "from": "practice_narrative_metric_mapping",
+      "to": "method_grounded_summary_generation",
+      "why": "Grounded summaries depend on linking narrative claims to source evidence."
+    },
+    {
+      "from": "practice_prompting_show_working",
+      "to": "method_grounded_summary_generation",
+      "why": "Prompts that show sources and caveats reduce fluent but unsupported AI output."
+    },
+    {
+      "from": "practice_prompting_show_working",
+      "to": "method_ai_ml_stretch_goals",
+      "why": "Responsible prompting can support AI stretch goals once foundations are sound."
+    },
+    {
+      "from": "practice_prototype_backlog",
+      "to": "method_reproducible_workflow",
+      "why": "Backlog items should result in reproducible notebooks, scripts or pipelines."
+    },
+    {
+      "from": "practice_prototype_backlog",
+      "to": "method_good_enough_evaluation",
+      "why": "Each backlog item needs a test of whether it worked well enough."
+    },
+    {
+      "from": "practice_peer_review_demo",
+      "to": "method_good_enough_evaluation",
+      "why": "Peer critique tests credibility, usability and repeatability."
+    },
+    {
+      "from": "practice_after_action_reflection",
+      "to": "method_reproducible_workflow",
+      "why": "Reflections should update the workflow, documentation and next iteration."
+    },
+    {
+      "from": "practice_model_ladder",
+      "to": "method_forecasting_baselines",
+      "why": "The model ladder starts with simple baselines."
+    },
+    {
+      "from": "practice_model_ladder",
+      "to": "method_ai_ml_stretch_goals",
+      "why": "AI/ML is a stretch goal after data, workflow and evaluation foundations."
+    },
+    {
+      "from": "practice_decision_pack_storyboard",
+      "to": "method_dashboard_vs_decision_pack",
+      "why": "Storyboarding clarifies whether the output prepares a decision or merely displays values."
+    },
+    {
+      "from": "practice_uncertainty_language_design",
+      "to": "method_uncertainty_ranges",
+      "why": "Communication design turns uncertainty into usable visual or textual indicators."
+    },
+    {
+      "from": "practice_expert_validation",
+      "to": "method_good_enough_evaluation",
+      "why": "Expert review determines whether outputs are credible enough for the next step."
+    },
+    {
+      "from": "method_similarity_scoring_explainable",
+      "to": "case_similar_deals_focal_case",
+      "why": "A focal opportunity is evaluated through explicit dimensions of similarity."
+    },
+    {
+      "from": "method_similarity_scoring_explainable",
+      "to": "case_similar_deals_shallow_trap",
+      "why": "Explainable scoring counters the trap of same therapy area equals similarity."
+    },
+    {
+      "from": "method_similarity_scoring_explainable",
+      "to": "case_similar_deals_false_friend",
+      "why": "False friends are exposed when dimensions show where apparent similarity is weak."
+    },
+    {
+      "from": "method_similarity_scoring_explainable",
+      "to": "case_similar_deals_expert_pool",
+      "why": "Expert labels validate whether the ranking logic is credible."
+    },
+    {
+      "from": "method_taxonomy_vocabularies",
+      "to": "case_similar_deals_focal_case",
+      "why": "Controlled terms support comparison of therapy, modality, stage and deal structure."
+    },
+    {
+      "from": "method_narrative_feature_extraction",
+      "to": "case_similar_deals_focal_case",
+      "why": "Deal announcements must be turned into comparable fields without losing rationale."
+    },
+    {
+      "from": "method_narrative_feature_extraction",
+      "to": "case_similar_deals_false_friend",
+      "why": "Narrative rationale can reveal that two superficially similar deals differ strategically."
+    },
+    {
+      "from": "method_good_enough_evaluation",
+      "to": "case_similar_deals_expert_pool",
+      "why": "Good-enough evaluation asks whether experts recognise outputs as relevant and repeatable."
+    },
+    {
+      "from": "method_simulated_safe_data",
+      "to": "case_similar_deals_expert_pool",
+      "why": "A small simulated candidate pool can make the hackathon safe and productive."
+    },
+    {
+      "from": "method_ai_ml_stretch_goals",
+      "to": "case_similar_deals_shallow_trap",
+      "why": "AI can amplify shallow similarity unless requirements define the comparison logic."
+    },
+    {
+      "from": "method_forecasting_baselines",
+      "to": "case_green_net_zero_decision",
+      "why": "Baselines establish the reference pathway for Net Zero decisions."
+    },
+    {
+      "from": "method_forecasting_baselines",
+      "to": "case_green_same_emissions_different_stories",
+      "why": "Trends alone cannot explain why emissions changed."
+    },
+    {
+      "from": "method_scenario_intervention_analysis",
+      "to": "case_green_net_zero_decision",
+      "why": "Scenarios test whether interventions plausibly affect the target pathway."
+    },
+    {
+      "from": "method_scenario_intervention_analysis",
+      "to": "case_green_supplier_prioritisation",
+      "why": "Scenario analysis can compare where to act, learn or improve data."
+    },
+    {
+      "from": "method_uncertainty_ranges",
+      "to": "case_green_supplier_prioritisation",
+      "why": "Supplier prioritisation should show confidence and influenceability, not just estimated CO2e."
+    },
+    {
+      "from": "method_uncertainty_ranges",
+      "to": "risk_false_precision",
+      "why": "Visible ranges counter exact-looking but weak conclusions."
+    },
+    {
+      "from": "method_emission_factor_versioning",
+      "to": "case_green_factor_revision",
+      "why": "Factor versioning prevents accounting revisions from being mistaken for operational improvement."
+    },
+    {
+      "from": "method_data_quality_flags",
+      "to": "case_green_supplier_prioritisation",
+      "why": "Low-confidence supplier data should change prioritisation and action planning."
+    },
+    {
+      "from": "method_dashboard_vs_decision_pack",
+      "to": "case_green_net_zero_decision",
+      "why": "Green Analysis should support a Net Zero decision, not just chart emissions."
+    },
+    {
+      "from": "method_entity_resolution",
+      "to": "case_pipeline_review_pack",
+      "why": "Asset records must be linked across metrics, narratives and risk logs."
+    },
+    {
+      "from": "method_reproducible_kpi_computation",
+      "to": "case_pipeline_review_pack",
+      "why": "The review pack depends on agreed, reproducible KPIs."
+    },
+    {
+      "from": "method_reproducible_kpi_computation",
+      "to": "case_pipeline_slow_review_meeting",
+      "why": "Reproducible KPIs reduce time lost reconciling versions in meetings."
+    },
+    {
+      "from": "method_inconsistency_flags",
+      "to": "case_pipeline_asset_conflict_flag",
+      "why": "The prototype detects status, milestone and risk conflicts."
+    },
+    {
+      "from": "method_inconsistency_flags",
+      "to": "case_pipeline_slow_review_meeting",
+      "why": "Flags surface issues before the review meeting."
+    },
+    {
+      "from": "method_grounded_summary_generation",
+      "to": "case_pipeline_fluent_summary_trap",
+      "why": "Grounding prevents fluent summaries from hiding conflicts."
+    },
+    {
+      "from": "method_grounded_summary_generation",
+      "to": "case_pipeline_review_pack",
+      "why": "Executive summaries should link to evidence, flags and action routes."
+    },
+    {
+      "from": "method_dashboard_vs_decision_pack",
+      "to": "case_pipeline_review_pack",
+      "why": "Pipeline Next is a decision-support workflow, not merely a reporting dashboard."
+    },
+    {
+      "from": "method_dashboard_vs_decision_pack",
+      "to": "risk_data_theatre",
+      "why": "The dashboard/decision-pack distinction exposes data theatre."
+    },
+    {
+      "from": "method_good_enough_evaluation",
+      "to": "risk_tool_first_solutionism",
+      "why": "Evaluation tied to decisions counters tool-first solutionism."
+    },
+    {
+      "from": "method_data_quality_flags",
+      "to": "risk_false_precision",
+      "why": "Quality flags prevent weak data from appearing more certain than it is."
+    },
+    {
+      "from": "method_ai_ml_stretch_goals",
+      "to": "risk_ai_replaces_judgement",
+      "why": "AI stretch goals must be governed so they support rather than replace judgement."
+    },
+    {
+      "from": "method_grounded_summary_generation",
+      "to": "risk_ai_replaces_judgement",
+      "why": "Grounded summaries keep humans responsible for interpretation and action."
+    },
+    {
+      "from": "method_reproducible_workflow",
+      "to": "risk_siloed_dataset_ownership",
+      "why": "Reusable workflows require cross-source access and shared ownership."
+    },
+    {
+      "from": "method_entity_resolution",
+      "to": "risk_siloed_dataset_ownership",
+      "why": "Entity resolution exposes where silos use different identifiers and definitions."
+    },
+    {
+      "from": "instance_six_line_similar_deals",
+      "to": "practice_challenge_definition_sprint",
+      "why": "The six-line definition is a case-specific version of challenge definition."
+    },
+    {
+      "from": "instance_six_line_similar_deals",
+      "to": "case_similar_deals_focal_case",
+      "why": "It defines the focal case and intended business use."
+    },
+    {
+      "from": "instance_six_line_similar_deals",
+      "to": "case_similar_deals_shallow_trap",
+      "why": "It names what a misleading comparator would be."
+    },
+    {
+      "from": "instance_four_sentence_green",
+      "to": "practice_challenge_definition_sprint",
+      "why": "The four-sentence definition is a Green Analysis framing device."
+    },
+    {
+      "from": "instance_four_sentence_green",
+      "to": "case_green_net_zero_decision",
+      "why": "It states the decision and the emissions question."
+    },
+    {
+      "from": "instance_four_sentence_green",
+      "to": "risk_false_precision",
+      "why": "It requires the team to state what the output must not be used for."
+    },
+    {
+      "from": "instance_five_sentence_pipeline",
+      "to": "practice_challenge_definition_sprint",
+      "why": "The five-sentence definition is a Pipeline Next framing device."
+    },
+    {
+      "from": "instance_five_sentence_pipeline",
+      "to": "case_pipeline_review_pack",
+      "why": "It names the review to improve, data sources and key inconsistency."
+    },
+    {
+      "from": "instance_five_sentence_pipeline",
+      "to": "case_pipeline_asset_conflict_flag",
+      "why": "It identifies the flag that must be tested."
+    },
+    {
+      "from": "instance_data_inventory_table",
+      "to": "practice_data_inventory_archaeology",
+      "why": "The five-column table operationalises data archaeology."
+    },
+    {
+      "from": "instance_data_inventory_table",
+      "to": "method_data_quality_flags",
+      "why": "Quality concerns become flags and readiness decisions."
+    },
+    {
+      "from": "instance_data_inventory_table",
+      "to": "method_simulated_safe_data",
+      "why": "Fields can be marked ready, needs cleaning, needs simulation or out of scope."
+    },
+    {
+      "from": "instance_one_page_decision_pack",
+      "to": "practice_decision_pack_storyboard",
+      "why": "The one-page decision pack is the target storyboard output."
+    },
+    {
+      "from": "instance_one_page_decision_pack",
+      "to": "method_dashboard_vs_decision_pack",
+      "why": "It demonstrates the difference between values displayed and decisions prepared."
+    },
+    {
+      "from": "instance_one_page_decision_pack",
+      "to": "arch_evidence_pack_governance",
+      "why": "It is governed by source evidence, assumptions, confidence and action routing."
+    },
+    {
+      "from": "arch_human_judgement_boundaries",
+      "to": "super_human_centric_ai_data",
+      "why": "Boundaries make the human-centred principle operational."
+    },
+    {
+      "from": "arch_data_product_mindset",
+      "to": "super_knowledge_to_action",
+      "why": "Reusable data products carry knowledge into future action."
+    },
+    {
+      "from": "arch_change_management_adoption",
+      "to": "super_organisational_learning_loop",
+      "why": "Adoption work turns one-off learning into changed routine."
+    },
+    {
+      "from": "method_good_enough_evaluation",
+      "to": "super_organisational_learning_loop",
+      "why": "Evaluation produces feedback that reshapes requirements and practice."
+    },
+    {
+      "from": "method_reproducible_workflow",
+      "to": "arch_auditability_lineage_provenance",
+      "why": "Reproducible workflows preserve lineage and auditability."
+    },
+    {
+      "from": "method_uncertainty_ranges",
+      "to": "wis_epistemic_responsibility",
+      "why": "Visible uncertainty enacts epistemic responsibility."
+    },
+    {
+      "from": "method_inconsistency_flags",
+      "to": "wis_epistemic_responsibility",
+      "why": "Flags surface conflict rather than burying it."
+    },
+    {
+      "from": "method_similarity_scoring_explainable",
+      "to": "wis_epistemic_responsibility",
+      "why": "Explainability makes the basis of comparison open to challenge."
+    },
+    {
+      "from": "method_scenario_intervention_analysis",
+      "to": "wis_organisational_agility",
+      "why": "Scenario comparison helps the organisation act under uncertainty."
+    },
+    {
+      "from": "method_reproducible_kpi_computation",
+      "to": "wis_cross_functional_stewardship",
+      "why": "Shared KPI computation requires and reinforces cross-functional stewardship."
+    },
+    {
+      "from": "method_simulated_safe_data",
+      "to": "lit_psychological_safety",
+      "why": "Safe datasets lower the threat of experimentation and support learning."
+    },
+    {
+      "from": "practice_peer_review_demo",
+      "to": "lit_communities_of_practice",
+      "why": "Peer demos build shared repertoire across the bootcamp community."
+    },
+    {
+      "from": "practice_after_action_reflection",
+      "to": "lit_reflective_practitioner",
+      "why": "After-action reflection develops reflective professional judgement."
+    },
+    {
+      "from": "practice_similarity_cards",
+      "to": "lit_boundary_objects",
+      "why": "Cards are boundary objects for negotiating similarity across expertise."
+    },
+    {
+      "from": "practice_decision_pack_storyboard",
+      "to": "lit_boundary_objects",
+      "why": "Storyboards become boundary objects for technical and business participants."
+    },
+    {
+      "from": "practice_meeting_archaeology",
+      "to": "lit_sociomateriality",
+      "why": "Meeting artefacts reveal the sociomaterial nature of decision work."
+    },
+    {
+      "from": "practice_data_inventory_archaeology",
+      "to": "lit_data_literacy_org_literacy",
+      "why": "Inventory work makes the organisational origins of data visible."
+    },
+    {
+      "from": "practice_narrative_metric_mapping",
+      "to": "lit_knowledge_creation_seci",
+      "why": "Mapping converts tacit narrative judgement into explicit structures."
+    },
+    {
+      "from": "practice_prompting_show_working",
+      "to": "super_responsible_innovation",
+      "why": "Prompting that exposes evidence and caveats is a responsible innovation control."
+    },
+    {
+      "from": "practice_model_ladder",
+      "to": "lit_scaffolding_zpd",
+      "why": "The ladder provides a scaffolded pathway from simple to advanced models."
+    },
+    {
+      "from": "risk_tool_first_solutionism",
+      "to": "arch_decision_backwards_requirements",
+      "why": "Decision-backwards requirements are the remedy for tool-first solutionism."
+    },
+    {
+      "from": "risk_tool_first_solutionism",
+      "to": "super_technological_imagination",
+      "why": "Technological imagination must be disciplined by business need, not confused with tool enthusiasm."
+    },
+    {
+      "from": "risk_data_theatre",
+      "to": "method_dashboard_vs_decision_pack",
+      "why": "Decision-pack design counters impressive but non-actionable dashboards."
+    },
+    {
+      "from": "risk_data_theatre",
+      "to": "super_data_informed_action",
+      "why": "Data theatre fails because it does not change decisions or action."
+    },
+    {
+      "from": "risk_siloed_dataset_ownership",
+      "to": "arch_cross_functional_operating_model",
+      "why": "A cross-functional operating model counters local ownership barriers."
+    },
+    {
+      "from": "risk_siloed_dataset_ownership",
+      "to": "arch_data_governance_stewardship",
+      "why": "Governance clarifies shared ownership and definitions."
+    },
+    {
+      "from": "risk_false_precision",
+      "to": "wis_epistemic_responsibility",
+      "why": "False precision violates epistemic responsibility."
+    },
+    {
+      "from": "risk_false_precision",
+      "to": "method_uncertainty_ranges",
+      "why": "Uncertainty ranges and confidence language are remedies for false precision."
+    },
+    {
+      "from": "risk_ai_replaces_judgement",
+      "to": "arch_human_judgement_boundaries",
+      "why": "Human judgement boundaries prevent inappropriate automation."
+    },
+    {
+      "from": "risk_ai_replaces_judgement",
+      "to": "super_human_centric_ai_data",
+      "why": "Human-centred data work defines AI as support for judgement."
+    },
+    {
+      "from": "case_similar_deals_focal_case",
+      "to": "case_green_net_zero_decision",
+      "why": "Both require the team to define the decision before modelling."
+    },
+    {
+      "from": "case_green_net_zero_decision",
+      "to": "case_pipeline_review_pack",
+      "why": "Both convert historical evidence into a forward-looking decision conversation."
+    },
+    {
+      "from": "case_pipeline_review_pack",
+      "to": "case_similar_deals_focal_case",
+      "why": "Both require an explainable evidence pack rather than an automatic answer."
+    },
+    {
+      "from": "case_similar_deals_shallow_trap",
+      "to": "risk_false_precision",
+      "why": "A ranked list can look precise while resting on weak similarity assumptions."
+    },
+    {
+      "from": "case_green_factor_revision",
+      "to": "risk_false_precision",
+      "why": "Accounting changes can create exact-looking but misleading progress."
+    },
+    {
+      "from": "case_pipeline_fluent_summary_trap",
+      "to": "risk_ai_replaces_judgement",
+      "why": "Fluent AI text tempts users to accept the machine's framing without expert review."
+    },
+    {
+      "from": "case_pipeline_slow_review_meeting",
+      "to": "risk_siloed_dataset_ownership",
+      "why": "Slow review meetings often arise from siloed sources and inconsistent definitions."
+    },
+    {
+      "from": "case_green_supplier_prioritisation",
+      "to": "super_data_informed_action",
+      "why": "Actionable sustainability analysis distinguishes where to act, learn or improve data."
+    },
+    {
+      "from": "case_similar_deals_expert_pool",
+      "to": "super_human_centric_ai_data",
+      "why": "Expert-labelled pools keep judgement central to similarity design."
+    },
+    {
+      "from": "case_pipeline_asset_conflict_flag",
+      "to": "arch_human_judgement_boundaries",
+      "why": "The flag shows where automation hands off to expert judgement."
+    },
+    {
+      "from": "case_green_same_emissions_different_stories",
+      "to": "lit_sensemaking",
+      "why": "Different stories about the same number illustrate sensemaking under ambiguity."
+    },
+    {
+      "from": "case_similar_deals_false_friend",
+      "to": "lit_epistemic_fluency",
+      "why": "False friends require movement between scientific, commercial, financial and strategic ways of knowing."
+    },
+    {
+      "from": "case_pipeline_review_pack",
+      "to": "lit_boundary_objects",
+      "why": "The review pack is a boundary object for asset teams, finance, portfolio and leadership."
+    },
+    {
+      "from": "case_green_net_zero_decision",
+      "to": "lit_dynamic_capabilities",
+      "why": "Green Analysis supports sensing emissions drivers and seizing interventions."
+    },
+    {
+      "from": "case_similar_deals_focal_case",
+      "to": "lit_absorptive_capacity",
+      "why": "External deal evidence must be assimilated into Chiesi-specific strategy."
+    },
+    {
+      "from": "wis_cross_functional_stewardship",
+      "to": "arch_cross_functional_operating_model",
+      "why": "Stewardship is enacted through a model of shared work and decision rights."
+    },
+    {
+      "from": "wis_holistic_data_resourcefulness",
+      "to": "arch_data_governance_stewardship",
+      "why": "Holistic use of data requires stewardship across internal and external sources."
+    },
+    {
+      "from": "wis_organisational_agility",
+      "to": "arch_safe_to_learn_portfolio",
+      "why": "Agility is developed through small experiments that reveal what is possible."
+    },
+    {
+      "from": "wis_learning_as_capability_expansion",
+      "to": "arch_capability_scaffolding",
+      "why": "Capability expansion requires scaffolding that turns aspiration into practice."
+    },
+    {
+      "from": "wis_epistemic_responsibility",
+      "to": "arch_auditability_lineage_provenance",
+      "why": "Auditability helps professionals defend what they know and what they do not know."
+    },
+    {
+      "from": "arch_shared_language_taxonomy",
+      "to": "method_taxonomy_vocabularies",
+      "why": "The organisational need for shared language becomes controlled vocabularies in the data layer."
+    },
+    {
+      "from": "arch_auditability_lineage_provenance",
+      "to": "method_reproducible_workflow",
+      "why": "Lineage is operationalised through versioned reproducible workflows."
+    },
+    {
+      "from": "arch_evidence_pack_governance",
+      "to": "method_grounded_summary_generation",
+      "why": "Grounded summaries are one component of governed evidence packs."
+    },
+    {
+      "from": "arch_data_product_mindset",
+      "to": "method_reproducible_workflow",
+      "why": "Data products require reproducible pipelines rather than one-off scripts."
+    },
+    {
+      "from": "arch_minimum_viable_data_slice",
+      "to": "method_simulated_safe_data",
+      "why": "A safe simulated dataset can instantiate the minimum viable slice."
+    },
+    {
+      "from": "arch_human_judgement_boundaries",
+      "to": "method_inconsistency_flags",
+      "why": "Flags mark points where human review is required."
+    },
+    {
+      "from": "arch_change_management_adoption",
+      "to": "method_dashboard_vs_decision_pack",
+      "why": "Adoption improves when outputs clearly support existing meetings and decisions."
+    },
+    {
+      "from": "arch_capability_scaffolding",
+      "to": "method_reproducible_workflow",
+      "why": "Starter notebooks and scripts provide scaffolding while preserving reproducibility."
+    }
+  ]
+}
