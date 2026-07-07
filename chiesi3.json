@@ -1,0 +1,2396 @@
+{
+  "meta": {
+    "title": "Chiesi Data Bootcamp — Business Agility → Stakeholders → Problem Space → Data & AI Flexibility → Hackathon → Action → Cases",
+    "subtitle": "A simple knowledge lattice for a data bootcamp where people from finance, BI, marketing, strategy, sales and product development learn to use data and AI with greater agility in real business challenges.",
+    "domainName": "Professional learning, business agility, data and AI use in Chiesi",
+    "searchPlaceholder": "agility, business-as-usual, finance, BI, marketing, strategy, sales, product development, data confidence, AI prompting, hackathon, stakeholder needs, interprofessional learning, Similar Deals, Green Analysis, Pipeline Next…",
+    "userContextLabel": "Your Chiesi bootcamp context (optional)",
+    "userContextPlaceholder": "e.g., finance needs clearer value assumptions; BI wants trusted data definitions; marketing needs market insight; students are helping explore problem spaces; hackathon team is working on Green Analysis…",
+    "initialPrompt": "",
+    "promptTemplate": "You are helping Chiesi participants develop agility in the face of technical and business challenges.\n\nUse the selected concepts to write a practical learning narrative about how a mixed hackathon team moves from a business-as-usual concern to a clearer problem, a small data/AI experiment, and a decision-ready output.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nDeliver:\n- The business setting and stakeholder concerns\n- The problem-space questions the team asks\n- How students and business participants work together\n- How data and AI are used flexibly, without overclaiming\n- What the hackathon prototype shows\n- What caveats, human review points and limits are made visible\n- How the work builds agility: better questions, more options, clearer action and stronger cross-team collaboration\n- One practical next step for business-as-usual adoption\n"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Business agility and purpose",
+      "hint": "The broad aim: people become more able to act with data, AI and judgement in real business situations."
+    },
+    {
+      "id": 1,
+      "title": "Everyday business concerns",
+      "hint": "The normal pressures people bring from finance, BI, marketing, strategy, sales, product development, sustainability and leadership."
+    },
+    {
+      "id": 2,
+      "title": "Problem-space exploration",
+      "hint": "How mixed groups turn a broad concern into a clear decision, user need, data question and learning path."
+    },
+    {
+      "id": 3,
+      "title": "Flexible data and AI use",
+      "hint": "Simple capability: handle data confidently, ask better questions, use AI well, and know where human judgement is needed."
+    },
+    {
+      "id": 4,
+      "title": "Hackathon ways of working",
+      "hint": "The bootcamp in action: students and business participants explore, test, build, explain and learn together."
+    },
+    {
+      "id": 5,
+      "title": "Decision outputs and new habits",
+      "hint": "What the work produces: clearer evidence packs, better meetings, shared language, reusable workflows and changed practice."
+    },
+    {
+      "id": 6,
+      "title": "Cases and watch-outs",
+      "hint": "Concrete examples from Similar Deals, Green Analysis and Pipeline Next, plus common risks to avoid."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "agility_to_act",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Agility to act",
+      "summary": "The ability to move from a business issue to useful action with data, AI and people.",
+      "tags": [
+        "agility",
+        "purpose"
+      ],
+      "bodyHtml": "<p>Agility means being able to shift between the big picture and the practical next step: the decision, the data, the people, the tool, the caveat and the action.</p>"
+    },
+    {
+      "id": "seeing_more_options",
+      "level": 0,
+      "kind": "concept",
+      "label": "Seeing more options",
+      "summary": "Technical confidence expands what people think the business can try.",
+      "tags": [
+        "possibility",
+        "confidence"
+      ],
+      "bodyHtml": "<p>As participants understand data and AI, they see more routes through a problem: a quick check, a better question, a prototype, a reusable workflow, or a new cross-team conversation.</p>"
+    },
+    {
+      "id": "shared_business_purpose",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Shared business purpose",
+      "summary": "Data work should serve Chiesi’s real business aims, not become a side activity.",
+      "tags": [
+        "business",
+        "purpose"
+      ],
+      "bodyHtml": "<p>The bootcamp connects learning to business value: better decisions, less waste, more joined-up work, and more useful use of internal and external data.</p>"
+    },
+    {
+      "id": "whole_business_view",
+      "level": 0,
+      "kind": "concept",
+      "label": "Whole-business view",
+      "summary": "Participants learn to see how one team’s data affects another team’s decision.",
+      "tags": [
+        "systems",
+        "collaboration"
+      ],
+      "bodyHtml": "<p>A deal, emission trend or pipeline review is not owned by one function alone. It crosses finance, BI, marketing, sales, strategy, product and operational teams.</p>"
+    },
+    {
+      "id": "human_judgement_with_ai",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Human judgement with AI",
+      "summary": "AI supports judgement; it should not replace responsibility.",
+      "tags": [
+        "judgement",
+        "AI"
+      ],
+      "bodyHtml": "<p>The goal is not automatic answers. It is better use of evidence, clearer caveats, and stronger human decisions.</p>"
+    },
+    {
+      "id": "confidence_with_limits",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Confidence with limits",
+      "summary": "Good data work increases confidence while keeping limits visible.",
+      "tags": [
+        "uncertainty",
+        "trust"
+      ],
+      "bodyHtml": "<p>Participants learn to be confident without overclaiming: to show what is known, what is uncertain, and what still needs expert review.</p>"
+    },
+    {
+      "id": "bau_pressure",
+      "level": 1,
+      "kind": "concept",
+      "label": "Business-as-usual pressure",
+      "summary": "People join the bootcamp while still carrying normal workload, deadlines and stakeholder needs.",
+      "tags": [
+        "business_as_usual",
+        "workload"
+      ],
+      "bodyHtml": "<p>The learning journey must respect everyday pressure. It should help people improve work they already care about, not add abstract tasks.</p>"
+    },
+    {
+      "id": "finance_value_control",
+      "level": 1,
+      "kind": "role",
+      "label": "Finance: value and control",
+      "summary": "Finance cares about value, cost, risk, forecasts, assumptions and decision confidence.",
+      "tags": [
+        "finance",
+        "value"
+      ],
+      "bodyHtml": "<p>Finance participants may ask whether a data or AI output can support a business case, explain assumptions, reduce rework, or make value clearer.</p>"
+    },
+    {
+      "id": "bi_single_story",
+      "level": 1,
+      "kind": "role",
+      "label": "BI: reliable reporting",
+      "summary": "Business intelligence cares about trusted data, clear definitions and repeatable reporting.",
+      "tags": [
+        "BI",
+        "reporting"
+      ],
+      "bodyHtml": "<p>BI participants often bring a concern for consistency: one version of the story, clear data sources, and outputs that can be repeated without manual repair.</p>"
+    },
+    {
+      "id": "marketing_customer_signal",
+      "level": 1,
+      "kind": "role",
+      "label": "Marketing: customer and market signal",
+      "summary": "Marketing cares about insight, positioning, market change and customer understanding.",
+      "tags": [
+        "marketing",
+        "market"
+      ],
+      "bodyHtml": "<p>Marketing participants may ask how external evidence, internal data and AI summaries can help explain what matters to customers and markets.</p>"
+    },
+    {
+      "id": "strategy_options",
+      "level": 1,
+      "kind": "role",
+      "label": "Strategy: choices and fit",
+      "summary": "Strategy cares about options, trade-offs, timing and fit with wider company direction.",
+      "tags": [
+        "strategy",
+        "choices"
+      ],
+      "bodyHtml": "<p>Strategy participants may ask whether data can reveal better options, compare pathways and make assumptions visible before decisions are locked in.</p>"
+    },
+    {
+      "id": "sales_field_reality",
+      "level": 1,
+      "kind": "role",
+      "label": "Sales: field reality",
+      "summary": "Sales cares about what happens with customers, regions, channels and practical adoption.",
+      "tags": [
+        "sales",
+        "field"
+      ],
+      "bodyHtml": "<p>Sales participants can test whether an output is useful in the real world: understandable, timely, trusted, and connected to customer-facing action.</p>"
+    },
+    {
+      "id": "product_development_pipeline",
+      "level": 1,
+      "kind": "role",
+      "label": "Product development: pipeline fit",
+      "summary": "Product development cares about assets, evidence, stages, risks and next milestones.",
+      "tags": [
+        "product_development",
+        "pipeline"
+      ],
+      "bodyHtml": "<p>Product and pipeline colleagues help link metrics, narratives and expert judgement so that reviews focus on decisions rather than data repair.</p>"
+    },
+    {
+      "id": "sustainability_action",
+      "level": 1,
+      "kind": "role",
+      "label": "Sustainability: action and proof",
+      "summary": "Sustainability cares about emissions, drivers, targets, action plans and credible evidence.",
+      "tags": [
+        "sustainability",
+        "net_zero"
+      ],
+      "bodyHtml": "<p>Sustainability colleagues need analysis that connects numbers to levers, owners and uncertainty rather than only showing totals.</p>"
+    },
+    {
+      "id": "leadership_decision_need",
+      "level": 1,
+      "kind": "role",
+      "label": "Leadership: decision need",
+      "summary": "Leaders need concise evidence that helps them decide what to do next.",
+      "tags": [
+        "leadership",
+        "decision"
+      ],
+      "bodyHtml": "<p>Executive users usually need a clear story: what changed, why it matters, what is uncertain, and what action is recommended.</p>"
+    },
+    {
+      "id": "stakeholder_trust",
+      "level": 1,
+      "kind": "concept",
+      "label": "Stakeholder trust",
+      "summary": "Outputs must be trusted by people with different roles and concerns.",
+      "tags": [
+        "trust",
+        "stakeholders"
+      ],
+      "bodyHtml": "<p>Trust grows when outputs are transparent, caveated, useful and connected to existing meetings and responsibilities.</p>"
+    },
+    {
+      "id": "time_saved_not_only_goal",
+      "level": 1,
+      "kind": "concept",
+      "label": "Beyond time saved",
+      "summary": "The value is not only speed; it is better shared understanding and better action.",
+      "tags": [
+        "value",
+        "learning"
+      ],
+      "bodyHtml": "<p>Saving time matters, but the deeper value is reducing confusion, improving evidence, and helping departments act together.</p>"
+    },
+    {
+      "id": "problem_space_first",
+      "level": 2,
+      "kind": "practice",
+      "label": "Problem space first",
+      "summary": "Start with the business problem before choosing a tool.",
+      "tags": [
+        "requirements",
+        "problem"
+      ],
+      "bodyHtml": "<p>The first move is to understand the decision, the users, the current friction and the evidence needed. Only then should the team discuss technology.</p>"
+    },
+    {
+      "id": "decision_backwards",
+      "level": 2,
+      "kind": "practice",
+      "label": "Decision-backwards thinking",
+      "summary": "Begin with the decision that should be better after the work.",
+      "tags": [
+        "decision",
+        "design"
+      ],
+      "bodyHtml": "<p>A team asks: which meeting, choice or conversation should improve, and what evidence would make that possible?</p>"
+    },
+    {
+      "id": "stakeholder_map",
+      "level": 2,
+      "kind": "practice",
+      "label": "Stakeholder map",
+      "summary": "Name the people affected by the problem and the output.",
+      "tags": [
+        "stakeholders",
+        "mapping"
+      ],
+      "bodyHtml": "<p>The map includes users, sponsors, data owners, decision-makers, technical helpers and people who may challenge the output.</p>"
+    },
+    {
+      "id": "current_workflow_map",
+      "level": 2,
+      "kind": "practice",
+      "label": "Current workflow map",
+      "summary": "Show how work is done now, including delays and workarounds.",
+      "tags": [
+        "workflow",
+        "BAU"
+      ],
+      "bodyHtml": "<p>Mapping current work reveals where information is lost, where people repeat tasks, and where a small change could help.</p>"
+    },
+    {
+      "id": "pain_point_to_question",
+      "level": 2,
+      "kind": "practice",
+      "label": "Pain point to question",
+      "summary": "Turn frustration into a clear question that can be tested.",
+      "tags": [
+        "question",
+        "agility"
+      ],
+      "bodyHtml": "<p>For example, 'the review is slow' becomes 'which conflicting asset fields should be flagged before the meeting?'</p>"
+    },
+    {
+      "id": "user_story",
+      "level": 2,
+      "kind": "practice",
+      "label": "User story",
+      "summary": "Describe the need from the viewpoint of a real user.",
+      "tags": [
+        "user_need",
+        "simple"
+      ],
+      "bodyHtml": "<p>A user story keeps the work grounded: 'As a strategy lead, I need to see why these deals are comparable so I can judge the opportunity.'</p>"
+    },
+    {
+      "id": "business_terms_agreed",
+      "level": 2,
+      "kind": "concept",
+      "label": "Shared business terms",
+      "summary": "Agree simple meanings for terms such as similar, forecast, flag, driver and confidence.",
+      "tags": [
+        "language",
+        "shared_terms"
+      ],
+      "bodyHtml": "<p>Teams often use the same word differently. Shared terms make links up and down the lattice clearer.</p>"
+    },
+    {
+      "id": "assumptions_visible",
+      "level": 2,
+      "kind": "concept",
+      "label": "Visible assumptions",
+      "summary": "Make hidden assumptions explicit before building.",
+      "tags": [
+        "assumptions",
+        "trust"
+      ],
+      "bodyHtml": "<p>Assumptions may concern deal similarity, emissions drivers, pipeline status, data quality or what a user will accept as credible.</p>"
+    },
+    {
+      "id": "boundaries_of_use",
+      "level": 2,
+      "kind": "concept",
+      "label": "Boundaries of use",
+      "summary": "Say what the output is for and what it must not be used for.",
+      "tags": [
+        "scope",
+        "safety"
+      ],
+      "bodyHtml": "<p>A prototype may support discussion, exploration and learning. It should not be treated as a final automated decision.</p>"
+    },
+    {
+      "id": "success_signal",
+      "level": 2,
+      "kind": "concept",
+      "label": "Success signal",
+      "summary": "Define what would make the experiment useful.",
+      "tags": [
+        "success",
+        "testing"
+      ],
+      "bodyHtml": "<p>A success signal might be a better discussion, a clearer caveat, a reusable data slice, or a sponsor saying the output would change a meeting.</p>"
+    },
+    {
+      "id": "questions_become_artifacts",
+      "level": 2,
+      "kind": "practice",
+      "label": "Questions become artefacts",
+      "summary": "Every good question should produce something concrete.",
+      "tags": [
+        "artifact",
+        "requirements"
+      ],
+      "bodyHtml": "<p>Questions can produce a source list, workflow map, field list, assumption table, prompt, mock-up, test rule or demo plan.</p>"
+    },
+    {
+      "id": "students_as_explorers",
+      "level": 2,
+      "kind": "role",
+      "label": "Students as problem explorers",
+      "summary": "Students help open the problem space rather than simply receive instructions.",
+      "tags": [
+        "students",
+        "exploration"
+      ],
+      "bodyHtml": "<p>Students can ask fresh questions, map unclear areas, test first ideas and help business participants see the challenge from new angles.</p>"
+    },
+    {
+      "id": "interprofessional_learning",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interprofessional learning",
+      "summary": "People from different roles learn by making sense of the same challenge together.",
+      "tags": [
+        "interprofessional",
+        "collaboration"
+      ],
+      "bodyHtml": "<p>Finance, BI, marketing, strategy, sales and product colleagues each see different parts of the problem. Learning happens when these views are brought into one shared task.</p>"
+    },
+    {
+      "id": "data_flexibility",
+      "level": 3,
+      "kind": "capability",
+      "label": "Flexible data handling",
+      "summary": "Being able to work with data in different forms without needing to be a specialist.",
+      "tags": [
+        "data",
+        "flexibility"
+      ],
+      "bodyHtml": "<p>Participants do not need to master every tool. They need enough confidence to inspect, question, clean, combine and explain data with help.</p>"
+    },
+    {
+      "id": "data_source_awareness",
+      "level": 3,
+      "kind": "capability",
+      "label": "Data source awareness",
+      "summary": "Know where useful data may come from, inside and outside the organisation.",
+      "tags": [
+        "data_sources",
+        "awareness"
+      ],
+      "bodyHtml": "<p>A useful answer may combine internal files, external market information, expert notes, business narratives and safe simulated datasets.</p>"
+    },
+    {
+      "id": "data_quality_awareness",
+      "level": 3,
+      "kind": "capability",
+      "label": "Data quality awareness",
+      "summary": "Notice missing, old, inconsistent, vague or misleading data.",
+      "tags": [
+        "data_quality",
+        "trust"
+      ],
+      "bodyHtml": "<p>Quality awareness helps people ask: can we trust this field, what changed, who owns it, and what caveat should be shown?</p>"
+    },
+    {
+      "id": "data_joining_awareness",
+      "level": 3,
+      "kind": "capability",
+      "label": "Joining data awareness",
+      "summary": "Understand why connecting records is powerful and risky.",
+      "tags": [
+        "data",
+        "joining"
+      ],
+      "bodyHtml": "<p>People learn that linking sources can create new insight, but only if identifiers, definitions and timing are handled carefully.</p>"
+    },
+    {
+      "id": "small_safe_data_slice",
+      "level": 3,
+      "kind": "practice",
+      "label": "Small safe data slice",
+      "summary": "Use a limited, safe dataset that is enough to test the idea.",
+      "tags": [
+        "prototype",
+        "safe_data"
+      ],
+      "bodyHtml": "<p>A hackathon does not need every system. It needs a small slice that proves whether the logic is useful.</p>"
+    },
+    {
+      "id": "data_story",
+      "level": 3,
+      "kind": "capability",
+      "label": "Data story",
+      "summary": "Explain what the data suggests in plain business language.",
+      "tags": [
+        "storytelling",
+        "decision"
+      ],
+      "bodyHtml": "<p>The point is not just a chart. It is a clear account of what changed, what matters and what action might follow.</p>"
+    },
+    {
+      "id": "ai_prompting_for_agility",
+      "level": 3,
+      "kind": "capability",
+      "label": "AI prompting for agility",
+      "summary": "Use AI to ask better questions, explore options and draft useful outputs.",
+      "tags": [
+        "AI",
+        "prompting",
+        "agility"
+      ],
+      "bodyHtml": "<p>Prompting is not just asking for answers. It is a way to test ideas, compare options, create drafts, expose assumptions and speed up learning.</p>"
+    },
+    {
+      "id": "ai_as_work_partner",
+      "level": 3,
+      "kind": "concept",
+      "label": "AI as work partner",
+      "summary": "AI can support thinking, summarising, comparing and drafting, while people stay responsible.",
+      "tags": [
+        "AI",
+        "work"
+      ],
+      "bodyHtml": "<p>AI becomes useful when it is linked to a clear task, good evidence, review steps and human judgement.</p>"
+    },
+    {
+      "id": "ai_limits",
+      "level": 3,
+      "kind": "concept",
+      "label": "AI limits",
+      "summary": "AI can sound confident while being wrong, incomplete or unclear about sources.",
+      "tags": [
+        "AI",
+        "limits"
+      ],
+      "bodyHtml": "<p>Participants learn to check outputs, ask for evidence, spot overclaiming and avoid treating AI as authority.</p>"
+    },
+    {
+      "id": "prompt_to_decision",
+      "level": 3,
+      "kind": "practice",
+      "label": "Prompt to decision",
+      "summary": "Shape prompts around the business decision and needed caveats.",
+      "tags": [
+        "prompting",
+        "decision"
+      ],
+      "bodyHtml": "<p>A strong prompt says who the output is for, what decision it supports, what evidence to use, and what uncertainty to show.</p>"
+    },
+    {
+      "id": "plain_explanation",
+      "level": 3,
+      "kind": "capability",
+      "label": "Plain explanation",
+      "summary": "Explain data and AI outputs without technical fog.",
+      "tags": [
+        "communication",
+        "simple"
+      ],
+      "bodyHtml": "<p>Plain explanation lets mixed teams challenge, improve and trust the work.</p>"
+    },
+    {
+      "id": "light_tool_awareness",
+      "level": 3,
+      "kind": "capability",
+      "label": "Light tool awareness",
+      "summary": "Know what tools can broadly do without needing deep detail.",
+      "tags": [
+        "tools",
+        "awareness"
+      ],
+      "bodyHtml": "<p>Participants gain awareness of spreadsheets, simple scripts, AI assistants, visual tools and workflow tools, but the focus remains on business use.</p>"
+    },
+    {
+      "id": "human_review_points",
+      "level": 3,
+      "kind": "practice",
+      "label": "Human review points",
+      "summary": "Decide where people must inspect, approve or challenge an output.",
+      "tags": [
+        "judgement",
+        "review"
+      ],
+      "bodyHtml": "<p>Good use of AI and data places human judgement at important points: caveats, exceptions, high-risk claims and final decisions.</p>"
+    },
+    {
+      "id": "hackathon_learning_lab",
+      "level": 4,
+      "kind": "practice",
+      "label": "Hackathon as learning lab",
+      "summary": "The hackathon is a safe place to explore, build, test and learn quickly.",
+      "tags": [
+        "hackathon",
+        "learning"
+      ],
+      "bodyHtml": "<p>It is not about a finished product. It is about finding a credible pathway from business need to useful data-enabled action.</p>"
+    },
+    {
+      "id": "mixed_team_exploration",
+      "level": 4,
+      "kind": "practice",
+      "label": "Mixed-team exploration",
+      "summary": "Business participants, students and mentors work together across roles.",
+      "tags": [
+        "teamwork",
+        "interprofessional"
+      ],
+      "bodyHtml": "<p>Different perspectives help the team see the problem more fully and avoid building something that only one function understands.</p>"
+    },
+    {
+      "id": "student_business_partnership",
+      "level": 4,
+      "kind": "role",
+      "label": "Student-business partnership",
+      "summary": "Students bring energy, questions and technical curiosity; business participants bring context and judgement.",
+      "tags": [
+        "students",
+        "business"
+      ],
+      "bodyHtml": "<p>The partnership works when neither side dominates: students explore and prototype, while business stakeholders guide what matters.</p>"
+    },
+    {
+      "id": "rapid_mockup",
+      "level": 4,
+      "kind": "practice",
+      "label": "Rapid mock-up",
+      "summary": "Create a quick, visible version of the idea.",
+      "tags": [
+        "prototype",
+        "demo"
+      ],
+      "bodyHtml": "<p>A mock-up can be a sketch, table, simple prompt, sample output or clickable demo. It helps people discuss the idea sooner.</p>"
+    },
+    {
+      "id": "build_test_learn",
+      "level": 4,
+      "kind": "practice",
+      "label": "Build-test-learn loop",
+      "summary": "Try a small step, show it, learn from it, and improve it.",
+      "tags": [
+        "iteration",
+        "agility"
+      ],
+      "bodyHtml": "<p>This loop makes agility visible. The team learns by moving between concept, data, AI output, feedback and next action.</p>"
+    },
+    {
+      "id": "safe_to_try",
+      "level": 4,
+      "kind": "practice",
+      "label": "Safe to try",
+      "summary": "Use prototypes to learn without risking live business decisions.",
+      "tags": [
+        "safe_to_try",
+        "experiment"
+      ],
+      "bodyHtml": "<p>Safe experiments let teams test assumptions, discover limits and build confidence before adoption.</p>"
+    },
+    {
+      "id": "team_roles",
+      "level": 4,
+      "kind": "practice",
+      "label": "Clear team roles",
+      "summary": "Give people simple roles such as challenge owner, data finder, prompt tester, explainer and reviewer.",
+      "tags": [
+        "roles",
+        "team"
+      ],
+      "bodyHtml": "<p>Clear roles keep work moving and make space for different strengths.</p>"
+    },
+    {
+      "id": "mentor_support",
+      "level": 4,
+      "kind": "role",
+      "label": "Mentor support",
+      "summary": "Mentors help teams move when they get stuck.",
+      "tags": [
+        "mentors",
+        "support"
+      ],
+      "bodyHtml": "<p>Mentors can translate between business questions and technical possibilities, without taking ownership away from the team.</p>"
+    },
+    {
+      "id": "challenge_owner_checkin",
+      "level": 4,
+      "kind": "practice",
+      "label": "Challenge-owner check-in",
+      "summary": "Regularly ask the business owner whether the work still matters.",
+      "tags": [
+        "sponsor",
+        "feedback"
+      ],
+      "bodyHtml": "<p>Check-ins stop teams drifting into interesting but irrelevant outputs.</p>"
+    },
+    {
+      "id": "show_and_tell",
+      "level": 4,
+      "kind": "practice",
+      "label": "Show and tell",
+      "summary": "Teams explain what they tried, what worked, what failed and what they learned.",
+      "tags": [
+        "presentation",
+        "learning"
+      ],
+      "bodyHtml": "<p>Show and tell turns prototype work into shared learning for the wider group.</p>"
+    },
+    {
+      "id": "peer_teaching",
+      "level": 4,
+      "kind": "practice",
+      "label": "Peer teaching",
+      "summary": "Participants teach one another small useful moves.",
+      "tags": [
+        "peer_learning",
+        "confidence"
+      ],
+      "bodyHtml": "<p>Peer teaching may involve explaining a dataset, a prompt, a chart, a caveat or a business concern in simple language.</p>"
+    },
+    {
+      "id": "problem_space_gallery",
+      "level": 4,
+      "kind": "practice",
+      "label": "Problem-space gallery",
+      "summary": "Display each team’s problem map, assumptions and early outputs.",
+      "tags": [
+        "gallery",
+        "reflection"
+      ],
+      "bodyHtml": "<p>A shared gallery helps teams compare challenges and see links between cases.</p>"
+    },
+    {
+      "id": "demo_with_caveats",
+      "level": 4,
+      "kind": "practice",
+      "label": "Demo with caveats",
+      "summary": "Show the prototype and also show what it cannot yet do.",
+      "tags": [
+        "demo",
+        "caveats"
+      ],
+      "bodyHtml": "<p>A mature demo says: here is the promise, here is the evidence, here are the limits, and here is the next test.</p>"
+    },
+    {
+      "id": "decision_pack",
+      "level": 5,
+      "kind": "artifact",
+      "label": "Decision pack",
+      "summary": "A clear evidence pack for a real meeting or decision.",
+      "tags": [
+        "output",
+        "decision"
+      ],
+      "bodyHtml": "<p>The pack should show key evidence, assumptions, caveats, options and next actions in a way decision-makers can use.</p>"
+    },
+    {
+      "id": "better_meeting",
+      "level": 5,
+      "kind": "outcome",
+      "label": "Better meeting",
+      "summary": "A meeting spends less time fixing data and more time deciding what to do.",
+      "tags": [
+        "meeting",
+        "value"
+      ],
+      "bodyHtml": "<p>The strongest sign of value may be a better conversation: clearer evidence, less confusion and faster agreement on next steps.</p>"
+    },
+    {
+      "id": "one_page_story",
+      "level": 5,
+      "kind": "artifact",
+      "label": "One-page story",
+      "summary": "A concise explanation of the issue, evidence and decision need.",
+      "tags": [
+        "communication",
+        "story"
+      ],
+      "bodyHtml": "<p>A one-page story helps stakeholders from different roles see the same problem and challenge it constructively.</p>"
+    },
+    {
+      "id": "reusable_workflow",
+      "level": 5,
+      "kind": "outcome",
+      "label": "Reusable workflow",
+      "summary": "A repeatable way of working, not a one-off hackathon result.",
+      "tags": [
+        "workflow",
+        "reuse"
+      ],
+      "bodyHtml": "<p>A useful prototype points towards a process that can be repeated with new data, new cases or new decisions.</p>"
+    },
+    {
+      "id": "shared_language",
+      "level": 5,
+      "kind": "outcome",
+      "label": "Shared language",
+      "summary": "Teams develop common words for data, AI, uncertainty and action.",
+      "tags": [
+        "language",
+        "collaboration"
+      ],
+      "bodyHtml": "<p>Shared language helps Chiesi link business concerns, data issues and technical options across departments.</p>"
+    },
+    {
+      "id": "joined_up_action",
+      "level": 5,
+      "kind": "outcome",
+      "label": "Joined-up action",
+      "summary": "Different teams can coordinate around a clearer evidence base.",
+      "tags": [
+        "collaboration",
+        "action"
+      ],
+      "bodyHtml": "<p>The aim is not just insight; it is action that connects departments and reduces fragmented work.</p>"
+    },
+    {
+      "id": "adoption_path",
+      "level": 5,
+      "kind": "practice",
+      "label": "Adoption path",
+      "summary": "Agree what would be needed to move from prototype to normal work.",
+      "tags": [
+        "adoption",
+        "next_steps"
+      ],
+      "bodyHtml": "<p>The path may include data access, owner approval, review steps, training, system fit and business sponsorship.</p>"
+    },
+    {
+      "id": "light_governance",
+      "level": 5,
+      "kind": "practice",
+      "label": "Light governance",
+      "summary": "Use enough control to protect trust without stopping learning.",
+      "tags": [
+        "governance",
+        "trust"
+      ],
+      "bodyHtml": "<p>For early prototypes, governance can be simple: clear scope, safe data, human review, caveats and next-step ownership.</p>"
+    },
+    {
+      "id": "learning_loop",
+      "level": 5,
+      "kind": "practice",
+      "label": "Learning loop",
+      "summary": "Capture what the team learned and feed it back into the next build.",
+      "tags": [
+        "learning",
+        "iteration"
+      ],
+      "bodyHtml": "<p>Learning loops help the organisation remember: which data worked, which assumptions failed, and which questions got sharper.</p>"
+    },
+    {
+      "id": "business_value_test",
+      "level": 5,
+      "kind": "practice",
+      "label": "Business value test",
+      "summary": "Ask whether the output would improve a real business decision.",
+      "tags": [
+        "value",
+        "test"
+      ],
+      "bodyHtml": "<p>The test is practical: would someone use this, trust this, challenge this and act differently because of it?</p>"
+    },
+    {
+      "id": "better_questions",
+      "level": 5,
+      "kind": "outcome",
+      "label": "Better questions",
+      "summary": "Participants leave able to ask sharper business and data questions.",
+      "tags": [
+        "agility",
+        "questions"
+      ],
+      "bodyHtml": "<p>The bootcamp succeeds when people can frame better questions even before a tool is selected.</p>"
+    },
+    {
+      "id": "new_work_habits",
+      "level": 5,
+      "kind": "outcome",
+      "label": "New work habits",
+      "summary": "People start using data and AI more thoughtfully in normal work.",
+      "tags": [
+        "habits",
+        "BAU"
+      ],
+      "bodyHtml": "<p>New habits include checking assumptions, asking for sources, using AI for drafts, naming caveats, and involving other roles early.</p>"
+    },
+    {
+      "id": "confidence_to_collaborate",
+      "level": 5,
+      "kind": "outcome",
+      "label": "Confidence to collaborate",
+      "summary": "Participants become more comfortable working across functions on data-rich problems.",
+      "tags": [
+        "confidence",
+        "collaboration"
+      ],
+      "bodyHtml": "<p>Confidence grows because people have practised asking questions, making artefacts, testing ideas and explaining uncertainty together.</p>"
+    },
+    {
+      "id": "case_similar_deals",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Similar Deals",
+      "summary": "Find comparable deals for a business decision, with reasons and caveats.",
+      "tags": [
+        "similar_deals",
+        "case"
+      ],
+      "bodyHtml": "<p>The challenge is not to produce a long deal list. It is to make comparison useful, explainable and relevant to the decision.</p>"
+    },
+    {
+      "id": "case_green_analysis",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Green Analysis",
+      "summary": "Turn emissions history into useful forecasts, scenarios and action evidence.",
+      "tags": [
+        "green_analysis",
+        "case"
+      ],
+      "bodyHtml": "<p>The challenge is to connect emissions, business drivers, assumptions and possible interventions without hiding uncertainty.</p>"
+    },
+    {
+      "id": "case_pipeline_next",
+      "level": 6,
+      "kind": "case",
+      "label": "Case: Pipeline Next",
+      "summary": "Bring asset metrics and narratives into a clearer review process.",
+      "tags": [
+        "pipeline_next",
+        "case"
+      ],
+      "bodyHtml": "<p>The challenge is to combine data and narrative so review meetings focus on decisions rather than data repair.</p>"
+    },
+    {
+      "id": "false_friend_deals",
+      "level": 6,
+      "kind": "watchout",
+      "label": "Watch-out: false friend deals",
+      "summary": "Two deals can look similar but matter for very different reasons.",
+      "tags": [
+        "risk",
+        "similar_deals"
+      ],
+      "bodyHtml": "<p>A therapy-area match may hide differences in stage, deal type, strategic aim, geography or financial structure.</p>"
+    },
+    {
+      "id": "same_emissions_different_story",
+      "level": 6,
+      "kind": "watchout",
+      "label": "Watch-out: same emissions, different story",
+      "summary": "The same emissions number can have several business meanings.",
+      "tags": [
+        "risk",
+        "green_analysis"
+      ],
+      "bodyHtml": "<p>A change may reflect production volume, supplier changes, emission factors, boundary changes, travel rebound or real operational progress.</p>"
+    },
+    {
+      "id": "pipeline_data_conflict",
+      "level": 6,
+      "kind": "watchout",
+      "label": "Watch-out: pipeline data conflict",
+      "summary": "A metric, slide and risk note may tell different stories.",
+      "tags": [
+        "risk",
+        "pipeline_next"
+      ],
+      "bodyHtml": "<p>The useful output is not a polished summary. It is a flag that shows where expert review is needed.</p>"
+    },
+    {
+      "id": "tool_first_failure",
+      "level": 6,
+      "kind": "watchout",
+      "label": "Watch-out: tool first",
+      "summary": "Choosing a tool before the problem is clear leads to weak results.",
+      "tags": [
+        "risk",
+        "tools"
+      ],
+      "bodyHtml": "<p>The team may build something impressive but irrelevant if it has not named the decision, user and evidence need.</p>"
+    },
+    {
+      "id": "too_much_detail",
+      "level": 6,
+      "kind": "watchout",
+      "label": "Watch-out: too much detail",
+      "summary": "Technical detail can overwhelm stakeholders and hide the business point.",
+      "tags": [
+        "risk",
+        "communication"
+      ],
+      "bodyHtml": "<p>The right level of detail depends on the audience. Most stakeholders need enough to trust and challenge, not every method step.</p>"
+    },
+    {
+      "id": "ai_confident_wrong",
+      "level": 6,
+      "kind": "watchout",
+      "label": "Watch-out: AI sounds right",
+      "summary": "AI can produce fluent outputs that still need checking.",
+      "tags": [
+        "risk",
+        "AI"
+      ],
+      "bodyHtml": "<p>Participants should ask for sources, caveats and review points, especially when outputs will influence decisions.</p>"
+    },
+    {
+      "id": "data_silo",
+      "level": 6,
+      "kind": "watchout",
+      "label": "Watch-out: data silo",
+      "summary": "A team may optimise its own data while missing the wider business link.",
+      "tags": [
+        "risk",
+        "silo"
+      ],
+      "bodyHtml": "<p>The bootcamp should help teams see where data crosses departmental boundaries.</p>"
+    },
+    {
+      "id": "scope_too_big",
+      "level": 6,
+      "kind": "watchout",
+      "label": "Watch-out: scope too big",
+      "summary": "Trying to solve everything at once weakens the hackathon.",
+      "tags": [
+        "risk",
+        "scope"
+      ],
+      "bodyHtml": "<p>A smaller slice with a clear decision is more useful than a large, vague ambition.</p>"
+    },
+    {
+      "id": "good_success_pattern",
+      "level": 6,
+      "kind": "case",
+      "label": "Success pattern: small, clear, useful",
+      "summary": "A strong hackathon result is small enough to test and clear enough to use.",
+      "tags": [
+        "success",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>Good teams show a real problem, a safe data slice, a simple output, clear caveats, sponsor feedback and a next step.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "shared_business_purpose",
+      "to": "bau_pressure",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "finance_value_control",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "bi_single_story",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "marketing_customer_signal",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "strategy_options",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "sales_field_reality",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "product_development_pipeline",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "sustainability_action",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "leadership_decision_need",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "shared_business_purpose",
+      "to": "stakeholder_trust",
+      "why": "Shared purpose is grounded in the everyday concerns of this stakeholder group."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "finance_value_control",
+      "why": "A whole-business view connects this role's concerns to the wider organisation."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "bi_single_story",
+      "why": "A whole-business view connects this role's concerns to the wider organisation."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "marketing_customer_signal",
+      "why": "A whole-business view connects this role's concerns to the wider organisation."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "strategy_options",
+      "why": "A whole-business view connects this role's concerns to the wider organisation."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "sales_field_reality",
+      "why": "A whole-business view connects this role's concerns to the wider organisation."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "product_development_pipeline",
+      "why": "A whole-business view connects this role's concerns to the wider organisation."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "sustainability_action",
+      "why": "A whole-business view connects this role's concerns to the wider organisation."
+    },
+    {
+      "from": "agility_to_act",
+      "to": "bau_pressure",
+      "why": "Agility matters because people must improve work while under normal business pressure."
+    },
+    {
+      "from": "seeing_more_options",
+      "to": "time_saved_not_only_goal",
+      "why": "Seeing options shifts the focus from quick fixes to better action."
+    },
+    {
+      "from": "human_judgement_with_ai",
+      "to": "stakeholder_trust",
+      "why": "Stakeholders trust outputs when human responsibility remains clear."
+    },
+    {
+      "from": "confidence_with_limits",
+      "to": "stakeholder_trust",
+      "why": "Trust grows when confidence and limits are shown together."
+    },
+    {
+      "from": "finance_value_control",
+      "to": "decision_backwards",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "finance_value_control",
+      "to": "assumptions_visible",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "finance_value_control",
+      "to": "success_signal",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "bi_single_story",
+      "to": "business_terms_agreed",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "bi_single_story",
+      "to": "current_workflow_map",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "bi_single_story",
+      "to": "questions_become_artifacts",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "marketing_customer_signal",
+      "to": "stakeholder_map",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "marketing_customer_signal",
+      "to": "user_story",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "marketing_customer_signal",
+      "to": "pain_point_to_question",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "strategy_options",
+      "to": "decision_backwards",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "strategy_options",
+      "to": "assumptions_visible",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "strategy_options",
+      "to": "boundaries_of_use",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "sales_field_reality",
+      "to": "user_story",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "sales_field_reality",
+      "to": "current_workflow_map",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "sales_field_reality",
+      "to": "success_signal",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "product_development_pipeline",
+      "to": "current_workflow_map",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "product_development_pipeline",
+      "to": "business_terms_agreed",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "product_development_pipeline",
+      "to": "pain_point_to_question",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "sustainability_action",
+      "to": "decision_backwards",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "sustainability_action",
+      "to": "assumptions_visible",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "sustainability_action",
+      "to": "success_signal",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "leadership_decision_need",
+      "to": "decision_backwards",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "leadership_decision_need",
+      "to": "one_page_story",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "stakeholder_trust",
+      "to": "stakeholder_map",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "stakeholder_trust",
+      "to": "boundaries_of_use",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "stakeholder_trust",
+      "to": "assumptions_visible",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "bau_pressure",
+      "to": "problem_space_first",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "bau_pressure",
+      "to": "success_signal",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "time_saved_not_only_goal",
+      "to": "problem_space_first",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "time_saved_not_only_goal",
+      "to": "interprofessional_learning",
+      "why": "This concern shapes how the team explores and scopes the problem."
+    },
+    {
+      "from": "problem_space_first",
+      "to": "decision_backwards",
+      "why": "Starting with the problem leads naturally to the decision that needs support."
+    },
+    {
+      "from": "decision_backwards",
+      "to": "stakeholder_map",
+      "why": "A decision has users, owners and people affected by it."
+    },
+    {
+      "from": "stakeholder_map",
+      "to": "interprofessional_learning",
+      "why": "Mapping stakeholders shows why different professions must learn together."
+    },
+    {
+      "from": "current_workflow_map",
+      "to": "pain_point_to_question",
+      "why": "The current workflow reveals the pain points to turn into testable questions."
+    },
+    {
+      "from": "pain_point_to_question",
+      "to": "questions_become_artifacts",
+      "why": "A clear question can become a concrete artefact for the hackathon."
+    },
+    {
+      "from": "business_terms_agreed",
+      "to": "shared_language",
+      "why": "Simple shared terms become a durable output of the work."
+    },
+    {
+      "from": "assumptions_visible",
+      "to": "confidence_with_limits",
+      "why": "Visible assumptions keep confidence honest."
+    },
+    {
+      "from": "boundaries_of_use",
+      "to": "human_review_points",
+      "why": "Scope choices identify where human review is needed."
+    },
+    {
+      "from": "students_as_explorers",
+      "to": "interprofessional_learning",
+      "why": "Students add a different perspective to mixed professional learning."
+    },
+    {
+      "from": "students_as_explorers",
+      "to": "problem_space_first",
+      "why": "Students help keep the team curious before it settles on a solution."
+    },
+    {
+      "from": "interprofessional_learning",
+      "to": "mixed_team_exploration",
+      "why": "Interprofessional learning becomes real through mixed-team hackathon work."
+    },
+    {
+      "from": "problem_space_first",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "problem_space_first",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "problem_space_first",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "decision_backwards",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "decision_backwards",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "decision_backwards",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "stakeholder_map",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "stakeholder_map",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "stakeholder_map",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "current_workflow_map",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "current_workflow_map",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "current_workflow_map",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "pain_point_to_question",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "pain_point_to_question",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "pain_point_to_question",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "user_story",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "user_story",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "business_terms_agreed",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "business_terms_agreed",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "business_terms_agreed",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "assumptions_visible",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "assumptions_visible",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "assumptions_visible",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "boundaries_of_use",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "boundaries_of_use",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "boundaries_of_use",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "success_signal",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "success_signal",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "success_signal",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "questions_become_artifacts",
+      "to": "data_source_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "questions_become_artifacts",
+      "to": "data_quality_awareness",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "questions_become_artifacts",
+      "to": "ai_prompting_for_agility",
+      "why": "This problem-space move guides how data and AI should be used."
+    },
+    {
+      "from": "questions_become_artifacts",
+      "to": "small_safe_data_slice",
+      "why": "Some questions become a safe data slice for testing."
+    },
+    {
+      "from": "business_terms_agreed",
+      "to": "data_joining_awareness",
+      "why": "Shared terms make it easier to connect data sources without confusion."
+    },
+    {
+      "from": "success_signal",
+      "to": "business_value_test",
+      "why": "The success signal becomes the test of business value."
+    },
+    {
+      "from": "data_flexibility",
+      "to": "light_tool_awareness",
+      "why": "Flexible handling needs awareness of what common tools can do."
+    },
+    {
+      "from": "data_source_awareness",
+      "to": "small_safe_data_slice",
+      "why": "Source awareness helps select a safe slice for the hackathon."
+    },
+    {
+      "from": "data_quality_awareness",
+      "to": "confidence_with_limits",
+      "why": "Quality awareness keeps outputs honest."
+    },
+    {
+      "from": "data_joining_awareness",
+      "to": "whole_business_view",
+      "why": "Joining data makes cross-business links visible."
+    },
+    {
+      "from": "small_safe_data_slice",
+      "to": "rapid_mockup",
+      "why": "A safe slice can feed a quick mock-up."
+    },
+    {
+      "from": "data_story",
+      "to": "one_page_story",
+      "why": "A data story becomes a concise business story."
+    },
+    {
+      "from": "ai_prompting_for_agility",
+      "to": "seeing_more_options",
+      "why": "Good prompting helps participants see more possible routes."
+    },
+    {
+      "from": "ai_prompting_for_agility",
+      "to": "prompt_to_decision",
+      "why": "Prompting becomes useful when it is aimed at a decision."
+    },
+    {
+      "from": "ai_as_work_partner",
+      "to": "human_judgement_with_ai",
+      "why": "AI works best as support for human judgement."
+    },
+    {
+      "from": "ai_limits",
+      "to": "confidence_with_limits",
+      "why": "Knowing AI limits prevents overclaiming."
+    },
+    {
+      "from": "prompt_to_decision",
+      "to": "decision_pack",
+      "why": "Decision-focused prompts can draft useful decision-pack content."
+    },
+    {
+      "from": "plain_explanation",
+      "to": "stakeholder_trust",
+      "why": "Plain explanation helps stakeholders trust and challenge the output."
+    },
+    {
+      "from": "light_tool_awareness",
+      "to": "data_flexibility",
+      "why": "Tool awareness supports flexible data handling without deep technical detail."
+    },
+    {
+      "from": "human_review_points",
+      "to": "light_governance",
+      "why": "Human review is a simple form of governance for prototypes."
+    },
+    {
+      "from": "data_flexibility",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_flexibility",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_source_awareness",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_source_awareness",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_quality_awareness",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_quality_awareness",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_joining_awareness",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_joining_awareness",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "small_safe_data_slice",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "small_safe_data_slice",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_story",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "data_story",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "ai_prompting_for_agility",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "ai_prompting_for_agility",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "ai_as_work_partner",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "ai_as_work_partner",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "ai_limits",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "ai_limits",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "prompt_to_decision",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "prompt_to_decision",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "plain_explanation",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "plain_explanation",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "light_tool_awareness",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "light_tool_awareness",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "human_review_points",
+      "to": "hackathon_learning_lab",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "human_review_points",
+      "to": "build_test_learn",
+      "why": "This capability is practised in the hackathon learning lab."
+    },
+    {
+      "from": "hackathon_learning_lab",
+      "to": "mixed_team_exploration",
+      "why": "The lab works through mixed teams rather than isolated learning."
+    },
+    {
+      "from": "mixed_team_exploration",
+      "to": "student_business_partnership",
+      "why": "Students and business participants make the mixed-team work practical."
+    },
+    {
+      "from": "student_business_partnership",
+      "to": "students_as_explorers",
+      "why": "The partnership gives students an active role in exploring the problem space."
+    },
+    {
+      "from": "rapid_mockup",
+      "to": "build_test_learn",
+      "why": "A mock-up gives the team something to test and improve."
+    },
+    {
+      "from": "build_test_learn",
+      "to": "agility_to_act",
+      "why": "The loop makes agility visible in practice."
+    },
+    {
+      "from": "safe_to_try",
+      "to": "confidence_with_limits",
+      "why": "Safe experiments build confidence while keeping limits visible."
+    },
+    {
+      "from": "team_roles",
+      "to": "mixed_team_exploration",
+      "why": "Clear roles help mixed teams work without confusion."
+    },
+    {
+      "from": "mentor_support",
+      "to": "data_flexibility",
+      "why": "Mentors help participants handle data and AI without getting lost in detail."
+    },
+    {
+      "from": "challenge_owner_checkin",
+      "to": "business_value_test",
+      "why": "The challenge owner helps test whether the prototype still has business value."
+    },
+    {
+      "from": "show_and_tell",
+      "to": "shared_language",
+      "why": "Showing work publicly builds shared language."
+    },
+    {
+      "from": "peer_teaching",
+      "to": "confidence_to_collaborate",
+      "why": "Peer teaching makes collaboration feel safer and more useful."
+    },
+    {
+      "from": "problem_space_gallery",
+      "to": "whole_business_view",
+      "why": "A gallery helps teams see links across cases and roles."
+    },
+    {
+      "from": "demo_with_caveats",
+      "to": "confidence_with_limits",
+      "why": "A caveated demo builds trust without overclaiming."
+    },
+    {
+      "from": "hackathon_learning_lab",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "hackathon_learning_lab",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "hackathon_learning_lab",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "mixed_team_exploration",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "mixed_team_exploration",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "mixed_team_exploration",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "student_business_partnership",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "student_business_partnership",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "student_business_partnership",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "rapid_mockup",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "rapid_mockup",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "rapid_mockup",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "build_test_learn",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "build_test_learn",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "build_test_learn",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "safe_to_try",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "safe_to_try",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "safe_to_try",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "team_roles",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "team_roles",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "team_roles",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "mentor_support",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "mentor_support",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "mentor_support",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "challenge_owner_checkin",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "challenge_owner_checkin",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "challenge_owner_checkin",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "show_and_tell",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "show_and_tell",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "show_and_tell",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "peer_teaching",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "peer_teaching",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "peer_teaching",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "problem_space_gallery",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "problem_space_gallery",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "problem_space_gallery",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "demo_with_caveats",
+      "to": "learning_loop",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "demo_with_caveats",
+      "to": "better_questions",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "demo_with_caveats",
+      "to": "new_work_habits",
+      "why": "This hackathon move should feed back into everyday work and future agility."
+    },
+    {
+      "from": "decision_pack",
+      "to": "better_meeting",
+      "why": "A decision pack should improve the meeting it serves."
+    },
+    {
+      "from": "one_page_story",
+      "to": "decision_pack",
+      "why": "The one-page story can sit inside or guide the decision pack."
+    },
+    {
+      "from": "reusable_workflow",
+      "to": "new_work_habits",
+      "why": "Reusable workflows become new habits when people adopt them."
+    },
+    {
+      "from": "shared_language",
+      "to": "joined_up_action",
+      "why": "Shared language makes joined-up action easier."
+    },
+    {
+      "from": "joined_up_action",
+      "to": "whole_business_view",
+      "why": "Joined-up action reinforces a whole-business view."
+    },
+    {
+      "from": "adoption_path",
+      "to": "reusable_workflow",
+      "why": "An adoption path turns a prototype into a repeatable workflow."
+    },
+    {
+      "from": "light_governance",
+      "to": "stakeholder_trust",
+      "why": "Simple governance protects trust in early work."
+    },
+    {
+      "from": "learning_loop",
+      "to": "better_questions",
+      "why": "Learning loops sharpen the next set of questions."
+    },
+    {
+      "from": "business_value_test",
+      "to": "shared_business_purpose",
+      "why": "Testing business value keeps the work tied to shared purpose."
+    },
+    {
+      "from": "better_questions",
+      "to": "agility_to_act",
+      "why": "Sharper questions are a key sign of agility."
+    },
+    {
+      "from": "new_work_habits",
+      "to": "bau_pressure",
+      "why": "New habits help under normal business-as-usual pressure."
+    },
+    {
+      "from": "confidence_to_collaborate",
+      "to": "interprofessional_learning",
+      "why": "Confidence to collaborate is a result of interprofessional learning."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "strategy_options",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "marketing_customer_signal",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "finance_value_control",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "problem_space_first",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "data_source_awareness",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "ai_prompting_for_agility",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "decision_pack",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "false_friend_deals",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "hackathon_learning_lab",
+      "to": "case_similar_deals",
+      "why": "The hackathon provides a safe setting to explore this case."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "sustainability_action",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "finance_value_control",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "leadership_decision_need",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "assumptions_visible",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "data_quality_awareness",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "data_story",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "decision_pack",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "same_emissions_different_story",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "hackathon_learning_lab",
+      "to": "case_green_analysis",
+      "why": "The hackathon provides a safe setting to explore this case."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "product_development_pipeline",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "bi_single_story",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "leadership_decision_need",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "current_workflow_map",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "data_joining_awareness",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "human_review_points",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "better_meeting",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "pipeline_data_conflict",
+      "why": "This case illustrates this part of the learning lattice."
+    },
+    {
+      "from": "hackathon_learning_lab",
+      "to": "case_pipeline_next",
+      "why": "The hackathon provides a safe setting to explore this case."
+    },
+    {
+      "from": "false_friend_deals",
+      "to": "confidence_with_limits",
+      "why": "This watch-out shows why confidence needs visible limits."
+    },
+    {
+      "from": "false_friend_deals",
+      "to": "human_review_points",
+      "why": "This risk should trigger a human review point."
+    },
+    {
+      "from": "false_friend_deals",
+      "to": "better_questions",
+      "why": "The risk can be reduced by asking better questions early."
+    },
+    {
+      "from": "same_emissions_different_story",
+      "to": "confidence_with_limits",
+      "why": "This watch-out shows why confidence needs visible limits."
+    },
+    {
+      "from": "same_emissions_different_story",
+      "to": "human_review_points",
+      "why": "This risk should trigger a human review point."
+    },
+    {
+      "from": "same_emissions_different_story",
+      "to": "better_questions",
+      "why": "The risk can be reduced by asking better questions early."
+    },
+    {
+      "from": "pipeline_data_conflict",
+      "to": "confidence_with_limits",
+      "why": "This watch-out shows why confidence needs visible limits."
+    },
+    {
+      "from": "pipeline_data_conflict",
+      "to": "human_review_points",
+      "why": "This risk should trigger a human review point."
+    },
+    {
+      "from": "pipeline_data_conflict",
+      "to": "better_questions",
+      "why": "The risk can be reduced by asking better questions early."
+    },
+    {
+      "from": "tool_first_failure",
+      "to": "confidence_with_limits",
+      "why": "This watch-out shows why confidence needs visible limits."
+    },
+    {
+      "from": "tool_first_failure",
+      "to": "human_review_points",
+      "why": "This risk should trigger a human review point."
+    },
+    {
+      "from": "tool_first_failure",
+      "to": "better_questions",
+      "why": "The risk can be reduced by asking better questions early."
+    },
+    {
+      "from": "too_much_detail",
+      "to": "confidence_with_limits",
+      "why": "This watch-out shows why confidence needs visible limits."
+    },
+    {
+      "from": "too_much_detail",
+      "to": "human_review_points",
+      "why": "This risk should trigger a human review point."
+    },
+    {
+      "from": "too_much_detail",
+      "to": "better_questions",
+      "why": "The risk can be reduced by asking better questions early."
+    },
+    {
+      "from": "ai_confident_wrong",
+      "to": "confidence_with_limits",
+      "why": "This watch-out shows why confidence needs visible limits."
+    },
+    {
+      "from": "ai_confident_wrong",
+      "to": "human_review_points",
+      "why": "This risk should trigger a human review point."
+    },
+    {
+      "from": "ai_confident_wrong",
+      "to": "better_questions",
+      "why": "The risk can be reduced by asking better questions early."
+    },
+    {
+      "from": "data_silo",
+      "to": "confidence_with_limits",
+      "why": "This watch-out shows why confidence needs visible limits."
+    },
+    {
+      "from": "data_silo",
+      "to": "human_review_points",
+      "why": "This risk should trigger a human review point."
+    },
+    {
+      "from": "data_silo",
+      "to": "better_questions",
+      "why": "The risk can be reduced by asking better questions early."
+    },
+    {
+      "from": "scope_too_big",
+      "to": "confidence_with_limits",
+      "why": "This watch-out shows why confidence needs visible limits."
+    },
+    {
+      "from": "scope_too_big",
+      "to": "human_review_points",
+      "why": "This risk should trigger a human review point."
+    },
+    {
+      "from": "scope_too_big",
+      "to": "better_questions",
+      "why": "The risk can be reduced by asking better questions early."
+    },
+    {
+      "from": "false_friend_deals",
+      "to": "case_similar_deals",
+      "why": "False comparators are a key risk in Similar Deals."
+    },
+    {
+      "from": "same_emissions_different_story",
+      "to": "case_green_analysis",
+      "why": "Different interpretations of the same number are central to Green Analysis."
+    },
+    {
+      "from": "pipeline_data_conflict",
+      "to": "case_pipeline_next",
+      "why": "Conflicting sources are central to Pipeline Next."
+    },
+    {
+      "from": "tool_first_failure",
+      "to": "problem_space_first",
+      "why": "Starting with the problem reduces tool-first failure."
+    },
+    {
+      "from": "too_much_detail",
+      "to": "plain_explanation",
+      "why": "Plain explanation keeps technical detail at the right level."
+    },
+    {
+      "from": "ai_confident_wrong",
+      "to": "ai_limits",
+      "why": "AI limits must be understood before outputs are trusted."
+    },
+    {
+      "from": "data_silo",
+      "to": "whole_business_view",
+      "why": "A whole-business view counters data silos."
+    },
+    {
+      "from": "scope_too_big",
+      "to": "small_safe_data_slice",
+      "why": "A safe data slice keeps scope manageable."
+    },
+    {
+      "from": "good_success_pattern",
+      "to": "small_safe_data_slice",
+      "why": "A small data slice is part of a strong success pattern."
+    },
+    {
+      "from": "good_success_pattern",
+      "to": "decision_pack",
+      "why": "The prototype should produce something decision-ready."
+    },
+    {
+      "from": "good_success_pattern",
+      "to": "demo_with_caveats",
+      "why": "A good success pattern includes showing caveats."
+    },
+    {
+      "from": "good_success_pattern",
+      "to": "business_value_test",
+      "why": "Success depends on testing usefulness for business value."
+    },
+    {
+      "from": "good_success_pattern",
+      "to": "agility_to_act",
+      "why": "This pattern makes agility practical and visible."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "agility_to_act",
+      "why": "The case develops agility by connecting business need, data, AI and action."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "interprofessional_learning",
+      "why": "The case requires different professional views to be brought together."
+    },
+    {
+      "from": "case_similar_deals",
+      "to": "student_business_partnership",
+      "why": "Students and business participants can explore this case together in the hackathon."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "agility_to_act",
+      "why": "The case develops agility by connecting business need, data, AI and action."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "interprofessional_learning",
+      "why": "The case requires different professional views to be brought together."
+    },
+    {
+      "from": "case_green_analysis",
+      "to": "student_business_partnership",
+      "why": "Students and business participants can explore this case together in the hackathon."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "agility_to_act",
+      "why": "The case develops agility by connecting business need, data, AI and action."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "interprofessional_learning",
+      "why": "The case requires different professional views to be brought together."
+    },
+    {
+      "from": "case_pipeline_next",
+      "to": "student_business_partnership",
+      "why": "Students and business participants can explore this case together in the hackathon."
+    }
+  ]
+}
