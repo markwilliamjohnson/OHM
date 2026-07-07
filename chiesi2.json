@@ -1,0 +1,2424 @@
+{
+  "meta": {
+    "title": "Chiesi Data Bootcamp — Agility → Business Questions → Shared Exploration → Data Skills → Hackathon Builds → Decision Use → Cases",
+    "subtitle": "A simple knowledge lattice for professional learners using Excel, Python, data cleaning, prompts and hackathon practice to move from business challenge to useful action.",
+    "domainName": "Data bootcamp learning journey for Chiesi professional learners",
+    "searchPlaceholder": "agility, hackathon, Excel, Python, pandas, data cleaning, pivot tables, joins, data dictionary, prompts, Similar Deals, Green Analysis, Pipeline Next, interprofessional learning, decision pack…",
+    "userContextLabel": "Your Chiesi bootcamp context (optional)",
+    "userContextPlaceholder": "e.g., Similar Deals team; Green Analysis data slice; Pipeline Next review pack; beginner Python confidence; Excel skills; hackathon role; cross-functional challenge…",
+    "initialPrompt": "",
+    "promptTemplate": "You are helping a Chiesi Data Bootcamp team develop agility in the face of linked business and technical challenges.\n\nUser context (if provided):\n{{USER_CONTEXT}}\n\nSelected concepts:\n{{SELECTED_TITLES}}\n\nDetails:\n{{SELECTED_DETAILS}}\n\nTrace paths:\n{{TRACE_SUMMARY}}\n\nWrite a practical learning narrative showing how the team grows more agile. Keep the language clear and concrete. Show how the team moves from a business question to a small data slice, then to cleaning, Excel or Python work, a prompt or prototype, expert feedback, and a clearer next action.\n\nInclude:\n- the business challenge and the decision it should improve\n- the people involved and what each profession or role contributes\n- the data needed, including messy fields, missing values, IDs, units and dates\n- the simple technical skills used or noticed: Excel tables, formulas, pivots, Python, pandas, charts, prompts, joins, checks\n- what happens in the hackathon: problem exploration, safe experiments, build, test, demo and feedback\n- how the team handles uncertainty, judgement and caveats\n- how the work increases agility: more options, better questions, faster learning, clearer action\n- one next step after the hackathon"
+  },
+  "levels": [
+    {
+      "id": 0,
+      "title": "Agility and shared purpose",
+      "hint": "Broad aim: help people see more options, act with data, and join business and technical work."
+    },
+    {
+      "id": 1,
+      "title": "Business questions and value",
+      "hint": "Start with the decision, the user, the friction, and the value to the business."
+    },
+    {
+      "id": 2,
+      "title": "Shared problem exploration",
+      "hint": "Hackathon teams, students, sponsors and experts explore the problem space together before choosing tools."
+    },
+    {
+      "id": 3,
+      "title": "Data and tool basics",
+      "hint": "Awareness of Excel, Python, data cleaning, joins, files, charts, prompts and simple models."
+    },
+    {
+      "id": 4,
+      "title": "Hackathon build moves",
+      "hint": "Practical moves used during the bootcamp: define, clean, code, prompt, build, test, explain and demo."
+    },
+    {
+      "id": 5,
+      "title": "Outputs, use and testing",
+      "hint": "Decision packs, simple dashboards, checks, caveats, workflow fit, adoption and next steps."
+    },
+    {
+      "id": 6,
+      "title": "Cases, examples and watch-outs",
+      "hint": "Specific Chiesi case instances and common risks such as dirty data, false precision and tool-first thinking."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "agility_to_act",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Agility to act",
+      "summary": "The ability to move from unclear need to useful action with data and technology.",
+      "tags": [
+        "agility",
+        "purpose",
+        "action"
+      ],
+      "bodyHtml": "<p>Agility means moving between business meaning and technical detail: frame, explore, clean, build, test, explain and act.</p>"
+    },
+    {
+      "id": "tech_opens_options",
+      "level": 0,
+      "kind": "concept",
+      "label": "Technology opens options",
+      "summary": "Technical awareness changes what people think is possible.",
+      "tags": [
+        "possibility",
+        "technology",
+        "mindset"
+      ],
+      "bodyHtml": "<p>When learners see what Excel, Python, prompts and simple models can do, they start to imagine new ways to organise work.</p>"
+    },
+    {
+      "id": "data_as_shared_asset",
+      "level": 0,
+      "kind": "concept",
+      "label": "Data as a shared asset",
+      "summary": "Data becomes more useful when departments treat it as a shared resource.",
+      "tags": [
+        "data",
+        "collaboration",
+        "asset"
+      ],
+      "bodyHtml": "<p>The bootcamp shifts data from a local file owned by one team to a shared object that helps many teams make better decisions.</p>"
+    },
+    {
+      "id": "whole_business_view",
+      "level": 0,
+      "kind": "concept",
+      "label": "Whole-business view",
+      "summary": "Better data work helps teams see links across strategy, sustainability, pipeline, finance and operations.",
+      "tags": [
+        "systems",
+        "business",
+        "synergy"
+      ],
+      "bodyHtml": "<p>The aim is not a single tool. It is a more joined-up view of how decisions, evidence and people connect across Chiesi.</p>"
+    },
+    {
+      "id": "human_judgement_with_tools",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Human judgement with tools",
+      "summary": "Tools should support judgement rather than replace it.",
+      "tags": [
+        "judgement",
+        "tools",
+        "responsibility"
+      ],
+      "bodyHtml": "<p>The bootcamp teaches where automation can help, where it should only assist, and where expert judgement must remain in charge.</p>"
+    },
+    {
+      "id": "confidence_with_caveats",
+      "level": 0,
+      "kind": "wisdom",
+      "label": "Confidence with caveats",
+      "summary": "Act with more confidence while being clear about limits and uncertainty.",
+      "tags": [
+        "uncertainty",
+        "trust",
+        "agility"
+      ],
+      "bodyHtml": "<p>Good data work does not pretend to know everything. It makes assumptions, gaps and caveats visible so action can be safer.</p>"
+    },
+    {
+      "id": "decision_backwards",
+      "level": 1,
+      "kind": "concept",
+      "label": "Decision-backwards thinking",
+      "summary": "Start from the decision or meeting that should improve.",
+      "tags": [
+        "business",
+        "decision",
+        "requirements"
+      ],
+      "bodyHtml": "<p>Instead of asking which tool to use, teams ask which decision should be easier, faster or more trusted after the prototype exists.</p>"
+    },
+    {
+      "id": "real_business_need",
+      "level": 1,
+      "kind": "concept",
+      "label": "Real business need",
+      "summary": "Anchor the work in live organisational friction rather than abstract data practice.",
+      "tags": [
+        "business",
+        "need",
+        "value"
+      ],
+      "bodyHtml": "<p>The three cases matter because they are real Chiesi problems: deal comparison, Net Zero analysis and pipeline review.</p>"
+    },
+    {
+      "id": "problem_space_first",
+      "level": 1,
+      "kind": "concept",
+      "label": "Problem space first",
+      "summary": "Explore the problem before choosing the solution.",
+      "tags": [
+        "problem_space",
+        "design",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>A hackathon is stronger when the team first maps decisions, users, data, risks and success signals.</p>"
+    },
+    {
+      "id": "decision_audience",
+      "level": 1,
+      "kind": "concept",
+      "label": "Decision audience",
+      "summary": "Know who will use the output and what they need from it.",
+      "tags": [
+        "stakeholder",
+        "audience",
+        "decision"
+      ],
+      "bodyHtml": "<p>A sponsor, asset lead, sustainability team or executive board may need different detail, caveats and formats.</p>"
+    },
+    {
+      "id": "business_friction",
+      "level": 1,
+      "kind": "concept",
+      "label": "Business friction",
+      "summary": "Name where time, trust or coordination is lost.",
+      "tags": [
+        "friction",
+        "workflow",
+        "value"
+      ],
+      "bodyHtml": "<p>Friction may sit in search, data cleaning, agreeing definitions, reconciling versions, writing packs or checking assumptions.</p>"
+    },
+    {
+      "id": "value_chain_from_data",
+      "level": 1,
+      "kind": "concept",
+      "label": "Data-to-action chain",
+      "summary": "Show how data becomes evidence, evidence becomes a decision, and a decision becomes action.",
+      "tags": [
+        "value",
+        "evidence",
+        "action"
+      ],
+      "bodyHtml": "<p>This chain stops the work becoming a dashboard with no clear use.</p>"
+    },
+    {
+      "id": "small_slice_big_learning",
+      "level": 1,
+      "kind": "concept",
+      "label": "Small slice, big learning",
+      "summary": "Use a small data slice to prove the idea before scaling.",
+      "tags": [
+        "prototype",
+        "scope",
+        "learning"
+      ],
+      "bodyHtml": "<p>A few assets, a few deals or a few emissions categories can teach more than an over-large dataset that cannot be handled in time.</p>"
+    },
+    {
+      "id": "inside_outside_data",
+      "level": 1,
+      "kind": "concept",
+      "label": "Inside and outside data",
+      "summary": "Combine internal data with useful external evidence where needed.",
+      "tags": [
+        "data_sources",
+        "external_data",
+        "internal_data"
+      ],
+      "bodyHtml": "<p>Similar Deals may need public deal announcements; Green Analysis may need emission factors; Pipeline Next may need internal metrics and narratives.</p>"
+    },
+    {
+      "id": "business_story",
+      "level": 1,
+      "kind": "concept",
+      "label": "Business story",
+      "summary": "Turn numbers, text and caveats into a story that supports discussion.",
+      "tags": [
+        "narrative",
+        "decision_pack",
+        "explanation"
+      ],
+      "bodyHtml": "<p>A useful output explains what changed, what matters, what is uncertain and what should happen next.</p>"
+    },
+    {
+      "id": "synergy_goal",
+      "level": 1,
+      "kind": "concept",
+      "label": "Synergy goal",
+      "summary": "Use the bootcamp to improve links between teams, data and decisions.",
+      "tags": [
+        "synergy",
+        "collaboration",
+        "organisation"
+      ],
+      "bodyHtml": "<p>The deeper value is better coordination: people understand each other's data, limits, priorities and needs.</p>"
+    },
+    {
+      "id": "interprofessional_working",
+      "level": 2,
+      "kind": "concept",
+      "label": "Interprofessional working",
+      "summary": "People from different roles learn with, from and about each other.",
+      "tags": [
+        "interprofessional",
+        "teamwork",
+        "learning"
+      ],
+      "bodyHtml": "<p>Business, technical, scientific, finance, sustainability and governance roles each see a different part of the problem.</p>"
+    },
+    {
+      "id": "student_explorers",
+      "level": 2,
+      "kind": "concept",
+      "label": "Students as problem explorers",
+      "summary": "Students and learners help explore the space, not just execute tasks.",
+      "tags": [
+        "students",
+        "hackathon",
+        "exploration"
+      ],
+      "bodyHtml": "<p>In the hackathon, students can ask fresh questions, map options, test small ideas and make hidden assumptions visible.</p>"
+    },
+    {
+      "id": "shared_language",
+      "level": 2,
+      "kind": "concept",
+      "label": "Shared language",
+      "summary": "Build simple words for data, business needs and technical moves.",
+      "tags": [
+        "language",
+        "collaboration",
+        "translation"
+      ],
+      "bodyHtml": "<p>Words like field, key, join, flag, caveat, scenario and decision pack help teams work together.</p>"
+    },
+    {
+      "id": "shared_work_objects",
+      "level": 2,
+      "kind": "concept",
+      "label": "Shared work objects",
+      "summary": "Use maps, tables, cards and prototypes as things people can discuss together.",
+      "tags": [
+        "boundary_objects",
+        "artefacts",
+        "teamwork"
+      ],
+      "bodyHtml": "<p>A data dictionary, prototype screen or one-page pack helps different professions point at the same thing while bringing different expertise.</p>"
+    },
+    {
+      "id": "sponsor_team_student_triangle",
+      "level": 2,
+      "kind": "concept",
+      "label": "Sponsor-team-student triangle",
+      "summary": "Link sponsor need, team knowledge and student experimentation.",
+      "tags": [
+        "hackathon",
+        "sponsor",
+        "students"
+      ],
+      "bodyHtml": "<p>Sponsors clarify value; professional teams provide context; students help prototype, question and show possibilities.</p>"
+    },
+    {
+      "id": "safe_to_try",
+      "level": 2,
+      "kind": "concept",
+      "label": "Safe to try",
+      "summary": "Use the hackathon as a safe place for experiments.",
+      "tags": [
+        "experimentation",
+        "safe_to_fail",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>Small trials reduce fear: a failed join, prompt or chart becomes useful learning rather than a project failure.</p>"
+    },
+    {
+      "id": "fast_feedback",
+      "level": 2,
+      "kind": "concept",
+      "label": "Fast feedback",
+      "summary": "Build quickly and learn from reactions.",
+      "tags": [
+        "feedback",
+        "prototype",
+        "learning"
+      ],
+      "bodyHtml": "<p>Short loops between prototype and expert response help teams discover what matters.</p>"
+    },
+    {
+      "id": "role_switching",
+      "level": 2,
+      "kind": "concept",
+      "label": "Role switching",
+      "summary": "Let business people try technical questions and technical people ask business questions.",
+      "tags": [
+        "roles",
+        "agility",
+        "teamwork"
+      ],
+      "bodyHtml": "<p>Agility grows when people cross role boundaries enough to understand each other's constraints.</p>"
+    },
+    {
+      "id": "expert_judgement_mapping",
+      "level": 2,
+      "kind": "concept",
+      "label": "Judgement mapping",
+      "summary": "Mark which decisions are human-owned and which can be supported by tools.",
+      "tags": [
+        "judgement",
+        "human_in_loop",
+        "requirements"
+      ],
+      "bodyHtml": "<p>Teams map what should be automated, assisted or left to expert review.</p>"
+    },
+    {
+      "id": "assumptions_out_loud",
+      "level": 2,
+      "kind": "concept",
+      "label": "Assumptions out loud",
+      "summary": "Make hidden assumptions visible early.",
+      "tags": [
+        "assumptions",
+        "uncertainty",
+        "trust"
+      ],
+      "bodyHtml": "<p>Assumptions about similarity, emissions drivers, KPI definitions or data quality should be spoken and recorded.</p>"
+    },
+    {
+      "id": "peer_teaching",
+      "level": 2,
+      "kind": "concept",
+      "label": "Peer teaching",
+      "summary": "Participants teach each other small skills at the moment of need.",
+      "tags": [
+        "peer_learning",
+        "skills",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>One person may know Excel pivots, another may know Python, another may know the business rule. The hackathon lets these skills circulate.</p>"
+    },
+    {
+      "id": "user_story",
+      "level": 2,
+      "kind": "concept",
+      "label": "User story",
+      "summary": "State what a user needs in plain language.",
+      "tags": [
+        "requirements",
+        "user",
+        "agile"
+      ],
+      "bodyHtml": "<p>For example: as a portfolio reviewer, I need mismatches flagged before the meeting so the discussion can focus on decisions.</p>"
+    },
+    {
+      "id": "data_owner_conversation",
+      "level": 2,
+      "kind": "concept",
+      "label": "Data owner conversation",
+      "summary": "Talk to the people who know where the data comes from and what it means.",
+      "tags": [
+        "data_owner",
+        "governance",
+        "quality"
+      ],
+      "bodyHtml": "<p>Data owners explain fields, gaps, update rhythms, definitions and safe use limits.</p>"
+    },
+    {
+      "id": "double_check_question",
+      "level": 2,
+      "kind": "concept",
+      "label": "Check the question",
+      "summary": "Step back and ask whether the team is solving the right problem.",
+      "tags": [
+        "reflection",
+        "double_loop",
+        "agility"
+      ],
+      "bodyHtml": "<p>This is the simple form of double-loop learning: not just doing the task better, but questioning the task itself.</p>"
+    },
+    {
+      "id": "excel_tables",
+      "level": 3,
+      "kind": "skill",
+      "label": "Excel tables",
+      "summary": "Use structured tables rather than loose spreadsheet ranges.",
+      "tags": [
+        "excel",
+        "tables",
+        "skills"
+      ],
+      "bodyHtml": "<p>Tables make sorting, filtering, formulas and later import into Python or Power BI easier.</p>"
+    },
+    {
+      "id": "spreadsheet_formulas",
+      "level": 3,
+      "kind": "skill",
+      "label": "Spreadsheet formulas",
+      "summary": "Use basic formulas to compute fields, check values and create quick prototypes.",
+      "tags": [
+        "excel",
+        "formulas",
+        "skills"
+      ],
+      "bodyHtml": "<p>Awareness of IF, XLOOKUP, COUNTIF and simple date calculations helps learners see how rules become logic.</p>"
+    },
+    {
+      "id": "pivot_charts",
+      "level": 3,
+      "kind": "skill",
+      "label": "Pivot tables and charts",
+      "summary": "Summarise data quickly by category, time, owner or status.",
+      "tags": [
+        "excel",
+        "pivot",
+        "charts"
+      ],
+      "bodyHtml": "<p>Pivots help participants explore patterns before writing code.</p>"
+    },
+    {
+      "id": "power_query_awareness",
+      "level": 3,
+      "kind": "skill",
+      "label": "Power Query awareness",
+      "summary": "Know that repeat cleaning steps can be recorded and refreshed.",
+      "tags": [
+        "excel",
+        "power_query",
+        "cleaning"
+      ],
+      "bodyHtml": "<p>Power Query can make Excel cleaning more repeatable without requiring full coding confidence.</p>"
+    },
+    {
+      "id": "data_dictionary",
+      "level": 3,
+      "kind": "concept",
+      "label": "Data dictionary",
+      "summary": "Define fields, units, owners, sources and meanings.",
+      "tags": [
+        "data",
+        "dictionary",
+        "quality"
+      ],
+      "bodyHtml": "<p>A data dictionary turns messy files into shared knowledge and reduces argument about definitions.</p>"
+    },
+    {
+      "id": "csv_json_files",
+      "level": 3,
+      "kind": "skill",
+      "label": "CSV and JSON files",
+      "summary": "Understand common file formats used in data work and prototypes.",
+      "tags": [
+        "files",
+        "csv",
+        "json"
+      ],
+      "bodyHtml": "<p>CSV holds tables; JSON can hold structured records, app settings or concept lattices.</p>"
+    },
+    {
+      "id": "data_cleaning",
+      "level": 3,
+      "kind": "skill",
+      "label": "Data cleaning",
+      "summary": "Fix messy names, formats, blanks, duplicates and inconsistent categories.",
+      "tags": [
+        "cleaning",
+        "skills",
+        "data"
+      ],
+      "bodyHtml": "<p>Cleaning is not low-level admin. It is where teams learn what the organisation really knows and does not know.</p>"
+    },
+    {
+      "id": "missing_data",
+      "level": 3,
+      "kind": "concept",
+      "label": "Missing data",
+      "summary": "Notice blanks, unknowns and fields that cannot be trusted.",
+      "tags": [
+        "missingness",
+        "quality",
+        "uncertainty"
+      ],
+      "bodyHtml": "<p>A missing value may be harmless, or it may block a decision. The team must know the difference.</p>"
+    },
+    {
+      "id": "data_joining",
+      "level": 3,
+      "kind": "skill",
+      "label": "Data joining",
+      "summary": "Combine tables using a shared key.",
+      "tags": [
+        "joins",
+        "data",
+        "skills"
+      ],
+      "bodyHtml": "<p>Joining deal records, emissions factors or asset metrics is often the step that creates new insight.</p>"
+    },
+    {
+      "id": "ids_keys",
+      "level": 3,
+      "kind": "concept",
+      "label": "IDs and keys",
+      "summary": "Use stable identifiers to link records safely.",
+      "tags": [
+        "ids",
+        "keys",
+        "data_model"
+      ],
+      "bodyHtml": "<p>Asset IDs, deal IDs, supplier IDs or category codes prevent accidental mismatches.</p>"
+    },
+    {
+      "id": "date_time_fields",
+      "level": 3,
+      "kind": "concept",
+      "label": "Dates and time fields",
+      "summary": "Treat dates as data, not text.",
+      "tags": [
+        "dates",
+        "time",
+        "data_quality"
+      ],
+      "bodyHtml": "<p>Milestones, review dates, announcement dates and emissions periods all need consistent formats.</p>"
+    },
+    {
+      "id": "units_categories",
+      "level": 3,
+      "kind": "concept",
+      "label": "Units and categories",
+      "summary": "Keep units, categories and labels consistent.",
+      "tags": [
+        "units",
+        "categories",
+        "quality"
+      ],
+      "bodyHtml": "<p>Emissions factors, currencies, stages and scopes become misleading if units or labels drift.</p>"
+    },
+    {
+      "id": "python_basics",
+      "level": 3,
+      "kind": "skill",
+      "label": "Python basics",
+      "summary": "Know enough Python to read, transform and check data.",
+      "tags": [
+        "python",
+        "skills",
+        "coding"
+      ],
+      "bodyHtml": "<p>Awareness of variables, lists, functions and loops helps learners understand what code can automate.</p>"
+    },
+    {
+      "id": "pandas_dataframes",
+      "level": 3,
+      "kind": "skill",
+      "label": "Pandas data frames",
+      "summary": "Use Python tables for filtering, grouping, joining and cleaning.",
+      "tags": [
+        "python",
+        "pandas",
+        "dataframes"
+      ],
+      "bodyHtml": "<p>Pandas is a practical bridge from Excel awareness to reproducible data workflows.</p>"
+    },
+    {
+      "id": "notebooks",
+      "level": 3,
+      "kind": "skill",
+      "label": "Notebooks",
+      "summary": "Use notebooks to mix code, notes, charts and explanation.",
+      "tags": [
+        "python",
+        "notebooks",
+        "reproducibility"
+      ],
+      "bodyHtml": "<p>A notebook can become a shared learning record for the hackathon team.</p>"
+    },
+    {
+      "id": "simple_stats",
+      "level": 3,
+      "kind": "skill",
+      "label": "Simple statistics",
+      "summary": "Use counts, averages, ranges, rates and simple comparisons.",
+      "tags": [
+        "stats",
+        "analysis",
+        "skills"
+      ],
+      "bodyHtml": "<p>Many useful prototypes need clear simple statistics before any advanced model.</p>"
+    },
+    {
+      "id": "charts_visuals",
+      "level": 3,
+      "kind": "skill",
+      "label": "Charts and visuals",
+      "summary": "Make patterns visible with simple plots.",
+      "tags": [
+        "charts",
+        "visualisation",
+        "skills"
+      ],
+      "bodyHtml": "<p>A good chart can show a trend, a gap, an outlier or a mismatch quickly.</p>"
+    },
+    {
+      "id": "prompt_basics",
+      "level": 3,
+      "kind": "skill",
+      "label": "Prompt basics",
+      "summary": "Ask AI tools clear, bounded questions and require evidence or caveats.",
+      "tags": [
+        "prompts",
+        "AI",
+        "skills"
+      ],
+      "bodyHtml": "<p>Prompts can help summarise, structure fields, generate code or draft narratives, but outputs need checking.</p>"
+    },
+    {
+      "id": "api_awareness",
+      "level": 3,
+      "kind": "skill",
+      "label": "API awareness",
+      "summary": "Know that tools can exchange data through interfaces.",
+      "tags": [
+        "api",
+        "integration",
+        "awareness"
+      ],
+      "bodyHtml": "<p>Learners do not need to build every API, but awareness helps them imagine more connected workflows.</p>"
+    },
+    {
+      "id": "sql_awareness",
+      "level": 3,
+      "kind": "skill",
+      "label": "Database and SQL awareness",
+      "summary": "Know that larger data often lives in databases and can be queried.",
+      "tags": [
+        "database",
+        "SQL",
+        "awareness"
+      ],
+      "bodyHtml": "<p>Basic awareness of tables, queries and filters helps learners talk to data and IT teams.</p>"
+    },
+    {
+      "id": "reproducible_files",
+      "level": 3,
+      "kind": "concept",
+      "label": "Reproducible files",
+      "summary": "Keep clear versions of data, code, prompts and outputs.",
+      "tags": [
+        "reproducibility",
+        "versioning",
+        "quality"
+      ],
+      "bodyHtml": "<p>A prototype is more useful if another person can rerun it and understand what changed.</p>"
+    },
+    {
+      "id": "challenge_definition",
+      "level": 4,
+      "kind": "practice",
+      "label": "Challenge definition",
+      "summary": "Write the challenge in a few clear sentences.",
+      "tags": [
+        "requirements",
+        "hackathon",
+        "practice"
+      ],
+      "bodyHtml": "<p>A short definition helps the team agree what the prototype is for and what it must not do.</p>"
+    },
+    {
+      "id": "data_inventory",
+      "level": 4,
+      "kind": "practice",
+      "label": "Data inventory",
+      "summary": "List sources, owners, fields, quality issues and readiness.",
+      "tags": [
+        "data",
+        "inventory",
+        "requirements"
+      ],
+      "bodyHtml": "<p>The inventory turns vague data talk into a practical checklist.</p>"
+    },
+    {
+      "id": "sample_dataset",
+      "level": 4,
+      "kind": "practice",
+      "label": "Sample dataset",
+      "summary": "Prepare a small safe dataset for building and testing.",
+      "tags": [
+        "sample_data",
+        "hackathon",
+        "privacy"
+      ],
+      "bodyHtml": "<p>A simulated or cleaned slice lets students work without exposing sensitive values.</p>"
+    },
+    {
+      "id": "backlog",
+      "level": 4,
+      "kind": "practice",
+      "label": "Prototype backlog",
+      "summary": "Turn needs into small build tasks.",
+      "tags": [
+        "backlog",
+        "agile",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>Tasks may include clean date fields, join tables, create a chart, write a flag rule or test a prompt.</p>"
+    },
+    {
+      "id": "prototype_plan",
+      "level": 4,
+      "kind": "practice",
+      "label": "Prototype plan",
+      "summary": "Decide what can be shown by the end of the hackathon.",
+      "tags": [
+        "prototype",
+        "planning",
+        "scope"
+      ],
+      "bodyHtml": "<p>The plan keeps ambition realistic while still showing a path to value.</p>"
+    },
+    {
+      "id": "code_walkthrough",
+      "level": 4,
+      "kind": "practice",
+      "label": "Code walkthrough",
+      "summary": "Explain what the code does in plain language.",
+      "tags": [
+        "coding",
+        "teaching",
+        "teamwork"
+      ],
+      "bodyHtml": "<p>Walkthroughs help non-coders see the logic and help coders catch wrong assumptions.</p>"
+    },
+    {
+      "id": "pair_work",
+      "level": 4,
+      "kind": "practice",
+      "label": "Pair work",
+      "summary": "Pair people with different strengths to build and check together.",
+      "tags": [
+        "teamwork",
+        "pairing",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>A business expert and a student coder can move faster together than either can alone.</p>"
+    },
+    {
+      "id": "rapid_build",
+      "level": 4,
+      "kind": "practice",
+      "label": "Rapid build",
+      "summary": "Build a rough version quickly so the team can react.",
+      "tags": [
+        "prototype",
+        "hackathon",
+        "feedback"
+      ],
+      "bodyHtml": "<p>A rough working thing often teaches more than a perfect plan.</p>"
+    },
+    {
+      "id": "prompt_to_code",
+      "level": 4,
+      "kind": "practice",
+      "label": "Prompt-to-code support",
+      "summary": "Use prompts to help draft code, formulas or data steps, then test them.",
+      "tags": [
+        "AI",
+        "prompts",
+        "coding"
+      ],
+      "bodyHtml": "<p>AI can speed up learning when it is treated as a helper that must show its logic and be checked.</p>"
+    },
+    {
+      "id": "human_in_loop_rules",
+      "level": 4,
+      "kind": "practice",
+      "label": "Human-in-loop rules",
+      "summary": "Write rules for when a person must review the output.",
+      "tags": [
+        "judgement",
+        "human_in_loop",
+        "rules"
+      ],
+      "bodyHtml": "<p>This prevents a prototype from pretending to make decisions it cannot safely make.</p>"
+    },
+    {
+      "id": "flag_rules",
+      "level": 4,
+      "kind": "practice",
+      "label": "Flag rules",
+      "summary": "Create simple checks for missing, stale, conflicting or out-of-range data.",
+      "tags": [
+        "rules",
+        "quality",
+        "pipeline"
+      ],
+      "bodyHtml": "<p>Flags help the team see where attention is needed before a meeting or decision.</p>"
+    },
+    {
+      "id": "scenario_model",
+      "level": 4,
+      "kind": "practice",
+      "label": "Scenario model",
+      "summary": "Compare possible futures under clear assumptions.",
+      "tags": [
+        "scenario",
+        "green_analysis",
+        "forecast"
+      ],
+      "bodyHtml": "<p>Scenario work helps Green Analysis move from history to action.</p>"
+    },
+    {
+      "id": "similarity_score",
+      "level": 4,
+      "kind": "practice",
+      "label": "Similarity score",
+      "summary": "Rank candidates using visible criteria.",
+      "tags": [
+        "similarity",
+        "similar_deals",
+        "ranking"
+      ],
+      "bodyHtml": "<p>A useful score explains why something is close and where the match is weak.</p>"
+    },
+    {
+      "id": "executive_pack_builder",
+      "level": 4,
+      "kind": "practice",
+      "label": "Decision pack builder",
+      "summary": "Create a short output that supports a meeting.",
+      "tags": [
+        "decision_pack",
+        "summary",
+        "workflow"
+      ],
+      "bodyHtml": "<p>The pack should show evidence, caveats, flags and next actions.</p>"
+    },
+    {
+      "id": "validation_with_experts",
+      "level": 4,
+      "kind": "practice",
+      "label": "Expert validation",
+      "summary": "Ask experts whether the output makes sense and where it fails.",
+      "tags": [
+        "validation",
+        "experts",
+        "feedback"
+      ],
+      "bodyHtml": "<p>Expert feedback turns a demo into a learning loop.</p>"
+    },
+    {
+      "id": "demo_story",
+      "level": 4,
+      "kind": "practice",
+      "label": "Demo story",
+      "summary": "Tell the story of the prototype clearly.",
+      "tags": [
+        "demo",
+        "communication",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>A good demo shows the business question, the data, the method, the caveat and the next step.</p>"
+    },
+    {
+      "id": "git_version_awareness",
+      "level": 4,
+      "kind": "skill",
+      "label": "Version control awareness",
+      "summary": "Know why teams track changes in code and data.",
+      "tags": [
+        "git",
+        "versioning",
+        "awareness"
+      ],
+      "bodyHtml": "<p>Even if learners do not master Git, they should understand why versions matter.</p>"
+    },
+    {
+      "id": "decision_pack",
+      "level": 5,
+      "kind": "output",
+      "label": "Decision pack",
+      "summary": "A short, trusted pack that helps a real meeting or choice.",
+      "tags": [
+        "output",
+        "decision",
+        "pack"
+      ],
+      "bodyHtml": "<p>The pack brings together key numbers, narrative, caveats and suggested next actions.</p>"
+    },
+    {
+      "id": "explainable_output",
+      "level": 5,
+      "kind": "output",
+      "label": "Explainable output",
+      "summary": "The result says why it reached a ranking, flag or scenario.",
+      "tags": [
+        "explainability",
+        "trust",
+        "output"
+      ],
+      "bodyHtml": "<p>People can challenge an explainable output rather than accept or reject a black box.</p>"
+    },
+    {
+      "id": "uncertainty_display",
+      "level": 5,
+      "kind": "output",
+      "label": "Uncertainty display",
+      "summary": "Show what is unknown, estimated, weak or disputed.",
+      "tags": [
+        "uncertainty",
+        "caveats",
+        "trust"
+      ],
+      "bodyHtml": "<p>Uncertainty is not a defect. It guides where to check, learn or act carefully.</p>"
+    },
+    {
+      "id": "quality_checks",
+      "level": 5,
+      "kind": "output",
+      "label": "Quality checks",
+      "summary": "Checks for missing data, duplicates, stale fields and inconsistent units.",
+      "tags": [
+        "quality",
+        "checks",
+        "data"
+      ],
+      "bodyHtml": "<p>Simple checks can prevent poor data being turned into polished but wrong outputs.</p>"
+    },
+    {
+      "id": "simple_dashboard",
+      "level": 5,
+      "kind": "output",
+      "label": "Simple dashboard",
+      "summary": "A focused screen for exploring a small number of useful measures.",
+      "tags": [
+        "dashboard",
+        "visualisation",
+        "output"
+      ],
+      "bodyHtml": "<p>The best dashboard answers a decision need rather than showing every available metric.</p>"
+    },
+    {
+      "id": "assist_not_replace",
+      "level": 5,
+      "kind": "principle",
+      "label": "Assist, do not replace",
+      "summary": "Use tools to prepare, highlight and explain; keep responsibility clear.",
+      "tags": [
+        "automation",
+        "judgement",
+        "principle"
+      ],
+      "bodyHtml": "<p>The prototype should help people see and act, not hide judgement inside a machine.</p>"
+    },
+    {
+      "id": "workflow_fit",
+      "level": 5,
+      "kind": "output",
+      "label": "Workflow fit",
+      "summary": "The output fits the meeting, template, cadence and tool environment.",
+      "tags": [
+        "workflow",
+        "adoption",
+        "use"
+      ],
+      "bodyHtml": "<p>A technically clever prototype will fail if it does not fit how people actually work.</p>"
+    },
+    {
+      "id": "adoption_route",
+      "level": 5,
+      "kind": "concept",
+      "label": "Adoption route",
+      "summary": "Describe how the prototype could become part of normal work.",
+      "tags": [
+        "adoption",
+        "scale",
+        "change"
+      ],
+      "bodyHtml": "<p>This includes ownership, support, governance, training, data refresh and next development steps.</p>"
+    },
+    {
+      "id": "evidence_caveats",
+      "level": 5,
+      "kind": "output",
+      "label": "Evidence and caveats",
+      "summary": "State what the evidence supports and what it does not support.",
+      "tags": [
+        "evidence",
+        "caveats",
+        "trust"
+      ],
+      "bodyHtml": "<p>Caveats protect the team from overclaiming and help decision-makers use the result wisely.</p>"
+    },
+    {
+      "id": "success_measures",
+      "level": 5,
+      "kind": "concept",
+      "label": "Success measures",
+      "summary": "Define how the team will know the work helped.",
+      "tags": [
+        "success",
+        "evaluation",
+        "value"
+      ],
+      "bodyHtml": "<p>Measures may include time saved, fewer version conflicts, better comparator quality or clearer scenario choices.</p>"
+    },
+    {
+      "id": "reusable_workflow",
+      "level": 5,
+      "kind": "output",
+      "label": "Reusable workflow",
+      "summary": "A process that can be repeated on another case or dataset.",
+      "tags": [
+        "reusable",
+        "workflow",
+        "scaling"
+      ],
+      "bodyHtml": "<p>Reusability is a sign that the team has built capability, not just a one-off demo.</p>"
+    },
+    {
+      "id": "post_hackathon_next_steps",
+      "level": 5,
+      "kind": "concept",
+      "label": "Next steps after the hackathon",
+      "summary": "Convert the demo into a learning plan and delivery path.",
+      "tags": [
+        "next_steps",
+        "hackathon",
+        "delivery"
+      ],
+      "bodyHtml": "<p>The next step may be better data, user testing, governance review, a second data slice or a stronger prototype.</p>"
+    },
+    {
+      "id": "light_data_governance",
+      "level": 5,
+      "kind": "concept",
+      "label": "Light data governance",
+      "summary": "Use simple ownership, access and quality rules from the start.",
+      "tags": [
+        "governance",
+        "data",
+        "trust"
+      ],
+      "bodyHtml": "<p>Even early prototypes need clarity about safe data, owners, field meanings and limits.</p>"
+    },
+    {
+      "id": "measured_improvement",
+      "level": 5,
+      "kind": "output",
+      "label": "Measured improvement",
+      "summary": "Show how the prototype improves time, trust, clarity or coordination.",
+      "tags": [
+        "impact",
+        "measurement",
+        "value"
+      ],
+      "bodyHtml": "<p>Improvement should be visible enough that sponsors can decide whether to invest further.</p>"
+    },
+    {
+      "id": "similar_deals_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Similar Deals case",
+      "summary": "Find a useful pool of comparable inorganic growth deals.",
+      "tags": [
+        "similar_deals",
+        "case",
+        "business_development"
+      ],
+      "bodyHtml": "<p>The team must define what similar means for a decision, not just search for matching keywords.</p>"
+    },
+    {
+      "id": "similar_deals_false_friend",
+      "level": 6,
+      "kind": "risk",
+      "label": "False friend comparator",
+      "summary": "Two deals look similar on the surface but differ in business logic.",
+      "tags": [
+        "similar_deals",
+        "risk",
+        "similarity"
+      ],
+      "bodyHtml": "<p>A therapy-area match may hide differences in stage, modality, deal type, financial terms or strategic rationale.</p>"
+    },
+    {
+      "id": "similar_deals_deal_record",
+      "level": 6,
+      "kind": "instance",
+      "label": "Minimum deal record",
+      "summary": "Deal ID, date, parties, deal type, asset features, financial terms and confidence notes.",
+      "tags": [
+        "similar_deals",
+        "data",
+        "record"
+      ],
+      "bodyHtml": "<p>This is the practical table structure needed before ranking can be trusted.</p>"
+    },
+    {
+      "id": "green_analysis_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Green Analysis case",
+      "summary": "Turn emissions history into forecasts, scenarios and decision evidence.",
+      "tags": [
+        "green_analysis",
+        "case",
+        "net_zero"
+      ],
+      "bodyHtml": "<p>The team links emissions, activity, drivers, interventions and uncertainty.</p>"
+    },
+    {
+      "id": "green_factor_revision",
+      "level": 6,
+      "kind": "risk",
+      "label": "Factor revision mistake",
+      "summary": "A change in emission factors looks like real operational progress.",
+      "tags": [
+        "green_analysis",
+        "risk",
+        "emissions"
+      ],
+      "bodyHtml": "<p>The model must separate accounting change from real change in business activity.</p>"
+    },
+    {
+      "id": "green_supplier_priority",
+      "level": 6,
+      "kind": "instance",
+      "label": "Supplier priority example",
+      "summary": "Compare emissions size, confidence and ability to influence suppliers.",
+      "tags": [
+        "green_analysis",
+        "scope3",
+        "decision"
+      ],
+      "bodyHtml": "<p>The best action may be to improve data first, not simply chase the biggest number.</p>"
+    },
+    {
+      "id": "pipeline_next_case",
+      "level": 6,
+      "kind": "case",
+      "label": "Pipeline Next case",
+      "summary": "Create a reproducible review pack from metrics and narratives.",
+      "tags": [
+        "pipeline_next",
+        "case",
+        "portfolio"
+      ],
+      "bodyHtml": "<p>The team combines asset data, KPIs, narrative extracts, flags and summary text.</p>"
+    },
+    {
+      "id": "pipeline_conflicting_status",
+      "level": 6,
+      "kind": "risk",
+      "label": "Conflicting asset status",
+      "summary": "One source says on track, another says delayed, another lists a risk.",
+      "tags": [
+        "pipeline_next",
+        "risk",
+        "flags"
+      ],
+      "bodyHtml": "<p>The prototype should surface the mismatch before the meeting.</p>"
+    },
+    {
+      "id": "pipeline_asset_row",
+      "level": 6,
+      "kind": "instance",
+      "label": "Integrated asset row",
+      "summary": "One row per asset per review with key fields, KPIs, flags and notes.",
+      "tags": [
+        "pipeline_next",
+        "data_model",
+        "asset"
+      ],
+      "bodyHtml": "<p>This simple structure helps teams see what must be joined and checked.</p>"
+    },
+    {
+      "id": "risk_tool_first",
+      "level": 6,
+      "kind": "risk",
+      "label": "Tool-first thinking",
+      "summary": "The team starts with AI or dashboards before defining the business need.",
+      "tags": [
+        "risk",
+        "solutionism",
+        "tools"
+      ],
+      "bodyHtml": "<p>This often creates impressive outputs that do not help the real decision.</p>"
+    },
+    {
+      "id": "risk_ai_smooths_conflict",
+      "level": 6,
+      "kind": "risk",
+      "label": "AI smooths conflict",
+      "summary": "A summary sounds fluent but hides data conflict.",
+      "tags": [
+        "risk",
+        "AI",
+        "summary"
+      ],
+      "bodyHtml": "<p>The tool must show mismatches and caveats, not write around them.</p>"
+    },
+    {
+      "id": "risk_false_precision",
+      "level": 6,
+      "kind": "risk",
+      "label": "False precision",
+      "summary": "Charts or forecasts look exact even when the inputs are weak.",
+      "tags": [
+        "risk",
+        "uncertainty",
+        "forecast"
+      ],
+      "bodyHtml": "<p>The team should show ranges, assumptions and confidence rather than overclaim.</p>"
+    },
+    {
+      "id": "risk_dirty_data",
+      "level": 6,
+      "kind": "risk",
+      "label": "Dirty data blocks progress",
+      "summary": "Messy formats, blanks, duplicates and weak IDs slow the hackathon.",
+      "tags": [
+        "risk",
+        "data_cleaning",
+        "quality"
+      ],
+      "bodyHtml": "<p>This is why data cleaning and data dictionaries are core skills, not side tasks.</p>"
+    },
+    {
+      "id": "risk_silo_return",
+      "level": 6,
+      "kind": "risk",
+      "label": "Return to silos",
+      "summary": "After the hackathon, teams go back to separate files and local habits.",
+      "tags": [
+        "risk",
+        "silos",
+        "adoption"
+      ],
+      "bodyHtml": "<p>The bootcamp should leave shared artefacts, owners and next steps so learning continues.</p>"
+    },
+    {
+      "id": "risk_over_automation",
+      "level": 6,
+      "kind": "risk",
+      "label": "Over-automation",
+      "summary": "The prototype makes a judgement that should remain with experts.",
+      "tags": [
+        "risk",
+        "automation",
+        "judgement"
+      ],
+      "bodyHtml": "<p>Human-in-loop rules protect trust and safe use.</p>"
+    },
+    {
+      "id": "instance_excel_first_clean",
+      "level": 6,
+      "kind": "instance",
+      "label": "Excel first clean",
+      "summary": "Use Excel tables, filters and pivots to inspect the data before coding.",
+      "tags": [
+        "excel",
+        "instance",
+        "cleaning"
+      ],
+      "bodyHtml": "<p>This gives all participants a way into the data, even if they are new to Python.</p>"
+    },
+    {
+      "id": "instance_python_join_demo",
+      "level": 6,
+      "kind": "instance",
+      "label": "Python join demo",
+      "summary": "Use pandas to join two tables and flag mismatches.",
+      "tags": [
+        "python",
+        "pandas",
+        "instance"
+      ],
+      "bodyHtml": "<p>A short demo can show how repeated manual work might become reproducible.</p>"
+    },
+    {
+      "id": "instance_student_demo_pitch",
+      "level": 6,
+      "kind": "instance",
+      "label": "Student demo pitch",
+      "summary": "Students present what they built, what failed and what should happen next.",
+      "tags": [
+        "students",
+        "demo",
+        "hackathon"
+      ],
+      "bodyHtml": "<p>The pitch is a learning moment: it makes technical possibility visible to business sponsors.</p>"
+    },
+    {
+      "id": "instance_hackathon_day_one",
+      "level": 6,
+      "kind": "instance",
+      "label": "Hackathon day one",
+      "summary": "Teams map the problem, inspect data and choose a small build target.",
+      "tags": [
+        "hackathon",
+        "day_one",
+        "planning"
+      ],
+      "bodyHtml": "<p>The first day should protect time for exploration before rushing into code.</p>"
+    },
+    {
+      "id": "instance_show_and_tell",
+      "level": 6,
+      "kind": "instance",
+      "label": "Show-and-tell loop",
+      "summary": "A short demo is shown to experts, then improved from feedback.",
+      "tags": [
+        "hackathon",
+        "feedback",
+        "demo"
+      ],
+      "bodyHtml": "<p>This loop turns the hackathon from a coding sprint into a business learning process.</p>"
+    }
+  ],
+  "edges": [
+    {
+      "from": "agility_to_act",
+      "to": "decision_backwards",
+      "why": "Agility starts by turning broad need into a decision, a problem space and a path to action."
+    },
+    {
+      "from": "agility_to_act",
+      "to": "real_business_need",
+      "why": "Agility starts by turning broad need into a decision, a problem space and a path to action."
+    },
+    {
+      "from": "agility_to_act",
+      "to": "problem_space_first",
+      "why": "Agility starts by turning broad need into a decision, a problem space and a path to action."
+    },
+    {
+      "from": "agility_to_act",
+      "to": "value_chain_from_data",
+      "why": "Agility starts by turning broad need into a decision, a problem space and a path to action."
+    },
+    {
+      "from": "tech_opens_options",
+      "to": "inside_outside_data",
+      "why": "Technical awareness lets teams imagine new ways to use small data slices and combine sources."
+    },
+    {
+      "from": "tech_opens_options",
+      "to": "small_slice_big_learning",
+      "why": "Technical awareness lets teams imagine new ways to use small data slices and combine sources."
+    },
+    {
+      "from": "tech_opens_options",
+      "to": "business_story",
+      "why": "Technical awareness lets teams imagine new ways to use small data slices and combine sources."
+    },
+    {
+      "from": "data_as_shared_asset",
+      "to": "inside_outside_data",
+      "why": "Shared data supports joined-up decisions across departments."
+    },
+    {
+      "from": "data_as_shared_asset",
+      "to": "synergy_goal",
+      "why": "Shared data supports joined-up decisions across departments."
+    },
+    {
+      "from": "data_as_shared_asset",
+      "to": "value_chain_from_data",
+      "why": "Shared data supports joined-up decisions across departments."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "synergy_goal",
+      "why": "A whole-business view asks where coordination, time or trust can be improved."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "decision_audience",
+      "why": "A whole-business view asks where coordination, time or trust can be improved."
+    },
+    {
+      "from": "whole_business_view",
+      "to": "business_friction",
+      "why": "A whole-business view asks where coordination, time or trust can be improved."
+    },
+    {
+      "from": "human_judgement_with_tools",
+      "to": "decision_backwards",
+      "why": "Tools must be shaped around the judgement and decisions people need to make."
+    },
+    {
+      "from": "human_judgement_with_tools",
+      "to": "business_story",
+      "why": "Tools must be shaped around the judgement and decisions people need to make."
+    },
+    {
+      "from": "human_judgement_with_tools",
+      "to": "value_chain_from_data",
+      "why": "Tools must be shaped around the judgement and decisions people need to make."
+    },
+    {
+      "from": "confidence_with_caveats",
+      "to": "problem_space_first",
+      "why": "Confidence grows when the team works with a clear scope and speaks about limits."
+    },
+    {
+      "from": "confidence_with_caveats",
+      "to": "small_slice_big_learning",
+      "why": "Confidence grows when the team works with a clear scope and speaks about limits."
+    },
+    {
+      "from": "confidence_with_caveats",
+      "to": "business_story",
+      "why": "Confidence grows when the team works with a clear scope and speaks about limits."
+    },
+    {
+      "from": "decision_backwards",
+      "to": "user_story",
+      "why": "A user story turns a decision need into plain language."
+    },
+    {
+      "from": "decision_backwards",
+      "to": "decision_audience",
+      "why": "The decision audience defines what counts as useful."
+    },
+    {
+      "from": "decision_backwards",
+      "to": "data_owner_conversation",
+      "why": "Data owners and users explain what the decision actually requires."
+    },
+    {
+      "from": "real_business_need",
+      "to": "interprofessional_working",
+      "why": "Real business need cuts across roles, so teams must learn across professions."
+    },
+    {
+      "from": "real_business_need",
+      "to": "sponsor_team_student_triangle",
+      "why": "Sponsors, teams and students connect practical need to experiment."
+    },
+    {
+      "from": "problem_space_first",
+      "to": "student_explorers",
+      "why": "Students help map the problem space before tools are fixed."
+    },
+    {
+      "from": "problem_space_first",
+      "to": "assumptions_out_loud",
+      "why": "Problem exploration surfaces assumptions before coding starts."
+    },
+    {
+      "from": "problem_space_first",
+      "to": "double_check_question",
+      "why": "The team checks whether the problem has been framed correctly."
+    },
+    {
+      "from": "decision_audience",
+      "to": "shared_language",
+      "why": "The audience shapes the words, level of detail and output format."
+    },
+    {
+      "from": "business_friction",
+      "to": "shared_work_objects",
+      "why": "Shared artefacts make friction visible and discussable."
+    },
+    {
+      "from": "business_friction",
+      "to": "data_owner_conversation",
+      "why": "Friction often traces back to ownership, update cadence or unclear definitions."
+    },
+    {
+      "from": "value_chain_from_data",
+      "to": "expert_judgement_mapping",
+      "why": "The chain from data to action shows where human judgement must enter."
+    },
+    {
+      "from": "small_slice_big_learning",
+      "to": "safe_to_try",
+      "why": "A small slice makes experiments safe and practical."
+    },
+    {
+      "from": "small_slice_big_learning",
+      "to": "fast_feedback",
+      "why": "Small scope allows rapid feedback from experts and users."
+    },
+    {
+      "from": "inside_outside_data",
+      "to": "interprofessional_working",
+      "why": "Different roles understand different internal and external data sources."
+    },
+    {
+      "from": "business_story",
+      "to": "shared_language",
+      "why": "The business story needs common terms that technical and non-technical people can share."
+    },
+    {
+      "from": "synergy_goal",
+      "to": "interprofessional_working",
+      "why": "Synergy depends on people learning how other roles see the same problem."
+    },
+    {
+      "from": "synergy_goal",
+      "to": "role_switching",
+      "why": "Role switching helps people understand the wider system."
+    },
+    {
+      "from": "synergy_goal",
+      "to": "peer_teaching",
+      "why": "Peer teaching spreads skills and reduces dependence on one expert."
+    },
+    {
+      "from": "interprofessional_working",
+      "to": "data_dictionary",
+      "why": "A shared dictionary helps different professions align meanings."
+    },
+    {
+      "from": "interprofessional_working",
+      "to": "prompt_basics",
+      "why": "Clear prompts require both business context and technical structure."
+    },
+    {
+      "from": "student_explorers",
+      "to": "python_basics",
+      "why": "Students may use code to test ideas and make possibilities visible."
+    },
+    {
+      "from": "student_explorers",
+      "to": "charts_visuals",
+      "why": "Visuals help students show early patterns to sponsors."
+    },
+    {
+      "from": "shared_language",
+      "to": "data_dictionary",
+      "why": "Field definitions are a practical form of shared language."
+    },
+    {
+      "from": "shared_language",
+      "to": "csv_json_files",
+      "why": "Knowing file types helps people describe how tools exchange data."
+    },
+    {
+      "from": "shared_work_objects",
+      "to": "excel_tables",
+      "why": "A table is a simple shared object that everyone can inspect."
+    },
+    {
+      "from": "shared_work_objects",
+      "to": "notebooks",
+      "why": "A notebook combines code, notes and charts as a shared work object."
+    },
+    {
+      "from": "sponsor_team_student_triangle",
+      "to": "simple_stats",
+      "why": "Simple stats help the triangle discuss patterns without overcomplication."
+    },
+    {
+      "from": "sponsor_team_student_triangle",
+      "to": "pivot_charts",
+      "why": "Pivots give fast shared views of a data slice."
+    },
+    {
+      "from": "safe_to_try",
+      "to": "excel_tables",
+      "why": "Excel is a safe first environment for many learners to inspect data."
+    },
+    {
+      "from": "safe_to_try",
+      "to": "python_basics",
+      "why": "Basic Python can be tried on safe sample data."
+    },
+    {
+      "from": "fast_feedback",
+      "to": "charts_visuals",
+      "why": "Charts produce quick feedback from experts and sponsors."
+    },
+    {
+      "from": "role_switching",
+      "to": "excel_tables",
+      "why": "Business participants can explore structured tables directly."
+    },
+    {
+      "from": "role_switching",
+      "to": "python_basics",
+      "why": "Technical participants can explain code logic in business terms."
+    },
+    {
+      "from": "expert_judgement_mapping",
+      "to": "prompt_basics",
+      "why": "Prompts should ask AI to keep judgement, evidence and caveats separate."
+    },
+    {
+      "from": "expert_judgement_mapping",
+      "to": "missing_data",
+      "why": "Expert review helps decide whether missing data matters."
+    },
+    {
+      "from": "assumptions_out_loud",
+      "to": "data_dictionary",
+      "why": "Assumptions become clearer when fields and meanings are written down."
+    },
+    {
+      "from": "assumptions_out_loud",
+      "to": "units_categories",
+      "why": "Units and categories often hide assumptions."
+    },
+    {
+      "from": "peer_teaching",
+      "to": "spreadsheet_formulas",
+      "why": "Formula skills can be shared quickly during the hackathon."
+    },
+    {
+      "from": "peer_teaching",
+      "to": "pandas_dataframes",
+      "why": "Python users can show others how data frames mirror tables."
+    },
+    {
+      "from": "user_story",
+      "to": "data_dictionary",
+      "why": "The user story helps decide which fields need clear definitions."
+    },
+    {
+      "from": "data_owner_conversation",
+      "to": "ids_keys",
+      "why": "Data owners know which identifiers are stable enough for joins."
+    },
+    {
+      "from": "data_owner_conversation",
+      "to": "date_time_fields",
+      "why": "Data owners can explain update timing and date meanings."
+    },
+    {
+      "from": "double_check_question",
+      "to": "simple_stats",
+      "why": "Simple statistics can challenge assumptions about what is really happening."
+    },
+    {
+      "from": "excel_tables",
+      "to": "spreadsheet_formulas",
+      "why": "Structured tables make formulas clearer and safer."
+    },
+    {
+      "from": "excel_tables",
+      "to": "pivot_charts",
+      "why": "Pivots work best when data is in clean table form."
+    },
+    {
+      "from": "spreadsheet_formulas",
+      "to": "quality_checks",
+      "why": "Formulas can create early checks for blanks, duplicates or thresholds."
+    },
+    {
+      "from": "pivot_charts",
+      "to": "charts_visuals",
+      "why": "Pivot charts are a fast route from data to visual insight."
+    },
+    {
+      "from": "power_query_awareness",
+      "to": "data_cleaning",
+      "why": "Power Query can record repeat cleaning steps."
+    },
+    {
+      "from": "data_dictionary",
+      "to": "data_cleaning",
+      "why": "Cleaning rules depend on field meanings and expected values."
+    },
+    {
+      "from": "csv_json_files",
+      "to": "python_basics",
+      "why": "Python can read common formats such as CSV and JSON."
+    },
+    {
+      "from": "data_cleaning",
+      "to": "missing_data",
+      "why": "Cleaning starts by noticing missing and inconsistent values."
+    },
+    {
+      "from": "data_cleaning",
+      "to": "ids_keys",
+      "why": "Cleaning must protect the identifiers used for joins."
+    },
+    {
+      "from": "data_joining",
+      "to": "ids_keys",
+      "why": "Joins depend on stable shared keys."
+    },
+    {
+      "from": "data_joining",
+      "to": "pandas_dataframes",
+      "why": "Pandas can join and reshape tables reproducibly."
+    },
+    {
+      "from": "date_time_fields",
+      "to": "data_cleaning",
+      "why": "Dates often need cleaning before trends or flags work."
+    },
+    {
+      "from": "units_categories",
+      "to": "data_cleaning",
+      "why": "Inconsistent units and categories are common cleaning tasks."
+    },
+    {
+      "from": "python_basics",
+      "to": "pandas_dataframes",
+      "why": "Pandas builds on basic Python ideas."
+    },
+    {
+      "from": "pandas_dataframes",
+      "to": "notebooks",
+      "why": "Notebooks are a common space for pandas analysis."
+    },
+    {
+      "from": "pandas_dataframes",
+      "to": "simple_stats",
+      "why": "Pandas can compute counts, means, rates and group summaries."
+    },
+    {
+      "from": "simple_stats",
+      "to": "charts_visuals",
+      "why": "Simple statistics become clearer when shown visually."
+    },
+    {
+      "from": "prompt_basics",
+      "to": "prompt_to_code",
+      "why": "Prompts can help draft code, but the team must test it."
+    },
+    {
+      "from": "api_awareness",
+      "to": "inside_outside_data",
+      "why": "API awareness helps teams imagine linking internal and external sources."
+    },
+    {
+      "from": "sql_awareness",
+      "to": "data_inventory",
+      "why": "Database awareness helps teams ask where larger data is stored."
+    },
+    {
+      "from": "reproducible_files",
+      "to": "git_version_awareness",
+      "why": "Version awareness supports reproducible files, code and outputs."
+    },
+    {
+      "from": "excel_tables",
+      "to": "data_inventory",
+      "why": "Excel tables are useful for listing sources, owners and fields."
+    },
+    {
+      "from": "spreadsheet_formulas",
+      "to": "flag_rules",
+      "why": "Formulas can prototype simple flag logic before coding."
+    },
+    {
+      "from": "pivot_charts",
+      "to": "rapid_build",
+      "why": "Pivots help build quick exploratory views."
+    },
+    {
+      "from": "power_query_awareness",
+      "to": "rapid_build",
+      "why": "Recorded cleaning steps can speed up repeated prototype runs."
+    },
+    {
+      "from": "data_dictionary",
+      "to": "challenge_definition",
+      "why": "Field meanings sharpen the challenge definition."
+    },
+    {
+      "from": "data_dictionary",
+      "to": "data_inventory",
+      "why": "The data inventory should lead to a dictionary of usable fields."
+    },
+    {
+      "from": "csv_json_files",
+      "to": "sample_dataset",
+      "why": "Sample datasets are often prepared as CSV or JSON."
+    },
+    {
+      "from": "data_cleaning",
+      "to": "sample_dataset",
+      "why": "A safe sample still needs cleaning enough for hackathon use."
+    },
+    {
+      "from": "missing_data",
+      "to": "flag_rules",
+      "why": "Missing values can become explicit flags."
+    },
+    {
+      "from": "data_joining",
+      "to": "rapid_build",
+      "why": "Joining small tables can create a useful prototype quickly."
+    },
+    {
+      "from": "ids_keys",
+      "to": "data_inventory",
+      "why": "The inventory must record identifiers and linking keys."
+    },
+    {
+      "from": "date_time_fields",
+      "to": "scenario_model",
+      "why": "Time fields support forecasts, scenarios and trend views."
+    },
+    {
+      "from": "units_categories",
+      "to": "quality_checks",
+      "why": "Unit and category checks prevent misleading outputs."
+    },
+    {
+      "from": "python_basics",
+      "to": "code_walkthrough",
+      "why": "Basic Python awareness helps the team understand code walkthroughs."
+    },
+    {
+      "from": "pandas_dataframes",
+      "to": "rapid_build",
+      "why": "Pandas supports quick filtering, joins and group summaries."
+    },
+    {
+      "from": "notebooks",
+      "to": "code_walkthrough",
+      "why": "A notebook makes code easier to explain step by step."
+    },
+    {
+      "from": "simple_stats",
+      "to": "scenario_model",
+      "why": "Scenarios often start from simple rates, baselines and changes."
+    },
+    {
+      "from": "charts_visuals",
+      "to": "demo_story",
+      "why": "Charts help the demo story become visible."
+    },
+    {
+      "from": "prompt_basics",
+      "to": "prompt_to_code",
+      "why": "Prompt skill can support code, summaries and data structuring."
+    },
+    {
+      "from": "api_awareness",
+      "to": "prototype_plan",
+      "why": "Integration awareness shapes a realistic prototype plan."
+    },
+    {
+      "from": "sql_awareness",
+      "to": "data_inventory",
+      "why": "SQL awareness helps teams ask how database extracts should be prepared."
+    },
+    {
+      "from": "reproducible_files",
+      "to": "prototype_plan",
+      "why": "The prototype plan should include how work will be saved and rerun."
+    },
+    {
+      "from": "challenge_definition",
+      "to": "decision_pack",
+      "why": "A clear challenge points to the right output pack."
+    },
+    {
+      "from": "challenge_definition",
+      "to": "success_measures",
+      "why": "The definition should say how success will be judged."
+    },
+    {
+      "from": "data_inventory",
+      "to": "light_data_governance",
+      "why": "The inventory identifies owners, sources and quality rules."
+    },
+    {
+      "from": "data_inventory",
+      "to": "quality_checks",
+      "why": "Known quality issues become checks."
+    },
+    {
+      "from": "sample_dataset",
+      "to": "reusable_workflow",
+      "why": "A good sample structure can later be reused with real data."
+    },
+    {
+      "from": "backlog",
+      "to": "post_hackathon_next_steps",
+      "why": "Unfinished backlog items become next steps."
+    },
+    {
+      "from": "prototype_plan",
+      "to": "adoption_route",
+      "why": "A good plan considers how the prototype could fit later work."
+    },
+    {
+      "from": "code_walkthrough",
+      "to": "explainable_output",
+      "why": "Explaining code helps the output become trusted."
+    },
+    {
+      "from": "pair_work",
+      "to": "interprofessional_working",
+      "why": "Pair work is a practical form of interprofessional learning."
+    },
+    {
+      "from": "rapid_build",
+      "to": "fast_feedback",
+      "why": "Rapid build enables quick expert feedback."
+    },
+    {
+      "from": "prompt_to_code",
+      "to": "assist_not_replace",
+      "why": "AI support should assist learning and building, not replace checking."
+    },
+    {
+      "from": "human_in_loop_rules",
+      "to": "assist_not_replace",
+      "why": "Human review keeps responsibility clear."
+    },
+    {
+      "from": "flag_rules",
+      "to": "quality_checks",
+      "why": "Flag rules become part of the quality check layer."
+    },
+    {
+      "from": "flag_rules",
+      "to": "uncertainty_display",
+      "why": "Flags show where data is uncertain or needs review."
+    },
+    {
+      "from": "scenario_model",
+      "to": "uncertainty_display",
+      "why": "Scenarios should show assumptions and ranges."
+    },
+    {
+      "from": "similarity_score",
+      "to": "explainable_output",
+      "why": "Similarity ranking must explain why candidates are close or weak."
+    },
+    {
+      "from": "executive_pack_builder",
+      "to": "decision_pack",
+      "why": "The builder turns analysis into a meeting-ready pack."
+    },
+    {
+      "from": "validation_with_experts",
+      "to": "evidence_caveats",
+      "why": "Expert feedback adds caveats and improves trust."
+    },
+    {
+      "from": "validation_with_experts",
+      "to": "measured_improvement",
+      "why": "Expert judgement helps decide whether the prototype truly improves work."
+    },
+    {
+      "from": "demo_story",
+      "to": "decision_pack",
+      "why": "The demo story shows how the pack would support action."
+    },
+    {
+      "from": "git_version_awareness",
+      "to": "reusable_workflow",
+      "why": "Version awareness helps the prototype become repeatable."
+    },
+    {
+      "from": "decision_pack",
+      "to": "value_chain_from_data",
+      "why": "A decision pack completes the chain from data to action."
+    },
+    {
+      "from": "explainable_output",
+      "to": "confidence_with_caveats",
+      "why": "Explainability builds confidence without hiding limits."
+    },
+    {
+      "from": "uncertainty_display",
+      "to": "confidence_with_caveats",
+      "why": "Showing uncertainty is how caveated confidence is built."
+    },
+    {
+      "from": "quality_checks",
+      "to": "data_as_shared_asset",
+      "why": "Shared data is more trustworthy when checks are visible."
+    },
+    {
+      "from": "simple_dashboard",
+      "to": "decision_audience",
+      "why": "A useful dashboard is designed for a specific audience."
+    },
+    {
+      "from": "assist_not_replace",
+      "to": "human_judgement_with_tools",
+      "why": "Assistive tools keep judgement with accountable people."
+    },
+    {
+      "from": "workflow_fit",
+      "to": "whole_business_view",
+      "why": "Workflow fit depends on seeing the wider business system."
+    },
+    {
+      "from": "adoption_route",
+      "to": "synergy_goal",
+      "why": "Adoption turns the hackathon into shared organisational capability."
+    },
+    {
+      "from": "evidence_caveats",
+      "to": "business_story",
+      "why": "Caveats make the business story honest and usable."
+    },
+    {
+      "from": "success_measures",
+      "to": "real_business_need",
+      "why": "Success measures keep the work tied to real need."
+    },
+    {
+      "from": "reusable_workflow",
+      "to": "agility_to_act",
+      "why": "Reusability is a practical sign of agility."
+    },
+    {
+      "from": "post_hackathon_next_steps",
+      "to": "agility_to_act",
+      "why": "Next steps convert learning into action."
+    },
+    {
+      "from": "light_data_governance",
+      "to": "data_as_shared_asset",
+      "why": "Light governance protects data as a shared asset."
+    },
+    {
+      "from": "measured_improvement",
+      "to": "tech_opens_options",
+      "why": "Measured improvement makes technical possibility credible."
+    },
+    {
+      "from": "similar_deals_case",
+      "to": "decision_backwards",
+      "why": "Similar Deals begins with the decision that comparators should support."
+    },
+    {
+      "from": "similar_deals_case",
+      "to": "similarity_score",
+      "why": "The case needs visible similarity scoring."
+    },
+    {
+      "from": "similar_deals_case",
+      "to": "inside_outside_data",
+      "why": "The case may combine internal context with announced external deals."
+    },
+    {
+      "from": "similar_deals_case",
+      "to": "business_story",
+      "why": "The output is an evidence pack for strategic discussion."
+    },
+    {
+      "from": "similar_deals_false_friend",
+      "to": "assumptions_out_loud",
+      "why": "False friends reveal hidden assumptions about what similar means."
+    },
+    {
+      "from": "similar_deals_false_friend",
+      "to": "expert_judgement_mapping",
+      "why": "Experts decide which superficial matches are misleading."
+    },
+    {
+      "from": "similar_deals_false_friend",
+      "to": "evidence_caveats",
+      "why": "The pack must show caveats about weak comparators."
+    },
+    {
+      "from": "similar_deals_deal_record",
+      "to": "data_dictionary",
+      "why": "Deal records require clear field definitions."
+    },
+    {
+      "from": "similar_deals_deal_record",
+      "to": "ids_keys",
+      "why": "Deal IDs and source references support traceability."
+    },
+    {
+      "from": "similar_deals_deal_record",
+      "to": "data_joining",
+      "why": "Deal features can be joined to labels, notes or source text."
+    },
+    {
+      "from": "green_analysis_case",
+      "to": "scenario_model",
+      "why": "Green Analysis uses scenarios to explore future pathways."
+    },
+    {
+      "from": "green_analysis_case",
+      "to": "date_time_fields",
+      "why": "Emissions history depends on periods and dates."
+    },
+    {
+      "from": "green_analysis_case",
+      "to": "units_categories",
+      "why": "Scopes, categories and units must be consistent."
+    },
+    {
+      "from": "green_analysis_case",
+      "to": "decision_pack",
+      "why": "The output should be decision-ready Net Zero evidence."
+    },
+    {
+      "from": "green_factor_revision",
+      "to": "quality_checks",
+      "why": "Factor versions need checks to avoid false progress claims."
+    },
+    {
+      "from": "green_factor_revision",
+      "to": "risk_false_precision",
+      "why": "A factor revision can create exact-looking but misleading change."
+    },
+    {
+      "from": "green_factor_revision",
+      "to": "uncertainty_display",
+      "why": "The output should separate accounting change from operational change."
+    },
+    {
+      "from": "green_supplier_priority",
+      "to": "business_story",
+      "why": "Supplier priority needs a story about size, confidence and influence."
+    },
+    {
+      "from": "green_supplier_priority",
+      "to": "simple_stats",
+      "why": "Basic ranking and grouping may be enough for a first decision view."
+    },
+    {
+      "from": "pipeline_next_case",
+      "to": "flag_rules",
+      "why": "Pipeline Next depends on flags for missing, stale or conflicting data."
+    },
+    {
+      "from": "pipeline_next_case",
+      "to": "executive_pack_builder",
+      "why": "The case aims to create a review-ready executive pack."
+    },
+    {
+      "from": "pipeline_next_case",
+      "to": "data_joining",
+      "why": "It joins asset master data, metrics and narratives."
+    },
+    {
+      "from": "pipeline_next_case",
+      "to": "human_in_loop_rules",
+      "why": "Expert review is needed before some flags become decisions."
+    },
+    {
+      "from": "pipeline_conflicting_status",
+      "to": "flag_rules",
+      "why": "Conflicting status should trigger a review flag."
+    },
+    {
+      "from": "pipeline_conflicting_status",
+      "to": "risk_ai_smooths_conflict",
+      "why": "A generated summary must not hide the mismatch."
+    },
+    {
+      "from": "pipeline_asset_row",
+      "to": "ids_keys",
+      "why": "Asset IDs create the link across sources."
+    },
+    {
+      "from": "pipeline_asset_row",
+      "to": "data_dictionary",
+      "why": "The integrated row needs defined KPI and narrative fields."
+    },
+    {
+      "from": "risk_tool_first",
+      "to": "problem_space_first",
+      "why": "Problem-first work counters tool-first thinking."
+    },
+    {
+      "from": "risk_tool_first",
+      "to": "decision_backwards",
+      "why": "Decision-backwards thinking keeps tools tied to value."
+    },
+    {
+      "from": "risk_ai_smooths_conflict",
+      "to": "flag_rules",
+      "why": "Flag rules force conflicts to appear."
+    },
+    {
+      "from": "risk_ai_smooths_conflict",
+      "to": "evidence_caveats",
+      "why": "Caveats prevent a smooth summary from overstating certainty."
+    },
+    {
+      "from": "risk_false_precision",
+      "to": "uncertainty_display",
+      "why": "Uncertainty displays reduce false precision."
+    },
+    {
+      "from": "risk_false_precision",
+      "to": "simple_stats",
+      "why": "Simple stats should be explained with their limits."
+    },
+    {
+      "from": "risk_dirty_data",
+      "to": "data_cleaning",
+      "why": "Dirty data makes cleaning a core hackathon skill."
+    },
+    {
+      "from": "risk_dirty_data",
+      "to": "data_dictionary",
+      "why": "Clear definitions reduce repeated cleaning problems."
+    },
+    {
+      "from": "risk_dirty_data",
+      "to": "quality_checks",
+      "why": "Quality checks catch dirty data before it shapes decisions."
+    },
+    {
+      "from": "risk_silo_return",
+      "to": "adoption_route",
+      "why": "An adoption route prevents the work returning to silos."
+    },
+    {
+      "from": "risk_silo_return",
+      "to": "shared_work_objects",
+      "why": "Shared artefacts help learning persist across departments."
+    },
+    {
+      "from": "risk_over_automation",
+      "to": "human_in_loop_rules",
+      "why": "Human-in-loop rules prevent unsafe automation."
+    },
+    {
+      "from": "risk_over_automation",
+      "to": "assist_not_replace",
+      "why": "Assistive design keeps responsibility clear."
+    },
+    {
+      "from": "instance_excel_first_clean",
+      "to": "excel_tables",
+      "why": "The first clean uses structured tables."
+    },
+    {
+      "from": "instance_excel_first_clean",
+      "to": "pivot_charts",
+      "why": "Pivots support fast inspection."
+    },
+    {
+      "from": "instance_excel_first_clean",
+      "to": "data_cleaning",
+      "why": "Excel can expose cleaning problems before code is written."
+    },
+    {
+      "from": "instance_python_join_demo",
+      "to": "pandas_dataframes",
+      "why": "The demo uses pandas tables."
+    },
+    {
+      "from": "instance_python_join_demo",
+      "to": "data_joining",
+      "why": "The demo shows how joins create integrated views."
+    },
+    {
+      "from": "instance_python_join_demo",
+      "to": "flag_rules",
+      "why": "The join can trigger mismatch flags."
+    },
+    {
+      "from": "instance_student_demo_pitch",
+      "to": "student_explorers",
+      "why": "Students make the problem space and prototype visible."
+    },
+    {
+      "from": "instance_student_demo_pitch",
+      "to": "demo_story",
+      "why": "The pitch is a demo story."
+    },
+    {
+      "from": "instance_student_demo_pitch",
+      "to": "measured_improvement",
+      "why": "The pitch should show why the prototype helps."
+    },
+    {
+      "from": "instance_hackathon_day_one",
+      "to": "problem_space_first",
+      "why": "Day one protects time for problem exploration."
+    },
+    {
+      "from": "instance_hackathon_day_one",
+      "to": "data_inventory",
+      "why": "Day one should include source and field mapping."
+    },
+    {
+      "from": "instance_hackathon_day_one",
+      "to": "prototype_plan",
+      "why": "Day one ends with a feasible small build target."
+    },
+    {
+      "from": "instance_show_and_tell",
+      "to": "fast_feedback",
+      "why": "Show-and-tell gives fast feedback."
+    },
+    {
+      "from": "instance_show_and_tell",
+      "to": "validation_with_experts",
+      "why": "Experts validate and challenge the output."
+    },
+    {
+      "from": "instance_show_and_tell",
+      "to": "post_hackathon_next_steps",
+      "why": "Feedback creates the next step after the hackathon."
+    },
+    {
+      "from": "challenge_definition",
+      "to": "agility_to_act",
+      "why": "Clear definition is the first move from uncertainty to action."
+    },
+    {
+      "from": "data_inventory",
+      "to": "agility_to_act",
+      "why": "Knowing what data exists makes options clearer."
+    },
+    {
+      "from": "data_cleaning",
+      "to": "tech_opens_options",
+      "why": "Cleaning reveals what can and cannot be done with the data."
+    },
+    {
+      "from": "python_basics",
+      "to": "tech_opens_options",
+      "why": "Basic coding awareness expands the range of possible workflows."
+    },
+    {
+      "from": "excel_tables",
+      "to": "tech_opens_options",
+      "why": "Good spreadsheet practice is a technical foundation for wider data work."
+    },
+    {
+      "from": "prompt_basics",
+      "to": "tech_opens_options",
+      "why": "Prompting can open options for code, text and structure when used carefully."
+    },
+    {
+      "from": "rapid_build",
+      "to": "agility_to_act",
+      "why": "Rapid build converts ideas into testable action."
+    },
+    {
+      "from": "validation_with_experts",
+      "to": "human_judgement_with_tools",
+      "why": "Expert validation keeps tools grounded in real judgement."
+    },
+    {
+      "from": "demo_story",
+      "to": "synergy_goal",
+      "why": "A clear demo helps different teams see the same possibility."
+    },
+    {
+      "from": "reusable_workflow",
+      "to": "whole_business_view",
+      "why": "Reusable workflows can spread across cases and departments."
+    },
+    {
+      "from": "interprofessional_working",
+      "to": "whole_business_view",
+      "why": "Interprofessional work makes the whole business view practical."
+    },
+    {
+      "from": "student_explorers",
+      "to": "tech_opens_options",
+      "why": "Student exploration can make technical possibility visible without locking into a full system."
+    },
+    {
+      "from": "peer_teaching",
+      "to": "agility_to_act",
+      "why": "Peer teaching helps the team adapt faster when challenges change."
+    }
+  ]
+}
