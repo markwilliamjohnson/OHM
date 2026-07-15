@@ -1,0 +1,803 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UK–US Hospital-Acquired Infection Explorer</title>
+<style>
+:root{
+  --ink:#17222f;--muted:#647487;--paper:#f4f7fa;--card:#fff;--line:#d9e1e8;
+  --uk:#176b87;--us:#a23b4a;--accent:#5a48a8;--good:#18794e;--warn:#9a6700;--bad:#b42318;
+  --soft-uk:#e8f5f8;--soft-us:#faecef;--soft-warn:#fff7df;--shadow:0 12px 30px rgba(31,49,68,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.48 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,select,input{font:inherit}
+a{color:#175cd3}
+header{background:linear-gradient(120deg,#112c3d 0%,#163f52 52%,#402f68 100%);color:#fff;padding:30px clamp(18px,4vw,54px)}
+header .eyebrow{letter-spacing:.13em;text-transform:uppercase;font-size:.75rem;opacity:.75;font-weight:700}
+header h1{font-size:clamp(1.8rem,4vw,3.25rem);line-height:1.05;margin:.35rem 0 .75rem;max-width:1000px}
+header p{max-width:950px;margin:0;color:#dce9ef;font-size:1.02rem}
+.header-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.pill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 10px;background:rgba(255,255,255,.12);font-size:.82rem}
+main{max-width:1550px;margin:0 auto;padding:22px}
+.notice{background:var(--soft-warn);border:1px solid #efd58d;border-left:5px solid var(--warn);padding:14px 16px;border-radius:10px;margin-bottom:18px}
+.layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:18px;align-items:start}
+aside{position:sticky;top:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.controls{padding:16px}
+.controls h2,.panel h2{font-size:1rem;margin:0 0 12px}
+.field{margin:0 0 14px}
+.field label{display:block;font-weight:650;font-size:.84rem;margin-bottom:5px}
+.field select,.field input[type="text"],.field input[type="number"],.field input[type="file"]{width:100%;padding:9px 10px;border:1px solid #b9c5d0;border-radius:8px;background:#fff;color:var(--ink)}
+.help{color:var(--muted);font-size:.78rem;margin-top:4px}
+.button-row{display:flex;gap:8px;flex-wrap:wrap}
+button{border:1px solid #aebbc7;background:#fff;border-radius:8px;padding:8px 11px;cursor:pointer;color:var(--ink)}
+button:hover{background:#f1f5f8}
+button.primary{background:#173f52;color:#fff;border-color:#173f52}
+button.primary:hover{background:#0f3243}
+button.danger{color:var(--bad)}
+.tabs{display:flex;gap:5px;flex-wrap:wrap;padding:8px;background:#e9eef3;border-radius:12px;margin-bottom:14px}
+.tab{border:0;background:transparent;padding:9px 12px;border-radius:8px;font-weight:650;color:#526170}
+.tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 7px rgba(31,49,68,.1)}
+.content{min-width:0}
+.panel{padding:18px;margin-bottom:16px}
+.panel-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+.panel-head h2{font-size:1.12rem;margin:0}
+.panel-head p{margin:3px 0 0;color:var(--muted)}
+.badge{border-radius:999px;padding:5px 9px;font-weight:700;font-size:.76rem;white-space:nowrap}
+.badge.medium{background:#fff1c2;color:#7a4d00}
+.badge.low{background:#fee4e2;color:#912018}
+.badge.high{background:#dff4e8;color:#146c43}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.metric{padding:13px;border:1px solid var(--line);border-radius:10px;background:#fbfcfd}
+.metric .k{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.metric .v{font-size:1.5rem;font-weight:750;margin-top:3px}
+.metric .s{font-size:.78rem;color:var(--muted)}
+.chart{width:100%;min-height:370px;position:relative}
+.chart.small{min-height:300px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart-empty{height:300px;display:grid;place-items:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:8px 0 0;font-size:.83rem}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:20px;height:4px;border-radius:3px;display:inline-block}
+.tooltip{position:fixed;z-index:20;pointer-events:none;background:#14212c;color:white;padding:8px 10px;border-radius:7px;font-size:.78rem;box-shadow:0 4px 18px rgba(0,0,0,.25);display:none;max-width:250px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.method-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.method{border:1px solid var(--line);border-radius:11px;padding:14px}
+.method h3{font-size:.95rem;margin:0 0 7px}
+.method dl{display:grid;grid-template-columns:115px 1fr;gap:5px 10px;margin:0;font-size:.82rem}
+.method dt{color:var(--muted)}
+.method dd{margin:0}
+.reason-list{margin:8px 0 0;padding-left:18px}
+.reason-list li{margin:4px 0}
+.matrix{width:100%;border-collapse:collapse;font-size:.83rem}
+.matrix th,.matrix td{border-bottom:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}
+.matrix th{background:#f2f5f8;position:sticky;top:0}
+.table-wrap{overflow:auto;max-height:510px;border:1px solid var(--line);border-radius:10px}
+.data-table{width:100%;border-collapse:collapse;font-size:.79rem;white-space:nowrap}
+.data-table th,.data-table td{border-bottom:1px solid #e4e9ee;padding:7px 9px;text-align:right}
+.data-table th:first-child,.data-table td:first-child,.data-table th:nth-child(2),.data-table td:nth-child(2){text-align:left}
+.data-table th{position:sticky;top:0;background:#eef3f7;z-index:2}
+.data-table tbody tr:hover{background:#f7fafc}
+.source-list{display:grid;gap:10px}
+.source{padding:12px;border:1px solid var(--line);border-radius:10px}
+.source strong{display:block}
+.source small{color:var(--muted)}
+.status{margin-top:10px;font-size:.82rem;color:var(--muted)}
+.hidden{display:none!important}
+.checkbox-row{display:flex;gap:12px;flex-wrap:wrap;font-size:.82rem}
+.checkbox-row label{display:flex;align-items:center;gap:5px}
+details{border-top:1px solid var(--line);padding-top:11px;margin-top:12px}
+summary{font-weight:650;cursor:pointer}
+code{background:#eef2f6;padding:2px 5px;border-radius:4px}
+footer{max-width:1550px;margin:0 auto;padding:0 22px 32px;color:var(--muted);font-size:.8rem}
+@media(max-width:980px){
+ .layout{grid-template-columns:1fr}
+ aside{position:static}
+ .metrics{grid-template-columns:repeat(2,1fr)}
+ .two-col,.method-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+ main{padding:12px}
+ header{padding:24px 16px}
+ .metrics{grid-template-columns:1fr 1fr}
+ .panel{padding:13px}
+ .tabs{overflow:auto;flex-wrap:nowrap}
+ .tab{white-space:nowrap}
+}
+@media print{
+ aside,.tabs,.button-row,.notice{display:none!important}
+ .layout{display:block}
+ .card{box-shadow:none;break-inside:avoid}
+ body{background:#fff}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Surveillance comparison workspace</div>
+  <h1>Hospital-acquired infection data: England and the United States</h1>
+  <p>Explore official surveillance snapshots without pretending that counts, population rates, bed-day rates and risk-adjusted Standardised Infection Ratios are interchangeable.</p>
+  <div class="header-meta">
+    <span class="pill">England: UKHSA mandatory surveillance</span>
+    <span class="pill">US: CDC/NHSN acute-care hospitals</span>
+    <span class="pill">No external JavaScript libraries</span>
+  </div>
+</header>
+
+<main>
+  <div class="notice"><strong>Interpretation rule:</strong> use “Indexed trend” or “percentage change” to compare direction. Use “native measures” to understand each system on its own terms. A lower US SIR does not mean the same thing as a lower English incidence rate.</div>
+
+  <div class="tabs" role="tablist" aria-label="Dashboard views">
+    <button class="tab active" data-view="compare">Cross-country comparison</button>
+    <button class="tab" data-view="england">England detail</button>
+    <button class="tab" data-view="us">US national and state</button>
+    <button class="tab" data-view="custom">Import data</button>
+    <button class="tab" data-view="methods">Methods and sources</button>
+  </div>
+
+  <div class="layout">
+    <aside class="card controls">
+      <h2>Explore</h2>
+      <div id="controls-compare">
+        <div class="field">
+          <label for="cmp-infection">Infection</label>
+          <select id="cmp-infection">
+            <option value="MRSA bloodstream infection">MRSA bloodstream infection</option>
+            <option value="Clostridioides difficile infection">Clostridioides difficile infection</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cmp-mode">Comparison mode</label>
+          <select id="cmp-mode">
+            <option value="index">Indexed trend (common 2023 period = 100)</option>
+            <option value="change">Percentage change from previous period</option>
+            <option value="native">Native measures in separate charts</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cmp-eng-measure">England measure</label>
+          <select id="cmp-eng-measure">
+            <option value="hoRate">Hospital-onset rate per 100,000 bed-days</option>
+            <option value="hoCount">Hospital-onset count</option>
+            <option value="allRate">All-case rate per 100,000 population</option>
+            <option value="allCount">All reported cases</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cmp-us-measure">US measure</label>
+          <select id="cmp-us-measure">
+            <option value="sir">SIR (observed ÷ predicted)</option>
+            <option value="observed">Observed hospital-onset events</option>
+            <option value="predicted">Model-predicted events</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cmp-baseline">Index baseline</label>
+          <select id="cmp-baseline">
+            <option value="2023">2023-period</option>
+            <option value="2024">2024-period</option>
+          </select>
+          <div class="help">England uses financial years; US uses calendar years.</div>
+        </div>
+      </div>
+
+      <div id="controls-england" class="hidden">
+        <div class="field">
+          <label for="eng-frequency">Frequency</label>
+          <select id="eng-frequency">
+            <option value="annual">Annual, financial year</option>
+            <option value="monthly">Monthly onset counts</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="eng-infection">Infection</label>
+          <select id="eng-infection"></select>
+        </div>
+        <div class="field" id="eng-annual-measure-wrap">
+          <label for="eng-measure">Measure</label>
+          <select id="eng-measure">
+            <option value="hoRate">Hospital-onset rate / 100,000 bed-days</option>
+            <option value="hoCount">Hospital-onset count</option>
+            <option value="allRate">All-case rate / 100,000 population</option>
+            <option value="allCount">All reported cases</option>
+            <option value="coRate">Community-onset rate / 100,000 population</option>
+            <option value="coCount">Community-onset count</option>
+          </select>
+        </div>
+        <div class="field hidden" id="eng-monthly-series-wrap">
+          <label>Onset series</label>
+          <div class="checkbox-row" id="monthly-checkboxes"></div>
+        </div>
+      </div>
+
+      <div id="controls-us" class="hidden">
+        <div class="field">
+          <label for="us-level">Geographic level</label>
+          <select id="us-level">
+            <option value="national">National trend</option>
+            <option value="state">2024 state ranking</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="us-infection">HAI measure</label>
+          <select id="us-infection"></select>
+        </div>
+        <div class="field">
+          <label for="us-measure">Metric</label>
+          <select id="us-measure">
+            <option value="sir">SIR</option>
+            <option value="observed">Observed events</option>
+            <option value="predicted">Predicted events</option>
+            <option value="hospitals">Reporting hospitals (state only)</option>
+          </select>
+        </div>
+        <div class="field" id="state-options">
+          <label for="us-topn">States shown</label>
+          <select id="us-topn">
+            <option value="10">Top 10</option>
+            <option value="15" selected>Top 15</option>
+            <option value="25">Top 25</option>
+            <option value="52">All available</option>
+          </select>
+          <label class="help"><input type="checkbox" id="us-ascending"> Show lowest first</label>
+        </div>
+      </div>
+
+      <div id="controls-custom" class="hidden">
+        <div class="field">
+          <label for="csv-file">CSV file</label>
+          <input id="csv-file" type="file" accept=".csv,text/csv">
+          <div class="help">Data stay in this browser. Nothing is uploaded to a server.</div>
+        </div>
+        <div class="button-row">
+          <button id="download-template">Download template</button>
+          <button id="clear-custom" class="danger">Clear imported data</button>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <label for="custom-metric">Imported metric</label>
+          <select id="custom-metric"></select>
+        </div>
+        <div class="field">
+          <label for="custom-infection">Imported infection</label>
+          <select id="custom-infection"></select>
+        </div>
+        <div class="field">
+          <label for="custom-group">Group lines by</label>
+          <select id="custom-group">
+            <option value="country">Country</option>
+            <option value="geography">Geography</option>
+            <option value="onset">Onset definition</option>
+          </select>
+        </div>
+        <div class="status" id="import-status">No imported records.</div>
+      </div>
+
+      <div id="controls-methods" class="hidden">
+        <p class="help">The methods view documents why the dashboard does not merge unlike metrics onto a single native scale.</p>
+      </div>
+
+      <details>
+        <summary>Export and display</summary>
+        <div class="button-row" style="margin-top:10px">
+          <button id="export-current">Export current CSV</button>
+          <button onclick="window.print()">Print view</button>
+        </div>
+      </details>
+    </aside>
+
+    <section class="content">
+      <div id="view-compare">
+        <section class="card panel">
+          <div class="panel-head">
+            <div><h2 id="cmp-title">Cross-country trend comparison</h2><p id="cmp-subtitle"></p></div>
+            <span id="cmp-badge" class="badge medium">Trend-only comparability</span>
+          </div>
+          <div class="metrics" id="cmp-metrics"></div>
+          <div id="cmp-chart" class="chart"></div>
+          <div id="cmp-legend" class="legend"></div>
+        </section>
+        <section class="card panel">
+          <div class="panel-head"><div><h2>Comparability assessment</h2><p>These checks travel with the chart so that normalisation is not mistaken for harmonisation.</p></div></div>
+          <div id="comparability"></div>
+        </section>
+      </div>
+
+      <div id="view-england" class="hidden">
+        <section class="card panel">
+          <div class="panel-head"><div><h2 id="eng-title">England surveillance detail</h2><p id="eng-subtitle"></p></div><span class="badge high">Native definition</span></div>
+          <div class="metrics" id="eng-metrics"></div>
+          <div id="eng-chart" class="chart"></div>
+          <div id="eng-legend" class="legend"></div>
+        </section>
+        <section class="card panel">
+          <div class="panel-head"><div><h2>Selected England data</h2><p>Rates and counts retain their published denominator and time basis.</p></div></div>
+          <div class="table-wrap"><table class="data-table" id="eng-table"></table></div>
+        </section>
+      </div>
+
+      <div id="view-us" class="hidden">
+        <section class="card panel">
+          <div class="panel-head"><div><h2 id="us-title">US NHSN data</h2><p id="us-subtitle"></p></div><span class="badge high">Native definition</span></div>
+          <div class="metrics" id="us-metrics"></div>
+          <div id="us-chart" class="chart"></div>
+          <div id="us-legend" class="legend"></div>
+        </section>
+        <section class="card panel">
+          <div class="panel-head"><div><h2>Selected US data</h2><p>SIR is observed infections divided by model-predicted infections; it is not a population incidence rate.</p></div></div>
+          <div class="table-wrap"><table class="data-table" id="us-table"></table></div>
+        </section>
+      </div>
+
+      <div id="view-custom" class="hidden">
+        <section class="card panel">
+          <div class="panel-head"><div><h2>Imported data explorer</h2><p>Use a common schema, but keep source definitions in the <code>notes</code> and <code>source</code> fields.</p></div><span class="badge medium">User-supplied</span></div>
+          <div id="custom-chart" class="chart"></div>
+          <div id="custom-legend" class="legend"></div>
+        </section>
+        <section class="card panel">
+          <div class="panel-head"><div><h2>Imported records</h2><p id="custom-summary">No data loaded.</p></div></div>
+          <div class="table-wrap"><table class="data-table" id="custom-table"></table></div>
+        </section>
+      </div>
+
+      <div id="view-methods" class="hidden">
+        <section class="card panel">
+          <div class="panel-head"><div><h2>Surveillance systems compared</h2><p>Conceptual alignment precedes numerical comparison.</p></div></div>
+          <div class="method-grid">
+            <article class="method">
+              <h3>England — UKHSA</h3>
+              <dl>
+                <dt>Coverage</dt><dd>Mandatory surveillance for specified organisms and infections.</dd>
+                <dt>Native outputs</dt><dd>Case counts, rates per population, rates per bed-days, onset classifications.</dd>
+                <dt>Time</dt><dd>Monthly data and April–March financial years.</dd>
+                <dt>Onset</dt><dd>For CDI annual reporting, hospital-onset is a positive specimen on day 3 or later, with admission as day 1.</dd>
+                <dt>Scope note</dt><dd>This embedded “UK” comparator is England, not a pooled four-nation UK series.</dd>
+              </dl>
+            </article>
+            <article class="method">
+              <h3>United States — CDC/NHSN</h3>
+              <dl>
+                <dt>Coverage</dt><dd>Participating acute-care hospitals reporting to NHSN; reporting requirements vary by programme and measure.</dd>
+                <dt>Native outputs</dt><dd>Observed events, model-predicted events and risk-adjusted SIR.</dd>
+                <dt>Time</dt><dd>Calendar years in the embedded annual progress-report snapshots.</dd>
+                <dt>Onset</dt><dd>Hospital-onset MRSA and CDI are detected on day 4 or later after admission.</dd>
+                <dt>Baseline</dt><dd>The 2024 progress report uses the 2015 national baseline for these SIR comparisons.</dd>
+              </dl>
+            </article>
+          </div>
+        </section>
+        <section class="card panel">
+          <h2>Harmonisation matrix</h2>
+          <div class="table-wrap">
+            <table class="matrix">
+              <thead><tr><th>Dimension</th><th>England</th><th>United States</th><th>Dashboard treatment</th></tr></thead>
+              <tbody>
+                <tr><td>Geographic scope</td><td>England national data</td><td>US national and state data</td><td>Label explicitly; never call the England series a pooled UK rate.</td></tr>
+                <tr><td>Time basis</td><td>Financial year or month</td><td>Calendar year</td><td>“2023-period” aligns labels only; it does not align exposure windows.</td></tr>
+                <tr><td>Numerator</td><td>Reported cases under organism-specific surveillance</td><td>Events satisfying NHSN definitions</td><td>Retain source-specific names and onset metadata.</td></tr>
+                <tr><td>Denominator</td><td>Population or occupied bed-days</td><td>Model-predicted infections for SIR</td><td>Native values appear separately; indexed values are for direction only.</td></tr>
+                <tr><td>Risk adjustment</td><td>Not represented by the published crude rates used here</td><td>NHSN prediction models</td><td>Do not rank countries by raw numerical level.</td></tr>
+                <tr><td>Onset threshold</td><td>CDI day 3 or later in the cited annual definition</td><td>MRSA/CDI day 4 or later</td><td>Comparability warning remains even after indexing.</td></tr>
+                <tr><td>Available HAI types</td><td>Organism-centred bloodstream infections and CDI in this snapshot</td><td>Also device- and procedure-associated measures</td><td>Cross-country selector exposes only MRSA and CDI.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <section class="card panel">
+          <h2>Sources embedded in this version</h2>
+          <div class="source-list">
+            <div class="source"><strong>UKHSA data dashboard — healthcare-associated infections</strong><small>Recent monthly onset counts, England; dashboard page updated 30 June 2026.</small><br><a href="https://ukhsa-dashboard.data.gov.uk/healthcare-associated-infections-hcai/healthcare-associated-infections" target="_blank" rel="noopener">Open official dashboard</a></div>
+            <div class="source"><strong>UKHSA annual epidemiological commentary, financial year 2024/25</strong><small>England annual counts and population/bed-day rates.</small><br><a href="https://www.gov.uk/government/statistics/mrsa-mssa-and-e-coli-bacteraemia-and-c-difficile-infection-annual-epidemiological-commentary/annual-epidemiological-commentary-gram-negative-mrsa-mssa-bacteraemia-and-c-difficile-infections-up-to-and-including-financial-year-2024-to-2025" target="_blank" rel="noopener">Open official commentary</a></div>
+            <div class="source"><strong>CDC 2024 National and State Healthcare-Associated Infections Progress Report</strong><small>National and state NHSN acute-care hospital SIR tables, published January 2026.</small><br><a href="https://www.cdc.gov/healthcare-associated-infections/php/data/progress-report.html" target="_blank" rel="noopener">Open official report</a></div>
+            <div class="source"><strong>CDC 2024 acute-care hospital data tables</strong><small>Workbook used for national and state MRSA/CDI records in this application.</small><br><a href="https://www.cdc.gov/healthcare-associated-infections/media/excel/2024-SIR-ACH.xlsx" target="_blank" rel="noopener">Open official workbook</a></div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+</main>
+<footer>Snapshot application generated 15 July 2026. Re-check official sources before publication or operational decisions. The program is an exploratory interface, not a clinical decision-support system.</footer>
+<div id="tooltip" class="tooltip"></div>
+
+<script>
+"use strict";
+const ENGLAND_ANNUAL = [{"period":"2019/20","periodStart":2019,"infection":"MRSA bloodstream infection","allCount":815,"allRate":1.4,"hoCount":260,"hoRate":0.8,"coCount":555,"coRate":1.0},{"period":"2020/21","periodStart":2020,"infection":"MRSA bloodstream infection","allCount":697,"allRate":1.2,"hoCount":280,"hoRate":1.0,"coCount":417,"coRate":0.7},{"period":"2021/22","periodStart":2021,"infection":"MRSA bloodstream infection","allCount":675,"allRate":1.2,"hoCount":233,"hoRate":0.7,"coCount":442,"coRate":0.8},{"period":"2022/23","periodStart":2022,"infection":"MRSA bloodstream infection","allCount":787,"allRate":1.4,"hoCount":295,"hoRate":0.8,"coCount":492,"coRate":0.9},{"period":"2023/24","periodStart":2023,"infection":"MRSA bloodstream infection","allCount":910,"allRate":1.6,"hoCount":346,"hoRate":1.0,"coCount":564,"coRate":1.0},{"period":"2024/25","periodStart":2024,"infection":"MRSA bloodstream infection","allCount":1064,"allRate":1.9,"hoCount":367,"hoRate":1.0,"coCount":697,"coRate":1.2},{"period":"2019/20","periodStart":2019,"infection":"Clostridioides difficile infection","allCount":13213,"allRate":23.4,"hoCount":5358,"hoRate":15.5,"coCount":7855,"coRate":13.9},{"period":"2020/21","periodStart":2020,"infection":"Clostridioides difficile infection","allCount":12503,"allRate":22.2,"hoCount":4897,"hoRate":17.7,"coCount":7606,"coRate":13.5},{"period":"2021/22","periodStart":2021,"infection":"Clostridioides difficile infection","allCount":14277,"allRate":25.2,"hoCount":6035,"hoRate":18.3,"coCount":8242,"coRate":14.5},{"period":"2022/23","periodStart":2022,"infection":"Clostridioides difficile infection","allCount":15563,"allRate":27.2,"hoCount":7183,"hoRate":20.2,"coCount":8380,"coRate":14.7},{"period":"2023/24","periodStart":2023,"infection":"Clostridioides difficile infection","allCount":16838,"allRate":29.4,"hoCount":7537,"hoRate":20.9,"coCount":9301,"coRate":16.3},{"period":"2024/25","periodStart":2024,"infection":"Clostridioides difficile infection","allCount":18970,"allRate":33.3,"hoCount":8430,"hoRate":23.3,"coCount":10540,"coRate":18.5},{"period":"2019/20","periodStart":2019,"infection":"Escherichia coli bloodstream infection","allCount":43410,"allRate":77.0,"hoCount":7839,"hoRate":22.6,"coCount":35571,"coRate":63.1},{"period":"2020/21","periodStart":2020,"infection":"Escherichia coli bloodstream infection","allCount":36819,"allRate":65.4,"hoCount":6530,"hoRate":23.6,"coCount":30289,"coRate":53.8},{"period":"2021/22","periodStart":2021,"infection":"Escherichia coli bloodstream infection","allCount":38050,"allRate":67.1,"hoCount":7085,"hoRate":21.5,"coCount":30965,"coRate":54.6},{"period":"2022/23","periodStart":2022,"infection":"Escherichia coli bloodstream infection","allCount":38789,"allRate":67.9,"hoCount":7885,"hoRate":22.2,"coCount":30904,"coRate":54.1},{"period":"2023/24","periodStart":2023,"infection":"Escherichia coli bloodstream infection","allCount":42246,"allRate":73.8,"hoCount":8171,"hoRate":22.7,"coCount":34075,"coRate":59.5},{"period":"2024/25","periodStart":2024,"infection":"Escherichia coli bloodstream infection","allCount":43639,"allRate":76.6,"hoCount":8397,"hoRate":23.2,"coCount":35242,"coRate":61.8}];
+const ENGLAND_MONTHLY = [{"period":"2025-05","infection":"MRSA bloodstream infection","total":96,"communityAssociated":52,"communityHealthcare":19,"hospitalOnset":25},{"period":"2025-06","infection":"MRSA bloodstream infection","total":95,"communityAssociated":52,"communityHealthcare":11,"hospitalOnset":32},{"period":"2025-07","infection":"MRSA bloodstream infection","total":124,"communityAssociated":65,"communityHealthcare":23,"hospitalOnset":36},{"period":"2025-08","infection":"MRSA bloodstream infection","total":83,"communityAssociated":45,"communityHealthcare":10,"hospitalOnset":28},{"period":"2025-09","infection":"MRSA bloodstream infection","total":89,"communityAssociated":41,"communityHealthcare":8,"hospitalOnset":40},{"period":"2025-10","infection":"MRSA bloodstream infection","total":88,"communityAssociated":48,"communityHealthcare":12,"hospitalOnset":28},{"period":"2025-11","infection":"MRSA bloodstream infection","total":101,"communityAssociated":51,"communityHealthcare":14,"hospitalOnset":36},{"period":"2025-12","infection":"MRSA bloodstream infection","total":82,"communityAssociated":57,"communityHealthcare":6,"hospitalOnset":18},{"period":"2026-01","infection":"MRSA bloodstream infection","total":113,"communityAssociated":53,"communityHealthcare":13,"hospitalOnset":47},{"period":"2026-02","infection":"MRSA bloodstream infection","total":98,"communityAssociated":47,"communityHealthcare":10,"hospitalOnset":41},{"period":"2026-03","infection":"MRSA bloodstream infection","total":89,"communityAssociated":45,"communityHealthcare":13,"hospitalOnset":31},{"period":"2026-04","infection":"MRSA bloodstream infection","total":68,"communityAssociated":39,"communityHealthcare":10,"hospitalOnset":19},{"period":"2026-05","infection":"MRSA bloodstream infection","total":107,"communityAssociated":57,"communityHealthcare":15,"hospitalOnset":34},{"period":"2025-05","infection":"Clostridioides difficile infection","total":1404,"communityAssociated":387,"communityHealthcare":248,"communityIndeterminate":161,"hospitalOnset":608},{"period":"2025-06","infection":"Clostridioides difficile infection","total":1440,"communityAssociated":366,"communityHealthcare":292,"communityIndeterminate":147,"hospitalOnset":635},{"period":"2025-07","infection":"Clostridioides difficile infection","total":1592,"communityAssociated":484,"communityHealthcare":275,"communityIndeterminate":165,"hospitalOnset":668},{"period":"2025-08","infection":"Clostridioides difficile infection","total":1624,"communityAssociated":477,"communityHealthcare":299,"communityIndeterminate":171,"hospitalOnset":677},{"period":"2025-09","infection":"Clostridioides difficile infection","total":1490,"communityAssociated":417,"communityHealthcare":267,"communityIndeterminate":179,"hospitalOnset":627},{"period":"2025-10","infection":"Clostridioides difficile infection","total":1558,"communityAssociated":439,"communityHealthcare":297,"communityIndeterminate":175,"hospitalOnset":647},{"period":"2025-11","infection":"Clostridioides difficile infection","total":1338,"communityAssociated":397,"communityHealthcare":223,"communityIndeterminate":139,"hospitalOnset":577},{"period":"2025-12","infection":"Clostridioides difficile infection","total":1241,"communityAssociated":353,"communityHealthcare":203,"communityIndeterminate":145,"hospitalOnset":540},{"period":"2026-01","infection":"Clostridioides difficile infection","total":1336,"communityAssociated":399,"communityHealthcare":209,"communityIndeterminate":121,"hospitalOnset":606},{"period":"2026-02","infection":"Clostridioides difficile infection","total":1217,"communityAssociated":334,"communityHealthcare":204,"communityIndeterminate":126,"hospitalOnset":553},{"period":"2026-03","infection":"Clostridioides difficile infection","total":1424,"communityAssociated":405,"communityHealthcare":279,"communityIndeterminate":157,"hospitalOnset":582},{"period":"2026-04","infection":"Clostridioides difficile infection","total":1442,"communityAssociated":370,"communityHealthcare":275,"communityIndeterminate":171,"hospitalOnset":626},{"period":"2026-05","infection":"Clostridioides difficile infection","total":1351,"communityAssociated":394,"communityHealthcare":247,"communityIndeterminate":159,"hospitalOnset":551},{"period":"2025-05","infection":"MSSA bloodstream infection","total":1229,"communityAssociated":724,"communityHealthcare":148,"hospitalOnset":356},{"period":"2025-06","infection":"MSSA bloodstream infection","total":1142,"communityAssociated":686,"communityHealthcare":139,"hospitalOnset":316},{"period":"2025-07","infection":"MSSA bloodstream infection","total":1203,"communityAssociated":705,"communityHealthcare":139,"hospitalOnset":357},{"period":"2025-08","infection":"MSSA bloodstream infection","total":1161,"communityAssociated":688,"communityHealthcare":164,"hospitalOnset":308},{"period":"2025-09","infection":"MSSA bloodstream infection","total":1105,"communityAssociated":636,"communityHealthcare":154,"hospitalOnset":315},{"period":"2025-10","infection":"MSSA bloodstream infection","total":1235,"communityAssociated":741,"communityHealthcare":152,"hospitalOnset":342},{"period":"2025-11","infection":"MSSA bloodstream infection","total":1128,"communityAssociated":689,"communityHealthcare":125,"hospitalOnset":314},{"period":"2025-12","infection":"MSSA bloodstream infection","total":1172,"communityAssociated":713,"communityHealthcare":153,"hospitalOnset":305},{"period":"2026-01","infection":"MSSA bloodstream infection","total":1241,"communityAssociated":730,"communityHealthcare":141,"hospitalOnset":370},{"period":"2026-02","infection":"MSSA bloodstream infection","total":1079,"communityAssociated":636,"communityHealthcare":132,"hospitalOnset":310},{"period":"2026-03","infection":"MSSA bloodstream infection","total":1141,"communityAssociated":680,"communityHealthcare":124,"hospitalOnset":336},{"period":"2026-04","infection":"MSSA bloodstream infection","total":1147,"communityAssociated":650,"communityHealthcare":133,"hospitalOnset":364},{"period":"2026-05","infection":"MSSA bloodstream infection","total":1162,"communityAssociated":688,"communityHealthcare":143,"hospitalOnset":329},{"period":"2025-05","infection":"Klebsiella spp. bloodstream infection","total":1126,"communityAssociated":638,"communityHealthcare":148,"hospitalOnset":340},{"period":"2025-06","infection":"Klebsiella spp. bloodstream infection","total":1080,"communityAssociated":609,"communityHealthcare":164,"hospitalOnset":306},{"period":"2025-07","infection":"Klebsiella spp. bloodstream infection","total":1290,"communityAssociated":699,"communityHealthcare":201,"hospitalOnset":389},{"period":"2025-08","infection":"Klebsiella spp. bloodstream infection","total":1282,"communityAssociated":726,"communityHealthcare":185,"hospitalOnset":368},{"period":"2025-09","infection":"Klebsiella spp. bloodstream infection","total":1272,"communityAssociated":742,"communityHealthcare":188,"hospitalOnset":342},{"period":"2025-10","infection":"Klebsiella spp. bloodstream infection","total":1218,"communityAssociated":641,"communityHealthcare":202,"hospitalOnset":375},{"period":"2025-11","infection":"Klebsiella spp. bloodstream infection","total":1185,"communityAssociated":676,"communityHealthcare":170,"hospitalOnset":339},{"period":"2025-12","infection":"Klebsiella spp. bloodstream infection","total":1166,"communityAssociated":656,"communityHealthcare":168,"hospitalOnset":342},{"period":"2026-01","infection":"Klebsiella spp. bloodstream infection","total":1131,"communityAssociated":624,"communityHealthcare":168,"hospitalOnset":337},{"period":"2026-02","infection":"Klebsiella spp. bloodstream infection","total":1017,"communityAssociated":569,"communityHealthcare":156,"hospitalOnset":292},{"period":"2026-03","infection":"Klebsiella spp. bloodstream infection","total":1154,"communityAssociated":658,"communityHealthcare":187,"hospitalOnset":309},{"period":"2026-04","infection":"Klebsiella spp. bloodstream infection","total":1108,"communityAssociated":644,"communityHealthcare":161,"hospitalOnset":303},{"period":"2026-05","infection":"Klebsiella spp. bloodstream infection","total":1131,"communityAssociated":653,"communityHealthcare":158,"hospitalOnset":318}];
+const US_NATIONAL = [{"year":2023,"infection":"MRSA bloodstream infection","observed":8107,"predicted":10738.48,"sir":0.755},{"year":2024,"infection":"MRSA bloodstream infection","observed":7605,"predicted":10814.633,"sir":0.703,"lower":0.688,"upper":0.719},{"year":2023,"infection":"Clostridioides difficile infection","observed":35840,"predicted":85371.852,"sir":0.42},{"year":2024,"infection":"Clostridioides difficile infection","observed":31595,"predicted":84330.797,"sir":0.375,"lower":0.371,"upper":0.379},{"year":2023,"infection":"CLABSI","observed":20032,"predicted":27649.947,"sir":0.724},{"year":2024,"infection":"CLABSI","observed":18165,"predicted":27529.266,"sir":0.66},{"year":2023,"infection":"CAUTI","observed":17370,"predicted":27992.924,"sir":0.621},{"year":2024,"infection":"CAUTI","observed":15347,"predicted":27472.64,"sir":0.559},{"year":2023,"infection":"VAE","observed":27626,"predicted":24426.464,"sir":1.131},{"year":2024,"infection":"VAE","observed":26509,"predicted":23994.68,"sir":1.105},{"year":2023,"infection":"SSI \u2014 all NHSN procedures","observed":23938,"predicted":24811.222,"sir":0.965},{"year":2024,"infection":"SSI \u2014 all NHSN procedures","observed":23983,"predicted":24659.794,"sir":0.973},{"year":2023,"infection":"SSI \u2014 colon surgery","sir":0.879},{"year":2024,"infection":"SSI \u2014 colon surgery","sir":0.845},{"year":2023,"infection":"SSI \u2014 abdominal hysterectomy","sir":1.031},{"year":2024,"infection":"SSI \u2014 abdominal hysterectomy","sir":1.112}];
+const US_STATES = {"MRSA bloodstream infection":[{"state":"Alabama","hospitals":86,"observed":184,"predicted":212.117,"sir":0.867,"lower":0.749,"upper":1},{"state":"Alaska","hospitals":10,"observed":19,"predicted":18.812,"sir":1.01,"lower":0.626,"upper":1.548},{"state":"Arizona","hospitals":70,"observed":111,"predicted":196.664,"sir":0.564,"lower":0.467,"upper":0.677},{"state":"Arkansas","hospitals":48,"observed":115,"predicted":105.094,"sir":1.094,"lower":0.908,"upper":1.309},{"state":"California","hospitals":336,"observed":615,"predicted":961.729,"sir":0.639,"lower":0.59,"upper":0.692},{"state":"Colorado","hospitals":58,"observed":67,"predicted":126.497,"sir":0.53,"lower":0.414,"upper":0.668},{"state":"Connecticut","hospitals":30,"observed":69,"predicted":127.524,"sir":0.541,"lower":0.424,"upper":0.681},{"state":"D.C.","hospitals":8,"observed":52,"predicted":59.005,"sir":0.881,"lower":0.665,"upper":1.147},{"state":"Delaware","hospitals":9,"observed":27,"predicted":39.359,"sir":0.686,"lower":0.461,"upper":0.984},{"state":"Florida","hospitals":225,"observed":648,"predicted":837.504,"sir":0.774,"lower":0.716,"upper":0.835},{"state":"Georgia","hospitals":106,"observed":295,"predicted":378.987,"sir":0.778,"lower":0.693,"upper":0.871},{"state":"Hawaii","hospitals":16,"observed":24,"predicted":40.293,"sir":0.596,"lower":0.39,"upper":0.873},{"state":"Idaho","hospitals":17,"observed":15,"predicted":28.733,"sir":0.522,"lower":0.303,"upper":0.842},{"state":"Illinois","hospitals":124,"observed":187,"predicted":345.023,"sir":0.542,"lower":0.468,"upper":0.624},{"state":"Indiana","hospitals":94,"observed":107,"predicted":183.816,"sir":0.582,"lower":0.479,"upper":0.701},{"state":"Iowa","hospitals":38,"observed":59,"predicted":92.779,"sir":0.636,"lower":0.488,"upper":0.815},{"state":"Kansas","hospitals":58,"observed":32,"predicted":68.992,"sir":0.464,"lower":0.323,"upper":0.647},{"state":"Kentucky","hospitals":71,"observed":196,"predicted":204.583,"sir":0.958,"lower":0.831,"upper":1.099},{"state":"Louisiana","hospitals":103,"observed":191,"predicted":173.795,"sir":1.099,"lower":0.951,"upper":1.263},{"state":"Maine","hospitals":18,"observed":29,"predicted":49.294,"sir":0.588,"lower":0.401,"upper":0.834},{"state":"Maryland","hospitals":45,"observed":116,"predicted":199.223,"sir":0.582,"lower":0.483,"upper":0.696},{"state":"Massachusetts","hospitals":66,"observed":171,"predicted":273.46,"sir":0.625,"lower":0.537,"upper":0.724},{"state":"Michigan","hospitals":96,"observed":229,"predicted":300.191,"sir":0.763,"lower":0.669,"upper":0.867},{"state":"Minnesota","hospitals":51,"observed":60,"predicted":136.95,"sir":0.438,"lower":0.337,"upper":0.56},{"state":"Mississippi","hospitals":60,"observed":104,"predicted":112.667,"sir":0.923,"lower":0.758,"upper":1.114},{"state":"Missouri","hospitals":71,"observed":201,"predicted":264.427,"sir":0.76,"lower":0.66,"upper":0.871},{"state":"Montana","hospitals":12,"observed":15,"predicted":29.617,"sir":0.506,"lower":0.294,"upper":0.817},{"state":"Nebraska","hospitals":29,"observed":33,"predicted":53.906,"sir":0.612,"lower":0.428,"upper":0.85},{"state":"Nevada","hospitals":28,"observed":61,"predicted":100.006,"sir":0.61,"lower":0.471,"upper":0.778},{"state":"New Hampshire","hospitals":13,"observed":13,"predicted":39.553,"sir":0.329,"lower":0.183,"upper":0.548},{"state":"New Jersey","hospitals":70,"observed":202,"predicted":303.716,"sir":0.665,"lower":0.578,"upper":0.762},{"state":"New Mexico","hospitals":31,"observed":30,"predicted":41.93,"sir":0.715,"lower":0.492,"upper":1.009},{"state":"New York","hospitals":170,"observed":589,"predicted":779.796,"sir":0.755,"lower":0.696,"upper":0.818},{"state":"North Carolina","hospitals":102,"observed":299,"predicted":448.886,"sir":0.666,"lower":0.594,"upper":0.745},{"state":"North Dakota","hospitals":9,"observed":10,"predicted":21.416,"sir":0.467,"lower":0.237,"upper":0.832},{"state":"Ohio","hospitals":145,"observed":367,"predicted":455.571,"sir":0.806,"lower":0.726,"upper":0.891},{"state":"Oklahoma","hospitals":84,"observed":102,"predicted":125.137,"sir":0.815,"lower":0.668,"upper":0.985},{"state":"Oregon","hospitals":34,"observed":68,"predicted":102.575,"sir":0.663,"lower":0.519,"upper":0.835},{"state":"Pennsylvania","hospitals":175,"observed":363,"predicted":500.675,"sir":0.725,"lower":0.653,"upper":0.803},{"state":"Puerto Rico","hospitals":9,"observed":6,"predicted":18.3,"sir":0.328,"lower":0.133,"upper":0.682},{"state":"Rhode Island","hospitals":10,"observed":22,"predicted":37.245,"sir":0.591,"lower":0.38,"upper":0.88},{"state":"South Carolina","hospitals":62,"observed":142,"predicted":201.183,"sir":0.706,"lower":0.597,"upper":0.829},{"state":"South Dakota","hospitals":18,"observed":19,"predicted":32.641,"sir":0.582,"lower":0.361,"upper":0.892},{"state":"Tennessee","hospitals":100,"observed":277,"predicted":283.978,"sir":0.975,"lower":0.866,"upper":1.096},{"state":"Texas","hospitals":369,"observed":578,"predicted":929.278,"sir":0.622,"lower":0.573,"upper":0.674},{"state":"Utah","hospitals":38,"observed":32,"predicted":61.576,"sir":0.52,"lower":0.362,"upper":0.725},{"state":"Vermont","hospitals":6,"observed":6,"predicted":18.963,"sir":0.316,"lower":0.128,"upper":0.658},{"state":"Virginia","hospitals":79,"observed":184,"predicted":250.538,"sir":0.734,"lower":0.634,"upper":0.846},{"state":"Washington","hospitals":55,"observed":105,"predicted":200.509,"sir":0.524,"lower":0.43,"upper":0.631},{"state":"West Virginia","hospitals":28,"observed":79,"predicted":98.875,"sir":0.799,"lower":0.637,"upper":0.99},{"state":"Wisconsin","hospitals":86,"observed":70,"predicted":132.347,"sir":0.529,"lower":0.415,"upper":0.664},{"state":"Wyoming","hospitals":11,"observed":5,"predicted":5.083,"sir":0.984,"lower":0.36,"upper":2.18}],"Clostridioides difficile infection":[{"state":"Alabama","hospitals":85,"observed":741,"predicted":1592.336,"sir":0.465,"lower":0.433,"upper":0.5},{"state":"Alaska","hospitals":10,"observed":38,"predicted":112.814,"sir":0.337,"lower":0.242,"upper":0.458},{"state":"Arizona","hospitals":70,"observed":692,"predicted":1783.416,"sir":0.388,"lower":0.36,"upper":0.418},{"state":"Arkansas","hospitals":48,"observed":248,"predicted":741.243,"sir":0.335,"lower":0.295,"upper":0.378},{"state":"California","hospitals":330,"observed":3551,"predicted":8531.025,"sir":0.416,"lower":0.403,"upper":0.43},{"state":"Colorado","hospitals":58,"observed":351,"predicted":1095.119,"sir":0.321,"lower":0.288,"upper":0.355},{"state":"Connecticut","hospitals":30,"observed":314,"predicted":873.805,"sir":0.359,"lower":0.321,"upper":0.401},{"state":"D.C","hospitals":8,"observed":240,"predicted":433.884,"sir":0.553,"lower":0.486,"upper":0.627},{"state":"Delaware","hospitals":9,"observed":110,"predicted":257.089,"sir":0.428,"lower":0.353,"upper":0.514},{"state":"Florida","hospitals":224,"observed":1758,"predicted":7059.086,"sir":0.249,"lower":0.238,"upper":0.261},{"state":"Georgia","hospitals":106,"observed":875,"predicted":2758.261,"sir":0.317,"lower":0.297,"upper":0.339},{"state":"Hawaii","hospitals":16,"observed":150,"predicted":332.547,"sir":0.451,"lower":0.383,"upper":0.528},{"state":"Idaho","hospitals":17,"observed":136,"predicted":327.28,"sir":0.416,"lower":0.35,"upper":0.49},{"state":"Illinois","hospitals":124,"observed":1212,"predicted":3013.882,"sir":0.402,"lower":0.38,"upper":0.425},{"state":"Indiana","hospitals":94,"observed":655,"predicted":1621.709,"sir":0.404,"lower":0.374,"upper":0.436},{"state":"Iowa","hospitals":38,"observed":258,"predicted":576.129,"sir":0.448,"lower":0.396,"upper":0.505},{"state":"Kansas","hospitals":58,"observed":155,"predicted":516.522,"sir":0.3,"lower":0.256,"upper":0.35},{"state":"Kentucky","hospitals":70,"observed":459,"predicted":1374.368,"sir":0.334,"lower":0.304,"upper":0.366},{"state":"Louisiana","hospitals":103,"observed":490,"predicted":1306.967,"sir":0.375,"lower":0.343,"upper":0.409},{"state":"Maine","hospitals":18,"observed":84,"predicted":287.379,"sir":0.292,"lower":0.235,"upper":0.36},{"state":"Maryland","hospitals":44,"observed":742,"predicted":1630.853,"sir":0.455,"lower":0.423,"upper":0.489},{"state":"Massachusetts","hospitals":66,"observed":1097,"predicted":2065.516,"sir":0.531,"lower":0.5,"upper":0.563},{"state":"Michigan","hospitals":96,"observed":895,"predicted":2291.74,"sir":0.391,"lower":0.366,"upper":0.417},{"state":"Minnesota","hospitals":51,"observed":560,"predicted":1318.417,"sir":0.425,"lower":0.391,"upper":0.461},{"state":"Mississippi","hospitals":59,"observed":286,"predicted":790.16,"sir":0.362,"lower":0.322,"upper":0.406},{"state":"Missouri","hospitals":71,"observed":850,"predicted":2211.207,"sir":0.384,"lower":0.359,"upper":0.411},{"state":"Montana","hospitals":12,"observed":80,"predicted":205.865,"sir":0.389,"lower":0.31,"upper":0.481},{"state":"Nebraska","hospitals":29,"observed":204,"predicted":463.533,"sir":0.44,"lower":0.383,"upper":0.504},{"state":"Nevada","hospitals":28,"observed":207,"predicted":831.807,"sir":0.249,"lower":0.217,"upper":0.285},{"state":"New Hampshire","hospitals":13,"observed":161,"predicted":273.794,"sir":0.588,"lower":0.502,"upper":0.684},{"state":"New Jersey","hospitals":70,"observed":776,"predicted":2313.574,"sir":0.335,"lower":0.312,"upper":0.36},{"state":"New Mexico","hospitals":31,"observed":281,"predicted":455.823,"sir":0.616,"lower":0.548,"upper":0.692},{"state":"New York","hospitals":169,"observed":2227,"predicted":5866.529,"sir":0.38,"lower":0.364,"upper":0.396},{"state":"North Carolina","hospitals":102,"observed":979,"predicted":3176.142,"sir":0.308,"lower":0.289,"upper":0.328},{"state":"North Dakota","hospitals":9,"observed":52,"predicted":167.668,"sir":0.31,"lower":0.234,"upper":0.404},{"state":"Ohio","hospitals":146,"observed":1528,"predicted":3458.854,"sir":0.442,"lower":0.42,"upper":0.464},{"state":"Oklahoma","hospitals":83,"observed":286,"predicted":1163.8,"sir":0.246,"lower":0.218,"upper":0.276},{"state":"Oregon","hospitals":34,"observed":386,"predicted":802.899,"sir":0.481,"lower":0.435,"upper":0.531},{"state":"Pennsylvania","hospitals":175,"observed":1826,"predicted":3643.513,"sir":0.501,"lower":0.479,"upper":0.525},{"state":"Puerto Rico","hospitals":11,"observed":49,"predicted":186.632,"sir":0.263,"lower":0.196,"upper":0.344},{"state":"Rhode Island","hospitals":10,"observed":67,"predicted":220.296,"sir":0.304,"lower":0.238,"upper":0.384},{"state":"South Carolina","hospitals":62,"observed":433,"predicted":1257.164,"sir":0.344,"lower":0.313,"upper":0.378},{"state":"South Dakota","hospitals":18,"observed":108,"predicted":214.43,"sir":0.504,"lower":0.415,"upper":0.606},{"state":"Tennessee","hospitals":100,"observed":479,"predicted":1748.07,"sir":0.274,"lower":0.25,"upper":0.299},{"state":"Texas","hospitals":365,"observed":1982,"predicted":7149.185,"sir":0.277,"lower":0.265,"upper":0.29},{"state":"Utah","hospitals":38,"observed":232,"predicted":584.575,"sir":0.397,"lower":0.348,"upper":0.45},{"state":"Vermont","hospitals":6,"observed":84,"predicted":130.427,"sir":0.644,"lower":0.517,"upper":0.793},{"state":"Virginia","hospitals":80,"observed":556,"predicted":1922.747,"sir":0.289,"lower":0.266,"upper":0.314},{"state":"Washington","hospitals":55,"observed":635,"predicted":1351.96,"sir":0.47,"lower":0.434,"upper":0.507},{"state":"West Virginia","hospitals":28,"observed":325,"predicted":578.461,"sir":0.562,"lower":0.503,"upper":0.625},{"state":"Wisconsin","hospitals":86,"observed":673,"predicted":1172.301,"sir":0.574,"lower":0.532,"upper":0.619},{"state":"Wyoming","hospitals":11,"observed":24,"predicted":60.945,"sir":0.394,"lower":0.258,"upper":0.577}]};
+let imported = [];
+try { imported = JSON.parse(localStorage.getItem("haiImported") || "[]"); } catch { imported = []; }
+let currentView = "compare";
+let currentExport = [];
+
+const C = {uk:"#176b87", us:"#a23b4a", accent:"#5a48a8", green:"#18794e", orange:"#b26a00", grey:"#6d7c89", pink:"#b54772"};
+const $ = id => document.getElementById(id);
+const fmt = (n,d=1) => n==null || Number.isNaN(Number(n)) ? "—" : Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
+const pct = n => n==null || !isFinite(n) ? "—" : `${n>=0?"+":""}${n.toFixed(1)}%`;
+const escapeHtml = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+
+function unique(arr){ return [...new Set(arr)].filter(v=>v!==undefined && v!==null && v!==""); }
+function setOptions(select, values, preserve=true){
+  const old=preserve?select.value:"";
+  select.innerHTML=values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
+  if(values.includes(old)) select.value=old;
+}
+function metricCard(k,v,s=""){return `<div class="metric"><div class="k">${escapeHtml(k)}</div><div class="v">${escapeHtml(v)}</div><div class="s">${escapeHtml(s)}</div></div>`}
+function measureLabel(key){
+ return ({
+  hoRate:"Hospital-onset rate / 100,000 bed-days",hoCount:"Hospital-onset cases",
+  allRate:"All-case rate / 100,000 population",allCount:"All reported cases",
+  coRate:"Community-onset rate / 100,000 population",coCount:"Community-onset cases",
+  sir:"Standardised Infection Ratio",observed:"Observed events",predicted:"Predicted events",
+  hospitals:"Reporting acute-care hospitals"
+ })[key]||key;
+}
+function infectionShort(v){
+ if(v.startsWith("MRSA")) return "MRSA";
+ if(v.startsWith("Clostridioides")) return "C. difficile";
+ if(v.startsWith("Escherichia")) return "E. coli";
+ if(v.startsWith("MSSA")) return "MSSA";
+ if(v.startsWith("Klebsiella")) return "Klebsiella spp.";
+ return v;
+}
+function calcChange(a,b){return a===0||a==null||b==null?null:(b/a-1)*100}
+
+function showTooltip(evt,html){
+ const t=$("tooltip"); t.innerHTML=html;t.style.display="block";
+ const pad=14, w=t.offsetWidth||180,h=t.offsetHeight||50;
+ t.style.left=Math.min(window.innerWidth-w-pad,evt.clientX+12)+"px";
+ t.style.top=Math.min(window.innerHeight-h-pad,evt.clientY+12)+"px";
+}
+function hideTooltip(){$("tooltip").style.display="none"}
+
+function lineChart(target, series, opts={}){
+ const el=typeof target==="string"?$(target):target;
+ el.innerHTML="";
+ const valid=series.some(s=>s.points.some(p=>p.value!=null && isFinite(p.value)));
+ if(!valid){el.innerHTML='<div class="chart-empty">No values for this selection.</div>';return}
+ const width=920,height=opts.height||390, margin={l:70,r:24,t:28,b:62};
+ const allX=unique(series.flatMap(s=>s.points.map(p=>p.label)));
+ const vals=series.flatMap(s=>s.points.map(p=>p.value)).filter(v=>v!=null&&isFinite(v));
+ let min=opts.zero?0:Math.min(...vals), max=Math.max(...vals);
+ if(opts.referenceOne){min=Math.min(min,1);max=Math.max(max,1)}
+ if(min===max){min*=.9;max*=1.1;if(min===max){min=0;max=1}}
+ const pad=(max-min)*.1; min=opts.zero?0:min-pad;max=max+pad;
+ const x=(i)=>margin.l+(allX.length===1?0:(i/(allX.length-1)))*(width-margin.l-margin.r);
+ const y=v=>margin.t+(max-v)/(max-min)*(height-margin.t-margin.b);
+ const ns="http://www.w3.org/2000/svg";
+ const svg=document.createElementNS(ns,"svg");svg.setAttribute("viewBox",`0 0 ${width} ${height}`);svg.setAttribute("role","img");
+ svg.setAttribute("aria-label",opts.aria||"Line chart");
+ const add=(tag,attrs,text)=>{const n=document.createElementNS(ns,tag);Object.entries(attrs||{}).forEach(([k,v])=>n.setAttribute(k,v));if(text!=null)n.textContent=text;svg.appendChild(n);return n};
+ for(let i=0;i<=5;i++){
+  const v=min+(max-min)*(5-i)/5, yy=y(v);
+  add("line",{x1:margin.l,y1:yy,x2:width-margin.r,y2:yy,stroke:"#dfe5ea","stroke-width":"1"});
+  add("text",{x:margin.l-10,y:yy+4,"text-anchor":"end",fill:"#637282","font-size":"12"},opts.yFormatter?opts.yFormatter(v):fmt(v,opts.decimals??1));
+ }
+ if(opts.referenceOne){
+  const yy=y(1);add("line",{x1:margin.l,y1:yy,x2:width-margin.r,y2:yy,stroke:"#9a6700","stroke-width":"1.5","stroke-dasharray":"6 5"});
+  add("text",{x:width-margin.r-2,y:yy-6,"text-anchor":"end",fill:"#8a5b00","font-size":"11"},"SIR = 1");
+ }
+ allX.forEach((lab,i)=>{
+  add("text",{x:x(i),y:height-margin.b+24,"text-anchor":"middle",fill:"#536273","font-size":"12"},lab);
+ });
+ if(opts.yLabel)add("text",{x:18,y:height/2,transform:`rotate(-90 18 ${height/2})`,"text-anchor":"middle",fill:"#536273","font-size":"12"},opts.yLabel);
+ series.forEach((s,si)=>{
+  const pathPoints=s.points.map(p=>({label:p.label,value:p.value,i:allX.indexOf(p.label),raw:p})).filter(p=>p.value!=null&&isFinite(p.value));
+  if(pathPoints.length){
+   const d=pathPoints.map((p,j)=>`${j?"L":"M"} ${x(p.i)} ${y(p.value)}`).join(" ");
+   add("path",{d,fill:"none",stroke:s.color||Object.values(C)[si%Object.values(C).length],"stroke-width":"3","stroke-linejoin":"round","stroke-linecap":"round"});
+   pathPoints.forEach(p=>{
+    if(p.raw.lower!=null && p.raw.upper!=null && opts.showCI){
+     add("line",{x1:x(p.i),y1:y(p.raw.lower),x2:x(p.i),y2:y(p.raw.upper),stroke:s.color||C.accent,"stroke-width":"2",opacity:".7"});
+     add("line",{x1:x(p.i)-5,y1:y(p.raw.lower),x2:x(p.i)+5,y2:y(p.raw.lower),stroke:s.color||C.accent,"stroke-width":"2",opacity:".7"});
+     add("line",{x1:x(p.i)-5,y1:y(p.raw.upper),x2:x(p.i)+5,y2:y(p.raw.upper),stroke:s.color||C.accent,"stroke-width":"2",opacity:".7"});
+    }
+    const c=add("circle",{cx:x(p.i),cy:y(p.value),r:"5",fill:s.color||C.accent,stroke:"#fff","stroke-width":"2",tabindex:"0"});
+    const tip=`<strong>${escapeHtml(s.name)}</strong><br>${escapeHtml(p.label)}: ${escapeHtml(opts.valueFormatter?opts.valueFormatter(p.value):fmt(p.value,2))}${p.raw.note?`<br><span>${escapeHtml(p.raw.note)}</span>`:""}`;
+    c.addEventListener("mousemove",e=>showTooltip(e,tip));c.addEventListener("mouseleave",hideTooltip);
+    c.addEventListener("focus",e=>{const r=e.target.getBoundingClientRect();showTooltip({clientX:r.left,clientY:r.top},tip)});c.addEventListener("blur",hideTooltip);
+   });
+  }
+ });
+ el.appendChild(svg);
+}
+function barChart(target, rows, opts={}){
+ const el=typeof target==="string"?$(target):target;el.innerHTML="";
+ if(!rows.length){el.innerHTML='<div class="chart-empty">No values for this selection.</div>';return}
+ const rowH=28,width=920,height=Math.max(310,rows.length*rowH+75),margin={l:165,r:55,t:20,b:45};
+ const vals=rows.map(r=>r.value).filter(v=>isFinite(v));let min=opts.zero===false?Math.min(...vals):0,max=Math.max(...vals);
+ if(opts.referenceOne)max=Math.max(max,1);
+ if(max===min)max=min+1;
+ const x=v=>margin.l+(v-min)/(max-min)*(width-margin.l-margin.r);
+ const ns="http://www.w3.org/2000/svg";const svg=document.createElementNS(ns,"svg");svg.setAttribute("viewBox",`0 0 ${width} ${height}`);svg.setAttribute("aria-label",opts.aria||"Bar chart");
+ const add=(tag,attrs,text)=>{const n=document.createElementNS(ns,tag);Object.entries(attrs||{}).forEach(([k,v])=>n.setAttribute(k,v));if(text!=null)n.textContent=text;svg.appendChild(n);return n};
+ for(let i=0;i<=5;i++){const v=min+(max-min)*i/5,xx=x(v);add("line",{x1:xx,y1:margin.t,x2:xx,y2:height-margin.b,stroke:"#e1e6eb"});add("text",{x:xx,y:height-margin.b+23,"text-anchor":"middle",fill:"#657384","font-size":"11"},fmt(v,opts.decimals??1))}
+ if(opts.referenceOne){const xx=x(1);add("line",{x1:xx,y1:margin.t,x2:xx,y2:height-margin.b,stroke:"#9a6700","stroke-width":"2","stroke-dasharray":"5 4"})}
+ rows.forEach((r,i)=>{
+  const yy=margin.t+i*rowH+3, hh=18;
+  add("text",{x:margin.l-8,y:yy+14,"text-anchor":"end",fill:"#374757","font-size":"11.5"},r.label.length>22?r.label.slice(0,21)+"…":r.label);
+  const rect=add("rect",{x:x(Math.max(0,min)),y:yy,width:Math.max(1,x(r.value)-x(Math.max(0,min))),height:hh,rx:"4",fill:r.color||C.accent,opacity:".88",tabindex:"0"});
+  add("text",{x:Math.min(width-margin.r+4,x(r.value)+6),y:yy+14,fill:"#364554","font-size":"11"},opts.valueFormatter?opts.valueFormatter(r.value):fmt(r.value,2));
+  const tip=`<strong>${escapeHtml(r.label)}</strong><br>${escapeHtml(opts.metricLabel||"Value")}: ${escapeHtml(opts.valueFormatter?opts.valueFormatter(r.value):fmt(r.value,3))}${r.detail?`<br>${escapeHtml(r.detail)}`:""}`;
+  rect.addEventListener("mousemove",e=>showTooltip(e,tip));rect.addEventListener("mouseleave",hideTooltip);
+ });
+ el.appendChild(svg);
+}
+function renderLegend(id,series){
+ $(id).innerHTML=series.map(s=>`<span><i style="background:${s.color}"></i>${escapeHtml(s.name)}</span>`).join("");
+}
+function renderTable(id,cols,rows){
+ const t=$(id);
+ t.innerHTML=`<thead><tr>${cols.map(c=>`<th>${escapeHtml(c.label)}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${escapeHtml(c.format?c.format(r[c.key],r):r[c.key]??"—")}</td>`).join("")}</tr>`).join("")}</tbody>`;
+}
+function switchView(view){
+ currentView=view;
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
+ ["compare","england","us","custom","methods"].forEach(v=>{
+  $(`view-${v}`).classList.toggle("hidden",v!==view);
+  $(`controls-${v}`).classList.toggle("hidden",v!==view);
+ });
+ renderCurrent();
+}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchView(b.dataset.view)));
+
+function renderCompare(){
+ const infection=$("cmp-infection").value,mode=$("cmp-mode").value,ek=$("cmp-eng-measure").value,uk=$("cmp-us-measure").value;
+ const eng=ENGLAND_ANNUAL.filter(r=>r.infection===infection);
+ const us=US_NATIONAL.filter(r=>r.infection===infection);
+ const base=Number($("cmp-baseline").value);
+ const engBase=eng.find(r=>r.periodStart===base)?.[ek], usBase=us.find(r=>r.year===base)?.[uk];
+ let series=[],subtitle="",badgeClass="medium",badgeText="Trend-only comparability";
+ $("cmp-chart").innerHTML="";
+ if(mode==="index"){
+   series=[
+    {name:`England — ${measureLabel(ek)}`,color:C.uk,points:eng.map(r=>({label:String(r.periodStart),value:engBase?100*r[ek]/engBase:null,note:`FY ${r.period}`}))},
+    {name:`US — ${measureLabel(uk)}`,color:C.us,points:us.map(r=>({label:String(r.year),value:usBase?100*r[uk]/usBase:null,note:`Calendar year ${r.year}`}))}
+   ];
+   subtitle=`Each source is rebased to ${base}=100. This compares relative movement, not burden or performance level.`;
+   lineChart("cmp-chart",series,{zero:false,yLabel:"Index",valueFormatter:v=>fmt(v,1),decimals:0});
+ } else if(mode==="change"){
+   series=[
+    {name:`England — ${measureLabel(ek)}`,color:C.uk,points:eng.slice(1).map((r,i)=>({label:String(r.periodStart),value:calcChange(eng[i][ek],r[ek]),note:`FY ${r.period}`}))},
+    {name:`US — ${measureLabel(uk)}`,color:C.us,points:us.slice(1).map((r,i)=>({label:String(r.year),value:calcChange(us[i][uk],r[uk]),note:`Calendar year ${r.year}`}))}
+   ];
+   subtitle="Period-on-period change within each surveillance system. Different reporting windows and definitions still apply.";
+   lineChart("cmp-chart",series,{zero:false,yLabel:"Change (%)",valueFormatter:v=>pct(v),decimals:1});
+ } else {
+   const wrapper=document.createElement("div");wrapper.className="two-col";
+   wrapper.innerHTML='<div><h3 style="margin:0 0 6px">England native series</h3><div id="native-eng" class="chart small"></div></div><div><h3 style="margin:0 0 6px">US native series</h3><div id="native-us" class="chart small"></div></div>';
+   $("cmp-chart").appendChild(wrapper);
+   lineChart("native-eng",[{name:`England — ${measureLabel(ek)}`,color:C.uk,points:eng.map(r=>({label:String(r.periodStart),value:r[ek],note:`FY ${r.period}`}))}],{zero:true,yLabel:measureLabel(ek),valueFormatter:v=>fmt(v,2)});
+   lineChart("native-us",[{name:`US — ${measureLabel(uk)}`,color:C.us,points:us.map(r=>({label:String(r.year),value:r[uk],lower:r.lower,upper:r.upper,note:`Calendar year ${r.year}`}))}],{zero:true,referenceOne:uk==="sir",showCI:uk==="sir",yLabel:measureLabel(uk),valueFormatter:v=>fmt(v,3)});
+   series=[{name:"England panel",color:C.uk},{name:"US panel",color:C.us}];
+   subtitle="Native values are deliberately separated because their units and denominators differ.";
+   badgeClass="low";badgeText="Not comparable by level";
+ }
+ $("cmp-title").textContent=`${infectionShort(infection)}: England–US comparison`;
+ $("cmp-subtitle").textContent=subtitle;
+ $("cmp-badge").className=`badge ${badgeClass}`;$("cmp-badge").textContent=badgeText;
+ renderLegend("cmp-legend",series);
+ const e23=eng.find(r=>r.periodStart===2023),e24=eng.find(r=>r.periodStart===2024),u23=us.find(r=>r.year===2023),u24=us.find(r=>r.year===2024);
+ $("cmp-metrics").innerHTML=[
+  metricCard("England latest",fmt(e24?.[ek],2),`FY ${e24?.period}; ${measureLabel(ek)}`),
+  metricCard("England change",pct(calcChange(e23?.[ek],e24?.[ek])),`2023/24 to 2024/25`),
+  metricCard("US latest",fmt(u24?.[uk],3),`CY 2024; ${measureLabel(uk)}`),
+  metricCard("US change",pct(calcChange(u23?.[uk],u24?.[uk])),`CY 2023 to 2024`)
+ ].join("");
+ const reasons=[
+  ["Matched clinical label",infection.startsWith("MRSA")?"Both concern MRSA bloodstream/bacteraemia events.":"Both concern C. difficile infection.","positive"],
+  ["Onset definition","England and NHSN use different hospital-onset day thresholds in the cited definitions.","negative"],
+  ["Denominator",`${measureLabel(ek)} versus ${measureLabel(uk)}.`,"negative"],
+  ["Time window","England financial year versus US calendar year.","negative"],
+  ["Adjustment","US SIR is risk-adjusted against predicted events; the selected English measure is a count or crude incidence rate.","negative"],
+  ["Geography","England is compared with the whole United States, not pooled UK surveillance.","negative"]
+ ];
+ $("comparability").innerHTML=`<p><strong>${mode==="native"?"Do not compare levels.":"Use only for directional exploration."}</strong> Normalisation removes units but does not remove differences in case definition, denominator, risk adjustment or exposure period.</p><ul class="reason-list">${reasons.map(r=>`<li><strong>${escapeHtml(r[0])}:</strong> ${escapeHtml(r[1])}</li>`).join("")}</ul>`;
+ currentExport=[
+  ...eng.map(r=>({country:"England",period:r.period,period_type:"financial year",infection,onset:ek.startsWith("ho")?"hospital-onset":ek.startsWith("co")?"community-onset":"all",metric:measureLabel(ek),value:r[ek],source:"UKHSA annual commentary"})),
+  ...us.map(r=>({country:"United States",period:String(r.year),period_type:"calendar year",infection,onset:"hospital-onset",metric:measureLabel(uk),value:r[uk],source:"CDC/NHSN HAI Progress Report"}))
+ ];
+}
+
+function populateEnglandInfections(){
+ const freq=$("eng-frequency").value;
+ const vals=unique((freq==="annual"?ENGLAND_ANNUAL:ENGLAND_MONTHLY).map(r=>r.infection));
+ setOptions($("eng-infection"),vals);
+ $("eng-annual-measure-wrap").classList.toggle("hidden",freq!=="annual");
+ $("eng-monthly-series-wrap").classList.toggle("hidden",freq!=="monthly");
+}
+function renderEngland(){
+ const freq=$("eng-frequency").value;populateEnglandInfections();
+ const infection=$("eng-infection").value;
+ if(freq==="annual"){
+  const k=$("eng-measure").value,rows=ENGLAND_ANNUAL.filter(r=>r.infection===infection);
+  const s=[{name:measureLabel(k),color:C.uk,points:rows.map(r=>({label:r.period,value:r[k]}))}];
+  $("eng-title").textContent=`England annual ${infectionShort(infection)} surveillance`;
+  $("eng-subtitle").textContent=`Financial-year series; ${measureLabel(k)}.`;
+  lineChart("eng-chart",s,{zero:true,yLabel:measureLabel(k),valueFormatter:v=>fmt(v,2)});
+  renderLegend("eng-legend",s);
+  const last=rows.at(-1),prev=rows.at(-2);
+  $("eng-metrics").innerHTML=[
+   metricCard("Latest period",last?.period||"—","April–March"),
+   metricCard("Latest value",fmt(last?.[k],2),measureLabel(k)),
+   metricCard("One-year change",pct(calcChange(prev?.[k],last?.[k])),"Within England definition"),
+   metricCard("Six-period change",pct(calcChange(rows[0]?.[k],last?.[k])),"First to latest shown")
+  ].join("");
+  renderTable("eng-table",[
+   {key:"period",label:"Financial year"},{key:"allCount",label:"All cases",format:v=>fmt(v,0)},{key:"allRate",label:"All rate /100k pop",format:v=>fmt(v,1)},
+   {key:"hoCount",label:"Hospital-onset",format:v=>fmt(v,0)},{key:"hoRate",label:"HO rate /100k bed-days",format:v=>fmt(v,1)},
+   {key:"coCount",label:"Community-onset",format:v=>fmt(v,0)},{key:"coRate",label:"CO rate /100k pop",format:v=>fmt(v,1)}
+  ],rows);
+  currentExport=rows.map(r=>({country:"England",geography:"England",period:r.period,period_type:"financial year",infection:r.infection,onset:"mixed",metric:measureLabel(k),value:r[k],source:"UKHSA annual commentary"}));
+ } else {
+  const rows=ENGLAND_MONTHLY.filter(r=>r.infection===infection);
+  const keys=Object.keys(rows[0]||{}).filter(k=>!["period","infection"].includes(k));
+  const labels={total:"Total",communityAssociated:"Community-onset, community-associated",communityHealthcare:"Community-onset, healthcare-associated",communityIndeterminate:"Community-onset, indeterminate",hospitalOnset:"Hospital-onset, healthcare-associated"};
+  const box=$("monthly-checkboxes");
+  const saved=[...box.querySelectorAll("input:checked")].map(i=>i.value);
+  box.innerHTML=keys.map((k,i)=>`<label><input type="checkbox" value="${k}" ${saved.length ? (saved.includes(k) ? "checked" : "") : ((k==="total" || k==="hospitalOnset") ? "checked" : "")}> ${escapeHtml(labels[k]||k)}</label>`).join("");
+  box.querySelectorAll("input").forEach(i=>i.addEventListener("change",renderEngland));
+  const selected=[...box.querySelectorAll("input:checked")].map(i=>i.value);
+  const colors=[C.uk,C.us,C.accent,C.orange,C.green];
+  const s=selected.map((k,i)=>({name:labels[k]||k,color:colors[i%colors.length],points:rows.map(r=>({label:r.period,value:r[k]}))}));
+  $("eng-title").textContent=`England monthly ${infectionShort(infection)} onset counts`;
+  $("eng-subtitle").textContent="Recent monthly counts from the UKHSA dashboard snapshot, May 2025–May 2026.";
+  lineChart("eng-chart",s,{zero:true,yLabel:"Cases",valueFormatter:v=>fmt(v,0),decimals:0});
+  renderLegend("eng-legend",s);
+  const last=rows.at(-1),prev=rows.at(-2);
+  $("eng-metrics").innerHTML=[
+   metricCard("Latest month",last?.period||"—","Calendar month"),
+   metricCard("Total cases",fmt(last?.total,0),"All onset classifications"),
+   metricCard("Hospital-onset",fmt(last?.hospitalOnset,0),"Healthcare-associated"),
+   metricCard("Monthly HO change",pct(calcChange(prev?.hospitalOnset,last?.hospitalOnset)),"Previous month to latest")
+  ].join("");
+  renderTable("eng-table",[
+   {key:"period",label:"Month"},{key:"total",label:"Total",format:v=>fmt(v,0)},{key:"communityAssociated",label:"Community-associated",format:v=>fmt(v,0)},
+   {key:"communityHealthcare",label:"Community healthcare-associated",format:v=>fmt(v,0)},{key:"communityIndeterminate",label:"Community indeterminate",format:v=>fmt(v,0)},
+   {key:"hospitalOnset",label:"Hospital-onset",format:v=>fmt(v,0)}
+  ],rows);
+  currentExport=rows.flatMap(r=>selected.map(k=>({country:"England",geography:"England",period:r.period,period_type:"month",infection:r.infection,onset:labels[k]||k,metric:"count",value:r[k],source:"UKHSA dashboard"})));
+ }
+}
+function populateUS(){
+ const level=$("us-level").value;
+ const vals=level==="state"?Object.keys(US_STATES):unique(US_NATIONAL.map(r=>r.infection));
+ setOptions($("us-infection"),vals);
+ $("state-options").classList.toggle("hidden",level!=="state");
+ if(level==="national" && $("us-measure").value==="hospitals")$("us-measure").value="sir";
+}
+function renderUS(){
+ populateUS();
+ const level=$("us-level").value, infection=$("us-infection").value,k=$("us-measure").value;
+ if(level==="national"){
+  const rows=US_NATIONAL.filter(r=>r.infection===infection && r[k]!=null);
+  const s=[{name:measureLabel(k),color:C.us,points:rows.map(r=>({label:String(r.year),value:r[k],lower:r.lower,upper:r.upper}))}];
+  $("us-title").textContent=`US national ${infectionShort(infection)}`;
+  $("us-subtitle").textContent=`NHSN acute-care hospitals; ${measureLabel(k)} by calendar year.`;
+  lineChart("us-chart",s,{zero:k!=="sir",referenceOne:k==="sir",showCI:k==="sir",yLabel:measureLabel(k),valueFormatter:v=>fmt(v,k==="sir"?3:0)});
+  renderLegend("us-legend",s);
+  const last=rows.at(-1),prev=rows.at(-2);
+  $("us-metrics").innerHTML=[
+   metricCard("Latest year",last?.year||"—","Calendar year"),
+   metricCard("Latest value",fmt(last?.[k],k==="sir"?3:0),measureLabel(k)),
+   metricCard("One-year change",pct(calcChange(prev?.[k],last?.[k])),"Within NHSN measure"),
+   metricCard("SIR interpretation",k==="sir"?(last?.sir<1?"Below predicted":"Above predicted"):"See SIR view","SIR < 1 means observed < predicted")
+  ].join("");
+  renderTable("us-table",[
+   {key:"year",label:"Calendar year"},{key:"infection",label:"HAI measure"},{key:"observed",label:"Observed",format:v=>fmt(v,0)},
+   {key:"predicted",label:"Predicted",format:v=>fmt(v,1)},{key:"sir",label:"SIR",format:v=>fmt(v,3)},{key:"lower",label:"95% CI lower",format:v=>fmt(v,3)},{key:"upper",label:"95% CI upper",format:v=>fmt(v,3)}
+  ],rows);
+  currentExport=rows.map(r=>({country:"United States",geography:"All US",period:String(r.year),period_type:"calendar year",infection:r.infection,onset:"hospital-onset",metric:measureLabel(k),value:r[k],lower:r.lower??"",upper:r.upper??"",source:"CDC/NHSN HAI Progress Report"}));
+ } else {
+  const rows=(US_STATES[infection]||[]).filter(r=>r[k]!=null && isFinite(r[k]));
+  const asc=$("us-ascending").checked,n=Number($("us-topn").value);
+  const sorted=[...rows].sort((a,b)=>asc?a[k]-b[k]:b[k]-a[k]).slice(0,n);
+  $("us-title").textContent=`2024 state-level ${infectionShort(infection)} — ${measureLabel(k)}`;
+  $("us-subtitle").textContent="States and territories with reportable numeric values in the CDC/NHSN table.";
+  barChart("us-chart",sorted.map(r=>({label:r.state,value:r[k],detail:`Observed ${fmt(r.observed,0)}; predicted ${fmt(r.predicted,1)}; ${r.hospitals} hospitals`,color:C.us})),{zero:true,referenceOne:k==="sir",metricLabel:measureLabel(k),valueFormatter:v=>fmt(v,k==="sir"?3:k==="predicted"?1:0),decimals:k==="sir"?1:0});
+  renderLegend("us-legend",[{name:measureLabel(k),color:C.us}]);
+  const all=rows.find(r=>r.state==="All US")||null;
+  const ranked=[...rows].sort((a,b)=>b[k]-a[k]);
+  $("us-metrics").innerHTML=[
+   metricCard("States shown",String(sorted.length),`of ${rows.length} numeric records`),
+   metricCard(asc?"Lowest":"Highest",fmt(sorted[0]?.[k],k==="sir"?3:0),sorted[0]?.state||"—"),
+   metricCard("Median state",fmt([...rows].map(r=>r[k]).sort((a,b)=>a-b)[Math.floor(rows.length/2)],k==="sir"?3:0),measureLabel(k)),
+   metricCard("Reference",k==="sir"?"1.000":"US table",k==="sir"?"Observed equals predicted":"Native NHSN value")
+  ].join("");
+  renderTable("us-table",[
+   {key:"state",label:"State/territory"},{key:"hospitals",label:"Hospitals",format:v=>fmt(v,0)},{key:"observed",label:"Observed",format:v=>fmt(v,0)},
+   {key:"predicted",label:"Predicted",format:v=>fmt(v,1)},{key:"sir",label:"SIR",format:v=>fmt(v,3)},{key:"lower",label:"95% lower",format:v=>fmt(v,3)},{key:"upper",label:"95% upper",format:v=>fmt(v,3)}
+  ],sorted);
+  currentExport=sorted.map(r=>({country:"United States",geography:r.state,period:"2024",period_type:"calendar year",infection,onset:"hospital-onset",metric:measureLabel(k),value:r[k],lower:r.lower,upper:r.upper,source:"CDC/NHSN 2024 HAI Progress Report"}));
+ }
+}
+function parseCSV(text){
+ const rows=[];let row=[],field="",quoted=false;
+ for(let i=0;i<text.length;i++){
+  const c=text[i],n=text[i+1];
+  if(c==='"' && quoted && n==='"'){field+='"';i++}
+  else if(c==='"'){quoted=!quoted}
+  else if(c===","&&!quoted){row.push(field);field=""}
+  else if((c==="\n"||c==="\r")&&!quoted){if(c==="\r"&&n==="\n")i++;row.push(field);field="";if(row.some(v=>v!==""))rows.push(row);row=[]}
+  else field+=c;
+ }
+ row.push(field);if(row.some(v=>v!==""))rows.push(row);
+ if(rows.length<2)return [];
+ const headers=rows.shift().map(h=>h.trim());
+ return rows.map(vals=>Object.fromEntries(headers.map((h,i)=>[h,(vals[i]??"").trim()])));
+}
+function validateImported(rows){
+ const required=["country","geography","period","period_type","infection","onset","metric","value"];
+ const missing=required.filter(k=>!Object.prototype.hasOwnProperty.call(rows[0]||{},k));
+ if(missing.length)throw new Error("Missing columns: "+missing.join(", "));
+ return rows.map((r,i)=>{
+  const value=Number(r.value);if(!isFinite(value))throw new Error(`Row ${i+2}: value is not numeric`);
+  return {...r,value,lower:r.lower===""||r.lower==null?null:Number(r.lower),upper:r.upper===""||r.upper==null?null:Number(r.upper)};
+ });
+}
+function saveImported(){localStorage.setItem("haiImported",JSON.stringify(imported));refreshCustomControls()}
+function refreshCustomControls(){
+ setOptions($("custom-metric"),unique(imported.map(r=>r.metric)));
+ setOptions($("custom-infection"),unique(imported.map(r=>r.infection)));
+ $("import-status").textContent=imported.length?`${imported.length.toLocaleString()} records stored locally.`:"No imported records.";
+}
+function renderCustom(){
+ refreshCustomControls();
+ if(!imported.length){
+  $("custom-chart").innerHTML='<div class="chart-empty">Import the template CSV or your harmonised data.</div>';
+  $("custom-legend").innerHTML="";$("custom-summary").textContent="No data loaded.";$("custom-table").innerHTML="";currentExport=[];return;
+ }
+ const metric=$("custom-metric").value,infection=$("custom-infection").value,group=$("custom-group").value;
+ const rows=imported.filter(r=>r.metric===metric&&r.infection===infection);
+ const groups=unique(rows.map(r=>r[group]));
+ const colors=[C.uk,C.us,C.accent,C.orange,C.green,C.pink,C.grey];
+ const series=groups.map((g,i)=>({name:g||"(blank)",color:colors[i%colors.length],points:rows.filter(r=>r[group]===g).sort((a,b)=>String(a.period).localeCompare(String(b.period))).map(r=>({label:r.period,value:r.value,lower:r.lower,upper:r.upper,note:r.notes}))}));
+ lineChart("custom-chart",series,{zero:false,showCI:true,yLabel:metric,valueFormatter:v=>fmt(v,3)});
+ renderLegend("custom-legend",series);
+ $("custom-summary").textContent=`${rows.length} matching records across ${groups.length} ${group} group${groups.length===1?"":"s"}.`;
+ const cols=unique(rows.flatMap(r=>Object.keys(r))).slice(0,14).map(k=>({key:k,label:k}));
+ renderTable("custom-table",cols,rows);
+ currentExport=rows;
+}
+function renderCurrent(){
+ if(currentView==="compare")renderCompare();
+ else if(currentView==="england")renderEngland();
+ else if(currentView==="us")renderUS();
+ else if(currentView==="custom")renderCustom();
+}
+function toCSV(rows){
+ if(!rows.length)return "";
+ const cols=unique(rows.flatMap(r=>Object.keys(r)));
+ const q=v=>{const s=String(v??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s};
+ return [cols.join(","),...rows.map(r=>cols.map(c=>q(r[c])).join(","))].join("\n");
+}
+function downloadText(name,text,type="text/csv"){
+ const blob=new Blob([text],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+$("csv-file").addEventListener("change",async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{const rows=validateImported(parseCSV(await f.text()));imported=rows;saveImported();$("import-status").textContent=`Loaded ${rows.length} records from ${f.name}.`;renderCustom()}
+ catch(err){$("import-status").textContent=`Import error: ${err.message}`}
+});
+$("download-template").addEventListener("click",()=>{
+ const sample=`country,geography,period,period_type,infection,onset,metric,value,lower,upper,source,notes\nEngland,Example NHS trust,2025-05,month,MRSA bloodstream infection,hospital-onset,count,8,,,Local surveillance,Example only\nUnited States,Example state,2025,calendar year,MRSA bloodstream infection,hospital-onset,SIR,0.75,0.61,0.92,Local NHSN export,Example only`;
+ downloadText("hai-import-template.csv",sample);
+});
+$("clear-custom").addEventListener("click",()=>{imported=[];saveImported();renderCustom()});
+$("export-current").addEventListener("click",()=>downloadText(`hai-${currentView}-export.csv`,toCSV(currentExport)));
+
+["cmp-infection","cmp-mode","cmp-eng-measure","cmp-us-measure","cmp-baseline"].forEach(id=>$(id).addEventListener("change",renderCompare));
+$("eng-frequency").addEventListener("change",()=>{populateEnglandInfections();renderEngland()});
+["eng-infection","eng-measure"].forEach(id=>$(id).addEventListener("change",renderEngland));
+$("us-level").addEventListener("change",()=>{populateUS();renderUS()});
+["us-infection","us-measure","us-topn","us-ascending"].forEach(id=>$(id).addEventListener("change",renderUS));
+["custom-metric","custom-infection","custom-group"].forEach(id=>$(id).addEventListener("change",renderCustom));
+
+populateEnglandInfections();populateUS();refreshCustomControls();renderCompare();
+window.addEventListener("resize",()=>renderCurrent());
+</script>
+</body>
+</html>
