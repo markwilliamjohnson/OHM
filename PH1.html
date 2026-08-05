@@ -1,0 +1,1812 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Fresh Start — Your Health Companion</title>
+    <style>
+        /* ────────────────────────── RESET & BASE ────────────────────────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e88d3b;
+            --primary-light: #f5d6b3;
+            --primary-dark: #c4702a;
+            --bg: #fef9f2;
+            --card: #ffffff;
+            --text: #3d2c1b;
+            --text-light: #7a6a5a;
+            --green: #6b9e6b;
+            --green-light: #d4edda;
+            --red: #c94a4a;
+            --blue: #5a8db5;
+            --blue-light: #d4e8f5;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: 0.25s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 90px;
+            line-height: 1.5;
+        }
+
+        /* ────────────────────────── SCROLLBAR ────────────────────────── */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 10px;
+        }
+
+        /* ────────────────────────── APP CONTAINER ────────────────────────── */
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 16px 16px 0;
+        }
+
+        /* ────────────────────────── HEADER ────────────────────────── */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0 16px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-icon {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .app-title {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .greeting {
+            font-size: 14px;
+            color: var(--text-light);
+            background: var(--card);
+            padding: 6px 14px 6px 12px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .greeting-emoji {
+            font-size: 18px;
+        }
+
+        /* ────────────────────────── NAME MODAL ────────────────────────── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transform: scale(0.92);
+            transition: transform 0.3s;
+        }
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-box h2 {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+        .modal-box p {
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 18px;
+        }
+        .modal-box input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #eee;
+            border-radius: var(--radius-sm);
+            font-size: 17px;
+            text-align: center;
+            outline: none;
+            transition: border 0.2s;
+            background: var(--bg);
+        }
+        .modal-box input:focus {
+            border-color: var(--primary);
+        }
+        .modal-box .btn-primary {
+            margin-top: 14px;
+            width: 100%;
+        }
+
+        /* ────────────────────────── DASHBOARD CARDS ────────────────────────── */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: var(--radius-sm);
+            padding: 16px 14px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .stat-card:active {
+            transform: scale(0.97);
+        }
+
+        .stat-card .emoji {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        .stat-card .value {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            line-height: 1.2;
+        }
+        .stat-card .label {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .stat-card .sub {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .stat-card.green .value {
+            color: var(--green);
+        }
+        .stat-card.blue .value {
+            color: var(--blue);
+        }
+
+        /* full-width card */
+        .card-full {
+            background: var(--card);
+            border-radius: var(--radius-sm);
+            padding: 18px 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 14px;
+        }
+
+        .card-full .card-title {
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* ────────────────────────── MOTIVATIONAL MESSAGE ────────────────────────── */
+        .motivation-box {
+            background: linear-gradient(135deg, var(--primary-light), #fce8d6);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--primary);
+            position: relative;
+        }
+
+        .motivation-box .quote {
+            font-size: 15px;
+            font-style: italic;
+            color: var(--text);
+        }
+        .motivation-box .author {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+        .motivation-box .refresh-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .motivation-box .refresh-btn:hover {
+            opacity: 1;
+        }
+
+        /* ────────────────────────── QUICK ACTIONS ────────────────────────── */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .quick-btn {
+            background: var(--card);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 14px 6px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
+            font-family: inherit;
+            color: var(--text);
+        }
+        .quick-btn:active {
+            transform: scale(0.94);
+        }
+        .quick-btn .qb-emoji {
+            font-size: 26px;
+            display: block;
+        }
+        .quick-btn .qb-label {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 3px;
+            color: var(--text-light);
+        }
+
+        /* ────────────────────────── SUGGESTIONS ────────────────────────── */
+        .suggestion-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0ebe5;
+        }
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item .s-emoji {
+            font-size: 28px;
+            flex-shrink: 0;
+            width: 40px;
+            text-align: center;
+        }
+        .suggestion-item .s-text {
+            font-size: 14px;
+            flex: 1;
+        }
+        .suggestion-item .s-text strong {
+            color: var(--primary-dark);
+        }
+        .suggestion-item .s-tag {
+            font-size: 11px;
+            background: var(--primary-light);
+            padding: 2px 12px;
+            border-radius: 30px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            white-space: nowrap;
+            margin-top: 3px;
+            display: inline-block;
+        }
+
+        /* ────────────────────────── REMINDERS ────────────────────────── */
+        .reminder-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .reminder-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0ebe5;
+            gap: 8px;
+        }
+        .reminder-item:last-child {
+            border-bottom: none;
+        }
+
+        .reminder-item .r-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+        .reminder-item .r-info .r-emoji {
+            font-size: 22px;
+        }
+        .reminder-item .r-info .r-text {
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .reminder-item .r-info .r-time {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        .reminder-item .r-done {
+            background: none;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            flex-shrink: 0;
+        }
+        .reminder-item .r-done:hover {
+            background: var(--green-light);
+            border-color: var(--green);
+            color: var(--green);
+        }
+        .reminder-item .r-done.done {
+            background: var(--green-light);
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .add-reminder-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .add-reminder-form input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 2px solid #eee;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            outline: none;
+            min-width: 120px;
+            background: var(--bg);
+        }
+        .add-reminder-form input:focus {
+            border-color: var(--primary);
+        }
+        .add-reminder-form .btn-sm {
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .add-reminder-form .btn-sm:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ────────────────────────── MEAL LOGGER (TAB) ────────────────────────── */
+        .meal-entry {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .meal-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .meal-row select,
+        .meal-row input {
+            flex: 1;
+            padding: 12px 14px;
+            border: 2px solid #eee;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            background: var(--bg);
+            outline: none;
+            min-width: 80px;
+        }
+        .meal-row select:focus,
+        .meal-row input:focus {
+            border-color: var(--primary);
+        }
+        .meal-row .btn-add {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .meal-row .btn-add:hover {
+            background: var(--primary-dark);
+        }
+
+        .meal-history {
+            margin-top: 6px;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .meal-history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f0ea;
+            font-size: 14px;
+        }
+        .meal-history-item .m-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .meal-history-item .m-left .m-emoji {
+            font-size: 20px;
+        }
+        .meal-history-item .m-left .m-name {
+            font-weight: 500;
+        }
+        .meal-history-item .m-left .m-cal {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+        .meal-history-item .m-del {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 6px;
+            transition: color 0.2s;
+        }
+        .meal-history-item .m-del:hover {
+            color: var(--red);
+        }
+
+        .meal-total {
+            font-weight: 600;
+            text-align: right;
+            padding: 10px 0 4px;
+            font-size: 15px;
+            border-top: 2px solid #f0ebe5;
+            margin-top: 4px;
+        }
+
+        /* ────────────────────────── WATER / STEPS (TAB) ────────────────────────── */
+        .habit-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .habit-controls .btn-habit {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: var(--blue-light);
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            font-family: inherit;
+        }
+        .habit-controls .btn-habit:active {
+            transform: scale(0.95);
+        }
+        .habit-controls .btn-habit.green {
+            background: var(--green-light);
+            color: var(--green);
+        }
+        .habit-controls .btn-habit:hover {
+            filter: brightness(0.96);
+        }
+
+        .habit-display {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 8px 0 4px;
+        }
+        .habit-display .hd-item {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            font-size: 15px;
+        }
+        .habit-display .hd-item .hd-val {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary-dark);
+        }
+        .habit-display .hd-item .hd-label {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+
+        /* ────────────────────────── TABS ────────────────────────── */
+        .tabs {
+            display: flex;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 6px 4px;
+            z-index: 100;
+            justify-content: space-around;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 8px 4px;
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s;
+            font-family: inherit;
+            color: var(--text-light);
+            font-size: 11px;
+            font-weight: 500;
+            position: relative;
+        }
+        .tab-btn .tab-emoji {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 1px;
+        }
+        .tab-btn.active {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        .tab-btn.active .tab-emoji {
+            transform: scale(1.05);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeUp 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ────────────────────────── PROGRESS (TAB) ────────────────────────── */
+        .progress-bar-wrap {
+            background: #f0ebe5;
+            border-radius: 30px;
+            height: 18px;
+            overflow: hidden;
+            margin: 6px 0 10px;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 30px;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary));
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+
+        .progress-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .progress-goal {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* ────────────────────────── EMPTY STATE ────────────────────────── */
+        .empty-state {
+            text-align: center;
+            padding: 30px 10px;
+            color: var(--text-light);
+        }
+        .empty-state .empty-emoji {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* ────────────────────────── TOAST / NOTIFICATION ────────────────────────── */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-80px);
+            background: var(--text);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* ────────────────────────── RESPONSIVE TWEAKS ────────────────────────── */
+        @media (max-width: 420px) {
+            .app {
+                padding: 12px 12px 0;
+            }
+            .dashboard-grid {
+                gap: 8px;
+            }
+            .stat-card .value {
+                font-size: 22px;
+            }
+            .quick-actions {
+                gap: 6px;
+            }
+            .quick-btn .qb-emoji {
+                font-size: 22px;
+            }
+            .meal-row {
+                flex-direction: column;
+            }
+            .meal-row select,
+            .meal-row input,
+            .meal-row .btn-add {
+                width: 100%;
+            }
+            .header .greeting {
+                font-size: 12px;
+                padding: 4px 10px;
+            }
+            .app-title {
+                font-size: 19px;
+            }
+            .tabs .tab-btn {
+                font-size: 10px;
+                padding: 6px 2px;
+            }
+            .tabs .tab-btn .tab-emoji {
+                font-size: 20px;
+            }
+        }
+
+        @media (min-width: 481px) {
+            body {
+                background: #f0ebe5;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                padding-top: 20px;
+            }
+            .app {
+                background: var(--bg);
+                border-radius: 32px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+                padding: 24px 24px 0;
+                margin-bottom: 20px;
+            }
+            .tabs {
+                border-radius: 0 0 32px 32px;
+            }
+        }
+
+        /* ────────────────────────── UTILITY ────────────────────────── */
+        .mt-1 {
+            margin-top: 6px;
+        }
+        .mt-2 {
+            margin-top: 12px;
+        }
+        .mb-1 {
+            margin-bottom: 6px;
+        }
+        .mb-2 {
+            margin-bottom: 12px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .gap-1 {
+            gap: 6px;
+        }
+        .gap-2 {
+            gap: 12px;
+        }
+        .fw-600 {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── TOAST ─── -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ─── NAME MODAL ─── -->
+    <div class="modal-overlay" id="nameModal">
+        <div class="modal-box">
+            <div style="font-size:48px; margin-bottom:6px;">👋</div>
+            <h2>Welcome to Fresh Start</h2>
+            <p>I'm here to help you feel better, one small step at a time.<br />What should I call you?</p>
+            <input type="text" id="nameInput" placeholder="Your name..." maxlength="20" autofocus />
+            <button class="btn-primary" id="nameSubmit" style="
+            margin-top:14px;
+            width:100%;
+            padding:14px;
+            border:none;
+            border-radius:var(--radius-sm);
+            background:var(--primary);
+            color:#fff;
+            font-weight:700;
+            font-size:17px;
+            cursor:pointer;
+            transition:background 0.2s;
+        ">Let's begin 🌱</button>
+    </div>
+</div>
+
+<!-- ─── APP ─── -->
+<div class="app" id="app">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <span class="app-icon">🌱</span>
+            <span class="app-title">Fresh Start</span>
+        </div>
+        <div class="header-right">
+            <div class="greeting" id="greetingDisplay">
+                <span class="greeting-emoji">😊</span>
+                <span id="userNameDisplay">Friend</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ─── TAB CONTENT: HOME ─── -->
+    <div class="tab-content active" id="tab-home">
+
+        <!-- Motivation -->
+        <div class="motivation-box" id="motivationBox">
+            <button class="refresh-btn" id="refreshQuote" title="New quote">⟳</button>
+            <div class="quote" id="quoteText">"Small steps lead to big changes. You're already here — that's a win."</div>
+            <div class="author" id="quoteAuthor">— Fresh Start</div>
+        </div>
+
+        <!-- Dashboard Stats -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <span class="emoji">🍔</span>
+                <div class="value" id="todayCalories">0</div>
+                <div class="label">Calories Today</div>
+                <div class="sub">Goal: 2,000</div>
+            </div>
+            <div class="stat-card green">
+                <span class="emoji">💧</span>
+                <div class="value" id="todayWater">0</div>
+                <div class="label">Water (cups)</div>
+                <div class="sub">Goal: 8</div>
+            </div>
+            <div class="stat-card blue">
+                <span class="emoji">👣</span>
+                <div class="value" id="todaySteps">0</div>
+                <div class="label">Steps</div>
+                <div class="sub">Goal: 5,000</div>
+            </div>
+            <div class="stat-card">
+                <span class="emoji">✅</span>
+                <div class="value" id="todayHabits">0</div>
+                <div class="label">Habits Done</div>
+                <div class="sub">Keep going!</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="quick-btn" data-tab="log">
+                <span class="qb-emoji">🍽️</span>
+                <span class="qb-label">Log Meal</span>
+            </button>
+            <button class="quick-btn" id="quickWater">
+                <span class="qb-emoji">💧</span>
+                <span class="qb-label">Drink Water</span>
+            </button>
+            <button class="quick-btn" id="quickSteps">
+                <span class="qb-emoji">🚶</span>
+                <span class="qb-label">+500 Steps</span>
+            </button>
+            <button class="quick-btn" data-tab="remind">
+                <span class="qb-emoji">⏰</span>
+                <span class="qb-label">Reminders</span>
+            </button>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="card-full">
+            <div class="card-title">💡 Suggestions for you</div>
+            <div id="suggestionList">
+                <div class="suggestion-item">
+                    <span class="s-emoji">🥗</span>
+                    <div class="s-text"><strong>Swap one burger for a salad</strong> — your body will thank you with more energy.</div>
+                </div>
+                <div class="suggestion-item">
+                    <span class="s-emoji">🚶</span>
+                    <div class="s-text"><strong>Take a 5-min walk</strong> after eating — it helps digestion and clears your mind.</div>
+                </div>
+                <div class="suggestion-item">
+                    <span class="s-emoji">💬</span>
+                    <div class="s-text"><strong>Call a friend</strong> or join a local walking group — connection boosts mood.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Meals (preview) -->
+        <div class="card-full">
+            <div class="card-title">📋 Today's Meals</div>
+            <div id="todayMealPreview">
+                <div class="empty-state">
+                    <span class="empty-emoji">🍽️</span>
+                    <p>No meals logged yet. Tap "Log Meal" to start.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ─── TAB CONTENT: LOG ─── -->
+    <div class="tab-content" id="tab-log">
+
+        <div class="card-full">
+            <div class="card-title">🍽️ Log a Meal</div>
+            <div class="meal-entry">
+                <div class="meal-row">
+                    <select id="mealSelect">
+                        <option value="">Choose a meal…</option>
+                        <option value="🍔 Burger & Fries">🍔 Burger &amp; Fries (850 cal)</option>
+                        <option value="🍕 Pizza Slice">🍕 Pizza Slice (285 cal)</option>
+                        <option value="🌮 Taco">🌮 Taco (220 cal)</option>
+                        <option value="🥗 Salad">🥗 Salad (150 cal)</option>
+                        <option value="🥪 Sandwich">🥪 Sandwich (400 cal)</option>
+                        <option value="🍣 Sushi Roll">🍣 Sushi Roll (250 cal)</option>
+                        <option value="🥘 Pasta">🥘 Pasta (600 cal)</option>
+                        <option value="🍗 Chicken Breast">🍗 Chicken Breast (165 cal)</option>
+                        <option value="🥑 Avocado Toast">🥑 Avocado Toast (320 cal)</option>
+                        <option value="🥤 Smoothie">🥤 Smoothie (300 cal)</option>
+                        <option value="🍪 Cookie">🍪 Cookie (150 cal)</option>
+                        <option value="🍎 Apple">🍎 Apple (95 cal)</option>
+                        <option value="🥕 Carrot Sticks">🥕 Carrot Sticks (50 cal)</option>
+                    </select>
+                    <input type="number" id="mealCalories" placeholder="Or custom cal" min="0" step="5" />
+                    <button class="btn-add" id="addMealBtn">+ Add</button>
+                </div>
+
+                <div class="meal-history" id="mealHistory">
+                    <div class="empty-state">
+                        <span class="empty-emoji">📭</span>
+                        <p>No meals today yet.</p>
+                    </div>
+                </div>
+                <div class="meal-total" id="mealTotal">Total: 0 cal</div>
+            </div>
+        </div>
+
+        <div class="card-full">
+            <div class="card-title">💧 Water &amp; Steps</div>
+            <div class="habit-controls">
+                <button class="btn-habit green" id="addWaterBtn">💧 +1 cup water</button>
+                <button class="btn-habit" id="addStepsBtn">🚶 +500 steps</button>
+                <button class="btn-habit" id="resetStepsBtn" style="background:#f0ebe5;color:var(--text-light);">↺ Reset steps</button>
+            </div>
+            <div class="habit-display">
+                <div class="hd-item"><span class="hd-val" id="waterDisplay">0</span> <span class="hd-label">cups</span></div>
+                <div class="hd-item"><span class="hd-val" id="stepsDisplay">0</span> <span class="hd-label">steps</span></div>
+            </div>
+            <div class="progress-stat mt-1">
+                <span>Water goal: 8 cups</span>
+                <span class="progress-goal" id="waterPercent">0%</span>
+            </div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="waterProgress" style="width:0%;"></div>
+            </div>
+            <div class="progress-stat">
+                <span>Step goal: 5,000</span>
+                <span class="progress-goal" id="stepsPercent">0%</span>
+            </div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="stepsProgress" style="width:0%;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ─── TAB CONTENT: SUGGEST ─── -->
+    <div class="tab-content" id="tab-suggest">
+        <div class="card-full">
+            <div class="card-title">💡 Personalized Suggestions</div>
+            <div id="suggestionsFull">
+                <!-- populated by JS -->
+            </div>
+        </div>
+        <div class="card-full">
+            <div class="card-title">🌿 Healthy Swaps</div>
+            <div id="swapSuggestions">
+                <!-- populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── TAB CONTENT: REMIND ─── -->
+    <div class="tab-content" id="tab-remind">
+        <div class="card-full">
+            <div class="card-title">⏰ Reminders</div>
+            <div class="reminder-list" id="reminderList">
+                <div class="empty-state">
+                    <span class="empty-emoji">🔔</span>
+                    <p>No reminders yet. Add one below!</p>
+                </div>
+            </div>
+            <div class="add-reminder-form">
+                <input type="text" id="reminderInput" placeholder="e.g. Drink water" maxlength="40" />
+                <input type="time" id="reminderTime" value="12:00" />
+                <button class="btn-sm" id="addReminderBtn">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── TAB CONTENT: PROGRESS ─── -->
+    <div class="tab-content" id="tab-progress">
+        <div class="card-full">
+            <div class="card-title">📊 Your Progress</div>
+            <div id="progressStats">
+                <div class="empty-state">
+                    <span class="empty-emoji">📈</span>
+                    <p>Log some meals and habits to see your progress here.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-full">
+            <div class="card-title">🏆 Weekly Summary</div>
+            <div id="weeklySummary">
+                <p class="text-muted">Data builds as you log. Keep going!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── TABS ─── -->
+    <nav class="tabs" id="tabNav">
+        <button class="tab-btn active" data-tab="home"><span class="tab-emoji">🏠</span>Home</button>
+        <button class="tab-btn" data-tab="log"><span class="tab-emoji">📝</span>Log</button>
+        <button class="tab-btn" data-tab="suggest"><span class="tab-emoji">💡</span>Suggest</button>
+        <button class="tab-btn" data-tab="remind"><span class="tab-emoji">⏰</span>Remind</button>
+        <button class="tab-btn" data-tab="progress"><span class="tab-emoji">📊</span>Progress</button>
+    </nav>
+
+</div>
+
+<script>
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  DATA LAYER
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    const STORAGE_KEY = 'freshStartData';
+
+    function getDefaultData() {
+        return {
+            userName: '',
+            meals: [], // { name, calories, timestamp }
+            water: 0, // cups today
+            steps: 0,
+            reminders: [], // { id, text, time, done }
+            habitLog: [], // { date, type, value }
+            lastDate: new Date().toDateString()
+        };
+    }
+
+    function loadData() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return getDefaultData();
+            const data = JSON.parse(raw);
+            // if date changed, reset daily counters
+            const today = new Date().toDateString();
+            if (data.lastDate !== today) {
+                data.meals = [];
+                data.water = 0;
+                data.steps = 0;
+                data.lastDate = today;
+                // keep reminders, habitLog, userName
+            }
+            // ensure arrays exist
+            if (!Array.isArray(data.meals)) data.meals = [];
+            if (!Array.isArray(data.reminders)) data.reminders = [];
+            if (!Array.isArray(data.habitLog)) data.habitLog = [];
+            if (typeof data.water !== 'number') data.water = 0;
+            if (typeof data.steps !== 'number') data.steps = 0;
+            return data;
+        } catch {
+            return getDefaultData();
+        }
+    }
+
+    function saveData(data) {
+        data.lastDate = new Date().toDateString();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  STATE
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    let data = loadData();
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  DOM REFS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => document.querySelectorAll(s);
+
+    const nameModal = $('#nameModal');
+    const nameInput = $('#nameInput');
+    const nameSubmit = $('#nameSubmit');
+    const userNameDisplay = $('#userNameDisplay');
+    const greetingDisplay = $('#greetingDisplay');
+
+    const todayCalories = $('#todayCalories');
+    const todayWater = $('#todayWater');
+    const todaySteps = $('#todaySteps');
+    const todayHabits = $('#todayHabits');
+
+    const quoteText = $('#quoteText');
+    const quoteAuthor = $('#quoteAuthor');
+    const refreshQuote = $('#refreshQuote');
+
+    const mealSelect = $('#mealSelect');
+    const mealCalories = $('#mealCalories');
+    const addMealBtn = $('#addMealBtn');
+    const mealHistory = $('#mealHistory');
+    const mealTotal = $('#mealTotal');
+    const todayMealPreview = $('#todayMealPreview');
+
+    const waterDisplay = $('#waterDisplay');
+    const stepsDisplay = $('#stepsDisplay');
+    const addWaterBtn = $('#addWaterBtn');
+    const addStepsBtn = $('#addStepsBtn');
+    const resetStepsBtn = $('#resetStepsBtn');
+    const waterProgress = $('#waterProgress');
+    const stepsProgress = $('#stepsProgress');
+    const waterPercent = $('#waterPercent');
+    const stepsPercent = $('#stepsPercent');
+
+    const reminderList = $('#reminderList');
+    const reminderInput = $('#reminderInput');
+    const reminderTime = $('#reminderTime');
+    const addReminderBtn = $('#addReminderBtn');
+
+    const suggestionList = $('#suggestionList');
+    const suggestionsFull = $('#suggestionsFull');
+    const swapSuggestions = $('#swapSuggestions');
+    const progressStats = $('#progressStats');
+    const weeklySummary = $('#weeklySummary');
+
+    const tabBtns = $$('.tab-btn');
+    const tabContents = $$('.tab-content');
+    const quickBtns = $$('.quick-btn');
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  TOAST
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    let toastTimer;
+
+    function toast(msg, emoji = '✨') {
+        const el = $('#toast');
+        el.textContent = `${emoji} ${msg}`;
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  NAME MODAL
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function showNameModal() {
+        nameModal.classList.add('active');
+        nameInput.focus();
+    }
+
+    function hideNameModal() {
+        nameModal.classList.remove('active');
+    }
+
+    function setUserName(name) {
+        const trimmed = name.trim() || 'Friend';
+        data.userName = trimmed;
+        saveData(data);
+        userNameDisplay.textContent = trimmed;
+        // update greeting emoji based on time
+        const hour = new Date().getHours();
+        let emoji = '😊';
+        if (hour < 12) emoji = '🌅';
+        else if (hour < 17) emoji = '☀️';
+        else emoji = '🌙';
+        greetingDisplay.querySelector('.greeting-emoji').textContent = emoji;
+        toast(`Welcome back, ${trimmed}!`, '👋');
+    }
+
+    nameSubmit.addEventListener('click', () => {
+        const name = nameInput.value.trim() || 'Friend';
+        setUserName(name);
+        hideNameModal();
+    });
+
+    nameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') nameSubmit.click();
+    });
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  QUOTES
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    const quotes = [
+        { text: "Small steps lead to big changes. You're already here — that's a win.", author: "Fresh Start" },
+        { text: "Every healthy choice is a victory, no matter how small.", author: "Fresh Start" },
+        { text: "You deserve to feel good in your body. Start with one kind choice today.", author: "Fresh Start" },
+        { text: "Progress, not perfection. Keep showing up for yourself.", author: "Fresh Start" },
+        { text: "The best time to start was yesterday. The next best time is now.", author: "Fresh Start" },
+        { text: "Your body is your home — treat it with gentle care.", author: "Fresh Start" },
+        { text: "One healthy meal can spark a chain reaction of good choices.", author: "Fresh Start" },
+        { text: "You're not alone on this journey. I'm here with you.", author: "Fresh Start" },
+        { text: "Celebrate every glass of water, every step, every kind thought.", author: "Fresh Start" },
+        { text: "Changing habits takes time. Be patient and kind with yourself.", author: "Fresh Start" },
+    ];
+
+    let currentQuoteIdx = Math.floor(Math.random() * quotes.length);
+
+    function showQuote(index) {
+        const q = quotes[index % quotes.length];
+        quoteText.textContent = `"${q.text}"`;
+        quoteAuthor.textContent = `— ${q.author}`;
+    }
+
+    function randomQuote() {
+        let idx;
+        do {
+            idx = Math.floor(Math.random() * quotes.length);
+        } while (quotes.length > 1 && idx === currentQuoteIdx);
+        currentQuoteIdx = idx;
+        showQuote(idx);
+    }
+
+    refreshQuote.addEventListener('click', randomQuote);
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  RENDER: DASHBOARD
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function getTodayCalories() {
+        return data.meals.reduce((sum, m) => sum + (m.calories || 0), 0);
+    }
+
+    function getHabitsDone() {
+        let count = 0;
+        if (data.water >= 8) count++;
+        if (data.steps >= 5000) count++;
+        if (data.meals.length > 0 && data.meals.some(m => m.calories < 400)) count++;
+        if (data.water >= 4) count++;
+        if (data.steps >= 2500) count++;
+        return Math.min(count, 4);
+    }
+
+    function renderDashboard() {
+        const cal = getTodayCalories();
+        const water = data.water || 0;
+        const steps = data.steps || 0;
+        const habits = getHabitsDone();
+
+        todayCalories.textContent = cal;
+        todayWater.textContent = water;
+        todaySteps.textContent = steps;
+        todayHabits.textContent = habits;
+
+        // progress bars in log tab
+        const waterPct = Math.min((water / 8) * 100, 100);
+        const stepsPct = Math.min((steps / 5000) * 100, 100);
+        waterProgress.style.width = waterPct + '%';
+        stepsProgress.style.width = stepsPct + '%';
+        waterPercent.textContent = Math.round(waterPct) + '%';
+        stepsPercent.textContent = Math.round(stepsPct) + '%';
+        waterDisplay.textContent = water;
+        stepsDisplay.textContent = steps;
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  RENDER: MEALS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function renderMeals() {
+        const meals = data.meals || [];
+        const total = meals.reduce((s, m) => s + (m.calories || 0), 0);
+
+        // full history
+        if (meals.length === 0) {
+            mealHistory.innerHTML = `
+                    <div class="empty-state">
+                        <span class="empty-emoji">📭</span>
+                        <p>No meals today yet.</p>
+                    </div>
+                `;
+        } else {
+            mealHistory.innerHTML = meals.map((m, i) => `
+                    <div class="meal-history-item">
+                        <div class="m-left">
+                            <span class="m-emoji">${m.emoji || '🍽️'}</span>
+                            <span class="m-name">${m.name}</span>
+                            <span class="m-cal">${m.calories} cal</span>
+                        </div>
+                        <button class="m-del" data-idx="${i}" aria-label="Delete meal">✕</button>
+                    </div>
+                `).join('');
+            // delete handlers
+            mealHistory.querySelectorAll('.m-del').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.idx);
+                    data.meals.splice(idx, 1);
+                    saveData(data);
+                    renderAll();
+                    toast('Meal removed', '🗑️');
+                });
+            });
+        }
+
+        mealTotal.textContent = `Total: ${total} cal`;
+
+        // preview on home
+        if (meals.length === 0) {
+            todayMealPreview.innerHTML = `
+                    <div class="empty-state">
+                        <span class="empty-emoji">🍽️</span>
+                        <p>No meals logged yet. Tap "Log Meal" to start.</p>
+                    </div>
+                `;
+        } else {
+            const preview = meals.slice(0, 3).map(m =>
+                `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:14px;border-bottom:1px solid #f5f0ea;">
+                        <span>${m.emoji || '🍽️'} ${m.name}</span>
+                        <span style="color:var(--text-light);">${m.calories} cal</span>
+                    </div>`
+            ).join('');
+            const more = meals.length > 3 ? `<div class="text-muted mt-1">+${meals.length - 3} more</div>` : '';
+            todayMealPreview.innerHTML = preview + more;
+        }
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  RENDER: SUGGESTIONS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    const suggestionPool = [
+        { emoji: '🥗', text: 'Swap one burger for a <strong>salad</strong> — your body will thank you with more energy.' },
+        { emoji: '🚶', text: 'Take a <strong>5-minute walk</strong> after eating — it aids digestion and clears your mind.' },
+        { emoji: '💬', text: '<strong>Call a friend</strong> or join a local walking group — connection boosts mood.' },
+        { emoji: '💧', text: 'Start your day with a <strong>glass of water</strong> — it kickstarts your metabolism.' },
+        { emoji: '🍎', text: 'Keep an <strong>apple or nuts</strong> in your car for a healthier snack option.' },
+        { emoji: '🧘', text: 'Try <strong>3 minutes of deep breathing</strong> before meals — it reduces stress eating.' },
+        { emoji: '📱', text: 'Set a <strong>phone reminder</strong> to stand up and stretch every hour.' },
+        { emoji: '🌿', text: 'Add <strong>one vegetable</strong> to every meal — even a few slices of tomato count.' },
+        { emoji: '😴', text: 'Aim for <strong>7 hours of sleep</strong> — rest helps control cravings.' },
+        { emoji: '📝', text: 'Write down <strong>one thing you\'re grateful for</strong> each day — it lifts your spirit.' },
+    ];
+
+    const swaps = [
+        { from: '🍔 Burger & Fries', to: '🥗 Grilled chicken salad', saving: '~500 cal' },
+        { from: '🥤 Soda', to: '💧 Sparkling water with lemon', saving: '~150 cal' },
+        { from: '🍕 Pizza Slice', to: '🌮 Veggie wrap', saving: '~100 cal' },
+        { from: '🍪 Cookie', to: '🍎 Apple or banana', saving: '~80 cal' },
+        { from: '🥘 Pasta', to: '🥒 Zucchini noodles', saving: '~300 cal' },
+        { from: '🥪 Sandwich', to: '🥗 Lettuce wrap', saving: '~200 cal' },
+    ];
+
+    function renderSuggestions() {
+        // shuffle and pick 3 for home
+        const shuffled = [...suggestionPool].sort(() => Math.random() - 0.5);
+        const homeSuggestions = shuffled.slice(0, 3);
+        suggestionList.innerHTML = homeSuggestions.map(s => `
+                <div class="suggestion-item">
+                    <span class="s-emoji">${s.emoji}</span>
+                    <div class="s-text">${s.text}</div>
+                </div>
+            `).join('');
+
+        // full suggestions page
+        const allSuggestions = [...suggestionPool].sort(() => Math.random() - 0.5);
+        suggestionsFull.innerHTML = allSuggestions.map(s => `
+                <div class="suggestion-item">
+                    <span class="s-emoji">${s.emoji}</span>
+                    <div class="s-text">${s.text}</div>
+                </div>
+            `).join('');
+
+        // swaps
+        swapSuggestions.innerHTML = swaps.map(s => `
+                <div class="suggestion-item">
+                    <span class="s-emoji">🔄</span>
+                    <div class="s-text">
+                        <strong>${s.from}</strong> → <strong>${s.to}</strong>
+                        <span class="s-tag">Save ${s.saving}</span>
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  RENDER: REMINDERS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function renderReminders() {
+        const reminders = data.reminders || [];
+        if (reminders.length === 0) {
+            reminderList.innerHTML = `
+                    <div class="empty-state">
+                        <span class="empty-emoji">🔔</span>
+                        <p>No reminders yet. Add one below!</p>
+                    </div>
+                `;
+            return;
+        }
+        reminderList.innerHTML = reminders.map((r, i) => `
+                <div class="reminder-item">
+                    <div class="r-info">
+                        <span class="r-emoji">⏰</span>
+                        <span class="r-text">${r.text}</span>
+                        <span class="r-time">${r.time || '12:00'}</span>
+                    </div>
+                    <button class="r-done ${r.done ? 'done' : ''}" data-idx="${i}">
+                        ${r.done ? '✓ Done' : 'Mark done'}
+                    </button>
+                </div>
+            `).join('');
+
+        reminderList.querySelectorAll('.r-done').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.idx);
+                data.reminders[idx].done = !data.reminders[idx].done;
+                saveData(data);
+                renderReminders();
+                toast(data.reminders[idx].done ? 'Nice work! ✅' : 'Unmarked', '🔄');
+                renderDashboard();
+            });
+        });
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  RENDER: PROGRESS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function renderProgress() {
+        const meals = data.meals || [];
+        const totalCal = meals.reduce((s, m) => s + (m.calories || 0), 0);
+        const water = data.water || 0;
+        const steps = data.steps || 0;
+        const reminderDone = (data.reminders || []).filter(r => r.done).length;
+        const totalReminders = (data.reminders || []).length;
+
+        if (meals.length === 0 && water === 0 && steps === 0 && totalReminders === 0) {
+            progressStats.innerHTML = `
+                    <div class="empty-state">
+                        <span class="empty-emoji">📈</span>
+                        <p>Log some meals and habits to see your progress here.</p>
+                    </div>
+                `;
+            weeklySummary.innerHTML = `<p class="text-muted">Data builds as you log. Keep going!</p>`;
+            return;
+        }
+
+        const calGoal = 2000;
+        const waterGoal = 8;
+        const stepsGoal = 5000;
+
+        progressStats.innerHTML = `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div style="background:var(--bg);border-radius:12px;padding:14px;text-align:center;">
+                        <div style="font-size:28px;">🔥</div>
+                        <div style="font-size:22px;font-weight:700;color:var(--primary-dark);">${totalCal}</div>
+                        <div style="font-size:12px;color:var(--text-light);">Calories / ${calGoal}</div>
+                        <div class="progress-bar-wrap" style="margin:6px 0 0;">
+                            <div class="progress-bar-fill" style="width:${Math.min((totalCal/calGoal)*100,100)}%;"></div>
+                        </div>
+                    </div>
+                    <div style="background:var(--bg);border-radius:12px;padding:14px;text-align:center;">
+                        <div style="font-size:28px;">💧</div>
+                        <div style="font-size:22px;font-weight:700;color:var(--green);">${water}</div>
+                        <div style="font-size:12px;color:var(--text-light);">Cups / ${waterGoal}</div>
+                        <div class="progress-bar-wrap" style="margin:6px 0 0;">
+                            <div class="progress-bar-fill" style="width:${Math.min((water/waterGoal)*100,100)}%;background:var(--green);"></div>
+                        </div>
+                    </div>
+                    <div style="background:var(--bg);border-radius:12px;padding:14px;text-align:center;">
+                        <div style="font-size:28px;">👣</div>
+                        <div style="font-size:22px;font-weight:700;color:var(--blue);">${steps}</div>
+                        <div style="font-size:12px;color:var(--text-light);">Steps / ${stepsGoal}</div>
+                        <div class="progress-bar-wrap" style="margin:6px 0 0;">
+                            <div class="progress-bar-fill" style="width:${Math.min((steps/stepsGoal)*100,100)}%;background:var(--blue);"></div>
+                        </div>
+                    </div>
+                    <div style="background:var(--bg);border-radius:12px;padding:14px;text-align:center;">
+                        <div style="font-size:28px;">✅</div>
+                        <div style="font-size:22px;font-weight:700;color:var(--primary-dark);">${reminderDone}/${totalReminders}</div>
+                        <div style="font-size:12px;color:var(--text-light);">Reminders done</div>
+                        <div class="progress-bar-wrap" style="margin:6px 0 0;">
+                            <div class="progress-bar-fill" style="width:${totalReminders ? Math.min((reminderDone/totalReminders)*100,100) : 0}%;background:var(--primary);"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        // weekly summary (simple)
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        let weekData = [];
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(d.getDate() - i);
+            weekData.push({
+                day: days[d.getDay()],
+                date: d.toDateString(),
+                isToday: i === 0
+            });
+        }
+
+        // We don't have per-day history in this simple version, so show a motivational message
+        weeklySummary.innerHTML = `
+                <div style="display:flex;justify-content:space-between;gap:4px;flex-wrap:wrap;">
+                    ${weekData.map(w => `
+                        <div style="flex:1;text-align:center;padding:8px 2px;background:${w.isToday ? 'var(--primary-light)' : 'var(--bg)'};border-radius:8px;min-width:32px;">
+                            <div style="font-size:11px;font-weight:600;color:var(--text-light);">${w.day}</div>
+                            <div style="font-size:16px;font-weight:700;color:${w.isToday ? 'var(--primary-dark)' : 'var(--text-light)'};">${w.isToday ? '⭐' : '·'}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <p class="text-muted mt-1" style="text-align:center;">Keep logging each day to build your streak! 🌟</p>
+            `;
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  RENDER ALL
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function renderAll() {
+        renderDashboard();
+        renderMeals();
+        renderSuggestions();
+        renderReminders();
+        renderProgress();
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  ACTIONS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function addMeal() {
+        let name = mealSelect.value;
+        let calories = parseInt(mealCalories.value);
+
+        if (!name && !calories) {
+            toast('Please select a meal or enter calories', '⚠️');
+            return;
+        }
+
+        // if custom calories entered, use those
+        if (calories > 0) {
+            // if name is empty, use "Custom meal"
+            if (!name) name = '🍽️ Custom meal';
+        } else {
+            // extract calories from select
+            const match = name.match(/\((\d+)\s*cal\)/);
+            if (match) {
+                calories = parseInt(match[1]);
+            } else {
+                toast('Please enter calorie count', '⚠️');
+                return;
+            }
+        }
+
+        // clean name: remove calorie suffix
+        const cleanName = name.replace(/\s*\(.*\)/, '').trim();
+
+        // get emoji from select or default
+        let emoji = '🍽️';
+        if (name.includes('Burger')) emoji = '🍔';
+        else if (name.includes('Pizza')) emoji = '🍕';
+        else if (name.includes('Taco')) emoji = '🌮';
+        else if (name.includes('Salad')) emoji = '🥗';
+        else if (name.includes('Sandwich')) emoji = '🥪';
+        else if (name.includes('Sushi')) emoji = '🍣';
+        else if (name.includes('Pasta')) emoji = '🥘';
+        else if (name.includes('Chicken')) emoji = '🍗';
+        else if (name.includes('Avocado')) emoji = '🥑';
+        else if (name.includes('Smoothie')) emoji = '🥤';
+        else if (name.includes('Cookie')) emoji = '🍪';
+        else if (name.includes('Apple')) emoji = '🍎';
+        else if (name.includes('Carrot')) emoji = '🥕';
+
+        data.meals.push({
+            name: cleanName,
+            calories: calories,
+            emoji: emoji,
+            timestamp: Date.now()
+        });
+
+        saveData(data);
+        mealSelect.value = '';
+        mealCalories.value = '';
+        renderAll();
+        toast(`Logged ${cleanName} (${calories} cal)`, '✅');
+
+        // Suggest healthier swap if high calorie
+        if (calories > 600) {
+            setTimeout(() => {
+                toast('💡 Try a lighter option next time!', '🌿');
+            }, 1200);
+        }
+    }
+
+    function addWater() {
+        data.water = (data.water || 0) + 1;
+        saveData(data);
+        renderAll();
+        const goal = data.water >= 8 ? '🎉 Goal reached!' : `${8 - data.water} more to go`;
+        toast(`💧 ${data.water} cups — ${goal}`, '💧');
+    }
+
+    function addSteps(amount = 500) {
+        data.steps = (data.steps || 0) + amount;
+        saveData(data);
+        renderAll();
+        const goal = data.steps >= 5000 ? '🎉 Step goal reached!' : `${5000 - data.steps} steps to go`;
+        toast(`🚶 ${data.steps} steps — ${goal}`, '🚶');
+    }
+
+    function resetSteps() {
+        data.steps = 0;
+        saveData(data);
+        renderAll();
+        toast('Steps reset', '🔄');
+    }
+
+    function addReminder() {
+        const text = reminderInput.value.trim();
+        const time = reminderTime.value || '12:00';
+        if (!text) {
+            toast('Please enter a reminder', '⚠️');
+            return;
+        }
+        data.reminders.push({
+            id: Date.now(),
+            text: text,
+            time: time,
+            done: false
+        });
+        saveData(data);
+        reminderInput.value = '';
+        renderAll();
+        toast(`Reminder set: ${text} at ${time}`, '🔔');
+    }
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  TAB SWITCHING
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function switchTab(tabId) {
+        tabBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tabId);
+        });
+        tabContents.forEach(content => {
+            content.classList.toggle('active', content.id === `tab-${tabId}`);
+        });
+        // re-render progress when switching to it
+        if (tabId === 'progress') renderProgress();
+        if (tabId === 'suggest') renderSuggestions();
+    }
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            switchTab(btn.dataset.tab);
+        });
+    });
+
+    quickBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            if (tab) switchTab(tab);
+        });
+    });
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  EVENT BINDINGS
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    addMealBtn.addEventListener('click', addMeal);
+    mealCalories.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') addMeal();
+    });
+    mealSelect.addEventListener('change', () => {
+        const val = mealSelect.value;
+        const match = val.match(/\((\d+)\s*cal\)/);
+        if (match) {
+            mealCalories.value = match[1];
+        }
+    });
+
+    addWaterBtn.addEventListener('click', addWater);
+    addStepsBtn.addEventListener('click', () => addSteps(500));
+    resetStepsBtn.addEventListener('click', resetSteps);
+
+    addReminderBtn.addEventListener('click', addReminder);
+    reminderInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') addReminder();
+    });
+
+    // quick actions from home
+    document.getElementById('quickWater').addEventListener('click', () => {
+        addWater();
+        switchTab('log');
+    });
+    document.getElementById('quickSteps').addEventListener('click', () => {
+        addSteps(500);
+        switchTab('log');
+    });
+
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    //  INIT
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    function init() {
+        // check if user name is set
+        if (!data.userName) {
+            showNameModal();
+        } else {
+            setUserName(data.userName);
+        }
+
+        // show random quote
+        randomQuote();
+
+        renderAll();
+
+        // check if any reminders are due (simple: show a notification)
+        const dueReminders = (data.reminders || []).filter(r => !r.done);
+        if (dueReminders.length > 0) {
+            setTimeout(() => {
+                toast(`You have ${dueReminders.length} reminders pending`, '🔔');
+            }, 1500);
+        }
+
+        // auto-save on visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) saveData(data);
+        });
+
+        console.log('🌱 Fresh Start loaded!');
+        console.log('💡 Remember: small steps lead to big changes.');
+    }
+
+    init();
+</script>
+
+</body>
+</html>
