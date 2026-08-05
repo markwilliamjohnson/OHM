@@ -1,0 +1,1993 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1d6f5f" />
+  <title>Small Steps — Daily Health Companion</title>
+  <style>
+    :root {
+      --bg: #f4f7f5;
+      --panel: #ffffff;
+      --ink: #18302b;
+      --muted: #60756f;
+      --accent: #1d6f5f;
+      --accent-2: #dff3eb;
+      --warning: #a85c11;
+      --warning-bg: #fff1df;
+      --danger: #a13d3d;
+      --danger-bg: #fdeaea;
+      --line: #dce7e2;
+      --shadow: 0 12px 30px rgba(18, 58, 48, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top right, rgba(92, 184, 156, 0.14), transparent 30rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform .12s ease, opacity .12s ease, background .12s ease;
+    }
+
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+
+    .app-shell {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding-bottom: 50px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(244, 247, 245, 0.88);
+      border-bottom: 1px solid rgba(220, 231, 226, .8);
+    }
+
+    .header-inner {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--accent);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: var(--shadow);
+      flex: 0 0 auto;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.1;
+    }
+
+    .brand small { color: var(--muted); }
+
+    nav {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar { display: none; }
+
+    .nav-btn {
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 12px;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .nav-btn.active {
+      color: var(--accent);
+      background: var(--accent-2);
+    }
+
+    .page { display: none; padding-top: 24px; }
+    .page.active { display: block; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.55fr .95fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    .hero-main {
+      padding: 27px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ffffff, #eef9f4);
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      right: -80px;
+      bottom: -100px;
+      border-radius: 50%;
+      border: 34px solid rgba(29,111,95,.08);
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .11em;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    h2, h3 { margin-top: 0; }
+    h2 { font-size: clamp(1.55rem, 3vw, 2.35rem); margin-bottom: 10px; }
+    h3 { font-size: 1.06rem; margin-bottom: 12px; }
+
+    .lead { max-width: 720px; color: var(--muted); font-size: 1.04rem; }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: white;
+      padding: 11px 15px;
+      font-weight: 800;
+    }
+
+    .secondary {
+      background: var(--accent-2);
+      color: var(--accent);
+      padding: 11px 15px;
+      font-weight: 800;
+    }
+
+    .ghost {
+      background: #eef3f1;
+      color: var(--ink);
+      padding: 10px 13px;
+      font-weight: 700;
+    }
+
+    .danger-button {
+      background: var(--danger-bg);
+      color: var(--danger);
+      padding: 10px 13px;
+      font-weight: 800;
+    }
+
+    .suggestion {
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      background: #173c34;
+      color: white;
+    }
+
+    .suggestion-icon {
+      background: rgba(255,255,255,.13);
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      font-size: 20px;
+    }
+
+    .suggestion p { color: rgba(255,255,255,.82); margin: 5px 0 0; }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      font-size: 1.55rem;
+      font-weight: 900;
+      margin: 5px 0 2px;
+    }
+
+    .stat-note {
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 13px;
+    }
+
+    .section-heading h3 { margin: 0; }
+    .subtle { color: var(--muted); font-size: .88rem; }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e6efeb;
+      overflow: hidden;
+      margin: 12px 0 6px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: inherit;
+      width: 0;
+      transition: width .3s ease;
+    }
+
+    .habits {
+      display: grid;
+      gap: 10px;
+    }
+
+    .habit {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fbfdfc;
+    }
+
+    .habit-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--accent-2);
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+    }
+
+    .habit-name { font-weight: 800; }
+    .habit-meta { color: var(--muted); font-size: .8rem; }
+
+    .habit-action {
+      min-width: 86px;
+      background: #edf3f0;
+      color: var(--ink);
+      padding: 9px 11px;
+      font-weight: 800;
+    }
+
+    .habit-action.done {
+      background: var(--accent);
+      color: white;
+    }
+
+    .checkin-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .range-line {
+      display: grid;
+      grid-template-columns: 90px 1fr 34px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 13px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .form-field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: .82rem;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      padding: 11px 12px;
+      border-radius: 12px;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #7db6a5;
+      box-shadow: 0 0 0 3px rgba(29,111,95,.1);
+    }
+
+    textarea { min-height: 90px; resize: vertical; }
+
+    .quick-foods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 16px;
+    }
+
+    .chip {
+      background: #eef4f1;
+      color: var(--ink);
+      padding: 8px 10px;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    .meal-list, .reminder-list, .journal-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .list-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fbfdfc;
+    }
+
+    .list-row strong { display: block; }
+    .list-row small { color: var(--muted); }
+    .row-actions { display: flex; gap: 7px; }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      background: #edf3f0;
+      color: var(--ink);
+    }
+
+    .icon-btn.danger { background: var(--danger-bg); color: var(--danger); }
+
+    .calorie-overview {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .ring {
+      --p: 0;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(var(--accent) calc(var(--p) * 1%), #e5eeea 0);
+      position: relative;
+    }
+
+    .ring::before {
+      content: "";
+      position: absolute;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .ring-content {
+      position: relative;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .ring-content strong { font-size: 1.45rem; display: block; }
+    .ring-content span { color: var(--muted); font-size: .77rem; }
+
+    .callout {
+      border-radius: 14px;
+      padding: 13px 14px;
+      background: var(--warning-bg);
+      color: #74420d;
+      font-size: .9rem;
+      margin-top: 14px;
+    }
+
+    .success-callout {
+      background: var(--accent-2);
+      color: #145345;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 100%;
+      height: 230px;
+      border-radius: 12px;
+    }
+
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 22px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+    }
+
+    .day-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 6px;
+    }
+
+    .day-pill {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .day-pill.selected {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .privacy-note {
+      font-size: .83rem;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(15, 35, 30, .58);
+      place-items: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open { display: grid; }
+
+    .modal {
+      width: min(580px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 22px;
+      padding: 23px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.25);
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 200;
+      display: grid;
+      gap: 9px;
+      width: min(340px, calc(100% - 32px));
+    }
+
+    .toast {
+      background: #173c34;
+      color: white;
+      padding: 13px 15px;
+      border-radius: 14px;
+      box-shadow: 0 15px 45px rgba(0,0,0,.2);
+      animation: slideIn .2s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(10px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .muted-divider {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 18px 0;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: .78rem;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .grid-2 { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .header-inner { align-items: flex-start; padding: 11px 0; flex-direction: column; gap: 8px; }
+      header { position: static; }
+      nav { width: 100%; }
+    }
+
+    @media (max-width: 580px) {
+      .app-shell, .header-inner { width: min(100% - 18px, 1180px); }
+      .grid-4, .form-grid { grid-template-columns: 1fr; }
+      .calorie-overview { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+      .hero-main { padding: 21px; }
+      .card { padding: 16px; }
+      .range-line { grid-template-columns: 76px 1fr 28px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">↗</div>
+      <div>
+        <h1>Small Steps</h1>
+        <small>Health without guilt or grand gestures</small>
+      </div>
+    </div>
+    <nav aria-label="Main navigation">
+      <button class="nav-btn active" data-page="today">Today</button>
+      <button class="nav-btn" data-page="food">Food</button>
+      <button class="nav-btn" data-page="habits">Habits</button>
+      <button class="nav-btn" data-page="reminders">Reminders</button>
+      <button class="nav-btn" data-page="progress">Progress</button>
+      <button class="nav-btn" data-page="settings">Settings</button>
+    </nav>
+  </div>
+</header>
+
+<main class="app-shell">
+  <section id="today" class="page active">
+    <div class="hero">
+      <div class="card hero-main">
+        <div class="eyebrow" id="todayDate"></div>
+        <h2 id="greeting">A better day can start very small.</h2>
+        <p class="lead">
+          No lectures. No perfect diet. Choose one useful action that feels possible today,
+          then let the app keep track.
+        </p>
+        <div class="button-row">
+          <button class="primary" data-go="food">Log food</button>
+          <button class="secondary" id="quickWalk">Start a 5-minute walk</button>
+          <button class="ghost" id="openCheckin">Daily check-in</button>
+        </div>
+      </div>
+      <div class="card suggestion">
+        <div class="suggestion-icon" id="suggestionIcon">💡</div>
+        <div>
+          <strong>Your next small step</strong>
+          <p id="suggestionText">Log how you are feeling. The app will use it to make gentler suggestions.</p>
+          <button class="secondary" id="newSuggestion" style="margin-top:12px;">Another idea</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="card stat">
+        <div class="stat-label">Calories logged</div>
+        <div class="stat-value" id="todayCalories">0</div>
+        <div class="stat-note" id="calorieTargetNote">Target: 2,200 kcal</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-label">Movement</div>
+        <div class="stat-value" id="todayMovement">0 min</div>
+        <div class="stat-note">Every minute counts</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-label">Helpful habits</div>
+        <div class="stat-value" id="todayHabitScore">0/6</div>
+        <div class="stat-note">No need to complete them all</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-label">Current streak</div>
+        <div class="stat-value" id="streakValue">0 days</div>
+        <div class="stat-note">A day counts with any positive action</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Today’s helpful habits</h3>
+            <div class="subtle">Tap once when completed</div>
+          </div>
+          <button class="ghost" data-go="habits">See all</button>
+        </div>
+        <div id="todayHabits" class="habits"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>How are you doing?</h3>
+            <div class="subtle">A private daily check-in</div>
+          </div>
+          <button class="ghost" id="editCheckin">Update</button>
+        </div>
+        <div id="checkinSummary" class="empty">No check-in yet today.</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Food today</h3>
+            <div class="subtle">A rough record is more useful than no record</div>
+          </div>
+          <button class="ghost" data-go="food">Add meal</button>
+        </div>
+        <div class="progress-bar"><div id="miniCalorieProgress" class="progress-fill"></div></div>
+        <div id="miniCalorieText" class="subtle">0 of 2,200 kcal</div>
+        <div id="todayMealPreview" class="meal-list"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Low-pressure social ideas</h3>
+            <div class="subtle">Connection can be tiny and still matter</div>
+          </div>
+        </div>
+        <div id="socialIdeas" class="habits"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="food" class="page">
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Log food or drink</h3>
+            <div class="subtle">Use the label or packet estimate when possible</div>
+          </div>
+        </div>
+        <form id="mealForm" class="form-grid">
+          <div class="form-field full">
+            <label for="mealName">Food or meal</label>
+            <input id="mealName" required placeholder="e.g. cheeseburger and fries" />
+          </div>
+          <div class="form-field">
+            <label for="mealCalories">Estimated calories</label>
+            <input id="mealCalories" type="number" min="0" max="10000" required placeholder="e.g. 950" />
+          </div>
+          <div class="form-field">
+            <label for="mealContext">Where did you eat?</label>
+            <select id="mealContext">
+              <option value="home">At home / table</option>
+              <option value="car">In the car</option>
+              <option value="work">At work</option>
+              <option value="restaurant">Restaurant / café</option>
+              <option value="other">Somewhere else</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="mealTime">Time</label>
+            <input id="mealTime" type="time" />
+          </div>
+          <div class="form-field">
+            <label for="mealType">Meal type</label>
+            <select id="mealType">
+              <option>Breakfast</option>
+              <option>Lunch</option>
+              <option selected>Dinner</option>
+              <option>Snack</option>
+              <option>Drink</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="mealNote">Optional note</label>
+            <input id="mealNote" placeholder="Hungry, bored, rushed, social, enjoyable…" />
+          </div>
+          <div class="form-field full">
+            <button class="primary" type="submit">Add to today</button>
+          </div>
+        </form>
+
+        <div class="quick-foods">
+          <button class="chip" data-food="Burger meal" data-cal="1050">Burger meal · 1050</button>
+          <button class="chip" data-food="Cheeseburger" data-cal="550">Cheeseburger · 550</button>
+          <button class="chip" data-food="Large fries" data-cal="480">Large fries · 480</button>
+          <button class="chip" data-food="Sugary drink" data-cal="210">Sugary drink · 210</button>
+          <button class="chip" data-food="Chicken wrap" data-cal="520">Chicken wrap · 520</button>
+          <button class="chip" data-food="Porridge" data-cal="320">Porridge · 320</button>
+          <button class="chip" data-food="Banana" data-cal="105">Banana · 105</button>
+        </div>
+        <div class="callout">
+          Calorie values are approximate. This is a practical awareness tool, not a medical diet plan.
+          For persistent weight, heart, breathing or mobility concerns, a GP or registered dietitian can give personalised advice.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Today’s calorie picture</h3>
+            <div class="subtle">Treat the target as a guide, not a moral score</div>
+          </div>
+        </div>
+        <div class="calorie-overview">
+          <div class="ring" id="calorieRing">
+            <div class="ring-content">
+              <strong id="ringCalories">0</strong>
+              <span>kcal logged</span>
+            </div>
+          </div>
+          <div>
+            <div class="stat-label">Daily guide</div>
+            <div class="stat-value" id="foodTarget">2,200 kcal</div>
+            <div id="remainingCalories" class="subtle">2,200 kcal remaining</div>
+            <div class="progress-bar"><div id="foodProgress" class="progress-fill"></div></div>
+            <div id="foodMessage" class="callout success-callout">Start by logging one meal honestly.</div>
+          </div>
+        </div>
+        <hr class="muted-divider" />
+        <div class="section-heading">
+          <h3>Entries</h3>
+          <button class="ghost" id="copyYesterday">Copy yesterday</button>
+        </div>
+        <div id="mealList" class="meal-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="habits" class="page">
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Daily habits</h3>
+            <div class="subtle">Make today slightly easier on tomorrow</div>
+          </div>
+        </div>
+        <div id="allHabits" class="habits"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Add movement</h3>
+            <div class="subtle">Walking, stretching and household tasks all count</div>
+          </div>
+        </div>
+        <form id="movementForm" class="form-grid">
+          <div class="form-field">
+            <label for="movementType">Activity</label>
+            <select id="movementType">
+              <option>Walk</option>
+              <option>Gentle stretching</option>
+              <option>Housework</option>
+              <option>Stairs</option>
+              <option>Gym</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="movementMinutes">Minutes</label>
+            <input id="movementMinutes" type="number" min="1" max="600" value="5" required />
+          </div>
+          <div class="form-field full">
+            <button class="primary" type="submit">Add movement</button>
+          </div>
+        </form>
+        <div id="movementList" class="meal-list"></div>
+
+        <hr class="muted-divider" />
+        <h3>Temptation plan</h3>
+        <p class="subtle">Choose a small interruption before an automatic food stop.</p>
+        <div class="form-grid">
+          <div class="form-field full">
+            <label for="pausePlan">Before buying fast food, I will…</label>
+            <select id="pausePlan">
+              <option value="water">Drink water and wait 10 minutes</option>
+              <option value="walk">Walk for 5 minutes first</option>
+              <option value="smaller">Order one size smaller</option>
+              <option value="swap">Swap the sugary drink</option>
+              <option value="table">Eat somewhere other than the car</option>
+              <option value="message">Message someone before ordering</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <button id="savePausePlan" class="secondary">Save my plan</button>
+          </div>
+        </div>
+        <div id="savedPausePlan" class="callout success-callout"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reminders" class="page">
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Create a reminder</h3>
+            <div class="subtle">Notifications work while the page is open; browser support varies</div>
+          </div>
+        </div>
+        <form id="reminderForm" class="form-grid">
+          <div class="form-field full">
+            <label for="reminderText">Reminder</label>
+            <input id="reminderText" required placeholder="Take a short walk" />
+          </div>
+          <div class="form-field">
+            <label for="reminderTime">Time</label>
+            <input id="reminderTime" type="time" required />
+          </div>
+          <div class="form-field">
+            <label for="reminderType">Category</label>
+            <select id="reminderType">
+              <option>Movement</option>
+              <option>Meal</option>
+              <option>Water</option>
+              <option>Social</option>
+              <option>Sleep</option>
+              <option>General</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label>Days</label>
+            <div id="reminderDays" class="day-pills"></div>
+          </div>
+          <div class="form-field full">
+            <button class="primary" type="submit">Save reminder</button>
+          </div>
+        </form>
+        <div class="button-row">
+          <button class="secondary" id="enableNotifications">Enable browser notifications</button>
+          <button class="ghost" id="testReminder">Test reminder</button>
+        </div>
+        <p class="privacy-note">For reliable reminders when the app is closed, a server-backed mobile app or calendar integration would be needed.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Your reminders</h3>
+            <div class="subtle">You can pause any reminder without deleting it</div>
+          </div>
+        </div>
+        <div id="reminderList" class="reminder-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="progress" class="page">
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Last 7 days</h3>
+            <div class="subtle">Calories logged and movement minutes</div>
+          </div>
+        </div>
+        <canvas id="weeklyChart" width="700" height="260"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Weekly reflection</h3>
+            <div class="subtle">Patterns, not perfection</div>
+          </div>
+        </div>
+        <div id="weeklySummary"></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Notes and wins</h3>
+            <div class="subtle">Record anything that made the day easier</div>
+          </div>
+        </div>
+        <form id="journalForm" class="form-grid">
+          <div class="form-field full">
+            <label for="journalText">Today I noticed…</label>
+            <textarea id="journalText" required placeholder="I ate at a table, walked for five minutes, phoned someone, or noticed a trigger…"></textarea>
+          </div>
+          <div class="form-field full">
+            <button class="primary" type="submit">Save note</button>
+          </div>
+        </form>
+        <div id="journalList" class="journal-list"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>When to get extra support</h3>
+            <div class="subtle">The app is not a substitute for healthcare or human contact</div>
+          </div>
+        </div>
+        <p>
+          Consider speaking to a GP, physiotherapist or registered dietitian if breathlessness, chest discomfort,
+          joint pain, very low mood, binge eating, sleep problems or mobility difficulties are persistent.
+        </p>
+        <p>
+          For loneliness, a low-pressure first step might be a regular café, walking group, volunteering,
+          community class, online interest group or a recurring call with one person.
+        </p>
+        <div class="callout">
+          Seek urgent medical help for severe chest pain, sudden breathing difficulty, fainting, or other acute symptoms.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="settings" class="page">
+    <div class="grid-2">
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Your preferences</h3>
+            <div class="subtle">Keep goals realistic and editable</div>
+          </div>
+        </div>
+        <form id="settingsForm" class="form-grid">
+          <div class="form-field">
+            <label for="profileName">First name</label>
+            <input id="profileName" placeholder="Optional" />
+          </div>
+          <div class="form-field">
+            <label for="calorieTarget">Daily calorie guide</label>
+            <input id="calorieTarget" type="number" min="1000" max="6000" step="50" />
+          </div>
+          <div class="form-field">
+            <label for="movementTarget">Daily movement target (minutes)</label>
+            <input id="movementTarget" type="number" min="1" max="300" />
+          </div>
+          <div class="form-field">
+            <label for="toneSetting">Suggestion style</label>
+            <select id="toneSetting">
+              <option value="gentle">Gentle</option>
+              <option value="direct">Direct</option>
+              <option value="playful">Playful</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <button class="primary" type="submit">Save settings</button>
+          </div>
+        </form>
+        <p class="privacy-note">All data stays in this browser unless you export it.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-heading">
+          <div>
+            <h3>Data</h3>
+            <div class="subtle">Backup, restore or clear local records</div>
+          </div>
+        </div>
+        <div class="button-row">
+          <button class="secondary" id="exportData">Export data</button>
+          <label class="ghost" style="display:inline-flex; align-items:center; cursor:pointer;">
+            Import data
+            <input id="importData" type="file" accept="application/json" hidden />
+          </label>
+          <button class="danger-button" id="resetData">Reset everything</button>
+        </div>
+        <hr class="muted-divider" />
+        <h3>Design principle</h3>
+        <p class="subtle">
+          Small Steps avoids punishment, shame and all-or-nothing goals. It is designed to help a person notice patterns,
+          create tiny interruptions in automatic habits, increase movement gradually, and make social contact easier.
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="checkinModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="checkinTitle">
+  <div class="modal">
+    <div class="section-heading">
+      <div>
+        <h3 id="checkinTitle">Daily check-in</h3>
+        <div class="subtle">Use your first instinct</div>
+      </div>
+      <button class="icon-btn" id="closeCheckin" aria-label="Close">✕</button>
+    </div>
+    <form id="checkinForm" class="checkin-grid">
+      <div class="range-line">
+        <label for="moodRange">Mood</label>
+        <input id="moodRange" type="range" min="1" max="5" value="3" />
+        <strong id="moodValue">3</strong>
+      </div>
+      <div class="range-line">
+        <label for="energyRange">Energy</label>
+        <input id="energyRange" type="range" min="1" max="5" value="3" />
+        <strong id="energyValue">3</strong>
+      </div>
+      <div class="range-line">
+        <label for="lonelyRange">Loneliness</label>
+        <input id="lonelyRange" type="range" min="1" max="5" value="3" />
+        <strong id="lonelyValue">3</strong>
+      </div>
+      <div class="range-line">
+        <label for="hungerRange">Hunger</label>
+        <input id="hungerRange" type="range" min="1" max="5" value="3" />
+        <strong id="hungerValue">3</strong>
+      </div>
+      <div class="form-field">
+        <label for="checkinNote">Anything affecting today?</label>
+        <textarea id="checkinNote" placeholder="Poor sleep, stressful shift, long drive, bored, sore knees…"></textarea>
+      </div>
+      <button class="primary" type="submit">Save check-in</button>
+    </form>
+  </div>
+</div>
+
+<div id="toastStack" class="toast-stack" aria-live="polite"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const STORAGE_KEY = "smallStepsHealthApp_v1";
+  const DAY_NAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+  const defaultState = {
+    profile: {
+      name: "",
+      calorieTarget: 2200,
+      movementTarget: 20,
+      tone: "gentle"
+    },
+    meals: {},
+    movements: {},
+    habitChecks: {},
+    checkins: {},
+    reminders: [
+      { id: cryptoId(), text: "Take a 5-minute walk", time: "13:00", type: "Movement", days: [1,2,3,4,5], active: true, lastFired: "" },
+      { id: cryptoId(), text: "Eat one thing with fruit or vegetables", time: "18:00", type: "Meal", days: [0,1,2,3,4,5,6], active: true, lastFired: "" }
+    ],
+    journal: [],
+    pausePlan: "water"
+  };
+
+  const habits = [
+    { id: "water", icon: "💧", name: "Drink water", detail: "One extra glass" },
+    { id: "walk", icon: "🚶", name: "Move for 5 minutes", detail: "Slow is fine" },
+    { id: "veg", icon: "🥕", name: "Add fruit or vegetables", detail: "Add, rather than ban" },
+    { id: "table", icon: "🍽️", name: "Eat one meal outside the car", detail: "Change the setting" },
+    { id: "contact", icon: "💬", name: "Make one social contact", detail: "Message, call or say hello" },
+    { id: "sleep", icon: "🌙", name: "Start winding down", detail: "A small earlier bedtime" }
+  ];
+
+  const socialIdeas = [
+    { icon: "📱", title: "Send one easy message", detail: "“How are things?” is enough." },
+    { icon: "☕", title: "Be around people", detail: "Sit in a café or library for 15 minutes." },
+    { icon: "🚶", title: "Use a recurring place", detail: "The same short walk creates familiar faces." }
+  ];
+
+  let state = loadState();
+  let suggestionIndex = 0;
+
+  const $ = id => document.getElementById(id);
+  const todayKey = () => localDateKey(new Date());
+
+  function cryptoId() {
+    return (crypto?.randomUUID?.() || Math.random().toString(36).slice(2) + Date.now().toString(36));
+  }
+
+  function localDateKey(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function loadState() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      return saved ? mergeState(defaultState, saved) : structuredClone(defaultState);
+    } catch {
+      return structuredClone(defaultState);
+    }
+  }
+
+  function mergeState(base, saved) {
+    return {
+      ...structuredClone(base),
+      ...saved,
+      profile: { ...base.profile, ...(saved.profile || {}) },
+      meals: saved.meals || {},
+      movements: saved.movements || {},
+      habitChecks: saved.habitChecks || {},
+      checkins: saved.checkins || {},
+      reminders: Array.isArray(saved.reminders) ? saved.reminders : base.reminders,
+      journal: Array.isArray(saved.journal) ? saved.journal : [],
+      pausePlan: saved.pausePlan || base.pausePlan
+    };
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      return true;
+    } catch {
+      // The app remains usable for the current session if storage is blocked.
+      return false;
+    }
+  }
+
+  function formatDate(date = new Date()) {
+    return date.toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long" });
+  }
+
+  function formatTime(time) {
+    if (!time) return "";
+    const [h, m] = time.split(":").map(Number);
+    return new Date(2000,0,1,h,m).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+    }[char]));
+  }
+
+  function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+    $("toastStack").appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+  }
+
+  function goToPage(pageId) {
+    document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === pageId));
+    document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active", b.dataset.page === pageId));
+    if (pageId === "progress") requestAnimationFrame(renderProgress);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => goToPage(btn.dataset.page));
+  });
+  document.querySelectorAll("[data-go]").forEach(btn => {
+    btn.addEventListener("click", () => goToPage(btn.dataset.go));
+  });
+
+  function getTodayMeals() {
+    return state.meals[todayKey()] || [];
+  }
+
+  function getTodayMovements() {
+    return state.movements[todayKey()] || [];
+  }
+
+  function getTodayHabitSet() {
+    return new Set(state.habitChecks[todayKey()] || []);
+  }
+
+  function getCalories(dateKey = todayKey()) {
+    return (state.meals[dateKey] || []).reduce((sum, meal) => sum + Number(meal.calories || 0), 0);
+  }
+
+  function getMovementMinutes(dateKey = todayKey()) {
+    return (state.movements[dateKey] || []).reduce((sum, item) => sum + Number(item.minutes || 0), 0);
+  }
+
+  function isPositiveDay(dateKey) {
+    return getCalories(dateKey) > 0 ||
+      getMovementMinutes(dateKey) > 0 ||
+      (state.habitChecks[dateKey] || []).length > 0 ||
+      Boolean(state.checkins[dateKey]);
+  }
+
+  function calculateStreak() {
+    let streak = 0;
+    const date = new Date();
+    for (let i = 0; i < 365; i++) {
+      const key = localDateKey(date);
+      if (isPositiveDay(key)) {
+        streak++;
+        date.setDate(date.getDate() - 1);
+      } else if (i === 0) {
+        date.setDate(date.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
+
+  function renderAll() {
+    renderHeader();
+    renderDashboard();
+    renderMeals();
+    renderHabits();
+    renderMovements();
+    renderCheckin();
+    renderReminders();
+    renderSettings();
+    renderJournal();
+    renderPausePlan();
+    renderProgress();
+    updateSuggestion();
+  }
+
+  function renderHeader() {
+    $("todayDate").textContent = formatDate();
+    const name = state.profile.name.trim();
+    const hour = new Date().getHours();
+    const part = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+    $("greeting").textContent = name ? `${part}, ${name}. Start with one small thing.` : "A better day can start very small.";
+  }
+
+  function renderDashboard() {
+    const calories = getCalories();
+    const target = Number(state.profile.calorieTarget);
+    const movement = getMovementMinutes();
+    const completed = getTodayHabitSet().size;
+
+    $("todayCalories").textContent = calories.toLocaleString();
+    $("calorieTargetNote").textContent = `Guide: ${target.toLocaleString()} kcal`;
+    $("todayMovement").textContent = `${movement} min`;
+    $("todayHabitScore").textContent = `${completed}/${habits.length}`;
+    const streak = calculateStreak();
+    $("streakValue").textContent = `${streak} day${streak === 1 ? "" : "s"}`;
+
+    const pct = Math.min(100, target ? (calories / target) * 100 : 0);
+    $("miniCalorieProgress").style.width = `${pct}%`;
+    $("miniCalorieText").textContent = `${calories.toLocaleString()} of ${target.toLocaleString()} kcal`;
+
+    renderHabitContainer("todayHabits", habits.slice(0, 4));
+
+    const preview = $("todayMealPreview");
+    const meals = getTodayMeals().slice(-3).reverse();
+    preview.innerHTML = meals.length ? meals.map(meal => `
+      <div class="list-row">
+        <div><strong>${escapeHtml(meal.name)}</strong><small>${escapeHtml(meal.type)} · ${escapeHtml(meal.context)}</small></div>
+        <strong>${Number(meal.calories).toLocaleString()} kcal</strong>
+      </div>
+    `).join("") : `<div class="empty">No food logged yet.</div>`;
+
+    $("socialIdeas").innerHTML = socialIdeas.map(item => `
+      <div class="habit">
+        <div class="habit-icon">${item.icon}</div>
+        <div><div class="habit-name">${item.title}</div><div class="habit-meta">${item.detail}</div></div>
+        <button class="habit-action" data-social="${escapeHtml(item.title)}">Try it</button>
+      </div>
+    `).join("");
+
+    document.querySelectorAll("[data-social]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        toggleHabit("contact", true);
+        showToast("Social step counted. Small contact still counts.");
+      });
+    });
+  }
+
+  function renderHabitContainer(containerId, list) {
+    const completed = getTodayHabitSet();
+    $(containerId).innerHTML = list.map(habit => {
+      const done = completed.has(habit.id);
+      return `
+        <div class="habit">
+          <div class="habit-icon">${habit.icon}</div>
+          <div>
+            <div class="habit-name">${habit.name}</div>
+            <div class="habit-meta">${habit.detail}</div>
+          </div>
+          <button class="habit-action ${done ? "done" : ""}" data-habit="${habit.id}">
+            ${done ? "Done ✓" : "Mark done"}
+          </button>
+        </div>
+      `;
+    }).join("");
+
+    $(containerId).querySelectorAll("[data-habit]").forEach(btn => {
+      btn.addEventListener("click", () => toggleHabit(btn.dataset.habit));
+    });
+  }
+
+  function toggleHabit(id, forceDone = false) {
+    const key = todayKey();
+    const set = new Set(state.habitChecks[key] || []);
+    if (forceDone) set.add(id);
+    else set.has(id) ? set.delete(id) : set.add(id);
+    state.habitChecks[key] = [...set];
+    saveState();
+    renderDashboard();
+    renderHabits();
+    updateSuggestion();
+  }
+
+  function renderHabits() {
+    renderHabitContainer("allHabits", habits);
+  }
+
+  $("mealForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const key = todayKey();
+    state.meals[key] = state.meals[key] || [];
+    state.meals[key].push({
+      id: cryptoId(),
+      name: $("mealName").value.trim(),
+      calories: Number($("mealCalories").value),
+      context: $("mealContext").value,
+      time: $("mealTime").value || new Date().toTimeString().slice(0,5),
+      type: $("mealType").value,
+      note: $("mealNote").value.trim()
+    });
+    saveState();
+    event.target.reset();
+    $("mealTime").value = new Date().toTimeString().slice(0,5);
+    renderAll();
+    showToast("Meal added. Honest logging is useful information.");
+  });
+
+  document.querySelectorAll("[data-food]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      $("mealName").value = btn.dataset.food;
+      $("mealCalories").value = btn.dataset.cal;
+      $("mealName").focus();
+    });
+  });
+
+  function renderMeals() {
+    const meals = getTodayMeals();
+    const calories = getCalories();
+    const target = Number(state.profile.calorieTarget);
+    const pct = target ? Math.round((calories / target) * 100) : 0;
+
+    $("calorieRing").style.setProperty("--p", Math.min(100, pct));
+    $("ringCalories").textContent = calories.toLocaleString();
+    $("foodTarget").textContent = `${target.toLocaleString()} kcal`;
+    $("remainingCalories").textContent = calories <= target
+      ? `${(target - calories).toLocaleString()} kcal remaining in the guide`
+      : `${(calories - target).toLocaleString()} kcal above the guide`;
+    $("foodProgress").style.width = `${Math.min(100, pct)}%`;
+
+    const carMeals = meals.filter(m => m.context === "car").length;
+    let message = "Start by logging one meal honestly.";
+    if (meals.length && calories <= target) message = "You are building awareness. Keep the next choice ordinary and manageable.";
+    if (carMeals >= 1) message = "Try making the next meal different in location, even if the food stays the same.";
+    if (calories > target) message = "The guide has been exceeded. Do not compensate harshly—log the day, drink water, and return to normal choices.";
+    $("foodMessage").textContent = message;
+
+    $("mealList").innerHTML = meals.length ? meals.slice().reverse().map(meal => `
+      <div class="list-row">
+        <div>
+          <strong>${escapeHtml(meal.name)}</strong>
+          <small>${escapeHtml(meal.type)} · ${formatTime(meal.time)} · ${contextLabel(meal.context)}
+          ${meal.note ? ` · ${escapeHtml(meal.note)}` : ""}</small>
+        </div>
+        <div class="row-actions">
+          <strong>${Number(meal.calories).toLocaleString()} kcal</strong>
+          <button class="icon-btn danger" data-delete-meal="${meal.id}" aria-label="Delete meal">✕</button>
+        </div>
+      </div>
+    `).join("") : `<div class="empty">Nothing logged today.</div>`;
+
+    document.querySelectorAll("[data-delete-meal]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.meals[todayKey()] = getTodayMeals().filter(m => m.id !== btn.dataset.deleteMeal);
+        saveState();
+        renderAll();
+        showToast("Meal removed.");
+      });
+    });
+  }
+
+  function contextLabel(context) {
+    return {
+      home: "at a table/home",
+      car: "in the car",
+      work: "at work",
+      restaurant: "restaurant/café",
+      other: "elsewhere"
+    }[context] || context;
+  }
+
+  $("copyYesterday").addEventListener("click", () => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    const yesterday = state.meals[localDateKey(d)] || [];
+    if (!yesterday.length) {
+      showToast("There are no meals logged yesterday.");
+      return;
+    }
+    state.meals[todayKey()] = [
+      ...(state.meals[todayKey()] || []),
+      ...yesterday.map(m => ({ ...m, id: cryptoId(), time: m.time }))
+    ];
+    saveState();
+    renderAll();
+    showToast("Yesterday’s entries copied. Edit by deleting anything different.");
+  });
+
+  $("movementForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const key = todayKey();
+    state.movements[key] = state.movements[key] || [];
+    state.movements[key].push({
+      id: cryptoId(),
+      type: $("movementType").value,
+      minutes: Number($("movementMinutes").value),
+      time: new Date().toTimeString().slice(0,5)
+    });
+    state.habitChecks[key] = [...new Set([...(state.habitChecks[key] || []), "walk"])];
+    saveState();
+    renderAll();
+    showToast("Movement added. That counts.");
+  });
+
+  $("quickWalk").addEventListener("click", () => {
+    const key = todayKey();
+    state.movements[key] = state.movements[key] || [];
+    state.movements[key].push({
+      id: cryptoId(),
+      type: "5-minute walk",
+      minutes: 5,
+      time: new Date().toTimeString().slice(0,5)
+    });
+    state.habitChecks[key] = [...new Set([...(state.habitChecks[key] || []), "walk"])];
+    saveState();
+    renderAll();
+    showToast("Five minutes recorded. Start gently.");
+  });
+
+  function renderMovements() {
+    const items = getTodayMovements();
+    $("movementList").innerHTML = items.length ? items.slice().reverse().map(item => `
+      <div class="list-row">
+        <div><strong>${escapeHtml(item.type)}</strong><small>${formatTime(item.time)}</small></div>
+        <div class="row-actions">
+          <strong>${item.minutes} min</strong>
+          <button class="icon-btn danger" data-delete-movement="${item.id}">✕</button>
+        </div>
+      </div>
+    `).join("") : `<div class="empty">No movement logged today.</div>`;
+
+    document.querySelectorAll("[data-delete-movement]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.movements[todayKey()] = getTodayMovements().filter(m => m.id !== btn.dataset.deleteMovement);
+        saveState();
+        renderAll();
+      });
+    });
+  }
+
+  function openCheckin() {
+    const c = state.checkins[todayKey()];
+    if (c) {
+      $("moodRange").value = c.mood;
+      $("energyRange").value = c.energy;
+      $("lonelyRange").value = c.loneliness;
+      $("hungerRange").value = c.hunger;
+      $("checkinNote").value = c.note || "";
+    }
+    updateRangeLabels();
+    $("checkinModal").classList.add("open");
+  }
+
+  function closeCheckin() {
+    $("checkinModal").classList.remove("open");
+  }
+
+  $("openCheckin").addEventListener("click", openCheckin);
+  $("editCheckin").addEventListener("click", openCheckin);
+  $("closeCheckin").addEventListener("click", closeCheckin);
+  $("checkinModal").addEventListener("click", e => {
+    if (e.target === $("checkinModal")) closeCheckin();
+  });
+
+  ["mood","energy","lonely","hunger"].forEach(name => {
+    $(`${name}Range`).addEventListener("input", updateRangeLabels);
+  });
+
+  function updateRangeLabels() {
+    ["mood","energy","lonely","hunger"].forEach(name => {
+      $(`${name}Value`).textContent = $(`${name}Range`).value;
+    });
+  }
+
+  $("checkinForm").addEventListener("submit", event => {
+    event.preventDefault();
+    state.checkins[todayKey()] = {
+      mood: Number($("moodRange").value),
+      energy: Number($("energyRange").value),
+      loneliness: Number($("lonelyRange").value),
+      hunger: Number($("hungerRange").value),
+      note: $("checkinNote").value.trim(),
+      savedAt: new Date().toISOString()
+    };
+    saveState();
+    closeCheckin();
+    renderAll();
+    showToast("Check-in saved privately.");
+  });
+
+  function renderCheckin() {
+    const c = state.checkins[todayKey()];
+    if (!c) {
+      $("checkinSummary").className = "empty";
+      $("checkinSummary").innerHTML = "No check-in yet today.";
+      return;
+    }
+    $("checkinSummary").className = "";
+    $("checkinSummary").innerHTML = `
+      <div class="grid-4" style="grid-template-columns:repeat(2,1fr); margin:0;">
+        <div class="stat" style="box-shadow:none;border:1px solid var(--line);border-radius:14px;"><div class="stat-label">Mood</div><div class="stat-value">${c.mood}/5</div></div>
+        <div class="stat" style="box-shadow:none;border:1px solid var(--line);border-radius:14px;"><div class="stat-label">Energy</div><div class="stat-value">${c.energy}/5</div></div>
+        <div class="stat" style="box-shadow:none;border:1px solid var(--line);border-radius:14px;"><div class="stat-label">Loneliness</div><div class="stat-value">${c.loneliness}/5</div></div>
+        <div class="stat" style="box-shadow:none;border:1px solid var(--line);border-radius:14px;"><div class="stat-label">Hunger</div><div class="stat-value">${c.hunger}/5</div></div>
+      </div>
+      ${c.note ? `<div class="callout success-callout">${escapeHtml(c.note)}</div>` : ""}
+    `;
+  }
+
+  function buildSuggestions() {
+    const c = state.checkins[todayKey()];
+    const meals = getTodayMeals();
+    const movement = getMovementMinutes();
+    const carMeals = meals.filter(m => m.context === "car").length;
+    const calories = getCalories();
+    const target = state.profile.calorieTarget;
+    const tone = state.profile.tone;
+
+    let list = [];
+
+    if (!c) list.push(["📝", "Do a 30-second check-in. Naming hunger, energy and loneliness can separate one need from another."]);
+    if (movement < 5) list.push(["🚶", tone === "direct" ? "Stand up and walk for five minutes now." : "A five-minute walk is enough for today’s first movement."]);
+    if (carMeals > 0) list.push(["🍽️", "Keep the next meal ordinary, but eat it somewhere other than the driver’s seat."]);
+    if (meals.length === 0) list.push(["📷", "Log the next thing you eat, even if the estimate is rough."]);
+    if (calories > target) list.push(["🧭", "Do not punish the next meal. Return to normal food, water and a little movement."]);
+    if (c?.loneliness >= 4) list.push(["💬", "Send one low-pressure message or spend fifteen minutes somewhere with other people."]);
+    if (c?.energy <= 2) list.push(["🪫", "Choose the lowest-effort useful action: water, a shower, or two minutes outside."]);
+    if (c?.hunger >= 4 && meals.length < 2) list.push(["🥣", "Strong hunger can make fast food automatic. Eat something filling before making a bigger decision."]);
+    if (!getTodayHabitSet().has("veg")) list.push(["🥕", "Add one fruit or vegetable to something you already planned to eat."]);
+    if (!getTodayHabitSet().has("contact")) list.push(["👋", "Make one tiny social contact: a message, a brief call, or saying hello to someone."]);
+    if (!list.length) list.push(["✓", "You have already made several useful choices. Keep the rest of the day simple."]);
+
+    if (tone === "playful") {
+      list = list.map(([icon, text]) => [icon, text.replace("A five-minute walk", "A tiny victory lap")]);
+    }
+    return list;
+  }
+
+  function updateSuggestion() {
+    const list = buildSuggestions();
+    suggestionIndex %= list.length;
+    $("suggestionIcon").textContent = list[suggestionIndex][0];
+    $("suggestionText").textContent = list[suggestionIndex][1];
+  }
+
+  $("newSuggestion").addEventListener("click", () => {
+    suggestionIndex++;
+    updateSuggestion();
+  });
+
+  function renderReminderDays() {
+    $("reminderDays").innerHTML = DAY_NAMES.map((day, i) =>
+      `<button type="button" class="day-pill selected" data-day="${i}">${day}</button>`
+    ).join("");
+    $("reminderDays").querySelectorAll("[data-day]").forEach(btn => {
+      btn.addEventListener("click", () => btn.classList.toggle("selected"));
+    });
+  }
+
+  renderReminderDays();
+
+  $("reminderForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const days = [...$("reminderDays").querySelectorAll(".day-pill.selected")].map(b => Number(b.dataset.day));
+    if (!days.length) {
+      showToast("Select at least one day.");
+      return;
+    }
+    state.reminders.push({
+      id: cryptoId(),
+      text: $("reminderText").value.trim(),
+      time: $("reminderTime").value,
+      type: $("reminderType").value,
+      days,
+      active: true,
+      lastFired: ""
+    });
+    saveState();
+    event.target.reset();
+    renderReminderDays();
+    renderReminders();
+    showToast("Reminder saved.");
+  });
+
+  function renderReminders() {
+    const list = $("reminderList");
+    if (!state.reminders.length) {
+      list.innerHTML = `<div class="empty">No reminders yet.</div>`;
+      return;
+    }
+    list.innerHTML = state.reminders.map(r => `
+      <div class="list-row">
+        <div>
+          <strong>${escapeHtml(r.text)}</strong>
+          <small>${escapeHtml(r.type)} · ${formatTime(r.time)} · ${r.days.map(d => DAY_NAMES[d]).join(", ")}</small>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" data-toggle-reminder="${r.id}" title="${r.active ? "Pause" : "Resume"}">${r.active ? "Ⅱ" : "▶"}</button>
+          <button class="icon-btn danger" data-delete-reminder="${r.id}" title="Delete">✕</button>
+        </div>
+      </div>
+    `).join("");
+
+    document.querySelectorAll("[data-toggle-reminder]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const r = state.reminders.find(x => x.id === btn.dataset.toggleReminder);
+        if (r) r.active = !r.active;
+        saveState();
+        renderReminders();
+      });
+    });
+
+    document.querySelectorAll("[data-delete-reminder]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.reminders = state.reminders.filter(x => x.id !== btn.dataset.deleteReminder);
+        saveState();
+        renderReminders();
+      });
+    });
+  }
+
+  $("enableNotifications").addEventListener("click", async () => {
+    if (!("Notification" in window)) {
+      showToast("This browser does not support notifications.");
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    showToast(permission === "granted" ? "Notifications enabled." : "Notification permission was not granted.");
+  });
+
+  $("testReminder").addEventListener("click", () => notify("Small Steps", "This is how a health reminder will appear."));
+
+  function notify(title, body) {
+    showToast(body);
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification(title, { body, icon: "", tag: "small-steps" });
+    }
+  }
+
+  function checkReminders() {
+    const now = new Date();
+    const day = now.getDay();
+    const current = now.toTimeString().slice(0,5);
+    const fireKey = `${todayKey()}-${current}`;
+
+    state.reminders.forEach(r => {
+      if (r.active && r.days.includes(day) && r.time === current && r.lastFired !== fireKey) {
+        r.lastFired = fireKey;
+        notify(r.type, r.text);
+      }
+    });
+    saveState();
+  }
+
+  setInterval(checkReminders, 30000);
+  checkReminders();
+
+  $("settingsForm").addEventListener("submit", event => {
+    event.preventDefault();
+    state.profile = {
+      name: $("profileName").value.trim(),
+      calorieTarget: Number($("calorieTarget").value),
+      movementTarget: Number($("movementTarget").value),
+      tone: $("toneSetting").value
+    };
+    saveState();
+    renderAll();
+    showToast("Settings saved.");
+  });
+
+  function renderSettings() {
+    $("profileName").value = state.profile.name;
+    $("calorieTarget").value = state.profile.calorieTarget;
+    $("movementTarget").value = state.profile.movementTarget;
+    $("toneSetting").value = state.profile.tone;
+  }
+
+  $("savePausePlan").addEventListener("click", () => {
+    state.pausePlan = $("pausePlan").value;
+    saveState();
+    renderPausePlan();
+    showToast("Pause plan saved.");
+  });
+
+  function renderPausePlan() {
+    $("pausePlan").value = state.pausePlan;
+    const text = {
+      water: "Before buying fast food: drink water and wait 10 minutes.",
+      walk: "Before buying fast food: walk for 5 minutes.",
+      smaller: "Before buying fast food: order one size smaller.",
+      swap: "Before buying fast food: swap the sugary drink.",
+      table: "Before buying fast food: eat somewhere other than the car.",
+      message: "Before buying fast food: message someone first."
+    }[state.pausePlan];
+    $("savedPausePlan").textContent = text;
+  }
+
+  $("journalForm").addEventListener("submit", event => {
+    event.preventDefault();
+    state.journal.unshift({
+      id: cryptoId(),
+      date: todayKey(),
+      text: $("journalText").value.trim(),
+      createdAt: new Date().toISOString()
+    });
+    saveState();
+    event.target.reset();
+    renderJournal();
+    showToast("Note saved.");
+  });
+
+  function renderJournal() {
+    $("journalList").innerHTML = state.journal.length ? state.journal.slice(0, 12).map(item => `
+      <div class="list-row">
+        <div><strong>${new Date(item.date + "T12:00:00").toLocaleDateString()}</strong><small>${escapeHtml(item.text)}</small></div>
+        <button class="icon-btn danger" data-delete-journal="${item.id}">✕</button>
+      </div>
+    `).join("") : `<div class="empty">No notes yet.</div>`;
+
+    document.querySelectorAll("[data-delete-journal]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.journal = state.journal.filter(x => x.id !== btn.dataset.deleteJournal);
+        saveState();
+        renderJournal();
+      });
+    });
+  }
+
+  function getLastDays(count) {
+    const days = [];
+    const date = new Date();
+    for (let i = count - 1; i >= 0; i--) {
+      const d = new Date(date);
+      d.setDate(date.getDate() - i);
+      days.push({ key: localDateKey(d), label: d.toLocaleDateString([], { weekday: "short" }) });
+    }
+    return days;
+  }
+
+  function renderProgress() {
+    drawWeeklyChart();
+    renderWeeklySummary();
+  }
+
+  function drawWeeklyChart() {
+    const canvas = $("weeklyChart");
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const width = Math.max(320, Math.floor(rect.width));
+    const height = 240;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.height = height + "px";
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, width, height);
+
+    const days = getLastDays(7);
+    const calories = days.map(d => getCalories(d.key));
+    const movement = days.map(d => getMovementMinutes(d.key));
+    const maxCal = Math.max(state.profile.calorieTarget, ...calories, 1);
+    const maxMove = Math.max(state.profile.movementTarget, ...movement, 1);
+
+    const pad = { left: 36, right: 18, top: 20, bottom: 34 };
+    const chartW = width - pad.left - pad.right;
+    const chartH = height - pad.top - pad.bottom;
+    const groupW = chartW / days.length;
+    const barW = Math.min(18, groupW * .25);
+
+    ctx.strokeStyle = "#dce7e2";
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+      const y = pad.top + chartH * i / 4;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y);
+      ctx.lineTo(width - pad.right, y);
+      ctx.stroke();
+    }
+
+    ctx.font = "12px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#60756f";
+
+    days.forEach((day, i) => {
+      const x = pad.left + groupW * i + groupW / 2;
+      const calH = (calories[i] / maxCal) * chartH;
+      const moveH = (movement[i] / maxMove) * chartH;
+
+      ctx.fillStyle = "#1d6f5f";
+      ctx.fillRect(x - barW - 2, pad.top + chartH - calH, barW, calH);
+
+      ctx.fillStyle = "#9bbdaf";
+      ctx.fillRect(x + 2, pad.top + chartH - moveH, barW, moveH);
+
+      ctx.fillStyle = "#60756f";
+      ctx.fillText(day.label, x, height - 10);
+    });
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#1d6f5f";
+    ctx.fillRect(pad.left, 5, 10, 10);
+    ctx.fillStyle = "#60756f";
+    ctx.fillText("Calories", pad.left + 15, 14);
+    ctx.fillStyle = "#9bbdaf";
+    ctx.fillRect(pad.left + 80, 5, 10, 10);
+    ctx.fillStyle = "#60756f";
+    ctx.fillText("Movement", pad.left + 95, 14);
+  }
+
+  function renderWeeklySummary() {
+    const days = getLastDays(7);
+    const loggedDays = days.filter(d => getCalories(d.key) > 0).length;
+    const movementTotal = days.reduce((sum, d) => sum + getMovementMinutes(d.key), 0);
+    const habitTotal = days.reduce((sum, d) => sum + (state.habitChecks[d.key] || []).length, 0);
+    const carMeals = days.reduce((sum, d) => sum + (state.meals[d.key] || []).filter(m => m.context === "car").length, 0);
+    const socialDays = days.filter(d => (state.habitChecks[d.key] || []).includes("contact")).length;
+
+    const observations = [
+      `<strong>${loggedDays}</strong> of 7 days include food logging.`,
+      `<strong>${movementTotal}</strong> movement minutes were recorded.`,
+      `<strong>${habitTotal}</strong> helpful habits were completed.`,
+      carMeals ? `<strong>${carMeals}</strong> meals were eaten in the car.` : `No car meals were logged.`,
+      `<strong>${socialDays}</strong> days included a social step.`
+    ];
+
+    let next = "For the coming week, keep one target deliberately small.";
+    if (loggedDays < 4) next = "Focus on logging one meal a day before changing what you eat.";
+    else if (movementTotal < 35) next = "Try five minutes of movement on three separate days.";
+    else if (carMeals >= 3) next = "Choose one recurring meal to eat somewhere other than the car.";
+    else if (socialDays === 0) next = "Schedule one low-pressure social contact.";
+
+    $("weeklySummary").innerHTML = `
+      <div class="habits">
+        ${observations.map((text, i) => `
+          <div class="habit">
+            <div class="habit-icon">${["📅","🚶","✓","🚗","💬"][i]}</div>
+            <div class="habit-name">${text}</div>
+          </div>
+        `).join("")}
+      </div>
+      <div class="callout success-callout"><strong>Suggested focus:</strong> ${next}</div>
+    `;
+  }
+
+  $("exportData").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `small-steps-backup-${todayKey()}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+
+  $("importData").addEventListener("change", async event => {
+    const file = event.target.files[0];
+    if (!file) return;
+    try {
+      const imported = JSON.parse(await file.text());
+      state = mergeState(defaultState, imported);
+      saveState();
+      renderAll();
+      showToast("Data imported.");
+    } catch {
+      showToast("That file could not be imported.");
+    } finally {
+      event.target.value = "";
+    }
+  });
+
+  $("resetData").addEventListener("click", () => {
+    if (!confirm("Delete all local Small Steps data? This cannot be undone unless you exported a backup.")) return;
+    state = structuredClone(defaultState);
+    saveState();
+    renderAll();
+    showToast("All data reset.");
+  });
+
+  window.addEventListener("resize", () => {
+    if ($("progress").classList.contains("active")) drawWeeklyChart();
+  });
+
+  $("mealTime").value = new Date().toTimeString().slice(0,5);
+  $("reminderTime").value = "13:00";
+  renderAll();
+})();
+</script>
+</body>
+</html>
