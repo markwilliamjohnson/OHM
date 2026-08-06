@@ -1,0 +1,786 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nilpotent–Trine Geometry Laboratory</title>
+<style>
+:root{
+  --bg:#071019;--panel:#0c1823;--panel2:#102230;--line:#213b4d;
+  --text:#edf8ff;--muted:#8fa8b8;--yellow:#f4ea45;--cyan:#33d6f2;
+  --salmon:#ff927d;--green:#97f59b;--violet:#c88cff;--red:#ff6876;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{overflow:hidden}
+button,input,select{font:inherit}
+button{color:inherit}
+.app{
+  height:100%;display:grid;grid-template-columns:minmax(0,1fr) 410px;
+  grid-template-rows:auto minmax(0,1fr);
+  background:
+    radial-gradient(circle at 18% 20%,rgba(51,214,242,.08),transparent 31%),
+    radial-gradient(circle at 72% 74%,rgba(255,146,125,.065),transparent 28%),
+    var(--bg)
+}
+header{
+  grid-column:1/-1;display:flex;align-items:center;gap:17px;padding:13px 17px;
+  border-bottom:1px solid var(--line);background:rgba(7,16,25,.92);
+  backdrop-filter:blur(14px);z-index:20
+}
+.brand{min-width:295px}
+.brand h1{font-size:18px;margin:0;line-height:1.15}
+.brand p{font-size:11px;color:var(--muted);margin:5px 0 0}
+.tabs{display:flex;justify-content:center;gap:7px;flex:1}
+.tabs button,.small-btn,.toggle,.dir-btn{
+  border:1px solid var(--line);background:#0c1b27;border-radius:10px;
+  padding:8px 10px;cursor:pointer;transition:.17s ease
+}
+.tabs button:hover,.small-btn:hover,.toggle:hover,.dir-btn:hover{border-color:#456a80;transform:translateY(-1px)}
+.tabs button.active{background:rgba(51,214,242,.13);border-color:var(--cyan)}
+.header-actions{display:flex;gap:7px}
+
+.stage{position:relative;min-width:0;min-height:0;overflow:hidden}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+.stage-top{
+  position:absolute;left:15px;right:15px;top:14px;display:flex;
+  justify-content:space-between;align-items:flex-start;pointer-events:none
+}
+.hints{display:flex;gap:7px;flex-wrap:wrap}
+.pill{
+  padding:6px 9px;border-radius:999px;border:1px solid rgba(143,168,184,.23);
+  background:rgba(7,16,25,.76);backdrop-filter:blur(10px);
+  color:#aac1ce;font-size:10px
+}
+.pill strong{color:#fff}
+.caption{
+  max-width:390px;padding:10px 12px;border:1px solid rgba(143,168,184,.23);
+  border-radius:12px;background:rgba(7,16,25,.79);backdrop-filter:blur(10px);
+  color:#a6bdca;font-size:11px;line-height:1.48
+}
+.caption b{color:#fff}
+.bottom-card{
+  position:absolute;left:15px;bottom:16px;width:min(600px,64%);
+  padding:10px 12px;border:1px solid rgba(143,168,184,.22);
+  border-radius:13px;background:rgba(7,16,25,.84);backdrop-filter:blur(10px)
+}
+.status-line{display:flex;justify-content:space-between;gap:12px;font-size:10px;color:var(--muted)}
+.status-line b{color:var(--text)}
+.residue-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:8px}
+.residue{
+  border:1px solid #213b4d;border-radius:9px;background:#091722;padding:7px 8px
+}
+.residue span{display:block;font-size:9px;color:var(--muted)}
+.residue b{font-size:11px;display:block;margin-top:3px}
+.residue.good b{color:var(--green)}.residue.bad b{color:var(--red)}
+
+aside{
+  min-height:0;overflow:auto;border-left:1px solid var(--line);
+  background:rgba(9,20,30,.97);padding:13px
+}
+.section{
+  background:linear-gradient(180deg,rgba(16,34,48,.98),rgba(10,24,35,.98));
+  border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden
+}
+.section-head{padding:11px 12px 8px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.section-head h2{font-size:13px;margin:0}
+.section-head small{font-size:9px;color:var(--muted)}
+.section-body{padding:0 12px 12px}
+.eq{
+  padding:10px 11px;border:1px solid #1d3546;border-radius:10px;background:#08151f;
+  font-family:"Cambria Math","STIX Two Math",Georgia,serif;font-size:14px;line-height:1.52;
+  overflow:auto
+}
+.eq .note{font-family:Inter,system-ui,sans-serif;font-size:9px;color:var(--muted);margin-top:6px}
+.controls{display:grid;gap:9px}
+.control{display:grid;grid-template-columns:92px 1fr 54px;gap:8px;align-items:center}
+.control label{font-size:10px;color:var(--muted)}
+.control output{text-align:right;font-size:10px;color:#d3e6f1;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--cyan)}
+.toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.toggle{text-align:left;padding:8px 9px}
+.toggle strong{display:block;font-size:10px}
+.toggle span{display:block;color:var(--muted);font-size:8px;margin-top:3px}
+.toggle.active{background:rgba(51,214,242,.1);border-color:var(--cyan)}
+.orientation{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.dir-btn{padding:7px 3px;font-size:10px}
+.dir-btn.active{border-color:var(--yellow);background:rgba(244,234,69,.08)}
+.matrix-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.matrix-card{padding:8px;border:1px solid #203a4b;border-radius:9px;background:#091721;text-align:center}
+.matrix-card strong{display:block;font-size:10px;margin-bottom:6px}
+.matrix{
+  display:inline-grid;grid-template-columns:repeat(2,25px);grid-template-rows:repeat(2,22px);
+  border-left:1px solid #839daa;border-right:1px solid #839daa;
+  position:relative;padding:0 3px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:11px
+}
+.matrix:before,.matrix:after{
+  content:"";position:absolute;left:-1px;right:-1px;height:1px;background:#839daa
+}
+.matrix:before{top:0}.matrix:after{bottom:0}
+.matrix span{display:flex;align-items:center;justify-content:center}
+.matrix-card small{display:block;color:var(--muted);font-size:8px;margin-top:6px}
+
+.orbit-list{display:flex;flex-direction:column;gap:5px}
+.orbit-row{
+  display:grid;grid-template-columns:30px 72px 1fr;gap:7px;align-items:center;
+  padding:7px 8px;border:1px solid #1d3546;border-radius:9px;background:#091721
+}
+.orbit-row.active{border-color:var(--yellow);background:rgba(244,234,69,.06)}
+.orbit-row .k{font-size:9px;color:var(--muted)}
+.orbit-row code{font-size:10px;color:#d7eaf4}
+.orbit-row span:last-child{font-size:9px;color:#98b0be;text-align:right}
+.buttons{display:flex;gap:7px;margin-top:9px}
+.small-btn{padding:7px 9px;font-size:10px;flex:1}
+.small-btn.primary{border-color:var(--cyan);background:rgba(51,214,242,.1)}
+
+.proof-strip{display:grid;gap:6px}
+.proof-line{display:grid;grid-template-columns:30px 1fr;gap:7px;align-items:start}
+.proof-line b{font-size:9px;color:#071019;background:var(--cyan);border-radius:6px;padding:3px;text-align:center}
+.proof-line div{font-family:Georgia,serif;font-size:11px;line-height:1.45;color:#d5e8f2}
+.warning{
+  padding:9px;border-left:3px solid var(--yellow);background:rgba(244,234,69,.055);
+  border-radius:7px;color:#b7cad5;font-size:9px;line-height:1.5
+}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.legend div{padding:7px;border:1px solid #20394a;border-radius:8px;background:#091721;font-size:9px;color:#a9bfcb}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+
+.modal{
+  display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.64);
+  align-items:center;justify-content:center;padding:20px
+}
+.modal.open{display:flex}
+.modal-card{
+  max-width:730px;max-height:86vh;overflow:auto;padding:20px;border:1px solid #31536a;
+  border-radius:16px;background:#0b1924;box-shadow:0 24px 80px rgba(0,0,0,.45)
+}
+.modal-card h2{margin-top:0}.modal-card p,.modal-card li{font-size:12px;line-height:1.6;color:#a9becb}
+.close{float:right}
+
+@media(max-width:980px){
+  body{overflow:auto}.app{height:auto;min-height:100%;grid-template-columns:1fr;grid-template-rows:auto 68vh auto}
+  header{position:sticky;top:0;flex-wrap:wrap}.brand{min-width:0;flex:1}.tabs{order:3;width:100%}
+  aside{overflow:visible;border-left:0;border-top:1px solid var(--line)}
+}
+@media(max-width:620px){
+  .header-actions{display:none}.tabs button{font-size:10px;padding:7px 5px}.caption{display:none}
+  .bottom-card{width:auto;right:15px}.residue-row{grid-template-columns:1fr}.matrix-row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">
+    <h1>The Nilpotent–Trine Geometry Laboratory</h1>
+    <p>From one-shot action N² = 0 to 3-cycles, anti-trines, and a six-element multiplicative orbit</p>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-mode="nilpotent">1 · Nilpotent</button>
+    <button class="tab" data-mode="trine">2 · Trine</button>
+    <button class="tab" data-mode="anti">3 · Anti-trine</button>
+    <button class="tab" data-mode="proof">4 · Why three?</button>
+  </div>
+  <div class="header-actions">
+    <button class="small-btn" id="resetBtn">Reset</button>
+    <button class="small-btn" id="notesBtn">Assumptions</button>
+  </div>
+</header>
+
+<main class="stage">
+  <canvas id="scene"></canvas>
+  <div class="stage-top">
+    <div class="hints">
+      <span class="pill"><strong>Click</strong> a lattice point to choose x</span>
+      <span class="pill"><strong>Drag</strong> a point to another residue class</span>
+      <span class="pill"><strong>Space</strong> advances the operator</span>
+    </div>
+    <div class="caption" id="caption">
+      <b>Nilpotent.</b> N sends every vector onto a single image line, then kills that line.
+      The exact lattice is over the three-element field.
+    </div>
+  </div>
+  <div class="bottom-card">
+    <div class="status-line">
+      <span id="statusText"><b>Exact characteristic-three model</b></span>
+      <span id="selectedText">x = (1, 1)</span>
+    </div>
+    <div class="residue-row">
+      <div class="residue good" id="nResidCard"><span>‖N²‖</span><b id="nResid">0</b></div>
+      <div class="residue good" id="tResidCard"><span>‖T³ − I‖</span><b id="tResid">0</b></div>
+      <div class="residue good" id="aResidCard"><span>‖A³ + I‖</span><b id="aResid">0</b></div>
+    </div>
+  </div>
+</main>
+
+<aside>
+  <section class="section">
+    <div class="section-head"><h2 id="formulaTitle">One-shot generator</h2><small id="domainLabel">arithmetic in 𝔽₃</small></div>
+    <div class="section-body">
+      <div class="eq" id="equation"></div>
+      <div class="buttons">
+        <button class="small-btn" id="prevBtn">← Back</button>
+        <button class="small-btn primary" id="playBtn">Animate</button>
+        <button class="small-btn" id="nextBtn">Advance →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Manipulate the algebra</h2><small>exact and broken cases</small></div>
+    <div class="section-body">
+      <div class="controls">
+        <div class="toggle-grid">
+          <button class="toggle active" id="f3Btn"><strong>𝔽₃ / ℤ₃</strong><span>three is exactly zero</span></button>
+          <button class="toggle" id="realBtn"><strong>Real comparison</strong><span>three does not vanish</span></button>
+          <button class="toggle active" id="plusBtn"><strong>Shift by +N</strong><span>T = I + N</span></button>
+          <button class="toggle" id="minusBtn"><strong>Shift by −N</strong><span>T = I − N</span></button>
+        </div>
+
+        <div>
+          <div style="font-size:10px;color:var(--muted);margin:2px 0 7px">Image/kernel direction of N</div>
+          <div class="orientation" id="orientationBtns"></div>
+        </div>
+
+        <div class="control">
+          <label for="strength">Generator strength</label>
+          <input id="strength" type="range" min="1" max="2" step="1" value="1">
+          <output id="strengthOut">1</output>
+        </div>
+        <div class="control">
+          <label for="defect">Square-zero defect δ</label>
+          <input id="defect" type="range" min="0" max="2" step="1" value="0">
+          <output id="defectOut">0</output>
+        </div>
+        <div class="control">
+          <label for="speed">Animation speed</label>
+          <input id="speed" type="range" min=".2" max="2" step=".01" value=".75">
+          <output id="speedOut">0.75×</output>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Live operators</h2><small>same basis, three shifts</small></div>
+    <div class="section-body">
+      <div class="matrix-row" id="matrices"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2 id="orbitTitle">Selected-vector chain</h2><small id="orbitLength">3 states</small></div>
+    <div class="section-body">
+      <div class="orbit-list" id="orbitList"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Characteristic-three mechanism</h2><small>what vanishes</small></div>
+    <div class="section-body">
+      <div class="proof-strip">
+        <div class="proof-line"><b>1</b><div>(I + N)² = I + 2N + N²</div></div>
+        <div class="proof-line"><b>2</b><div>In 𝔽₃, 2N = −N; if N² = 0, then (I + N)² = I − N</div></div>
+        <div class="proof-line"><b>3</b><div>(I + N)³ = (I + N)(I − N) = I − N² = I</div></div>
+      </div>
+      <div class="warning" style="margin-top:10px">
+        The forward implication is exact: N² = 0 implies (I ± N)³ = I in characteristic 3.
+        In a general algebra the converse only gives N³ = 0; an equivalence needs the restricted
+        square-zero class assumed in the presentation.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Visual key</h2><small>screen geometry</small></div>
+    <div class="section-body">
+      <div class="legend">
+        <div><i style="background:var(--yellow)"></i>nilpotent image</div>
+        <div><i style="background:var(--cyan)"></i>trine states</div>
+        <div><i style="background:var(--salmon)"></i>anti-trines</div>
+      </div>
+    </div>
+  </section>
+</aside>
+</div>
+
+<div class="modal" id="notesModal">
+  <div class="modal-card">
+    <button class="small-btn close" id="closeNotes">Close</button>
+    <h2>What this visualisation assumes</h2>
+    <p>
+      The exact model is a two-dimensional vector space over 𝔽₃. A nonzero square-zero operator
+      is represented, after a change of basis, by
+      <b>N = [[0,s],[0,0]]</b>. It sends the second basis direction to the first and sends the first to zero.
+    </p>
+    <p>
+      The trines are <b>I</b>, <b>I+N</b>, and <b>I−N</b>. They form a cyclic group of order three.
+      An anti-trine such as <b>A = −I+N</b> has A³ = −I and A⁶ = I. Its powers alternate between
+      anti-trines and trines, producing the six-node orbit shown in the app.
+    </p>
+    <p>
+      The lattice drawing uses the signed representatives −1, 0, and 1 for the residue classes
+      2, 0, and 1. Apparent jumps across the drawing are modular wrap-around, not discontinuities
+      in the finite geometry.
+    </p>
+    <p>
+      The “real comparison” deliberately keeps the same matrix while changing the arithmetic.
+      There, N² may still be zero, but (I+N)³ = I+3N rather than I. This makes the role of
+      characteristic three visible rather than treating the cubic identity as an ordinary real-space fact.
+    </p>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+const $ = id => document.getElementById(id);
+const canvas = $("scene"), ctx = canvas.getContext("2d");
+let W=0,H=0,DPR=1;
+
+const state = {
+  mode:"nilpotent", domain:"f3", sign:1, orientation:0,
+  strength:1, defect:0, speed:.75, selected:[1,1],
+  step:0, playing:false, time:0, lastAdvance:0, dragging:false
+};
+
+const COLORS={yellow:"#f4ea45",cyan:"#33d6f2",salmon:"#ff927d",green:"#97f59b",violet:"#c88cff",red:"#ff6876"};
+const I=[[1,0],[0,1]];
+const ORIENTATIONS=[
+  {u:[1,0],v:[0,1],label:"→ / ↑"},
+  {u:[0,1],v:[1,0],label:"↑ / →"},
+  {u:[1,1],v:[1,-1],label:"↗ / ↘"},
+  {u:[1,-1],v:[1,1],label:"↘ / ↗"}
+];
+
+function mod3(x){ x=Math.round(x)%3; return x<0?x+3:x; }
+function signed3(x){ x=mod3(x); return x===2?-1:x; }
+function reduce(x){ return state.domain==="f3"?mod3(x):x; }
+function disp(x){
+  if(state.domain==="f3") return String(signed3(x)).replace("-","−");
+  if(Math.abs(x)<1e-10)return "0";
+  const s=(Math.round(x*1000)/1000).toString();
+  return s.replace("-","−");
+}
+function mAdd(A,B){return A.map((r,i)=>r.map((x,j)=>reduce(x+B[i][j])));}
+function mSub(A,B){return A.map((r,i)=>r.map((x,j)=>reduce(x-B[i][j])));}
+function mScale(A,s){return A.map(r=>r.map(x=>reduce(x*s)));}
+function mMul(A,B){
+  return [
+    [reduce(A[0][0]*B[0][0]+A[0][1]*B[1][0]),reduce(A[0][0]*B[0][1]+A[0][1]*B[1][1])],
+    [reduce(A[1][0]*B[0][0]+A[1][1]*B[1][0]),reduce(A[1][0]*B[0][1]+A[1][1]*B[1][1])]
+  ];
+}
+function mPow(A,n){let R=[[1,0],[0,1]],B=A;while(n){if(n&1)R=mMul(R,B);B=mMul(B,B);n>>=1;}return R;}
+function mInv(A){
+  let det=A[0][0]*A[1][1]-A[0][1]*A[1][0];
+  if(state.domain==="f3"){
+    det=mod3(det); const inv=det===1?1:2;
+    return [[mod3(inv*A[1][1]),mod3(-inv*A[0][1])],[mod3(-inv*A[1][0]),mod3(inv*A[0][0])]];
+  }
+  return [[A[1][1]/det,-A[0][1]/det],[-A[1][0]/det,A[0][0]/det]];
+}
+function mNorm(A){
+  let s=0;
+  for(const r of A)for(const x of r){
+    const y=state.domain==="f3"?signed3(x):x;s+=y*y;
+  }
+  return Math.sqrt(s);
+}
+function apply(A,v){return [reduce(A[0][0]*v[0]+A[0][1]*v[1]),reduce(A[1][0]*v[0]+A[1][1]*v[1])];}
+function vEq(a,b){
+  if(state.domain==="f3")return mod3(a[0])===mod3(b[0])&&mod3(a[1])===mod3(b[1]);
+  return Math.hypot(a[0]-b[0],a[1]-b[1])<1e-7;
+}
+function negV(v){return [reduce(-v[0]),reduce(-v[1])];}
+
+function operators(){
+  const o=ORIENTATIONS[state.orientation];
+  const S=[[o.u[0],o.v[0]],[o.u[1],o.v[1]]];
+  const d=state.defect,s=state.strength;
+  const J=[[d,s],[0,-d]];
+  const N=mMul(mMul(S,J),mInv(S));
+  const T=mAdd(I,mScale(N,state.sign));
+  const A=mAdd(mScale(I,-1),mScale(N,state.sign));
+  const N2=mPow(N,2),T3=mPow(T,3),A3=mPow(A,3);
+  return {
+    N,T,A,N2,T3,A3,
+    nResid:mNorm(N2),
+    tResid:mNorm(mSub(T3,I)),
+    aResid:mNorm(mAdd(A3,I))
+  };
+}
+let op=operators();
+
+function currentOperator(){
+  return state.mode==="nilpotent"?op.N:state.mode==="trine"?op.T:state.mode==="anti"?op.A:op.T;
+}
+function orbit(){
+  const M=currentOperator();
+  const max=state.mode==="nilpotent"?2:state.mode==="trine"?3:state.mode==="anti"?6:3;
+  const arr=[state.selected.slice()];
+  for(let k=1;k<=max;k++)arr.push(apply(M,arr[arr.length-1]));
+  return arr;
+}
+function vecLabel(v){
+  return `(${disp(v[0])}, ${disp(v[1])})`;
+}
+function matrixHTML(A){
+  return `<div class="matrix"><span>${disp(A[0][0])}</span><span>${disp(A[0][1])}</span><span>${disp(A[1][0])}</span><span>${disp(A[1][1])}</span></div>`;
+}
+function residueText(x){return x<1e-10?"0":x<.001?x.toExponential(2):x.toFixed(4);}
+function setGood(id,x){
+  $(id+"Card").className="residue "+(x<1e-9?"good":"bad");
+  $(id).textContent=residueText(x);
+}
+
+function buildOrientation(){
+  $("orientationBtns").innerHTML=ORIENTATIONS.map((o,i)=>
+    `<button class="dir-btn ${i===state.orientation?"active":""}" data-i="${i}">${o.label}</button>`).join("");
+  document.querySelectorAll(".dir-btn").forEach(b=>b.onclick=()=>{
+    state.orientation=+b.dataset.i; recompute();
+  });
+}
+
+function formula(){
+  if(state.mode==="nilpotent"){
+    $("formulaTitle").textContent="One-shot generator";
+    $("equation").innerHTML=`N² = 0
+      <div class="note">N sends v ↦ s·u and u ↦ 0. The yellow chain is x → Nx → N²x.</div>`;
+    $("caption").innerHTML="<b>Nilpotent.</b> N collapses the whole space onto its image line, then kills that line. With δ = 0 the second application is exactly zero.";
+    $("orbitTitle").textContent="Selected-vector chain";
+  }else if(state.mode==="trine"){
+    $("formulaTitle").textContent="Trine";
+    $("equation").innerHTML=`T = I ${state.sign>0?"+":"−"} N, &nbsp;&nbsp; T³ = I
+      <div class="note">The three powers I, T, and T² form a cyclic group. A point returns after three applications.</div>`;
+    $("caption").innerHTML="<b>Trine.</b> The three cyan vertices are I, T and T². The selected vector circulates through a 3-cycle because the binomial coefficient 3 vanishes in 𝔽₃.";
+    $("orbitTitle").textContent="T-orbit of selected vector";
+  }else if(state.mode==="anti"){
+    $("formulaTitle").textContent="Anti-trine";
+    $("equation").innerHTML=`A = −I ${state.sign>0?"+":"−"} N, &nbsp;&nbsp; A³ = −I, &nbsp;&nbsp; A⁶ = I
+      <div class="note">Trines and anti-trines alternate around one six-element multiplicative orbit.</div>`;
+    $("caption").innerHTML="<b>Anti-trine.</b> Three applications reach the opposite vector, not the starting vector. Six applications return. Trines and anti-trines alternate around the hexagon.";
+    $("orbitTitle").textContent="A-orbit of selected vector";
+  }else{
+    $("formulaTitle").textContent="Why the cubic closes";
+    $("equation").innerHTML=`(I ${state.sign>0?"+":"−"} N)³
+      = I ${state.sign>0?"+":"−"} 3N + 3N² ${state.sign>0?"+":"−"} N³
+      <div class="note">Characteristic three removes the middle binomial terms. Square-zero then removes N² and N³.</div>`;
+    $("caption").innerHTML="<b>Why three?</b> The expansion is shown as four geometric contributions. Toggle the number system or break square-zero to see which pieces survive.";
+    $("orbitTitle").textContent="Power check";
+  }
+}
+
+function updateMatrices(){
+  $("matrices").innerHTML=`
+    <div class="matrix-card"><strong style="color:${COLORS.yellow}">N</strong>${matrixHTML(op.N)}<small>N² residue ${residueText(op.nResid)}</small></div>
+    <div class="matrix-card"><strong style="color:${COLORS.cyan}">T</strong>${matrixHTML(op.T)}<small>T³−I ${residueText(op.tResid)}</small></div>
+    <div class="matrix-card"><strong style="color:${COLORS.salmon}">A</strong>${matrixHTML(op.A)}<small>A³+I ${residueText(op.aResid)}</small></div>`;
+}
+
+function updateOrbit(){
+  const arr=orbit();
+  const labels=state.mode==="nilpotent"
+    ?["x","Nx","N²x"]
+    :state.mode==="trine"||state.mode==="proof"
+      ?["x","Tx","T²x","T³x"]
+      :["x","Ax","A²x","A³x","A⁴x","A⁵x","A⁶x"];
+  $("orbitLength").textContent=`${arr.length} states`;
+  $("orbitList").innerHTML=arr.map((v,i)=>`
+    <div class="orbit-row ${i===state.step%(arr.length)?"active":""}">
+      <span class="k">${i}</span><code>${labels[i]||("step "+i)}</code>
+      <span>${vecLabel(v)}</span>
+    </div>`).join("");
+  $("selectedText").textContent=`x = ${vecLabel(state.selected)}`;
+}
+
+function updateControls(){
+  $("f3Btn").classList.toggle("active",state.domain==="f3");
+  $("realBtn").classList.toggle("active",state.domain==="real");
+  $("plusBtn").classList.toggle("active",state.sign===1);
+  $("minusBtn").classList.toggle("active",state.sign===-1);
+  $("domainLabel").textContent=state.domain==="f3"?"arithmetic in 𝔽₃":"ordinary real arithmetic";
+  $("statusText").innerHTML=state.domain==="f3"
+    ?"<b>Exact characteristic-three model</b>"
+    :"<b>Real comparison:</b> cubic closure normally fails";
+  buildOrientation();
+}
+
+function recompute(){
+  op=operators();
+  formula();updateControls();updateMatrices();updateOrbit();
+  setGood("nResid",op.nResid);setGood("tResid",op.tResid);setGood("aResid",op.aResid);
+}
+
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  state.mode=b.dataset.mode;state.step=0;state.playing=false;$("playBtn").textContent="Animate";
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
+  recompute();
+});
+$("f3Btn").onclick=()=>{
+  state.domain="f3";state.strength=Math.max(1,Math.round(state.strength));state.defect=Math.round(state.defect);
+  $("strength").min=1;$("strength").max=2;$("strength").step=1;$("strength").value=state.strength;
+  $("defect").min=0;$("defect").max=2;$("defect").step=1;$("defect").value=state.defect;
+  recompute();
+};
+$("realBtn").onclick=()=>{
+  state.domain="real";state.strength=1;state.defect=0;
+  $("strength").min=0;$("strength").max=1.5;$("strength").step=.01;$("strength").value=1;
+  $("defect").min=0;$("defect").max=1;$("defect").step=.01;$("defect").value=0;
+  recompute();
+};
+$("plusBtn").onclick=()=>{state.sign=1;recompute();};
+$("minusBtn").onclick=()=>{state.sign=-1;recompute();};
+$("strength").oninput=e=>{state.strength=+e.target.value;$("strengthOut").value=state.domain==="f3"?disp(state.strength):state.strength.toFixed(2);recompute();};
+$("defect").oninput=e=>{state.defect=+e.target.value;$("defectOut").value=state.domain==="f3"?disp(state.defect):state.defect.toFixed(2);recompute();};
+$("speed").oninput=e=>{state.speed=+e.target.value;$("speedOut").value=state.speed.toFixed(2)+"×";};
+$("prevBtn").onclick=()=>{const n=orbit().length;state.step=(state.step-1+n)%n;state.playing=false;$("playBtn").textContent="Animate";updateOrbit();};
+$("nextBtn").onclick=advance;
+$("playBtn").onclick=()=>{state.playing=!state.playing;$("playBtn").textContent=state.playing?"Pause":"Animate";};
+$("resetBtn").onclick=()=>{
+  Object.assign(state,{mode:"nilpotent",domain:"f3",sign:1,orientation:0,strength:1,defect:0,speed:.75,selected:[1,1],step:0,playing:false});
+  $("strength").min=1;$("strength").max=2;$("strength").step=1;$("strength").value=1;
+  $("defect").min=0;$("defect").max=2;$("defect").step=1;$("defect").value=0;
+  $("strengthOut").value="1";$("defectOut").value="0";$("speed").value=.75;$("speedOut").value=".75×";$("playBtn").textContent="Animate";
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.mode==="nilpotent"));
+  recompute();
+};
+$("notesBtn").onclick=()=>$("notesModal").classList.add("open");
+$("closeNotes").onclick=()=>$("notesModal").classList.remove("open");
+$("notesModal").onclick=e=>{if(e.target===$("notesModal"))$("notesModal").classList.remove("open")};
+window.addEventListener("keydown",e=>{if(e.code==="Space"){e.preventDefault();advance();}});
+
+function advance(){
+  const n=orbit().length;
+  state.step=(state.step+1)%n;updateOrbit();
+}
+
+// ---------- Canvas geometry ----------
+function resize(){
+  const r=canvas.getBoundingClientRect();DPR=Math.min(devicePixelRatio||1,2);
+  W=r.width;H=r.height;canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+new ResizeObserver(resize).observe(canvas);resize();
+
+function rgba(hex,a){
+  const n=parseInt(hex.slice(1),16);
+  return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;
+}
+function line(x1,y1,x2,y2,color,width=1,dash=[]){
+  ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.restore();
+}
+function circle(x,y,r,fill,stroke=null,width=1){
+  ctx.save();ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+  if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke()}ctx.restore();
+}
+function arrow(x1,y1,x2,y2,color,width=2){
+  line(x1,y1,x2,y2,color,width);
+  const a=Math.atan2(y2-y1,x2-x1),s=7;
+  ctx.save();ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-s*Math.cos(a-.55),y2-s*Math.sin(a-.55));
+  ctx.lineTo(x2-s*Math.cos(a+.55),y2-s*Math.sin(a+.55));ctx.closePath();ctx.fill();ctx.restore();
+}
+function text(s,x,y,size=11,color="#fff",align="center",weight=500){
+  ctx.save();ctx.fillStyle=color;ctx.font=`${weight} ${size}px Inter,system-ui,sans-serif`;
+  ctx.textAlign=align;ctx.textBaseline="middle";ctx.fillText(s,x,y);ctx.restore();
+}
+function roundedRect(x,y,w,h,r,fill,stroke=null){
+  ctx.save();ctx.beginPath();ctx.roundRect(x,y,w,h,r);
+  if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.stroke()}ctx.restore();
+}
+function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+
+function latticeLayout(){
+  const size=Math.min(W*.52,H*.63),spacing=size/2;
+  const cx=W*.36,cy=H*.52;
+  return {cx,cy,spacing,size};
+}
+function gridPoint(v){
+  const L=latticeLayout();
+  const sx=state.domain==="f3"?signed3(v[0]):v[0];
+  const sy=state.domain==="f3"?signed3(v[1]):v[1];
+  return [L.cx+sx*L.spacing,L.cy-sy*L.spacing];
+}
+function drawBackground(){
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createRadialGradient(W*.45,H*.45,20,W*.45,H*.45,Math.max(W,H)*.72);
+  g.addColorStop(0,"rgba(34,72,91,.17)");g.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  for(let x=0;x<W;x+=34)line(x,0,x,H,"rgba(65,97,115,.055)",.5);
+  for(let y=0;y<H;y+=34)line(0,y,W,y,"rgba(65,97,115,.055)",.5);
+}
+let clickablePoints=[];
+
+function drawLattice(){
+  const L=latticeLayout(), vals=state.domain==="f3"?[-1,0,1]:[-1,0,1];
+  clickablePoints=[];
+  roundedRect(L.cx-L.size/2-45,L.cy-L.size/2-45,L.size+90,L.size+90,18,"rgba(8,21,31,.52)","rgba(87,123,143,.24)");
+  for(const a of vals){
+    const [x]=gridPoint([a,0]);line(x,L.cy-L.size/2,x,L.cy+L.size/2,"rgba(121,157,175,.22)",1);
+    const [,y]=gridPoint([0,a]);line(L.cx-L.size/2,y,L.cx+L.size/2,y,"rgba(121,157,175,.22)",1);
+  }
+  const points=[];
+  for(const x of vals)for(const y of vals)points.push([x,y]);
+  for(const v of points){
+    const p=gridPoint(v),sel=vEq(v,state.selected);
+    circle(p[0],p[1],sel?9:6,sel?COLORS.yellow:"rgba(204,229,241,.75)",sel?"#fff":"rgba(255,255,255,.25)",sel?2:1);
+    text(vecLabel(v),p[0],p[1]+18,8,sel?"#fff":"#7893a3");
+    clickablePoints.push({v,p});
+  }
+  text(state.domain==="f3"?"finite plane 𝔽₃²":"real comparison sample",L.cx,L.cy-L.size/2-25,11,"#a9bfca","center",700);
+
+  const o=ORIENTATIONS[state.orientation],origin=gridPoint([0,0]);
+  const up=gridPoint(o.u),vp=gridPoint(o.v);
+  arrow(origin[0],origin[1],up[0],up[1],COLORS.yellow,2.3);
+  arrow(origin[0],origin[1],vp[0],vp[1],COLORS.violet,1.7);
+  text("u = im N = ker N",up[0],up[1]-17,9,COLORS.yellow);
+  text("v",vp[0]+13,vp[1],10,COLORS.violet);
+}
+
+function interpolatedOrbitPoint(arr){
+  const phase=(state.time*state.speed*.72)%1;
+  const i=state.step%arr.length,j=(i+1)%arr.length,t=ease(phase);
+  const a=gridPoint(arr[i]),b=gridPoint(arr[j]);
+  return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];
+}
+function drawSelectedChain(){
+  const arr=orbit();
+  const color=state.mode==="nilpotent"?COLORS.yellow:state.mode==="anti"?COLORS.salmon:COLORS.cyan;
+  for(let i=0;i<arr.length-1;i++){
+    const a=gridPoint(arr[i]),b=gridPoint(arr[i+1]);
+    arrow(a[0],a[1],b[0],b[1],rgba(color,i===state.step?.9:.28),i===state.step?3:1.3);
+  }
+  arr.forEach((v,i)=>{
+    const p=gridPoint(v);circle(p[0],p[1],i===state.step?7:5,rgba(color,i===state.step?.9:.32),rgba("#ffffff",.5),1);
+  });
+  const p=interpolatedOrbitPoint(arr);
+  circle(p[0],p[1],8,color,"#fff",1.5);
+}
+
+function node(x,y,r,label,sub,color,active=false){
+  const pulse=active?3+2*Math.sin(state.time*state.speed*4):0;
+  circle(x,y,r+pulse,rgba(color,active?.22:.09),rgba(color,active?.95:.45),active?2.2:1.2);
+  text(label,x,y-3,15,"#fff","center",800);
+  text(sub,x,y+16,8,color);
+}
+
+function drawTrineTriangle(){
+  const cx=W*.72,cy=H*.49,R=Math.min(W,H)*.21;
+  const pts=[-Math.PI/2,Math.PI/6,5*Math.PI/6].map(a=>[cx+R*Math.cos(a),cy+R*Math.sin(a)]);
+  const names=["I",state.sign>0?"I + N":"I − N",state.sign>0?"I − N":"I + N"];
+  for(let i=0;i<3;i++){
+    const j=(i+1)%3;arrow(pts[i][0],pts[i][1],pts[j][0],pts[j][1],rgba(COLORS.cyan,.46),2);
+  }
+  pts.forEach((p,i)=>node(p[0],p[1],42,names[i],`T${i?"^"+i:"⁰"}`,COLORS.cyan,i===state.step%3));
+  text("multiplication by T",cx,cy,11,"#92adbc","center",700);
+  const arr=orbit(),p=interpolatedOrbitPoint(arr);
+  // small orbit glyph near moving lattice point handled on lattice; show coordinate by active node
+  const av=arr[state.step%arr.length],a=pts[state.step%3];
+  roundedRect(a[0]-48,a[1]+52,96,24,8,"rgba(7,16,25,.8)","rgba(51,214,242,.25)");
+  text(vecLabel(av),a[0],a[1]+64,9,"#cfeaf4");
+}
+
+function drawAntiHexagon(){
+  const cx=W*.72,cy=H*.49,R=Math.min(W,H)*.24;
+  const names=["I","−I+N","I+N","−I","I−N","−I−N"];
+  if(state.sign<0){names[1]="−I−N";names[2]="I−N";names[4]="I+N";names[5]="−I+N";}
+  const pts=Array.from({length:6},(_,i)=>{
+    const a=-Math.PI/2+i*Math.PI/3;return [cx+R*Math.cos(a),cy+R*Math.sin(a)];
+  });
+  for(let i=0;i<6;i++){
+    const j=(i+1)%6;arrow(pts[i][0],pts[i][1],pts[j][0],pts[j][1],rgba(i%2?COLORS.salmon:COLORS.cyan,.38),1.7);
+  }
+  pts.forEach((p,i)=>node(p[0],p[1],31,names[i],`A^${i}`,i%2?COLORS.salmon:COLORS.cyan,i===state.step%6));
+  line(pts[0][0],pts[0][1],pts[3][0],pts[3][1],"rgba(255,255,255,.18)",1,[5,5]);
+  text("A³ = −I",cx,cy,12,"#d9e9f1","center",800);
+  text("trines and anti-trines alternate",cx,cy+19,9,"#8fa7b5");
+}
+
+function drawNilpotentDiagram(){
+  const cx=W*.73,cy=H*.48;
+  const boxes=[
+    {x:cx-150,y:cy-55,label:"x",sub:vecLabel(state.selected)},
+    {x:cx,y:cy-55,label:"Nx",sub:vecLabel(apply(op.N,state.selected))},
+    {x:cx+150,y:cy-55,label:"N²x",sub:vecLabel(apply(op.N,apply(op.N,state.selected)))}
+  ];
+  boxes.forEach((b,i)=>{
+    roundedRect(b.x-50,b.y-38,100,76,13,rgba(COLORS.yellow,i===state.step?.13:.045),rgba(COLORS.yellow,i===state.step?.8:.25));
+    text(b.label,b.x,b.y-8,16,"#fff","center",800);text(b.sub,b.x,b.y+16,10,COLORS.yellow);
+  });
+  arrow(boxes[0].x+52,boxes[0].y,boxes[1].x-52,boxes[1].y,rgba(COLORS.yellow,.75),2.2);
+  arrow(boxes[1].x+52,boxes[1].y,boxes[2].x-52,boxes[2].y,rgba(COLORS.yellow,.75),2.2);
+  text("apply N",cx-75,cy-73,9,"#91aab8");text("apply N",cx+75,cy-73,9,"#91aab8");
+  const o=ORIENTATIONS[state.orientation];
+  text("All outputs land on the u-line",cx,cy+45,11,"#c6dbe6","center",700);
+  text(`N(v) = ${disp(state.strength)}u,   N(u) = ${disp(state.defect)}u`,cx,cy+67,10,"#8fa7b6");
+}
+
+function drawProofBlocks(){
+  const cx=W*.71,cy=H*.49,total=Math.min(W*.46,470),h=76;
+  const parts=[
+    {name:"I",coef:"1",color:"#edf8ff",survive:true},
+    {name:"N",coef:state.sign>0?"+3":"−3",color:COLORS.cyan,survive:state.domain!=="f3"},
+    {name:"N²",coef:"+3",color:COLORS.yellow,survive:state.domain!=="f3"&&op.nResid>1e-9},
+    {name:"N³",coef:state.sign>0?"+1":"−1",color:COLORS.salmon,survive:mNorm(mPow(op.N,3))>1e-9}
+  ];
+  const w=total/4-8;
+  parts.forEach((p,i)=>{
+    const x=cx-total/2+i*(w+10);
+    const live=p.survive||i===0;
+    roundedRect(x,cy-h/2,w,h,12,rgba(p.color,live?.13:.025),rgba(p.color,live?.72:.16));
+    text(p.coef,x+w/2,cy-18,12,live?p.color:"#536c7b","center",800);
+    text(p.name,x+w/2,cy+10,16,live?"#fff":"#536c7b","center",800);
+    if(!live&&i>0){line(x+10,cy-h/2+10,x+w-10,cy+h/2-10,"rgba(255,104,118,.55)",2);}
+  });
+  text(state.domain==="f3"?"3 = 0, so the middle blocks disappear":"3 ≠ 0, so the linear block survives",cx,cy+72,11,state.domain==="f3"?COLORS.green:COLORS.red,"center",800);
+  if(op.nResid<1e-9)text("N² = N³ = 0",cx,cy+94,10,COLORS.green);
+  else text("square-zero is broken",cx,cy+94,10,COLORS.red);
+}
+
+function draw(){
+  drawBackground();drawLattice();drawSelectedChain();
+  if(state.mode==="nilpotent")drawNilpotentDiagram();
+  else if(state.mode==="trine")drawTrineTriangle();
+  else if(state.mode==="anti")drawAntiHexagon();
+  else drawProofBlocks();
+}
+
+canvas.addEventListener("pointerdown",e=>{
+  const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  const hit=clickablePoints.reduce((best,p)=>{
+    const d=Math.hypot(x-p.p[0],y-p.p[1]);return d<(best?.d??18)?{...p,d}:best;
+  },null);
+  if(hit){state.selected=hit.v.slice();state.step=0;state.dragging=true;canvas.setPointerCapture(e.pointerId);updateOrbit();}
+});
+canvas.addEventListener("pointermove",e=>{
+  if(!state.dragging)return;
+  const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  let best=null;
+  for(const p of clickablePoints){
+    const d=Math.hypot(x-p.p[0],y-p.p[1]);if(!best||d<best.d)best={...p,d};
+  }
+  if(best&&best.d<45){state.selected=best.v.slice();state.step=0;updateOrbit();}
+});
+canvas.addEventListener("pointerup",()=>state.dragging=false);
+canvas.addEventListener("pointercancel",()=>state.dragging=false);
+
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;state.time+=dt;
+  if(state.playing&&now-state.lastAdvance>850/Math.max(.2,state.speed)){
+    advance();state.lastAdvance=now;
+  }
+  draw();requestAnimationFrame(loop);
+}
+
+recompute();
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
