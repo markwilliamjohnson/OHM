@@ -1,0 +1,440 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Concept website for the College for Occupational Health Transformation — a Manchester-connected community bringing research, learning and practice together to create good and healthy work." />
+<title>College for Occupational Health Transformation</title>
+<style>
+  :root{
+    --ink:#1f1730;
+    --muted:#655f70;
+    --paper:#f7f4f8;
+    --white:#fff;
+    --plum:#5d2468;
+    --plum2:#7c3f86;
+    --orange:#f28f4b;
+    --gold:#e6b85c;
+    --teal:#31847b;
+    --blue:#476d93;
+    --line:#ded5e3;
+    --shadow:0 22px 60px rgba(43,25,50,.13);
+    --radius:28px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
+  a{color:inherit}
+  img,svg{max-width:100%;display:block}
+  button{font:inherit}
+  .wrap{width:min(1180px,calc(100% - 40px));margin-inline:auto}
+  .eyebrow{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:var(--plum)}
+  .pill{display:inline-flex;align-items:center;gap:.55rem;border:1px solid rgba(93,36,104,.18);background:rgba(255,255,255,.74);backdrop-filter:blur(10px);padding:.48rem .78rem;border-radius:999px;font-size:.88rem;font-weight:700}
+  .dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--orange);box-shadow:0 0 0 5px rgba(242,143,75,.15)}
+  h1,h2,h3{line-height:1.07;margin:0;letter-spacing:-.035em}
+  h1{font-size:clamp(3rem,7vw,6.7rem);max-width:920px}
+  h2{font-size:clamp(2rem,4.7vw,4.3rem)}
+  h3{font-size:1.35rem}
+  p{margin:0;color:var(--muted)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.65rem;text-decoration:none;border-radius:999px;padding:.88rem 1.18rem;font-weight:800;border:1px solid transparent;transition:.2s ease;cursor:pointer}
+  .btn.primary{background:var(--ink);color:white;box-shadow:0 10px 22px rgba(31,23,48,.18)}
+  .btn.primary:hover{transform:translateY(-2px);background:var(--plum)}
+  .btn.secondary{background:white;border-color:var(--line)}
+  .btn.secondary:hover{transform:translateY(-2px);border-color:var(--plum)}
+
+  /* nav */
+  .nav-shell{position:fixed;z-index:30;left:0;right:0;top:0;padding:14px 0;transition:.25s ease}
+  .nav-shell.scrolled{background:rgba(247,244,248,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(93,36,104,.08)}
+  nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;font-weight:900;line-height:1.02}
+  .brandmark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--ink);color:#fff;box-shadow:0 10px 20px rgba(31,23,48,.16)}
+  .brandmark svg{width:25px}
+  .brand small{display:block;font-size:.67rem;font-weight:700;color:var(--muted);letter-spacing:.03em;margin-top:2px}
+  .navlinks{display:flex;align-items:center;gap:1rem}
+  .navlinks a{text-decoration:none;font-size:.91rem;font-weight:750;color:#413849}
+  .menu{display:none;border:0;background:white;border-radius:12px;padding:.6rem .7rem;box-shadow:var(--shadow)}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:155px 0 90px;min-height:92vh;background:
+    radial-gradient(circle at 83% 20%,rgba(242,143,75,.20),transparent 23%),
+    radial-gradient(circle at 14% 72%,rgba(49,132,123,.15),transparent 22%),
+    linear-gradient(180deg,#fbf9fb 0%,#f7f4f8 100%)}
+  .hero:after{content:"";position:absolute;inset:auto -12% -42% 42%;height:700px;border-radius:50%;border:1px solid rgba(93,36,104,.12);box-shadow:0 0 0 54px rgba(93,36,104,.03),0 0 0 110px rgba(93,36,104,.025)}
+  .hero-grid{display:grid;grid-template-columns:1.07fr .93fr;gap:56px;align-items:center;position:relative;z-index:2}
+  .hero-copy p.lead{font-size:clamp(1.12rem,2vw,1.42rem);max-width:740px;margin:26px 0;color:#51485a}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .hero-note{margin-top:34px;display:flex;gap:14px;align-items:flex-start;max-width:680px;padding-top:18px;border-top:1px solid var(--line)}
+  .hero-note b{color:var(--ink)}
+  .hero-art{position:relative;min-height:585px}
+  .portrait-card{position:absolute;inset:34px 12px 16px 48px;background:#fff;border-radius:46px;box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(93,36,104,.10)}
+  .portrait-card svg{width:100%;height:100%}
+  .floating{position:absolute;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:1px solid rgba(93,36,104,.12);border-radius:18px;padding:.9rem 1rem;box-shadow:0 14px 34px rgba(43,25,50,.12);font-size:.88rem;font-weight:800}
+  .floating.one{left:0;top:7%;animation:bob 5s ease-in-out infinite}
+  .floating.two{right:-5px;bottom:13%;animation:bob 5.7s ease-in-out infinite reverse}
+  .floating.three{left:6%;bottom:3%;animation:bob 6.4s ease-in-out infinite .3s}
+  @keyframes bob{50%{transform:translateY(-10px)}}
+
+  .section{padding:104px 0}
+  .section-head{display:grid;grid-template-columns:.78fr 1.22fr;gap:48px;align-items:end;margin-bottom:50px}
+  .section-head p{font-size:1.1rem;max-width:750px}
+
+  /* thesis */
+  .thesis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .thesis-card{background:#fff;border-radius:24px;padding:28px;border:1px solid rgba(93,36,104,.10);min-height:260px;display:flex;flex-direction:column;justify-content:space-between;transition:.22s ease}
+  .thesis-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+  .iconbox{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:#f1e9f2;color:var(--plum);margin-bottom:30px}
+  .iconbox svg{width:28px}
+  .thesis-card p{margin-top:12px}
+  .not-body{margin-top:30px;border-radius:22px;background:var(--ink);color:white;padding:24px 28px;display:flex;gap:18px;align-items:center}
+  .not-body p{color:#ddd5e2}
+
+  /* transformation engine */
+  .engine{background:#21172b;color:#fff;position:relative;overflow:hidden}
+  .engine:before{content:"";position:absolute;width:650px;height:650px;border-radius:50%;background:radial-gradient(circle,rgba(242,143,75,.14),transparent 65%);right:-120px;top:-170px}
+  .engine .section-head p{color:#cbc2cf}
+  .engine .eyebrow{color:#ffba87}
+  .engine-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:42px;align-items:center}
+  .engine-canvas{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:34px;padding:12px;min-height:620px}
+  .engine-canvas svg{width:100%;height:100%}
+  .engine-copy{display:grid;gap:14px}
+  .step{border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px 20px;background:rgba(255,255,255,.045);transition:.2s ease}
+  .step.active{background:rgba(242,143,75,.12);border-color:rgba(242,143,75,.4);transform:translateX(6px)}
+  .step b{display:block;color:#fff;margin-bottom:4px}
+  .step span{font-size:.9rem;color:#cfc6d2}
+  .engine-controls{display:flex;gap:10px;margin-top:8px}
+  .engine-controls button{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;padding:.65rem .9rem;border-radius:999px;cursor:pointer}
+  .engine-controls button:hover{background:rgba(255,255,255,.12)}
+
+  /* research */
+  .research-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+  .research-card{border-radius:28px;padding:28px;min-height:300px;position:relative;overflow:hidden;border:1px solid rgba(93,36,104,.1)}
+  .research-card h3{font-size:1.55rem;margin-top:90px}
+  .research-card p{margin-top:10px;max-width:520px}
+  .research-card:nth-child(1){grid-column:span 7;background:#eadfeb}
+  .research-card:nth-child(2){grid-column:span 5;background:#e3efec}
+  .research-card:nth-child(3){grid-column:span 5;background:#f5e7dc}
+  .research-card:nth-child(4){grid-column:span 7;background:#e5e9ef}
+  .research-number{position:absolute;right:24px;top:12px;font-size:6rem;line-height:1;font-weight:950;letter-spacing:-.08em;color:rgba(31,23,48,.08)}
+  .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .tag{font-size:.78rem;font-weight:800;border-radius:999px;padding:.42rem .65rem;background:rgba(255,255,255,.55)}
+
+  /* community illustration */
+  .community{background:#fff}
+  .community-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:50px;align-items:center}
+  .network-panel{background:#f6f0f7;border-radius:34px;padding:18px;border:1px solid #eadfea;box-shadow:0 24px 60px rgba(61,31,70,.08)}
+  .community-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+  .community-item{padding:15px;border:1px solid var(--line);border-radius:17px;background:#fff;font-weight:800}
+  .community-item small{display:block;font-weight:600;color:var(--muted);margin-top:3px}
+
+  /* programme */
+  .programmes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .programme{border-radius:24px;background:#fff;padding:24px;border:1px solid var(--line);position:relative;overflow:hidden}
+  .programme:before{content:"";position:absolute;width:80px;height:4px;border-radius:10px;top:0;left:24px;background:var(--orange)}
+  .programme p{margin:11px 0 18px}
+  .programme a{text-decoration:none;font-weight:850;color:var(--plum)}
+
+  /* quote */
+  .manifesto{padding:100px 0 120px}
+  .manifesto-box{border-radius:42px;background:linear-gradient(135deg,#5d2468,#2a1935 80%);padding:clamp(34px,7vw,78px);position:relative;overflow:hidden;color:white}
+  .manifesto-box:after{content:"";position:absolute;width:410px;height:410px;border-radius:50%;border:70px solid rgba(255,255,255,.045);right:-170px;bottom:-190px}
+  .manifesto blockquote{font-size:clamp(1.8rem,4vw,3.65rem);line-height:1.12;letter-spacing:-.04em;margin:0;max-width:940px;position:relative;z-index:1}
+  .manifesto p{color:#ded4e1;margin-top:24px;max-width:700px;position:relative;z-index:1}
+
+  /* join */
+  .join{padding-bottom:110px}
+  .join-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .join-card{background:#fff;border-radius:30px;padding:32px;border:1px solid var(--line)}
+  .join-card.big{background:#f2e8f3}
+  .join-card ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:11px}
+  .join-card li{display:flex;gap:10px;color:#4f4656}
+  .check{color:var(--teal);font-weight:950}
+  .form{display:grid;gap:12px;margin-top:22px}
+  input,select,textarea{width:100%;border:1px solid #ded4e0;border-radius:14px;padding:.9rem 1rem;background:#fff;font:inherit;color:var(--ink)}
+  textarea{min-height:105px;resize:vertical}
+  .form-note{font-size:.78rem;color:#817887}
+
+  footer{padding:42px 0 55px;border-top:1px solid var(--line)}
+  .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+  .sources{font-size:.78rem;color:#817887}
+  .sources a{color:#67596d}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+  .reveal.visible{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    .navlinks a:not(.nav-cta){display:none}
+    .menu{display:block}
+    .hero-grid,.section-head,.engine-grid,.community-grid,.join-grid,.footer-grid{grid-template-columns:1fr}
+    .hero{padding-top:130px}
+    .hero-art{min-height:470px}
+    .thesis-grid,.programmes{grid-template-columns:1fr}
+    .research-card:nth-child(n){grid-column:span 12}
+    .section{padding:76px 0}
+    .section-head{gap:18px}
+  }
+  @media (max-width:560px){
+    .wrap{width:min(100% - 24px,1180px)}
+    .brand span.label{display:none}
+    .hero-art{min-height:420px}
+    .portrait-card{inset:28px 0 12px 15px}
+    .floating{font-size:.72rem;padding:.66rem .75rem}
+    .community-list{grid-template-columns:1fr}
+    h1{font-size:clamp(2.7rem,15vw,4.4rem)}
+  }
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header class="nav-shell" id="navShell">
+  <nav class="wrap" aria-label="Primary navigation">
+    <a class="brand" href="#top">
+      <span class="brandmark" aria-hidden="true">
+        <svg viewBox="0 0 30 30" fill="none"><path d="M6 18c4-8 7-9 12-11M9 23c2-7 7-10 15-12M13 26c1-6 4-10 12-12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="7" cy="12" r="2" fill="#f28f4b"/></svg>
+      </span>
+      <span class="label">College for Occupational<br>Health Transformation<small>Manchester-connected community</small></span>
+    </a>
+    <div class="navlinks" id="navlinks">
+      <a href="#purpose">Purpose</a><a href="#engine">How it works</a><a href="#research">Research</a><a href="#community">Community</a><a href="#join" class="btn primary nav-cta">Join the network</a>
+      <button class="menu" id="menuBtn" aria-label="Open navigation">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy reveal">
+      <span class="pill"><span class="dot"></span> Research • learning • practice • transformation</span>
+      <h1 style="margin-top:22px">Creating good and healthy work, together.</h1>
+      <p class="lead">The <strong>College for Occupational Health Transformation</strong> is a community associated with the University of Manchester’s Centre for Occupational and Environmental Health: practitioners, students, alumni, researchers and partners working to turn knowledge into healthier working lives.</p>
+      <div class="hero-actions"><a href="#join" class="btn primary">Become part of the community →</a><a href="#engine" class="btn secondary">See how transformation works</a></div>
+      <div class="hero-note"><span class="dot" style="margin-top:.45rem"></span><p><b>Not a professional body.</b> The College is a participatory space for inquiry, experimentation and collective action — extending the reach of academic research by connecting it directly with working practice.</p></div>
+    </div>
+    <div class="hero-art reveal" aria-label="Illustration of a diverse occupational health community">
+      <div class="portrait-card">
+        <svg viewBox="0 0 620 690" role="img" aria-label="Occupational health practitioners and workers connected across workplaces">
+          <defs>
+            <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#efe5f1"/><stop offset="1" stop-color="#f7ede6"/></linearGradient>
+            <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5d2468"/><stop offset="1" stop-color="#8a4c91"/></linearGradient>
+          </defs>
+          <rect width="620" height="690" rx="42" fill="url(#bg)"/>
+          <path d="M0 450c135-42 223-26 329 11s200 43 291-2v231H0z" fill="#ddeae7"/>
+          <!-- workplace horizon -->
+          <g opacity=".42" fill="none" stroke="#5f5263" stroke-width="3">
+            <path d="M30 302h150v125H30zM50 326h26m20 0h26m20 0h20M50 350h26m20 0h26m20 0h20"/>
+            <path d="M430 276h155v151H430zM445 306h125M445 330h125M445 354h125"/>
+            <path d="M247 337h115v90H247zM263 337v-56h86v56M278 303h56"/>
+          </g>
+          <!-- connective arcs -->
+          <g fill="none" stroke="#f28f4b" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 11" opacity=".9">
+            <path d="M88 215C188 118 313 129 391 204"/><path d="M194 550C282 595 401 570 491 489"/><path d="M111 463C144 377 202 343 280 330"/>
+          </g>
+          <!-- figures -->
+          <g>
+            <!-- left worker -->
+            <circle cx="122" cy="405" r="38" fill="#9a694d"/>
+            <path d="M83 400c7-45 70-49 79-2-16-18-55-24-79 2z" fill="#2e2432"/>
+            <path d="M63 551c5-71 27-107 64-107s62 34 67 107" fill="#f28f4b"/>
+            <path d="M87 461l35 27 39-26 8 89H78z" fill="#f3b47f" opacity=".55"/>
+            <path d="M78 479h91" stroke="#fff" stroke-width="7" opacity=".75"/>
+            <path d="M75 513h97" stroke="#fff" stroke-width="7" opacity=".75"/>
+            <!-- centre practitioner -->
+            <circle cx="310" cy="362" r="48" fill="#c18d70"/>
+            <path d="M261 353c6-52 72-71 99-26 8 13 5 30 0 44-8-20-25-37-50-40-15-2-35 3-49 22z" fill="#372737"/>
+            <path d="M227 573c6-103 31-151 85-151 55 0 83 52 87 151" fill="url(#shirt)"/>
+            <path d="M274 430l36 39 37-39" fill="none" stroke="#fff" stroke-width="6"/>
+            <path d="M307 468v52" stroke="#fff" stroke-width="5"/>
+            <circle cx="307" cy="526" r="17" fill="none" stroke="#fff" stroke-width="5"/>
+            <!-- right office person -->
+            <circle cx="484" cy="412" r="38" fill="#6e4b37"/>
+            <path d="M446 404c5-41 64-58 82-15 4 11 2 22-2 31-8-25-44-37-80-16z" fill="#17151c"/>
+            <path d="M425 555c8-75 29-108 61-108 39 0 65 35 70 108" fill="#476d93"/>
+            <path d="M461 447l24 34 27-34" fill="none" stroke="#fff" stroke-width="5"/>
+          </g>
+          <!-- foreground badges -->
+          <g font-family="Arial, sans-serif" font-size="16" font-weight="700">
+            <rect x="52" y="92" width="155" height="46" rx="23" fill="#fff"/><text x="77" y="121" fill="#3b2d42">listen to practice</text>
+            <rect x="349" y="92" width="190" height="46" rx="23" fill="#fff"/><text x="374" y="121" fill="#3b2d42">test ideas together</text>
+            <rect x="206" y="614" width="206" height="46" rx="23" fill="#21172b"/><text x="238" y="643" fill="#fff">change real work</text>
+          </g>
+        </svg>
+      </div>
+      <div class="floating one">↗ workplace questions</div>
+      <div class="floating two">research into action</div>
+      <div class="floating three">policy ↺ practice</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="purpose">
+  <div class="wrap">
+    <div class="section-head reveal"><div><div class="eyebrow">Why a College?</div><h2>A space for transformation, not just transmission.</h2></div><p>Occupational health knowledge already exists in universities, clinics, workplaces, professional networks and the experience of workers themselves. The College creates an active structure in which those forms of knowledge can meet, challenge one another, and become changes in practice.</p></div>
+    <div class="thesis-grid">
+      <article class="thesis-card reveal"><div><div class="iconbox"><svg viewBox="0 0 32 32" fill="none"><path d="M5 24c6-1 8-5 10-10 2 6 6 10 12 11M7 10c5 1 8-2 9-6 2 4 5 7 10 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></div><h3>Practice is a source of knowledge</h3><p>Students and practitioners bring live professional situations into the learning process — not as anecdotes, but as material for disciplined inquiry and redesign.</p></div></article>
+      <article class="thesis-card reveal"><div><div class="iconbox"><svg viewBox="0 0 32 32" fill="none"><circle cx="10" cy="16" r="5" stroke="currentColor" stroke-width="2.2"/><circle cx="23" cy="9" r="4" stroke="currentColor" stroke-width="2.2"/><circle cx="23" cy="24" r="4" stroke="currentColor" stroke-width="2.2"/><path d="M14 14l5-3m-5 8l5 3" stroke="currentColor" stroke-width="2.2"/></svg></div><h3>Research is a shared activity</h3><p>Surveillance, epidemiology, workplace studies, service data and provider partnerships can become part of learning — while professional experience generates new research questions.</p></div></article>
+      <article class="thesis-card reveal"><div><div class="iconbox"><svg viewBox="0 0 32 32" fill="none"><path d="M6 23l6-6 5 4 9-11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 10h6v6" stroke="currentColor" stroke-width="2.2"/></svg></div><h3>Learning should change systems</h3><p>The test of education is not only what a participant can explain, but what becomes possible in clinics, organisations, sectors and policy because they can act differently.</p></div></article>
+    </div>
+    <div class="not-body reveal"><div style="font-size:1.6rem">≠</div><p><strong style="color:white">The College is not a regulator, credentialing organisation or representative professional body.</strong> It complements those institutions by concentrating on connection, experimentation, learning and transformation.</p></div>
+  </div>
+</section>
+
+<section class="section engine" id="engine">
+  <div class="wrap">
+    <div class="section-head reveal"><div><div class="eyebrow">The transformation engine</div><h2>Change moves in a spiral.</h2></div><p>Research informs learning; learning is tuned to the situations practitioners face; practitioners change work; those changes reveal new evidence, constraints and questions. The College keeps that movement connected.</p></div>
+    <div class="engine-grid">
+      <div class="engine-canvas reveal">
+        <svg id="spiralSvg" viewBox="0 0 640 640" aria-label="Animated spiral showing research, learning, practice, workplace change and policy">
+          <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#f28f4b"/></marker></defs>
+          <circle cx="320" cy="320" r="272" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+          <circle cx="320" cy="320" r="210" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+          <circle cx="320" cy="320" r="145" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+          <path id="spiralPath" d="M320 325 C305 292 342 268 370 292 C414 330 388 396 331 409 C249 427 189 346 218 273 C256 178 376 152 455 215 C560 300 512 462 390 511 C237 573 95 458 118 315 C145 149 330 64 477 145" fill="none" stroke="#f28f4b" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+          <path d="M320 325 C305 292 342 268 370 292 C414 330 388 396 331 409 C249 427 189 346 218 273 C256 178 376 152 455 215 C560 300 512 462 390 511 C237 573 95 458 118 315 C145 149 330 64 477 145" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="18" stroke-linecap="round" opacity=".45"/>
+          <g id="nodes" font-family="Arial, sans-serif">
+            <g class="svgNode" data-step="0"><circle cx="320" cy="325" r="49" fill="#fff"/><text x="320" y="318" text-anchor="middle" fill="#281a30" font-size="14" font-weight="700">PROFESSIONAL</text><text x="320" y="337" text-anchor="middle" fill="#281a30" font-size="14" font-weight="700">SITUATION</text></g>
+            <g class="svgNode" data-step="1"><circle cx="365" cy="294" r="35" fill="#e6b85c"/><text x="365" y="299" text-anchor="middle" fill="#281a30" font-size="12" font-weight="800">LISTEN</text></g>
+            <g class="svgNode" data-step="2"><circle cx="367" cy="398" r="42" fill="#ddd0e2"/><text x="367" y="394" text-anchor="middle" fill="#281a30" font-size="12" font-weight="800">LEARNING</text><text x="367" y="410" text-anchor="middle" fill="#281a30" font-size="12" font-weight="800">DESIGN</text></g>
+            <g class="svgNode" data-step="3"><circle cx="220" cy="306" r="43" fill="#abd0c9"/><text x="220" y="303" text-anchor="middle" fill="#193f3a" font-size="12" font-weight="800">RESEARCH</text><text x="220" y="319" text-anchor="middle" fill="#193f3a" font-size="12" font-weight="800">EVIDENCE</text></g>
+            <g class="svgNode" data-step="4"><circle cx="446" cy="221" r="47" fill="#c5d3e1"/><text x="446" y="218" text-anchor="middle" fill="#24394e" font-size="12" font-weight="800">PRACTICE</text><text x="446" y="234" text-anchor="middle" fill="#24394e" font-size="12" font-weight="800">CHANGE</text></g>
+            <g class="svgNode" data-step="5"><circle cx="392" cy="505" r="53" fill="#f4b58b"/><text x="392" y="500" text-anchor="middle" fill="#472716" font-size="12" font-weight="800">HEALTHIER</text><text x="392" y="516" text-anchor="middle" fill="#472716" font-size="12" font-weight="800">WORK</text></g>
+            <g class="svgNode" data-step="6"><circle cx="120" cy="315" r="50" fill="#fff"/><text x="120" y="311" text-anchor="middle" fill="#281a30" font-size="12" font-weight="800">COMMUNITY</text><text x="120" y="327" text-anchor="middle" fill="#281a30" font-size="12" font-weight="800">+ POLICY</text></g>
+            <g class="svgNode" data-step="7"><circle cx="478" cy="145" r="46" fill="#fff"/><text x="478" y="141" text-anchor="middle" fill="#281a30" font-size="12" font-weight="800">NEW</text><text x="478" y="157" text-anchor="middle" fill="#281a30" font-size="12" font-weight="800">QUESTIONS</text></g>
+          </g>
+          <circle id="traveller" cx="0" cy="0" r="8" fill="#fff" stroke="#f28f4b" stroke-width="5"/>
+        </svg>
+      </div>
+      <div class="engine-copy reveal">
+        <div class="step active" data-step="0"><b>1 — Start with the situation</b><span>What is happening in a clinic, workplace, organisation or sector? What matters to the people inside it?</span></div>
+        <div class="step" data-step="1"><b>2 — Listen before prescribing</b><span>Surface aims, anxieties, constraints, uncertainty, capability and the practical consequences of current arrangements.</span></div>
+        <div class="step" data-step="2"><b>3 — Tune learning</b><span>Teaching becomes responsive design: cases, methods, tools and AI are adapted to make participants more capable of acting.</span></div>
+        <div class="step" data-step="3"><b>4 — Connect live research</b><span>Surveillance, studies, provider relationships and practitioner inquiry supply evidence — and expose where evidence is missing.</span></div>
+        <div class="step" data-step="4"><b>5 — Act in professional practice</b><span>Participants test new descriptions, interventions, services and forms of coordination in the systems where they already have agency.</span></div>
+        <div class="step" data-step="5"><b>6 — Create healthier work</b><span>The result sought is not merely compliance or treatment, but better conditions for health in the organisation of work itself.</span></div>
+        <div class="step" data-step="6"><b>7 — Build community and influence</b><span>What works can circulate across employers, providers, disciplines and public institutions — informing wider practice and policy.</span></div>
+        <div class="step" data-step="7"><b>8 — Return with better questions</b><span>Every intervention generates new observations. The next cycle begins with richer evidence and a stronger community.</span></div>
+        <div class="engine-controls"><button id="prevStep">← Previous</button><button id="nextStep">Next →</button><button id="autoStep">Pause animation</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="research">
+  <div class="wrap">
+    <div class="section-head reveal"><div><div class="eyebrow">Research in motion</div><h2>Evidence becomes more useful when practitioners can work with it.</h2></div><p>The College can make Manchester’s research environment more permeable: researchers see live problems sooner; practitioners engage with methods and evidence more deeply; students learn through participation rather than only consumption.</p></div>
+    <div class="research-grid">
+      <article class="research-card reveal"><span class="research-number">01</span><h3>Health & Occupation Research Network (THOR)</h3><p>Use long-running surveillance data as a shared learning resource: spotting emerging risks, interrogating trends, discussing sentinel cases and asking what signals should matter next.</p><div class="tagrow"><span class="tag">surveillance</span><span class="tag">work-related ill health</span><span class="tag">emerging risks</span></div></article>
+      <article class="research-card reveal"><span class="research-number">02</span><h3>Health surveillance as learning</h3><p>Connect the practical work of surveillance with questions about exposure, detection, control effectiveness, inequality and organisational learning.</p><div class="tagrow"><span class="tag">exposure</span><span class="tag">early detection</span><span class="tag">control</span></div></article>
+      <article class="research-card reveal"><span class="research-number">03</span><h3>Provider & workplace partnerships</h3><p>Work with occupational health providers, employers and practitioners to investigate real service problems, test interventions and compare what happens across contexts.</p><div class="tagrow"><span class="tag">co-design</span><span class="tag">service innovation</span><span class="tag">implementation</span></div></article>
+      <article class="research-card reveal"><span class="research-number">04</span><h3>New methods for complex work</h3><p>Explore AI, data linkage, participatory inquiry and systems approaches where standard evidence pipelines are too slow or too detached from changing professional situations.</p><div class="tagrow"><span class="tag">AI</span><span class="tag">design-based research</span><span class="tag">systems</span><span class="tag">data</span></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="section community" id="community">
+  <div class="wrap community-grid">
+    <div class="network-panel reveal">
+      <svg viewBox="0 0 720 590" aria-label="Network diagram showing the College connecting practitioners, students, alumni, employers, providers, researchers and public institutions">
+        <rect width="720" height="590" rx="28" fill="#f7f1f8"/>
+        <g stroke="#c6b4ca" stroke-width="2.5" opacity=".8">
+          <path d="M360 293L150 126M360 293L575 126M360 293L120 302M360 293L600 300M360 293L166 475M360 293L560 475"/>
+          <path d="M150 126L120 302L166 475M575 126L600 300L560 475M150 126L575 126M166 475L560 475" stroke-dasharray="5 7"/>
+        </g>
+        <g font-family="Arial, sans-serif" font-weight="800" text-anchor="middle">
+          <circle cx="360" cy="293" r="92" fill="#5d2468"/><text x="360" y="277" fill="#fff" font-size="20">COLLEGE FOR</text><text x="360" y="303" fill="#fff" font-size="20">OH</text><text x="360" y="329" fill="#fff" font-size="20">TRANSFORMATION</text>
+          <g><circle cx="150" cy="126" r="66" fill="#fff" stroke="#d9cedc"/><text x="150" y="121" fill="#34253a" font-size="16">PRACTITIONERS</text><text x="150" y="142" fill="#756c79" font-size="12">live professional work</text></g>
+          <g><circle cx="575" cy="126" r="66" fill="#e8d6ea"/><text x="575" y="121" fill="#34253a" font-size="16">RESEARCHERS</text><text x="575" y="142" fill="#756c79" font-size="12">evidence + inquiry</text></g>
+          <g><circle cx="120" cy="302" r="66" fill="#e1efec"/><text x="120" y="297" fill="#24423e" font-size="16">STUDENTS</text><text x="120" y="318" fill="#607a76" font-size="12">learning in practice</text></g>
+          <g><circle cx="600" cy="300" r="66" fill="#f6e2d3"/><text x="600" y="295" fill="#4a2d1b" font-size="16">EMPLOYERS</text><text x="600" y="316" fill="#7d685b" font-size="12">work design</text></g>
+          <g><circle cx="166" cy="475" r="66" fill="#e3e8ef"/><text x="166" y="470" fill="#2f3b48" font-size="16">ALUMNI</text><text x="166" y="491" fill="#6d7782" font-size="12">distributed expertise</text></g>
+          <g><circle cx="560" cy="475" r="66" fill="#f5e9c9"/><text x="560" y="470" fill="#4d4020" font-size="15">PROVIDERS +</text><text x="560" y="490" fill="#4d4020" font-size="15">PUBLIC BODIES</text></g>
+        </g>
+        <circle r="7" fill="#f28f4b"><animateMotion dur="7s" repeatCount="indefinite" path="M360 293L150 126L575 126L600 300L560 475L166 475L120 302Z"/></circle>
+      </svg>
+    </div>
+    <div class="reveal"><div class="eyebrow">A distributed college</div><h2 style="margin-top:8px">The expertise is already in the room — and beyond it.</h2><p style="font-size:1.08rem;margin-top:22px">Many occupational health learners are experienced professionals with immediate access to consequential work situations. That makes education unusually capable of creating real-world change. The College keeps those people connected after a module, degree or project ends.</p>
+      <div class="community-list">
+        <div class="community-item">Occupational physicians<small>clinical judgement + work systems</small></div>
+        <div class="community-item">OH nurses & advisers<small>front-line organisational practice</small></div>
+        <div class="community-item">Occupational hygienists<small>exposure + control</small></div>
+        <div class="community-item">Ergonomists & safety professionals<small>work design + prevention</small></div>
+        <div class="community-item">Researchers & students<small>methods + new questions</small></div>
+        <div class="community-item">Employers, providers & policymakers<small>scale + implementation</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="activities">
+  <div class="wrap">
+    <div class="section-head reveal"><div><div class="eyebrow">What the College does</div><h2>Small structures that make useful collisions more likely.</h2></div><p>The College can operate through lightweight, recurring formats that connect people who would not otherwise work on the same problem.</p></div>
+    <div class="programmes">
+      <article class="programme reveal"><h3>Practice Studios</h3><p>Bring a difficult live occupational health situation. Map it with peers and researchers. Leave with a testable next move.</p><a href="#join">Bring a situation →</a></article>
+      <article class="programme reveal"><h3>Research Commons</h3><p>Short, open sessions where a current dataset, study, paper or unresolved methodological problem becomes shared working material.</p><a href="#join">Join a session →</a></article>
+      <article class="programme reveal"><h3>Transformation Projects</h3><p>Time-bounded collaborations between students, alumni, providers, employers and researchers around a concrete problem of healthy work.</p><a href="#join">Propose a project →</a></article>
+      <article class="programme reveal"><h3>Listening Posts</h3><p>Regular ways for practitioners and workers to surface changing concerns, weak signals, emerging risks and learning needs.</p><a href="#join">Contribute a signal →</a></article>
+      <article class="programme reveal"><h3>Methods Workshops</h3><p>Hands-on use of epidemiology, surveillance, qualitative inquiry, AI, systems methods and data tools on real occupational health questions.</p><a href="#join">Explore methods →</a></article>
+      <article class="programme reveal"><h3>Public Conversations</h3><p>Connect evidence and professional experience with wider debate about what good work should look like — and how institutions can help create it.</p><a href="#join">Take part →</a></article>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto">
+  <div class="wrap">
+    <div class="manifesto-box reveal"><blockquote>Occupational health should not only respond when work makes people ill. It should help society learn how to organise work so that health can develop.</blockquote><p>The College exists to make that shift practical: from isolated expertise to connected inquiry; from knowledge transfer to knowledge creation; from individual interventions to the conditions of healthy work.</p></div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="wrap">
+    <div class="section-head reveal"><div><div class="eyebrow">Join the network</div><h2>Come with experience, questions, evidence — or a problem worth working on.</h2></div><p>Membership is conceived as participation rather than status. The important question is not “what title do you hold?” but “what can we learn and change together?”</p></div>
+    <div class="join-grid">
+      <div class="join-card big reveal"><h3>Who is it for?</h3><ul><li><span class="check">✓</span>Current and former Manchester occupational health students</li><li><span class="check">✓</span>Occupational health, hygiene, safety and ergonomics practitioners</li><li><span class="check">✓</span>Researchers and doctoral students</li><li><span class="check">✓</span>Occupational health providers and employers</li><li><span class="check">✓</span>Public bodies, policy teams and partner organisations</li><li><span class="check">✓</span>Anyone able to contribute seriously to the creation of good and healthy work</li></ul><p style="margin-top:26px"><strong style="color:var(--ink)">A College without a wall.</strong><br>Connected to Manchester, but designed to work wherever occupational health practice is happening.</p></div>
+      <div class="join-card reveal"><h3>Register interest</h3><p style="margin-top:10px">This concept form is ready to connect to a University-approved form or mailing platform.</p><form class="form" id="interestForm"><input aria-label="Name" placeholder="Name" required><input type="email" aria-label="Email" placeholder="Email" required><select aria-label="Relationship to occupational health"><option>My connection to occupational health…</option><option>Practitioner</option><option>Current student</option><option>Alumnus / alumna</option><option>Researcher</option><option>Employer / provider</option><option>Public body / policymaker</option><option>Other</option></select><textarea aria-label="Area of interest" placeholder="What problem, research area or practice question are you interested in?"></textarea><button class="btn primary" type="submit">Register interest</button><div class="form-note" id="formNote">Demo only — no information is transmitted from this prototype.</div></form></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div><a class="brand" href="#top"><span class="brandmark" aria-hidden="true">↗</span><span>College for Occupational<br>Health Transformation</span></a><p style="margin-top:14px;max-width:520px">Concept website for a community associated with the Centre for Occupational and Environmental Health at The University of Manchester.</p></div>
+    <div class="sources"><strong>Prototype note.</strong> “College for Occupational Health Transformation” is presented here as a proposed initiative, not as an established University unit or professional body. Before public launch, University naming, visual identity, governance, privacy and accessibility should be formally approved.<br><br>
+      Context sources: <a href="https://sites.manchester.ac.uk/epidemiology-public-health/" target="_blank" rel="noopener">University of Manchester — Epidemiology & Public Health / COEH</a> · <a href="https://www.manchester.ac.uk/about/news/thor-network-secures-new-contract/" target="_blank" rel="noopener">University of Manchester — THOR Network</a> · <a href="https://www.manchester.ac.uk/study/masters/courses/list/08020/occupational-medicine/" target="_blank" rel="noopener">Occupational Medicine at Manchester</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const shell = document.getElementById('navShell');
+  addEventListener('scroll',()=>shell.classList.toggle('scrolled',scrollY>18),{passive:true});
+
+  const observer = new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  // animated spiral / guided steps
+  const steps=[...document.querySelectorAll('.step')];
+  const nodes=[...document.querySelectorAll('.svgNode')];
+  let active=0, playing=true;
+  const traveller=document.getElementById('traveller');
+  const path=document.getElementById('spiralPath');
+  function showStep(i){
+    active=(i+steps.length)%steps.length;
+    steps.forEach((s,n)=>s.classList.toggle('active',n===active));
+    nodes.forEach((n,idx)=>{n.style.opacity=idx===active?'1':'.58';n.style.filter=idx===active?'drop-shadow(0 0 12px rgba(255,255,255,.45))':'none'});
+    const len=path.getTotalLength(); const pt=path.getPointAtLength((active/(steps.length-1))*len); traveller.setAttribute('cx',pt.x);traveller.setAttribute('cy',pt.y);
+  }
+  document.getElementById('nextStep').onclick=()=>showStep(active+1);
+  document.getElementById('prevStep').onclick=()=>showStep(active-1);
+  document.getElementById('autoStep').onclick=(e)=>{playing=!playing;e.target.textContent=playing?'Pause animation':'Resume animation'};
+  setInterval(()=>{if(playing)showStep(active+1)},2600); showStep(0);
+
+  // demo form behaviour
+  document.getElementById('interestForm').addEventListener('submit',e=>{e.preventDefault();document.getElementById('formNote').textContent='Thanks — in a live version this would send to the College mailing list or CRM.'});
+
+  // simple mobile nav assist
+  document.getElementById('menuBtn').addEventListener('click',()=>{document.getElementById('join').scrollIntoView({behavior:'smooth'})});
+</script>
+</body>
+</html>
