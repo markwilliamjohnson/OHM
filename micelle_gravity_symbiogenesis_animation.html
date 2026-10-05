@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>From Physical Constraint to Symbiogenesis</title>
+<style>
+  :root{
+    --bg:#08111d;
+    --panel:#0d1a2a;
+    --panel2:#102237;
+    --text:#eaf2ff;
+    --muted:#9eb2c9;
+    --accent:#5ed0ff;
+    --accent2:#ffcc66;
+    --good:#72e39f;
+    --warn:#ff8a7a;
+    --purple:#bc8cff;
+    --line:#1d3854;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:radial-gradient(circle at 50% 15%, #10263e 0%, var(--bg) 55%, #050a12 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;overflow:hidden}
+  .app{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:1fr auto;gap:12px;padding:12px}
+  .stage{position:relative;background:linear-gradient(180deg,rgba(12,27,45,.96),rgba(7,16,28,.98));border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.35)}
+  canvas{width:100%;height:100%;display:block}
+  .overlay{position:absolute;inset:0;pointer-events:none}
+  .titleBlock{position:absolute;left:24px;top:20px;max-width:min(720px,68%)}
+  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  h1{font-size:clamp(24px,3.2vw,46px);line-height:1.02;margin:7px 0 10px;font-weight:800}
+  .subtitle{font-size:14px;line-height:1.5;color:var(--muted);max-width:640px}
+  .phaseBadge{position:absolute;right:20px;top:20px;background:rgba(7,16,28,.78);border:1px solid var(--line);padding:10px 14px;border-radius:999px;font-size:12px;font-weight:700;color:#d8e6f5}
+  .caption{position:absolute;left:24px;right:24px;bottom:22px;background:rgba(5,12,20,.76);backdrop-filter:blur(8px);border:1px solid rgba(94,208,255,.25);border-radius:16px;padding:16px 18px}
+  .caption .kicker{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--accent2);font-weight:800;margin-bottom:5px}
+  .caption .headline{font-size:18px;font-weight:800;margin-bottom:4px}
+  .caption .body{font-size:14px;line-height:1.45;color:#c7d5e5}
+  .side{background:linear-gradient(180deg,var(--panel),#0a1523);border:1px solid var(--line);border-radius:18px;padding:16px;overflow:auto;box-shadow:0 18px 60px rgba(0,0,0,.25)}
+  .side h2{font-size:15px;margin:0 0 8px}
+  .side p{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0 0 14px}
+  .concept{border:1px solid #1c3854;background:#0c1927;border-radius:14px;padding:12px;margin:10px 0}
+  .concept strong{display:block;font-size:12px;color:#f5f8ff;margin-bottom:4px}
+  .concept span{display:block;font-size:12px;color:#a8bdd2;line-height:1.45}
+  .concept.active{border-color:rgba(94,208,255,.6);box-shadow:0 0 0 1px rgba(94,208,255,.15) inset;background:#0e2031}
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .legend div{display:flex;align-items:center;gap:7px;font-size:11px;color:#b8c9da}
+  .dot{width:10px;height:10px;border-radius:50%}
+  .controls{grid-column:1 / -1;background:#0b1725;border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:auto auto 1fr auto auto;gap:12px;align-items:center}
+  button{border:1px solid #2a4a68;background:#10263a;color:#e8f3ff;border-radius:10px;padding:9px 12px;font-weight:700;cursor:pointer}
+  button:hover{background:#15314b}
+  button.primary{background:linear-gradient(180deg,#11698f,#0f5575);border-color:#2aa9d5}
+  .time{font-variant-numeric:tabular-nums;color:#c9d8e9;font-size:12px;min-width:82px;text-align:right}
+  input[type=range]{width:100%;accent-color:#58c7f3}
+  select{background:#10263a;border:1px solid #2a4a68;color:#e8f3ff;border-radius:10px;padding:8px}
+  .footnote{font-size:11px;color:#7f95aa;margin-top:14px;line-height:1.45}
+  @media (max-width: 900px){
+    html,body{overflow:auto}
+    .app{grid-template-columns:1fr;grid-template-rows:minmax(560px,72vh) auto auto;height:auto;min-height:100%}
+    .side{grid-row:2}
+    .controls{grid-row:3;grid-column:1;grid-template-columns:auto auto 1fr;}
+    .controls .time,.controls select{display:none}
+    .titleBlock{max-width:80%}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="stage">
+    <canvas id="c"></canvas>
+    <div class="overlay">
+      <div class="titleBlock">
+        <div class="eyebrow">Animated conceptual model</div>
+        <h1>From physical constraint to symbiogenesis</h1>
+        <div class="subtitle">A visual argument: life does not escape physics. It recruits, balances, and progressively organises physical constraints.</div>
+      </div>
+      <div class="phaseBadge" id="phaseBadge">1 · Amphiphiles in water</div>
+      <div class="caption">
+        <div class="kicker" id="capKicker">Physical chemistry</div>
+        <div class="headline" id="capHead">Water makes exposed hydrocarbon tails costly.</div>
+        <div class="body" id="capBody">Amphiphilic molecules move randomly. Their hydrophilic heads remain comfortable in water, while hydrophobic tails tend to reduce contact with it.</div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="side">
+    <h2>Interpretive thread</h2>
+    <p>This is not a literal evolutionary history. It is an explanatory sequence linking self-assembly, constraint, biological organisation and symbiosis.</p>
+
+    <div class="concept active" data-phase="0"><strong>1. Physical regularity</strong><span>Thermodynamics supplies tendencies before there is life.</span></div>
+    <div class="concept" data-phase="1"><strong>2. Hydrophobic aggregation</strong><span>Tails cluster to reduce energetically costly contact with water.</span></div>
+    <div class="concept" data-phase="2"><strong>3. Negative charge as counter-constraint</strong><span>Charged headgroups repel one another and help prevent unlimited collapse.</span></div>
+    <div class="concept" data-phase="3"><strong>4. Gravity: analogy, not micelle mechanism</strong><span>Gravity shapes macroscopic environments, but molecular assembly is dominated by electromagnetic and thermodynamic interactions.</span></div>
+    <div class="concept" data-phase="4"><strong>5. Boundary becomes functional</strong><span>A stable compartment can maintain gradients and couple processes.</span></div>
+    <div class="concept" data-phase="5"><strong>6. Constraint regulates constraint</strong><span>Channels, gradients and metabolism make the boundary conditional and active.</span></div>
+    <div class="concept" data-phase="6"><strong>7. Symbiogenesis</strong><span>Previously independent organisms become mutually constraining parts of a larger persistent system.</span></div>
+
+    <div class="legend">
+      <div><span class="dot" style="background:#5ed0ff"></span>Hydrophilic / charged head</div>
+      <div><span class="dot" style="background:#ffcc66"></span>Hydrophobic tail</div>
+      <div><span class="dot" style="background:#72e39f"></span>Internal chemistry</div>
+      <div><span class="dot" style="background:#bc8cff"></span>Symbiont</div>
+    </div>
+
+    <div class="footnote"><b>Scientific caution:</b> the animation deliberately distinguishes between mechanism and analogy. Micelles are not held together by gravity; gravity is introduced as one physical constraint among many that biology must inhabit and exploit.</div>
+  </aside>
+
+  <div class="controls">
+    <button id="back">◀</button>
+    <button id="play" class="primary">Pause</button>
+    <input id="scrub" type="range" min="0" max="1000" value="0" step="1" />
+    <div class="time" id="time">00:00 / 01:24</div>
+    <select id="speed" aria-label="Speed"><option value="0.6">0.6×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select>
+  </div>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  const scrub = document.getElementById('scrub');
+  const playBtn = document.getElementById('play');
+  const backBtn = document.getElementById('back');
+  const speedSel = document.getElementById('speed');
+  const phaseBadge = document.getElementById('phaseBadge');
+  const capKicker = document.getElementById('capKicker');
+  const capHead = document.getElementById('capHead');
+  const capBody = document.getElementById('capBody');
+  const timeEl = document.getElementById('time');
+  const conceptEls = [...document.querySelectorAll('.concept')];
+
+  const duration = 84; // seconds
+  const phases = [
+    {start:0,end:11,label:'1 · Amphiphiles in water',k:'Physical chemistry',h:'Water makes exposed hydrocarbon tails costly.',b:'Amphiphilic molecules move randomly. Their hydrophilic heads remain comfortable in water, while hydrophobic tails tend to reduce contact with it.'},
+    {start:11,end:23,label:'2 · Hydrophobic aggregation',k:'Constraint 1',h:'Hydrophobic interactions favour clustering.',b:'The tails do not “attract” because of gravity. Aggregation reduces hydrocarbon–water contact and can lower the free energy of the whole system.'},
+    {start:23,end:35,label:'3 · Negative charge',k:'Constraint 2',h:'Negative charge prevents simple collapse.',b:'Charged headgroups repel one another. The stable form is a compromise: hydrophobic tails cluster inward while charged heads remain separated and exposed to water.'},
+    {start:35,end:45,label:'4 · Gravity enters as comparison',k:'Scale matters',h:'Gravity matters to life, but not as the glue of a micelle.',b:'At molecular scales electromagnetic and thermodynamic interactions dominate. Gravity becomes important across larger bodies, fluids, circulation, posture and planetary environments.'},
+    {start:45,end:57,label:'5 · From micelle to bounded chemistry',k:'Biological possibility',h:'A boundary creates an inside and an outside.',b:'Once chemistry is enclosed, gradients can persist. Reactions can become coupled. A passive physical boundary becomes a platform for regulation.'},
+    {start:57,end:70,label:'6 · Constraint regulates constraint',k:'Proto-homeostasis',h:'The boundary becomes conditional and active.',b:'Channels and pumps selectively alter flows. Metabolism sustains differences. Biology increasingly uses one constraint to maintain another.'},
+    {start:70,end:84,label:'7 · Symbiogenesis',k:'Higher-order organisation',h:'Independent systems can become one persistent system.',b:'A symbiont enters the host, survives, exchanges resources and becomes integrated. Evolution can build new wholes by coupling previously autonomous organisations.'}
+  ];
+
+  let W=0,H=0,dpr=1;
+  let t=0, playing=true, last=performance.now(), speed=1;
+  let molecules=[];
+  let particles=[];
+  let stars=[];
+
+  function resize(){
+    const r=canvas.getBoundingClientRect(); dpr=Math.min(2,window.devicePixelRatio||1);
+    canvas.width=r.width*dpr; canvas.height=r.height*dpr; W=r.width; H=r.height;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    seed();
+  }
+  window.addEventListener('resize',resize);
+
+  function seed(){
+    molecules = Array.from({length:52},(_,i)=>({
+      a:Math.random()*Math.PI*2,
+      r:Math.random()*Math.min(W,H)*0.34+40,
+      x:Math.random()*W,y:Math.random()*H,
+      vx:(Math.random()-.5)*18,vy:(Math.random()-.5)*18,
+      phase:Math.random()*1000,
+      charge:Math.random()>.12
+    }));
+    particles = Array.from({length:70},()=>({x:Math.random()*W,y:Math.random()*H,a:Math.random()*Math.PI*2,s:.4+Math.random()*1.2}));
+    stars = Array.from({length:100},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.2,a:Math.random()}));
+  }
+
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  const smooth=(x)=>{x=clamp(x,0,1);return x*x*(3-2*x)};
+  const mix=(a,b,u)=>a+(b-a)*u;
+  const rgba=(r,g,b,a)=>`rgba(${r},${g},${b},${a})`;
+
+  function activePhase(){return phases.findIndex(p=>t>=p.start && t<p.end) === -1 ? phases.length-1 : phases.findIndex(p=>t>=p.start && t<p.end)}
+  function fmt(s){const m=Math.floor(s/60),ss=Math.floor(s%60);return `${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`}
+
+  function drawBackground(){
+    const g=ctx.createRadialGradient(W*.48,H*.43,20,W*.48,H*.43,Math.max(W,H)*.8);
+    g.addColorStop(0,'#102840'); g.addColorStop(.55,'#091726'); g.addColorStop(1,'#050a12');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    for(const s of stars){ctx.globalAlpha=.08+s.a*.15;ctx.fillStyle='#a9d7ff';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;
+  }
+
+  function waterField(alpha=1){
+    ctx.save();ctx.globalAlpha=alpha*.6;ctx.strokeStyle='#143653';ctx.lineWidth=1;
+    for(let y=80;y<H;y+=28){
+      ctx.beginPath();
+      for(let x=0;x<=W;x+=16){const yy=y+Math.sin(x*.025+t*.7+y*.02)*3; if(x===0)ctx.moveTo(x,yy);else ctx.lineTo(x,yy)}
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function amphiphile(x,y,ang,scale=1,alpha=1,charged=true){
+    ctx.save();ctx.translate(x,y);ctx.rotate(ang);ctx.globalAlpha=alpha;
+    ctx.strokeStyle='#ffcc66';ctx.lineWidth=3*scale;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-18*scale,0);ctx.stroke();
+    ctx.fillStyle='#5ed0ff';ctx.beginPath();ctx.arc(4*scale,0,6*scale,0,Math.PI*2);ctx.fill();
+    if(charged){ctx.fillStyle='#eaf2ff';ctx.font=`${10*scale}px sans-serif`;ctx.fillText('−',1*scale,3.5*scale)}
+    ctx.restore();
+  }
+
+  function randomMolecules(localT){
+    waterField(1);
+    const gather=smooth((localT-2)/9);
+    const cx=W*.54, cy=H*.53;
+    molecules.forEach((m,i)=>{
+      const jitter=Math.sin(t*1.7+m.phase)*8;
+      const targetA=(i/molecules.length)*Math.PI*2;
+      const targetR=74 + (i%3)*2;
+      const tx=cx+Math.cos(targetA)*targetR, ty=cy+Math.sin(targetA)*targetR;
+      const x=mix(m.x+Math.sin(t*.7+m.phase)*10,tx,gather);
+      const y=mix(m.y+Math.cos(t*.8+m.phase)*8,ty,gather);
+      const ang=mix(m.a,targetA,gather);
+      amphiphile(x,y,ang,1,1,m.charge);
+    });
+    if(localT>5){
+      ctx.save();ctx.globalAlpha=smooth((localT-5)/3)*.8;ctx.strokeStyle='#ffcc66';ctx.setLineDash([6,8]);ctx.lineWidth=1.4;
+      ctx.beginPath();ctx.arc(cx,cy,92,0,Math.PI*2);ctx.stroke();ctx.restore();
+    }
+  }
+
+  function formedMicelle(showCharge=false, pulse=0){
+    waterField(.85);
+    const cx=W*.54, cy=H*.53, R=88;
+    const n=42;
+    for(let i=0;i<n;i++){
+      const a=i/n*Math.PI*2;
+      const rr=R+Math.sin(i*1.7+t*2)*1.8;
+      const x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr;
+      amphiphile(x,y,a,1,1,true);
+      if(showCharge){
+        const x2=cx+Math.cos(a)*(R+18),y2=cy+Math.sin(a)*(R+18);
+        ctx.save();ctx.globalAlpha=.26+.18*Math.sin(t*4+i);ctx.strokeStyle='#5ed0ff';ctx.lineWidth=1;
+        ctx.beginPath();ctx.arc(x2,y2,10+pulse*4,0,Math.PI*2);ctx.stroke();ctx.restore();
+      }
+    }
+    ctx.save();ctx.globalAlpha=.16;ctx.fillStyle='#ffcc66';ctx.beginPath();ctx.arc(cx,cy,R-18,0,Math.PI*2);ctx.fill();ctx.restore();
+    return {cx,cy,R};
+  }
+
+  function chargeArrows(cx,cy,R,alpha){
+    ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle='#5ed0ff';ctx.fillStyle='#5ed0ff';ctx.lineWidth=1.5;
+    for(let i=0;i<12;i++){
+      const a=i/12*Math.PI*2; const x1=cx+Math.cos(a)*(R+12), y1=cy+Math.sin(a)*(R+12); const x2=cx+Math.cos(a)*(R+34), y2=cy+Math.sin(a)*(R+34);
+      ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-Math.cos(a-.5)*7,y2-Math.sin(a-.5)*7);ctx.lineTo(x2-Math.cos(a+.5)*7,y2-Math.sin(a+.5)*7);ctx.closePath();ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function gravityScene(localT){
+    const u=smooth(localT/2);
+    ctx.save();ctx.globalAlpha=1-u;formedMicelle(true,.4);ctx.restore();
+    ctx.save();ctx.globalAlpha=u;
+    const cy=H*.56;
+    const planetX=W*.72, planetR=Math.min(92,H*.15); const cellX=W*.30;
+    // planet
+    const pg=ctx.createRadialGradient(planetX-25,cy-35,8,planetX,cy,planetR*1.2);pg.addColorStop(0,'#7ec7ff');pg.addColorStop(.65,'#2a69a0');pg.addColorStop(1,'#10243e');
+    ctx.fillStyle=pg;ctx.beginPath();ctx.arc(planetX,cy,planetR,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#6bb36b';ctx.globalAlpha=.8*u;ctx.beginPath();ctx.ellipse(planetX-20,cy-5,34,15,.4,0,Math.PI*2);ctx.fill();ctx.globalAlpha=u;
+    // tiny cell / micelle
+    ctx.strokeStyle='#5ed0ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cellX,cy,36,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='#ffcc66';ctx.globalAlpha=.28*u;ctx.beginPath();ctx.arc(cellX,cy,31,0,Math.PI*2);ctx.fill();ctx.globalAlpha=u;
+    // arrows / labels
+    ctx.strokeStyle='#ff8a7a';ctx.lineWidth=2;ctx.setLineDash([5,6]);ctx.beginPath();ctx.moveTo(cellX+45,cy);ctx.lineTo(planetX-planetR-18,cy);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#ff8a7a';ctx.font='700 13px sans-serif';ctx.fillText('gravity dominates at large scales',mix(cellX+80,planetX-220,.5),cy-12);
+    ctx.fillStyle='#5ed0ff';ctx.font='700 13px sans-serif';ctx.fillText('molecular assembly: electromagnetic + thermodynamic',cellX-120,cy+72);
+    ctx.fillStyle='#c8d9ea';ctx.font='12px sans-serif';ctx.fillText('Same universe — different dominant constraints at different scales',W*.5-185,cy+128);
+    ctx.restore();
+  }
+
+  function vesicleScene(localT, active=false){
+    waterField(.35);
+    const cx=W*.52,cy=H*.54,R=Math.min(128,H*.22);
+    ctx.save();
+    ctx.strokeStyle='rgba(94,208,255,.85)';ctx.lineWidth=4;ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle='rgba(255,204,102,.45)';ctx.lineWidth=9;ctx.beginPath();ctx.arc(cx,cy,R-8,0,Math.PI*2);ctx.stroke();
+    // internal particles
+    for(let i=0;i<22;i++){
+      const a=i*2.399+t*.4; const rr=(30+(i%7)*10)+Math.sin(t+i)*3;
+      const x=cx+Math.cos(a)*Math.min(rr,R-25), y=cy+Math.sin(a)*Math.min(rr,R-25);
+      ctx.fillStyle=i%3===0?'#72e39f':'#a8d9ff';ctx.globalAlpha=.72;ctx.beginPath();ctx.arc(x,y,3+(i%2),0,Math.PI*2);ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    // gradient arrows
+    const grad=smooth((localT-4)/4);
+    if(grad>0){
+      ctx.strokeStyle=`rgba(114,227,159,${.7*grad})`;ctx.lineWidth=2;
+      for(let i=0;i<5;i++){const yy=cy-45+i*22;ctx.beginPath();ctx.moveTo(cx-R-72,yy);ctx.lineTo(cx-R+4,yy);ctx.stroke();ctx.beginPath();ctx.moveTo(cx-R+4,yy);ctx.lineTo(cx-R-4,yy-5);ctx.lineTo(cx-R-4,yy+5);ctx.closePath();ctx.fillStyle=`rgba(114,227,159,${.7*grad})`;ctx.fill();}
+    }
+    if(active){
+      const n=6;
+      for(let i=0;i<n;i++){
+        const a=i/n*Math.PI*2+t*.15; const x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;
+        ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle='#bc8cff';ctx.fillRect(-4,-11,8,22);ctx.restore();
+      }
+      ctx.fillStyle='#bc8cff';ctx.font='700 12px sans-serif';ctx.fillText('selective channels',cx+R+20,cy-5);
+      ctx.fillStyle='#72e39f';ctx.fillText('maintained gradients',cx-40,cy-R-26);
+    }
+    ctx.restore();
+  }
+
+  function symbiogenesisScene(localT){
+    waterField(.18);
+    const cx=W*.50,cy=H*.55,R=Math.min(150,H*.24);
+    const u=smooth(localT/5);
+    // host
+    ctx.strokeStyle='#5ed0ff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle='rgba(255,204,102,.45)';ctx.lineWidth=9;ctx.beginPath();ctx.arc(cx,cy,R-8,0,Math.PI*2);ctx.stroke();
+    // symbiont path
+    const sx=mix(W*.18,cx+15,u), sy=mix(H*.33,cy+15,u);
+    ctx.save();ctx.translate(sx,sy);ctx.rotate(t*.3);ctx.fillStyle='#bc8cff';ctx.beginPath();ctx.ellipse(0,0,26,14,.3,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,.55)';for(let i=0;i<4;i++){ctx.beginPath();ctx.arc(-10+i*7,Math.sin(i)*3,2,0,Math.PI*2);ctx.fill()}ctx.restore();
+    // resource exchange after entry
+    const exchange=smooth((localT-4)/5);
+    if(exchange>0){
+      ctx.save();ctx.globalAlpha=exchange;
+      for(let i=0;i<5;i++){
+        const a=t*1.3+i*1.3;
+        const x=sx+Math.cos(a)*34,y=sy+Math.sin(a)*24;
+        ctx.fillStyle=i%2?'#72e39f':'#ffcc66';ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+      }
+      ctx.strokeStyle='#72e39f';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(sx+20,sy);ctx.lineTo(cx+R*.6,cy-R*.2);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='#cfe8d7';ctx.font='700 12px sans-serif';ctx.fillText('resource exchange',cx+R*.25,cy-R*.43);
+      ctx.restore();
+    }
+    // system outline
+    const whole=smooth((localT-8)/4);
+    if(whole>0){ctx.save();ctx.globalAlpha=.35*whole;ctx.strokeStyle='#bc8cff';ctx.lineWidth=2;ctx.setLineDash([7,7]);ctx.beginPath();ctx.arc(cx,cy,R+34,0,Math.PI*2);ctx.stroke();ctx.restore();}
+  }
+
+  function render(){
+    drawBackground();
+    const p=activePhase(), P=phases[p], local=t-P.start;
+    if(p===0) randomMolecules(local);
+    else if(p===1){ const u=smooth(local/5); randomMolecules(9+u*4); if(local>5) formedMicelle(false,0); }
+    else if(p===2){ const m=formedMicelle(true,(Math.sin(t*3)+1)*.2); chargeArrows(m.cx,m.cy,m.R,smooth(local/4));
+      ctx.fillStyle='#5ed0ff';ctx.font='700 12px sans-serif';ctx.fillText('electrostatic repulsion',m.cx+125,m.cy-4);
+      ctx.fillStyle='#ffcc66';ctx.fillText('hydrophobic clustering',m.cx-70,m.cy+10);
+    }
+    else if(p===3) gravityScene(local);
+    else if(p===4) vesicleScene(local,false);
+    else if(p===5) vesicleScene(local,true);
+    else symbiogenesisScene(local);
+  }
+
+  function updateUI(){
+    const p=activePhase(), P=phases[p];
+    phaseBadge.textContent=P.label; capKicker.textContent=P.k; capHead.textContent=P.h; capBody.textContent=P.b;
+    conceptEls.forEach((e,i)=>e.classList.toggle('active',i===p));
+    scrub.value=Math.round(t/duration*1000); timeEl.textContent=`${fmt(t)} / ${fmt(duration)}`;
+  }
+
+  function tick(now){
+    const dt=Math.min(.05,(now-last)/1000);last=now;
+    if(playing){t+=dt*speed;if(t>duration)t=0;}
+    render();updateUI();requestAnimationFrame(tick);
+  }
+
+  playBtn.addEventListener('click',()=>{playing=!playing;playBtn.textContent=playing?'Pause':'Play'});
+  backBtn.addEventListener('click',()=>{const p=activePhase();t=Math.max(0,phases[Math.max(0,p-1)].start+.01)});
+  scrub.addEventListener('input',()=>{t=duration*(+scrub.value/1000);playing=false;playBtn.textContent='Play'});
+  speedSel.addEventListener('change',()=>speed=+speedSel.value);
+  conceptEls.forEach((el,i)=>el.addEventListener('click',()=>{t=phases[i].start+.01;playing=false;playBtn.textContent='Play'}));
+
+  resize(); requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
